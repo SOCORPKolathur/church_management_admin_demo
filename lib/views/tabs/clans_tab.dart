@@ -527,7 +527,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1712,7 +1712,7 @@ class _ClansTabState extends State<ClansTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -2255,7 +2255,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

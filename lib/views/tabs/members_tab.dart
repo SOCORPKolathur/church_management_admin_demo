@@ -38,9 +38,13 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController genderController = TextEditingController(text: 'Select Gender');
   File? profileImage;
+  File? documentForUpload;
   var uploadedImage;
   String? selectedImg;
+  String docname = "";
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -58,6 +62,25 @@ class _MembersTabState extends State<MembersTab> {
         setState(() {
           uploadedImage = reader.result;
           selectedImg = null;
+        });
+      });
+      setState(() {});
+    });
+  }
+
+  selectDocument(){
+    InputElement input = FileUploadInputElement()
+    as InputElement
+      ..accept = '/*';
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      FileReader reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        setState(() {
+          documentForUpload = file;
+          docname = file.name;
         });
       });
       setState(() {});
@@ -84,7 +107,7 @@ class _MembersTabState extends State<MembersTab> {
               ),
             ),
             Container(
-              height: size.height * 1.51,
+              height: size.height * 1.8,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -186,7 +209,6 @@ class _MembersTabState extends State<MembersTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
                               Container(
                                 height: 35,
                                 width: size.width * 0.25,
@@ -204,6 +226,26 @@ class _MembersTabState extends State<MembersTab> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: selectDocument,
+                                child: Container(
+                                  height: 35,
+                                  width: size.width * 0.23,
+                                  color: Constants().primaryAppColor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.file_copy,
+                                          color: Colors.white),
+                                      const SizedBox(width: 10),
+                                      KText(
+                                        text: docname == "" ? 'Select Baptizem Certificate' : docname,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -249,6 +291,42 @@ class _MembersTabState extends State<MembersTab> {
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
                                     )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -489,7 +567,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -527,7 +605,63 @@ class _MembersTabState extends State<MembersTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
-                          ////
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -541,6 +675,8 @@ class _MembersTabState extends State<MembersTab> {
                                       emailController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
+                                      genderController.text != "Select Gender" &&
+                                      addressController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
                                       marriageDateController.text != "" &&
@@ -551,6 +687,9 @@ class _MembersTabState extends State<MembersTab> {
                                     Response response =
                                         await MembersFireCrud.addMember(
                                       image: profileImage!,
+                                      document: documentForUpload,
+                                      address: addressController.text,
+                                      gender: genderController.text,
                                       baptizeDate: baptizeDateController.text,
                                       bloodGroup: bloodGroupController.text,
                                       department: departmentController.text,
@@ -581,7 +720,11 @@ class _MembersTabState extends State<MembersTab> {
                                         profileImage = null;
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
+                                        genderController.text = "Select Gender";
+                                        addressController.text = "";
                                         departmentController.text = "";
+                                        docname = "";
+                                        documentForUpload = null;
                                         dobController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
@@ -1106,6 +1249,8 @@ class _MembersTabState extends State<MembersTab> {
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
+                                                          addressController.text = members[i].address!;
+                                                          genderController.text = members[i].gender!;
                                                           baptizeDateController.text = members[i].baptizeDate!;
                                                           bloodGroupController.text = members[i].bloodGroup!;
                                                           departmentController.text = members[i].department!;
@@ -1650,7 +1795,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1716,7 +1861,7 @@ class _MembersTabState extends State<MembersTab> {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: Container(
-            height: size.height * 1.51,
+            height: size.height * 1.8,
             width: 1100,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -1758,6 +1903,8 @@ class _MembersTabState extends State<MembersTab> {
                               bloodGroupController.text = "";
                               departmentController.text = "";
                               dobController.text = "";
+                              addressController.text = "";
+                              genderController.text = "Select Gender";
                               emailController.text = "";
                               familyController.text = "";
                               firstNameController.text = "";
@@ -1853,7 +2000,7 @@ class _MembersTabState extends State<MembersTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                              const SizedBox(width:50),
                               Container(
                                 height: 35,
                                 width: size.width * 0.25,
@@ -1916,6 +2063,42 @@ class _MembersTabState extends State<MembersTab> {
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
                                     )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2156,7 +2339,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2194,7 +2377,63 @@ class _MembersTabState extends State<MembersTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
-                          ////
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -2207,6 +2446,8 @@ class _MembersTabState extends State<MembersTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
+                                      addressController.text != "" &&
+                                      genderController.text != "Select Gender" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
@@ -2218,6 +2459,8 @@ class _MembersTabState extends State<MembersTab> {
                                     Response response =
                                     await MembersFireCrud.updateRecord(
                                       MembersModel(
+                                        address: addressController.text,
+                                        gender: genderController.text,
                                         id: member.id,timestamp: member.timestamp,
                                         baptizeDate: baptizeDateController.text,
                                         bloodGroup: bloodGroupController.text,

@@ -1,5 +1,6 @@
 class StudentModel {
   String? id;
+  String? studentId;
   num? timestamp;
   String? firstName;
   String? lastName;
@@ -12,12 +13,12 @@ class StudentModel {
   String? email;
   String? position;
   String? baptizeDate;
-  String? marriageDate;
-  String? socialStatus;
-  String? job;
+  //String? marriageDate;
+  //String? socialStatus;
+  //String? job;
   String? country;
   String? family;
-  String? department;
+  //String? department;
   String? bloodGroup;
   String? dob;
   String? nationality;
@@ -27,6 +28,7 @@ class StudentModel {
       {this.id,
         this.firstName,
         this.lastName,
+        this.studentId,
         this.timestamp,
         this.phone,
         this.email,
@@ -38,11 +40,11 @@ class StudentModel {
         this.gender,
         this.position,
         this.baptizeDate,
-        this.marriageDate,
-        this.socialStatus,
-        this.job,
+        //this.marriageDate,
+        //this.socialStatus,
+        //this.job,
         this.family,
-        this.department,
+        //this.department,
         this.bloodGroup,
         this.dob,
         this.nationality,
@@ -52,6 +54,7 @@ class StudentModel {
     id = json['id'];
     timestamp = json['timestamp'];
     clasS = json['clasS'];
+    studentId = json['studentId'];
     age = json['age'];
     guardian = json['guardian'];
     guardianPhone = json['guardianPhone'];
@@ -63,11 +66,11 @@ class StudentModel {
     email = json['email'];
     position = json['position'];
     baptizeDate = json['baptizeDate'];
-    marriageDate = json['marriageDate'];
-    socialStatus = json['socialStatus'];
-    job = json['job'];
+    //marriageDate = json['marriageDate'];
+    //socialStatus = json['socialStatus'];
+    //job = json['job'];
     family = json['family'];
-    department = json['department'];
+    //department = json['department'];
     bloodGroup = json['bloodGroup'];
     dob = json['dob'];
     nationality = json['nationality'];
@@ -79,6 +82,7 @@ class StudentModel {
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
     data['clasS'] = this.clasS;
+    data['studentId'] = this.studentId;
     data['age'] = this.age;
     data['guardian'] = this.guardian;
     data['guardianPhone'] = this.guardianPhone;
@@ -90,11 +94,11 @@ class StudentModel {
     data['position'] = this.position;
     data['country'] = this.country;
     data['baptizeDate'] = this.baptizeDate;
-    data['marriageDate'] = this.marriageDate;
-    data['socialStatus'] = this.socialStatus;
-    data['job'] = this.job;
+    //data['marriageDate'] = this.marriageDate;
+    //data['socialStatus'] = this.socialStatus;
+    //data['job'] = this.job;
     data['family'] = this.family;
-    data['department'] = this.department;
+    //data['department'] = this.department;
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;
     data['nationality'] = this.nationality;

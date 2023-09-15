@@ -1,7 +1,10 @@
 class FamilyModel {
   String? id;
+  String? familyId;
   num? timestamp;
+  String? leaderImgUrl;
   String? name;
+  String? email;
   String? leaderName;
   int? quantity;
   String? contactNumber;
@@ -13,6 +16,9 @@ class FamilyModel {
   FamilyModel(
       {this.name,
         this.leaderName,
+        this.leaderImgUrl,
+        this.email,
+        this.familyId,
         this.id,
         this.timestamp,
         this.quantity,
@@ -25,6 +31,9 @@ class FamilyModel {
   FamilyModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    email = json['email'];
+    leaderImgUrl = json['leaderImgUrl'];
+    familyId = json['familyId'];
     timestamp = json['timestamp'];
     leaderName = json['leaderName'];
     quantity = json['quantity'];
@@ -38,6 +47,9 @@ class FamilyModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['familyId'] = this.familyId;
+    data['email'] = this.email;
+    data['leaderImgUrl'] = this.leaderImgUrl;
     data['timestamp'] = this.timestamp;
     data['name'] = this.name;
     data['leaderName'] = this.leaderName;

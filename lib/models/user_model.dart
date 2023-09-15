@@ -5,7 +5,7 @@ class UserModel {
   String? lastName;
   String? phone;
   String? email;
-  String? password;
+  //String? password;
   String? profession;
   String? baptizeDate;
   String? anniversaryDate;
@@ -24,7 +24,7 @@ class UserModel {
         this.lastName,
         this.phone,
         this.email,
-        this.password,
+        //this.password,
         this.profession,
         this.baptizeDate,
         this.anniversaryDate,
@@ -44,7 +44,7 @@ class UserModel {
     phone = json['phone'];
     email = json['email'];
     maritialStatus = json['maritialStatus'];
-    password = json['password'];
+    //password = json['password'];
     profession = json['profession'];
     baptizeDate = json['baptizeDate'];
     anniversaryDate = json['anniversaryDate'];
@@ -65,7 +65,7 @@ class UserModel {
     data['maritialStatus'] = this.maritialStatus;
     data['phone'] = this.phone;
     data['email'] = this.email;
-    data['password'] = this.password;
+    //data['password'] = this.password;
     data['profession'] = this.profession;
     data['baptizeDate'] = this.baptizeDate;
     data['anniversaryDate'] = this.anniversaryDate;

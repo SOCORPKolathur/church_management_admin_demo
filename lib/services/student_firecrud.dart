@@ -20,8 +20,9 @@ class StudentFireCrud {
       {required File image,
       required String baptizeDate,
       required String bloodGroup,
-      required String department,
+      //required String department,
       required String dob,
+      required String studentId,
       required String age,
       required String clasS,
       required String guardian,
@@ -31,20 +32,22 @@ class StudentFireCrud {
       required String email,
       required String family,
       required String firstName,
-      required String job,
+      //required String job,
       required String lastName,
-      required String marriageDate,
+      //required String marriageDate,
       required String nationality,
       required String phone,
       required String position,
-      required String socialStatus}) async {
+      //required String socialStatus
+      }) async {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
     DocumentReference documentReferencer = StudentCollection.doc();
     StudentModel student = StudentModel(
         id: "",
+        studentId: studentId,
         timestamp: DateTime.now().millisecondsSinceEpoch,
-        socialStatus: socialStatus,
+        //socialStatus: socialStatus,
         guardianPhone: guardianPhone,
         guardian: guardian,
         age: age,
@@ -52,16 +55,16 @@ class StudentFireCrud {
         position: position,
         phone: phone,
         nationality: nationality,
-        marriageDate: marriageDate,
+        //marriageDate: marriageDate,
         lastName: lastName,
         country: country,
         gender: gender,
-        job: job,
+        //job: job,
         firstName: firstName,
         family: family,
         email: email,
         dob: dob,
-        department: department,
+        //department: department,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
         imgUrl: downloadUrl);

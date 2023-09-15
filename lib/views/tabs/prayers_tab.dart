@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
-
+import 'package:intl/intl.dart';
 import '../../constants.dart';
 import '../../models/prayers_model.dart';
 import '../../models/response.dart';
@@ -25,6 +25,39 @@ class PrayersTab extends StatefulWidget {
 class _PrayersTabState extends State<PrayersTab> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      final DateFormat formatter = DateFormat('dd-MM-yyyy');
+      setState(() {
+        dateController.text = formatter.format(picked);
+        selectedDate = picked;
+      });
+    }
+  }
+
+  setDateTime() async {
+    setState(() {
+      dateController.text = formatter.format(selectedDate);
+      timeController.text = DateFormat('hh:mm a').format(DateTime.now());
+    });
+  }
+
+  @override
+  void initState() {
+    setDateTime();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +113,12 @@ class _PrayersTabState extends State<PrayersTab> {
                           ),
                           InkWell(
                             onTap: () async {
-                              if (titleController.text != "" &&
+                              if (timeController.text != "" && dateController.text != "" && titleController.text != "" &&
                                   descriptionController.text != "") {
                                 Response response =
                                     await PrayersFireCrud.addPrayer(
+                                      date: dateController.text,
+                                      time: timeController.text,
                                   title: titleController.text,
                                   description: descriptionController.text,
                                 );
@@ -148,7 +183,7 @@ class _PrayersTabState extends State<PrayersTab> {
                     ),
                   ),
                   Container(
-                    height: size.height * 0.35,
+                    height: size.height * 0.45,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                         color: Color(0xffF7FAFC),
@@ -160,6 +195,84 @@ class _PrayersTabState extends State<PrayersTab> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                KText(
+                                  text: "Date",
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Material(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        onTap: () {
+                                          _selectDate(context);
+                                        },
+                                        controller: dateController,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintStyle: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(width: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                KText(
+                                  text: "Time",
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Material(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        controller: timeController,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "0.00",
+                                          hintStyle: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

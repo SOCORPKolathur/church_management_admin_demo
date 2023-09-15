@@ -482,7 +482,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1330,7 +1330,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1825,7 +1825,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

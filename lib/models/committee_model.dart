@@ -5,6 +5,8 @@ class CommitteeModel {
   String? lastName;
   String? phone;
   String? email;
+  String? gender;
+  String? address;
   String? position;
   String? baptizeDate;
   String? marriageDate;
@@ -22,7 +24,9 @@ class CommitteeModel {
       {this.id,
         this.firstName,
         this.lastName,
+        this.address,
         this.timestamp,
+        this.gender,
         this.phone,
         this.email,
         this.country,
@@ -41,7 +45,9 @@ class CommitteeModel {
   CommitteeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     timestamp = json['timestamp'];
+    address = json['address'];
     firstName = json['firstName'];
+    gender = json['gender'];
     lastName = json['lastName'];
     country = json['country'];
     phone = json['phone'];
@@ -63,7 +69,9 @@ class CommitteeModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
+    data['address'] = this.address;
     data['firstName'] = this.firstName;
+    data['gender'] = this.gender;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
     data['email'] = this.email;

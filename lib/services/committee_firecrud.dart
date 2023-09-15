@@ -1,6 +1,5 @@
 import 'dart:html';
 import 'package:church_management_admin/models/committee_model.dart';
-import 'package:church_management_admin/models/members_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
@@ -26,9 +25,11 @@ class CommitteeFireCrud {
         required String country,
         required String email,
         required String family,
+        required String gender,
         required String firstName,
         required String job,
         required String lastName,
+        required String address,
         required String marriageDate,
         required String nationality,
         required String phone,
@@ -47,7 +48,9 @@ class CommitteeFireCrud {
         marriageDate: marriageDate,
         lastName: lastName,
         country: country,
+        address: address,
         job: job,
+        gender: gender,
         firstName: firstName,
         family: family,
         email: email,

@@ -72,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
                       Text(
                         church.name!,
                         style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w800,
                           fontSize: size.height * 0.07,
                         ),
                       ),

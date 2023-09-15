@@ -8,6 +8,9 @@ class MembersModel {
   String? position;
   String? baptizeDate;
   String? marriageDate;
+  String? gender;
+  String? address;
+  String? baptizemCertificate;
   String? socialStatus;
   String? job;
   String? country;
@@ -24,6 +27,9 @@ class MembersModel {
         this.lastName,
         this.timestamp,
         this.phone,
+        this.gender,
+        this.baptizemCertificate,
+        this.address,
         this.email,
         this.country,
         this.position,
@@ -41,6 +47,9 @@ class MembersModel {
   MembersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     timestamp = json['timestamp'];
+    gender = json['gender'];
+    address = json['address'];
+    baptizemCertificate = json['baptizemCertificate'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     country = json['country'];
@@ -63,6 +72,9 @@ class MembersModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
+    data['baptizemCertificate'] = this.baptizemCertificate;
+    data['gender'] = this.gender;
+    data['address'] = this.address;
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;

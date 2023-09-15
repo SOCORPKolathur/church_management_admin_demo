@@ -18,6 +18,9 @@ class MembersFireCrud {
 
   static Future<Response> addMember(
       {required File image,
+        required File? document,
+      required String address,
+      required String gender,
       required String baptizeDate,
       required String bloodGroup,
       required String department,
@@ -34,6 +37,7 @@ class MembersFireCrud {
       required String position,
       required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl1 = await uploadImageToStorage(document);
     Response response = Response();
     DocumentReference documentReferencer = MemberCollection.doc();
     MembersModel member = MembersModel(
@@ -42,6 +46,9 @@ class MembersFireCrud {
         socialStatus: socialStatus,
         position: position,
         phone: phone,
+        gender: gender,
+        address: address,
+        baptizemCertificate: downloadUrl1,
         nationality: nationality,
         marriageDate: marriageDate,
         lastName: lastName,
@@ -68,6 +75,16 @@ class MembersFireCrud {
   }
 
   static Future<String> uploadImageToStorage(file) async {
+    var snapshot = await fs
+        .ref()
+        .child('dailyupdates')
+        .child("${file.name}")
+        .putBlob(file);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  static Future<String> uploadDocumentToStorage(file) async {
     var snapshot = await fs
         .ref()
         .child('dailyupdates')

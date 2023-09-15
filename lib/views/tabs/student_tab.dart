@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:church_management_admin/models/student_model.dart';
 import 'package:church_management_admin/services/student_firecrud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class StudentTab extends StatefulWidget {
 }
 
 class _StudentTabState extends State<StudentTab> {
+  TextEditingController studentIdController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController guardianController = TextEditingController();
@@ -30,13 +32,13 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController baptizeDateController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController classController = TextEditingController();
-  TextEditingController marriageDateController = TextEditingController();
-  TextEditingController socialStatusController = TextEditingController();
+  //TextEditingController marriageDateController = TextEditingController();
+  //TextEditingController socialStatusController = TextEditingController();
   TextEditingController genderController =
       TextEditingController(text: 'Select Gender');
-  TextEditingController jobController = TextEditingController();
+  //TextEditingController jobController = TextEditingController();
   TextEditingController familyController = TextEditingController();
-  TextEditingController departmentController = TextEditingController();
+  //TextEditingController departmentController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
@@ -65,6 +67,26 @@ class _StudentTabState extends State<StudentTab> {
       });
       setState(() {});
     });
+  }
+
+  setStudentId() async {
+    var document = await cf.FirebaseFirestore.instance.collection('Students').get();
+    int lastId = document.docs.length + 1;
+    String studentId = lastId.toString();
+    for(int i = 0; i < 5; i++) {
+      if(studentId.length < 7){
+        studentId = "0$studentId";
+      }
+    }
+    setState((){
+      studentIdController.text = studentId;
+    });
+  }
+
+  @override
+  void initState() {
+    setStudentId();
+    super.initState();
   }
 
   @override
@@ -223,6 +245,27 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
+                                      text: "Student ID",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: studentIdController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
                                       text: "Firstname",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
@@ -258,7 +301,11 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -275,7 +322,7 @@ class _StudentTabState extends State<StudentTab> {
                                     DropdownButton(
                                       value: genderController.text,
                                       icon:
-                                          const Icon(Icons.keyboard_arrow_down),
+                                      const Icon(Icons.keyboard_arrow_down),
                                       items: ["Select Gender", "Male", "Female"]
                                           .map((items) {
                                         return DropdownMenuItem(
@@ -292,11 +339,7 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -416,73 +459,6 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Marriage Date",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: marriageDateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Social Status",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: socialStatusController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Employment/Job",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: jobController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
                                       text: "Family",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
@@ -497,27 +473,27 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: departmentController,
-                                    )
-                                  ],
-                                ),
-                              ),
+                              // const SizedBox(width: 20),
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Department",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: departmentController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -550,7 +526,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -600,21 +576,24 @@ class _StudentTabState extends State<StudentTab> {
                                       guardianPhoneController.text != "" &&
                                       baptizeDateController.text != "" &&
                                       bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
+                                      //departmentController.text != "" &&
                                       dobController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
-                                      jobController.text != "" &&
+                                      //jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
-                                      nationalityController.text != "" &&
-                                      socialStatusController.text != "") {
+                                      studentIdController.text != "" &&
+                                      //marriageDateController.text != "" &&
+                                      nationalityController.text != ""
+                                      //socialStatusController.text != ""
+                                    ) {
                                     Response response =
                                         await StudentFireCrud.addStudent(
+                                          studentId: studentIdController.text,
                                       image: profileImage!,
                                       baptizeDate: baptizeDateController.text,
                                       bloodGroup: bloodGroupController.text,
-                                      department: departmentController.text,
+                                      //department: departmentController.text,
                                       clasS: classController.text,
                                       age: ageController.text,
                                       guardian: guardianController.text,
@@ -623,11 +602,11 @@ class _StudentTabState extends State<StudentTab> {
                                       dob: dobController.text,
                                       family: familyController.text,
                                       firstName: firstNameController.text,
-                                      job: jobController.text,
+                                      //job: jobController.text,
                                       lastName: lastNameController.text,
-                                      marriageDate: marriageDateController.text,
+                                      //marriageDate: marriageDateController.text,
                                       nationality: nationalityController.text,
-                                      socialStatus: socialStatusController.text,
+                                      //socialStatus: socialStatusController.text,
                                       country: countryController.text,
                                       gender: genderController.text,
                                       position: "",
@@ -643,6 +622,7 @@ class _StudentTabState extends State<StudentTab> {
                                           backgroundColor: Constants()
                                               .primaryAppColor
                                               .withOpacity(0.8));
+                                      setStudentId();
                                       setState(() {
                                         uploadedImage = null;
                                         profileImage = null;
@@ -652,15 +632,15 @@ class _StudentTabState extends State<StudentTab> {
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
-                                        departmentController.text = "";
+                                        //departmentController.text = "";
                                         dobController.text = "";
                                         familyController.text = "";
                                         firstNameController.text = "";
-                                        jobController.text = "";
+                                        //jobController.text = "";
                                         lastNameController.text = "";
-                                        marriageDateController.text = "";
+                                        //marriageDateController.text = "";
                                         nationalityController.text = "";
-                                        socialStatusController.text = "";
+                                        //socialStatusController.text = "";
                                         countryController.text = "";
                                         genderController.text = 'Select Gender';
                                       });
@@ -1180,15 +1160,15 @@ class _StudentTabState extends State<StudentTab> {
                                                           guardianPhoneController.text = students[i].guardianPhone!;
                                                           baptizeDateController.text = students[i].baptizeDate!;
                                                           bloodGroupController.text = students[i].bloodGroup!;
-                                                          departmentController.text = students[i].department!;
+                                                          //departmentController.text = students[i].department!;
                                                           dobController.text = students[i].dob!;
                                                           familyController.text = students[i].family!;
                                                           firstNameController.text = students[i].firstName!;
-                                                          jobController.text = students[i].job!;
+                                                          //jobController.text = students[i].job!;
                                                           lastNameController.text = students[i].lastName!;
-                                                          marriageDateController.text = students[i].marriageDate!;
+                                                          //marriageDateController.text = students[i].marriageDate!;
                                                           nationalityController.text = students[i].nationality!;
-                                                          socialStatusController.text = students[i].socialStatus!;
+                                                          //socialStatusController.text = students[i].socialStatus!;
                                                           countryController.text = students[i].country!;
                                                           genderController.text = students[i].gender!;
                                                           selectedImg = students[i].imgUrl;
@@ -1600,7 +1580,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1758,15 +1738,15 @@ class _StudentTabState extends State<StudentTab> {
                               guardianPhoneController.text = "";
                               baptizeDateController.text = "";
                               bloodGroupController.text = "";
-                              departmentController.text = "";
+                              //departmentController.text = "";
                               dobController.text = "";
                               familyController.text = "";
                               firstNameController.text = "";
-                              jobController.text = "";
+                              //jobController.text = "";
                               lastNameController.text = "";
-                              marriageDateController.text = "";
+                              //marriageDateController.text = "";
                               nationalityController.text = "";
-                              socialStatusController.text = "";
+                              //socialStatusController.text = "";
                               countryController.text = "";
                               genderController.text = 'Select Gender';
                             });
@@ -2071,68 +2051,68 @@ class _StudentTabState extends State<StudentTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Marriage Date",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: marriageDateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Social Status",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: socialStatusController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Employment/Job",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: jobController,
-                                    )
-                                  ],
-                                ),
-                              ),
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Marriage Date",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: marriageDateController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              // const SizedBox(width: 20),
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Social Status",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: socialStatusController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              // const SizedBox(width: 20),
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Employment/Job",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: jobController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2158,27 +2138,27 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: departmentController,
-                                    )
-                                  ],
-                                ),
-                              ),
+                              // const SizedBox(width: 20),
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Department",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: departmentController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2211,7 +2191,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2261,21 +2241,22 @@ class _StudentTabState extends State<StudentTab> {
                                       guardianPhoneController.text != "" &&
                                       baptizeDateController.text != "" &&
                                       bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
+                                      //departmentController.text != "" &&
                                       dobController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
-                                      jobController.text != "" &&
+                                      //jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
-                                      nationalityController.text != "" &&
-                                      socialStatusController.text != "") {
+                                      //marriageDateController.text != "" &&
+                                      nationalityController.text != ""
+                                      //socialStatusController.text != ""
+                                    ) {
                                     Response response =
                                     await StudentFireCrud.updateRecord(
                                       StudentModel(
                                         baptizeDate: baptizeDateController.text,
                                         bloodGroup: bloodGroupController.text,
-                                        department: departmentController.text,
+                                        //department: departmentController.text,
                                         clasS: classController.text,
                                         age: ageController.text,
                                         guardian: guardianController.text,
@@ -2284,11 +2265,11 @@ class _StudentTabState extends State<StudentTab> {
                                         dob: dobController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
-                                        job: jobController.text,
+                                        //job: jobController.text,
                                         lastName: lastNameController.text,
-                                        marriageDate: marriageDateController.text,
+                                        //marriageDate: marriageDateController.text,
                                         nationality: nationalityController.text,
-                                        socialStatus: socialStatusController.text,
+                                        //socialStatus: socialStatusController.text,
                                         country: countryController.text,
                                         gender: genderController.text,
                                         position: "",
@@ -2316,15 +2297,15 @@ class _StudentTabState extends State<StudentTab> {
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
-                                        departmentController.text = "";
+                                        //departmentController.text = "";
                                         dobController.text = "";
                                         familyController.text = "";
                                         firstNameController.text = "";
-                                        jobController.text = "";
+                                        //jobController.text = "";
                                         lastNameController.text = "";
-                                        marriageDateController.text = "";
+                                        //marriageDateController.text = "";
                                         nationalityController.text = "";
-                                        socialStatusController.text = "";
+                                        //socialStatusController.text = "";
                                         countryController.text = "";
                                         genderController.text = 'Select Gender';
                                       });

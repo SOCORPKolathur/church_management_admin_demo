@@ -16,6 +16,8 @@ class PrayersFireCrud {
 
   static Future<Response> addPrayer({
     required String title,
+    required String date,
+    required String time,
     required String description,
   }) async {
     Response response = Response();
@@ -23,6 +25,8 @@ class PrayersFireCrud {
     PrayersModel prayer = PrayersModel(
       title : title,
       id: "",
+      date: date,
+      time: time,
       description: description,
       timestamp : DateTime.now().millisecondsSinceEpoch
     );

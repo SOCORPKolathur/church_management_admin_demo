@@ -23,6 +23,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   TextEditingController positionController = TextEditingController();
   TextEditingController baptizeDateController = TextEditingController();
   TextEditingController marriageDateController = TextEditingController();
@@ -34,6 +35,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController genderController = TextEditingController(text: 'Select Gender');
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
@@ -80,7 +82,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
               ),
             ),
             Container(
-              height: size.height * 1.51,
+              height: size.height * 1.77,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -245,6 +247,42 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
                                     )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -485,7 +523,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -523,6 +561,63 @@ class _CommitteeTabState extends State<CommitteeTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -534,8 +629,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
+                                      addressController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
+                                      genderController.text != "Select Gender" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
                                       marriageDateController.text != "" &&
@@ -546,7 +643,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     Response response =
                                     await CommitteeFireCrud.addCommittee(
                                       image: profileImage!,
+                                      gender: genderController.text,
                                       baptizeDate: baptizeDateController.text,
+                                      address: addressController.text,
                                       bloodGroup: bloodGroupController.text,
                                       department: departmentController.text,
                                       dob: dobController.text,
@@ -578,7 +677,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
                                         dobController.text = "";
+                                        addressController.text = "";
                                         emailController.text = "";
+                                        genderController.text = "Select Gender";
                                         familyController.text = "";
                                         firstNameController.text = "";
                                         jobController.text = "";
@@ -802,11 +903,13 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                       InkWell(
                                                         onTap: () {
                                                           setState(() {
+                                                            genderController.text = committies[i].gender!;
                                                             baptizeDateController.text = committies[i].baptizeDate!;
                                                             bloodGroupController.text = committies[i].bloodGroup!;
                                                             departmentController.text = committies[i].department!;
                                                             dobController.text = committies[i].dob!;
                                                             emailController.text = committies[i].email!;
+                                                            addressController.text = committies[i].address!;
                                                             familyController.text = committies[i].family!;
                                                             firstNameController.text = committies[i].firstName!;
                                                             jobController.text = committies[i].job!;
@@ -1334,7 +1437,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1440,7 +1543,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                               profileImage = null;
                               baptizeDateController.text = "";
                               bloodGroupController.text = "";
+                              genderController.text = "Select Gender";
                               departmentController.text = "";
+                              addressController.text = "";
                               dobController.text = "";
                               emailController.text = "";
                               familyController.text = "";
@@ -1600,6 +1705,42 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
                                     )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1840,7 +1981,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1878,6 +2019,63 @@ class _CommitteeTabState extends State<CommitteeTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -1888,6 +2086,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       bloodGroupController.text != "" &&
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
+                                      addressController.text != "" &&
+                                      genderController.text != "Select Gender" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
@@ -1906,6 +2106,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         bloodGroup: bloodGroupController.text,
                                         department: departmentController.text,
                                         dob: dobController.text,
+                                        gender: genderController.text,
+                                        address: addressController.text,
                                         email: emailController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
@@ -1936,7 +2138,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
+                                        genderController.text = "Select Gender";
                                         dobController.text = "";
+                                        addressController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
                                         firstNameController.text = "";

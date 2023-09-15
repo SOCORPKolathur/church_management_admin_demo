@@ -17,6 +17,8 @@ class NoticeFireCrud {
 
   static Future<Response> addNotice({
     required String title,
+    required String date,
+    required String time,
     required String description,
   }) async {
     Response response = Response();
@@ -24,6 +26,8 @@ class NoticeFireCrud {
     NoticeModel notice = NoticeModel(
         title : title,
         id: "",
+        date: date,
+        time: time,
         description: description,
         timestamp : DateTime.now().millisecondsSinceEpoch
     );

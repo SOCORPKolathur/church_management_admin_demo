@@ -36,8 +36,8 @@ class _UserTabState extends State<UserTab> {
   TextEditingController bloodGroupController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confPaswordController = TextEditingController();
+  //TextEditingController passwordController = TextEditingController();
+  //TextEditingController confPaswordController = TextEditingController();
   TextEditingController filterTextController = TextEditingController();
   String filterText = "";
   String marriedController = "Select Status";
@@ -306,52 +306,47 @@ class _UserTabState extends State<UserTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Password",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: passwordController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Confirm Password",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: confPaswordController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Password",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: passwordController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              // const SizedBox(width: 20),
+                              // SizedBox(
+                              //   width: 300,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Confirm Password",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: confPaswordController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -372,7 +367,12 @@ class _UserTabState extends State<UserTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+                              //const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -489,7 +489,7 @@ class _UserTabState extends State<UserTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Birth of Date",
+                                      text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -658,10 +658,10 @@ class _UserTabState extends State<UserTab> {
                                       addressController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
-                                      passwordController.text != "" &&
+                                      //passwordController.text != "" &&
                                       marriedController != "Select Status" &&
                                       firstNameController.text != "" &&
-                                      confPaswordController.text != "" &&
+                                      //confPaswordController.text != "" &&
                                       lastNameController.text != "" &&
                                       localityController.text != "" &&
                                       phoneController.text != "" &&
@@ -683,7 +683,7 @@ class _UserTabState extends State<UserTab> {
                                       profession: professionController.text,
                                       about: aboutController.text,
                                       address: addressController.text,
-                                      password: passwordController.text,
+                                      //password: passwordController.text,
                                     );
                                     if (response.code == 200) {
                                       CoolAlert.show(
@@ -708,11 +708,11 @@ class _UserTabState extends State<UserTab> {
                                         aboutController.text = "";
                                         addressController.text = "";
                                         lastNameController.text = "";
-                                        passwordController.text = "";
+                                        //passwordController.text = "";
                                         localityController.text = "";
                                         phoneController.text = "";
                                         professionController.text = "";
-                                        confPaswordController.text = "";
+                                        //confPaswordController.text = "";
                                       });
                                     } else {
                                       CoolAlert.show(
@@ -1286,10 +1286,10 @@ class _UserTabState extends State<UserTab> {
                                                               .text =
                                                           users[i]
                                                               .lastName!;
-                                                          passwordController
-                                                              .text =
-                                                          users[i]
-                                                              .password!;
+                                                          // passwordController
+                                                          //     .text =
+                                                          // users[i]
+                                                          //     .password!;
                                                           localityController
                                                               .text =
                                                           users[i]
@@ -1300,10 +1300,10 @@ class _UserTabState extends State<UserTab> {
                                                               .text =
                                                           users[i]
                                                               .profession!;
-                                                          confPaswordController
-                                                              .text =
-                                                          users[i]
-                                                              .password!;
+                                                          // confPaswordController
+                                                          //     .text =
+                                                          // users[i]
+                                                          //     .password!;
                                                           selectedImg =
                                                               users[i].imgUrl;
                                                           marriedController = users[i].maritialStatus!;
@@ -2023,10 +2023,10 @@ class _UserTabState extends State<UserTab> {
                                                                   .text =
                                                               users[i]
                                                                   .lastName!;
-                                                          passwordController
-                                                                  .text =
-                                                              users[i]
-                                                                  .password!;
+                                                          // passwordController
+                                                          //         .text =
+                                                          //     users[i]
+                                                          //         .password!;
                                                           localityController
                                                                   .text =
                                                               users[i]
@@ -2037,10 +2037,10 @@ class _UserTabState extends State<UserTab> {
                                                                   .text =
                                                               users[i]
                                                                   .profession!;
-                                                          confPaswordController
-                                                                  .text =
-                                                              users[i]
-                                                                  .password!;
+                                                          // confPaswordController
+                                                          //         .text =
+                                                          //     users[i]
+                                                          //         .password!;
                                                           selectedImg =
                                                               users[i].imgUrl;
                                                           marriedController = users[i].maritialStatus!;
@@ -2385,26 +2385,26 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                   const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Password",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      Text(
-                                        user.password!,
-                                        style: const TextStyle(fontSize: 14),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
+                                  // Row(
+                                  //   children: [
+                                  //     SizedBox(
+                                  //       width: size.width * 0.15,
+                                  //       child: const KText(
+                                  //         text: "Password",
+                                  //         style: TextStyle(
+                                  //             fontWeight: FontWeight.w800,
+                                  //             fontSize: 16),
+                                  //       ),
+                                  //     ),
+                                  //     const Text(":"),
+                                  //     const SizedBox(width: 20),
+                                  //     Text(
+                                  //       user.password!,
+                                  //       style: const TextStyle(fontSize: 14),
+                                  //     )
+                                  //   ],
+                                  // ),
+                                  // const SizedBox(height: 20),
                                   Row(
                                     children: [
                                       SizedBox(
@@ -2476,7 +2476,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
@@ -2588,11 +2588,11 @@ class _UserTabState extends State<UserTab> {
                                   firstNameController.text = "";
                                   aboutController.text = "";
                                   lastNameController.text = "";
-                                  passwordController.text = "";
+                                  //passwordController.text = "";
                                   localityController.text = "";
                                   phoneController.text = "";
                                   professionController.text = "";
-                                  confPaswordController.text = "";
+                                  //confPaswordController.text = "";
                                 });
                                 Navigator.pop(context);
                               },
@@ -2743,27 +2743,6 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
-                                  SizedBox(
-                                    width: 300,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Phone",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          style: const TextStyle(fontSize: 12),
-                                          controller: phoneController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
                                 ],
                               ),
                               const SizedBox(height: 30),
@@ -2796,7 +2775,7 @@ class _UserTabState extends State<UserTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Password",
+                                          text: "Phone",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: 13,
@@ -2805,32 +2784,52 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                         TextFormField(
                                           style: const TextStyle(fontSize: 12),
-                                          controller: passwordController,
+                                          controller: phoneController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
-                                  SizedBox(
-                                    width: 300,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Confirm Password",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          style: const TextStyle(fontSize: 12),
-                                          controller: confPaswordController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                  // SizedBox(
+                                  //   width: 300,
+                                  //   child: Column(
+                                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       KText(
+                                  //         text: "Password",
+                                  //         style: GoogleFonts.openSans(
+                                  //           color: Colors.black,
+                                  //           fontSize: 13,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //       TextFormField(
+                                  //         style: const TextStyle(fontSize: 12),
+                                  //         controller: passwordController,
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(width: 20),
+                                  // SizedBox(
+                                  //   width: 300,
+                                  //   child: Column(
+                                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       KText(
+                                  //         text: "Confirm Password",
+                                  //         style: GoogleFonts.openSans(
+                                  //           color: Colors.black,
+                                  //           fontSize: 13,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //       TextFormField(
+                                  //         style: const TextStyle(fontSize: 12),
+                                  //         controller: confPaswordController,
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               const SizedBox(height: 30),
@@ -2973,7 +2972,7 @@ class _UserTabState extends State<UserTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Birth of Date",
+                                          text: "Date of Birth",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: 13,
@@ -3138,10 +3137,10 @@ class _UserTabState extends State<UserTab> {
                                           dobController.text != "" &&
                                           addressController.text != "" &&
                                           emailController.text != "" &&
-                                          passwordController.text != "" &&
+                                          //passwordController.text != "" &&
                                           marriedController != "Select Status" &&
                                           firstNameController.text != "" &&
-                                          confPaswordController.text != "" &&
+                                          //confPaswordController.text != "" &&
                                           lastNameController.text != "" &&
                                           localityController.text != "" &&
                                           phoneController.text != "" &&
@@ -3169,7 +3168,7 @@ class _UserTabState extends State<UserTab> {
                                                   profession:
                                                       professionController.text,
                                                   about: aboutController.text,
-                                                  password: passwordController.text,
+                                                  //password: passwordController.text,
                                                 ),
                                                 profileImage,
                                                 user.imgUrl ?? "");
@@ -3194,11 +3193,11 @@ class _UserTabState extends State<UserTab> {
                                             lastNameController.text = "";
                                             anniversaryDateController.text = "";
                                             marriedController = "Select Status";
-                                            passwordController.text = "";
+                                            //passwordController.text = "";
                                             localityController.text = "";
                                             phoneController.text = "";
                                             professionController.text = "";
-                                            confPaswordController.text = "";
+                                            //confPaswordController.text = "";
                                           });
                                           Navigator.pop(context);
                                           Navigator.pop(context);

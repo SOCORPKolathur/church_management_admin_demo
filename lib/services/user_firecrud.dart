@@ -39,7 +39,7 @@ class UserFireCrud {
         required String locality,
         required String phone,
         required String profession,
-        required String password,
+        //required String password,
         required String about,
         required String address,
       }) async {
@@ -59,7 +59,7 @@ class UserFireCrud {
         dob: dob,
         about: about,
         address: address,
-        password: password,
+        //password: password,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
         anniversaryDate: anniversaryDate,
