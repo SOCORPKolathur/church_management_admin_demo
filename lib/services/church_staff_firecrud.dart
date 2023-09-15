@@ -17,7 +17,10 @@ class ChurchStaffFireCrud {
       .toList());
 
   static Future<Response> addChurchStaff(
-      {required File image,
+      { required File image,
+        required File document,
+        required String address,
+        required String dateOfJoining,
         required String baptizeDate,
         required String bloodGroup,
         required String department,
@@ -35,12 +38,16 @@ class ChurchStaffFireCrud {
         required String position,
         required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl1 = await uploadImageToStorage(document);
     Response response = Response();
     DocumentReference documentReferencer = ChurchStaffCollection.doc();
     ChurchStaffModel church_staff = ChurchStaffModel(
         id: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
         socialStatus: socialStatus,
+        address: address,
+        dateOfJoining: dateOfJoining,
+        document: downloadUrl1,
         position: position,
         phone: phone,
         nationality: nationality,

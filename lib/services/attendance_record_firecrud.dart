@@ -10,23 +10,22 @@ final CollectionReference AttendanceCollection = firestore.collection('Attendanc
 class AttendanceRecordFireCrud {
 
   static Stream<List<AttendanceRecordModel>> fetchAttendances() =>
-      AttendanceCollection.orderBy("timestamp", descending: false)
+      AttendanceCollection
           .snapshots()
           .map((snapshot) => snapshot.docs
           .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
   static Future<Response> addAttendance({
-    required String name,
+    required List<Attendance> attendanceList,
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = AttendanceCollection.doc();
     AttendanceRecordModel attendance = AttendanceRecordModel(
-      id: "",
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      name: name,
+      date: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+      attendance: attendanceList
     );
-    attendance.id = documentReferencer.id;
+    //attendance.id = documentReferencer.id;
     var json = attendance.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;
@@ -38,18 +37,18 @@ class AttendanceRecordFireCrud {
     return response;
   }
 
-  static Future<Response> updateRecord(AttendanceRecordModel attendance) async {
-    Response res = Response();
-    DocumentReference documentReferencer = AttendanceCollection.doc(attendance.id);
-    var result = await documentReferencer.update(attendance.toJson()).whenComplete(() {
-      res.code = 200;
-      res.message = "Sucessfully Updated from database";
-    }).catchError((e){
-      res.code = 500;
-      res.message = e;
-    });
-    return res;
-  }
+  // static Future<Response> updateRecord(AttendanceRecordModel attendance) async {
+  //   Response res = Response();
+  //   DocumentReference documentReferencer = AttendanceCollection.doc(attendance.id);
+  //   var result = await documentReferencer.update(attendance.toJson()).whenComplete(() {
+  //     res.code = 200;
+  //     res.message = "Sucessfully Updated from database";
+  //   }).catchError((e){
+  //     res.code = 500;
+  //     res.message = e;
+  //   });
+  //   return res;
+  // }
 
   static Future<Response> deleteRecord({required String id}) async {
     Response res = Response();

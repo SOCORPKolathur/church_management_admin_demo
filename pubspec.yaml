@@ -62,6 +62,7 @@ dependencies:
   firebase_messaging_web: ^3.5.6
   http: any
   share_plus: ^7.1.0
+  flutter_cache_manager: ^3.3.1
 
 
 dev_dependencies:

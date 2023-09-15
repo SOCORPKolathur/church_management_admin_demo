@@ -72,12 +72,7 @@ class _StudentTabState extends State<StudentTab> {
   setStudentId() async {
     var document = await cf.FirebaseFirestore.instance.collection('Students').get();
     int lastId = document.docs.length + 1;
-    String studentId = lastId.toString();
-    for(int i = 0; i < 5; i++) {
-      if(studentId.length < 7){
-        studentId = "0$studentId";
-      }
-    }
+    String studentId = lastId.toString().padLeft(6,'0');
     setState((){
       studentIdController.text = studentId;
     });
@@ -2046,73 +2041,6 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
-                              // SizedBox(
-                              //   width: 300,
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       KText(
-                              //         text: "Marriage Date",
-                              //         style: GoogleFonts.openSans(
-                              //           color: Colors.black,
-                              //           fontSize: 13,
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //       TextFormField(
-                              //         style: const TextStyle(fontSize: 12),
-                              //         controller: marriageDateController,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              // const SizedBox(width: 20),
-                              // SizedBox(
-                              //   width: 300,
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       KText(
-                              //         text: "Social Status",
-                              //         style: GoogleFonts.openSans(
-                              //           color: Colors.black,
-                              //           fontSize: 13,
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //       TextFormField(
-                              //         style: const TextStyle(fontSize: 12),
-                              //         controller: socialStatusController,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              // const SizedBox(width: 20),
-                              // SizedBox(
-                              //   width: 300,
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       KText(
-                              //         text: "Employment/Job",
-                              //         style: GoogleFonts.openSans(
-                              //           color: Colors.black,
-                              //           fontSize: 13,
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //       TextFormField(
-                              //         style: const TextStyle(fontSize: 12),
-                              //         controller: jobController,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
                             ],
                           ),
                           const SizedBox(height: 30),

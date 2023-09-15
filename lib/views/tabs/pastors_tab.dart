@@ -31,10 +31,12 @@ class _PastorsTabState extends State<PastorsTab> {
   TextEditingController jobController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController genderController = TextEditingController(text: 'Select Gender');
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
@@ -81,7 +83,7 @@ class _PastorsTabState extends State<PastorsTab> {
               ),
             ),
             Container(
-              height: size.height * 1.37,
+              height: size.height * 1.67,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -450,6 +452,42 @@ class _PastorsTabState extends State<PastorsTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -520,6 +558,63 @@ class _PastorsTabState extends State<PastorsTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -534,6 +629,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
+                                      addressController.text != "" &&
+                                      genderController.text != "Select Gender" &&
                                       lastNameController.text != "" &&
                                       marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
@@ -543,6 +640,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                     Response response =
                                     await PastorsFireCrud.addPastor(
                                       image: profileImage!,
+                                      address: addressController.text,
+                                      gender: genderController.text,
                                       baptizeDate: baptizeDateController.text,
                                       bloodGroup: bloodGroupController.text,
                                       department: departmentController.text,
@@ -576,6 +675,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                         departmentController.text = "";
                                         dobController.text = "";
                                         emailController.text = "";
+                                        addressController.text = "";
+                                        genderController.text = "Select Gender";
                                         familyController.text = "";
                                         firstNameController.text = "";
                                         jobController.text = "";
@@ -813,6 +914,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                                             positionController.text = pastors[i].position!;
                                                             socialStatusController.text = pastors[i].socialStatus!;
                                                             countryController.text = pastors[i].country!;
+                                                            addressController.text = pastors[i].address!;
+                                                            genderController.text = pastors[i].gender!;
                                                             selectedImg = pastors[i].imgUrl;
                                                           });
                                                           editPopUp(pastors[i], size);
@@ -1396,7 +1499,7 @@ class _PastorsTabState extends State<PastorsTab> {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: Container(
-            height: size.height * 1.37,
+            height: size.height * 1.67,
             width: 1100,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -1439,6 +1542,8 @@ class _PastorsTabState extends State<PastorsTab> {
                               departmentController.text = "";
                               dobController.text = "";
                               emailController.text = "";
+                              addressController.text = "";
+                              genderController.text = "Select Gender";
                               familyController.text = "";
                               firstNameController.text = "";
                               jobController.text = "";
@@ -1793,6 +1898,42 @@ class _PastorsTabState extends State<PastorsTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -1863,6 +2004,63 @@ class _PastorsTabState extends State<PastorsTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -1874,6 +2072,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
+                                      addressController.text != "" &&
+                                      genderController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
@@ -1892,6 +2092,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                         bloodGroup: bloodGroupController.text,
                                         department: departmentController.text,
                                         dob: dobController.text,
+                                        gender: genderController.text,
+                                        address: addressController.text,
                                         email: emailController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
@@ -1924,6 +2126,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                         departmentController.text = "";
                                         dobController.text = "";
                                         emailController.text = "";
+                                        addressController.text = "";
+                                        genderController.text = "Select Gender";
                                         familyController.text = "";
                                         firstNameController.text = "";
                                         jobController.text = "";

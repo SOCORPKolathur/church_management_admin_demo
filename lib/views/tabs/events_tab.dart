@@ -608,7 +608,8 @@ class _EventsTabState extends State<EventsTab>
                                 const SizedBox(width: 10),
                                 InkWell(
                                   onTap: () async {
-                                   await generateEventPdf(PdfPageFormat.a4, events);
+                                   //await generateEventPdf(PdfPageFormat.a4, events);
+                                    convertToPdf(events);
                                   },
                                   child: Container(
                                     height: 35,
@@ -1267,7 +1268,8 @@ class _EventsTabState extends State<EventsTab>
                                 const SizedBox(width: 10),
                                 InkWell(
                                   onTap: () async {
-                                    await generateEventPdf(PdfPageFormat.a4, events);
+                                    convertToPdf(events);
+                                    //await generateEventPdf(PdfPageFormat.a4, events);
                                   },
                                   child: Container(
                                     height: 35,
@@ -2376,11 +2378,42 @@ class _EventsTabState extends State<EventsTab>
     saveCsvToFile(csv);
   }
 
+  convertToPdf(List<EventsModel> events) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Date");
+    row.add("Time");
+    row.add("Location");
+    row.add("Description");
+    rows.add(row);
+    for (int i = 0; i < events.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add(events[i].date!);
+      row.add(events[i].time!);
+      row.add(events[i].location!);
+      row.add(events[i].description!);
+      rows.add(row);
+    }
+    String pdf = const ListToCsvConverter().convert(rows);
+    savePdfToFile(pdf);
+  }
+
   void saveCsvToFile(csvString) async {
     final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
       ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "data.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

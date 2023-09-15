@@ -6,6 +6,9 @@ class ChurchStaffModel {
   String? phone;
   String? gender;
   String? email;
+  String? address;
+  String? document;
+  String? dateOfJoining;
   String? position;
   String? baptizeDate;
   String? marriageDate;
@@ -22,6 +25,9 @@ class ChurchStaffModel {
   ChurchStaffModel(
       {this.id,
         this.firstName,
+        this.address,
+        this.dateOfJoining,
+        this.document,
         this.lastName,
         this.timestamp,
         this.phone,
@@ -43,6 +49,9 @@ class ChurchStaffModel {
   ChurchStaffModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     timestamp = json['timestamp'];
+    address = json['address'];
+    dateOfJoining = json['dateOfJoining'];
+    document = json['document'];
     firstName = json['firstName'];
     gender = json['gender'];
     lastName = json['lastName'];
@@ -66,6 +75,9 @@ class ChurchStaffModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
+    data['address'] = this.address;
+    data['dateOfJoining'] = this.dateOfJoining;
+    data['document'] = this.document;
     data['firstName'] = this.firstName;
     data['gender'] = this.gender;
     data['lastName'] = this.lastName;

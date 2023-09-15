@@ -5,7 +5,9 @@ import 'package:church_management_admin/models/gallery_image_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../models/response.dart';
 import '../../services/gallery_firecrud.dart';
 import '../../widgets/kText.dart';
@@ -22,6 +24,12 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
   bool isEditGI = false;
   bool isEditSI = false;
   late AnimationController lottieController;
+
+  static Future<XFile> getImageXFileByUrl(String url) async {
+    var file = await DefaultCacheManager().getSingleFile(url);
+    XFile result = await XFile(file.path);
+    return result;
+  }
 
   addImage(String collection,Size size) {
     InputElement input = FileUploadInputElement() as InputElement
@@ -258,7 +266,25 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                               ),
                                             ),
                                           ),
-                                        )
+                                        ),
+                                        Positioned(
+                                          right: 10,
+                                          bottom: 10,
+                                          child: InkWell(
+                                            onTap: () {
+                                              GalleryFireCrud.deleteImage(
+                                                  allData[i].id!, 'SI');
+                                            },
+                                            child: const CircleAvatar(
+                                              radius: 15,
+                                              backgroundColor: Colors.red,
+                                              child: Icon(
+                                                Icons.remove_circle_outline,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     )
                                   : Container(
@@ -572,6 +598,30 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                   child: Icon(
                     Icons.cancel_outlined,
                     color: Colors.white,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: size.height * 0.04,
+                right: size.width * 0.03,
+                child: InkWell(
+                  onTap: () async {
+                    Share.share(Uri.parse(imgUrl).toString());
+                  },
+                  child: Container(
+                    height: 35,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: Constants().primaryAppColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Share",style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      ),
+                    ),
                   ),
                 ),
               )

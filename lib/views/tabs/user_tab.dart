@@ -702,8 +702,7 @@ class _UserTabState extends State<UserTab> {
                                         dobController.text = "";
                                         emailController.text = "";
                                         anniversaryDateController.text = "";
-                                        marriedController =
-                                            "Select Status";
+                                        marriedController = "Select Status";
                                         firstNameController.text = "";
                                         aboutController.text = "";
                                         addressController.text = "";

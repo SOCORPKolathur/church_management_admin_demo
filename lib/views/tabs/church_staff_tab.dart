@@ -40,10 +40,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController dateofjoiningController = TextEditingController();
 
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+
+  File? documentForUpload;
+  String docname = "";
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -61,6 +66,25 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
         setState(() {
           uploadedImage = reader.result;
           selectedImg = null;
+        });
+      });
+      setState(() {});
+    });
+  }
+
+  selectDocument(){
+    InputElement input = FileUploadInputElement()
+    as InputElement
+      ..accept = '/*';
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      FileReader reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        setState(() {
+          documentForUpload = file;
+          docname = file.name;
         });
       });
       setState(() {});
@@ -87,7 +111,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
               ),
             ),
             Container(
-              height: size.height * 1.51,
+              height: size.height * 1.81,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -189,7 +213,6 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
                               Container(
                                 height: 35,
                                 width: size.width * 0.25,
@@ -207,6 +230,26 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: selectDocument,
+                                child: Container(
+                                  height: 35,
+                                  width: size.width * 0.23,
+                                  color: Constants().primaryAppColor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.file_copy,
+                                          color: Colors.white),
+                                      const SizedBox(width: 10),
+                                      KText(
+                                        text: docname == "" ? 'Select Baptizem Certificate' : docname,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -379,6 +422,27 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: baptizeDateController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Date of Joining",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: dateofjoiningController,
                                     )
                                   ],
                                 ),
@@ -566,6 +630,63 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -581,6 +702,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
+                                      addressController.text != "" &&
+                                      dateofjoiningController.text != "" &&
                                       marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
@@ -604,7 +727,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         position: positionController.text,
                                         socialStatus: socialStatusController.text,
                                         country: countryController.text,
-                                        gender : genderController.text
+                                        document: documentForUpload!,
+                                        dateOfJoining: dateofjoiningController.text,
+                                        address: addressController.text,
+                                        gender : genderController.text,
                                     );
                                     if (response.code == 200) {
                                       CoolAlert.show(
@@ -618,7 +744,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       setState(() {
                                         uploadedImage = null;
                                         profileImage = null;
+                                        documentForUpload = null;
+                                        docname = "";
                                         baptizeDateController.text = "";
+                                        dateofjoiningController.text = "";
+                                        addressController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
                                         dobController.text = "";
@@ -1162,6 +1292,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                           countryController.text = churchStaffs[i].country!;
                                                           genderController.text = churchStaffs[i].gender!;
                                                           selectedImg = churchStaffs[i].imgUrl;
+                                                          addressController.text = churchStaffs[i].address!;
+                                                          dateofjoiningController.text = churchStaffs[i].dateOfJoining!;
                                                         });
                                                         editPopUp(churchStaffs[i], size);
                                                       },
@@ -1779,7 +1911,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: Container(
-            height: size.height * 1.51,
+            height: size.height * 1.81,
             width: 1100,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -1823,6 +1955,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               dobController.text = "";
                               emailController.text = "";
                               familyController.text = "";
+                              addressController.text = "";
+                              dateofjoiningController.text = "";
                               firstNameController.text = "";
                               jobController.text = "";
                               lastNameController.text = "";
@@ -2111,6 +2245,27 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Date of Joining",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: dateofjoiningController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2294,6 +2449,63 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 12),
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -2307,6 +2519,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
+                                      addressController.text != "" &&
+                                      dateofjoiningController.text != "" &&
                                       lastNameController.text != "" &&
                                       marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
@@ -2326,6 +2540,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           firstName: firstNameController.text,
                                           job: jobController.text,
                                           lastName: lastNameController.text,
+                                          address: addressController.text,
+                                          dateOfJoining: dateofjoiningController.text,
                                           marriageDate: marriageDateController.text,
                                           nationality: nationalityController.text,
                                           phone: phoneController.text,
@@ -2352,6 +2568,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
+                                        addressController.text = "";
+                                        dateofjoiningController.text = "";
                                         dobController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
