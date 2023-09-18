@@ -5,14 +5,14 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../models/chorus_model.dart';
 
-Future<Uint8List> generateChorusPdf(PdfPageFormat pageFormat,List<ChorusModel> choruses ) async {
+Future<Uint8List> generateChorusPdf(PdfPageFormat pageFormat,List<ChorusModel> choruses, bool isPdf) async {
 
   final chorus = ChorusModelforPdf(
       title: "Choruses",
       choruses: choruses
   );
 
-  return await chorus.buildPdf(pageFormat);
+  return await chorus.buildPdf(pageFormat,isPdf);
 }
 
 class ChorusModelforPdf{
@@ -21,7 +21,7 @@ class ChorusModelforPdf{
   String? title;
   List<ChorusModel> choruses = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -34,9 +34,11 @@ class ChorusModelforPdf{
         ],
       ),
     );
-    Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => doc.save(),
-    );
+    if(!isPdf) {
+      Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save(),
+      );
+    }
     return doc.save();
   }
 

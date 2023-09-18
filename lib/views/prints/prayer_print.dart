@@ -4,14 +4,14 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generatePrayerPdf(PdfPageFormat pageFormat,List<PrayersModel> prayers ) async {
+Future<Uint8List> generatePrayerPdf(PdfPageFormat pageFormat,List<PrayersModel> prayers, bool isPdf) async {
 
   final prayer = PrayerModelforPdf(
       title: "Prayers",
       prayers: prayers
   );
 
-  return await prayer.buildPdf(pageFormat);
+  return await prayer.buildPdf(pageFormat,isPdf);
 }
 
 class PrayerModelforPdf{
@@ -20,7 +20,7 @@ class PrayerModelforPdf{
   String? title;
   List<PrayersModel> prayers = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat, bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -33,9 +33,11 @@ class PrayerModelforPdf{
         ],
       ),
     );
-    Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => doc.save(),
-    );
+    if(!isPdf){
+      Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save(),
+      );
+    }
     return doc.save();
   }
 

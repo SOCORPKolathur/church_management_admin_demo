@@ -4,14 +4,14 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateClanPdf(PdfPageFormat pageFormat,List<ClansModel> clans ) async {
+Future<Uint8List> generateClanPdf(PdfPageFormat pageFormat,List<ClansModel> clans, bool isPdf) async {
 
   final event = ClanModelforPdf(
       title: "Clans",
       clans: clans
   );
 
-  return await event.buildPdf(pageFormat);
+  return await event.buildPdf(pageFormat,isPdf);
 }
 
 class ClanModelforPdf{
@@ -20,7 +20,7 @@ class ClanModelforPdf{
   String? title;
   List<ClansModel> clans = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat, bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -33,9 +33,11 @@ class ClanModelforPdf{
         ],
       ),
     );
-    Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => doc.save(),
-    );
+    if(!isPdf) {
+      Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save(),
+      );
+    }
     return doc.save();
   }
 

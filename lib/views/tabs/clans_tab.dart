@@ -750,7 +750,7 @@ class _ClansTabState extends State<ClansTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateClanPdf(PdfPageFormat.letter, clans);
+                                      generateClanPdf(PdfPageFormat.letter, clans, false);
                                     },
                                     child: Container(
                                       height: 35,
@@ -827,8 +827,9 @@ class _ClansTabState extends State<ClansTab> {
                                   ),
                                   const SizedBox(width: 10),
                                   InkWell(
-                                    onTap: () {
-                                      generateClanPdf(PdfPageFormat.letter, clans);
+                                    onTap: () async {
+                                      var data = await generateClanPdf(PdfPageFormat.letter, clans, true);
+                                      savePdfToFile(data);
                                     },
                                     child: Container(
                                       height: 35,
@@ -2455,6 +2456,15 @@ class _ClansTabState extends State<ClansTab> {
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
       ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "clans.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

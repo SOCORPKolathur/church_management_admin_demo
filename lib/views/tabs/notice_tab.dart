@@ -416,7 +416,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateNoticePdf(PdfPageFormat.letter, notices);
+                                      generateNoticePdf(PdfPageFormat.letter, notices,false);
                                     },
                                     child: Container(
                                       height: 35,
@@ -493,8 +493,9 @@ class _NoticesTabState extends State<NoticesTab> {
                                   ),
                                   const SizedBox(width: 10),
                                   InkWell(
-                                    onTap: () {
-                                      generateNoticePdf(PdfPageFormat.letter, notices);
+                                    onTap: () async {
+                                      var data = await generateNoticePdf(PdfPageFormat.letter, notices, true);
+                                      savePdfToFile(data);
                                     },
                                     child: Container(
                                       height: 35,
@@ -1095,6 +1096,15 @@ class _NoticesTabState extends State<NoticesTab> {
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
       ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "notices.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

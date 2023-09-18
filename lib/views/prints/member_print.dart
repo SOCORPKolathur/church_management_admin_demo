@@ -4,14 +4,14 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateMemberPdf(PdfPageFormat pageFormat,List<MembersModel> membersList ) async {
+Future<Uint8List> generateMemberPdf(PdfPageFormat pageFormat,List<MembersModel> membersList, bool isPdf) async {
 
   final event = MemberModelforPdf(
       title: "Members",
       members: membersList
   );
 
-  return await event.buildPdf(pageFormat);
+  return await event.buildPdf(pageFormat,isPdf);
 }
 
 class MemberModelforPdf{
@@ -20,7 +20,7 @@ class MemberModelforPdf{
   String? title;
   List<MembersModel> members = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat, bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -33,9 +33,11 @@ class MemberModelforPdf{
         ],
       ),
     );
+    if(!isPdf){
     Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async => doc.save(),
     );
+    }
     return doc.save();
   }
 

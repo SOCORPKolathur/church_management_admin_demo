@@ -863,8 +863,7 @@ class _UserTabState extends State<UserTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateUserPdf(
-                                          PdfPageFormat.letter, users);
+                                      generateUserPdf(PdfPageFormat.letter, users,false);
                                     },
                                     child: Container(
                                       height: 35,
@@ -941,9 +940,9 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   const SizedBox(width: 10),
                                   InkWell(
-                                    onTap: () {
-                                      generateUserPdf(
-                                          PdfPageFormat.letter, users);
+                                    onTap: () async {
+                                      var data = await generateUserPdf(PdfPageFormat.letter, users,true);
+                                      savePdfToFile(data);
                                     },
                                     child: Container(
                                       height: 35,
@@ -1601,7 +1600,7 @@ class _UserTabState extends State<UserTab> {
                                   InkWell(
                                     onTap: () {
                                       generateUserPdf(
-                                          PdfPageFormat.letter, users);
+                                          PdfPageFormat.letter, users,false);
                                     },
                                     child: Container(
                                       height: 35,
@@ -1678,9 +1677,9 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   const SizedBox(width: 10),
                                   InkWell(
-                                    onTap: () {
-                                      generateUserPdf(
-                                          PdfPageFormat.letter, users);
+                                    onTap: () async {
+                                      var data = await generateUserPdf(PdfPageFormat.letter, users,true);
+                                      savePdfToFile(data);
                                     },
                                     child: Container(
                                       height: 35,
@@ -3289,6 +3288,15 @@ class _UserTabState extends State<UserTab> {
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
       ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Users.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

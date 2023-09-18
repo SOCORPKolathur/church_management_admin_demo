@@ -4,14 +4,14 @@ import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../../models/church_staff_model.dart';
 
-Future<Uint8List> generateChurchStaffPdf(PdfPageFormat pageFormat,List<ChurchStaffModel> churchStaffs ) async {
+Future<Uint8List> generateChurchStaffPdf(PdfPageFormat pageFormat,List<ChurchStaffModel> churchStaffs, bool isPdf) async {
 
   final churchStaff = ChurchStaffModelforPdf(
       title: "Church Staffs",
       churchStaffs: churchStaffs
   );
 
-  return await churchStaff.buildPdf(pageFormat);
+  return await churchStaff.buildPdf(pageFormat,isPdf);
 }
 
 class ChurchStaffModelforPdf{
@@ -20,7 +20,7 @@ class ChurchStaffModelforPdf{
   String? title;
   List<ChurchStaffModel> churchStaffs = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -33,9 +33,11 @@ class ChurchStaffModelforPdf{
         ],
       ),
     );
-    Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => doc.save(),
-    );
+    if(!isPdf){
+      Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save(),
+      );
+    }
     return doc.save();
   }
 

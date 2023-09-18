@@ -4,14 +4,14 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateEventPdf(PdfPageFormat pageFormat,List<EventsModel> eventsList ) async {
+Future<Uint8List> generateEventPdf(PdfPageFormat pageFormat,List<EventsModel> eventsList ,bool isPdf) async {
 
   final event = EventModelforPdf(
       title: "Products",
       events: eventsList
   );
 
-  return await event.buildPdf(pageFormat);
+  return await event.buildPdf(pageFormat,isPdf);
 }
 
 class EventModelforPdf{
@@ -20,7 +20,7 @@ class EventModelforPdf{
   String? title;
   List<EventsModel> events = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -34,14 +34,14 @@ class EventModelforPdf{
         ),
         build: (context) => [
           _contentTable(context),
-          pw.SizedBox(height: 20),
-          pw.SizedBox(height: 20),
         ],
       ),
     );
+    if(!isPdf){
     Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async => doc.save(),
     );
+    }
     return doc.save();
   }
 
@@ -62,8 +62,7 @@ class EventModelforPdf{
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(2)),
         //color: PdfColors.teal
       ),
-      headerHeight: 25,
-      cellHeight: 40,
+      headerHeight: 35,
       cellAlignments: {
         0: pw.Alignment.centerLeft,
         1: pw.Alignment.centerLeft,

@@ -4,14 +4,14 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateNoticePdf(PdfPageFormat pageFormat,List<NoticeModel> notices ) async {
+Future<Uint8List> generateNoticePdf(PdfPageFormat pageFormat,List<NoticeModel> notices, bool isPdf) async {
 
   final notice = NoticeModelforPdf(
       title: "Notices",
       notices: notices
   );
 
-  return await notice.buildPdf(pageFormat);
+  return await notice.buildPdf(pageFormat, isPdf);
 }
 
 class NoticeModelforPdf{
@@ -20,7 +20,7 @@ class NoticeModelforPdf{
   String? title;
   List<NoticeModel> notices = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat, bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -33,9 +33,11 @@ class NoticeModelforPdf{
         ],
       ),
     );
-    Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => doc.save(),
-    );
+    if(!isPdf) {
+      Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save(),
+      );
+    }
     return doc.save();
   }
 

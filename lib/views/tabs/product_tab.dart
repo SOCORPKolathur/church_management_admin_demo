@@ -531,7 +531,7 @@ class _ProductTabState extends State<ProductTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateProductPdf(PdfPageFormat.letter, products);
+                                      generateProductPdf(PdfPageFormat.letter, products,false);
                                     },
                                     child: Container(
                                       height: 35,
@@ -608,8 +608,9 @@ class _ProductTabState extends State<ProductTab> {
                                   ),
                                   const SizedBox(width: 10),
                                   InkWell(
-                                    onTap: () {
-                                      generateProductPdf(PdfPageFormat.letter, products);
+                                    onTap: () async {
+                                      var data = await generateProductPdf(PdfPageFormat.letter, products,true);
+                                      savePdfToFile(data);
                                     },
                                     child: Container(
                                       height: 35,
@@ -1813,6 +1814,15 @@ class _ProductTabState extends State<ProductTab> {
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
       ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Products.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

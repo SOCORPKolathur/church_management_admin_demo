@@ -4,14 +4,14 @@ import 'package:printing/printing.dart';
 import '../../models/product_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateProductPdf(PdfPageFormat pageFormat,List<ProductModel> productlist ) async {
+Future<Uint8List> generateProductPdf(PdfPageFormat pageFormat,List<ProductModel> productlist,bool isPdf) async {
 
   final product = ProductModelforPdf(
     title: "Products",
     products: productlist
   );
 
-  return await product.buildPdf(pageFormat);
+  return await product.buildPdf(pageFormat,isPdf);
 }
 
 class ProductModelforPdf{
@@ -20,7 +20,7 @@ class ProductModelforPdf{
   String? title;
   List<ProductModel> products = [];
 
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
+  Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
     final doc = pw.Document();
 
@@ -33,9 +33,11 @@ class ProductModelforPdf{
         ],
       ),
     );
-    Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => doc.save(),
-    );
+    if(!isPdf){
+      Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save(),
+      );
+    }
     return doc.save();
   }
 

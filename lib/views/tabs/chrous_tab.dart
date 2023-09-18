@@ -751,7 +751,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateChorusPdf(PdfPageFormat.letter,choruses);
+                                      generateChorusPdf(PdfPageFormat.letter,choruses,false);
                                     },
                                     child: Container(
                                       height: 35,
@@ -828,8 +828,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ),
                                   const SizedBox(width: 10),
                                   InkWell(
-                                    onTap: () {
-                                      generateChorusPdf(PdfPageFormat.letter,choruses);
+                                    onTap: () async {
+                                      var data = await generateChorusPdf(PdfPageFormat.letter,choruses,true);
+                                      savePdfToFile(data);
                                     },
                                     child: Container(
                                       height: 35,
@@ -2456,6 +2457,15 @@ class _ChorusTabState extends State<ChorusTab> {
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
       ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "chorus.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

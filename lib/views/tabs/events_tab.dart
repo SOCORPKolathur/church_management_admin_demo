@@ -529,7 +529,7 @@ class _EventsTabState extends State<EventsTab>
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                   var data = await generateEventPdf(PdfPageFormat.letter, events);
+                                   var data = await generateEventPdf(PdfPageFormat.letter, events,false);
                                    print(data);
                                   },
                                   child: Container(
@@ -608,8 +608,8 @@ class _EventsTabState extends State<EventsTab>
                                 const SizedBox(width: 10),
                                 InkWell(
                                   onTap: () async {
-                                   //await generateEventPdf(PdfPageFormat.a4, events);
-                                    convertToPdf(events);
+                                   var data = await generateEventPdf(PdfPageFormat.a4, events,true);
+                                   savePdfToFile(data);
                                   },
                                   child: Container(
                                     height: 35,
@@ -1189,7 +1189,7 @@ class _EventsTabState extends State<EventsTab>
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    var data = await generateEventPdf(PdfPageFormat.letter, events);
+                                    var data = await generateEventPdf(PdfPageFormat.letter, events,false);
                                     print(data);
                                   },
                                   child: Container(
@@ -1268,8 +1268,9 @@ class _EventsTabState extends State<EventsTab>
                                 const SizedBox(width: 10),
                                 InkWell(
                                   onTap: () async {
-                                    convertToPdf(events);
-                                    //await generateEventPdf(PdfPageFormat.a4, events);
+                                    //convertToPdf(events);
+                                   var data = await generateEventPdf(PdfPageFormat.a4, events,true);
+                                   savePdfToFile(data);
                                   },
                                   child: Container(
                                     height: 35,
@@ -2409,11 +2410,11 @@ class _EventsTabState extends State<EventsTab>
     Url.revokeObjectUrl(url);
   }
 
-  void savePdfToFile(csvString) async {
-    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
-      ..setAttribute("download", "data.pdf")
+      ..setAttribute("download", "events.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }
