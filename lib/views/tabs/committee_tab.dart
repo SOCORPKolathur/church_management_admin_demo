@@ -5,11 +5,15 @@ import 'dart:typed_data';
 import 'package:church_management_admin/models/committee_model.dart';
 import 'package:church_management_admin/services/committee_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
+import '../prints/committee_print.dart';
 
 class CommitteeTab extends StatefulWidget {
   const CommitteeTab({super.key});
@@ -790,8 +794,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                         ),
                         Container(
                           height:
-                          size.height * 0.82 > 130 + committies.length * 210
-                              ? 130 + committies.length * 210
+                          size.height * 0.82 > 200 + committies.length * 210
+                              ? 200 + committies.length * 210
                               : size.height * 0.82,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -799,256 +803,426 @@ class _CommitteeTabState extends State<CommitteeTab> {
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
-                              )),
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: GridView.builder(
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 4.0,
-                                mainAxisSpacing: 4.0,
-                                crossAxisCount: 3,
-                                childAspectRatio: 9 / 9,
                               ),
-                              itemCount: committies.length,
-                              itemBuilder: (ctx, i) {
-                                CommitteeModel data = committies[i];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
-                                  child: SizedBox(
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 70, left: 22, right: 22),
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: double.infinity,
-                                            padding:
-                                            const EdgeInsets.only(top: 70),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                KText(
-                                                  text: data.position!,
-                                                  style: const TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 40),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 30),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generateCommitteePdf(PdfPageFormat.letter, committies, false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                                KText(
-                                                  text:
-                                                  "${data.firstName!} ${data.lastName!}",
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18,
-                                                  ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(committies);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                                KText(
-                                                  text:
-                                                  data.socialStatus!,
-                                                  style: const TextStyle(
-                                                    color: Colors.black54,
-                                                    fontSize: 13,
-                                                  ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () async {
+                                      var data = await generateCommitteePdf(PdfPageFormat.letter, committies, true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                                Center(
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(committies);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 30),
+                              Expanded(
+                                child: GridView.builder(
+                                    gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: 4.0,
+                                      mainAxisSpacing: 4.0,
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 9 / 9,
+                                    ),
+                                    itemCount: committies.length,
+                                    itemBuilder: (ctx, i) {
+                                      CommitteeModel data = committies[i];
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
+                                        child: SizedBox(
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 70, left: 22, right: 22),
+                                                child: Container(
+                                                  color: Colors.white,
+                                                  width: double.infinity,
+                                                  padding:
+                                                  const EdgeInsets.only(top: 70),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
                                                     children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          viewPopup(committies[i]);
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xff2baae4),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.remove_red_eye,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "View",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      KText(
+                                                        text: data.position!,
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 14),
+                                                      ),
+                                                      KText(
+                                                        text:
+                                                        "${data.firstName!} ${data.lastName!}",
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 18,
                                                         ),
                                                       ),
-                                                      const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            genderController.text = committies[i].gender!;
-                                                            baptizeDateController.text = committies[i].baptizeDate!;
-                                                            bloodGroupController.text = committies[i].bloodGroup!;
-                                                            departmentController.text = committies[i].department!;
-                                                            dobController.text = committies[i].dob!;
-                                                            emailController.text = committies[i].email!;
-                                                            addressController.text = committies[i].address!;
-                                                            familyController.text = committies[i].family!;
-                                                            firstNameController.text = committies[i].firstName!;
-                                                            jobController.text = committies[i].job!;
-                                                            lastNameController.text = committies[i].lastName!;
-                                                            marriageDateController.text = committies[i].marriageDate!;
-                                                            nationalityController.text = committies[i].nationality!;
-                                                            phoneController.text = committies[i].phone!;
-                                                            positionController.text = committies[i].position!;
-                                                            socialStatusController.text = committies[i].socialStatus!;
-                                                            countryController.text = committies[i].country!;
-                                                            selectedImg = committies[i].imgUrl;
-                                                          });
-                                                          editPopUp(committies[i], size);
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xffff9700),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.add,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Edit",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      KText(
+                                                        text:
+                                                        data.socialStatus!,
+                                                        style: const TextStyle(
+                                                          color: Colors.black54,
+                                                          fontSize: 13,
                                                         ),
                                                       ),
-                                                      const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          CoolAlert.show(
-                                                              context: context,
-                                                              type: CoolAlertType.info,
-                                                              text: "${committies[i].firstName} ${committies[i].lastName} will be deleted",
-                                                              title: "Delete this Record?",
-                                                              width: size.width * 0.4,
-                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              showCancelBtn: true,
-                                                              cancelBtnText: 'Cancel',
-                                                              cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                              onConfirmBtnTap: () async {
-                                                                Response res = await CommitteeFireCrud.deleteRecord(id: committies[i].id!);
-                                                              }
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xfff44236),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.cancel_outlined,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Delete",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
+                                                      Center(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                viewPopup(committies[i]);
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xff2baae4),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.remove_red_eye,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "View",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                            const SizedBox(width: 5),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  genderController.text = committies[i].gender!;
+                                                                  baptizeDateController.text = committies[i].baptizeDate!;
+                                                                  bloodGroupController.text = committies[i].bloodGroup!;
+                                                                  departmentController.text = committies[i].department!;
+                                                                  dobController.text = committies[i].dob!;
+                                                                  emailController.text = committies[i].email!;
+                                                                  addressController.text = committies[i].address!;
+                                                                  familyController.text = committies[i].family!;
+                                                                  firstNameController.text = committies[i].firstName!;
+                                                                  jobController.text = committies[i].job!;
+                                                                  lastNameController.text = committies[i].lastName!;
+                                                                  marriageDateController.text = committies[i].marriageDate!;
+                                                                  nationalityController.text = committies[i].nationality!;
+                                                                  phoneController.text = committies[i].phone!;
+                                                                  positionController.text = committies[i].position!;
+                                                                  socialStatusController.text = committies[i].socialStatus!;
+                                                                  countryController.text = committies[i].country!;
+                                                                  selectedImg = committies[i].imgUrl;
+                                                                });
+                                                                editPopUp(committies[i], size);
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xffff9700),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.add,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "Edit",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(width: 5),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                CoolAlert.show(
+                                                                    context: context,
+                                                                    type: CoolAlertType.info,
+                                                                    text: "${committies[i].firstName} ${committies[i].lastName} will be deleted",
+                                                                    title: "Delete this Record?",
+                                                                    width: size.width * 0.4,
+                                                                    backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                    showCancelBtn: true,
+                                                                    cancelBtnText: 'Cancel',
+                                                                    cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                                    onConfirmBtnTap: () async {
+                                                                      Response res = await CommitteeFireCrud.deleteRecord(id: committies[i].id!);
+                                                                    }
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xfff44236),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.cancel_outlined,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "Delete",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 25,
+                                                left: 10,
+                                                right: 10,
+                                                child: Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                      Constants().primaryAppColor,
+                                                      image: data.imgUrl != null
+                                                          ? DecorationImage(
+                                                          fit: BoxFit.contain,
+                                                          image: NetworkImage(
+                                                              data.imgUrl!))
+                                                          : null),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Positioned(
-                                          top: 25,
-                                          left: 10,
-                                          right: 10,
-                                          child: Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                Constants().primaryAppColor,
-                                                image: data.imgUrl != null
-                                                    ? DecorationImage(
-                                                    fit: BoxFit.contain,
-                                                    image: NetworkImage(
-                                                        data.imgUrl!))
-                                                    : null),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -2213,6 +2387,76 @@ class _CommitteeTabState extends State<CommitteeTab> {
         );
       },
     );
+  }
+
+  convertToCsv(List<CommitteeModel> clans) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Name");
+    row.add("Position");
+    row.add("Phone");
+    row.add("Gender");
+    rows.add(row);
+    for (int i = 0; i < clans.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("${clans[i].firstName!} ${clans[i].lastName!}");
+      row.add(clans[i].position);
+      row.add(clans[i].phone);
+      row.add(clans[i].gender);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    saveCsvToFile(csv);
+  }
+
+  void saveCsvToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "committies.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  copyToClipBoard(List<CommitteeModel> committies) async  {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("    ");
+    row.add("Name");
+    row.add("    ");
+    row.add("Position");
+    row.add("    ");
+    row.add("Phone");
+    row.add("    ");
+    row.add("Gender");
+    rows.add(row);
+    for (int i = 0; i < committies.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("       ");
+      row.add("${committies[i].firstName} ${committies[i].lastName}");
+      row.add("       ");
+      row.add(committies[i].position);
+      row.add("       ");
+      row.add(committies[i].phone);
+      row.add("       ");
+      row.add(committies[i].gender);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
 

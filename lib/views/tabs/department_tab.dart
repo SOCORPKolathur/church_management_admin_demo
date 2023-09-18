@@ -1,13 +1,17 @@
+import 'dart:html';
+import 'dart:typed_data';
 import 'package:church_management_admin/models/department_model.dart';
-import 'package:church_management_admin/models/family_model.dart';
 import 'package:church_management_admin/services/department_firecrud.dart';
-import 'package:church_management_admin/services/family_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
+import '../prints/department_print.dart';
 
 class DepartmentTab extends StatefulWidget {
   const DepartmentTab({super.key});
@@ -531,6 +535,168 @@ class _DepartmentTabState extends State<DepartmentTab> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generateDepartmentPdf(PdfPageFormat.letter, departments, false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(departments);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () async {
+                                      var data = await generateDepartmentPdf(PdfPageFormat.letter, departments, true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(departments);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 30),
                               SizedBox(
                                 child: Padding(
                                   padding: const EdgeInsets.all(0.0),
@@ -1646,6 +1812,76 @@ class _DepartmentTabState extends State<DepartmentTab> {
         );
       },
     );
+  }
+
+  convertToCsv(List<DepartmentModel> departments) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Name");
+    row.add("Leader name");
+    row.add("Phone");
+    row.add("Area");
+    rows.add(row);
+    for (int i = 0; i < departments.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add(departments[i].name!);
+      row.add(departments[i].leaderName);
+      row.add(departments[i].contactNumber);
+      row.add(departments[i].zone);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    saveCsvToFile(csv);
+  }
+
+  void saveCsvToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Departments.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  copyToClipBoard(List<DepartmentModel> departments) async  {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("    ");
+    row.add("Name");
+    row.add("    ");
+    row.add("Leader name");
+    row.add("    ");
+    row.add("Phone");
+    row.add("    ");
+    row.add("Area");
+    rows.add(row);
+    for (int i = 0; i < departments.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("       ");
+      row.add(departments[i].name);
+      row.add("       ");
+      row.add(departments[i].leaderName);
+      row.add("       ");
+      row.add(departments[i].contactNumber);
+      row.add("       ");
+      row.add(departments[i].zone);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
   final snackBar = SnackBar(

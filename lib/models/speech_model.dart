@@ -69,4 +69,19 @@ class SpeechModel {
     data['whatsapp'] = this.whatsapp;
     return data;
   }
+
+  String getIndex(int index,int row) {
+    switch (index) {
+      case 0:
+        return (row + 1).toString();
+      case 1:
+        return "${firstName!} ${lastName!}";
+      case 2:
+        return position!;
+      case 3:
+        return speech!;
+    }
+    return '';
+  }
+
 }

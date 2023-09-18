@@ -53,4 +53,21 @@ class DepartmentModel {
     data['zone'] = this.zone;
     return data;
   }
+
+  String getIndex(int index,int row) {
+    switch (index) {
+      case 0:
+        return (row + 1).toString();
+      case 1:
+        return name!;
+      case 2:
+        return leaderName!;
+      case 3:
+        return contactNumber!.toString();
+      case 4:
+        return zone!;
+    }
+    return '';
+  }
+
 }

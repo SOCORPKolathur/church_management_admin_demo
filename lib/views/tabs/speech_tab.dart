@@ -4,12 +4,16 @@ import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:church_management_admin/models/speech_model.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../services/speech_firecrud.dart';
 import '../../widgets/kText.dart';
+import '../prints/speech_print.dart';
 
 class SpeechTab extends StatefulWidget {
   const SpeechTab({super.key});
@@ -663,8 +667,8 @@ class _SpeechTabState extends State<SpeechTab> {
                         ),
                         Container(
                           height:
-                              size.height * 0.82 > 230 + speechList.length * 80
-                                  ? 230 + speechList.length * 80
+                              size.height * 0.82 > 270 + speechList.length * 80
+                                  ? 270 + speechList.length * 80
                                   : size.height * 0.82,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -674,248 +678,417 @@ class _SpeechTabState extends State<SpeechTab> {
                                 bottomRight: Radius.circular(10),
                               )),
                           padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 4.0,
-                                mainAxisSpacing: 4.0,
-                                crossAxisCount: 3,
-                                childAspectRatio: 9 / 9,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 30),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generateSpeechPdf(PdfPageFormat.letter, speechList, false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(speechList);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () async {
+                                      var data = await generateSpeechPdf(PdfPageFormat.letter, speechList, true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(speechList);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              itemCount: speechList.length,
-                              itemBuilder: (ctx, i) {
-                                SpeechModel data = speechList[i];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
-                                  child: SizedBox(
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 70, left: 22, right: 22),
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: double.infinity,
-                                            padding:
-                                                const EdgeInsets.only(top: 70),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                KText(
-                                                  text: data.position!,
-                                                  style: const TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14),
-                                                ),
-                                                KText(
-                                                  text:
-                                                      "${data.firstName!} ${data.lastName!}",
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 60,
+                              const SizedBox(height: 30),
+                              Expanded(
+                                child: GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: 4.0,
+                                      mainAxisSpacing: 4.0,
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 9 / 9,
+                                    ),
+                                    itemCount: speechList.length,
+                                    itemBuilder: (ctx, i) {
+                                      SpeechModel data = speechList[i];
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
+                                        child: SizedBox(
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 70, left: 22, right: 22),
+                                                child: Container(
+                                                  color: Colors.white,
                                                   width: double.infinity,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: KText(
-                                                      text:
-                                                      data.speech!,
-                                                      style: const TextStyle(
-                                                        color: Colors.black54,
-                                                        fontSize: 13,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                  padding:
+                                                      const EdgeInsets.only(top: 70),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.spaceEvenly,
                                                     children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          viewPopup(speechList[i]);
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xff2baae4),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.remove_red_eye,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "View",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                      KText(
+                                                        text: data.position!,
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 14),
+                                                      ),
+                                                      KText(
+                                                        text:
+                                                            "${data.firstName!} ${data.lastName!}",
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 60,
+                                                        width: double.infinity,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: KText(
+                                                            text:
+                                                            data.speech!,
+                                                            style: const TextStyle(
+                                                              color: Colors.black54,
+                                                              fontSize: 13,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            firstNameController.text = speechList[i].firstName!;
-                                                            lastNameController.text = speechList[i].lastName!;
-                                                            positionController.text = speechList[i].position!;
-                                                            speechController.text = speechList[i].speech!;
-                                                            selectedImg = speechList[i].imgUrl;
-                                                          });
-                                                          editPopUp(speechList[i], size);
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xffff9700),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.add,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Edit",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
+                                                      Center(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                viewPopup(speechList[i]);
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xff2baae4),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.remove_red_eye,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "View",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          CoolAlert.show(
-                                                              context: context,
-                                                              type: CoolAlertType.info,
-                                                              text: "${speechList[i].firstName} ${speechList[i].lastName} will be deleted",
-                                                              title: "Delete this Record?",
-                                                              width: size.width * 0.4,
-                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              showCancelBtn: true,
-                                                              cancelBtnText: 'Cancel',
-                                                              cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                              onConfirmBtnTap: () async {
-                                                                Response res = await SpeechFireCrud.deleteRecord(id: speechList[i].id!);
-                                                              }
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xfff44236),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.cancel_outlined,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Delete",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
+                                                            const SizedBox(width: 5),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  firstNameController.text = speechList[i].firstName!;
+                                                                  lastNameController.text = speechList[i].lastName!;
+                                                                  positionController.text = speechList[i].position!;
+                                                                  speechController.text = speechList[i].speech!;
+                                                                  selectedImg = speechList[i].imgUrl;
+                                                                });
+                                                                editPopUp(speechList[i], size);
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xffff9700),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.add,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "Edit",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                            const SizedBox(width: 5),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                CoolAlert.show(
+                                                                    context: context,
+                                                                    type: CoolAlertType.info,
+                                                                    text: "${speechList[i].firstName} ${speechList[i].lastName} will be deleted",
+                                                                    title: "Delete this Record?",
+                                                                    width: size.width * 0.4,
+                                                                    backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                    showCancelBtn: true,
+                                                                    cancelBtnText: 'Cancel',
+                                                                    cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                                    onConfirmBtnTap: () async {
+                                                                      Response res = await SpeechFireCrud.deleteRecord(id: speechList[i].id!);
+                                                                    }
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xfff44236),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.cancel_outlined,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "Delete",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 25,
+                                                left: 10,
+                                                right: 10,
+                                                child: Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                          Constants().primaryAppColor,
+                                                      image: data.imgUrl != null
+                                                          ? DecorationImage(
+                                                              fit: BoxFit.contain,
+                                                              image: NetworkImage(
+                                                                  data.imgUrl!))
+                                                          : null),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Positioned(
-                                          top: 25,
-                                          left: 10,
-                                          right: 10,
-                                          child: Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                    Constants().primaryAppColor,
-                                                image: data.imgUrl != null
-                                                    ? DecorationImage(
-                                                        fit: BoxFit.contain,
-                                                        image: NetworkImage(
-                                                            data.imgUrl!))
-                                                    : null),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -1708,6 +1881,70 @@ class _SpeechTabState extends State<SpeechTab> {
         );
       },
     );
+  }
+
+  convertToCsv(List<SpeechModel> speeches) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Name");
+    row.add("Position");
+    row.add("Speech");
+    rows.add(row);
+    for (int i = 0; i < speeches.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("${speeches[i].firstName!} ${speeches[i].lastName!}");
+      row.add(speeches[i].position);
+      row.add(speeches[i].speech);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    saveCsvToFile(csv);
+  }
+
+  void saveCsvToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Speeches.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  copyToClipBoard(List<SpeechModel> speeches) async  {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("    ");
+    row.add("Name");
+    row.add("    ");
+    row.add("Position");
+    row.add("    ");
+    row.add("Speech");
+    rows.add(row);
+    for (int i = 0; i < speeches.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("       ");
+      row.add("${speeches[i].firstName} ${speeches[i].lastName}");
+      row.add("       ");
+      row.add(speeches[i].position);
+      row.add("       ");
+      row.add(speeches[i].speech);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
   final snackBar = SnackBar(
