@@ -16,6 +16,13 @@ class AttendanceRecordFireCrud {
           .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<AttendanceRecordModel>> fetchAttendancesWithFilter(String date) =>
+      AttendanceCollection
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addAttendance({
     required List<Attendance> attendanceList,
   }) async {

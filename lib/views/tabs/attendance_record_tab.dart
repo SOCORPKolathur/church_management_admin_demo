@@ -21,7 +21,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
   TextEditingController nameController = TextEditingController();
   List<Attendance> attendanceList = [];
   bool markAttendance = false;
-  TextEditingController searchDateController = TextEditingController(text: '15/9/2023');
+  TextEditingController searchDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +298,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                                 attendanceList);
                                                 if (response.code == 200) {
                                                   setState(() {
-                                                    markAttendance = true;
+                                                    markAttendance = false;
                                                   });
                                                   CoolAlert.show(
                                                       context: context,
@@ -363,7 +363,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                     },
                   )
                 : StreamBuilder(
-                    stream: AttendanceRecordFireCrud.fetchAttendances(),
+                    stream: AttendanceRecordFireCrud.fetchAttendancesWithFilter(searchDateController.text),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
                         return Container();
@@ -409,25 +409,54 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Container(
-                                        height: 35,
-                                        width: 200,
-                                        decoration: BoxDecoration(
-                                          color: Constants().primaryAppColor,
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                        ),
-                                        child: TextField(
-                                          decoration: InputDecoration(
-
+                                      Material(
+                                        elevation: 2,
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Container(
+                                          height: 35,
+                                          width: 200,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                            BorderRadius.circular(10),
                                           ),
-                                        )
+                                          child: TextField(
+                                            onChanged: (val){
+                                              setState(() {
+                                                searchDateController.text = val;
+                                              });
+                                            },
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: 'ex: 12/9/2000',
+                                              contentPadding: EdgeInsets.only(top: 3,bottom: 10,left: 10)
+                                            ),
+                                          )
+                                        ),
                                       )
                                     ],
                                   ),
                                 ),
                               ),
-                              Container(
+                              attendances.isEmpty ? Container(
+                                height: 130,
+                                width: double.infinity,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    )),
+                                child: Center(
+                                  child: Text(
+                                    "No records found in this date!!",
+                                    style: GoogleFonts.openSans(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ) : Container(
                                 height: size.height * 0.7 >
                                         70 + attendances.length * 60
                                     ? 70 + attendances.length * 60
