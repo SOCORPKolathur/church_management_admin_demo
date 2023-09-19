@@ -5,11 +5,15 @@ import 'dart:typed_data';
 import 'package:church_management_admin/models/pastors_model.dart';
 import 'package:church_management_admin/services/pastors_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
+import '../prints/pastors_print.dart';
 
 class PastorsTab extends StatefulWidget {
   const PastorsTab({super.key});
@@ -787,8 +791,8 @@ class _PastorsTabState extends State<PastorsTab> {
                         ),
                         Container(
                           height:
-                          size.height * 0.82 > 150 + pastors.length * 210
-                              ? 150 + pastors.length * 210
+                          size.height * 0.82 > 180 + pastors.length * 210
+                              ? 180 + pastors.length * 210
                               : size.height * 0.82,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -798,253 +802,422 @@ class _PastorsTabState extends State<PastorsTab> {
                                 bottomRight: Radius.circular(10),
                               )),
                           padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: GridView.builder(
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 4.0,
-                                mainAxisSpacing: 4.0,
-                                crossAxisCount: 3,
-                                childAspectRatio: 9 / 9,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generatePastorPdf(PdfPageFormat.letter, pastors,false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(pastors);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () async {
+                                      var data = await generatePastorPdf(PdfPageFormat.letter, pastors,true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(pastors);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              itemCount: pastors.length,
-                              itemBuilder: (ctx, i) {
-                                PastorsModel data = pastors[i];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
-                                  child: SizedBox(
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 70, left: 22, right: 22),
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: double.infinity,
-                                            padding:
-                                            const EdgeInsets.only(top: 70),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                KText(
-                                                  text: data.position!,
-                                                  style: const TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14),
-                                                ),
-                                                Text(
-                                                  "${data.firstName!} ${data.lastName!}",
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                                KText(
-                                                  text:
-                                                  data.socialStatus!,
-                                                  style: const TextStyle(
-                                                    color: Colors.black54,
-                                                    fontSize: 13,
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                              const SizedBox(height: 30),
+                              Expanded(
+                                child: GridView.builder(
+                                    gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: 4.0,
+                                      mainAxisSpacing: 4.0,
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 9 / 9,
+                                    ),
+                                    itemCount: pastors.length,
+                                    itemBuilder: (ctx, i) {
+                                      PastorsModel data = pastors[i];
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
+                                        child: SizedBox(
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 70, left: 22, right: 22),
+                                                child: Container(
+                                                  color: Colors.white,
+                                                  width: double.infinity,
+                                                  padding:
+                                                  const EdgeInsets.only(top: 70),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
                                                     children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          viewPopup(pastors[i]);
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xff2baae4),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.remove_red_eye,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "View",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      KText(
+                                                        text: data.position!,
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 14),
+                                                      ),
+                                                      Text(
+                                                        "${data.firstName!} ${data.lastName!}",
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 18,
                                                         ),
                                                       ),
-                                                      const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            baptizeDateController.text = pastors[i].baptizeDate!;
-                                                            bloodGroupController.text = pastors[i].bloodGroup!;
-                                                            departmentController.text = pastors[i].department!;
-                                                            dobController.text = pastors[i].dob!;
-                                                            emailController.text = pastors[i].email!;
-                                                            familyController.text = pastors[i].family!;
-                                                            firstNameController.text = pastors[i].firstName!;
-                                                            jobController.text = pastors[i].job!;
-                                                            lastNameController.text = pastors[i].lastName!;
-                                                            marriageDateController.text = pastors[i].marriageDate!;
-                                                            nationalityController.text = pastors[i].nationality!;
-                                                            phoneController.text = pastors[i].phone!;
-                                                            positionController.text = pastors[i].position!;
-                                                            socialStatusController.text = pastors[i].socialStatus!;
-                                                            countryController.text = pastors[i].country!;
-                                                            addressController.text = pastors[i].address!;
-                                                            genderController.text = pastors[i].gender!;
-                                                            selectedImg = pastors[i].imgUrl;
-                                                          });
-                                                          editPopUp(pastors[i], size);
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xffff9700),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.add,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Edit",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      KText(
+                                                        text:
+                                                        data.socialStatus!,
+                                                        style: const TextStyle(
+                                                          color: Colors.black54,
+                                                          fontSize: 13,
                                                         ),
                                                       ),
-                                                      const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          CoolAlert.show(
-                                                              context: context,
-                                                              type: CoolAlertType.info,
-                                                              text: "${pastors[i].firstName} ${pastors[i].lastName} will be deleted",
-                                                              title: "Delete this Record?",
-                                                              width: size.width * 0.4,
-                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              showCancelBtn: true,
-                                                              cancelBtnText: 'Cancel',
-                                                              cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                              onConfirmBtnTap: () async {
-                                                                Response res = await PastorsFireCrud.deleteRecord(id: pastors[i].id!);
-                                                              }
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xfff44236),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.cancel_outlined,
-                                                                    color: Colors.white,
-                                                                    size: 15,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Delete",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: 10,
-                                                                      fontWeight: FontWeight.bold,
+                                                      Center(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                viewPopup(pastors[i]);
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xff2baae4),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.remove_red_eye,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "View",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                            const SizedBox(width: 5),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  baptizeDateController.text = pastors[i].baptizeDate!;
+                                                                  bloodGroupController.text = pastors[i].bloodGroup!;
+                                                                  departmentController.text = pastors[i].department!;
+                                                                  dobController.text = pastors[i].dob!;
+                                                                  emailController.text = pastors[i].email!;
+                                                                  familyController.text = pastors[i].family!;
+                                                                  firstNameController.text = pastors[i].firstName!;
+                                                                  jobController.text = pastors[i].job!;
+                                                                  lastNameController.text = pastors[i].lastName!;
+                                                                  marriageDateController.text = pastors[i].marriageDate!;
+                                                                  nationalityController.text = pastors[i].nationality!;
+                                                                  phoneController.text = pastors[i].phone!;
+                                                                  positionController.text = pastors[i].position!;
+                                                                  socialStatusController.text = pastors[i].socialStatus!;
+                                                                  countryController.text = pastors[i].country!;
+                                                                  addressController.text = pastors[i].address!;
+                                                                  genderController.text = pastors[i].gender!;
+                                                                  selectedImg = pastors[i].imgUrl;
+                                                                });
+                                                                editPopUp(pastors[i], size);
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xffff9700),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.add,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "Edit",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(width: 5),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                CoolAlert.show(
+                                                                    context: context,
+                                                                    type: CoolAlertType.info,
+                                                                    text: "${pastors[i].firstName} ${pastors[i].lastName} will be deleted",
+                                                                    title: "Delete this Record?",
+                                                                    width: size.width * 0.4,
+                                                                    backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                    showCancelBtn: true,
+                                                                    cancelBtnText: 'Cancel',
+                                                                    cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                                    onConfirmBtnTap: () async {
+                                                                      Response res = await PastorsFireCrud.deleteRecord(id: pastors[i].id!);
+                                                                    }
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                height: 25,
+                                                                decoration: const BoxDecoration(
+                                                                  color: Color(0xfff44236),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 6),
+                                                                  child: Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.cancel_outlined,
+                                                                          color: Colors.white,
+                                                                          size: 15,
+                                                                        ),
+                                                                        KText(
+                                                                          text: "Delete",
+                                                                          style: GoogleFonts.openSans(
+                                                                            color: Colors.white,
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 25,
+                                                left: 10,
+                                                right: 10,
+                                                child: Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                      Constants().primaryAppColor,
+                                                      image: data.imgUrl != null
+                                                          ? DecorationImage(
+                                                          fit: BoxFit.contain,
+                                                          image: NetworkImage(
+                                                              data.imgUrl!))
+                                                          : null),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Positioned(
-                                          top: 25,
-                                          left: 10,
-                                          right: 10,
-                                          child: Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                Constants().primaryAppColor,
-                                                image: data.imgUrl != null
-                                                    ? DecorationImage(
-                                                    fit: BoxFit.contain,
-                                                    image: NetworkImage(
-                                                        data.imgUrl!))
-                                                    : null),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -2199,6 +2372,81 @@ class _PastorsTabState extends State<PastorsTab> {
         );
       },
     );
+  }
+
+  convertToCsv(List<PastorsModel> pastors) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Name");
+    row.add("Profession");
+    row.add("Phone");
+    row.add("Locality");
+    rows.add(row);
+    for (int i = 0; i < pastors.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("${pastors[i].firstName!} ${pastors[i].lastName!}");
+      row.add(pastors[i].position);
+      row.add(pastors[i].phone);
+      row.add(pastors[i].nationality);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    saveCsvToFile(csv);
+  }
+
+  void saveCsvToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "data.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Pastors.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  copyToClipBoard(List<PastorsModel> pastors) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("    ");
+    row.add("Name");
+    row.add("    ");
+    row.add("Profession");
+    row.add("    ");
+    row.add("Phone");
+    row.add("    ");
+    row.add("Locality");
+    rows.add(row);
+    for (int i = 0; i < pastors.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("       ");
+      row.add("${pastors[i].firstName} ${pastors[i].lastName}");
+      row.add("       ");
+      row.add(pastors[i].position);
+      row.add("       ");
+      row.add(pastors[i].phone);
+      row.add("       ");
+      row.add(pastors[i].nationality);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows,
+        fieldDelimiter: null,
+        eol: null,
+        textEndDelimiter: null,
+        delimitAllFields: false,
+        textDelimiter: null);
+    await Clipboard.setData(ClipboardData(text: csv.replaceAll(",", "")));
   }
   
   final snackBar = SnackBar(

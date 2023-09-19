@@ -1,5 +1,6 @@
 class MembersModel {
   String? id;
+  String? memberId;
   num? timestamp;
   String? firstName;
   String? lastName;
@@ -25,6 +26,7 @@ class MembersModel {
       {this.id,
         this.firstName,
         this.lastName,
+        this.memberId,
         this.timestamp,
         this.phone,
         this.gender,
@@ -46,6 +48,7 @@ class MembersModel {
 
   MembersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    memberId = json['memberId'];
     timestamp = json['timestamp'];
     gender = json['gender'];
     address = json['address'];
@@ -71,6 +74,7 @@ class MembersModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['memberId'] = this.memberId;
     data['timestamp'] = this.timestamp;
     data['baptizemCertificate'] = this.baptizemCertificate;
     data['gender'] = this.gender;

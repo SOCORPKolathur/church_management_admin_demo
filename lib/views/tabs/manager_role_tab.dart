@@ -605,7 +605,56 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(width: 250)
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Blood Requirement"),
+                                            onChanged: (val) {
+                                              updateRole("Blood Requirement", rolesList.contains("Blood Requirement"),managerRole.id!);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Blood Requirement",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Social Media"),
+                                            onChanged: (val) {
+                                              updateRole("Social Media", rolesList.contains("Social Media"),managerRole.id!);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Website & Social Media",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                        width: 250
+                                    ),
+                                    const SizedBox(
+                                        width: 250
+                                    ),
+                                    const SizedBox(
+                                      width: 250
+                                    ),
                                   ],
                                 ),
                               ],

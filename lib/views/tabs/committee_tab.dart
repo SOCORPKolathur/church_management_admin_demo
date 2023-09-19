@@ -86,7 +86,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
               ),
             ),
             Container(
-              height: size.height * 1.77,
+              height: size.height * 1.79,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(

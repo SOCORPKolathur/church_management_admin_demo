@@ -14,6 +14,16 @@ class PrayersFireCrud {
           PrayersModel.fromJson(doc.data() as Map<String,dynamic>)).toList()
   );
 
+  static Stream<List<PrayersModel>> fetchPrayersWithFilter(DateTime start, DateTime end) =>
+      PrayerCollection
+          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
+          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
+          .orderBy("timestamp", descending: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => PrayersModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addPrayer({
     required String title,
     required String date,

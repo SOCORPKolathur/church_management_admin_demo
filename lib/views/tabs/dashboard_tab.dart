@@ -846,6 +846,92 @@ class _DashBoardTabState extends State<DashBoardTab> {
                             ],
                           ),
                         ),
+                        SizedBox(height: size.height * 0.02),
+                        Container(
+                          height: 100,
+                          width: 980,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xffE0E0E0)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 15),
+                              CircleAvatar(
+                                backgroundColor: const Color(0xffFFE1F7),
+                                radius: 35,
+                                child: SvgPicture.asset("assets/ph_student-bold.svg"),
+                              ),
+                              const SizedBox(width: 15),
+                              Container(
+                                height: size.height * 0.06,
+                                width: 1,
+                                color: const Color(0xffE0A700),
+                              ),
+                              const SizedBox(width: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  KText(
+                                    text: "Today's Birthday Count",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      color: const Color(0xff121843),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  KText(
+                                    text:
+                                    dashboard.birthdayCount ?? 0.toString(),
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 15),
+                              CircleAvatar(
+                                backgroundColor: const Color(0xffFFF495),
+                                radius: 35,
+                                child: SvgPicture.asset(
+                                    "assets/fluent_people-28-regular.svg"),
+                              ),
+                              const SizedBox(width: 15),
+                              Container(
+                                height: size.height * 0.06,
+                                width: 1,
+                                color: const Color(0xffE0A700),
+                              ),
+                              const SizedBox(width: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  KText(
+                                    text: "Today's Anniversary Count",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      color: const Color(0xff121843),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  KText(
+                                    text:
+                                    dashboard.annivarsaryCount ?? 0.toString(),
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

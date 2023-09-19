@@ -6,6 +6,7 @@ import 'package:church_management_admin/services/members_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
@@ -23,6 +24,7 @@ class MembersTab extends StatefulWidget {
 }
 
 class _MembersTabState extends State<MembersTab> {
+  TextEditingController memberIdController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -85,6 +87,21 @@ class _MembersTabState extends State<MembersTab> {
       });
       setState(() {});
     });
+  }
+
+  setMemberId() async {
+    var document = await cf.FirebaseFirestore.instance.collection('Members').get();
+    int lastId = document.docs.length + 1;
+    String studentId = lastId.toString().padLeft(6,'0');
+    setState((){
+      memberIdController.text = studentId;
+    });
+  }
+
+  @override
+  void initState() {
+    setMemberId();
+    super.initState();
   }
 
   @override
@@ -259,6 +276,27 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
+                                      text: "Member ID",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: memberIdController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
                                       text: "Firstname",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
@@ -291,42 +329,6 @@ class _MembersTabState extends State<MembersTab> {
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
                                     )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Gender",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      value: genderController.text,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
-                                      items: [
-                                        "Select Gender",
-                                        "Male",
-                                        "Female"
-                                      ].map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          genderController.text = newValue!;
-                                        });
-                                      },
-                                    ),
                                   ],
                                 ),
                               ),
@@ -373,6 +375,42 @@ class _MembersTabState extends State<MembersTab> {
                                       style: const TextStyle(fontSize: 12),
                                       controller: emailController,
                                     )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Gender",
+                                        "Male",
+                                        "Female"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -686,6 +724,7 @@ class _MembersTabState extends State<MembersTab> {
                                       socialStatusController.text != "") {
                                     Response response =
                                         await MembersFireCrud.addMember(
+                                          membersId: memberIdController.text,
                                       image: profileImage!,
                                       document: documentForUpload,
                                       address: addressController.text,
@@ -715,6 +754,7 @@ class _MembersTabState extends State<MembersTab> {
                                           backgroundColor: Constants()
                                               .primaryAppColor
                                               .withOpacity(0.8));
+                                      setMemberId();
                                       setState(() {
                                         uploadedImage = null;
                                         profileImage = null;
@@ -1032,6 +1072,16 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: 100,
                                         child: KText(
+                                          text: "Member ID",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 90,
+                                        child: KText(
                                           text: "Photo",
                                           style: GoogleFonts.poppins(
                                             fontSize: 13,
@@ -1050,7 +1100,7 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width: 120,
                                         child: KText(
                                           text: "Position",
                                           style: GoogleFonts.poppins(
@@ -1060,7 +1110,7 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width: 140,
                                         child: KText(
                                           text: "Phone",
                                           style: GoogleFonts.poppins(
@@ -1070,7 +1120,7 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width: 130,
                                         child: KText(
                                           text: "Country",
                                           style: GoogleFonts.poppins(
@@ -1131,6 +1181,16 @@ class _MembersTabState extends State<MembersTab> {
                                             ),
                                             SizedBox(
                                               width: 100,
+                                              child: KText(
+                                                text: members[i].memberId!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 90,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -1155,7 +1215,7 @@ class _MembersTabState extends State<MembersTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width: 140,
                                               child: KText(
                                                 text: members[i].position!,
                                                 style: GoogleFonts.poppins(
@@ -1165,7 +1225,7 @@ class _MembersTabState extends State<MembersTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width: 120,
                                               child: KText(
                                                 text: members[i].phone!,
                                                 style: GoogleFonts.poppins(
@@ -1175,7 +1235,7 @@ class _MembersTabState extends State<MembersTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width: 130,
                                               child: KText(
                                                 text: members[i].country!,
                                                 style: GoogleFonts.poppins(

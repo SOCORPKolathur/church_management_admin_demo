@@ -10,6 +10,8 @@ class DashboardModel {
   String? totalStudents;
   String? totalMembers;
   String? totalChorus;
+  String? birthdayCount;
+  String? annivarsaryCount;
 
   DashboardModel(
       {this.totalCollect,
@@ -20,6 +22,8 @@ class DashboardModel {
         this.totalPastors,
         this.totalClans,
         this.totalStaffs,
+        this.birthdayCount,
+        this.annivarsaryCount,
         this.totalStudents,
         this.totalMembers,
         this.totalChorus});
@@ -27,6 +31,8 @@ class DashboardModel {
   DashboardModel.fromJson(Map<String, dynamic> json) {
     totalCollect = json['totalCollect'];
     totalSpend = json['totalSpend'];
+    birthdayCount = json['birthdayCount'];
+    annivarsaryCount = json['annivarsaryCount'];
     currentBalance = json['currentBalance'];
     totalUsers = json['totalUsers'];
     totalCommite = json['totalCommite'];
@@ -41,6 +47,8 @@ class DashboardModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['totalCollect'] = this.totalCollect;
+    data['birthdayCount'] = this.birthdayCount;
+    data['annivarsaryCount'] = this.annivarsaryCount;
     data['totalSpend'] = this.totalSpend;
     data['currentBalance'] = this.currentBalance;
     data['totalUsers'] = this.totalUsers;

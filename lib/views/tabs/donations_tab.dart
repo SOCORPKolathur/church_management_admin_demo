@@ -1,5 +1,7 @@
 import 'package:church_management_admin/models/donation_model.dart';
 import 'package:church_management_admin/services/donation_firecrud.dart';
+import 'package:church_management_admin/services/fund_manage_firecrud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -326,6 +328,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                       verifier: verifierController.text,
                                       via: viaController.text,
                                     );
+                                    var document = await FirebaseFirestore.instance.collection('Funds').get();
+                                    var fund = FirebaseFirestore.instance.collection('Funds').doc("x18zE9lNxDto7AXHlXDA").update({
+                                      "currentBalance": document.docs.first.get('currentBalance') + double.parse(amountController.text),
+                                      "totalCollect": document.docs.first.get('totalCollect') + double.parse(amountController.text),
+                                    });
                                     if (response.code == 200) {
                                       CoolAlert.show(
                                           context: context,

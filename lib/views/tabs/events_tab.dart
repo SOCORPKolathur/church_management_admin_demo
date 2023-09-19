@@ -727,7 +727,7 @@ class _EventsTabState extends State<EventsTab>
                                     SizedBox(
                                       width: 150,
                                       child: KText(
-                                        text: "Time",
+                                        text: "Views",
                                         style: GoogleFonts.poppins(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -830,7 +830,7 @@ class _EventsTabState extends State<EventsTab>
                                           SizedBox(
                                             width: 150,
                                             child: KText(
-                                              text: events[i].time!,
+                                              text: events[i].views!.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -1388,7 +1388,7 @@ class _EventsTabState extends State<EventsTab>
                                     SizedBox(
                                       width: 150,
                                       child: KText(
-                                        text: "Time",
+                                        text: "Views",
                                         style: GoogleFonts.poppins(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -1491,7 +1491,7 @@ class _EventsTabState extends State<EventsTab>
                                           SizedBox(
                                             width: 150,
                                             child: KText(
-                                              text: events[i].time!,
+                                              text: events[i].views!.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,

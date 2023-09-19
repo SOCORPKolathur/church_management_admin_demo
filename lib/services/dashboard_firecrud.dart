@@ -15,8 +15,14 @@ final CollectionReference memberCollection = firestore.collection('Members');
 final CollectionReference fundCollection = firestore.collection('Funds');
 
 class DashboardFireCrud {
+
+
   static Future<DashboardModel> fetchDashBoard() async {
     DashboardModel dashboard = DashboardModel();
+    int birthdayCount = 0;
+    int annivasaryCount = 0;
+    // int birthdayCount = await userCollection.where("dob", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}").snapshots().length;
+    // int annivasaryCount = await userCollection.where("anniversaryDate", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}").snapshots().length;
     int totalUsers = await userCollection.get().then((value) => value.size);
     int totalCommittee =
         await committeeCollection.get().then((value) => value.size);
@@ -37,6 +43,8 @@ class DashboardFireCrud {
       currentBalance: currentBalance.toString(),
       totalChorus: totalChorus.toString(),
       totalClans: totalClans.toString(),
+      annivarsaryCount: annivasaryCount.toString(),
+      birthdayCount: birthdayCount.toString(),
       totalCollect: totalCollect.toString(),
       totalCommite: totalCommittee.toString(),
       totalMembers: totalMembers.toString(),

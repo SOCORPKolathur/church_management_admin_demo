@@ -30,6 +30,10 @@ class _PrayersTabState extends State<PrayersTab> {
   DateTime selectedDate = DateTime.now();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
+  DateTime? dateRangeStart;
+  DateTime? dateRangeEnd;
+  bool isFiltered= false;
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -354,8 +358,8 @@ class _PrayersTabState extends State<PrayersTab> {
                 ],
               ),
             ),
-            StreamBuilder(
-              stream: PrayersFireCrud.fetchPrayers(),
+            dateRangeStart != null ? StreamBuilder(
+              stream: PrayersFireCrud.fetchPrayersWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -394,6 +398,42 @@ class _PrayersTabState extends State<PrayersTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isFiltered = false;
+                                      dateRangeStart = null;
+                                      dateRangeEnd = null;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Center(
+                                        child: KText(
+                                          text: "Clear Filter",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -600,7 +640,17 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 450,
+                                        width: 200,
+                                        child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 250,
                                         child: KText(
                                           text: "Description",
                                           style: GoogleFonts.poppins(
@@ -670,7 +720,17 @@ class _PrayersTabState extends State<PrayersTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 450,
+                                              width: 200,
+                                              child: KText(
+                                                text: prayers[i].date!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 250,
                                               child: KText(
                                                 text: prayers[i].description!,
                                                 style: GoogleFonts.poppins(
@@ -787,6 +847,513 @@ class _PrayersTabState extends State<PrayersTab> {
                                                   )
                                                 ],
                                               )
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              },
+            ) : StreamBuilder(
+              stream: PrayersFireCrud.fetchPrayers(),
+              builder: (ctx, snapshot) {
+                if (snapshot.hasError) {
+                  return Container();
+                } else if (snapshot.hasData) {
+                  List<PrayersModel> prayers = snapshot.data!;
+                  return Container(
+                    width: 1100,
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Constants().primaryAppColor,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(1, 2),
+                          blurRadius: 3,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.1,
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                KText(
+                                  text: "All Requests (${prayers.length})",
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    var result = await filterPopUp();
+                                    if(result){
+                                      setState(() {
+                                        isFiltered = true;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Center(
+                                        child: KText(
+                                          text: "Filter",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: size.height * 0.7 > 130 + prayers.length * 60 ? 130 + prayers.length * 60 : size.height * 0.7,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              )),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generatePrayerPdf(PdfPageFormat.letter, prayers,false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(prayers);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: ()  async {
+                                      var data = await generatePrayerPdf(PdfPageFormat.letter, prayers,true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(prayers);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 30),
+                              SizedBox(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
+                                        child: KText(
+                                          text: "No.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 200,
+                                        child: KText(
+                                          text: "Title",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 200,
+                                        child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 250,
+                                        child: KText(
+                                          text: "Description",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 250,
+                                        child: KText(
+                                          text: "Actions",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: prayers.length,
+                                  itemBuilder: (ctx, i) {
+                                    return Container(
+                                      height: 60,
+                                      width: double.infinity,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Color(0xfff1f1f1),
+                                            width: 0.5,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Color(0xfff1f1f1),
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 100,
+                                              child: KText(
+                                                text: (i + 1).toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 200,
+                                              child: KText(
+                                                text: prayers[i].title!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 200,
+                                              child: KText(
+                                                text: prayers[i].date!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 250,
+                                              child: KText(
+                                                text: prayers[i].description!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width: 250,
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          titleController.text = prayers[i].title!;
+                                                          descriptionController.text = prayers[i].description!;
+                                                        });
+                                                        editPopUp(prayers[i],size);
+                                                      },
+                                                      child: Container(
+                                                        height: 25,
+                                                        decoration: const BoxDecoration(
+                                                          color: Color(0xffff9700),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.black26,
+                                                              offset: Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 6),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons.add,
+                                                                  color: Colors.white,
+                                                                  size: 15,
+                                                                ),
+                                                                KText(
+                                                                  text: "Edit",
+                                                                  style: GoogleFonts.openSans(
+                                                                    color: Colors.white,
+                                                                    fontSize: 10,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        CoolAlert.show(
+                                                            context: context,
+                                                            type: CoolAlertType.info,
+                                                            text: "${prayers[i].title} will be deleted",
+                                                            title: "Delete this Record?",
+                                                            width: size.width * 0.4,
+                                                            backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                            showCancelBtn: true,
+                                                            cancelBtnText: 'Cancel',
+                                                            cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                            onConfirmBtnTap: () async {
+                                                              Response res = await PrayersFireCrud.deleteRecord(id: prayers[i].id!);
+                                                            }
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        height: 25,
+                                                        decoration: const BoxDecoration(
+                                                          color: Color(0xfff44236),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.black26,
+                                                              offset: Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 6),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons.cancel_outlined,
+                                                                  color: Colors.white,
+                                                                  size: 15,
+                                                                ),
+                                                                KText(
+                                                                  text: "Delete",
+                                                                  style: GoogleFonts.openSans(
+                                                                    color: Colors.white,
+                                                                    fontSize: 10,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
                                             ),
                                           ],
                                         ),
@@ -1046,7 +1613,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         controller: descriptionController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: "Lucky",
+                                          hintText: "",
                                           hintStyle: GoogleFonts.openSans(
                                             fontSize: 14,
                                           ),
@@ -1127,6 +1694,239 @@ class _PrayersTabState extends State<PrayersTab> {
     }
     String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
+  }
+
+  filterPopUp() {
+    Size size = MediaQuery.of(context).size;
+    return showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+            builder: (context,setState) {
+              return AlertDialog(
+                backgroundColor: Colors.transparent,
+                content: Container(
+                  height: size.height * 0.4,
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                    color: Constants().primaryAppColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.07,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: KText(
+                                text: "Filter",
+                                style: GoogleFonts.openSans(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              )
+                          ),
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 90,
+                                    child: KText(
+                                      text: "Start Date",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Container(
+                                    height: 40,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(7),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 3,
+                                          offset: Offset(2, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
+                                        border: InputBorder.none,
+                                      ),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dateRangeStart = pickedDate;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 90,
+                                    child: KText(
+                                      text: "End Date",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Container(
+                                    height: 40,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(7),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 3,
+                                          offset: Offset(2, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
+                                        border: InputBorder.none,
+                                      ),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dateRangeEnd = pickedDate;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context,false);
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Cancel",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context,true);
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Apply",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+        );
+      },
+    );
   }
 
   final snackBar = SnackBar(

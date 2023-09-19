@@ -101,7 +101,7 @@ class _FamilyTabState extends State<FamilyTab> {
               ),
             ),
             Container(
-              height: size.height * 1.3,
+              height: size.height * 1.4,
               width: double.infinity,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(

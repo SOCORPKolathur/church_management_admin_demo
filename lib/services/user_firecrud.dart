@@ -26,6 +26,14 @@ class UserFireCrud {
           .map((doc) => UserModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<UserModel>> fetchUsersWithBlood(String type) =>
+      UserCollection
+          .where("bloodGroup", isEqualTo: type)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => UserModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addUser(
       {required File image,
         required String baptizeDate,
