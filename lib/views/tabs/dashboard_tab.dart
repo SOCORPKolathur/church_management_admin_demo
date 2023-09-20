@@ -11,6 +11,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reference_parser/reference_parser.dart';
 import 'package:translator/translator.dart';
+import '../../models/verses_model.dart';
 import '../../widgets/kText.dart';
 import 'package:reference_parser/reference_parser.dart' as rp;
 
@@ -290,16 +291,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
     );
   }
 
+  int randomNumFromDate = 1;
   changeHomeViewLanguage() {
     setState(() {});
   }
 
-  var randomVerse = Verse("Isaiah", 1, 1);
 
 
   @override
   Widget build(BuildContext context) {
-    print(randomVerse);
+    int currentDate = DateTime.now().day;
+    randomNumFromDate = currentDate;
     Size size = MediaQuery.of(context).size;
     var localizationDelegate = LocalizedApp.of(context).delegate;
     return Stack(
@@ -405,21 +407,13 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       ),
                       SizedBox(height: size.height * 0.04),
                       Text(
-                        "",
-                        style: GoogleFonts.amaranth(
+                        "“${Verses().versesList[randomNumFromDate].text}”",
+                          style: GoogleFonts.amaranth(
                           fontSize: 27,
                           fontWeight: FontWeight.w600,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      // Text(
-                      //     "“ WELL DONE, YOU GOOD AND FAITHFUL SERVANT!' SAID HIS MASTER.\n 'YOU HAVE BEEN FAITHFUL IN MANAGING SMALL AMOUNTS, SO I WILL \n PUT IN THE CHARGE OF LARGE AMOUNTS ”",
-                      //   style: GoogleFonts.amaranth(
-                      //     fontSize: 27,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
                       SizedBox(height: size.height * 0.04),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.start,
