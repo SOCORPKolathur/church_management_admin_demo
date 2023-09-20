@@ -33,7 +33,7 @@ class _UserTabState extends State<UserTab> {
   TextEditingController anniversaryDateController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController bloodGroupController = TextEditingController();
+  TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController();
   //TextEditingController passwordController = TextEditingController();
@@ -475,10 +475,26 @@ class _UserTabState extends State<UserTab> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: bloodGroupController,
-                                    )
+                                    const SizedBox(height: 13),
+                                    DropdownButton(
+                                      isExpanded: true,
+                                      value: bloodGroupController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: ["Select Blood Group", "AB+", "AB-","O+","O-","A+","A-","B+","B-"]
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        if(newValue != "Select Role") {
+                                          setState(() {
+                                            bloodGroupController.text = newValue!;
+                                          });
+                                        }
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -653,7 +669,7 @@ class _UserTabState extends State<UserTab> {
                                 onTap: () async {
                                   if (profileImage != null &&
                                       baptizeDateController.text != "" &&
-                                      bloodGroupController.text != "" &&
+                                      bloodGroupController.text != "Select Blood Group" &&
                                       aboutController.text != "" &&
                                       addressController.text != "" &&
                                       dobController.text != "" &&
@@ -698,7 +714,7 @@ class _UserTabState extends State<UserTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
+                                        bloodGroupController.text = "Select Blood Group";
                                         dobController.text = "";
                                         emailController.text = "";
                                         anniversaryDateController.text = "";

@@ -64,9 +64,13 @@ class FundManageFireCrud {
       required double totalSpend,
       required String verifier,
       required String source,
+        required File? image,
+        required File? document,
       required String date,
       required String recordType}) async {
     Response response = Response();
+    String imgUrl = await uploadImageToStorage(image);
+    String docUrl = await uploadDocumentToStorage(document);
     DocumentReference documentReferencer = FundManageCollection.doc();
     FundManagementModel fund = FundManagementModel(
       id: "",
@@ -76,6 +80,8 @@ class FundManageFireCrud {
       source: source,
       verifier: verifier,
       amount: amount,
+      imgUrl: imgUrl,
+      document: docUrl,
     );
     fund.id = documentReferencer.id;
     var json = fund.toJson();
@@ -101,4 +107,25 @@ class FundManageFireCrud {
     }
     return response;
   }
+
+  static Future<String> uploadImageToStorage(file) async {
+    var snapshot = await fs
+        .ref()
+        .child('dailyupdates')
+        .child("${file.name}")
+        .putBlob(file);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  static Future<String> uploadDocumentToStorage(file) async {
+    var snapshot = await fs
+        .ref()
+        .child('dailyupdates')
+        .child("${file.name}")
+        .putBlob(file);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
 }

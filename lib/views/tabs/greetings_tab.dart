@@ -1,5 +1,6 @@
 import 'package:church_management_admin/models/response.dart';
 import 'package:church_management_admin/services/greeting_firecrud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,9 +28,18 @@ class _GreetingsTabState extends State<GreetingsTab> {
 
   @override
   void initState() {
-    date = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+    setDate();
     super.initState();
   }
+
+  setDate() {
+    date = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+  }
+
+  List<UserModel> selectedbirthUsers = [];
+  List<UserModel> selectedAnnivarUsers = [];
+  List<bool> selectedBirth = [];
+  List<bool> selectedAnnivarsary = [];
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +70,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
                       return Container();
                     } else if (snapshot.hasData) {
                       List<UserModel> users = snapshot.data!;
+                      users.forEach((element) {
+                        selectedBirth.add(false);
+                      });
                       return Container(
                         width: size.width / 2.7,
                         margin: const EdgeInsets.all(20),
@@ -97,7 +110,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        showSendWishesPopUp(true, users);
+                                        showSendWishesPopUp(true, selectedbirthUsers);
                                       },
                                       child: Container(
                                         height: 40,
@@ -155,8 +168,11 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
                                           SizedBox(
-                                            width: 100,
+                                            width: 80,
                                             child: KText(
                                               text: "Photo",
                                               style: GoogleFonts.poppins(
@@ -216,7 +232,24 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 SizedBox(
-                                                  width: 100,
+                                                  width: 10,
+                                                  child: Checkbox(
+                                                    onChanged: (val){
+                                                      setState(() {
+                                                        selectedBirth[i] = val!;
+                                                      });
+                                                      if(val == true){
+                                                        selectedbirthUsers.add(users[i]);
+                                                      }else{
+                                                        selectedbirthUsers.removeWhere((element) => element.id == users[i].id);
+                                                      }
+                                                    },
+                                                    value: selectedBirth[i],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                SizedBox(
+                                                  width: 80,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
@@ -277,6 +310,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
                       return Container();
                     } else if (snapshot.hasData) {
                       List<UserModel> users = snapshot.data!;
+                      users.forEach((element) {
+                        selectedAnnivarsary.add(false);
+                      });
                       return Container(
                         width: size.width / 2.7,
                         margin: const EdgeInsets.all(20),
@@ -314,7 +350,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        showSendWishesPopUp(false, users);
+                                        showSendWishesPopUp(false, selectedAnnivarUsers);
                                       },
                                       child: Container(
                                         height: 40,
@@ -373,7 +409,10 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
-                                            width: 100,
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 80,
                                             child: KText(
                                               text: "Photo",
                                               style: GoogleFonts.poppins(
@@ -433,7 +472,24 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 SizedBox(
-                                                  width: 100,
+                                                  width: 10,
+                                                  child: Checkbox(
+                                                    onChanged: (val){
+                                                      setState(() {
+                                                        selectedAnnivarsary[i] = val!;
+                                                      });
+                                                      if(val == true){
+                                                        selectedAnnivarUsers.add(users[i]);
+                                                      }else{
+                                                        selectedAnnivarUsers.removeWhere((element) => element.id == users[i].id);
+                                                      }
+                                                    },
+                                                    value: selectedAnnivarsary[i],
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                SizedBox(
+                                                  width: 80,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
@@ -1062,4 +1118,28 @@ class _GreetingsTabState extends State<GreetingsTab> {
     response.code = 200;
     return response;
   }
+
+  Future<Response> sendEmail(List<String> receiversList, String subject, String description) async {
+    Response response = Response();
+    for(int i = 0; i < receiversList.length; i ++) {
+      DocumentReference documentReferencer = FirebaseFirestore.instance
+          .collection('mail').doc();
+      var json = {
+        "to": receiversList[i],
+        "message": {
+          "subject": subject,
+          "text": description,
+        },
+      };
+      var result = await documentReferencer.set(json).whenComplete(() {
+        response.code = 200;
+        response.message = "Sucessfully added to the database";
+      }).catchError((e) {
+        response.code = 500;
+        response.message = e;
+      });
+    }
+    return response;
+  }
+
 }

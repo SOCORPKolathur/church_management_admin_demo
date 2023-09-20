@@ -1,11 +1,16 @@
 
 import 'package:church_management_admin/models/attendace_record_model.dart';
+import 'package:church_management_admin/models/attendance_for_family_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:intl/intl.dart';
 import '../models/response.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference AttendanceCollection = firestore.collection('AttendanceRecords');
+final CollectionReference AttendanceFamilyCollection = firestore.collection('MemberAttendanceRecords');
+
+final DateFormat formatter = DateFormat('yyyy-MM-dd');
+DateTime selectedDate = DateTime.now();
 
 class AttendanceRecordFireCrud {
 
@@ -23,16 +28,42 @@ class AttendanceRecordFireCrud {
           .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<AttendanceFamilyRecordModel>> fetchFamilyAttendancesWithFilter(String date) =>
+      AttendanceFamilyCollection
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => AttendanceFamilyRecordModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addAttendance({
     required List<Attendance> attendanceList,
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = AttendanceCollection.doc();
     AttendanceRecordModel attendance = AttendanceRecordModel(
-      date: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+      date: formatter.format(selectedDate),
       attendance: attendanceList
     );
-    //attendance.id = documentReferencer.id;
+    var json = attendance.toJson();
+    var result = await documentReferencer.set(json).whenComplete(() {
+      response.code = 200;
+      response.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      response.code = 500;
+      response.message = e;
+    });
+    return response;
+  }
+
+  static Future<Response> addFamilyAttendance({
+    required List<AttendanceFamily> attendanceList,
+  }) async {
+    Response response = Response();
+    DocumentReference documentReferencer = AttendanceFamilyCollection.doc();
+    AttendanceFamilyRecordModel attendance = AttendanceFamilyRecordModel(
+        date: formatter.format(selectedDate),
+        attendance: attendanceList
+    );
     var json = attendance.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;

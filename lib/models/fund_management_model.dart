@@ -6,6 +6,8 @@ class FundManagementModel {
   String? recordType;
   String? source;
   String? verifier;
+  String? imgUrl;
+  String? document;
 
   FundManagementModel(
       {this.id,
@@ -13,11 +15,15 @@ class FundManagementModel {
         this.date,
         this.amount,
         this.recordType,
+        this.imgUrl,
+        this.document,
         this.source,
         this.verifier});
 
   FundManagementModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    imgUrl = json['imgUrl'];
+    document = json['document'];
     timestamp = json['timestamp'];
     date = json['date'];
     amount = json['amount'];
@@ -29,6 +35,8 @@ class FundManagementModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['imgUrl'] = this.imgUrl;
+    data['document'] = this.document;
     data['timestamp'] = this.timestamp;
     data['date'] = this.date;
     data['amount'] = this.amount;

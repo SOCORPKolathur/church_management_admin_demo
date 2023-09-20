@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/models/fund_management_model.dart';
 import 'package:church_management_admin/models/fund_model.dart';
@@ -9,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
+import 'dart:html';
 
 class FundManagementTab extends StatefulWidget {
   const FundManagementTab({super.key});
@@ -31,9 +35,56 @@ class _FundManagementTabState extends State<FundManagementTab>
   DateTime? dateRangeEnd;
   bool isFiltered = false;
 
+  File? profileImage;
+  File? documentForUpload;
+  var uploadedImage;
+  String? selectedImg;
+  String docname = "";
+
   setDateTime() async {
     setState(() {
       dateController.text = formatter.format(DateTime.now());
+    });
+  }
+
+  selectImage(){
+    InputElement input = FileUploadInputElement()
+    as InputElement
+      ..accept = 'image/*';
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      FileReader reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        setState(() {
+          profileImage = file;
+        });
+        setState(() {
+          uploadedImage = reader.result;
+          selectedImg = null;
+        });
+      });
+      setState(() {});
+    });
+  }
+
+  selectDocument(){
+    InputElement input = FileUploadInputElement()
+    as InputElement
+      ..accept = '/*';
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      FileReader reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        setState(() {
+          documentForUpload = file;
+          docname = file.name;
+        });
+      });
+      setState(() {});
     });
   }
 
@@ -448,6 +499,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         sourceController.text != "") {
                                       Response response =
                                           await FundManageFireCrud.addFund(
+                                        image: profileImage!,
+                                        document: documentForUpload!,
                                         totalCollect: totalFunds.totalCollect!,
                                         totalSpend: totalFunds.totalSpend!,
                                         currentBalance:
@@ -464,7 +517,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                             context: context,
                                             type: CoolAlertType.success,
                                             text:
-                                                "Family created successfully!",
+                                                "Fund created successfully!",
                                             width: size.width * 0.4,
                                             backgroundColor: Constants()
                                                 .primaryAppColor
@@ -475,12 +528,16 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           recordTypeController.text =
                                               "Select Type";
                                           sourceController.text = "";
+                                          uploadedImage = null;
+                                          profileImage = null;
+                                          docname = "";
+                                          documentForUpload = null;
                                         });
                                       } else {
                                         CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.error,
-                                            text: "Failed to Create Family!",
+                                            text: "Failed to Create Fund!",
                                             width: size.width * 0.4,
                                             backgroundColor: Constants()
                                                 .primaryAppColor
@@ -524,7 +581,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                           ),
                         ),
                         Container(
-                          height: size.height * 0.35,
+                          height: size.height * 0.75,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Color(0xffF7FAFC),
@@ -741,6 +798,85 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         ),
                                       )
                                     ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 30),
+                              Center(
+                                child: Container(
+                                  height: 170,
+                                  width: 350,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Constants().primaryAppColor,
+                                          width: 2),
+                                      image: uploadedImage != null
+                                          ? DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: MemoryImage(
+                                          Uint8List.fromList(
+                                            base64Decode(uploadedImage!.split(',').last),
+                                          ),
+                                        ),
+                                      )
+                                          : null),
+                                  child: uploadedImage == null
+                                      ? const Center(
+                                    child: Icon(
+                                      Icons.cloud_upload,
+                                      size: 160,
+                                      color: Colors.grey,
+                                    ),
+                                  ) : null,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: selectImage,
+                                    child: Container(
+                                      height: 35,
+                                      width: size.width * 0.23,
+                                      color: Constants().primaryAppColor,
+                                      child: const Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add_a_photo,
+                                              color: Colors.white),
+                                          SizedBox(width: 10),
+                                          KText(
+                                            text: 'Select Profile Photo',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 35,
+                                    width: size.width * 0.23,
+                                  ),
+                                  InkWell(
+                                    onTap: selectDocument,
+                                    child: Container(
+                                      height: 35,
+                                      width: size.width * 0.23,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.file_copy,
+                                              color: Colors.white),
+                                          const SizedBox(width: 10),
+                                          KText(
+                                            text: docname == "" ? 'Select Document' : docname,
+                                            style: const TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

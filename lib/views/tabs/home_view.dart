@@ -33,6 +33,7 @@ import '../../constants.dart';
 import '../../models/drawer_model.dart';
 import '../../widgets/kText.dart';
 import 'asset_management_tab.dart';
+import 'attendance_for_family_tab.dart';
 import 'donations_tab.dart';
 import 'events_tab.dart';
 import 'fund_management_tab.dart';
@@ -211,6 +212,13 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Attendance Records",
       page: const AttendanceRecordTab(),
+      icon: Icons.insert_drive_file_sharp,
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Member Attendance",
+      page: const AttendanceFamilyTab(),
       icon: Icons.insert_drive_file_sharp,
       isExpanded: false,
       children: [],

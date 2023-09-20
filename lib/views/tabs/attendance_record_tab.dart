@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:church_management_admin/models/attendace_record_model.dart';
 import 'package:church_management_admin/services/attendance_record_firecrud.dart';
 import 'package:church_management_admin/services/student_firecrud.dart';
@@ -9,6 +11,7 @@ import '../../models/response.dart';
 import '../../models/student_model.dart';
 import '../../widgets/kText.dart';
 import '../../widgets/switch_button.dart';
+import 'package:intl/intl.dart';
 
 class AttendanceRecordTab extends StatefulWidget {
   const AttendanceRecordTab({super.key});
@@ -22,6 +25,20 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
   List<Attendance> attendanceList = [];
   bool markAttendance = false;
   TextEditingController searchDateController = TextEditingController();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  DateTime selectedDate = DateTime.now();
+
+  setDateTime() async {
+    setState(() {
+      searchDateController.text = formatter.format(selectedDate);
+    });
+  }
+
+  @override
+  void initState() {
+    setDateTime();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -422,15 +439,22 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             BorderRadius.circular(10),
                                           ),
                                           child: TextField(
-                                            onChanged: (val){
-                                              setState(() {
-                                                searchDateController.text = val;
-                                              });
+                                            onTap: () async {
+                                              DateTime? pickedDate = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(2000),
+                                                  lastDate: DateTime(3000));
+                                              if (pickedDate != null) {
+                                                setState(() {
+                                                  searchDateController.text = formatter.format(pickedDate);
+                                                });
+                                              }
                                             },
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              hintText: 'ex: 12/9/2000',
-                                              contentPadding: EdgeInsets.only(top: 3,bottom: 10,left: 10)
+                                              hintText: searchDateController.text,
+                                              contentPadding: const EdgeInsets.only(top: 3,bottom: 10,left: 10)
                                             ),
                                           )
                                         ),

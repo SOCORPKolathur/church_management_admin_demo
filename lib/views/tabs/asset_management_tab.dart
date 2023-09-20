@@ -23,14 +23,17 @@ class AssetManagementTab extends StatefulWidget {
 class _AssetManagementTabState extends State<AssetManagementTab> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController amcDateController = TextEditingController();
   TextEditingController approxValueController = TextEditingController();
   TextEditingController verifierController = TextEditingController();
   TextEditingController assetsController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  DateTime selectedAMCDate = DateTime.now();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
+  String? amcDateRange;
   bool isFiltered= false;
   File? profileImage;
   File? documentForUpload;
@@ -41,6 +44,12 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
   setDateTime() async {
     setState(() {
       dateController.text = formatter.format(selectedDate);
+    });
+  }
+
+  setAMCDateTime() async {
+    setState(() {
+      amcDateController.text = formatter.format(selectedDate);
     });
   }
 
@@ -89,6 +98,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
   @override
   void initState() {
     setDateTime();
+    setAMCDateTime();
     super.initState();
   }
 
@@ -112,7 +122,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
               ),
             ),
             Container(
-              height: size.height * 1.0,
+              height: size.height * 1.2,
               width: double.infinity,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -345,6 +355,43 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 230,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "AMC Date",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            amcDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: amcDateController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -494,7 +541,418 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                 ],
               ),
             ),
-            dateRangeStart != null ? StreamBuilder(
+            amcDateRange != null ? StreamBuilder(
+              stream: AssetManagementFireCrud.fetchAssetManagementsWithAmcDate(amcDateRange!),
+              builder: (ctx, snapshot) {
+                if (snapshot.hasError) {
+                  return Container();
+                } else if (snapshot.hasData) {
+                  List<AssetManagementModel> assets = snapshot.data!;
+                  return Container(
+                    width: 1100,
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Constants().primaryAppColor,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(1, 2),
+                          blurRadius: 3,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.1,
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                KText(
+                                  text: "Recent Records (${assets.length})",
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isFiltered = false;
+                                      amcDateRange = null;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Center(
+                                        child: KText(
+                                          text: "Clear Filter",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: size.height * 0.7 > 70 + assets.length * 60
+                              ? 70 + assets.length * 60
+                              : size.height * 0.7,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              )),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                        child: KText(
+                                          text: "SL.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 120,
+                                        child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 120,
+                                        child: KText(
+                                          text: "AMC Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 150,
+                                        child: KText(
+                                          text: "Assets",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 180,
+                                        child: KText(
+                                          text: "Approximate Value",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 180,
+                                        child: KText(
+                                          text: "Note",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 180,
+                                        child: KText(
+                                          text: "Actions",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: assets.length,
+                                  itemBuilder: (ctx, i) {
+                                    return Container(
+                                      height: 60,
+                                      width: double.infinity,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Color(0xfff1f1f1),
+                                            width: 0.5,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Color(0xfff1f1f1),
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 50,
+                                            child: KText(
+                                              text: (i + 1).toString(),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 120,
+                                            child: KText(
+                                              text: assets[i].date!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 120,
+                                            child: KText(
+                                              text: assets[i].amcDate!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 150,
+                                            child: KText(
+                                              text: assets[i].assets!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 180,
+                                            child: KText(
+                                              text: assets[i].approxValue!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 180,
+                                            child: KText(
+                                              text: assets[i].description!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              width: 180,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        dateController.text = assets[i].date!;
+                                                        assetsController.text = assets[i].assets!;
+                                                        approxValueController.text = assets[i].approxValue!;
+                                                        verifierController.text = assets[i].verifier!;
+                                                        descriptionController.text = assets[i].description!;
+                                                      });
+                                                      editPopUp(assets[i],size);
+                                                    },
+                                                    child: Container(
+                                                      height: 25,
+                                                      decoration:
+                                                      const BoxDecoration(
+                                                        color:
+                                                        Color(0xffff9700),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color:
+                                                            Colors.black26,
+                                                            offset:
+                                                            Offset(1, 2),
+                                                            blurRadius: 3,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 6),
+                                                        child: Center(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons.add,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 15,
+                                                              ),
+                                                              KText(
+                                                                text: "Edit",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      CoolAlert.show(
+                                                          context: context,
+                                                          type: CoolAlertType.info,
+                                                          text: "${assets[i].assets} will be deleted",
+                                                          title: "Delete this Record?",
+                                                          width: size.width * 0.4,
+                                                          backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                          showCancelBtn: true,
+                                                          cancelBtnText: 'Cancel',
+                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          onConfirmBtnTap: () async {
+                                                            Response res = await AssetManagementFireCrud.deleteRecord(id: assets[i].id!);
+                                                          }
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      height: 25,
+                                                      decoration:
+                                                      const BoxDecoration(
+                                                        color:
+                                                        Color(0xfff44236),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color:
+                                                            Colors.black26,
+                                                            offset:
+                                                            Offset(1, 2),
+                                                            blurRadius: 3,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 6),
+                                                        child: Center(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons
+                                                                    .cancel_outlined,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 15,
+                                                              ),
+                                                              KText(
+                                                                text: "Delete",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              },
+            ) : dateRangeStart != null ? StreamBuilder(
               stream: AssetManagementFireCrud.fetchAssetManagementsWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -615,6 +1073,16 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         ),
                                       ),
                                       SizedBox(
+                                        width: 120,
+                                        child: KText(
+                                          text: "AMC Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
                                         width: 150,
                                         child: KText(
                                           text: "Assets",
@@ -625,7 +1093,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: 180,
                                         child: KText(
                                           text: "Approximate Value",
                                           style: GoogleFonts.poppins(
@@ -635,7 +1103,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 270,
+                                        width: 180,
                                         child: KText(
                                           text: "Note",
                                           style: GoogleFonts.poppins(
@@ -702,6 +1170,16 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                             ),
                                           ),
                                           SizedBox(
+                                            width: 120,
+                                            child: KText(
+                                              text: assets[i].amcDate!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
                                             width: 150,
                                             child: KText(
                                               text: assets[i].assets!,
@@ -712,7 +1190,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: 180,
                                             child: KText(
                                               text: assets[i].approxValue!,
                                               style: GoogleFonts.poppins(
@@ -722,7 +1200,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 250,
+                                            width: 180,
                                             child: KText(
                                               text: assets[i].description!,
                                               style: GoogleFonts.poppins(
@@ -1008,6 +1486,16 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         ),
                                       ),
                                       SizedBox(
+                                        width: 120,
+                                        child: KText(
+                                          text: "AMC Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
                                         width: 150,
                                         child: KText(
                                           text: "Assets",
@@ -1018,7 +1506,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: 180,
                                         child: KText(
                                           text: "Approximate Value",
                                           style: GoogleFonts.poppins(
@@ -1028,7 +1516,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 270,
+                                        width: 180,
                                         child: KText(
                                           text: "Note",
                                           style: GoogleFonts.poppins(
@@ -1095,6 +1583,16 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                             ),
                                           ),
                                           SizedBox(
+                                            width: 120,
+                                            child: KText(
+                                              text: assets[i].amcDate!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
                                             width: 150,
                                             child: KText(
                                               text: assets[i].assets!,
@@ -1105,7 +1603,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: 180,
                                             child: KText(
                                               text: assets[i].approxValue!,
                                               style: GoogleFonts.poppins(
@@ -1115,7 +1613,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 250,
+                                            width: 180,
                                             child: KText(
                                               text: assets[i].description!,
                                               style: GoogleFonts.poppins(
@@ -2138,6 +2636,55 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateRangeEnd = pickedDate;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 90,
+                                    child: KText(
+                                      text: "AMC Date",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Container(
+                                    height: 40,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(7),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 3,
+                                          offset: Offset(2, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        border: InputBorder.none,
+                                        hintText: amcDateRange,
+                                      ),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            amcDateRange = formatter.format(pickedDate);
                                           });
                                         }
                                       },

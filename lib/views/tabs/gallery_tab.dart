@@ -1,4 +1,6 @@
 import 'dart:html';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/models/gallery_image_model.dart';
@@ -7,10 +9,12 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../models/response.dart';
 import '../../services/gallery_firecrud.dart';
 import '../../widgets/kText.dart';
+import 'package:path_provider/path_provider.dart';
 
 class GalleryTab extends StatefulWidget {
   const GalleryTab({super.key});
@@ -24,12 +28,6 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
   bool isEditGI = false;
   bool isEditSI = false;
   late AnimationController lottieController;
-
-  static Future<XFile> getImageXFileByUrl(String url) async {
-    var file = await DefaultCacheManager().getSingleFile(url);
-    XFile result = await XFile(file.path);
-    return result;
-  }
 
   addImage(String collection,Size size) {
     InputElement input = FileUploadInputElement() as InputElement
@@ -606,7 +604,12 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                 right: size.width * 0.03,
                 child: InkWell(
                   onTap: () async {
-                    Share.share(Uri.parse(imgUrl).toString());
+                    final imageurl = imgUrl;
+                    final uri = Uri.parse(imageurl);
+                    final response = await http.get(uri);
+                    final bytes = response.bodyBytes;
+                    Directory dir = await getApplicationDocumentsDirectory();
+                    print(dir.path);
                   },
                   child: Container(
                     height: 35,

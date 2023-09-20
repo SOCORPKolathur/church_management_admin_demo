@@ -17,6 +17,14 @@ class AssetManagementFireCrud {
               .map((doc) => AssetManagementModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
+  static Stream<List<AssetManagementModel>> fetchAssetManagementsWithAmcDate(String date) =>
+      AssetManagementCollection.orderBy("timestamp", descending: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .where((element) => element['amcDate'] == date)
+          .map((doc) => AssetManagementModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Stream<List<AssetManagementModel>> fetchAssetManagementsWithFilter(
           DateTime start, DateTime end) =>
       AssetManagementCollection.where("timestamp",
