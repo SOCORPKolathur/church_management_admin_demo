@@ -35,6 +35,10 @@ class PrayersModel {
       case 1:
         return title!;
       case 2:
+        return date!;
+      case 3:
+        return time!;
+      case 4:
         return description!;
     }
     return '';

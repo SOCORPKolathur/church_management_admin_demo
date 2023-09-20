@@ -45,6 +45,8 @@ class PrayerModelforPdf{
     const tableHeaders = [
       'Si.NO',
       'Title',
+      'Date',
+      'Time',
       'Description'
     ];
 

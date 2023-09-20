@@ -1643,12 +1643,16 @@ class _PrayersTabState extends State<PrayersTab> {
     List<dynamic> row = [];
     row.add("No.");
     row.add("Title");
+    row.add("Date");
+    row.add("Time");
     row.add("Description");
     rows.add(row);
     for (int i = 0; i < prayers.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add(prayers[i].title!);
+      row.add(prayers[i].date!);
+      row.add(prayers[i].time!);
       row.add(prayers[i].description!);
       rows.add(row);
     }

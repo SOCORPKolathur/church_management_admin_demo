@@ -44,10 +44,14 @@ class StudentModelforPdf{
   pw.Widget _contentTable(pw.Context context) {
     const tableHeaders = [
       'Si.NO',
+      'Student ID',
       'Name',
-      'Class',
       'Guardian',
-      'Country'
+      'Phone',
+      'Age',
+      'Class',
+      'Blood Group',
+      'Date of Birth'
     ];
 
     return pw.
@@ -66,6 +70,10 @@ class StudentModelforPdf{
         2: pw.Alignment.centerLeft,
         3: pw.Alignment.centerLeft,
         4: pw.Alignment.centerRight,
+        5: pw.Alignment.centerRight,
+        6: pw.Alignment.centerRight,
+        7: pw.Alignment.centerRight,
+        8: pw.Alignment.centerRight,
       },
       headerStyle: pw.TextStyle(
         color: PdfColors.amber,

@@ -1898,6 +1898,30 @@ class _MembersTabState extends State<MembersTab> {
                                     ],
                                   ),
                                   const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      Text(
+                                        member.address!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
                                 ],
                               ),
                             ),
@@ -2640,6 +2664,7 @@ class _MembersTabState extends State<MembersTab> {
     row.add("Position");
     row.add("Phone");
     row.add("Country");
+    row.add("Address");
     rows.add(row);
     for (int i = 0; i < members.length; i++) {
       List<dynamic> row = [];
@@ -2648,6 +2673,7 @@ class _MembersTabState extends State<MembersTab> {
       row.add(members[i].position);
       row.add(members[i].phone);
       row.add(members[i].country);
+      row.add(members[i].address);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

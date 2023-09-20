@@ -2304,18 +2304,26 @@ class _StudentTabState extends State<StudentTab> {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");
+    row.add("Student ID");
     row.add("Name");
-    row.add("Position");
+    row.add("Guardian");
     row.add("Phone");
-    row.add("Country");
+    row.add("Age");
+    row.add("Class");
+    row.add("Blood Group");
+    row.add("Date of Birth");
     rows.add(row);
     for (int i = 0; i < students.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
+      row.add(students[i].studentId);
       row.add("${students[i].firstName!} ${students[i].lastName!}");
-      row.add(students[i].position);
-      row.add(students[i].phone);
-      row.add(students[i].nationality);
+      row.add(students[i].guardian);
+      row.add(students[i].guardianPhone);
+      row.add(students[i].age);
+      row.add(students[i].clasS);
+      row.add(students[i].bloodGroup);
+      row.add(students[i].dob);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);
@@ -2326,7 +2334,7 @@ class _StudentTabState extends State<StudentTab> {
     final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
-      ..setAttribute("download", "data.csv")
+      ..setAttribute("download", "Students.csv")
       ..click();
     Url.revokeObjectUrl(url);
   }

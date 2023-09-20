@@ -22,6 +22,7 @@ class BlogTab extends StatefulWidget {
 class _BlogTabState extends State<BlogTab> {
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   TextEditingController titleController = TextEditingController();
+  TextEditingController authorNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
@@ -71,7 +72,7 @@ class _BlogTabState extends State<BlogTab> {
               ),
             ),
             Container(
-              height: size.height * 1.08,
+              height: size.height * 1.26,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -204,6 +205,31 @@ class _BlogTabState extends State<BlogTab> {
                             ),
                           ),
                           const SizedBox(height: 30),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Author Name",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    style: const TextStyle(fontSize: 12),
+                                    controller: authorNameController,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -272,11 +298,12 @@ class _BlogTabState extends State<BlogTab> {
                                 onTap: () async {
                                   if (profileImage != null &&
                                       titleController.text != "" &&
+                                      authorNameController.text != "" &&
                                       descriptionController.text != "") {
                                     Response response =
                                         await BlogFireCrud.addBlog(
                                       image: profileImage!,
-                                      author: "",
+                                      author: authorNameController.text,
                                       time: formatter.format(DateTime.now()),
                                       title: titleController.text,
                                       description: descriptionController.text,
@@ -294,6 +321,7 @@ class _BlogTabState extends State<BlogTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         titleController.text == "";
+                                        authorNameController.text == "";
                                         descriptionController.text == "";
                                       });
                                     } else {
@@ -430,9 +458,9 @@ class _BlogTabState extends State<BlogTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 70 + blogs.length * 60
-                              ? 70 + blogs.length * 60
-                              : size.height * 0.7,
+                          height: size.height * 0.82 > 180 + blogs.length * 80
+                              ? 180 + blogs.length * 80
+                              : size.height * 0.84,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,

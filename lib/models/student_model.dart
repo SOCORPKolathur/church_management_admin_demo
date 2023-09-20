@@ -111,13 +111,21 @@ class StudentModel {
       case 0:
         return (row + 1).toString();
       case 1:
-        return "${firstName!} ${lastName!}";
+        return studentId!;
       case 2:
-        return clasS!;
+        return "${firstName!} ${lastName!}";
       case 3:
         return guardian!.toString();
       case 4:
-        return nationality!;
+        return guardianPhone!;
+      case 5:
+        return age!;
+      case 6:
+        return clasS!;
+      case 7:
+        return bloodGroup!;
+      case 8:
+        return dob!;
     }
     return '';
   }
