@@ -406,13 +406,13 @@ class _DashBoardTabState extends State<DashBoardTab> {
                         ),
                       ),
                       SizedBox(height: size.height * 0.04),
-                      Text(
-                        "“${Verses().versesList[randomNumFromDate].text}”",
+                      KText(
+                        text:"“${Verses().versesList[randomNumFromDate].text}”",
                           style: GoogleFonts.amaranth(
                           fontSize: 27,
                           fontWeight: FontWeight.w600,
                         ),
-                        textAlign: TextAlign.center,
+                        maxLines: 4,
                       ),
                       SizedBox(height: size.height * 0.04),
                       // Row(

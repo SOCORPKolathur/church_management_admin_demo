@@ -39,6 +39,7 @@ class _KTextState extends State<KText> {
           }else if(snapshot.hasData){
             return Text(
                 snapshot.data,
+                maxLines: widget.maxLines ?? 1,
                 overflow: TextOverflow.ellipsis,
                 style: widget.style,
             );
@@ -46,6 +47,7 @@ class _KTextState extends State<KText> {
           return Text(
             widget.text,
             style: widget.style,
+            maxLines: widget.maxLines ?? 1,
           );
         }
     );
