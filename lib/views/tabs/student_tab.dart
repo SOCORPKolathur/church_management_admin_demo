@@ -2434,24 +2434,32 @@ class _StudentTabState extends State<StudentTab> {
     row.add("No.");
     row.add("Student ID");
     row.add("Name");
+    row.add("Gender");
     row.add("Guardian");
     row.add("Phone");
+    row.add("Baptize Date");
     row.add("Age");
     row.add("Class");
+    row.add("Family");
     row.add("Blood Group");
     row.add("Date of Birth");
+    row.add("Nationality");
     rows.add(row);
     for (int i = 0; i < students.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add(students[i].studentId);
       row.add("${students[i].firstName!} ${students[i].lastName!}");
+      row.add(students[i].gender);
       row.add(students[i].guardian);
       row.add(students[i].guardianPhone);
+      row.add(students[i].baptizeDate);
       row.add(students[i].age);
       row.add(students[i].clasS);
+      row.add(students[i].family);
       row.add(students[i].bloodGroup);
       row.add(students[i].dob);
+      row.add(students[i].nationality);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

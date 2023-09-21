@@ -1795,6 +1795,8 @@ class _ProductTabState extends State<ProductTab> {
     row.add("Price");
     row.add("Categories");
     row.add("Tags");
+    row.add("Sale");
+    row.add("Description");
     rows.add(row);
     for (int i = 0; i < products.length; i++) {
       List<dynamic> row = [];
@@ -1803,6 +1805,8 @@ class _ProductTabState extends State<ProductTab> {
       row.add(products[i].price);
       row.add(products[i].categories);
       row.add(products[i].tags);
+      row.add(products[i].sale);
+      row.add(products[i].description);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

@@ -3326,17 +3326,31 @@ class _UserTabState extends State<UserTab> {
     List<dynamic> row = [];
     row.add("No.");
     row.add("Name");
-    row.add("Profession");
     row.add("Phone");
+    row.add("Email");
+    row.add("Profession");
+    row.add("Baptize Date");
+    row.add("Marital Status");
+    row.add("Blood Group");
+    row.add("Date of birth");
     row.add("Locality");
+    row.add("Address");
+    row.add("About");
     rows.add(row);
     for (int i = 0; i < users.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("${users[i].firstName!} ${users[i].lastName!}");
-      row.add(users[i].profession);
       row.add(users[i].phone);
+      row.add(users[i].email);
+      row.add(users[i].profession);
+      row.add(users[i].baptizeDate);
+      row.add(users[i].maritialStatus);
+      row.add(users[i].bloodGroup);
+      row.add(users[i].dob);
       row.add(users[i].locality);
+      row.add(users[i].address);
+      row.add(users[i].about);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);
