@@ -19,7 +19,7 @@ class _KTextState extends State<KText> {
 
   Future<String> translateLanguage(String text, String code) async {
     Translation translation = await translator.translate(text, to: code);
-    return translation.text;
+    return code != 'en' ? translation.text : text;
   }
 
   @override

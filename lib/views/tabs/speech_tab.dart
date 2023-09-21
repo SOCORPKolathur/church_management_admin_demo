@@ -1225,8 +1225,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${speech.firstName!} ${speech.lastName!}",
+                                      KText(
+                                        text: "${speech.firstName!} ${speech.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1248,8 +1248,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        speech.position!,
+                                      KText(
+                                        text: speech.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1274,8 +1274,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                       const SizedBox(width: 20),
                                       SizedBox(
                                         width: size.width * 0.3,
-                                        child: Text(
-                                          speech.speech!,
+                                        child: KText(
+                                          text: speech.speech!,
                                           style: const TextStyle(
                                               fontSize: 14
                                           ),

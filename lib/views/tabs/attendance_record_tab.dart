@@ -1,17 +1,24 @@
+import 'dart:html';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:church_management_admin/models/attendace_record_model.dart';
 import 'package:church_management_admin/services/attendance_record_firecrud.dart';
 import 'package:church_management_admin/services/student_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../models/student_model.dart';
 import '../../widgets/kText.dart';
 import '../../widgets/switch_button.dart';
 import 'package:intl/intl.dart';
+
+import '../prints/attendance_print.dart';
 
 class AttendanceRecordTab extends StatefulWidget {
   const AttendanceRecordTab({super.key});
@@ -482,8 +489,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                 ),
                               ) : Container(
                                 height: size.height * 0.7 >
-                                        70 + attendances.length * 60
-                                    ? 70 + attendances.length * 60
+                                        130 + attendances.length * 60
+                                    ? 130 + attendances.length * 60
                                     : size.height * 0.7,
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
@@ -496,6 +503,168 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            generateAttendancePdf(PdfPageFormat.letter, attendances,false);
+                                          },
+                                          child: Container(
+                                            height: 35,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xfffe5722),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  offset: Offset(1, 2),
+                                                  blurRadius: 3,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 6),
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(Icons.print,
+                                                        color: Colors.white),
+                                                    KText(
+                                                      text: "PRINT",
+                                                      style: GoogleFonts.openSans(
+                                                        color: Colors.white,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        InkWell(
+                                          onTap: () {
+                                            copyToClipBoard(attendances);
+                                          },
+                                          child: Container(
+                                            height: 35,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffff9700),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  offset: Offset(1, 2),
+                                                  blurRadius: 3,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 6),
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(Icons.copy,
+                                                        color: Colors.white),
+                                                    KText(
+                                                      text: "COPY",
+                                                      style: GoogleFonts.openSans(
+                                                        color: Colors.white,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        InkWell(
+                                          onTap: () async {
+                                            var data = await generateAttendancePdf(PdfPageFormat.letter, attendances, true);
+                                            savePdfToFile(data);
+                                          },
+                                          child: Container(
+                                            height: 35,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xff9b28b0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  offset: Offset(1, 2),
+                                                  blurRadius: 3,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 6),
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(Icons.picture_as_pdf,
+                                                        color: Colors.white),
+                                                    KText(
+                                                      text: "PDF",
+                                                      style: GoogleFonts.openSans(
+                                                        color: Colors.white,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        InkWell(
+                                          onTap: () {
+                                            convertToCsv(attendances);
+                                          },
+                                          child: Container(
+                                            height: 35,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xff019688),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  offset: Offset(1, 2),
+                                                  blurRadius: 3,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 6),
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                        Icons.file_copy_rounded,
+                                                        color: Colors.white),
+                                                    KText(
+                                                      text: "CSV",
+                                                      style: GoogleFonts.openSans(
+                                                        color: Colors.white,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 30),
                                     SizedBox(
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0),
@@ -616,6 +785,70 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
         ),
       ),
     );
+  }
+
+  convertToCsv(List<Attendance> attendance) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Student ID");
+    row.add("Student Name");
+    row.add("Attendance");
+    rows.add(row);
+    for (int i = 0; i < attendance.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add(attendance[i].studentId!);
+      row.add(attendance[i].student!);
+      row.add(attendance[i].present!);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    saveCsvToFile(csv);
+  }
+
+  void saveCsvToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Attendance.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Attendance.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  copyToClipBoard(List<Attendance> attendance) async  {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("    ");
+    row.add("Student ID");
+    row.add("    ");
+    row.add("Student Name");
+    row.add("    ");
+    row.add("Attendance");
+    rows.add(row);
+    for (int i = 0; i < attendance.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("       ");
+      row.add(attendance[i].studentId);
+      row.add("       ");
+      row.add(attendance[i].student);
+      row.add("       ");
+      row.add(attendance[i].present);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
   final snackBar = SnackBar(

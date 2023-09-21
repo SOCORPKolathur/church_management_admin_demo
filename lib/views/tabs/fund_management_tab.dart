@@ -10,6 +10,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import 'dart:html';
@@ -27,6 +28,7 @@ class _FundManagementTabState extends State<FundManagementTab>
   TextEditingController amountController = TextEditingController();
   TextEditingController sourceController = TextEditingController();
   TextEditingController verifierController = TextEditingController();
+  TextEditingController remarksController = TextEditingController();
   TextEditingController recordTypeController =
       TextEditingController(text: "Select Type");
 
@@ -147,7 +149,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                 width: size.width * 0.2,
                                 child: Center(
                                   child: KText(
-                                    text: "Total Collect",
+                                    text: "Total Receivable",
                                     style: GoogleFonts.inter(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 24,
@@ -256,7 +258,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                 width: size.width * 0.2,
                                 child: Center(
                                   child: KText(
-                                    text: "Total Spend",
+                                    text: "Total Expense",
                                     style: GoogleFonts.inter(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 24,
@@ -494,12 +496,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   onTap: () async {
                                     if (verifierController.text != "" &&
                                         amountController.text != "" &&
+                                        remarksController.text != "" &&
                                         recordTypeController.text !=
                                             "Select Type" &&
                                         sourceController.text != "") {
                                       Response response =
                                           await FundManageFireCrud.addFund(
                                         image: profileImage!,
+                                            remarks:remarksController.text,
                                         document: documentForUpload!,
                                         totalCollect: totalFunds.totalCollect!,
                                         totalSpend: totalFunds.totalSpend!,
@@ -525,6 +529,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         setState(() {
                                           verifierController.text = "";
                                           amountController.text = "";
+                                          remarksController.text = "";
                                           recordTypeController.text =
                                               "Select Type";
                                           sourceController.text = "";
@@ -705,8 +710,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           value: recordTypeController.text,
                                           items: [
                                             "Select Type",
-                                            "Collect",
-                                            "Spend"
+                                            "Receivable",
+                                            "Expense"
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -787,6 +792,42 @@ class _FundManagementTabState extends State<FundManagementTab>
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
                                               controller: sourceController,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintStyle: GoogleFonts.openSans(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Remarks",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Material(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.white,
+                                        elevation: 10,
+                                        child: SizedBox(
+                                          height: 40,
+                                          width: 500,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: remarksController,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
@@ -982,7 +1023,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     ),
                                     Container(
                                       height: size.height * 0.7 >
-                                              70 + funds.length * 60
+                                          70 + funds.length * 60
                                           ? 70 + funds.length * 60
                                           : size.height * 0.7,
                                       width: double.infinity,
@@ -995,12 +1036,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       padding: const EdgeInsets.all(20),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.all(0.0),
+                                              const EdgeInsets.all(0.0),
                                               child: Row(
                                                 children: [
                                                   SizedBox(
@@ -1008,58 +1049,58 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     child: KText(
                                                       text: "No.",
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                      GoogleFonts.poppins(
                                                         fontSize: 13,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 180,
+                                                    width: 100,
                                                     child: KText(
                                                       text: "Date",
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                      GoogleFonts.poppins(
                                                         fontSize: 12,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 180,
+                                                    width: 140,
                                                     child: KText(
                                                       text: "Amount",
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                      GoogleFonts.poppins(
                                                         fontSize: 12,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 170,
+                                                    width: 150,
                                                     child: KText(
                                                       text: "Verifier",
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                      GoogleFonts.poppins(
                                                         fontSize: 13,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: 150,
                                                     child: KText(
                                                       text: "Source",
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                      GoogleFonts.poppins(
                                                         fontSize: 13,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
@@ -1068,10 +1109,22 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     child: KText(
                                                       text: "Record Type",
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                      GoogleFonts.poppins(
                                                         fontSize: 13,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 150,
+                                                    child: KText(
+                                                      text: "Document",
+                                                      style:
+                                                      GoogleFonts.poppins(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
@@ -1088,17 +1141,17 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   height: 60,
                                                   width: double.infinity,
                                                   decoration:
-                                                      const BoxDecoration(
+                                                  const BoxDecoration(
                                                     color: Colors.white,
                                                     border: Border(
                                                       top: BorderSide(
                                                         color:
-                                                            Color(0xfff1f1f1),
+                                                        Color(0xfff1f1f1),
                                                         width: 0.5,
                                                       ),
                                                       bottom: BorderSide(
                                                         color:
-                                                            Color(0xfff1f1f1),
+                                                        Color(0xfff1f1f1),
                                                         width: 0.5,
                                                       ),
                                                     ),
@@ -1114,24 +1167,24 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                               .poppins(
                                                             fontSize: 13,
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                            FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 180,
+                                                        width: 100,
                                                         child: KText(
                                                           text: funds[i].date!,
                                                           style: GoogleFonts
                                                               .poppins(
                                                             fontSize: 13,
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                            FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 180,
+                                                        width: 140,
                                                         child: KText(
                                                           text: funds[i]
                                                               .amount!
@@ -1140,12 +1193,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                               .poppins(
                                                             fontSize: 13,
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                            FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 170,
+                                                        width: 150,
                                                         child: KText(
                                                           text: funds[i]
                                                               .verifier!,
@@ -1153,20 +1206,20 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                               .poppins(
                                                             fontSize: 13,
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                            FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 200,
+                                                        width: 150,
                                                         child: KText(
                                                           text:
-                                                              funds[i].source!,
+                                                          funds[i].source!,
                                                           style: GoogleFonts
                                                               .poppins(
                                                             fontSize: 13,
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                            FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
@@ -1179,14 +1232,56 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                               .poppins(
                                                             fontSize: 13,
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                            FontWeight.w600,
                                                             color: funds[i]
-                                                                        .recordType! ==
-                                                                    "Collect"
+                                                                .recordType! ==
+                                                                "Receivable"
                                                                 ? Colors.green
                                                                 : Colors.red,
                                                           ),
                                                         ),
+                                                      ),
+                                                      SizedBox(
+                                                          width: 150,
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              final Uri toLaunch =
+                                                              Uri.parse(funds[i].document!);
+                                                              if (!await launchUrl(toLaunch,
+                                                                mode: LaunchMode.externalApplication,
+                                                              )) {
+                                                                throw Exception('Could not launch $toLaunch');
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              height: 35,
+                                                              margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(8),
+                                                                boxShadow: const [
+                                                                  BoxShadow(
+                                                                    color: Colors.black26,
+                                                                    offset: Offset(1, 2),
+                                                                    blurRadius: 3,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                const EdgeInsets.symmetric(horizontal: 6),
+                                                                child: Center(
+                                                                  child: KText(
+                                                                    text: "Download",
+                                                                    style: GoogleFonts.openSans(
+                                                                      fontSize: 12,
+                                                                      fontWeight: FontWeight.bold,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
                                                       ),
                                                     ],
                                                   ),
@@ -1327,7 +1422,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 180,
+                                                    width: 100,
                                                     child: KText(
                                                       text: "Date",
                                                       style:
@@ -1339,7 +1434,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 180,
+                                                    width: 140,
                                                     child: KText(
                                                       text: "Amount",
                                                       style:
@@ -1351,7 +1446,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 170,
+                                                    width: 150,
                                                     child: KText(
                                                       text: "Verifier",
                                                       style:
@@ -1363,7 +1458,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: 150,
                                                     child: KText(
                                                       text: "Source",
                                                       style:
@@ -1383,6 +1478,18 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         fontSize: 13,
                                                         fontWeight:
                                                             FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 150,
+                                                    child: KText(
+                                                      text: "Document",
+                                                      style:
+                                                      GoogleFonts.poppins(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
@@ -1430,7 +1537,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 180,
+                                                        width: 100,
                                                         child: KText(
                                                           text: funds[i].date!,
                                                           style: GoogleFonts
@@ -1442,7 +1549,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 180,
+                                                        width: 140,
                                                         child: KText(
                                                           text: funds[i]
                                                               .amount!
@@ -1456,7 +1563,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 170,
+                                                        width: 150,
                                                         child: KText(
                                                           text: funds[i]
                                                               .verifier!,
@@ -1469,7 +1576,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 200,
+                                                        width: 150,
                                                         child: KText(
                                                           text:
                                                               funds[i].source!,
@@ -1493,11 +1600,53 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                                 FontWeight.w600,
                                                             color: funds[i]
                                                                         .recordType! ==
-                                                                    "Collect"
+                                                                    "Receivable"
                                                                 ? Colors.green
                                                                 : Colors.red,
                                                           ),
                                                         ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 150,
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            final Uri toLaunch =
+                                                            Uri.parse(funds[i].document!);
+                                                            if (!await launchUrl(toLaunch,
+                                                              mode: LaunchMode.externalApplication,
+                                                            )) {
+                                                              throw Exception('Could not launch $toLaunch');
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            height: 35,
+                                                            margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              borderRadius: BorderRadius.circular(8),
+                                                              boxShadow: const [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                              const EdgeInsets.symmetric(horizontal: 6),
+                                                              child: Center(
+                                                                child: KText(
+                                                                  text: "Download",
+                                                                  style: GoogleFonts.openSans(
+                                                                    fontSize: 12,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
                                                       ),
                                                     ],
                                                   ),
@@ -1709,8 +1858,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     value: recordTypeController.text,
                                     items: [
                                       "Select Type",
-                                      "Collect",
-                                      "Spend"
+                                      "Receivable",
+                                      "Expense"
                                     ].map((items) {
                                       return DropdownMenuItem(
                                         value: items,

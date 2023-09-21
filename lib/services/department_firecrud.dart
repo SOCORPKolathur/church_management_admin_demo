@@ -14,6 +14,14 @@ class DepartmentFireCrud {
           .map((doc) => DepartmentModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<DepartmentModel>> fetchDepartmentswithSerach(text) =>
+      DepartmentCollection.orderBy("timestamp", descending: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .where((element) => element['name'].toString().toLowerCase().startsWith(text) || element['leaderName'].toString().toLowerCase().startsWith(text) || element['location'].toString().toLowerCase().startsWith(text))
+          .map((doc) => DepartmentModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addDepartment({
     required String name,
     required String leaderName,

@@ -398,7 +398,8 @@ class _MembersTabState extends State<MembersTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -717,7 +718,6 @@ class _MembersTabState extends State<MembersTab> {
                                       addressController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -1237,7 +1237,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: 130,
                                               child: KText(
-                                                text: members[i].country!,
+                                                text: members[i].nationality!,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w600,
@@ -1595,6 +1595,29 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
+                                          text: "Member ID",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: member.memberId!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
                                           text: "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -1604,8 +1627,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${member.firstName!} ${member.lastName!}",
+                                      KText(
+                                        text: "${member.firstName!} ${member.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1627,8 +1650,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.phone!,
+                                      KText(
+                                        text: member.phone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1650,8 +1673,31 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.email!,
+                                      KText(
+                                        text: member.email!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Gender",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: member.gender!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1673,8 +1719,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.position!,
+                                      KText(
+                                        text: member.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1697,8 +1743,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.department!,
+                                      KText(
+                                        text: member.department!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1721,8 +1767,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.family!,
+                                      KText(
+                                        text: member.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1745,8 +1791,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.baptizeDate!,
+                                      KText(
+                                        text: member.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1769,8 +1815,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.socialStatus!,
+                                      KText(
+                                        text: member.socialStatus!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1793,8 +1839,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.marriageDate!,
+                                      KText(
+                                        text: member.marriageDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1817,8 +1863,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.job!,
+                                      KText(
+                                        text: member.job!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1841,8 +1887,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.bloodGroup!,
+                                      KText(
+                                        text: member.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1865,8 +1911,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.dob!,
+                                      KText(
+                                        text: member.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1889,8 +1935,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.nationality!,
+                                      KText(
+                                        text: member.nationality!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1913,8 +1959,8 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        member.address!,
+                                      KText(
+                                        text: member.address!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2171,7 +2217,8 @@ class _MembersTabState extends State<MembersTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2536,7 +2583,6 @@ class _MembersTabState extends State<MembersTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -2660,19 +2706,41 @@ class _MembersTabState extends State<MembersTab> {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");
+    row.add("Member ID");
     row.add("Name");
-    row.add("Position");
     row.add("Phone");
-    row.add("Country");
+    row.add("Email");
+    row.add("Gender");
+    row.add("Position");
+    row.add("Baptize Date");
+    row.add("Marriage Date");
+    row.add("Social Status");
+    row.add("Job");
+    row.add("Family");
+    row.add("Department");
+    row.add("Blood Group");
+    row.add("Date of Birth");
+    row.add("Nationality");
     row.add("Address");
     rows.add(row);
     for (int i = 0; i < members.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
+      row.add(members[i].memberId);
       row.add("${members[i].firstName!} ${members[i].lastName!}");
-      row.add(members[i].position);
       row.add(members[i].phone);
-      row.add(members[i].country);
+      row.add(members[i].email);
+      row.add(members[i].gender);
+      row.add(members[i].position);
+      row.add(members[i].baptizeDate);
+      row.add(members[i].marriageDate);
+      row.add(members[i].socialStatus);
+      row.add(members[i].job);
+      row.add(members[i].family);
+      row.add(members[i].department);
+      row.add(members[i].bloodGroup);
+      row.add(members[i].dob);
+      row.add(members[i].nationality);
       row.add(members[i].address);
       rows.add(row);
     }

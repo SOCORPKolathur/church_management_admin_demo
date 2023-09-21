@@ -203,7 +203,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Manager Role",
+      name: "Manage Role",
       page: ManagerRoleTab(currentRole: 'Admin'),
       icon: Icons.remove_from_queue,
       isExpanded: false,

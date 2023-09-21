@@ -109,7 +109,7 @@ class MembersModel {
       case 3:
         return phone!.toString();
       case 4:
-        return country!;
+        return nationality!;
     }
     return '';
   }

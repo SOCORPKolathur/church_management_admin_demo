@@ -59,7 +59,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: KText(
-                text: "MANAGERS ROLE PERMISSION",
+                text: "MANAGE ROLE PERMISSION",
                 style: GoogleFonts.openSans(
                     fontSize: 26,
                     fontWeight: FontWeight.w900,
@@ -108,7 +108,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "Manage Role's Permission",
+                                  text: "Manage Role Permission",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

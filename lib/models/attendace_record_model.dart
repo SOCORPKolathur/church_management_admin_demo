@@ -66,4 +66,19 @@ class Attendance {
     data['studentId'] = this.studentId;
     return data;
   }
+
+  String getIndex(int index,int row) {
+    switch (index) {
+      case 0:
+        return (row + 1).toString();
+      case 1:
+        return studentId!;
+      case 2:
+        return student!;
+      case 3:
+        return present! ? "Present" : "Absent";
+    }
+    return '';
+  }
+
 }

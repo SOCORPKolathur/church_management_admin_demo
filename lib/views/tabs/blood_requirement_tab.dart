@@ -1,11 +1,18 @@
+import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:church_management_admin/models/user_model.dart';
 import 'package:church_management_admin/services/user_firecrud.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
+import '../prints/blood_requirement_print.dart';
 
 class BloodRequirementTab extends StatefulWidget {
   const BloodRequirementTab({super.key});
@@ -97,6 +104,167 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generateBloodRequirementPdf(PdfPageFormat.letter, users,false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(users);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () async {
+                                      var data = await generateBloodRequirementPdf(PdfPageFormat.letter, users, true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(users);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(height: 20),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,8 +496,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                         ),
                         Container(
                           height: size.height * 0.7 >
-                              170 + users.length * 60
-                              ? 170 + users.length * 60
+                              170 + users.length * 70
+                              ? 170 + users.length * 70
                               : size.height * 0.7,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -342,6 +510,167 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      generateBloodRequirementPdf(PdfPageFormat.letter, users,false);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xfffe5722),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.print,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PRINT",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      copyToClipBoard(users);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffff9700),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.copy,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "COPY",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () async {
+                                      var data = await generateBloodRequirementPdf(PdfPageFormat.letter, users, true);
+                                      savePdfToFile(data);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff9b28b0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.picture_as_pdf,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "PDF",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      convertToCsv(users);
+                                    },
+                                    child: Container(
+                                      height: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xff019688),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.file_copy_rounded,
+                                                  color: Colors.white),
+                                              KText(
+                                                text: "CSV",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(height: 20),
                               InkWell(
                                 onTap: (){
@@ -527,5 +856,75 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
         ),
       ),
     );
+  }
+
+  convertToCsv(List<UserModel> users) async {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("Name");
+    row.add("Phone");
+    row.add("Blood Group");
+    row.add("Address");
+    rows.add(row);
+    for (int i = 0; i < users.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("${users[i].firstName!} ${users[i].lastName!}");
+      row.add(users[i].phone!);
+      row.add(users[i].bloodGroup!);
+      row.add(users[i].address!);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    saveCsvToFile(csv);
+  }
+
+  void saveCsvToFile(csvString) async {
+    final blob = Blob([Uint8List.fromList(csvString.codeUnits)]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "BloodGroupList.csv")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "BloodGroupList.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
+  copyToClipBoard(List<UserModel> users) async  {
+    List<List<dynamic>> rows = [];
+    List<dynamic> row = [];
+    row.add("No.");
+    row.add("    ");
+    row.add("Name");
+    row.add("    ");
+    row.add("Phone");
+    row.add("    ");
+    row.add("Blood Group");
+    row.add("    ");
+    row.add("Address");
+    rows.add(row);
+    for (int i = 0; i < users.length; i++) {
+      List<dynamic> row = [];
+      row.add(i + 1);
+      row.add("       ");
+      row.add(users[i].firstName! + users[i].lastName!);
+      row.add("       ");
+      row.add(users[i].phone);
+      row.add("       ");
+      row.add(users[i].bloodGroup);
+      row.add("       ");
+      row.add(users[i].address);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 }

@@ -275,7 +275,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -581,7 +582,6 @@ class _ChorusTabState extends State<ChorusTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -1439,8 +1439,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${chorus.firstName!} ${chorus.lastName!}",
+                                      KText(
+                                        text: "${chorus.firstName!} ${chorus.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1462,8 +1462,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.phone!,
+                                      KText(
+                                        text: chorus.phone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1485,8 +1485,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.email!,
+                                      KText(
+                                        text: chorus.email!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1508,8 +1508,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.gender!,
+                                      KText(
+                                        text: chorus.gender!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1531,8 +1531,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.position!,
+                                      KText(
+                                        text: chorus.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1555,8 +1555,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.department!,
+                                      KText(
+                                        text: chorus.department!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1579,8 +1579,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.family!,
+                                      KText(
+                                        text: chorus.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1603,8 +1603,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.baptizeDate!,
+                                      KText(
+                                        text: chorus.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1627,8 +1627,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.socialStatus!,
+                                      KText(
+                                        text: chorus.socialStatus!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1651,8 +1651,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.marriageDate!,
+                                      KText(
+                                        text: chorus.marriageDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1675,8 +1675,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.job!,
+                                      KText(
+                                        text: chorus.job!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1699,8 +1699,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.bloodGroup!,
+                                      KText(
+                                        text: chorus.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1723,8 +1723,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.dob!,
+                                      KText(
+                                        text: chorus.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1747,8 +1747,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        chorus.nationality!,
+                                      KText(
+                                        text: chorus.nationality!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2004,7 +2004,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2310,7 +2311,6 @@ class _ChorusTabState extends State<ChorusTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&

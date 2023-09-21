@@ -2,15 +2,19 @@ import 'package:church_management_admin/models/dashboard_model.dart';
 import 'package:church_management_admin/services/dashboard_firecrud.dart';
 import 'package:church_management_admin/views/tabs/messages_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:country_flags/country_flags.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:translator/translator.dart';
+import '../../constants.dart';
 import '../../models/verses_model.dart';
 import '../../widgets/kText.dart';
+import '../login_view.dart';
 
 class DashBoardTab extends StatefulWidget {
   const DashBoardTab({super.key});
@@ -298,7 +302,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
   @override
   Widget build(BuildContext context) {
     int currentDate = DateTime.now().day;
-    randomNumFromDate = currentDate;
+    int month = DateTime.now().month;
+    int rand = int.parse((month / 4).floor().toString());
+    randomNumFromDate = currentDate * rand;
     Size size = MediaQuery.of(context).size;
     var localizationDelegate = LocalizedApp.of(context).delegate;
     return Stack(
@@ -395,6 +401,26 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                   const SettingsTab()));
                                     },
                                     child: const Icon(Icons.settings, size: 27),
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                     await CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.info,
+                                          text: "Are you sure want to logout",
+                                          confirmBtnText: 'Log Out',
+                                          onConfirmBtnTap: () async {
+                                            await FirebaseAuth.instance.signOut();
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=> const LoginView()));
+                                          },
+                                          cancelBtnText: 'Cancel',
+                                         showCancelBtn: true,
+                                          width: size.width * 0.4,
+                                          backgroundColor: Constants()
+                                              .primaryAppColor
+                                              .withOpacity(0.8));
+                                    },
+                                    child: const Icon(Icons.logout, size: 27),
                                   ),
                                 ],
                               ),

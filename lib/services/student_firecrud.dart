@@ -16,6 +16,14 @@ class StudentFireCrud {
               .map((doc) => StudentModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
+  static Stream<List<StudentModel>> fetchStudentswithFilter(String clasS) =>
+      StudentCollection.orderBy("timestamp", descending: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .where((element) => element.get('clasS') == clasS)
+          .map((doc) => StudentModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addStudent(
       {required File image,
       required String baptizeDate,

@@ -1209,8 +1209,8 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        product.title!,
+                                      KText(
+                                        text: product.title!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1232,8 +1232,8 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        product.price!.toString(),
+                                      KText(
+                                        text: product.price!.toString(),
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1255,8 +1255,8 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        product.categories!,
+                                      KText(
+                                        text: product.categories!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1278,8 +1278,8 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        product.tags!,
+                                      KText(
+                                        text: product.tags!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1301,8 +1301,8 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        product.sale!,
+                                      KText(
+                                        text: product.sale!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1327,8 +1327,8 @@ class _ProductTabState extends State<ProductTab> {
                                       const SizedBox(width: 20),
                                       SizedBox(
                                         width: size.width * 0.3,
-                                        child: Text(
-                                          product.description!,
+                                        child: KText(
+                                          text: product.description!,
                                           style: const TextStyle(
                                               fontSize: 14
                                           ),

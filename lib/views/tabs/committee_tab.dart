@@ -274,7 +274,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -639,7 +640,6 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       genderController.text != "Select Gender" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -1359,8 +1359,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${committee.firstName!} ${committee.lastName!}",
+                                      KText(
+                                        text: "${committee.firstName!} ${committee.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1382,8 +1382,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.phone!,
+                                      KText(
+                                        text: committee.phone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1405,8 +1405,31 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.email!,
+                                      KText(
+                                        text: committee.email!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Gender",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: committee.gender!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1428,8 +1451,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.position!,
+                                      KText(
+                                        text: committee.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1452,8 +1475,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.department!,
+                                      KText(
+                                        text: committee.department!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1476,8 +1499,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.family!,
+                                      KText(
+                                        text: committee.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1500,8 +1523,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.baptizeDate!,
+                                      KText(
+                                        text: committee.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1524,8 +1547,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.socialStatus!,
+                                      KText(
+                                        text: committee.socialStatus!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1548,8 +1571,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.marriageDate!,
+                                      KText(
+                                        text: committee.marriageDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1572,8 +1595,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.job!,
+                                      KText(
+                                        text: committee.job!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1596,8 +1619,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.bloodGroup!,
+                                      KText(
+                                        text: committee.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1620,8 +1643,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.dob!,
+                                      KText(
+                                        text: committee.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1644,8 +1667,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        committee.nationality!,
+                                      KText(
+                                        text: committee.nationality!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1902,7 +1925,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2267,7 +2291,6 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -2394,17 +2417,39 @@ class _CommitteeTabState extends State<CommitteeTab> {
     List<dynamic> row = [];
     row.add("No.");
     row.add("Name");
-    row.add("Position");
-    row.add("Phone");
     row.add("Gender");
+    row.add("Phone");
+    row.add("Email");
+    row.add("Position");
+    row.add("Baptize Date");
+    row.add("Marriage Date");
+    row.add("Social Status");
+    row.add("Job");
+    row.add("Family");
+    row.add("Department");
+    row.add("Blood Group");
+    row.add("Date of Birth");
+    row.add("Nationality");
+    row.add("Address");
     rows.add(row);
     for (int i = 0; i < clans.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("${clans[i].firstName!} ${clans[i].lastName!}");
-      row.add(clans[i].position);
-      row.add(clans[i].phone);
       row.add(clans[i].gender);
+      row.add(clans[i].phone);
+      row.add(clans[i].email);
+      row.add(clans[i].position);
+      row.add(clans[i].baptizeDate);
+      row.add(clans[i].marriageDate);
+      row.add(clans[i].socialStatus);
+      row.add(clans[i].job);
+      row.add(clans[i].family);
+      row.add(clans[i].department);
+      row.add(clans[i].bloodGroup);
+      row.add(clans[i].dob);
+      row.add(clans[i].nationality);
+      row.add(clans[i].address);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

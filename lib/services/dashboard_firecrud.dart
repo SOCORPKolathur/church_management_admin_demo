@@ -1,4 +1,5 @@
 import 'package:church_management_admin/models/dashboard_model.dart';
+import 'package:church_management_admin/services/greeting_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -19,10 +20,9 @@ class DashboardFireCrud {
 
   static Future<DashboardModel> fetchDashBoard() async {
     DashboardModel dashboard = DashboardModel();
-    int birthdayCount = 0;
-    int annivasaryCount = 0;
-    // int birthdayCount = await userCollection.where("dob", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}").snapshots().length;
-    // int annivasaryCount = await userCollection.where("anniversaryDate", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}").snapshots().length;
+    var document = await UserCollection.get();
+    int birthdayCount = document.docs.where((element) => element.get('dob').toString().startsWith("${DateTime.now().day}/${DateTime.now().month}")).length;
+    int annivasaryCount = document.docs.where((element) => element.get('anniversaryDate').toString().startsWith("${DateTime.now().day}/${DateTime.now().month}")).length;
     int totalUsers = await userCollection.get().then((value) => value.size);
     int totalCommittee =
         await committeeCollection.get().then((value) => value.size);

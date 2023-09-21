@@ -245,7 +245,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           color: Colors.white),
                                       const SizedBox(width: 10),
                                       KText(
-                                        text: docname == "" ? 'Select Baptizem Certificate' : docname,
+                                        text: docname == "" ? 'Select Certificate' : docname,
                                         style: const TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -318,7 +318,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -704,7 +705,6 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       lastNameController.text != "" &&
                                       addressController.text != "" &&
                                       dateofjoiningController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -1571,8 +1571,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${churchStaff.firstName!} ${churchStaff.lastName!}",
+                                      KText(
+                                        text: "${churchStaff.firstName!} ${churchStaff.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1594,8 +1594,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.phone!,
+                                      KText(
+                                        text: churchStaff.phone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1617,8 +1617,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.email!,
+                                      KText(
+                                        text: churchStaff.email!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1640,8 +1640,31 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.gender!,
+                                      KText(
+                                        text: churchStaff.gender!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Gender",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: churchStaff.gender!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1663,8 +1686,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.position!,
+                                      KText(
+                                        text: churchStaff.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1687,8 +1710,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.department!,
+                                      KText(
+                                        text: churchStaff.department!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1711,8 +1734,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.family!,
+                                      KText(
+                                        text: churchStaff.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1735,8 +1758,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.baptizeDate!,
+                                      KText(
+                                        text: churchStaff.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1759,8 +1782,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.socialStatus!,
+                                      KText(
+                                        text: churchStaff.socialStatus!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1783,8 +1806,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.marriageDate!,
+                                      KText(
+                                        text: churchStaff.marriageDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1807,8 +1830,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.job!,
+                                      KText(
+                                        text: churchStaff.job!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1831,8 +1854,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.bloodGroup!,
+                                      KText(
+                                        text: churchStaff.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1855,8 +1878,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.dob!,
+                                      KText(
+                                        text: churchStaff.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1879,8 +1902,32 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        churchStaff.nationality!,
+                                      KText(
+                                        text: churchStaff.nationality!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: churchStaff.address!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2138,7 +2185,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2523,7 +2571,6 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       addressController.text != "" &&
                                       dateofjoiningController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&

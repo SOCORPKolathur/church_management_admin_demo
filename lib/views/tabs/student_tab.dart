@@ -31,11 +31,11 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController guardianPhoneController = TextEditingController();
   TextEditingController baptizeDateController = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  TextEditingController classController = TextEditingController();
+  TextEditingController classController = TextEditingController(text: "Select Class");
   //TextEditingController marriageDateController = TextEditingController();
   //TextEditingController socialStatusController = TextEditingController();
-  TextEditingController genderController =
-      TextEditingController(text: 'Select Gender');
+  TextEditingController genderController = TextEditingController(text: 'Select Gender');
+  TextEditingController filterClassController = TextEditingController(text: 'Select Class');
   //TextEditingController jobController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   //TextEditingController departmentController = TextEditingController();
@@ -318,7 +318,7 @@ class _StudentTabState extends State<StudentTab> {
                                       value: genderController.text,
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Gender", "Male", "Female"]
+                                      items: ["Select Gender", "Male", "Female","Transgender"]
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -436,10 +436,23 @@ class _StudentTabState extends State<StudentTab> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: classController,
-                                    )
+                                    DropdownButton(
+                                      value: classController.text,
+                                      icon:
+                                      const Icon(Icons.keyboard_arrow_down),
+                                      items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          classController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -565,7 +578,7 @@ class _StudentTabState extends State<StudentTab> {
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      classController.text != "" &&
+                                      classController.text != "Select Class" &&
                                       ageController.text != "" &&
                                       guardianController.text != "" &&
                                       guardianPhoneController.text != "" &&
@@ -622,7 +635,7 @@ class _StudentTabState extends State<StudentTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         ageController.text = "";
-                                        classController.text = "";
+                                        classController.text = "Select Class";
                                         guardianController.text = "";
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";
@@ -693,7 +706,7 @@ class _StudentTabState extends State<StudentTab> {
               ),
             ),
             StreamBuilder(
-              stream: StudentFireCrud.fetchStudents(),
+              stream: filterClassController.text != "Select Class" ? StudentFireCrud.fetchStudentswithFilter(filterClassController.text) : StudentFireCrud.fetchStudents(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -732,6 +745,62 @@ class _StudentTabState extends State<StudentTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                filterClassController.text != "Select Class"
+                                    ? InkWell(
+                                  onTap: (){
+                                   setState(() {
+                                     filterClassController.text = "Select Class";
+                                   });
+                                  },
+                                      child: Container(
+                                        height: 35,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                color: Constants().primaryAppColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    : Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: DropdownButton(
+                                    value: filterClassController.text,
+                                    underline: Container(),
+                                    icon:
+                                    const Icon(Icons.keyboard_arrow_down),
+                                    items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                        .map((items) {
+                                      return DropdownMenuItem(
+                                        value: items,
+                                        child: Text(items),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        filterClassController.text = newValue!;
+                                      });
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -1435,6 +1504,29 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
+                                          text: "Student ID",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: student.studentId!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
                                           text: "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -1444,8 +1536,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${student.firstName!} ${student.lastName!}",
+                                      KText(
+                                        text: "${student.firstName!} ${student.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1467,8 +1559,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.clasS!,
+                                      KText(
+                                        text: student.clasS!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1490,8 +1582,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.age!,
+                                      KText(
+                                        text: student.age!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1513,8 +1605,31 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.gender!,
+                                      KText(
+                                        text: student.gender!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Family",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: student.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1537,8 +1652,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.baptizeDate!,
+                                      KText(
+                                        text: student.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1561,8 +1676,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.bloodGroup!,
+                                      KText(
+                                        text: student.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1585,8 +1700,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.dob!,
+                                      KText(
+                                        text: student.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1609,8 +1724,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.nationality!,
+                                      KText(
+                                        text: student.nationality!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1633,8 +1748,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.guardian!,
+                                      KText(
+                                        text: student.guardian!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1657,8 +1772,8 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        student.guardianPhone!,
+                                      KText(
+                                        text: student.guardianPhone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1729,7 +1844,7 @@ class _StudentTabState extends State<StudentTab> {
                               uploadedImage = null;
                               profileImage = null;
                               ageController.text = "";
-                              classController.text = "";
+                              classController.text = "Select Class";
                               guardianController.text = "";
                               guardianPhoneController.text = "";
                               baptizeDateController.text = "";
@@ -1913,7 +2028,7 @@ class _StudentTabState extends State<StudentTab> {
                                       value: genderController.text,
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Gender", "Male", "Female"]
+                                      items: ["Select Gender", "Male", "Female","Transgender"]
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2035,10 +2150,23 @@ class _StudentTabState extends State<StudentTab> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: classController,
-                                    )
+                                    DropdownButton(
+                                      value: classController.text,
+                                      icon:
+                                      const Icon(Icons.keyboard_arrow_down),
+                                      items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          classController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2164,7 +2292,7 @@ class _StudentTabState extends State<StudentTab> {
                               InkWell(
                                 onTap: () async {
                                   if (
-                                      classController.text != "" &&
+                                      classController.text != "Select Class" &&
                                       ageController.text != "" &&
                                       guardianController.text != "" &&
                                       guardianPhoneController.text != "" &&
@@ -2221,7 +2349,7 @@ class _StudentTabState extends State<StudentTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         ageController.text = "";
-                                        classController.text = "";
+                                        classController.text = "Select Class";
                                         guardianController.text = "";
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";

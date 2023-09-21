@@ -274,7 +274,8 @@ class _ClansTabState extends State<ClansTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -580,7 +581,6 @@ class _ClansTabState extends State<ClansTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -1438,8 +1438,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${clan.firstName!} ${clan.lastName!}",
+                                      KText(
+                                        text: "${clan.firstName!} ${clan.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1461,8 +1461,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.phone!,
+                                      KText(
+                                        text: clan.phone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1484,8 +1484,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.email!,
+                                      KText(
+                                        text: clan.email!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1507,8 +1507,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.gender!,
+                                      KText(
+                                        text: clan.gender!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1530,8 +1530,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.position!,
+                                      KText(
+                                        text: clan.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1554,8 +1554,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.department!,
+                                      KText(
+                                        text: clan.department!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1578,8 +1578,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.family!,
+                                      KText(
+                                        text: clan.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1602,8 +1602,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.baptizeDate!,
+                                      KText(
+                                        text: clan.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1626,8 +1626,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.socialStatus!,
+                                      KText(
+                                        text: clan.socialStatus!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1650,8 +1650,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.marriageDate!,
+                                      KText(
+                                        text: clan.marriageDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1674,8 +1674,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.job!,
+                                      KText(
+                                        text: clan.job!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1698,8 +1698,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.bloodGroup!,
+                                      KText(
+                                        text: clan.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1722,8 +1722,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.dob!,
+                                      KText(
+                                        text: clan.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1746,8 +1746,8 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        clan.nationality!,
+                                      KText(
+                                        text: clan.nationality!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2003,7 +2003,8 @@ class _ClansTabState extends State<ClansTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2309,7 +2310,6 @@ class _ClansTabState extends State<ClansTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -2434,17 +2434,37 @@ class _ClansTabState extends State<ClansTab> {
     List<dynamic> row = [];
     row.add("No.");
     row.add("Name");
-    row.add("Position");
     row.add("Phone");
+    row.add("Email");
+    row.add("Position");
+    row.add("Baptize Date");
+    row.add("Marriage Date");
+    row.add("Social Status");
+    row.add("Job");
+    row.add("Family");
+    row.add("Department");
     row.add("Gender");
+    row.add("Blood Group");
+    row.add("Date of Birth");
+    row.add("Nationality");
     rows.add(row);
     for (int i = 0; i < clans.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("${clans[i].firstName!} ${clans[i].lastName!}");
-      row.add(clans[i].position);
       row.add(clans[i].phone);
+      row.add(clans[i].email);
+      row.add(clans[i].position);
+      row.add(clans[i].baptizeDate);
+      row.add(clans[i].marriageDate);
+      row.add(clans[i].socialStatus);
+      row.add(clans[i].job);
+      row.add(clans[i].family);
+      row.add(clans[i].department);
       row.add(clans[i].gender);
+      row.add(clans[i].bloodGroup);
+      row.add(clans[i].dob);
+      row.add(clans[i].nationality);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

@@ -12,7 +12,6 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //await FirebaseApi().initNotifications();
   var ref = parseReference('The most recited verse is Jn 3:16');
   print(ref.book); // 'John'
   print(ref.bookNumber); // 43

@@ -1077,12 +1077,16 @@ class _NoticesTabState extends State<NoticesTab> {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");
+    row.add("Date");
+    row.add("Time");
     row.add("Title");
     row.add("Description");
     rows.add(row);
     for (int i = 0; i < notices.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
+      row.add(notices[i].date!);
+      row.add(notices[i].time!);
       row.add(notices[i].title!);
       row.add(notices[i].description!);
       rows.add(row);

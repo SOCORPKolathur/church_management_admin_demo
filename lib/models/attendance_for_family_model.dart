@@ -45,4 +45,20 @@ class AttendanceFamily {
     data['memberId'] = this.memberId;
     return data;
   }
+
+  String getIndex(int index,int row) {
+    switch (index) {
+      case 0:
+        return (row + 1).toString();
+      case 1:
+        return memberId!;
+      case 2:
+        return member!;
+      case 3:
+        return present! ? "Present" : "Absent";
+    }
+    return '';
+  }
+
+
 }

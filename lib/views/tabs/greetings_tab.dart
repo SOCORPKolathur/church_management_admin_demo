@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../constants.dart';
 import '../../models/user_model.dart';
 import '../../models/wish_template_model.dart';
@@ -33,7 +32,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
   }
 
   setDate() {
-    date = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+    date = "${DateTime.now().day}/${DateTime.now().month}";
   }
 
   List<UserModel> selectedbirthUsers = [];
@@ -1032,7 +1031,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                               ? birthdayTemplateList
                                               : anniversaryTemplateList);
                                       if (response.code == 200) {
-                                        CoolAlert.show(
+                                        await CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.success,
                                             text:
@@ -1041,10 +1040,13 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             backgroundColor: Constants()
                                                 .primaryAppColor
                                                 .withOpacity(0.8));
-                                        Navigator.pop(context);
+                                        setState((){
+                                          selectedbirthUsers.clear();
+                                          selectedAnnivarUsers.clear();
+                                        });
                                         Navigator.pop(context);
                                       } else {
-                                        CoolAlert.show(
+                                        await CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.error,
                                             text:
@@ -1105,17 +1107,22 @@ class _GreetingsTabState extends State<GreetingsTab> {
   Future<Response> sendWishes(
       List<UserModel> users, List<WishesTemplate> templates) async {
     Response response = Response();
+    List<WishesTemplate> wishes = [];
     for (int i = 0; i < templates.length; i++) {
       if (templates[i].selected == true) {
         for (int j = 0; j < users.length; j++) {
           setState(() {
             templates[i].selected = false;
           });
-          response.code = 200;
+          wishes.add(templates[i]);
         }
       }
     }
+    users.forEach((element) async {
+      await sendEmail([element.email!], wishes[0].title!, wishes[0].content!);
+    });
     response.code = 200;
+    response.message = "Success";
     return response;
   }
 

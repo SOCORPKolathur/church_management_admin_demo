@@ -1924,8 +1924,8 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        event.location!,
+                                      KText(
+                                        text: event.location!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1947,8 +1947,8 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        event.description!,
+                                      KText(
+                                        text: event.description!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),

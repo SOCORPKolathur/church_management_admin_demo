@@ -2320,8 +2320,8 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        asset.assets!,
+                                      KText(
+                                        text:asset.assets!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2398,8 +2398,8 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        asset.approxValue!,
+                                      KText(
+                                        text:asset.approxValue!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2435,7 +2435,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Verifier",
+                                          text: "AMC Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -2445,7 +2445,30 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       const Text(":"),
                                       const SizedBox(width: 20),
                                       Text(
-                                        asset.verifier!,
+                                        asset.amcDate!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Verifier",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: asset.verifier!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2468,8 +2491,8 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        asset.description!,
+                                      KText(
+                                        text: asset.description!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),

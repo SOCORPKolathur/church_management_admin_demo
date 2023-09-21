@@ -1601,203 +1601,251 @@ class _FamilyTabState extends State<FamilyTab> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Name",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Family ID",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.name!,
-                                  style: const TextStyle(
-                                      fontSize: 14
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Email",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.familyId!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Name",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.email!,
-                                  style: const TextStyle(
-                                      fontSize: 14
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Leader Name",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.name!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Email",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.leaderName!,
-                                  style: const TextStyle(
-                                      fontSize: 14
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Contact Number",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.email!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Leader Name",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.contactNumber!,
-                                  style: const TextStyle(
-                                      fontSize: 14
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Address",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.leaderName!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Family members count",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                SizedBox(
-                                  width: size.width * 0.3,
-                                  child: Text(
-                                    family.address!,
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.quantity!.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Contact Number",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
+                                    ),
+                                  ),
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.contactNumber!,
                                     style: const TextStyle(
                                         fontSize: 14
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "City",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Address",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.city!,
-                                  style: const TextStyle(
-                                      fontSize: 14
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Post/Zone",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  SizedBox(
+                                    width: size.width * 0.3,
+                                    child: KText(
+                                      text: family.address!,
+                                      style: const TextStyle(
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "City",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.zone!,
-                                  style: const TextStyle(
-                                      fontSize: 14
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: const KText(
-                                    text: "Country",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.city!,
+                                    style: const TextStyle(
+                                        fontSize: 14
                                     ),
                                   ),
-                                ),
-                                const Text(":"),
-                                const SizedBox(width: 20),
-                                Text(
-                                  family.country!,
-                                  style: const TextStyle(
-                                      fontSize: 14
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Post/Zone",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                          ],
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.zone!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: const KText(
+                                      text: "Country",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16
+                                      ),
+                                    ),
+                                  ),
+                                  const Text(":"),
+                                  const SizedBox(width: 20),
+                                  KText(
+                                    text: family.country!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                            ],
+                          ),
                         ),
                       ),
                     ),

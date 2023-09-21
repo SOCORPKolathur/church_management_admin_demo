@@ -2352,8 +2352,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${user.firstName!} ${user.lastName!}",
+                                      KText(
+                                        text: "${user.firstName!} ${user.lastName!}",
                                         style: const TextStyle(fontSize: 14),
                                       )
                                     ],
@@ -2372,8 +2372,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.phone!,
+                                      KText(
+                                        text: user.phone!,
                                         style: const TextStyle(fontSize: 14),
                                       )
                                     ],
@@ -2392,8 +2392,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.email!,
+                                      KText(
+                                        text: user.email!,
                                         style: const TextStyle(fontSize: 14),
                                       )
                                     ],
@@ -2432,8 +2432,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.profession!,
+                                      KText(
+                                        text: user.profession!,
                                         style: const TextStyle(fontSize: 14),
                                       )
                                     ],
@@ -2454,8 +2454,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.baptizeDate!,
+                                      KText(
+                                        text: user.baptizeDate!,
                                         style: const TextStyle(fontSize: 14),
                                       ),
                                     ],
@@ -2476,8 +2476,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.bloodGroup!,
+                                      KText(
+                                        text: user.bloodGroup!,
                                         style: const TextStyle(fontSize: 14),
                                       ),
                                     ],
@@ -2498,8 +2498,8 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.dob!,
+                                      KText(
+                                        text: user.dob!,
                                         style: const TextStyle(fontSize: 14),
                                       ),
                                     ],
@@ -2520,8 +2520,52 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        user.locality!,
+                                      KText(
+                                        text: user.locality!,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "About",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: user.about!,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: user.address!,
                                         style: const TextStyle(fontSize: 14),
                                       ),
                                     ],

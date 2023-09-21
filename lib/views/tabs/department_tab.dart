@@ -31,6 +31,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
   TextEditingController zoneController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  String searchString = "";
 
   @override
   Widget build(BuildContext context) {
@@ -477,7 +478,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
               ),
             ),
             StreamBuilder(
-              stream: DepartmentFireCrud.fetchDepartments(),
+              stream: searchString != "" ? DepartmentFireCrud.fetchDepartmentswithSerach(searchString) : DepartmentFireCrud.fetchDepartments(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -516,13 +517,38 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 70 + departments.length * 60
-                              ? 70 + departments.length * 60
+                          height: size.height * 0.7 > 110 + departments.length * 80
+                              ? 100 + departments.length * 80
                               : size.height * 0.7,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -1157,8 +1183,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 const Text(":"),
                                 const SizedBox(width: 20),
-                                Text(
-                                  department.name!,
+                                KText(
+                                  text: department.name!,
                                   style: const TextStyle(
                                       fontSize: 14
                                   ),
@@ -1180,8 +1206,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 const Text(":"),
                                 const SizedBox(width: 20),
-                                Text(
-                                  department.leaderName!,
+                                KText(
+                                  text: department.leaderName!,
                                   style: const TextStyle(
                                       fontSize: 14
                                   ),
@@ -1204,8 +1230,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 const Text(":"),
                                 const SizedBox(width: 20),
-                                Text(
-                                  department.contactNumber!,
+                                KText(
+                                  text: department.contactNumber!,
                                   style: const TextStyle(
                                       fontSize: 14
                                   ),
@@ -1230,8 +1256,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 const SizedBox(width: 20),
                                 SizedBox(
                                   width: size.width * 0.3,
-                                  child: Text(
-                                    department.description!,
+                                  child: KText(
+                                    text: department.description!,
                                     style: const TextStyle(
                                         fontSize: 14
                                     ),
@@ -1257,8 +1283,35 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 const SizedBox(width: 20),
                                 SizedBox(
                                   width: size.width * 0.3,
-                                  child: Text(
-                                    department.address!,
+                                  child: KText(
+                                    text: department.address!,
+                                    style: const TextStyle(
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: size.width * 0.15,
+                                  child: const KText(
+                                    text: "Location",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16
+                                    ),
+                                  ),
+                                ),
+                                const Text(":"),
+                                const SizedBox(width: 20),
+                                SizedBox(
+                                  width: size.width * 0.3,
+                                  child: KText(
+                                    text: department.location!,
                                     style: const TextStyle(
                                         fontSize: 14
                                     ),
@@ -1282,8 +1335,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 const Text(":"),
                                 const SizedBox(width: 20),
-                                Text(
-                                  department.city!,
+                                KText(
+                                  text: department.city!,
                                   style: const TextStyle(
                                       fontSize: 14
                                   ),
@@ -1306,8 +1359,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 const Text(":"),
                                 const SizedBox(width: 20),
-                                Text(
-                                  department.zone!,
+                                KText(
+                                  text: department.zone!,
                                   style: const TextStyle(
                                       fontSize: 14
                                   ),
@@ -1330,8 +1383,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 const Text(":"),
                                 const SizedBox(width: 20),
-                                Text(
-                                  department.country!,
+                                KText(
+                                  text: department.country!,
                                   style: const TextStyle(
                                       fontSize: 14
                                   ),
@@ -1821,7 +1874,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
     row.add("Name");
     row.add("Leader name");
     row.add("Phone");
-    row.add("Area");
+    row.add("Location");
+    row.add("Description");
+    row.add("Address");
+    row.add("City");
+    row.add("Country");
+    row.add("Zone");
     rows.add(row);
     for (int i = 0; i < departments.length; i++) {
       List<dynamic> row = [];
@@ -1829,6 +1887,11 @@ class _DepartmentTabState extends State<DepartmentTab> {
       row.add(departments[i].name!);
       row.add(departments[i].leaderName);
       row.add(departments[i].contactNumber);
+      row.add(departments[i].location);
+      row.add(departments[i].description);
+      row.add(departments[i].address);
+      row.add(departments[i].city);
+      row.add(departments[i].country);
       row.add(departments[i].zone);
       rows.add(row);
     }

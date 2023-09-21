@@ -476,7 +476,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -636,7 +637,6 @@ class _PastorsTabState extends State<PastorsTab> {
                                       addressController.text != "" &&
                                       genderController.text != "Select Gender" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -1354,8 +1354,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        "${pastor.firstName!} ${pastor.lastName!}",
+                                      KText(
+                                        text: "${pastor.firstName!} ${pastor.lastName!}",
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1377,8 +1377,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.phone!,
+                                      KText(
+                                        text: pastor.phone!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1400,8 +1400,31 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.email!,
+                                      KText(
+                                        text: pastor.email!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Gender",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: pastor.gender!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1423,8 +1446,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.position!,
+                                      KText(
+                                        text: pastor.position!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1447,8 +1470,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.department!,
+                                      KText(
+                                        text: pastor.department!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1471,8 +1494,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.family!,
+                                      KText(
+                                        text: pastor.family!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1495,8 +1518,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.baptizeDate!,
+                                      KText(
+                                        text: pastor.baptizeDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1519,8 +1542,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.socialStatus!,
+                                      KText(
+                                        text: pastor.socialStatus!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1543,8 +1566,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.marriageDate!,
+                                      KText(
+                                        text: pastor.marriageDate!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1567,8 +1590,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.job!,
+                                      KText(
+                                        text: pastor.job!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1591,8 +1614,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.bloodGroup!,
+                                      KText(
+                                        text: pastor.bloodGroup!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1615,8 +1638,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.dob!,
+                                      KText(
+                                        text: pastor.dob!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -1639,8 +1662,32 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       const Text(":"),
                                       const SizedBox(width: 20),
-                                      Text(
-                                        pastor.nationality!,
+                                      KText(
+                                        text: pastor.nationality!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: pastor.address!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2091,7 +2138,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       items: [
                                         "Select Gender",
                                         "Male",
-                                        "Female"
+                                        "Female",
+                                        "Transgender"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2251,7 +2299,6 @@ class _PastorsTabState extends State<PastorsTab> {
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      marriageDateController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
                                       positionController.text != "" &&
@@ -2379,17 +2426,39 @@ class _PastorsTabState extends State<PastorsTab> {
     List<dynamic> row = [];
     row.add("No.");
     row.add("Name");
-    row.add("Profession");
     row.add("Phone");
-    row.add("Locality");
+    row.add("Email");
+    row.add("Position");
+    row.add("Baptize Date");
+    row.add("Marriage Date");
+    row.add("Social Status");
+    row.add("Job");
+    row.add("Family");
+    row.add("Department");
+    row.add("Gender");
+    row.add("Blood Group");
+    row.add("Date of Birth");
+    row.add("Nationality");
+    row.add("Address");
     rows.add(row);
     for (int i = 0; i < pastors.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("${pastors[i].firstName!} ${pastors[i].lastName!}");
-      row.add(pastors[i].position);
       row.add(pastors[i].phone);
+      row.add(pastors[i].email);
+      row.add(pastors[i].position);
+      row.add(pastors[i].baptizeDate);
+      row.add(pastors[i].marriageDate);
+      row.add(pastors[i].socialStatus);
+      row.add(pastors[i].job);
+      row.add(pastors[i].family);
+      row.add(pastors[i].department);
+      row.add(pastors[i].gender);
+      row.add(pastors[i].bloodGroup);
+      row.add(pastors[i].dob);
       row.add(pastors[i].nationality);
+      row.add(pastors[i].address);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

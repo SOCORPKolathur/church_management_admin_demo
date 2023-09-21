@@ -16,15 +16,7 @@ class FundManageFireCrud {
       FundManageCollection.orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
-              .map((doc) => FundManagementModel(
-                    id: doc.get("id"),
-                    timestamp: doc.get("timestamp"),
-                    amount: doc.get("amount"),
-                    verifier: doc.get("verifier"),
-                    source: doc.get("source"),
-                    date: doc.get("date"),
-                    recordType: doc.get("recordType"),
-                  ))
+              .map((doc) => FundManagementModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
   static Stream<List<FundManagementModel>> fetchFundsWithFilter(
@@ -64,6 +56,7 @@ class FundManageFireCrud {
       required double totalSpend,
       required String verifier,
       required String source,
+      required String remarks,
         required File? image,
         required File? document,
       required String date,
@@ -77,6 +70,7 @@ class FundManageFireCrud {
       timestamp: DateTime.now().millisecondsSinceEpoch,
       recordType: recordType,
       date: date,
+      remarks: remarks,
       source: source,
       verifier: verifier,
       amount: amount,
@@ -93,7 +87,7 @@ class FundManageFireCrud {
       response.message = e;
     });
     if (response.code == 200) {
-      if (recordType == "Collect") {
+      if (recordType == "Receivable") {
         var fund = FundCollection.doc("x18zE9lNxDto7AXHlXDA").update({
           "currentBalance": currentBalance + amount,
           "totalCollect": totalCollect + amount,

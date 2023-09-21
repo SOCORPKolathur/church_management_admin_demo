@@ -5,6 +5,7 @@ class FundManagementModel {
   double? amount;
   String? recordType;
   String? source;
+  String? remarks;
   String? verifier;
   String? imgUrl;
   String? document;
@@ -14,6 +15,7 @@ class FundManagementModel {
         this.timestamp,
         this.date,
         this.amount,
+        this.remarks,
         this.recordType,
         this.imgUrl,
         this.document,
@@ -24,6 +26,7 @@ class FundManagementModel {
     id = json['id'];
     imgUrl = json['imgUrl'];
     document = json['document'];
+    remarks = json['remarks'];
     timestamp = json['timestamp'];
     date = json['date'];
     amount = json['amount'];
@@ -36,6 +39,7 @@ class FundManagementModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['imgUrl'] = this.imgUrl;
+    data['remarks'] = this.remarks;
     data['document'] = this.document;
     data['timestamp'] = this.timestamp;
     data['date'] = this.date;

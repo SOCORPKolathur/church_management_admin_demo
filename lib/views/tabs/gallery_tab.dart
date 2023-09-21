@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:html';
+import 'dart:html' as html;
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -604,26 +606,40 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                 right: size.width * 0.03,
                 child: InkWell(
                   onTap: () async {
-                    final imageurl = imgUrl;
-                    final uri = Uri.parse(imageurl);
-                    final response = await http.get(uri);
-                    final bytes = response.bodyBytes;
-                    Directory dir = await getApplicationDocumentsDirectory();
-                    print(dir.path);
+                    try {
+                      final http.Response r = await http.get(
+                        Uri.parse(imgUrl),
+                      );
+                      final data = r.bodyBytes;
+                      final base64data = base64Encode(data);
+                      final a = html.AnchorElement(href: 'data:image/jpeg;base64,$base64data');
+                      a.download = 'image.jpg';
+                      a.click();
+                      a.remove();
+                    } catch (e) {
+                      print(e);
+                    }
+                    Navigator.pop(context);
                   },
                   child: Container(
                     height: 35,
-                    width: 80,
+                    width: 150,
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(
-                      child: Text(
-                        "Share",style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.download_rounded, color: Colors.white),
+                        SizedBox(width: 10),
+                        Text(
+                          "Download",
+                          style: TextStyle(
+                          color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
