@@ -28,6 +28,15 @@ class AttendanceRecordFireCrud {
           .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<AttendanceRecordModel>> fetchAttendancesWithFilterRange(start,end) =>
+      AttendanceCollection
+          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
+          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Stream<List<AttendanceFamilyRecordModel>> fetchFamilyAttendancesWithFilter(String date) =>
       AttendanceFamilyCollection
           .snapshots()
@@ -41,6 +50,7 @@ class AttendanceRecordFireCrud {
     Response response = Response();
     DocumentReference documentReferencer = AttendanceCollection.doc();
     AttendanceRecordModel attendance = AttendanceRecordModel(
+      timestamp: DateTime.now().millisecondsSinceEpoch,
       date: formatter.format(selectedDate),
       attendance: attendanceList
     );

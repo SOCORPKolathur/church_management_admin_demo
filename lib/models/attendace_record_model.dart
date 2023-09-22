@@ -21,12 +21,14 @@
 // }
 
 class AttendanceRecordModel {
+  num? timestamp;
   String? date;
   List<Attendance>? attendance;
 
-  AttendanceRecordModel({this.date, this.attendance});
+  AttendanceRecordModel({this.date, this.attendance, this.timestamp});
 
   AttendanceRecordModel.fromJson(Map<String, dynamic> json) {
+    timestamp = json['timestamp'];
     date = json['date'];
     if (json['attendance'] != null) {
       attendance = <Attendance>[];
@@ -39,6 +41,7 @@ class AttendanceRecordModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['date'] = this.date;
+    data['timestamp'] = this.timestamp;
     if (this.attendance != null) {
       data['attendance'] = this.attendance!.map((v) => v.toJson()).toList();
     }

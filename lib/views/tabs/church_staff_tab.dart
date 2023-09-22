@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -1556,6 +1557,61 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Certificate",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      InkWell(
+                                        onTap: () async {
+                                          final Uri toLaunch =
+                                          Uri.parse(churchStaff.document!);
+                                          if (!await launchUrl(toLaunch,
+                                            mode: LaunchMode.externalApplication,
+                                          )) {
+                                            throw Exception('Could not launch $toLaunch');
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(8),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: Offset(1, 2),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(horizontal: 6),
+                                            child: Center(
+                                              child: KText(
+                                                text: "Download Document",
+                                                style: GoogleFonts.openSans(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                   const SizedBox(height: 20),
                                   Row(
                                     children: [

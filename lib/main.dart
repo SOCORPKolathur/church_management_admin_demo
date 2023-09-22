@@ -12,13 +12,6 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  var ref = parseReference('The most recited verse is Jn 3:16');
-  print(ref.book); // 'John'
-  print(ref.bookNumber); // 43
-  print(ref.startChapterNumber); // 3
-  print(ref.startVerseNumber); // 16
-  print(ref.isValid); // true
-
   var delegate = await LocalizationDelegate.create(
     basePath: 'assets/i18n/',
       fallbackLocale: 'en_US',

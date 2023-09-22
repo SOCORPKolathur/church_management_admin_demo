@@ -5,16 +5,20 @@ import 'dart:typed_data';
 import 'package:church_management_admin/services/members_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/members_model.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/member_print.dart';
+import 'package:excel/excel.dart' as ex;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
 
 class MembersTab extends StatefulWidget {
   const MembersTab({super.key});
@@ -98,6 +102,36 @@ class _MembersTabState extends State<MembersTab> {
     });
   }
 
+  downloadTemplateExcel() async {
+    final wb.Workbook workbook = wb.Workbook();
+    final wb.Worksheet sheet   = workbook.worksheets[0];
+    sheet.getRangeByName("A1").setText("No.");
+    sheet.getRangeByName("B1").setText("Member ID");
+    sheet.getRangeByName("C1").setText("Firstname");
+    sheet.getRangeByName("D1").setText("Lastname");
+    sheet.getRangeByName("E1").setText("Phone");
+    sheet.getRangeByName("F1").setText("Email");
+    sheet.getRangeByName("G1").setText("Gender");
+    sheet.getRangeByName("H1").setText("Position");
+    sheet.getRangeByName("I1").setText("Baptize Date");
+    sheet.getRangeByName("J1").setText("Marriage Date");
+    sheet.getRangeByName("K1").setText("Social Status");
+    sheet.getRangeByName("L1").setText("Job");
+    sheet.getRangeByName("M1").setText("Family");
+    sheet.getRangeByName("N1").setText("Department");
+    sheet.getRangeByName("O1").setText("Blood Group");
+    sheet.getRangeByName("P1").setText("Date of Birth");
+    sheet.getRangeByName("Q1").setText("Nationality");
+    sheet.getRangeByName("R1").setText("Address");
+
+    final List<int>bytes = workbook.saveAsStream();
+    workbook.dispose();
+    AnchorElement(href: 'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+      ..setAttribute('download', 'MemberTemplate.xlsx')
+      ..click();
+
+  }
+
   @override
   void initState() {
     setMemberId();
@@ -156,7 +190,85 @@ class _MembersTabState extends State<MembersTab> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
-                          )
+                          ),
+                          Row(
+                            children: [
+                              PopupMenuButton(
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                  PopupMenuItem(
+                                    child: const Text('Download Template'),
+                                    onTap: (){
+                                      downloadTemplateExcel();
+                                    },
+                                  )
+                                ],
+                                child: const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              InkWell(
+                                onTap: () async {
+                                  FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: ['xlsx'],
+                                    allowMultiple: false,
+                                  );
+                                  var bytes = pickedFile!.files.single.bytes;
+                                  var excel = ex.Excel.decodeBytes(bytes!);
+                                  Response response = await MembersFireCrud.bulkUploadMember(excel);
+                                  if(response.code == 200){
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Members created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
+                                  }else{
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text: "Failed to Create Members!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(1, 2),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                    child: Center(
+                                      child: KText(
+                                        text: "Bulk Upload",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -1608,6 +1720,61 @@ class _MembersTabState extends State<MembersTab> {
                                         text: member.memberId!,
                                         style: const TextStyle(
                                             fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Baptizem Certificate",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      InkWell(
+                                        onTap: () async {
+                                          final Uri toLaunch =
+                                          Uri.parse(member.baptizemCertificate!);
+                                          if (!await launchUrl(toLaunch,
+                                            mode: LaunchMode.externalApplication,
+                                          )) {
+                                            throw Exception('Could not launch $toLaunch');
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(8),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: Offset(1, 2),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(horizontal: 6),
+                                            child: Center(
+                                              child: KText(
+                                                text: "Download Document",
+                                                style: GoogleFonts.openSans(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       )
                                     ],

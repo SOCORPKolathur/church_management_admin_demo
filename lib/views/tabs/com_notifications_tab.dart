@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +19,13 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   TextEditingController subjectController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController genderController = TextEditingController(text: 'Select Gender');
+  TextEditingController classController = TextEditingController(text: 'Select Class');
+
+  bool isAll = false;
+  bool isStudent = false;
+  bool isMarried = false;
+  bool isSingle = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
               ),
             ),
             Container(
-              height: size.height * 0.67,
+              height: size.height * 0.97,
               width: double.infinity,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -92,6 +98,219 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Gender",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 3,
+                                              offset: Offset(2, 3),
+                                            )
+                                          ],
+                                        ),
+                                        child: DropdownButton(
+                                          underline: Container(),
+                                          value: genderController.text,
+                                          items: [
+                                            "Select Gender",
+                                            "Male",
+                                            "Female",
+                                            "Transgender"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              genderController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Marital Status",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Checkbox(
+                                                value: isMarried,
+                                                onChanged: (val){
+                                                  setState(() {
+                                                    isMarried = val!;
+                                                  });
+                                                },
+                                              ),
+                                              const SizedBox(width: 10),
+                                              const Text("Married")
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Checkbox(
+                                                value: isSingle,
+                                                onChanged: (val){
+                                                  setState(() {
+                                                    isSingle = val!;
+                                                  });
+                                                },
+                                              ),
+                                              const SizedBox(width: 10),
+                                              const Text("Single")
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Student",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Checkbox(
+                                                value: isStudent,
+                                                onChanged: (val){
+                                                  setState(() {
+                                                    isStudent = val!;
+                                                  });
+                                                },
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text("Student")
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Visibility(
+                                    visible: isStudent,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Class",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 3,
+                                                offset: Offset(2, 3),
+                                              )
+                                            ],
+                                          ),
+                                          child: DropdownButton(
+                                            underline: Container(),
+                                            value: classController.text,
+                                            items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                                .map((items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(items),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                classController.text = newValue!;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: isAll,
+                                        onChanged: (val){
+                                          setState(() {
+                                            isAll = val!;
+                                          });
+                                          if(isAll){
+                                            setState(() {
+                                              isStudent = true;
+                                              isMarried = true;
+                                              isSingle = true;
+                                            });
+                                          }else{
+                                            setState(() {
+                                              isStudent = false;
+                                              isMarried = false;
+                                              isSingle = false;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const  Text("ALL")
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
@@ -636,18 +855,83 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   sendNotification() async {
     List<String> userFcmList = [];
-    var document = await FirebaseFirestore.instance.collection('Users').get();
-    document.docs.forEach((element) {
-      if(element['fcmToken'] != ""){
-        userFcmList.add(element['fcmToken']);
+    var documentUsers = await FirebaseFirestore.instance.collection('Users').get();
+    var documentStudents = await FirebaseFirestore.instance.collection('Students').get();
+    if(isAll){
+      documentUsers.docs.forEach((element) {
+        if(element['fcmToken'] != ""){
+          userFcmList.add(element['fcmToken']);
+        }
+      });
+      documentStudents.docs.forEach((element) { 
+        for(int i = 0; i < documentUsers.docs.length; i ++){
+          if(documentUsers.docs[i]['phone'] == element.get('phone')){
+            userFcmList.add(documentUsers.docs[i]['fcmToken']);
+          }
+        }
+      });
+    }else{
+      if(isMarried){
+        documentUsers.docs.forEach((element) {
+          if(element['fcmToken'] != "" && element['maritialStatus'].toString().toLowerCase() == 'married'){
+            userFcmList.add(element['fcmToken']);
+          }
+        });
+      }else{
+        documentUsers.docs.forEach((element) {
+          if(element['fcmToken'] != "" && element['maritialStatus'].toString().toLowerCase() == 'single'){
+            userFcmList.add(element['fcmToken']);
+          }
+        });
       }
-    });
+      if(genderController.text.toLowerCase() == "male"){
+        documentUsers.docs.forEach((element) {
+          if(element['fcmToken'] != "" && element['gender'].toString().toLowerCase() == 'male'){
+            userFcmList.add(element['fcmToken']);
+          }
+        });
+      }else if(genderController.text.toLowerCase() == "female"){
+        documentUsers.docs.forEach((element) {
+          if(element['fcmToken'] != "" && element['gender'].toString().toLowerCase() == 'female'){
+            userFcmList.add(element['fcmToken']);
+          }
+        });
+      }
+      if(isStudent){
+        if(classController.text != "Select Class"){
+          documentStudents.docs.forEach((element) {
+            if(element['clasS'] == classController.text){
+              for(int i = 0; i < documentUsers.docs.length; i ++){
+                if(documentUsers.docs[i]['phone'] == element.get('guardianPhone')){
+                  userFcmList.add(documentUsers.docs[i]['fcmToken']);
+                }
+              }
+            }
+          });
+        }else{
+          documentStudents.docs.forEach((element) {
+            for(int i = 0; i < documentUsers.docs.length; i ++){
+              if(documentUsers.docs[i]['phone'] == element.get('guardianPhone')){
+                userFcmList.add(documentUsers.docs[i]['fcmToken']);
+              }
+            }
+          });
+        }
+      }
+    }
     userFcmList.forEach((token) async {
-      print(token);
       bool isSended = await sendPushMessage(token, descriptionController.text, subjectController.text);
       if(isSended){
         subjectController.clear();
         descriptionController.clear();
+        classController.text = 'Select Class';
+        genderController.text = 'Select Gender';
+        setState(() {
+          isAll = false;
+          isStudent = false;
+          isMarried = false;
+          isSingle = false;
+        });
       }else{
         print("Succesfully Sended");
       }

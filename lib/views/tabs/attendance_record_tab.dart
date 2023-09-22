@@ -41,6 +41,10 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
     });
   }
 
+  DateTime? dateRangeStart;
+  DateTime? dateRangeEnd;
+  bool isFiltered= false;
+
   @override
   void initState() {
     setDateTime();
@@ -387,7 +391,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                     },
                   )
                 : StreamBuilder(
-                    stream: AttendanceRecordFireCrud.fetchAttendancesWithFilter(searchDateController.text),
+                    stream: isFiltered ? AttendanceRecordFireCrud.fetchAttendancesWithFilterRange(dateRangeStart,dateRangeEnd) : AttendanceRecordFireCrud.fetchAttendancesWithFilter(searchDateController.text),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
                         return Container();
@@ -423,8 +427,6 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 8),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       KText(
                                         text: "Attendance Records",
@@ -433,6 +435,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      Expanded(child: Container()),
                                       Material(
                                         elevation: 2,
                                         color: Colors.white,
@@ -465,7 +468,81 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             ),
                                           )
                                         ),
-                                      )
+                                      ),
+                                      const SizedBox(width: 10),
+                                      isFiltered ? InkWell(
+                                        onTap: () {
+                                            setState(() {
+                                              isFiltered = false;
+                                              dateRangeEnd = null;
+                                              dateRangeStart = null;
+                                            });
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(8),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: Offset(1, 2),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(horizontal: 6),
+                                            child: Center(
+                                              child: KText(
+                                                text: "Clear Filter",
+                                                style: GoogleFonts.openSans(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ) : InkWell(
+                                        onTap: () async {
+                                          var result = await filterPopUp();
+                                          if(result){
+                                            setState(() {
+                                              isFiltered = true;
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(8),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: Offset(1, 2),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(horizontal: 6),
+                                            child: Center(
+                                              child: KText(
+                                                text: "Filter by Range",
+                                                style: GoogleFonts.openSans(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
                                     ],
                                   ),
                                 ),
@@ -849,6 +926,239 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
     }
     String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
+  }
+
+  filterPopUp() {
+    Size size = MediaQuery.of(context).size;
+    return showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+            builder: (context,setState) {
+              return AlertDialog(
+                backgroundColor: Colors.transparent,
+                content: Container(
+                  height: size.height * 0.4,
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                    color: Constants().primaryAppColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.07,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: KText(
+                                text: "Filter",
+                                style: GoogleFonts.openSans(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              )
+                          ),
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 90,
+                                    child: KText(
+                                      text: "Start Date",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Container(
+                                    height: 40,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(7),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 3,
+                                          offset: Offset(2, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
+                                        border: InputBorder.none,
+                                      ),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dateRangeStart = pickedDate;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 90,
+                                    child: KText(
+                                      text: "End Date",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Container(
+                                    height: 40,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(7),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 3,
+                                          offset: Offset(2, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
+                                        border: InputBorder.none,
+                                      ),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dateRangeEnd = pickedDate;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context,false);
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Cancel",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context,true);
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Apply",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+        );
+      },
+    );
   }
 
   final snackBar = SnackBar(

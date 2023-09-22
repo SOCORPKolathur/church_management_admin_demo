@@ -1,5 +1,7 @@
 import 'dart:html';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:excel/excel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
 import '../models/student_model.dart';
@@ -9,6 +11,14 @@ final CollectionReference StudentCollection = firestore.collection('Students');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class StudentFireCrud {
+
+  static String generateRandomString(int len) {
+    var r = Random();
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+
   static Stream<List<StudentModel>> fetchStudents() =>
       StudentCollection.orderBy("timestamp", descending: false)
           .snapshots()
@@ -127,6 +137,47 @@ class StudentFireCrud {
       res.code = 500;
       res.message = e;
     });
+    return res;
+  }
+
+  static Future<Response> bulkUploadStudent(Excel excel) async {
+    Response res = Response();
+    final row = excel.tables[excel.tables.keys.first]!.rows
+        .map((e) => e.map((e) => e!.value).toList()).toList();
+    for (int i = 1; i < row.length; i++) {
+      String documentID = generateRandomString(20);
+      StudentModel student = StudentModel(
+        id: documentID,
+        studentId: row[i][1].toString(),
+        firstName: row[i][2].toString(),
+        lastName: row[i][3].toString(),
+        gender: row[i][4].toString(),
+        guardian: row[i][5].toString(),
+        guardianPhone: row[i][6].toString(),
+        baptizeDate: row[i][7].toString(),
+        age: row[i][8].toString(),
+        clasS: row[i][9].toString(),
+        family: row[i][10].toString(),
+        bloodGroup: row[i][11].toString(),
+        dob: row[i][12].toString(),
+        nationality: row[i][13].toString(),
+        position: "",
+        country: "",
+        email: "",
+        phone: "",
+        imgUrl: "",
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+      );
+      var json = student.toJson();
+      await StudentCollection.doc(documentID).set(
+          json).whenComplete(() {
+        res.code = 200;
+        res.message = "Sucessfully Updated from database";
+      }).catchError((e) {
+        res.code = 500;
+        res.message = e;
+      });
+    }
     return res;
   }
 

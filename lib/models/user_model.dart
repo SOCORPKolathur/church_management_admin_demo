@@ -5,6 +5,7 @@ class UserModel {
   String? lastName;
   String? phone;
   String? email;
+  String? fcmToken;
   //String? password;
   String? profession;
   String? baptizeDate;
@@ -24,6 +25,7 @@ class UserModel {
         this.lastName,
         this.phone,
         this.email,
+        this.fcmToken,
         //this.password,
         this.profession,
         this.baptizeDate,
@@ -41,6 +43,7 @@ class UserModel {
     timestamp = json['timestamp'];
     firstName = json['firstName'];
     lastName = json['lastName'];
+    fcmToken = json['fcmToken'];
     phone = json['phone'];
     email = json['email'];
     maritialStatus = json['maritialStatus'];
@@ -61,6 +64,7 @@ class UserModel {
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
     data['firstName'] = this.firstName;
+    data['fcmToken'] = this.fcmToken;
     data['lastName'] = this.lastName;
     data['maritialStatus'] = this.maritialStatus;
     data['phone'] = this.phone;

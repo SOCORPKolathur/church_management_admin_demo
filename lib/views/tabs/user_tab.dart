@@ -6,14 +6,17 @@ import 'package:church_management_admin/models/user_model.dart';
 import 'package:church_management_admin/services/user_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/user_print.dart';
+import 'package:excel/excel.dart' as ex;
 
 
 class UserTab extends StatefulWidget {
@@ -65,6 +68,32 @@ class _UserTabState extends State<UserTab> {
       });
       setState(() {});
     });
+  }
+
+  downloadTemplateExcel() async {
+    final wb.Workbook workbook = wb.Workbook();
+    final wb.Worksheet sheet   = workbook.worksheets[0];
+    sheet.getRangeByName("A1").setText("No.");
+    sheet.getRangeByName("B1").setText("Firstname");
+    sheet.getRangeByName("C1").setText("Lastname");
+    sheet.getRangeByName("D1").setText("Phone");
+    sheet.getRangeByName("E1").setText("Email");
+    sheet.getRangeByName("F1").setText("Profession");
+    sheet.getRangeByName("G1").setText("Baptize Date");
+    sheet.getRangeByName("H1").setText("Marital Status");
+    sheet.getRangeByName("I1").setText("Blood Group");
+    sheet.getRangeByName("J1").setText("Date of birth");
+    sheet.getRangeByName("K1").setText("Locality");
+    sheet.getRangeByName("L1").setText("Address");
+    sheet.getRangeByName("M1").setText("About");
+    sheet.getRangeByName("N1").setText("Annivarsary Date");
+
+    final List<int>bytes = workbook.saveAsStream();
+    workbook.dispose();
+    AnchorElement(href: 'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+        ..setAttribute('download', 'UserTemplate.xlsx')
+        ..click();
+
   }
 
   @override
@@ -120,7 +149,85 @@ class _UserTabState extends State<UserTab> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
-                          )
+                          ),
+                          Row(
+                            children: [
+                              PopupMenuButton(
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                   PopupMenuItem(
+                                    child: const Text('Download Template'),
+                                    onTap: (){
+                                      downloadTemplateExcel();
+                                    },
+                                  )
+                                ],
+                                child: const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              InkWell(
+                                onTap: () async {
+                                  FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: ['xlsx'],
+                                    allowMultiple: false,
+                                  );
+                                  var bytes = pickedFile!.files.single.bytes;
+                                  var excel = ex.Excel.decodeBytes(bytes!);
+                                  Response response = await UserFireCrud.bulkUploadUser(excel);
+                                  if(response.code == 200){
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Users created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
+                                  }else{
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text: "Failed to Create Users!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(1, 2),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                    child: Center(
+                                      child: KText(
+                                        text: "Bulk Upload",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

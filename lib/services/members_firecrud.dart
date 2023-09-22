@@ -1,6 +1,8 @@
 import 'dart:html';
+import 'dart:math';
 import 'package:church_management_admin/models/members_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:excel/excel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
 
@@ -9,6 +11,14 @@ final CollectionReference MemberCollection = firestore.collection('Members');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class MembersFireCrud {
+
+  static String generateRandomString(int len) {
+    var r = Random();
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+
   static Stream<List<MembersModel>> fetchMembers() => MemberCollection
           .orderBy("timestamp", descending: false)
           .snapshots()
@@ -125,6 +135,49 @@ class MembersFireCrud {
       res.code = 500;
       res.message = e;
     });
+    return res;
+  }
+
+  static Future<Response> bulkUploadMember(Excel excel) async {
+    Response res = Response();
+    final row = excel.tables[excel.tables.keys.first]!.rows
+        .map((e) => e.map((e) => e!.value).toList()).toList();
+    for (int i = 1; i < row.length; i++) {
+      String documentID = generateRandomString(20);
+      MembersModel member = MembersModel(
+        id: documentID,
+        firstName: row[i][2].toString(),
+        lastName: row[i][3].toString(),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        address: row[i][17].toString(),
+        imgUrl: "",
+        phone: row[i][4].toString(),
+        email: row[i][5].toString(),
+        dob: row[i][15].toString(),
+        bloodGroup: row[i][14].toString(),
+        baptizeDate: row[i][8].toString(),
+        country: "",
+        position: row[i][7].toString(),
+        socialStatus: row[i][10].toString(),
+        nationality: row[i][16].toString(),
+        marriageDate: row[i][9].toString(),
+        job: row[i][11].toString(),
+        family: row[i][12].toString(),
+        department: row[i][13].toString(),
+        baptizemCertificate: "",
+        gender: row[i][6].toString(),
+        memberId: row[i][1].toString(),
+      );
+      var json = member.toJson();
+      await MemberCollection.doc(documentID).set(
+          json).whenComplete(() {
+        res.code = 200;
+        res.message = "Sucessfully Updated from database";
+      }).catchError((e) {
+        res.code = 500;
+        res.message = e;
+      });
+    }
     return res;
   }
 

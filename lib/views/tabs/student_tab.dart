@@ -7,6 +7,7 @@ import 'package:church_management_admin/services/student_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,8 @@ import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/student_print.dart';
+import 'package:excel/excel.dart' as ex;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
 
 class StudentTab extends StatefulWidget {
   const StudentTab({super.key});
@@ -78,6 +81,32 @@ class _StudentTabState extends State<StudentTab> {
     });
   }
 
+  downloadTemplateExcel() async {
+    final wb.Workbook workbook = wb.Workbook();
+    final wb.Worksheet sheet   = workbook.worksheets[0];
+    sheet.getRangeByName("A1").setText("No.");
+    sheet.getRangeByName("B1").setText("Student ID");
+    sheet.getRangeByName("C1").setText("Firstname");
+    sheet.getRangeByName("D1").setText("Lastname");
+    sheet.getRangeByName("E1").setText("Gender");
+    sheet.getRangeByName("F1").setText("Guardian");
+    sheet.getRangeByName("G1").setText("Phone");
+    sheet.getRangeByName("H1").setText("Baptize Date");
+    sheet.getRangeByName("I1").setText("Age");
+    sheet.getRangeByName("J1").setText("Class");
+    sheet.getRangeByName("K1").setText("Family");
+    sheet.getRangeByName("L1").setText("Blood Group");
+    sheet.getRangeByName("M1").setText("Date of Birth");
+    sheet.getRangeByName("N1").setText("Nationality");
+
+    final List<int>bytes = workbook.saveAsStream();
+    workbook.dispose();
+    AnchorElement(href: 'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+      ..setAttribute('download', 'StudentTemplate.xlsx')
+      ..click();
+
+  }
+
   @override
   void initState() {
     setStudentId();
@@ -136,7 +165,85 @@ class _StudentTabState extends State<StudentTab> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
-                          )
+                          ),
+                          Row(
+                            children: [
+                              PopupMenuButton(
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                  PopupMenuItem(
+                                    child: const Text('Download Template'),
+                                    onTap: (){
+                                      downloadTemplateExcel();
+                                    },
+                                  )
+                                ],
+                                child: const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              InkWell(
+                                onTap: () async {
+                                  FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: ['xlsx'],
+                                    allowMultiple: false,
+                                  );
+                                  var bytes = pickedFile!.files.single.bytes;
+                                  var excel = ex.Excel.decodeBytes(bytes!);
+                                  Response response = await StudentFireCrud.bulkUploadStudent(excel);
+                                  if(response.code == 200){
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Students created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
+                                  }else{
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text: "Failed to Create Students!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(1, 2),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                    child: Center(
+                                      child: KText(
+                                        text: "Bulk Upload",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

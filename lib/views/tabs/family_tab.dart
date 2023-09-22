@@ -1605,6 +1605,17 @@ class _FamilyTabState extends State<FamilyTab> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              Container(
+                                width: size.width * 0.3,
+                                height: size.height * 0.4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(family.leaderImgUrl!),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(height: 20),
                               Row(
                                 children: [

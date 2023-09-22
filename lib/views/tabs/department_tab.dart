@@ -4,6 +4,7 @@ import 'package:church_management_admin/models/department_model.dart';
 import 'package:church_management_admin/services/department_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,7 @@ import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/department_print.dart';
+import 'package:excel/excel.dart' as ex;
 
 class DepartmentTab extends StatefulWidget {
   const DepartmentTab({super.key});
@@ -89,6 +91,67 @@ class _DepartmentTabState extends State<DepartmentTab> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          Expanded(child: Container()),
+                          // InkWell(
+                          //   onTap: () async {
+                          //     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+                          //       type: FileType.custom,
+                          //       allowedExtensions: ['xlsx'],
+                          //       allowMultiple: false,
+                          //     );
+                          //     var bytes = pickedFile!.files.single.bytes;
+                          //     var excel = ex.Excel.decodeBytes(bytes!);
+                          //     Response response = await DepartmentFireCrud.bulkUploadDepartment(excel);
+                          //     if(response.code == 200){
+                          //       CoolAlert.show(
+                          //           context: context,
+                          //           type: CoolAlertType.success,
+                          //           text: "Department created successfully!",
+                          //           width: size.width * 0.4,
+                          //           backgroundColor: Constants()
+                          //               .primaryAppColor.withOpacity(0.8)
+                          //       );
+                          //     }else{
+                          //       CoolAlert.show(
+                          //           context: context,
+                          //           type: CoolAlertType.error,
+                          //           text: "Failed to Create Department!",
+                          //           width: size.width * 0.4,
+                          //           backgroundColor: Constants()
+                          //               .primaryAppColor.withOpacity(0.8)
+                          //       );
+                          //     }
+                          //   },
+                          //   child: Container(
+                          //     height: 35,
+                          //     width: 150,
+                          //     decoration: BoxDecoration(
+                          //       color: Colors.white,
+                          //       borderRadius: BorderRadius.circular(8),
+                          //       boxShadow: const [
+                          //         BoxShadow(
+                          //           color: Colors.black26,
+                          //           offset: Offset(1, 2),
+                          //           blurRadius: 3,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     child: Padding(
+                          //       padding:
+                          //       const EdgeInsets.symmetric(horizontal: 6),
+                          //       child: Center(
+                          //         child: KText(
+                          //           text: "Bulk Upload",
+                          //           style: GoogleFonts.openSans(
+                          //             fontSize: 13,
+                          //             fontWeight: FontWeight.bold,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // const SizedBox(width: 10),
                         ],
                       ),
                     ),
