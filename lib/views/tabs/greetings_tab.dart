@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:church_management_admin/models/response.dart';
 import 'package:church_management_admin/services/greeting_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,9 +7,11 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
+import '../../models/notification_model.dart';
 import '../../models/user_model.dart';
 import '../../models/wish_template_model.dart';
 import '../../widgets/kText.dart';
+import 'package:intl/intl.dart';
 
 class GreetingsTab extends StatefulWidget {
   const GreetingsTab({super.key});
@@ -1040,10 +1044,6 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             backgroundColor: Constants()
                                                 .primaryAppColor
                                                 .withOpacity(0.8));
-                                        setState((){
-                                          selectedbirthUsers.clear();
-                                          selectedAnnivarUsers.clear();
-                                        });
                                         Navigator.pop(context);
                                       } else {
                                         await CoolAlert.show(
@@ -1120,6 +1120,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
     }
     users.forEach((element) async {
       await sendEmail([element.email!], wishes[0].title!, wishes[0].content!);
+      await sendPushMessage(element.fcmToken!, wishes[0].title!, wishes[0].content!);
+      await addToNotificationCollection(wishes[0].title!,wishes[0].content!,element);
+      await addToUserNotificationCollection(wishes[0].title!,wishes[0].content!,element);
     });
     response.code = 200;
     response.message = "Success";
@@ -1147,6 +1150,81 @@ class _GreetingsTabState extends State<GreetingsTab> {
       });
     }
     return response;
+  }
+
+  Future<bool> addToNotificationCollection(String title,String body,UserModel user) async {
+    bool isAdded = false;
+    NotificationModel notificationModel = NotificationModel(
+      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      time: DateFormat('hh:mm a').format(DateTime.now()),
+      content: body,
+      to: user.phone,
+      subject: title,
+    );
+    var json = notificationModel.toJson();
+    await FirebaseFirestore.instance.collection('Notifications').add(json).whenComplete(() {
+      isAdded = true;
+    }).catchError((e) {
+      isAdded = false;
+    });
+    return isAdded;
+  }
+
+  Future<bool> addToUserNotificationCollection(String title,String body,UserModel user) async {
+    bool isAdded = false;
+    NotificationModel notificationModel = NotificationModel(
+      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      time: DateFormat('hh:mm a').format(DateTime.now()),
+      content: body,
+      to: user.phone,
+      subject: title,
+    );
+    var json = notificationModel.toJson();
+    var userDocument = await FirebaseFirestore.instance.collection('Users').get();
+    for(int i = 0; i < userDocument.docs.length; i ++){
+      if(userDocument.docs[i]["id"] == user.id){
+        await FirebaseFirestore.instance.collection('Users').doc(userDocument.docs[i].id).collection('Notifications').add(json).whenComplete(() {
+          isAdded = true;
+        }).catchError((e) {
+          isAdded = false;
+        });
+      }
+    }
+    return isAdded;
+  }
+
+  Future<bool> sendPushMessage(String token, String title, String body) async {
+    bool isSended = false;
+    try {
+      var response = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+          'key=AAAAuzKqCXA:APA91bHpckZw1E2JuVr8MTPvoic6pDOOtxmTddTsSBno2ZYd3fMDo7kFmbsHHRfmuZurh0ut8n_46FgPAI5YdtfpwmJk85o9qeTMca9QgVhy7CiDUOdSer_ifyqaAQcGtF_oyBaX8UMQ',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{'body': body, 'title': title},
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done'
+            },
+            "to": token,
+          },
+        ),
+      );
+      if(response.statusCode == 200 || response.statusCode == 201){
+        isSended = true;
+      }else{
+        isSended = false;
+      }
+    } catch (e) {
+      print("error push notification");
+    }
+    return isSended;
   }
 
 }

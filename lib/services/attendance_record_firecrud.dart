@@ -44,6 +44,15 @@ class AttendanceRecordFireCrud {
           .map((doc) => AttendanceFamilyRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<AttendanceFamilyRecordModel>> fetchFamilyAttendancesWithFilterRange(start,end) =>
+      AttendanceFamilyCollection
+          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
+          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => AttendanceFamilyRecordModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> addAttendance({
     required List<Attendance> attendanceList,
   }) async {
@@ -72,7 +81,8 @@ class AttendanceRecordFireCrud {
     DocumentReference documentReferencer = AttendanceFamilyCollection.doc();
     AttendanceFamilyRecordModel attendance = AttendanceFamilyRecordModel(
         date: formatter.format(selectedDate),
-        attendance: attendanceList
+        attendance: attendanceList,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
     );
     var json = attendance.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {

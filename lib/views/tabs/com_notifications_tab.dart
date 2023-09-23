@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:church_management_admin/models/notification_model.dart';
+import 'package:church_management_admin/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +10,7 @@ import '../../constants.dart';
 import '../../models/department_model.dart';
 import '../../services/department_firecrud.dart';
 import '../../widgets/kText.dart';
+import 'package:intl/intl.dart';
 
 class ComNotificationsTab extends StatefulWidget {
   const ComNotificationsTab({super.key});
@@ -26,6 +30,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   bool isStudent = false;
   bool isMarried = false;
   bool isSingle = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -401,7 +406,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               InkWell(
-                                onTap: ()  {
+                                onTap: () async {
                                   sendNotification();
                                 },
                                 child: Container(
@@ -450,12 +455,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
               ),
             ),
             StreamBuilder(
-              stream: DepartmentFireCrud.fetchDepartments(),
+              stream: FirebaseFirestore.instance.collection('Notifications').snapshots(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<DepartmentModel> email = [];
+                  List notifications = snapshot.data!.docs;
                   return Container(
                     width: 1100,
                     margin: const EdgeInsets.all(20),
@@ -483,7 +488,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "Notifications (${email.length})",
+                                  text: "Notifications (${notifications.length})",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -494,8 +499,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 70 + email.length * 60
-                              ? 70 + email.length * 60
+                          height: size.height * 0.7 > 70 + notifications.length * 60
+                              ? 70 + notifications.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -526,6 +531,16 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       SizedBox(
                                         width: 110,
                                         child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 110,
+                                        child: KText(
                                           text: "Time",
                                           style: GoogleFonts.poppins(
                                             fontSize: 12,
@@ -534,7 +549,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 100,
+                                        width: 150,
                                         child: KText(
                                           text: "To",
                                           style: GoogleFonts.poppins(
@@ -544,7 +559,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width: 200,
                                         child: KText(
                                           text: "Subject",
                                           style: GoogleFonts.poppins(
@@ -562,27 +577,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "SMS Network",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -590,7 +585,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               const SizedBox(height: 10),
                               Expanded(
                                 child: ListView.builder(
-                                  itemCount: 0,
+                                  itemCount: notifications.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
                                       height: 60,
@@ -621,9 +616,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: 110,
                                             child: KText(
-                                              text: "departments[i].name!",
+                                              text: notifications[i]['date'],
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -631,10 +626,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: 110,
                                             child: KText(
-                                              text:
-                                              "departments[i].leaderName!",
+                                              text: notifications[i]['time'],
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -642,10 +636,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: 150,
                                             child: KText(
                                               text:
-                                              "departments[i].contactNumber!",
+                                              notifications[i]['to'],
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -655,7 +649,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                           SizedBox(
                                             width: 200,
                                             child: KText(
-                                              text: "departments[i].location!",
+                                              text:
+                                              notifications[i]['subject'],
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -663,174 +658,15 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
-                                              child: Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      height: 25,
-                                                      decoration:
-                                                      const BoxDecoration(
-                                                        color:
-                                                        Color(0xff2baae4),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color:
-                                                            Colors.black26,
-                                                            offset:
-                                                            Offset(1, 2),
-                                                            blurRadius: 3,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 6),
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                            children: [
-                                                              const Icon(
-                                                                Icons
-                                                                    .remove_red_eye,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 15,
-                                                              ),
-                                                              KText(
-                                                                text: "View",
-                                                                style: GoogleFonts
-                                                                    .openSans(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 5),
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      height: 25,
-                                                      decoration:
-                                                      const BoxDecoration(
-                                                        color:
-                                                        Color(0xffff9700),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color:
-                                                            Colors.black26,
-                                                            offset:
-                                                            Offset(1, 2),
-                                                            blurRadius: 3,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 6),
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                            children: [
-                                                              const Icon(
-                                                                Icons.add,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 15,
-                                                              ),
-                                                              KText(
-                                                                text: "Edit",
-                                                                style: GoogleFonts
-                                                                    .openSans(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 5),
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      height: 25,
-                                                      decoration:
-                                                      const BoxDecoration(
-                                                        color:
-                                                        Color(0xfff44236),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color:
-                                                            Colors.black26,
-                                                            offset:
-                                                            Offset(1, 2),
-                                                            blurRadius: 3,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 6),
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                            children: [
-                                                              const Icon(
-                                                                Icons
-                                                                    .cancel_outlined,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 15,
-                                                              ),
-                                                              KText(
-                                                                text: "Delete",
-                                                                style: GoogleFonts
-                                                                    .openSans(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              )),
+                                            width: 200,
+                                            child: KText(
+                                              text: notifications[i]['content'],
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     );
@@ -854,19 +690,21 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   }
 
   sendNotification() async {
-    List<String> userFcmList = [];
+    List<UserModel> usersList = [];
     var documentUsers = await FirebaseFirestore.instance.collection('Users').get();
     var documentStudents = await FirebaseFirestore.instance.collection('Students').get();
     if(isAll){
       documentUsers.docs.forEach((element) {
         if(element['fcmToken'] != ""){
-          userFcmList.add(element['fcmToken']);
+          //userFcmList.add(element['fcmToken']);
+          usersList.add(UserModel.fromJson(element.data()));
         }
       });
       documentStudents.docs.forEach((element) { 
         for(int i = 0; i < documentUsers.docs.length; i ++){
           if(documentUsers.docs[i]['phone'] == element.get('phone')){
-            userFcmList.add(documentUsers.docs[i]['fcmToken']);
+            //userFcmList.add(documentUsers.docs[i]['fcmToken']);
+            usersList.add(UserModel.fromJson(documentUsers.docs[i].data() as Map<String,dynamic>));
           }
         }
       });
@@ -874,26 +712,30 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
       if(isMarried){
         documentUsers.docs.forEach((element) {
           if(element['fcmToken'] != "" && element['maritialStatus'].toString().toLowerCase() == 'married'){
-            userFcmList.add(element['fcmToken']);
+            //userFcmList.add(element['fcmToken']);
+            usersList.add(UserModel.fromJson(element.data() as Map<String,dynamic>));
           }
         });
       }else{
         documentUsers.docs.forEach((element) {
           if(element['fcmToken'] != "" && element['maritialStatus'].toString().toLowerCase() == 'single'){
-            userFcmList.add(element['fcmToken']);
+            //userFcmList.add(element['fcmToken']);
+            usersList.add(UserModel.fromJson(element.data() as Map<String,dynamic>));
           }
         });
       }
       if(genderController.text.toLowerCase() == "male"){
         documentUsers.docs.forEach((element) {
           if(element['fcmToken'] != "" && element['gender'].toString().toLowerCase() == 'male'){
-            userFcmList.add(element['fcmToken']);
+            //userFcmList.add(element['fcmToken']);
+            usersList.add(UserModel.fromJson(element.data() as Map<String,dynamic>));
           }
         });
       }else if(genderController.text.toLowerCase() == "female"){
         documentUsers.docs.forEach((element) {
           if(element['fcmToken'] != "" && element['gender'].toString().toLowerCase() == 'female'){
-            userFcmList.add(element['fcmToken']);
+            //userFcmList.add(element['fcmToken']);
+            usersList.add(UserModel.fromJson(element.data() as Map<String,dynamic>));
           }
         });
       }
@@ -903,7 +745,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
             if(element['clasS'] == classController.text){
               for(int i = 0; i < documentUsers.docs.length; i ++){
                 if(documentUsers.docs[i]['phone'] == element.get('guardianPhone')){
-                  userFcmList.add(documentUsers.docs[i]['fcmToken']);
+                  //userFcmList.add(documentUsers.docs[i]['fcmToken']);
+                  usersList.add(UserModel.fromJson(documentUsers.docs[i].data()));
                 }
               }
             }
@@ -912,15 +755,18 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
           documentStudents.docs.forEach((element) {
             for(int i = 0; i < documentUsers.docs.length; i ++){
               if(documentUsers.docs[i]['phone'] == element.get('guardianPhone')){
-                userFcmList.add(documentUsers.docs[i]['fcmToken']);
+                //userFcmList.add(documentUsers.docs[i]['fcmToken']);
+                usersList.add(UserModel.fromJson(documentUsers.docs[i] as Map<String,dynamic>));
               }
             }
           });
         }
       }
     }
-    userFcmList.forEach((token) async {
-      bool isSended = await sendPushMessage(token, descriptionController.text, subjectController.text);
+    usersList.forEach((user) async {
+      bool isSended = await sendPushMessage(user.fcmToken!, descriptionController.text, subjectController.text);
+      bool isSended1 = await addToNotificationCollection(subjectController.text,descriptionController.text,user);
+      bool isSended2 = await addToUserNotificationCollection(subjectController.text,descriptionController.text,user);
       if(isSended){
         subjectController.clear();
         descriptionController.clear();
@@ -932,10 +778,49 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
           isMarried = false;
           isSingle = false;
         });
-      }else{
-        print("Succesfully Sended");
       }
     });
+  }
+
+  Future<bool> addToNotificationCollection(String title,String body,UserModel user) async {
+    bool isAdded = false;
+    NotificationModel notificationModel = NotificationModel(
+      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      time: DateFormat('hh:mm a').format(DateTime.now()),
+      content: body,
+      to: user.phone,
+      subject: title,
+    );
+    var json = notificationModel.toJson();
+    await FirebaseFirestore.instance.collection('Notifications').add(json).whenComplete(() {
+      isAdded = true;
+    }).catchError((e) {
+      isAdded = false;
+    });
+    return isAdded;
+  }
+
+  Future<bool> addToUserNotificationCollection(String title,String body,UserModel user) async {
+    bool isAdded = false;
+    NotificationModel notificationModel = NotificationModel(
+      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      time: DateFormat('hh:mm a').format(DateTime.now()),
+      content: body,
+      to: user.phone,
+      subject: title,
+    );
+    var json = notificationModel.toJson();
+    var userDocument = await FirebaseFirestore.instance.collection('Users').get();
+    for(int i = 0; i < userDocument.docs.length; i ++){
+      if(userDocument.docs[i]["id"] == user.id){
+        await FirebaseFirestore.instance.collection('Users').doc(userDocument.docs[i].id).collection('Notifications').add(json).whenComplete(() {
+          isAdded = true;
+        }).catchError((e) {
+          isAdded = false;
+        });
+      }
+    }
+    return isAdded;
   }
 
   Future<bool> sendPushMessage(String token, String body, String title) async {

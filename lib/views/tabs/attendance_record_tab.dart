@@ -556,13 +556,184 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       bottomLeft: Radius.circular(10),
                                       bottomRight: Radius.circular(10),
                                     )),
-                                child: Center(
-                                  child: Text(
-                                    "No records found in this date!!",
-                                    style: GoogleFonts.openSans(
-                                      fontWeight: FontWeight.bold,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              generateAttendancePdf(PdfPageFormat.letter, attendances,false);
+                                            },
+                                            child: Container(
+                                              height: 35,
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xfffe5722),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(1, 2),
+                                                    blurRadius: 3,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 6),
+                                                child: Center(
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(Icons.print,
+                                                          color: Colors.white),
+                                                      KText(
+                                                        text: "PRINT",
+                                                        style: GoogleFonts.openSans(
+                                                          color: Colors.white,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          InkWell(
+                                            onTap: () {
+                                              copyToClipBoard(attendances);
+                                            },
+                                            child: Container(
+                                              height: 35,
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xffff9700),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(1, 2),
+                                                    blurRadius: 3,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 6),
+                                                child: Center(
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(Icons.copy,
+                                                          color: Colors.white),
+                                                      KText(
+                                                        text: "COPY",
+                                                        style: GoogleFonts.openSans(
+                                                          color: Colors.white,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          InkWell(
+                                            onTap: () async {
+                                              var data = await generateAttendancePdf(PdfPageFormat.letter, attendances, true);
+                                              savePdfToFile(data);
+                                            },
+                                            child: Container(
+                                              height: 35,
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xff9b28b0),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(1, 2),
+                                                    blurRadius: 3,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 6),
+                                                child: Center(
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(Icons.picture_as_pdf,
+                                                          color: Colors.white),
+                                                      KText(
+                                                        text: "PDF",
+                                                        style: GoogleFonts.openSans(
+                                                          color: Colors.white,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          InkWell(
+                                            onTap: () {
+                                              convertToCsv(attendances);
+                                            },
+                                            child: Container(
+                                              height: 35,
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xff019688),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(1, 2),
+                                                    blurRadius: 3,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 6),
+                                                child: Center(
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(
+                                                          Icons.file_copy_rounded,
+                                                          color: Colors.white),
+                                                      KText(
+                                                        text: "CSV",
+                                                        style: GoogleFonts.openSans(
+                                                          color: Colors.white,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(child: Container()),
+                                          isFiltered ? Text("${formatter.format(dateRangeStart!)} - ${formatter.format(dateRangeEnd!)}") : Text(searchDateController.text)
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                    Center(
+                                      child: Text(
+                                        "No records found in this date!!",
+                                        style: GoogleFonts.openSans(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ) : Container(
                                 height: size.height * 0.7 >
@@ -739,6 +910,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             ),
                                           ),
                                         ),
+                                        Expanded(child: Container()),
+                                        isFiltered ? Text("${formatter.format(dateRangeStart!)} - ${formatter.format(dateRangeEnd!)}") : Text(searchDateController.text)
                                       ],
                                     ),
                                     const SizedBox(height: 30),

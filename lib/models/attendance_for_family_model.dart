@@ -1,12 +1,14 @@
 
 class AttendanceFamilyRecordModel {
   String? date;
+  num? timestamp;
   List<AttendanceFamily>? attendance;
 
-  AttendanceFamilyRecordModel({this.date, this.attendance});
+  AttendanceFamilyRecordModel({this.date, this.attendance, this.timestamp});
 
   AttendanceFamilyRecordModel.fromJson(Map<String, dynamic> json) {
     date = json['date'];
+    timestamp = json['timestamp'];
     if (json['attendance'] != null) {
       attendance = <AttendanceFamily>[];
       json['attendance'].forEach((v) {
@@ -18,6 +20,7 @@ class AttendanceFamilyRecordModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['date'] = this.date;
+    data['timestamp'] = this.timestamp;
     if (this.attendance != null) {
       data['attendance'] = this.attendance!.map((v) => v.toJson()).toList();
     }
