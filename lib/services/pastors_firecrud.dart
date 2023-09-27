@@ -16,6 +16,14 @@ class PastorsFireCrud {
       .map((doc) => PastorsModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
+  static Stream<List<PastorsModel>> fetchPastorsWithSearch(String text) => PastorsCollection
+      .orderBy("timestamp", descending: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .map((doc) => PastorsModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
   static Future<Response> addPastor(
       {required File image,
         required String baptizeDate,
@@ -26,8 +34,10 @@ class PastorsFireCrud {
         required String email,
         required String address,
         required String gender,
+        required String pincode,
         required String family,
         required String firstName,
+        required String aadharNo,
         required String job,
         required String lastName,
         required String marriageDate,
@@ -48,8 +58,10 @@ class PastorsFireCrud {
         marriageDate: marriageDate,
         lastName: lastName,
         country: country,
+        aadharNo: aadharNo,
         job: job,
         gender: gender,
+        pincode: pincode,
         address: address,
         firstName: firstName,
         family: family,

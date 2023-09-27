@@ -19,6 +19,7 @@ import '../../widgets/kText.dart';
 import '../prints/member_print.dart';
 import 'package:excel/excel.dart' as ex;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
+import 'package:intl/intl.dart';
 
 class MembersTab extends StatefulWidget {
   const MembersTab({super.key});
@@ -28,6 +29,7 @@ class MembersTab extends StatefulWidget {
 }
 
 class _MembersTabState extends State<MembersTab> {
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController memberIdController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -45,7 +47,10 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
+  TextEditingController aadharNoController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
+  String searchString = "";
   File? profileImage;
   File? documentForUpload;
   var uploadedImage;
@@ -123,6 +128,8 @@ class _MembersTabState extends State<MembersTab> {
     sheet.getRangeByName("P1").setText("Date of Birth");
     sheet.getRangeByName("Q1").setText("Nationality");
     sheet.getRangeByName("R1").setText("Address");
+    sheet.getRangeByName("S1").setText("Pincode");
+    sheet.getRangeByName("T1").setText("Aadhaar Number");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -396,6 +403,7 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      readOnly: true,
                                       style: const TextStyle(fontSize: 12),
                                       controller: memberIdController,
                                     )
@@ -568,7 +576,40 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhaar Number",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharNoController,
                                     )
                                   ],
                                 ),
@@ -593,6 +634,18 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            marriageDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: marriageDateController,
                                     )
                                   ],
@@ -686,11 +739,7 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -711,7 +760,11 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -727,6 +780,18 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: dobController,
                                     )
                                   ],
@@ -749,6 +814,27 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: nationalityController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
                                     )
                                   ],
                                 ),
@@ -825,6 +911,7 @@ class _MembersTabState extends State<MembersTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
+                                      pincodeController.text != "" &&
                                       firstNameController.text != "" &&
                                       genderController.text != "Select Gender" &&
                                       addressController.text != "" &&
@@ -836,6 +923,7 @@ class _MembersTabState extends State<MembersTab> {
                                       socialStatusController.text != "") {
                                     Response response =
                                         await MembersFireCrud.addMember(
+                                          aadharNo: aadharNoController.text,
                                           membersId: memberIdController.text,
                                       image: profileImage!,
                                       document: documentForUpload,
@@ -856,6 +944,7 @@ class _MembersTabState extends State<MembersTab> {
                                       position: positionController.text,
                                       socialStatus: socialStatusController.text,
                                       country: countryController.text,
+                                          pincode: pincodeController.text,
                                     );
                                     if (response.code == 200) {
                                       CoolAlert.show(
@@ -878,9 +967,11 @@ class _MembersTabState extends State<MembersTab> {
                                         docname = "";
                                         documentForUpload = null;
                                         dobController.text = "";
+                                        aadharNoController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
                                         firstNameController.text = "";
+                                        pincodeController.text = "";
                                         jobController.text = "";
                                         lastNameController.text = "";
                                         marriageDateController.text = "";
@@ -944,7 +1035,7 @@ class _MembersTabState extends State<MembersTab> {
               ),
             ),
             StreamBuilder(
-              stream: MembersFireCrud.fetchMembers(),
+              stream: searchString != "" ? MembersFireCrud.fetchMembersWithSearch(searchString) : MembersFireCrud.fetchMembers(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -981,6 +1072,31 @@ class _MembersTabState extends State<MembersTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search Pincode',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1440,6 +1556,9 @@ class _MembersTabState extends State<MembersTab> {
                                                           socialStatusController.text = members[i].socialStatus!;
                                                           countryController.text = members[i].country!;
                                                           selectedImg = members[i].imgUrl;
+                                                          pincodeController.text = members[i].pincode!;
+                                                          memberIdController.text = members[i].memberId!;
+                                                          aadharNoController.text = members[i].aadharNo!;
                                                         });
                                                         editPopUp(members[i], size);
                                                       },
@@ -2021,6 +2140,30 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
+                                          text: "Aadhaar Number",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: member.aadharNo!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
                                           text: "Employment/Job",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -2199,6 +2342,7 @@ class _MembersTabState extends State<MembersTab> {
                               profileImage = null;
                               baptizeDateController.text = "";
                               bloodGroupController.text = "";
+                              aadharNoController.text = "";
                               departmentController.text = "";
                               dobController.text = "";
                               addressController.text = "";
@@ -2206,6 +2350,8 @@ class _MembersTabState extends State<MembersTab> {
                               emailController.text = "";
                               familyController.text = "";
                               firstNameController.text = "";
+                              memberIdController.text = "";
+                              pincodeController.text = "";
                               jobController.text = "";
                               lastNameController.text = "";
                               marriageDateController.text = "";
@@ -2329,6 +2475,28 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
+                                      text: "Member ID",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      readOnly: true,
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: memberIdController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
                                       text: "Firstname",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
@@ -2360,6 +2528,52 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Phone",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: phoneController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Email",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: emailController,
                                     )
                                   ],
                                 ),
@@ -2412,52 +2626,6 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: phoneController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Email",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: emailController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
                                       text: "Position",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
@@ -2489,6 +2657,27 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: baptizeDateController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhaar Number",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharNoController,
                                     )
                                   ],
                                 ),
@@ -2606,11 +2795,7 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2631,7 +2816,12 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2669,6 +2859,27 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: nationalityController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
                                     )
                                   ],
                                 ),
@@ -2745,6 +2956,8 @@ class _MembersTabState extends State<MembersTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
+                                      memberIdController.text != "" &&
+                                      pincodeController.text != "" &&
                                       addressController.text != "" &&
                                       genderController.text != "Select Gender" &&
                                       firstNameController.text != "" &&
@@ -2764,10 +2977,12 @@ class _MembersTabState extends State<MembersTab> {
                                         bloodGroup: bloodGroupController.text,
                                         department: departmentController.text,
                                         dob: dobController.text,
+                                        aadharNo: aadharNoController.text,
                                         email: emailController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
                                         job: jobController.text,
+                                        pincode: pincodeController.text,
                                         lastName: lastNameController.text,
                                         marriageDate: marriageDateController.text,
                                         nationality: nationalityController.text,
@@ -2775,6 +2990,7 @@ class _MembersTabState extends State<MembersTab> {
                                         position: positionController.text,
                                         socialStatus: socialStatusController.text,
                                         country: countryController.text,
+                                        memberId: memberIdController.text,
                                       ),
                                         profileImage,
                                         member.imgUrl ?? ""
@@ -2794,9 +3010,12 @@ class _MembersTabState extends State<MembersTab> {
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
+                                        memberIdController.text = "";
+                                        aadharNoController.text = "";
                                         dobController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
+                                        pincodeController.text = "";
                                         firstNameController.text = "";
                                         jobController.text = "";
                                         lastNameController.text = "";

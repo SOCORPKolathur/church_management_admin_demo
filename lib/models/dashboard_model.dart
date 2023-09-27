@@ -9,6 +9,7 @@ class DashboardModel {
   String? totalStaffs;
   String? totalStudents;
   String? totalMembers;
+  String? totalFamilies;
   String? totalChorus;
   String? birthdayCount;
   String? annivarsaryCount;
@@ -19,6 +20,7 @@ class DashboardModel {
         this.currentBalance,
         this.totalUsers,
         this.totalCommite,
+        this.totalFamilies,
         this.totalPastors,
         this.totalClans,
         this.totalStaffs,
@@ -36,6 +38,7 @@ class DashboardModel {
     currentBalance = json['currentBalance'];
     totalUsers = json['totalUsers'];
     totalCommite = json['totalCommite'];
+    totalFamilies = json['totalFamilies'];
     totalPastors = json['totalPastors'];
     totalClans = json['totalClans'];
     totalStaffs = json['totalStaffs'];

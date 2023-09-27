@@ -4,6 +4,7 @@ import 'package:church_management_admin/models/fund_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference FundManageCollection =
@@ -12,6 +13,7 @@ final CollectionReference FundCollection = firestore.collection('Funds');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class FundManageFireCrud {
+
   static Stream<List<FundManagementModel>> fetchFunds() =>
       FundManageCollection.orderBy("timestamp", descending: false)
           .snapshots()
@@ -21,25 +23,20 @@ class FundManageFireCrud {
 
   static Stream<List<FundManagementModel>> fetchFundsWithFilter(
           DateTime start, DateTime end) =>
-      FundManageCollection.where("timestamp",
-              isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp",
-              isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
-          .orderBy("timestamp", descending: false)
+      FundManageCollection
           .snapshots()
           .map((snapshot) => snapshot.docs
+              .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
               .map((doc) => FundManagementModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
   static Stream<List<FundManagementModel>> fetchFundsWithFilter1(
           DateTime start, DateTime end, String recordType) =>
-      FundManageCollection.where("timestamp",
-              isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp",
-              isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
+      FundManageCollection
           .orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
               .where((element) => element['recordType'] == recordType)
               .map((doc) => FundManagementModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
@@ -65,9 +62,10 @@ class FundManageFireCrud {
     String imgUrl = await uploadImageToStorage(image);
     String docUrl = await uploadDocumentToStorage(document);
     DocumentReference documentReferencer = FundManageCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     FundManagementModel fund = FundManagementModel(
       id: "",
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: tempDate.millisecondsSinceEpoch,
       recordType: recordType,
       date: date,
       remarks: remarks,

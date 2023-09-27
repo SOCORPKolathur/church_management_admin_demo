@@ -7,6 +7,7 @@ class PastorsModel {
   String? email;
   String? address;
   String? gender;
+  String? aadharNo;
   String? position;
   String? baptizeDate;
   String? marriageDate;
@@ -18,6 +19,7 @@ class PastorsModel {
   String? bloodGroup;
   String? dob;
   String? nationality;
+  String? pincode;
   String? imgUrl;
 
   PastorsModel(
@@ -27,10 +29,12 @@ class PastorsModel {
         this.timestamp,
         this.address,
         this.gender,
+        this.aadharNo,
         this.phone,
         this.email,
         this.country,
         this.position,
+        this.pincode,
         this.baptizeDate,
         this.marriageDate,
         this.socialStatus,
@@ -48,7 +52,9 @@ class PastorsModel {
     firstName = json['firstName'];
     lastName = json['lastName'];
     country = json['country'];
+    aadharNo = json['aadharNo'];
     phone = json['phone'];
+    pincode = json['pincode'];
     address = json['address'];
     gender = json['gender'];
     email = json['email'];
@@ -73,10 +79,12 @@ class PastorsModel {
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
     data['address'] = this.address;
+    data['aadharNo'] = this.aadharNo;
     data['gender'] = this.gender;
     data['email'] = this.email;
     data['position'] = this.position;
     data['country'] = this.country;
+    data['pincode'] = this.pincode;
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;
     data['socialStatus'] = this.socialStatus;

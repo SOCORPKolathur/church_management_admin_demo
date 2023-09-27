@@ -280,12 +280,13 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void authenticate(ChurchDetailsModel church) {
-    if(emailController.text == church.managerEmail && passwordController.text == church.managerPassword) {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (ctx) =>  HomeView(currentRole: 'Manager',)));
-    }else if(emailController.text == church.adminEmail && passwordController.text == church.adminPassword){
-      Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (ctx) =>  HomeView(currentRole: 'Admin',)));
+    if(church.roles!.isNotEmpty){
+      church.roles!.forEach((element) {
+        if(emailController.text.toLowerCase() == element.roleName!.toLowerCase() && passwordController.text.toLowerCase() == element.rolePassword!.toLowerCase()){
+          Navigator.pushReplacement(context, MaterialPageRoute(
+                     builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
+        }
+      });
     }else{
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }

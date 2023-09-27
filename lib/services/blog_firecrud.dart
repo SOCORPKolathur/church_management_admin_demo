@@ -3,6 +3,7 @@ import 'package:church_management_admin/models/blog_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference BlogCollection = firestore.collection('Blogs');
@@ -19,11 +20,10 @@ class BlogFireCrud {
 
   static Stream<List<BlogModel>> fetchBlogsWithFilter(DateTime start,DateTime end) =>
       BlogCollection
-          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
           .orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
           .map((doc) => BlogModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
@@ -37,9 +37,10 @@ class BlogFireCrud {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
     DocumentReference documentReferencer = BlogCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse("${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}");
     BlogModel blog = BlogModel(
         id: "",
-        timestamp: DateTime.now().millisecondsSinceEpoch,
+        timestamp: tempDate.millisecondsSinceEpoch,
         description: description,
         author: author,
         title: title,

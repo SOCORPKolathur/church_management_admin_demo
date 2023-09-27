@@ -18,6 +18,7 @@ import '../../widgets/kText.dart';
 import '../prints/student_print.dart';
 import 'package:excel/excel.dart' as ex;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
+import 'package:intl/intl.dart';
 
 class StudentTab extends StatefulWidget {
   const StudentTab({super.key});
@@ -27,6 +28,7 @@ class StudentTab extends StatefulWidget {
 }
 
 class _StudentTabState extends State<StudentTab> {
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController studentIdController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -43,6 +45,7 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController familyController = TextEditingController();
   //TextEditingController departmentController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController();
+  TextEditingController aadharNoController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -98,6 +101,7 @@ class _StudentTabState extends State<StudentTab> {
     sheet.getRangeByName("L1").setText("Blood Group");
     sheet.getRangeByName("M1").setText("Date of Birth");
     sheet.getRangeByName("N1").setText("Nationality");
+    sheet.getRangeByName("O1").setText("Aadhar Number");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -355,6 +359,7 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      readOnly: true,
                                       style: const TextStyle(fontSize: 12),
                                       controller: studentIdController,
                                     )
@@ -503,6 +508,18 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
                                     )
                                   ],
@@ -588,6 +605,27 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhar Number",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharNoController,
+                                    )
+                                  ],
+                                ),
+                              ),
                               // const SizedBox(width: 20),
                               // SizedBox(
                               //   width: 300,
@@ -650,6 +688,18 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: dobController,
                                     )
                                   ],
@@ -704,6 +754,7 @@ class _StudentTabState extends State<StudentTab> {
                                     ) {
                                     Response response =
                                         await StudentFireCrud.addStudent(
+                                          aadharNo: aadharNoController.text,
                                           studentId: studentIdController.text,
                                       image: profileImage!,
                                       baptizeDate: baptizeDateController.text,
@@ -747,6 +798,7 @@ class _StudentTabState extends State<StudentTab> {
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
+                                        aadharNoController.text = "";
                                         //departmentController.text = "";
                                         dobController.text = "";
                                         familyController.text = "";
@@ -1745,6 +1797,29 @@ class _StudentTabState extends State<StudentTab> {
                                   ),
                                   const SizedBox(height: 20),
                                   Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Aadhar Number",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: student.aadharNo!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
@@ -1956,6 +2031,7 @@ class _StudentTabState extends State<StudentTab> {
                               guardianPhoneController.text = "";
                               baptizeDateController.text = "";
                               bloodGroupController.text = "";
+                              aadharNoController.text = "";
                               //departmentController.text = "";
                               dobController.text = "";
                               familyController.text = "";
@@ -2197,6 +2273,27 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhaar Number",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharNoController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2426,6 +2523,7 @@ class _StudentTabState extends State<StudentTab> {
                                         guardian: guardianController.text,
                                         guardianPhone:
                                         guardianPhoneController.text,
+                                        aadharNo: aadharNoController.text,
                                         dob: dobController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
@@ -2460,6 +2558,7 @@ class _StudentTabState extends State<StudentTab> {
                                         guardianController.text = "";
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";
+                                        aadharNoController.text = "";
                                         bloodGroupController.text = "";
                                         //departmentController.text = "";
                                         dobController.text = "";

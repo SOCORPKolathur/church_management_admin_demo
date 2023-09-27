@@ -14,6 +14,7 @@ import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/pastors_print.dart';
+import 'package:intl/intl.dart';
 
 class PastorsTab extends StatefulWidget {
   const PastorsTab({super.key});
@@ -23,7 +24,7 @@ class PastorsTab extends StatefulWidget {
 }
 
 class _PastorsTabState extends State<PastorsTab> {
-
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -40,10 +41,14 @@ class _PastorsTabState extends State<PastorsTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
+  TextEditingController aadharNoController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+
+  String searchString = "";
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -87,7 +92,7 @@ class _PastorsTabState extends State<PastorsTab> {
               ),
             ),
             Container(
-              height: size.height * 1.67,
+              height: size.height * 1.8,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -338,6 +343,18 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
                                     )
                                   ],
@@ -363,6 +380,18 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            marriageDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: marriageDateController,
                                     )
                                   ],
@@ -534,6 +563,18 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: dobController,
                                     )
                                   ],
@@ -560,6 +601,52 @@ class _PastorsTabState extends State<PastorsTab> {
                                   ],
                                 ),
                               ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color:Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhar Number",
+                                      style: GoogleFonts.openSans(
+                                        color:Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharNoController,
+                                    )
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -632,6 +719,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
+                                      pincodeController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       addressController.text != "" &&
@@ -650,10 +738,12 @@ class _PastorsTabState extends State<PastorsTab> {
                                       bloodGroup: bloodGroupController.text,
                                       department: departmentController.text,
                                       dob: dobController.text,
+                                      aadharNo: aadharNoController.text,
                                       email: emailController.text,
                                       family: familyController.text,
                                       firstName: firstNameController.text,
                                       job: jobController.text,
+                                      pincode: pincodeController.text,
                                       lastName: lastNameController.text,
                                       marriageDate: marriageDateController.text,
                                       nationality: nationalityController.text,
@@ -680,10 +770,12 @@ class _PastorsTabState extends State<PastorsTab> {
                                         dobController.text = "";
                                         emailController.text = "";
                                         addressController.text = "";
+                                        aadharNoController.text = "";
                                         genderController.text = "Select Gender";
                                         familyController.text = "";
                                         firstNameController.text = "";
                                         jobController.text = "";
+                                        pincodeController.text = "";
                                         lastNameController.text = "";
                                         marriageDateController.text = "";
                                         nationalityController.text = "";
@@ -746,7 +838,7 @@ class _PastorsTabState extends State<PastorsTab> {
               ),
             ),
             StreamBuilder(
-              stream: PastorsFireCrud.fetchPastors(),
+              stream: searchString != "" ? PastorsFireCrud.fetchPastorsWithSearch(searchString) : PastorsFireCrud.fetchPastors(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -783,6 +875,31 @@ class _PastorsTabState extends State<PastorsTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search Pincode',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1087,6 +1204,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                                                   addressController.text = pastors[i].address!;
                                                                   genderController.text = pastors[i].gender!;
                                                                   selectedImg = pastors[i].imgUrl;
+                                                                  pincodeController.text = pastors[i].pincode!;
+                                                                  aadharNoController.text = pastors[i].aadharNo!;
                                                                 });
                                                                 editPopUp(pastors[i], size);
                                                               },
@@ -1509,6 +1628,30 @@ class _PastorsTabState extends State<PastorsTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
+                                          text: "Aadhar Number",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: pastor.aadharNo!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
                                           text: "Baptize Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -1763,10 +1906,12 @@ class _PastorsTabState extends State<PastorsTab> {
                               dobController.text = "";
                               emailController.text = "";
                               addressController.text = "";
+                              aadharNoController.text = "";
                               genderController.text = "Select Gender";
                               familyController.text = "";
                               firstNameController.text = "";
                               jobController.text = "";
+                              pincodeController.text = "";
                               lastNameController.text = "";
                               marriageDateController.text = "";
                               nationalityController.text = "";
@@ -2225,6 +2370,52 @@ class _PastorsTabState extends State<PastorsTab> {
                             ],
                           ),
                           const SizedBox(height: 30),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color:Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhaar Number",
+                                      style: GoogleFonts.openSans(
+                                        color:Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharNoController,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -2301,6 +2492,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" &&
+                                      pincodeController.text != "" &&
                                       positionController.text != "" &&
                                       socialStatusController.text != "") {
                                     Response response =
@@ -2314,12 +2506,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                         dob: dobController.text,
                                         gender: genderController.text,
                                         address: addressController.text,
+                                        aadharNo: aadharNoController.text,
                                         email: emailController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
                                         job: jobController.text,
                                         lastName: lastNameController.text,
                                         marriageDate: marriageDateController.text,
+                                        pincode: pincodeController.text,
                                         nationality: nationalityController.text,
                                         phone: phoneController.text,
                                         position: positionController.text,
@@ -2347,6 +2541,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                         dobController.text = "";
                                         emailController.text = "";
                                         addressController.text = "";
+                                        aadharNoController.text = "";
+                                        pincodeController.text = "";
                                         genderController.text = "Select Gender";
                                         familyController.text = "";
                                         firstNameController.text = "";

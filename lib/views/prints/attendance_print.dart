@@ -1,15 +1,16 @@
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../../models/attendace_record_model.dart';
 import '../../models/chorus_model.dart';
 
-Future<Uint8List> generateAttendancePdf(PdfPageFormat pageFormat,List<Attendance> attenances, bool isPdf) async {
+Future<Uint8List> generateAttendancePdf(PdfPageFormat pageFormat,List<AttendanceRecordModel> attenancesList, bool isPdf) async {
 
   final chorus = AttendanceModelforPdf(
       title: "Attendance",
-      attenances: attenances
+      attenancesList: attenancesList
   );
 
   return await chorus.buildPdf(pageFormat,isPdf);
@@ -17,9 +18,9 @@ Future<Uint8List> generateAttendancePdf(PdfPageFormat pageFormat,List<Attendance
 
 class AttendanceModelforPdf{
 
-  AttendanceModelforPdf({required this.title, required this.attenances});
+  AttendanceModelforPdf({required this.title, required this.attenancesList});
   String? title;
-  List<Attendance> attenances = [];
+  List<AttendanceRecordModel> attenancesList = [];
 
   Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
@@ -28,9 +29,24 @@ class AttendanceModelforPdf{
     doc.addPage(
       pw.MultiPage(
         build: (context) => [
-          _contentTable(context),
-          pw.SizedBox(height: 20),
-          pw.SizedBox(height: 20),
+          pw.ListView.builder(
+            itemCount: attenancesList.length,
+            itemBuilder: (ctx,i){
+              return pw.Container(
+                margin: const pw.EdgeInsets.symmetric(vertical: 10),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                        child:  pw.Text("Date : ${attenancesList[i].date!}")
+                    ),
+                    _contentTable(context,attenancesList[i].attendance!),
+                  ]
+                )
+              );
+            }
+          ),
         ],
       ),
     );
@@ -42,7 +58,7 @@ class AttendanceModelforPdf{
     return doc.save();
   }
 
-  pw.Widget _contentTable(pw.Context context) {
+  pw.Widget _contentTable(pw.Context context,List<Attendance> attendances) {
     const tableHeaders = [
       'Si.NO',
       'Student Id',
@@ -88,10 +104,10 @@ class AttendanceModelforPdf{
             (col) => tableHeaders[col],
       ),
       data: List<List<String>>.generate(
-        attenances.length,
+        attendances.length,
             (row) => List<String>.generate(
           tableHeaders.length,
-              (col) => attenances[row].getIndex(col,row),
+              (col) => attendances[row].getIndex(col,row),
         ),
       ),
     );

@@ -6,6 +6,7 @@ class StudentModel {
   String? lastName;
   String? phone;
   String? gender;
+  String? aadharNo;
   String? clasS;
   String? age;
   String? guardian;
@@ -32,6 +33,7 @@ class StudentModel {
         this.timestamp,
         this.phone,
         this.email,
+        this.aadharNo,
         this.country,
         this.clasS,
         this.age,
@@ -56,6 +58,7 @@ class StudentModel {
     clasS = json['clasS'];
     studentId = json['studentId'];
     age = json['age'];
+    aadharNo = json['aadharNo'];
     guardian = json['guardian'];
     guardianPhone = json['guardianPhone'];
     firstName = json['firstName'];
@@ -85,6 +88,7 @@ class StudentModel {
     data['studentId'] = this.studentId;
     data['age'] = this.age;
     data['guardian'] = this.guardian;
+    data['aadharNo'] = this.aadharNo;
     data['guardianPhone'] = this.guardianPhone;
     data['firstName'] = this.firstName;
     data['gender'] = this.gender;

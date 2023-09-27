@@ -26,7 +26,7 @@ class _DonationsTabState extends State<DonationsTab> {
   TextEditingController bankController = TextEditingController();
   TextEditingController amountController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
   bool isFiltered= false;
@@ -210,7 +210,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Cheque/Bank/Paypal",
+                                      text: "Cheque/Bank/UPI",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -558,7 +558,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       SizedBox(
                                         width: 250,
                                         child: KText(
-                                          text: "Cheque/Bank/Paypal/Other Info",
+                                          text: "Cheque/Bank/UPI/Other Info",
                                           style: GoogleFonts.poppins(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -987,7 +987,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       SizedBox(
                                         width: 250,
                                         child: KText(
-                                          text: "Cheque/Bank/Paypal/Other Info",
+                                          text: "Cheque/Bank/UPI/Other Info",
                                           style: GoogleFonts.poppins(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -1439,7 +1439,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Cheque/Bank/Paypal",
+                                    text: "Cheque/Bank/UPI",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,

@@ -1,9 +1,12 @@
 import 'package:church_management_admin/models/manage_role_model.dart';
 import 'package:church_management_admin/models/response.dart';
 import 'package:church_management_admin/services/role_permission_firecrud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
+import '../../models/church_details_model.dart';
+import '../../services/church_details_firecrud.dart';
 import '../../widgets/kText.dart';
 
 class ManagerRoleTab extends StatefulWidget {
@@ -17,21 +20,29 @@ class ManagerRoleTab extends StatefulWidget {
 
 class _ManagerRoleTabState extends State<ManagerRoleTab> {
 
+  TextEditingController roleNameController = TextEditingController();
+  TextEditingController rolePasswordController = TextEditingController();
+
   List<String> rolesList = [];
   bool isFetched = false;
 
-  setRoles(List<ManageRoleModel> roles){
-    if(rolesList.isEmpty){
-      for (int i = 0; i < roles.length; i ++) {
-          for (int j = 0; j < roles[i].permissions!.length; j ++) {
-            rolesList.add(roles[i].permissions![j]);
-          }
+  setRoles(ManageRoleModel roles){
+    rolesList.clear();
+    if(roles.role != null){
+      if(roles.permissions!.isNotEmpty) {
+        for (int j = 0; j < roles.permissions!.length; j ++) {
+          rolesList.add(roles.permissions![j]);
+        }
+      }else{
+        rolesList = [];
       }
+    }else{
+      rolesList = [];
     }
     isFetched = true;
   }
 
-  updateRole(String content, bool isAlreadyIn, String id) async {
+  updateRole(String content, bool isAlreadyIn, String id, String roleString) async {
     setState(() {
       if(isAlreadyIn){
         rolesList.removeWhere((element) => element == content);
@@ -41,11 +52,13 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
     });
     //// update to firebase
     ManageRoleModel role = ManageRoleModel();
-    role.role = 'Manager';
+    role.role = roleString;
     role.id = id;
     role.permissions = rolesList;
     Response res = await RolePermissionFireCrud.updatedRole(role);
   }
+
+  bool isAddRole = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +88,13 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                   List<ManageRoleModel> roles = snapshot.data!;
                   ManageRoleModel managerRole = ManageRoleModel();
                   roles.forEach((element) {
-                    if(element.role!.toUpperCase() == "MANAGER"){
+                    if(element.role!.toUpperCase() == widget.currentRole.toUpperCase()){
+                      managerRole = element;
+                    }else if(widget.currentRole.toLowerCase() == 'admin'){
                       managerRole = element;
                     }
                   });
-                  setRoles(roles);
+                  setRoles(managerRole);
                   return !isFetched ? Container() : Container(
                     height: size.height * 0.72,
                     width: 1100,
@@ -113,12 +128,164 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isAddRole = !isAddRole;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Center(
+                                        child: KText(
+                                          text: isAddRole ? "Cancel" : "Add Role",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 )
                               ],
                             ),
                           ),
                         ),
-                        Expanded(
+                        isAddRole
+                            ? Expanded(
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                      ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Role Name : ",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Material(
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: Colors.white,
+                                            elevation: 10,
+                                            child: SizedBox(
+                                              height: 40,
+                                              width: 250,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: TextFormField(
+                                                  controller: roleNameController,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintStyle: GoogleFonts.openSans(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Role Password : ",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Material(
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: Colors.white,
+                                            elevation: 10,
+                                            child: SizedBox(
+                                              height: 40,
+                                              width: 250,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: TextFormField(
+                                                  controller: rolePasswordController,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintStyle: GoogleFonts.openSans(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      InkWell(
+                                        onTap: (){
+                                          if(
+                                          roleNameController.text != "" &&
+                                          rolePasswordController.text != ""
+                                          ){
+                                            addRole();
+                                          }else{
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          width: 250,
+                                          decoration: BoxDecoration(
+                                            color: Constants().primaryAppColor,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: const Center(
+                                            child: Text(
+                                              "Add Role",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              )
+                            : Expanded(
                           child: Container(
                             width: double.infinity,
                             decoration: const BoxDecoration(
@@ -140,24 +307,32 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       SizedBox(
                                         height: 50,
                                         width: 300,
-                                        child: DropdownButton(
-                                          value: widget.currentRole,
-                                          icon: const Icon(Icons.keyboard_arrow_down),
-                                          items: ["Select Role", "Admin", "Manager"]
-                                              .map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            if(newValue != "Select Role") {
-                                              setState(() {
-                                                 widget.currentRole= newValue!;
-                                              });
-                                            }
+                                        child: StreamBuilder(
+                                          stream: ChurchDetailsFireCrud.fetchChurchDetails(),
+                                          builder: (ctx,snaps){
+                                            if(snaps.hasData){
+                                              ChurchDetailsModel church = snaps.data!.first;
+                                              return DropdownButton(
+                                                value: widget.currentRole,
+                                                icon: const Icon(Icons.keyboard_arrow_down),
+                                                items: church.roles!
+                                                    .map((items) {
+                                                  return DropdownMenuItem(
+                                                    value: items.roleName,
+                                                    child: Text(items.roleName!),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (newValue) {
+                                                  if(newValue != "") {
+                                                    setState(() {
+                                                      widget.currentRole= newValue!;
+                                                    });
+                                                  }
+                                                },
+                                              );
+                                            }return Container();
                                           },
-                                        ),
+                                        )
                                       ),
                                     ],
                                   ),
@@ -173,7 +348,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Dashboard"),
                                             onChanged: (val) {
-                                              updateRole("Dashboard", rolesList.contains("Dashboard"),managerRole.id!);
+                                              updateRole("Dashboard", rolesList.contains("Dashboard"),managerRole.id != null ? managerRole.id! : '',widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -191,7 +366,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Gallery"),
                                             onChanged: (val) {
-                                              updateRole("Gallery", rolesList.contains("Gallery"),managerRole.id!);
+                                              updateRole("Gallery", rolesList.contains("Gallery"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -209,7 +384,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Finance"),
                                             onChanged: (val) {
-                                              updateRole("Finance", rolesList.contains("Finance"),managerRole.id!);
+                                              updateRole("Finance", rolesList.contains("Finance"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -227,7 +402,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Event Management"),
                                             onChanged: (val) {
-                                              updateRole("Event Management", rolesList.contains("Event Management"),managerRole.id!);
+                                              updateRole("Event Management", rolesList.contains("Event Management"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -250,7 +425,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Prayers"),
                                             onChanged: (val) {
-                                              updateRole("Prayers", rolesList.contains("Prayers"),managerRole.id!);
+                                              updateRole("Prayers", rolesList.contains("Prayers"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -268,7 +443,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Notices"),
                                             onChanged: (val) {
-                                              updateRole("Notices", rolesList.contains("Notices"),managerRole.id!);
+                                              updateRole("Notices", rolesList.contains("Notices"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -286,7 +461,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Speech"),
                                             onChanged: (val) {
-                                              updateRole("Speech", rolesList.contains("Speech"),managerRole.id!);
+                                              updateRole("Speech", rolesList.contains("Speech"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -304,7 +479,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Families"),
                                             onChanged: (val) {
-                                              updateRole("Families", rolesList.contains("Families"),managerRole.id!);
+                                              updateRole("Families", rolesList.contains("Families"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -327,7 +502,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Department"),
                                             onChanged: (val) {
-                                              updateRole("Department", rolesList.contains("Department"),managerRole.id!);
+                                              updateRole("Department", rolesList.contains("Department"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -345,7 +520,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Committee"),
                                             onChanged: (val) {
-                                              updateRole("Committee", rolesList.contains("Committee"),managerRole.id!);
+                                              updateRole("Committee", rolesList.contains("Committee"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -363,7 +538,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Members"),
                                             onChanged: (val) {
-                                              updateRole("Members", rolesList.contains("Members"),managerRole.id!);
+                                              updateRole("Members", rolesList.contains("Members"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -381,7 +556,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Pastors"),
                                             onChanged: (val) {
-                                              updateRole("Pastors", rolesList.contains("Pastors"),managerRole.id!);
+                                              updateRole("Pastors", rolesList.contains("Pastors"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -404,7 +579,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Clans"),
                                             onChanged: (val) {
-                                              updateRole("Clans", rolesList.contains("Clans"),managerRole.id!);
+                                              updateRole("Clans", rolesList.contains("Clans"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -422,7 +597,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Chorus"),
                                             onChanged: (val) {
-                                              updateRole("Chorus", rolesList.contains("Chorus"),managerRole.id!);
+                                              updateRole("Chorus", rolesList.contains("Chorus"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -440,7 +615,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Church Staff"),
                                             onChanged: (val) {
-                                              updateRole("Church Staff", rolesList.contains("Church Staff"),managerRole.id!);
+                                              updateRole("Church Staff", rolesList.contains("Church Staff"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -458,7 +633,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Student"),
                                             onChanged: (val) {
-                                              updateRole("Student", rolesList.contains("Student"),managerRole.id!);
+                                              updateRole("Student", rolesList.contains("Student"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -481,7 +656,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("User"),
                                             onChanged: (val) {
-                                              updateRole("User", rolesList.contains("User"),managerRole.id!);
+                                              updateRole("User", rolesList.contains("User"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -499,7 +674,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Attendance Record"),
                                             onChanged: (val) {
-                                              updateRole("Attendance Record", rolesList.contains("Attendance Record"),managerRole.id!);
+                                              updateRole("Attendance Record", rolesList.contains("Attendance Record"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -517,7 +692,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Communication"),
                                             onChanged: (val) {
-                                              updateRole("Communication", rolesList.contains("Communication"),managerRole.id!);
+                                              updateRole("Communication", rolesList.contains("Communication"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -535,7 +710,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Blog"),
                                             onChanged: (val) {
-                                              updateRole("Blog", rolesList.contains("Blog"),managerRole.id!);
+                                              updateRole("Blog", rolesList.contains("Blog"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -558,7 +733,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Product"),
                                             onChanged: (val) {
-                                              updateRole("Product", rolesList.contains("Product"),managerRole.id!);
+                                              updateRole("Product", rolesList.contains("Product"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -576,7 +751,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Orders"),
                                             onChanged: (val) {
-                                              updateRole("Orders", rolesList.contains("Orders"),managerRole.id!);
+                                              updateRole("Orders", rolesList.contains("Orders"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -594,7 +769,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Greetings"),
                                             onChanged: (val) {
-                                              updateRole("Greetings", rolesList.contains("Greetings"),managerRole.id!);
+                                              updateRole("Greetings", rolesList.contains("Greetings"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -612,7 +787,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Blood Requirement"),
                                             onChanged: (val) {
-                                              updateRole("Blood Requirement", rolesList.contains("Blood Requirement"),managerRole.id!);
+                                              updateRole("Blood Requirement", rolesList.contains("Blood Requirement"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -635,7 +810,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                           Checkbox(
                                             value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Social Media"),
                                             onChanged: (val) {
-                                              updateRole("Social Media", rolesList.contains("Social Media"),managerRole.id!);
+                                              updateRole("Social Media", rolesList.contains("Social Media"),managerRole.id!,widget.currentRole);
                                             },
                                           ),
                                           const SizedBox(width: 10),
@@ -672,6 +847,28 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
         ),
       ),
     );
+  }
+
+
+  addRole() async {
+    RoleUserModel role = RoleUserModel(
+      roleName: roleNameController.text,
+      rolePassword: rolePasswordController.text,
+    );
+    var json = role.toJson();
+    List roles = [];
+    var document = await FirebaseFirestore.instance.collection('ChurchDetails').doc("NQ2hhPLdQT8RTHP9ndMk").get();
+    Map<String,dynamic>?values=document.data();
+    roles= values!["roles"];
+    roles.add(json);
+    FirebaseFirestore.instance.collection('ChurchDetails').doc("NQ2hhPLdQT8RTHP9ndMk").update(
+      {
+        "roles" : roles
+      }
+    );
+    setState(() {
+      isAddRole = false;
+    });
   }
 
   final snackBar = SnackBar(

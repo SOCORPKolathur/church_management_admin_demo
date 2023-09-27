@@ -13,6 +13,7 @@ final CollectionReference churchStaffCollection =
     firestore.collection('ChurchStaff');
 final CollectionReference studentCollection = firestore.collection('Students');
 final CollectionReference memberCollection = firestore.collection('Members');
+final CollectionReference familyCollection = firestore.collection('Families');
 final CollectionReference fundCollection = firestore.collection('Funds');
 
 class DashboardFireCrud {
@@ -30,6 +31,7 @@ class DashboardFireCrud {
         await pastorsCollection.get().then((value) => value.size);
     int totalClans = await clansCollection.get().then((value) => value.size);
     int totalChorus = await chorusCollection.get().then((value) => value.size);
+    int familyCount = await familyCollection.get().then((value) => value.size);
     int totalStaffs =
         await churchStaffCollection.get().then((value) => value.size);
     int totalStudents =
@@ -48,6 +50,7 @@ class DashboardFireCrud {
       totalCollect: totalCollect.toString(),
       totalCommite: totalCommittee.toString(),
       totalMembers: totalMembers.toString(),
+      totalFamilies: familyCount.toString(),
       totalPastors: totalPastors.toString(),
       totalSpend: totalSpend.toString(),
       totalStaffs: totalStaffs.toString(),

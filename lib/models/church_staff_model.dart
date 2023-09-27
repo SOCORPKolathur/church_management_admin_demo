@@ -7,6 +7,7 @@ class ChurchStaffModel {
   String? gender;
   String? email;
   String? address;
+  String? aadharNo;
   String? document;
   String? dateOfJoining;
   String? position;
@@ -19,6 +20,7 @@ class ChurchStaffModel {
   String? department;
   String? bloodGroup;
   String? dob;
+  String? pincode;
   String? nationality;
   String? imgUrl;
 
@@ -28,9 +30,11 @@ class ChurchStaffModel {
         this.address,
         this.dateOfJoining,
         this.document,
+        this.aadharNo,
         this.lastName,
         this.timestamp,
         this.phone,
+        this.pincode,
         this.email,
         this.country,
         this.gender,
@@ -50,10 +54,12 @@ class ChurchStaffModel {
     id = json['id'];
     timestamp = json['timestamp'];
     address = json['address'];
+    aadharNo = json['aadharNo'];
     dateOfJoining = json['dateOfJoining'];
     document = json['document'];
     firstName = json['firstName'];
     gender = json['gender'];
+    pincode = json['pincode'];
     lastName = json['lastName'];
     country = json['country'];
     phone = json['phone'];
@@ -76,12 +82,14 @@ class ChurchStaffModel {
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
     data['address'] = this.address;
+    data['aadharNo'] = this.aadharNo;
     data['dateOfJoining'] = this.dateOfJoining;
     data['document'] = this.document;
     data['firstName'] = this.firstName;
     data['gender'] = this.gender;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
+    data['pincode'] = this.pincode;
     data['email'] = this.email;
     data['position'] = this.position;
     data['country'] = this.country;

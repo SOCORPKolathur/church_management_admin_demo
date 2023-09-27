@@ -55,6 +55,7 @@ class UserFireCrud {
         required String lastName,
         required String locality,
         required String phone,
+        required String aadharNo,
         required String profession,
         //required String password,
         required String about,
@@ -74,7 +75,7 @@ class UserFireCrud {
         firstName: firstName,
         maritialStatus: maritialStatus,
         email: email,
-
+        aadharNo: aadharNo,
         dob: dob,
         about: about,
         address: address,

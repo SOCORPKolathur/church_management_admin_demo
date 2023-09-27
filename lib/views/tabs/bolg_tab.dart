@@ -20,7 +20,7 @@ class BlogTab extends StatefulWidget {
 }
 
 class _BlogTabState extends State<BlogTab> {
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController titleController = TextEditingController();
   TextEditingController authorNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -320,9 +320,9 @@ class _BlogTabState extends State<BlogTab> {
                                       setState(() {
                                         uploadedImage = null;
                                         profileImage = null;
-                                        titleController.text == "";
-                                        authorNameController.text == "";
-                                        descriptionController.text == "";
+                                        titleController.text = "";
+                                        authorNameController.text = "";
+                                        descriptionController.text = "";
                                       });
                                     } else {
                                       CoolAlert.show(

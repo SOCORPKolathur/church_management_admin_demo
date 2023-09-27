@@ -18,6 +18,7 @@ class ChorusModel {
   String? dob;
   String? nationality;
   String? imgUrl;
+  String? pincode;
 
   ChorusModel(
       {this.id,
@@ -28,6 +29,7 @@ class ChorusModel {
         this.email,
         this.country,
         this.gender,
+        this.pincode,
         this.position,
         this.baptizeDate,
         this.marriageDate,
@@ -49,6 +51,7 @@ class ChorusModel {
     country = json['country'];
     phone = json['phone'];
     email = json['email'];
+    pincode = json['pincode'];
     position = json['position'];
     baptizeDate = json['baptizeDate'];
     marriageDate = json['marriageDate'];
@@ -71,6 +74,7 @@ class ChorusModel {
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
     data['email'] = this.email;
+    data['pincode'] = this.pincode;
     data['position'] = this.position;
     data['country'] = this.country;
     data['baptizeDate'] = this.baptizeDate;

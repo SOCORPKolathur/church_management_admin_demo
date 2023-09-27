@@ -16,6 +16,14 @@ class ChorusFireCrud {
       .map((doc) => ChorusModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
+  static Stream<List<ChorusModel>> fetchChorusesWithSearch(String text) => ChorusCollection
+      .orderBy("timestamp", descending: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .map((doc) => ChorusModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
   static Future<Response> addChorus(
       {required File image,
         required String baptizeDate,
@@ -24,6 +32,7 @@ class ChorusFireCrud {
         required String dob,
         required String country,
         required String gender,
+        required String pincode,
         required String email,
         required String family,
         required String firstName,
@@ -49,6 +58,7 @@ class ChorusFireCrud {
         country: country,
         gender: gender,
         job: job,
+        pincode:pincode,
         firstName: firstName,
         family: family,
         email: email,

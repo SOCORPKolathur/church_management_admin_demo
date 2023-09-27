@@ -2,15 +2,13 @@ import 'dart:typed_data';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
-import '../../models/attendace_record_model.dart';
 import '../../models/attendance_for_family_model.dart';
-import '../../models/chorus_model.dart';
 
-Future<Uint8List> generateAttendanceforFamilyPdf(PdfPageFormat pageFormat,List<AttendanceFamily> attenances, bool isPdf) async {
+Future<Uint8List> generateAttendanceforFamilyPdf(PdfPageFormat pageFormat,List<AttendanceFamilyRecordModel> attenancesList, bool isPdf) async {
 
   final chorus = AttendanceFamilyModelforPdf(
       title: "Attendance",
-      attenances: attenances
+      attenancesList: attenancesList
   );
 
   return await chorus.buildPdf(pageFormat,isPdf);
@@ -18,9 +16,9 @@ Future<Uint8List> generateAttendanceforFamilyPdf(PdfPageFormat pageFormat,List<A
 
 class AttendanceFamilyModelforPdf{
 
-  AttendanceFamilyModelforPdf({required this.title, required this.attenances});
+  AttendanceFamilyModelforPdf({required this.title, required this.attenancesList});
   String? title;
-  List<AttendanceFamily> attenances = [];
+  List<AttendanceFamilyRecordModel> attenancesList = [];
 
   Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
@@ -29,9 +27,24 @@ class AttendanceFamilyModelforPdf{
     doc.addPage(
       pw.MultiPage(
         build: (context) => [
-          _contentTable(context),
-          pw.SizedBox(height: 20),
-          pw.SizedBox(height: 20),
+          pw.ListView.builder(
+              itemCount: attenancesList.length,
+              itemBuilder: (ctx,i){
+                return pw.Container(
+                    margin: const pw.EdgeInsets.symmetric(vertical: 10),
+                    child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Padding(
+                              padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                              child:  pw.Text("Date : ${attenancesList[i].date!}")
+                          ),
+                          _contentTable(context,attenancesList[i].attendance!),
+                        ]
+                    )
+                );
+              }
+          ),
         ],
       ),
     );
@@ -43,7 +56,7 @@ class AttendanceFamilyModelforPdf{
     return doc.save();
   }
 
-  pw.Widget _contentTable(pw.Context context) {
+  pw.Widget _contentTable(pw.Context context,List<AttendanceFamily> attenances) {
     const tableHeaders = [
       'Si.NO',
       'Member Id',

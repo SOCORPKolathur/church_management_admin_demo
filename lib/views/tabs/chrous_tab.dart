@@ -14,6 +14,7 @@ import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/chorus_print.dart';
+import 'package:intl/intl.dart';
 
 class ChorusTab extends StatefulWidget {
   const ChorusTab({super.key});
@@ -23,7 +24,7 @@ class ChorusTab extends StatefulWidget {
 }
 
 class _ChorusTabState extends State<ChorusTab> {
-
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -40,10 +41,13 @@ class _ChorusTabState extends State<ChorusTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
 
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+
+  String searchString = "";
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -379,6 +383,18 @@ class _ChorusTabState extends State<ChorusTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
                                     )
                                   ],
@@ -404,6 +420,18 @@ class _ChorusTabState extends State<ChorusTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            marriageDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: marriageDateController,
                                     )
                                   ],
@@ -497,11 +525,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -522,7 +546,11 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -538,6 +566,18 @@ class _ChorusTabState extends State<ChorusTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: dobController,
                                     )
                                   ],
@@ -564,6 +604,27 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -578,6 +639,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
+                                      pincodeController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
@@ -594,6 +656,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                         department: departmentController.text,
                                         dob: dobController.text,
                                         email: emailController.text,
+                                        pincode: pincodeController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
                                         job: jobController.text,
@@ -621,6 +684,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
+                                        pincodeController.text = "";
                                         dobController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
@@ -689,7 +753,7 @@ class _ChorusTabState extends State<ChorusTab> {
               ),
             ),
             StreamBuilder(
-              stream: ChorusFireCrud.fetchChoruses(),
+              stream: searchString != "" ? ChorusFireCrud.fetchChorusesWithSearch(searchString) : ChorusFireCrud.fetchChoruses(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -726,6 +790,31 @@ class _ChorusTabState extends State<ChorusTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search Pincode',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1162,6 +1251,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                                           socialStatusController.text = choruses[i].socialStatus!;
                                                           countryController.text = choruses[i].country!;
                                                           genderController.text = choruses[i].gender!;
+                                                          pincodeController.text = choruses[i].pincode!;
                                                           selectedImg = choruses[i].imgUrl;
                                                         });
                                                         editPopUp(choruses[i], size);
@@ -1823,6 +1913,7 @@ class _ChorusTabState extends State<ChorusTab> {
                               departmentController.text = "";
                               dobController.text = "";
                               emailController.text = "";
+                              pincodeController.text = "";
                               familyController.text = "";
                               firstNameController.text = "";
                               jobController.text = "";
@@ -2226,11 +2317,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2251,7 +2338,11 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2293,6 +2384,27 @@ class _ChorusTabState extends State<ChorusTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2307,6 +2419,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
+                                      pincodeController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
@@ -2326,6 +2439,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             email: emailController.text,
                                             family: familyController.text,
                                             firstName: firstNameController.text,
+                                            pincode: pincodeController.text,
                                             job: jobController.text,
                                             lastName: lastNameController.text,
                                             marriageDate: marriageDateController.text,
@@ -2358,6 +2472,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                         emailController.text = "";
                                         familyController.text = "";
                                         firstNameController.text = "";
+                                        pincodeController.text = "";
                                         jobController.text = "";
                                         lastNameController.text = "";
                                         marriageDateController.text = "";

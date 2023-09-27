@@ -17,6 +17,7 @@ import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/user_print.dart';
 import 'package:excel/excel.dart' as ex;
+import 'package:intl/intl.dart';
 
 
 class UserTab extends StatefulWidget {
@@ -27,6 +28,7 @@ class UserTab extends StatefulWidget {
 }
 
 class _UserTabState extends State<UserTab> {
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -39,8 +41,7 @@ class _UserTabState extends State<UserTab> {
   TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController();
-  //TextEditingController passwordController = TextEditingController();
-  //TextEditingController confPaswordController = TextEditingController();
+  TextEditingController aadharController = TextEditingController();
   TextEditingController filterTextController = TextEditingController();
   String filterText = "";
   String marriedController = "Select Status";
@@ -474,6 +475,27 @@ class _UserTabState extends State<UserTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Aadhar Number",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: aadharController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -495,6 +517,18 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
                                     )
                                   ],
@@ -622,6 +656,18 @@ class _UserTabState extends State<UserTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: dobController,
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       decoration: const InputDecoration(
                                         hintText: "Ex: 2/9/2000"
                                       ),
@@ -796,6 +842,7 @@ class _UserTabState extends State<UserTab> {
                                       baptizeDate: baptizeDateController.text,
                                       anniversaryDate:
                                           anniversaryDateController.text,
+                                      aadharNo: aadharController.text,
                                       bloodGroup: bloodGroupController.text,
                                       dob: dobController.text,
                                       email: emailController.text,
@@ -824,6 +871,7 @@ class _UserTabState extends State<UserTab> {
                                         bloodGroupController.text = "Select Blood Group";
                                         dobController.text = "";
                                         emailController.text = "";
+                                        aadharController.text = "";
                                         anniversaryDateController.text = "";
                                         marriedController = "Select Status";
                                         firstNameController.text = "";
@@ -1430,8 +1478,7 @@ class _UserTabState extends State<UserTab> {
                                                           marriedController = users[i].maritialStatus!;
                                                           anniversaryDateController.text = users[i].anniversaryDate!;
                                                         });
-                                                        editPopUp(
-                                                            users[i], size);
+                                                        editPopUp(users[i], size);
                                                       },
                                                       child: Container(
                                                         height: 25,
@@ -2506,26 +2553,26 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                   const SizedBox(height: 20),
-                                  // Row(
-                                  //   children: [
-                                  //     SizedBox(
-                                  //       width: size.width * 0.15,
-                                  //       child: const KText(
-                                  //         text: "Password",
-                                  //         style: TextStyle(
-                                  //             fontWeight: FontWeight.w800,
-                                  //             fontSize: 16),
-                                  //       ),
-                                  //     ),
-                                  //     const Text(":"),
-                                  //     const SizedBox(width: 20),
-                                  //     Text(
-                                  //       user.password!,
-                                  //       style: const TextStyle(fontSize: 14),
-                                  //     )
-                                  //   ],
-                                  // ),
-                                  // const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Aadhaar Number",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      Text(
+                                        user.aadharNo!,
+                                        style: const TextStyle(fontSize: 14),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
                                       SizedBox(
@@ -2747,6 +2794,7 @@ class _UserTabState extends State<UserTab> {
                                   bloodGroupController.text = "";
                                   dobController.text = "";
                                   addressController.text = "";
+                                  aadharController.text = "";
                                   anniversaryDateController.text = "";
                                   marriedController = "Select Status";
                                   emailController.text = "";
@@ -2950,6 +2998,27 @@ class _UserTabState extends State<UserTab> {
                                         TextFormField(
                                           style: const TextStyle(fontSize: 12),
                                           controller: phoneController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  SizedBox(
+                                    width: 300,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Aadhaar Number",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: const TextStyle(fontSize: 12),
+                                          controller: aadharController,
                                         )
                                       ],
                                     ),
@@ -3322,6 +3391,7 @@ class _UserTabState extends State<UserTab> {
                                                   dob: dobController.text,
                                                   address: addressController.text,
                                                   email: emailController.text,
+                                                  aadharNo: aadharController.text,
                                                   firstName:
                                                       firstNameController.text,
                                                   maritialStatus: marriedController,
@@ -3354,6 +3424,7 @@ class _UserTabState extends State<UserTab> {
                                             dobController.text = "";
                                             emailController.text = "";
                                             firstNameController.text = "";
+                                            aadharController.text = "";
                                             aboutController.text = "";
                                             lastNameController.text = "";
                                             anniversaryDateController.text = "";

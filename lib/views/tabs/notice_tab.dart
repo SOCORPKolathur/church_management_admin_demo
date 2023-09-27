@@ -29,7 +29,7 @@ class _NoticesTabState extends State<NoticesTab> {
   TextEditingController timeController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

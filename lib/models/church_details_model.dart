@@ -9,10 +9,7 @@ class ChurchDetailsModel {
   String? state;
   String? pincode;
   String? website;
-  String? adminEmail;
-  String? adminPassword;
-  String? managerEmail;
-  String? managerPassword;
+  List<RoleUserModel>? roles;
 
   ChurchDetailsModel(
       {this.id,
@@ -25,10 +22,7 @@ class ChurchDetailsModel {
         this.state,
         this.pincode,
         this.website,
-        this.adminEmail,
-        this.adminPassword,
-        this.managerEmail,
-        this.managerPassword});
+      });
 
   ChurchDetailsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -41,10 +35,12 @@ class ChurchDetailsModel {
     state = json['state'];
     pincode = json['pincode'];
     website = json['website'];
-    adminEmail = json['adminEmail'];
-    adminPassword = json['adminPassword'];
-    managerEmail = json['managerEmail'];
-    managerPassword = json['managerPassword'];
+    if (json['roles'] != null) {
+      roles = <RoleUserModel>[];
+      json['roles'].forEach((v) {
+        roles!.add(RoleUserModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -59,10 +55,28 @@ class ChurchDetailsModel {
     data['state'] = this.state;
     data['pincode'] = this.pincode;
     data['website'] = this.website;
-    data['adminEmail'] = this.adminEmail;
-    data['adminPassword'] = this.adminPassword;
-    data['managerEmail'] = this.managerEmail;
-    data['managerPassword'] = this.managerPassword;
+    if (this.roles != null) {
+      data['roles'] = this.roles!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class RoleUserModel {
+  String? roleName;
+  String? rolePassword;
+
+  RoleUserModel({this.roleName, this.rolePassword});
+
+  RoleUserModel.fromJson(Map<String, dynamic> json) {
+    roleName = json['roleName'];
+    rolePassword = json['rolePassword'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['roleName'] = this.roleName;
+    data['rolePassword'] = this.rolePassword;
     return data;
   }
 }

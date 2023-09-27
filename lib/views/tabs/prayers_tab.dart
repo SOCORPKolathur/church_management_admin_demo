@@ -28,7 +28,7 @@ class _PrayersTabState extends State<PrayersTab> {
   TextEditingController timeController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;

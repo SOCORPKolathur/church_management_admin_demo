@@ -4,6 +4,7 @@ class MembersModel {
   num? timestamp;
   String? firstName;
   String? lastName;
+  String? aadharNo;
   String? phone;
   String? email;
   String? position;
@@ -21,11 +22,13 @@ class MembersModel {
   String? dob;
   String? nationality;
   String? imgUrl;
+  String? pincode;
 
   MembersModel(
       {this.id,
         this.firstName,
         this.lastName,
+        this.aadharNo,
         this.memberId,
         this.timestamp,
         this.phone,
@@ -44,6 +47,7 @@ class MembersModel {
         this.bloodGroup,
         this.dob,
         this.nationality,
+        this.pincode,
         this.imgUrl});
 
   MembersModel.fromJson(Map<String, dynamic> json) {
@@ -51,11 +55,13 @@ class MembersModel {
     memberId = json['memberId'];
     timestamp = json['timestamp'];
     gender = json['gender'];
+    aadharNo = json['aadharNo'];
     address = json['address'];
     baptizemCertificate = json['baptizemCertificate'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     country = json['country'];
+    pincode = json['pincode'];
     phone = json['phone'];
     email = json['email'];
     position = json['position'];
@@ -76,6 +82,7 @@ class MembersModel {
     data['id'] = this.id;
     data['memberId'] = this.memberId;
     data['timestamp'] = this.timestamp;
+    data['aadharNo'] = this.aadharNo;
     data['baptizemCertificate'] = this.baptizemCertificate;
     data['gender'] = this.gender;
     data['address'] = this.address;
@@ -85,6 +92,7 @@ class MembersModel {
     data['email'] = this.email;
     data['position'] = this.position;
     data['country'] = this.country;
+    data['pincode'] = this.pincode;
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;
     data['socialStatus'] = this.socialStatus;

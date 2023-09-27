@@ -246,6 +246,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      readOnly: true,
                                       style: const TextStyle(fontSize: 12),
                                       controller: familyIdController,
                                     )

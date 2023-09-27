@@ -32,7 +32,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
   List<Attendance> attendanceList = [];
   bool markAttendance = false;
   TextEditingController searchDateController = TextEditingController();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   DateTime selectedDate = DateTime.now();
 
   setDateTime() async {
@@ -44,6 +44,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
   bool isFiltered= false;
+  bool attendanceMarked = false;
 
   @override
   void initState() {
@@ -74,9 +75,15 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  setState(() {
-                    markAttendance = true;
-                  });
+                  if(!attendanceMarked){
+                    setState(() {
+                      markAttendance = true;
+                    });
+                  }else{
+                    setState(() {
+
+                    });
+                  }
                 },
                 child: Container(
                 height: 35,
@@ -86,12 +93,12 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                   borderRadius:
                   BorderRadius.circular(10),
                 ),
-                child: const Center(
+                child: Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      "Mark Today's Attendance",
-                      style: TextStyle(
+                      attendanceMarked ? "Attendance Marked already" : "Mark Today's Attendance",
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -401,6 +408,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                         attendances1.forEach((element) {
                           if(element.date == searchDateController.text){
                             attendances = element.attendance!;
+                            attendanceMarked = true;
                           }
                         });
                         return Container(
@@ -547,7 +555,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                   ),
                                 ),
                               ),
-                              attendances.isEmpty ? Container(
+                              attendances1.isEmpty ? Container(
                                 height: 130,
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
@@ -565,7 +573,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         children: [
                                           InkWell(
                                             onTap: () {
-                                              generateAttendancePdf(PdfPageFormat.letter, attendances,false);
+                                              generateAttendancePdf(PdfPageFormat.letter, attendances1,false);
                                             },
                                             child: Container(
                                               height: 35,
@@ -643,7 +651,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           const SizedBox(width: 10),
                                           InkWell(
                                             onTap: () async {
-                                              var data = await generateAttendancePdf(PdfPageFormat.letter, attendances, true);
+                                              var data = await generateAttendancePdf(PdfPageFormat.letter, attendances1, true);
                                               savePdfToFile(data);
                                             },
                                             child: Container(
@@ -721,7 +729,17 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             ),
                                           ),
                                           Expanded(child: Container()),
-                                          isFiltered ? Text("${formatter.format(dateRangeStart!)} - ${formatter.format(dateRangeEnd!)}") : Text(searchDateController.text)
+                                          isFiltered
+                                              ? Text(
+                                            "Reports from ${formatter.format(dateRangeStart!)} - ${formatter.format(dateRangeEnd!)}",
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+
+                                            ),
+                                          )
+                                              : Text("Reports from ${searchDateController.text}",style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),)
                                         ],
                                       ),
                                     ),
@@ -736,10 +754,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                   ],
                                 ),
                               ) : Container(
-                                height: size.height * 0.7 >
-                                        130 + attendances.length * 60
-                                    ? 130 + attendances.length * 60
-                                    : size.height * 0.7,
+                                height: size.height * 0.7,
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
@@ -755,7 +770,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            generateAttendancePdf(PdfPageFormat.letter, attendances,false);
+                                            generateAttendancePdf(PdfPageFormat.letter, attendances1,false);
                                           },
                                           child: Container(
                                             height: 35,
@@ -833,7 +848,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         const SizedBox(width: 10),
                                         InkWell(
                                           onTap: () async {
-                                            var data = await generateAttendancePdf(PdfPageFormat.letter, attendances, true);
+                                            var data = await generateAttendancePdf(PdfPageFormat.letter, attendances1, true);
                                             savePdfToFile(data);
                                           },
                                           child: Container(
@@ -911,7 +926,17 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           ),
                                         ),
                                         Expanded(child: Container()),
-                                        isFiltered ? Text("${formatter.format(dateRangeStart!)} - ${formatter.format(dateRangeEnd!)}") : Text(searchDateController.text)
+                                        isFiltered
+                                            ? Text(
+                                          "Reports from ${formatter.format(dateRangeStart!)} - ${formatter.format(dateRangeEnd!)}",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+
+                                          ),
+                                        )
+                                            : Text("Reports from ${searchDateController.text}",style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),),
                                       ],
                                     ),
                                     const SizedBox(height: 30),
@@ -957,66 +982,92 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                     const SizedBox(height: 10),
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: attendances.length,
+                                        itemCount: attendances1.length,
                                         itemBuilder: (ctx, i) {
-                                          return Container(
-                                            height: 60,
-                                            width: double.infinity,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
+                                          return Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Constants().primaryAppColor,
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
-                                                bottom: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Date : ${attendances1[i].date!}",
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: 13,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: 100,
-                                                  child: KText(
-                                                    text: (i + 1).toString(),
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                              for(int j = 0; j < attendances1[i].attendance!.length; j ++)
+                                                Container(
+                                                  height: 60,
+                                                  width: double.infinity,
+                                                  decoration: const BoxDecoration(
+                                                    color: Colors.white,
+                                                    border: Border(
+                                                      top: BorderSide(
+                                                        color: Color(0xfff1f1f1),
+                                                        width: 0.5,
+                                                      ),
+                                                      bottom: BorderSide(
+                                                        color: Color(0xfff1f1f1),
+                                                        width: 0.5,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  width: 480,
-                                                  child: KText(
-                                                    text: attendances[i]
-                                                        .student!,
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 100,
+                                                        child: KText(
+                                                          text: (j + 1).toString(),
+                                                          style: GoogleFonts.poppins(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                            FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 480,
+                                                        child: KText(
+                                                          text: attendances[j]
+                                                              .student!,
+                                                          style: GoogleFonts.poppins(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                            FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 200,
+                                                        child: Text(
+                                                          attendances[j].present!
+                                                              ? "Present"
+                                                              : "Absent",
+                                                          style: TextStyle(
+                                                            color: attendances[j].present!
+                                                                ? Colors.green
+                                                                : Colors.red,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: 200,
-                                                  child: Text(
-                                                    attendances[i].present!
-                                                        ? "Present"
-                                                        : "Absent",
-                                                    style: TextStyle(
-                                                      color: attendances[i].present!
-                                                          ? Colors.green
-                                                          : Colors.red,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                            ],
                                           );
                                         },
                                       ),
@@ -1182,7 +1233,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                     child: TextField(
                                       decoration: InputDecoration(
                                         hintStyle: const TextStyle(color: Color(0xff00A99D)),
-                                        hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
+                                        hintText: dateRangeStart != null ? "${dateRangeStart!.day}-${dateRangeStart!.month}-${dateRangeStart!.year}" : "",
                                         border: InputBorder.none,
                                       ),
                                       onTap: () async {
@@ -1231,7 +1282,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                     child: TextField(
                                       decoration: InputDecoration(
                                         hintStyle: const TextStyle(color: Color(0xff00A99D)),
-                                        hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
+                                        hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}-${dateRangeEnd!.month}-${dateRangeEnd!.year}" : "",
                                         border: InputBorder.none,
                                       ),
                                       onTap: () async {

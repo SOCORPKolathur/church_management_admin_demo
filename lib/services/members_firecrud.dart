@@ -26,6 +26,14 @@ class MembersFireCrud {
           .map((doc) => MembersModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<MembersModel>> fetchMembersWithSearch(String text) => MemberCollection
+      .orderBy("timestamp", descending: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .map((doc) => MembersModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
   static Future<Response> addMember(
       {required File image,
         required File? document,
@@ -37,9 +45,11 @@ class MembersFireCrud {
       required String department,
       required String dob,
       required String country,
+      required String aadharNo,
       required String email,
       required String family,
       required String firstName,
+      required String pincode,
       required String job,
       required String lastName,
       required String marriageDate,
@@ -60,10 +70,12 @@ class MembersFireCrud {
         phone: phone,
         gender: gender,
         address: address,
-        baptizemCertificate: downloadUrl1,
+        baptizemCertificate: document != null ? downloadUrl1 : "",
         nationality: nationality,
         marriageDate: marriageDate,
+        aadharNo: aadharNo,
         lastName: lastName,
+        pincode: pincode,
         country: country,
         job: job,
         firstName: firstName,
@@ -73,7 +85,8 @@ class MembersFireCrud {
         department: department,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
-        imgUrl: downloadUrl);
+        imgUrl: downloadUrl
+    );
     member.id = documentReferencer.id;
     var json = member.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
@@ -160,6 +173,8 @@ class MembersFireCrud {
         position: row[i][7].toString(),
         socialStatus: row[i][10].toString(),
         nationality: row[i][16].toString(),
+        pincode: row[i][18].toString(),
+        aadharNo: row[i][19].toString(),
         marriageDate: row[i][9].toString(),
         job: row[i][11].toString(),
         family: row[i][12].toString(),

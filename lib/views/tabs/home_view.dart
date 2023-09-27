@@ -572,20 +572,15 @@ class _HomeViewState extends State<HomeView> {
                     : Container(
                         height: size.height,
                         width: size.width,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("assets/Background.png"),
-                          ),
-                        ),
-                        // decoration: BoxDecoration(
-                        //    gradient: LinearGradient(
-                        //        colors:[
-                        //          Color(0xff6BAAFC),
-                        //          Color(0xff305FEC)
-                        //        ]
-                        //    )
+                        // decoration: const BoxDecoration(
+                        //   image: DecorationImage(
+                        //     fit: BoxFit.cover,
+                        //     image: AssetImage("assets/Background.png"),
+                        //   ),
                         // ),
+                        decoration: BoxDecoration(
+                           color: Constants().primaryAppColor
+                        ),
                         child: Row(
                           children: [
                             Stack(
@@ -605,6 +600,7 @@ class _HomeViewState extends State<HomeView> {
                                             const Icon(
                                               Icons.church,
                                               size: 52,
+                                              color: Colors.white,
                                             ),
                                             SizedBox(
                                               width: double.infinity,
@@ -613,6 +609,7 @@ class _HomeViewState extends State<HomeView> {
                                                 style: GoogleFonts.openSans(
                                                   fontWeight: FontWeight.w900,
                                                   fontSize: 20,
+                                                  color: Colors.white
                                                 ),
                                               ),
                                             ),
@@ -621,6 +618,7 @@ class _HomeViewState extends State<HomeView> {
                                               style: GoogleFonts.openSans(
                                                 fontWeight: FontWeight.w900,
                                                 fontSize: 15,
+                                                color: Colors.white
                                               ),
                                             ),
                                           ],
@@ -682,7 +680,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         color: currentIndex ==
                                                                                 i
                                                                             ? Constants().primaryAppColor
-                                                                            : Colors.black,
+                                                                            : Colors.white,
                                                                       ),
                                                                       const SizedBox(
                                                                           width:
@@ -699,7 +697,8 @@ class _HomeViewState extends State<HomeView> {
                                                                               )
                                                                             : GoogleFonts.poppins(
                                                                                 fontSize: 13,
-                                                                                color: const Color(0xff1B1616),
+                                                                                color: Colors.white
+                                                                                //color: const Color(0xff1B1616),
                                                                               ),
                                                                       ),
                                                                       const Expanded(
@@ -795,12 +794,12 @@ class _HomeViewState extends State<HomeView> {
                                                                                 const SizedBox(width: 10),
                                                                                 Icon(
                                                                                   drawerItems[i].children![j].icon,
-                                                                                  color: (currentIndex == i && selectedIndex == j) ? Constants().primaryAppColor : Colors.black,
+                                                                                  color: (currentIndex == i && selectedIndex == j) ? Colors.white : Colors.black,
                                                                                 ),
                                                                                 const SizedBox(width: 20),
                                                                                 KText(
                                                                                   text: drawerItems[i].children![j].name!,
-                                                                                  style: (currentIndex == i && selectedIndex == j) ? GoogleFonts.poppins(fontWeight: FontWeight.w900, fontSize: 13, color: Constants().primaryAppColor) : GoogleFonts.poppins(fontSize: 12, color: const Color(0xff1B1616)),
+                                                                                  style: (currentIndex == i && selectedIndex == j) ? GoogleFonts.poppins(fontWeight: FontWeight.w900, fontSize: 13, color: Colors.white) : GoogleFonts.poppins(fontSize: 12, color: const Color(0xff1B1616)),
                                                                                 ),
                                                                               ],
                                                                             ),

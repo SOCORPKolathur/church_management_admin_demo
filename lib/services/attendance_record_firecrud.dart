@@ -1,4 +1,3 @@
-
 import 'package:church_management_admin/models/attendace_record_model.dart';
 import 'package:church_management_admin/models/attendance_for_family_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +8,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference AttendanceCollection = firestore.collection('AttendanceRecords');
 final CollectionReference AttendanceFamilyCollection = firestore.collection('MemberAttendanceRecords');
 
-final DateFormat formatter = DateFormat('yyyy-MM-dd');
+final DateFormat formatter = DateFormat('dd-MM-yyyy');
 DateTime selectedDate = DateTime.now();
 
 class AttendanceRecordFireCrud {
@@ -25,15 +24,15 @@ class AttendanceRecordFireCrud {
       AttendanceCollection
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['date'].toString().toLowerCase().startsWith(date))
           .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
   static Stream<List<AttendanceRecordModel>> fetchAttendancesWithFilterRange(start,end) =>
       AttendanceCollection
-          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
           .map((doc) => AttendanceRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
@@ -41,15 +40,15 @@ class AttendanceRecordFireCrud {
       AttendanceFamilyCollection
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['date'].toString().toLowerCase().startsWith(date))
           .map((doc) => AttendanceFamilyRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
   static Stream<List<AttendanceFamilyRecordModel>> fetchFamilyAttendancesWithFilterRange(start,end) =>
       AttendanceFamilyCollection
-          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
           .map((doc) => AttendanceFamilyRecordModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
@@ -58,8 +57,9 @@ class AttendanceRecordFireCrud {
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = AttendanceCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(formatter.format(selectedDate));
     AttendanceRecordModel attendance = AttendanceRecordModel(
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: tempDate.millisecondsSinceEpoch,
       date: formatter.format(selectedDate),
       attendance: attendanceList
     );
@@ -79,10 +79,11 @@ class AttendanceRecordFireCrud {
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = AttendanceFamilyCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(formatter.format(selectedDate));
     AttendanceFamilyRecordModel attendance = AttendanceFamilyRecordModel(
         date: formatter.format(selectedDate),
         attendance: attendanceList,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
+        timestamp: tempDate.millisecondsSinceEpoch,
     );
     var json = attendance.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {

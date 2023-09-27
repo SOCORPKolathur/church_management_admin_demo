@@ -29,7 +29,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
   TextEditingController assetsController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   DateTime selectedAMCDate = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
@@ -457,10 +457,12 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       verifierController.text != "" &&
                                       descriptionController.text != "" &&
                                       approxValueController.text != "" &&
+                                      amcDateController.text != "" &&
                                       dateController.text != "") {
                                     Response response =
                                         await AssetManagementFireCrud
                                             .addAssetManagement(
+                                          amcDate: amcDateController.text,
                                       document: documentForUpload!,
                                       image: profileImage!,
                                       description: descriptionController.text,
@@ -2598,7 +2600,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                     child: TextField(
                                       decoration: InputDecoration(
                                         hintStyle: const TextStyle(color: Color(0xff00A99D)),
-                                        hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
+                                        hintText: dateRangeStart != null ? "${dateRangeStart!.day}-${dateRangeStart!.month}-${dateRangeStart!.year}" : "",
                                         border: InputBorder.none,
                                       ),
                                       onTap: () async {
@@ -2647,7 +2649,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                     child: TextField(
                                       decoration: InputDecoration(
                                         hintStyle: const TextStyle(color: Color(0xff00A99D)),
-                                        hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
+                                        hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}-${dateRangeEnd!.month}-${dateRangeEnd!.year}" : "",
                                         border: InputBorder.none,
                                       ),
                                       onTap: () async {

@@ -40,7 +40,7 @@ class _EventsTabState extends State<EventsTab>
   String? selectedImg;
 
   DateTime selectedDate = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

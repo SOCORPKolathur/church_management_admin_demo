@@ -29,10 +29,9 @@ class _FundManagementTabState extends State<FundManagementTab>
   TextEditingController sourceController = TextEditingController();
   TextEditingController verifierController = TextEditingController();
   TextEditingController remarksController = TextEditingController();
-  TextEditingController recordTypeController =
-      TextEditingController(text: "Select Type");
+  TextEditingController recordTypeController = TextEditingController(text: "Select Type");
 
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
   bool isFiltered = false;
@@ -1761,7 +1760,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   child: TextField(
                                     decoration: InputDecoration(
                                       hintStyle: const TextStyle(color: Color(0xff00A99D)),
-                                      hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
+                                      hintText: dateRangeStart != null ? "${dateRangeStart!.day}-${dateRangeStart!.month}-${dateRangeStart!.year}" : "",
                                       border: InputBorder.none,
                                     ),
                                     onTap: () async {
@@ -1773,6 +1772,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       if (pickedDate != null) {
                                         setState(() {
                                          dateRangeStart = pickedDate;
+
                                         });
                                       }
                                     },
@@ -1810,7 +1810,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   child: TextField(
                                     decoration: InputDecoration(
                                       hintStyle: const TextStyle(color: Color(0xff00A99D)),
-                                      hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
+                                      hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}-${dateRangeEnd!.month}-${dateRangeEnd!.year}" : "",
                                       border: InputBorder.none,
                                     ),
                                     onTap: () async {

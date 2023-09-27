@@ -1,6 +1,7 @@
 import 'package:church_management_admin/models/prayers_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/response.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference PrayerCollection = firestore.collection('Prayers');
@@ -16,11 +17,10 @@ class PrayersFireCrud {
 
   static Stream<List<PrayersModel>> fetchPrayersWithFilter(DateTime start, DateTime end) =>
       PrayerCollection
-          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
           .orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
           .map((doc) => PrayersModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
@@ -32,13 +32,14 @@ class PrayersFireCrud {
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = PrayerCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     PrayersModel prayer = PrayersModel(
       title : title,
       id: "",
       date: date,
       time: time,
       description: description,
-      timestamp : DateTime.now().millisecondsSinceEpoch
+      timestamp : tempDate.millisecondsSinceEpoch
     );
     prayer.id = documentReferencer.id;
     var json = prayer.toJson();

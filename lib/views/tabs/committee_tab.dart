@@ -14,6 +14,7 @@ import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/committee_print.dart';
+import 'package:intl/intl.dart';
 
 class CommitteeTab extends StatefulWidget {
   const CommitteeTab({super.key});
@@ -23,6 +24,7 @@ class CommitteeTab extends StatefulWidget {
 }
 
 class _CommitteeTabState extends State<CommitteeTab> {
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -39,10 +41,13 @@ class _CommitteeTabState extends State<CommitteeTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+
+  String searchString = "";
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -378,6 +383,18 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
                                     )
                                   ],
@@ -403,6 +420,18 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            marriageDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: marriageDateController,
                                     )
                                   ],
@@ -496,11 +525,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -521,7 +546,11 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -537,6 +566,18 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: dobController,
                                     )
                                   ],
@@ -559,6 +600,27 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: nationalityController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
                                     )
                                   ],
                                 ),
@@ -635,6 +697,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       addressController.text != "" &&
+                                      pincodeController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       genderController.text != "Select Gender" &&
@@ -653,6 +716,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       bloodGroup: bloodGroupController.text,
                                       department: departmentController.text,
                                       dob: dobController.text,
+                                      pincode: pincodeController.text,
                                       email: emailController.text,
                                       family: familyController.text,
                                       firstName: firstNameController.text,
@@ -681,6 +745,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
                                         dobController.text = "";
+                                        pincodeController.text = "";
                                         addressController.text = "";
                                         emailController.text = "";
                                         genderController.text = "Select Gender";
@@ -749,7 +814,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
               ),
             ),
             StreamBuilder(
-              stream: CommitteeFireCrud.fetchCommitties(),
+              stream: searchString != "" ? CommitteeFireCrud.fetchCommittiesWithSearch(searchString) : CommitteeFireCrud.fetchCommitties(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -786,6 +851,31 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search Pincode',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1091,6 +1181,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                                   positionController.text = committies[i].position!;
                                                                   socialStatusController.text = committies[i].socialStatus!;
                                                                   countryController.text = committies[i].country!;
+                                                                  pincodeController.text = committies[i].pincode!;
                                                                   selectedImg = committies[i].imgUrl;
                                                                 });
                                                                 editPopUp(committies[i], size);
@@ -1746,6 +1837,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                               dobController.text = "";
                               emailController.text = "";
                               familyController.text = "";
+                              pincodeController.text = "";
                               firstNameController.text = "";
                               jobController.text = "";
                               lastNameController.text = "";
@@ -2147,11 +2239,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2172,7 +2260,12 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2210,6 +2303,27 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: nationalityController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
                                     )
                                   ],
                                 ),
@@ -2285,6 +2399,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
                                       addressController.text != "" &&
+                                      pincodeController.text != "" &&
                                       genderController.text != "Select Gender" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
@@ -2307,6 +2422,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         address: addressController.text,
                                         email: emailController.text,
                                         family: familyController.text,
+                                        pincode: pincodeController.text,
                                         firstName: firstNameController.text,
                                         job: jobController.text,
                                         lastName: lastNameController.text,
@@ -2335,6 +2451,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
+                                        pincodeController.text = "";
                                         genderController.text = "Select Gender";
                                         dobController.text = "";
                                         addressController.text = "";

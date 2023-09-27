@@ -1,6 +1,7 @@
 import 'package:church_management_admin/models/donation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/response.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference DonationCollection = firestore.collection('Donations');
@@ -16,11 +17,10 @@ class DonationFireCrud {
 
   static Stream<List<DonationModel>> fetchDonationsWithFilter(DateTime start,DateTime end) =>
       DonationCollection
-          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
           .orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
           .map((doc) => DonationModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
@@ -35,9 +35,10 @@ class DonationFireCrud {
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = DonationCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     DonationModel donation = DonationModel(
       id: "",
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: tempDate.millisecondsSinceEpoch,
       via: via,
       verifier: verifier,
       source: source,

@@ -18,6 +18,7 @@ class CommitteeModel {
   String? bloodGroup;
   String? dob;
   String? nationality;
+  String? pincode;
   String? imgUrl;
 
   CommitteeModel(
@@ -32,6 +33,7 @@ class CommitteeModel {
         this.country,
         this.position,
         this.baptizeDate,
+        this.pincode,
         this.marriageDate,
         this.socialStatus,
         this.job,
@@ -50,6 +52,7 @@ class CommitteeModel {
     gender = json['gender'];
     lastName = json['lastName'];
     country = json['country'];
+    pincode = json['pincode'];
     phone = json['phone'];
     email = json['email'];
     position = json['position'];
@@ -74,6 +77,7 @@ class CommitteeModel {
     data['gender'] = this.gender;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
+    data['pincode'] = this.pincode;
     data['email'] = this.email;
     data['position'] = this.position;
     data['country'] = this.country;

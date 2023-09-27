@@ -16,6 +16,14 @@ class CommitteeFireCrud {
       .map((doc) => CommitteeModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
+  static Stream<List<CommitteeModel>> fetchCommittiesWithSearch(String text) => CommitteeCollection
+      .orderBy("timestamp", descending: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .map((doc) => CommitteeModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
   static Future<Response> addCommittee(
       {required File image,
         required String baptizeDate,
@@ -23,6 +31,7 @@ class CommitteeFireCrud {
         required String department,
         required String dob,
         required String country,
+        required String pincode,
         required String email,
         required String family,
         required String gender,
@@ -50,6 +59,7 @@ class CommitteeFireCrud {
         country: country,
         address: address,
         job: job,
+        pincode: pincode,
         gender: gender,
         firstName: firstName,
         family: family,

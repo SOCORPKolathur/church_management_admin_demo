@@ -8,6 +8,7 @@ class UserModel {
   String? fcmToken;
   //String? password;
   String? profession;
+  String? aadharNo;
   String? baptizeDate;
   String? anniversaryDate;
   String? maritialStatus;
@@ -23,6 +24,7 @@ class UserModel {
         this.timestamp,
         this.firstName,
         this.lastName,
+        this.aadharNo,
         this.phone,
         this.email,
         this.fcmToken,
@@ -45,6 +47,7 @@ class UserModel {
     lastName = json['lastName'];
     fcmToken = json['fcmToken'];
     phone = json['phone'];
+    aadharNo = json['aadharNo'];
     email = json['email'];
     maritialStatus = json['maritialStatus'];
     //password = json['password'];
@@ -66,6 +69,7 @@ class UserModel {
     data['firstName'] = this.firstName;
     data['fcmToken'] = this.fcmToken;
     data['lastName'] = this.lastName;
+    data['aadharNo'] = this.aadharNo;
     data['maritialStatus'] = this.maritialStatus;
     data['phone'] = this.phone;
     data['email'] = this.email;

@@ -17,6 +17,7 @@ class ClansModel {
   String? bloodGroup;
   String? dob;
   String? nationality;
+  String? pincode;
   String? imgUrl;
 
   ClansModel(
@@ -38,6 +39,7 @@ class ClansModel {
         this.bloodGroup,
         this.dob,
         this.nationality,
+        this.pincode,
         this.imgUrl});
 
   ClansModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class ClansModel {
     firstName = json['firstName'];
     lastName = json['lastName'];
     country = json['country'];
+    pincode = json['pincode'];
     gender = json['gender'];
     phone = json['phone'];
     email = json['email'];
@@ -69,6 +72,7 @@ class ClansModel {
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
+    data['pincode'] = this.pincode;
     data['email'] = this.email;
     data['position'] = this.position;
     data['country'] = this.country;

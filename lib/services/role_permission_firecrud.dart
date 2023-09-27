@@ -17,15 +17,28 @@ class RolePermissionFireCrud {
 
   static Future<Response> updatedRole(ManageRoleModel role) async {
     Response response = Response();
-    DocumentReference documentReferencer = RoleCollection.doc(role.id);
-    var json = role.toJson();
-    var result = await documentReferencer.set(json).whenComplete(() {
-      response.code = 200;
-      response.message = "Sucessfully added to the database";
-    }).catchError((e) {
-      response.code = 500;
-      response.message = e;
-    });
+    if(role.id != "") {
+      DocumentReference documentReferencer = RoleCollection.doc(role.id);
+      var json = role.toJson();
+      var result = await documentReferencer.set(json).whenComplete(() {
+        response.code = 200;
+        response.message = "Sucessfully added to the database";
+      }).catchError((e) {
+        response.code = 500;
+        response.message = e;
+      });
+    }else{
+      DocumentReference documentReferencer = RoleCollection.doc();
+      role.id = documentReferencer.id;
+      var json = role.toJson();
+      var result = await documentReferencer.set(json).whenComplete(() {
+        response.code = 200;
+        response.message = "Sucessfully added to the database";
+      }).catchError((e) {
+        response.code = 500;
+        response.message = e;
+      });
+    }
     return response;
   }
 

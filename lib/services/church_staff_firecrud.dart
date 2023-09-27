@@ -16,6 +16,14 @@ class ChurchStaffFireCrud {
       .map((doc) => ChurchStaffModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
+  static Stream<List<ChurchStaffModel>> fetchChurchStaffsWithSearch(String text) => ChurchStaffCollection
+      .orderBy("timestamp", descending: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .map((doc) => ChurchStaffModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
   static Future<Response> addChurchStaff(
       { required File image,
         required File document,
@@ -23,6 +31,7 @@ class ChurchStaffFireCrud {
         required String dateOfJoining,
         required String baptizeDate,
         required String bloodGroup,
+        required String aadharNo,
         required String department,
         required String dob,
         required String country,
@@ -31,6 +40,7 @@ class ChurchStaffFireCrud {
         required String family,
         required String firstName,
         required String job,
+        required String pincode,
         required String lastName,
         required String marriageDate,
         required String nationality,
@@ -50,11 +60,13 @@ class ChurchStaffFireCrud {
         document: downloadUrl1,
         position: position,
         phone: phone,
+        aadharNo: aadharNo,
         nationality: nationality,
         marriageDate: marriageDate,
         lastName: lastName,
         country: country,
         gender: gender,
+        pincode: pincode,
         job: job,
         firstName: firstName,
         family: family,

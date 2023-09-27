@@ -14,6 +14,7 @@ import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import '../prints/clan_print.dart';
+import 'package:intl/intl.dart';
 
 class ClansTab extends StatefulWidget {
   const ClansTab({super.key});
@@ -23,7 +24,7 @@ class ClansTab extends StatefulWidget {
 }
 
 class _ClansTabState extends State<ClansTab> {
-
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -39,10 +40,13 @@ class _ClansTabState extends State<ClansTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+
+  String searchString = "";
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -378,6 +382,18 @@ class _ClansTabState extends State<ClansTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
                                     )
                                   ],
@@ -403,6 +419,18 @@ class _ClansTabState extends State<ClansTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            marriageDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: marriageDateController,
                                     )
                                   ],
@@ -496,11 +524,7 @@ class _ClansTabState extends State<ClansTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -521,7 +545,11 @@ class _ClansTabState extends State<ClansTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -537,6 +565,18 @@ class _ClansTabState extends State<ClansTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: dobController,
                                     )
                                   ],
@@ -563,6 +603,27 @@ class _ClansTabState extends State<ClansTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -578,6 +639,7 @@ class _ClansTabState extends State<ClansTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
+                                      pincodeController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
@@ -590,6 +652,7 @@ class _ClansTabState extends State<ClansTab> {
                                       image: profileImage!,
                                       baptizeDate: baptizeDateController.text,
                                       bloodGroup: bloodGroupController.text,
+                                      pincode: pincodeController.text,
                                       department: departmentController.text,
                                       dob: dobController.text,
                                       email: emailController.text,
@@ -620,6 +683,7 @@ class _ClansTabState extends State<ClansTab> {
                                         baptizeDateController.text = "";
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
+                                        pincodeController.text = "";
                                         dobController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
@@ -688,7 +752,7 @@ class _ClansTabState extends State<ClansTab> {
               ),
             ),
             StreamBuilder(
-              stream: ClansFireCrud.fetchClans(),
+              stream: searchString != "" ? ClansFireCrud.fetchClansWithSearch(searchString) : ClansFireCrud.fetchClans(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -725,6 +789,31 @@ class _ClansTabState extends State<ClansTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search Pincode',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1161,6 +1250,7 @@ class _ClansTabState extends State<ClansTab> {
                                                           socialStatusController.text = clans[i].socialStatus!;
                                                           countryController.text = clans[i].country!;
                                                           genderController.text = clans[i].gender!;
+                                                          pincodeController.text = clans[i].pincode!;
                                                           selectedImg = clans[i].imgUrl;
                                                         });
                                                         editPopUp(clans[i], size);
@@ -1823,6 +1913,7 @@ class _ClansTabState extends State<ClansTab> {
                               dobController.text = "";
                               emailController.text = "";
                               familyController.text = "";
+                              pincodeController.text = "";
                               firstNameController.text = "";
                               jobController.text = "";
                               lastNameController.text = "";
@@ -2225,11 +2316,7 @@ class _ClansTabState extends State<ClansTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2250,7 +2337,11 @@ class _ClansTabState extends State<ClansTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2292,6 +2383,27 @@ class _ClansTabState extends State<ClansTab> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pincode",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2304,6 +2416,7 @@ class _ClansTabState extends State<ClansTab> {
                                       baptizeDateController.text != "" &&
                                       bloodGroupController.text != "" &&
                                       departmentController.text != "" &&
+                                      pincodeController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
@@ -2326,6 +2439,7 @@ class _ClansTabState extends State<ClansTab> {
                                             family: familyController.text,
                                             firstName: firstNameController.text,
                                             job: jobController.text,
+                                            pincode: pincodeController.text,
                                             lastName: lastNameController.text,
                                             marriageDate: marriageDateController.text,
                                             nationality: nationalityController.text,
@@ -2354,6 +2468,7 @@ class _ClansTabState extends State<ClansTab> {
                                         bloodGroupController.text = "";
                                         departmentController.text = "";
                                         dobController.text = "";
+                                        pincodeController.text = "";
                                         emailController.text = "";
                                         familyController.text = "";
                                         firstNameController.text = "";

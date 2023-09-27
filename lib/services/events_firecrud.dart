@@ -1,5 +1,5 @@
 import 'dart:html';
-
+import 'package:intl/intl.dart';
 import 'package:church_management_admin/models/event_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,11 +19,10 @@ class EventsFireCrud {
 
   static Stream<List<EventsModel>> fetchEventsWithFilter(DateTime start, DateTime end) =>
       EventCollection
-          .where("timestamp", isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp", isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
           .orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
               .map((doc) => EventsModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
@@ -37,14 +36,16 @@ class EventsFireCrud {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
     DocumentReference documentReferencer = EventCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     EventsModel event = EventsModel(
       time: time,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: tempDate.millisecondsSinceEpoch,
       location: location,
       imgUrl: downloadUrl,
       id: "",
       description: description,
       date: date,
+      views: 0,
     );
     event.id = documentReferencer.id;
     var json = event.toJson();

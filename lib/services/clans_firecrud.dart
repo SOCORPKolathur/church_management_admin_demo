@@ -16,6 +16,14 @@ class ClansFireCrud {
       .map((doc) => ClansModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
+  static Stream<List<ClansModel>> fetchClansWithSearch(String text) => ClansCollection
+      .orderBy("timestamp", descending: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .map((doc) => ClansModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
   static Future<Response> addClan(
       {required File image,
         required String baptizeDate,
@@ -32,6 +40,7 @@ class ClansFireCrud {
         required String marriageDate,
         required String nationality,
         required String phone,
+        required String pincode,
         required String position,
         required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
@@ -49,6 +58,7 @@ class ClansFireCrud {
         lastName: lastName,
         country: country,
         job: job,
+        pincode: pincode,
         firstName: firstName,
         family: family,
         email: email,

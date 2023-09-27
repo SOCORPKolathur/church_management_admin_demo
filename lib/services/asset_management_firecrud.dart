@@ -3,6 +3,7 @@ import 'package:church_management_admin/models/asset_management_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference AssetManagementCollection =
@@ -27,19 +28,18 @@ class AssetManagementFireCrud {
 
   static Stream<List<AssetManagementModel>> fetchAssetManagementsWithFilter(
           DateTime start, DateTime end) =>
-      AssetManagementCollection.where("timestamp",
-              isLessThanOrEqualTo: end.millisecondsSinceEpoch)
-          .where("timestamp",
-              isGreaterThanOrEqualTo: start.millisecondsSinceEpoch)
+      AssetManagementCollection
           .orderBy("timestamp", descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
+          .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
               .map((doc) => AssetManagementModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
   static Future<Response> addAssetManagement({
     required String description,
     required String date,
+    required String amcDate,
     required String assets,
     required String verifier,
     required String approxValue,
@@ -50,12 +50,14 @@ class AssetManagementFireCrud {
     String imgUrl = await uploadImageToStorage(image);
     String docUrl = await uploadDocumentToStorage(document);
     DocumentReference documentReferencer = AssetManagementCollection.doc();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     AssetManagementModel asset = AssetManagementModel(
       id: "",
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: tempDate.millisecondsSinceEpoch,
       approxValue: approxValue,
       verifier: verifier,
       imgUrl: imgUrl,
+      amcDate: amcDate,
       document: docUrl,
       assets: assets,
       date: date,

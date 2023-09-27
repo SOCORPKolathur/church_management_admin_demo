@@ -293,11 +293,10 @@ class _DashBoardTabState extends State<DashBoardTab> {
   }
 
   int randomNumFromDate = 1;
+
   changeHomeViewLanguage() {
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -351,20 +350,25 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: 'WELCOME',
+                                  text: 'WELCOME TO STAY CONNECTED',
                                   style: GoogleFonts.openSans(
                                     fontSize: 32,
                                     fontWeight: FontWeight.w900,
-                                    color: Colors.black,
+                                    color: Constants().primaryAppColor,
                                   ),
                                 ),
                                 KText(
-                                  text: 'TO DO THE WORK OF JESUS',
+                                  text: 'TO DO THE PREACHING OF JESUS',
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.black,
-                                  ),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow(
+                                            color: Constants().primaryAppColor,
+                                            offset: const Offset(2, 2),
+                                            blurRadius: 3)
+                                      ]),
                                 ),
                               ],
                             ),
@@ -404,17 +408,22 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                     await CoolAlert.show(
+                                      await CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.info,
                                           text: "Are you sure want to logout",
                                           confirmBtnText: 'Log Out',
                                           onConfirmBtnTap: () async {
-                                            await FirebaseAuth.instance.signOut();
-                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=> const LoginView()));
+                                            await FirebaseAuth.instance
+                                                .signOut();
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (ctx) =>
+                                                        const LoginView()));
                                           },
                                           cancelBtnText: 'Cancel',
-                                         showCancelBtn: true,
+                                          showCancelBtn: true,
                                           width: size.width * 0.4,
                                           backgroundColor: Constants()
                                               .primaryAppColor
@@ -430,10 +439,18 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       ),
                       SizedBox(height: size.height * 0.04),
                       KText(
-                        text:"“${Verses().versesList[randomNumFromDate].text}”",
-                          style: GoogleFonts.amaranth(
-                          fontSize: 27,
-                          fontWeight: FontWeight.w600,
+                        text:
+                            "“${Verses().versesList[randomNumFromDate].text}”",
+                        style: GoogleFonts.amaranth(
+                            fontSize: 27,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xff000850),
+                            shadows: [
+                              Shadow(
+                                  color: Constants().primaryAppColor,
+                                  offset: Offset(2, 2),
+                                  blurRadius: 3)
+                            ],
                         ),
                         maxLines: 4,
                       ),
@@ -596,7 +613,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: const Color(0xffE1F1FF),
+                                          backgroundColor:
+                                              const Color(0xffE1F1FF),
                                           radius: 35,
                                           child: SvgPicture.asset(
                                               "assets/basil_user-solid.svg"),
@@ -610,8 +628,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Users",
@@ -641,7 +660,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                            backgroundColor: const Color(0xffD1F3E0),
+                                            backgroundColor:
+                                                const Color(0xffD1F3E0),
                                             radius: 35,
                                             child: Icon(
                                               Icons.groups,
@@ -657,8 +677,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Committee",
@@ -688,7 +709,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                            backgroundColor: const Color(0xffFFF2D8),
+                                            backgroundColor:
+                                                const Color(0xffFFF2D8),
                                             radius: 35,
                                             child: Icon(
                                               Icons.person,
@@ -704,8 +726,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Pastors",
@@ -750,7 +773,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: const Color(0xffFFF1E1),
+                                          backgroundColor:
+                                              const Color(0xffFFF1E1),
                                           radius: 35,
                                           child: SvgPicture.asset(
                                               "assets/ri_group-2-fill.svg"),
@@ -764,8 +788,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Clans",
@@ -795,7 +820,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: const Color(0xffE6D1F3),
+                                          backgroundColor:
+                                              const Color(0xffE6D1F3),
                                           radius: 35,
                                           child: SvgPicture.asset(
                                               "assets/typcn_group-outline.svg"),
@@ -809,8 +835,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Chorus",
@@ -840,7 +867,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: const Color(0xffC5FFF8),
+                                          backgroundColor:
+                                              const Color(0xffC5FFF8),
                                           radius: 35,
                                           child: SvgPicture.asset(
                                               "assets/medical-icon_i-care-staff-area.svg"),
@@ -854,8 +882,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Staffs",
@@ -900,7 +929,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: const Color(0xffFFE1F7),
+                                          backgroundColor:
+                                              const Color(0xffFFE1F7),
                                           radius: 35,
                                           child: SvgPicture.asset(
                                               "assets/ph_student-bold.svg"),
@@ -914,8 +944,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Students",
@@ -945,7 +976,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: const Color(0xffFFF495),
+                                          backgroundColor:
+                                              const Color(0xffFFF495),
                                           radius: 35,
                                           child: SvgPicture.asset(
                                               "assets/fluent_people-28-regular.svg"),
@@ -959,8 +991,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         const SizedBox(width: 15),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             KText(
                                               text: "Total Members",
@@ -972,6 +1005,52 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                             const SizedBox(height: 3),
                                             KText(
                                               text: dashboard.totalMembers ??
+                                                  0.toString(),
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  SizedBox(
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        const CircleAvatar(
+                                            backgroundColor: Color(0xffE1F1FF),
+                                            radius: 35,
+                                            child: Icon(Icons.family_restroom,
+                                                color: Color(0xff3F7AFC),
+                                                size: 50)),
+                                        const SizedBox(width: 15),
+                                        Container(
+                                          height: size.height * 0.06,
+                                          width: 1,
+                                          color: const Color(0xffE0A700),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            KText(
+                                              text: "Total Families",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 18,
+                                                color: const Color(0xff121843),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 3),
+                                            KText(
+                                              text: dashboard.totalFamilies ??
                                                   0.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontWeight: FontWeight.w600,

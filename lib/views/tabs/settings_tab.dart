@@ -29,6 +29,15 @@ class _SettingsTabState extends State<SettingsTab> {
   TextEditingController adminPasswordController = TextEditingController();
   TextEditingController managerEmailController = TextEditingController();
   TextEditingController managerPasswordController = TextEditingController();
+  TextEditingController committeeEmailController = TextEditingController();
+  TextEditingController committeePasswordController = TextEditingController();
+  TextEditingController staffEmailController = TextEditingController();
+  TextEditingController staffPasswordController = TextEditingController();
+
+  bool isAdminPasswordVisible = true;
+  bool isManagerPasswordVisible = true;
+  bool isCommitteePasswordVisible = true;
+  bool isStaffPasswordVisible = true;
 
   setData(ChurchDetailsModel church){
       nameController.text = church.name ?? "";
@@ -40,10 +49,14 @@ class _SettingsTabState extends State<SettingsTab> {
       stateController.text = church.state ?? "";
       pincodeController.text = church.pincode ?? "";
       websiteController.text = church.website ?? "";
-      adminEmailController.text = church.adminEmail ?? "";
-      adminPasswordController.text = church.adminPassword ?? "";
-      managerEmailController.text = church.managerEmail ?? "";
-      managerPasswordController.text = church.managerPassword ?? "";
+      // adminEmailController.text = church.adminEmail ?? "";
+      // adminPasswordController.text = church.adminPassword ?? "";
+      // managerEmailController.text = church.managerEmail ?? "";
+      // managerPasswordController.text = church.managerPassword ?? "";
+      // committeeEmailController.text = church.committeeEmail ?? "";
+      // committeePasswordController.text = church.committeePassword ?? "";
+      // staffEmailController.text = church.staffEmail ?? "";
+      // staffPasswordController.text = church.staffPassword ?? "";
   }
 
   @override
@@ -91,7 +104,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     setData(church1);
                     return Center(
                       child: Container(
-                        height: size.height * 0.95,
+                        height: size.height * 1.2,
                         width: size.width * 0.95,
                         decoration: BoxDecoration(
                           color: Constants().primaryAppColor,
@@ -573,15 +586,24 @@ class _SettingsTabState extends State<SettingsTab> {
                                                         padding:
                                                         const EdgeInsets.all(8.0),
                                                         child: TextFormField(
-                                                          obscureText: true,
+                                                          obscureText: isAdminPasswordVisible,
                                                           controller: adminPasswordController,
                                                           onTap: () {},
                                                           decoration: InputDecoration(
+                                                            contentPadding: const EdgeInsets.symmetric(vertical: 5),
                                                             border: InputBorder.none,
                                                             hintStyle:
                                                             GoogleFonts.openSans(
                                                               fontSize: 14,
                                                             ),
+                                                            suffix: IconButton(
+                                                              onPressed: (){
+                                                                setState(() {
+                                                                  isAdminPasswordVisible = !isAdminPasswordVisible;
+                                                                });
+                                                              },
+                                                              icon: Icon(isAdminPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                                                            )
                                                           ),
                                                         ),
                                                       ),
@@ -658,8 +680,61 @@ class _SettingsTabState extends State<SettingsTab> {
                                                         padding:
                                                         const EdgeInsets.all(8.0),
                                                         child: TextFormField(
-                                                          obscureText: true,
+                                                          obscureText: isManagerPasswordVisible,
                                                           controller: managerPasswordController,
+                                                          onTap: () {},
+                                                          decoration: InputDecoration(
+                                                            contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                                                            border: InputBorder.none,
+                                                            hintStyle:
+                                                            GoogleFonts.openSans(
+                                                              fontSize: 14,
+                                                            ),
+                                                              suffix: IconButton(
+                                                                onPressed: (){
+                                                                  setState(() {
+                                                                    isManagerPasswordVisible = !isManagerPasswordVisible;
+                                                                  });
+                                                                },
+                                                                icon: Icon(isManagerPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                                                              )
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "Committee Email",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 6),
+                                                  Material(
+                                                    borderRadius:
+                                                    BorderRadius.circular(5),
+                                                    color: const Color(0xffdddeee),
+                                                    elevation: 1,
+                                                    child: SizedBox(
+                                                      height: 40,
+                                                      width: 250,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(8.0),
+                                                        child: TextFormField(
+                                                          controller: committeeEmailController,
                                                           onTap: () {},
                                                           decoration: InputDecoration(
                                                             border: InputBorder.none,
@@ -667,6 +742,150 @@ class _SettingsTabState extends State<SettingsTab> {
                                                             GoogleFonts.openSans(
                                                               fontSize: 14,
                                                             ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(width: 50),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "Committee Password",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 6),
+                                                  Material(
+                                                    borderRadius:
+                                                    BorderRadius.circular(5),
+                                                    color: const Color(0xffdddeee),
+                                                    elevation: 1,
+                                                    child: SizedBox(
+                                                      height: 40,
+                                                      width: 250,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(8.0),
+                                                        child: TextFormField(
+                                                          obscureText: isCommitteePasswordVisible,
+                                                          controller: committeePasswordController,
+                                                          onTap: () {},
+                                                          decoration: InputDecoration(
+                                                              contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                                                            border: InputBorder.none,
+                                                            hintStyle:
+                                                            GoogleFonts.openSans(
+                                                              fontSize: 14,
+                                                            ),
+                                                              suffix: IconButton(
+                                                                onPressed: (){
+                                                                  setState(() {
+                                                                    isCommitteePasswordVisible = !isCommitteePasswordVisible;
+                                                                  });
+                                                                },
+                                                                icon: Icon(isCommitteePasswordVisible ? Icons.visibility : Icons.visibility_off),
+                                                              )
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "Staff Email",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 6),
+                                                  Material(
+                                                    borderRadius:
+                                                    BorderRadius.circular(5),
+                                                    color: const Color(0xffdddeee),
+                                                    elevation: 1,
+                                                    child: SizedBox(
+                                                      height: 40,
+                                                      width: 250,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(8.0),
+                                                        child: TextFormField(
+                                                          controller: staffEmailController,
+                                                          onTap: () {},
+                                                          decoration: InputDecoration(
+                                                            border: InputBorder.none,
+                                                            hintStyle:
+                                                            GoogleFonts.openSans(
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(width: 50),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "Staff Password",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 6),
+                                                  Material(
+                                                    borderRadius:
+                                                    BorderRadius.circular(5),
+                                                    color: const Color(0xffdddeee),
+                                                    elevation: 1,
+                                                    child: SizedBox(
+                                                      height: 40,
+                                                      width: 250,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(8.0),
+                                                        child: TextFormField(
+                                                          obscureText: isStaffPasswordVisible,
+                                                          controller: staffPasswordController,
+                                                          onTap: () {},
+                                                          decoration: InputDecoration(
+                                                              contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                                                            border: InputBorder.none,
+                                                            hintStyle:
+                                                            GoogleFonts.openSans(
+                                                              fontSize: 14,
+                                                            ),
+                                                              suffix: IconButton(
+                                                                onPressed: (){
+                                                                  setState(() {
+                                                                    isStaffPasswordVisible = !isStaffPasswordVisible;
+                                                                  });
+                                                                },
+                                                                icon: Icon(isStaffPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                                                              )
                                                           ),
                                                         ),
                                                       ),
@@ -688,12 +907,16 @@ class _SettingsTabState extends State<SettingsTab> {
                                                       id: church1.id,
                                                       name: nameController.text,
                                                       city: cityController.text,
-                                                      adminEmail: adminEmailController.text,
-                                                      adminPassword: adminPasswordController.text,
+                                                      // adminEmail: adminEmailController.text,
+                                                      // adminPassword: adminPasswordController.text,
                                                       area: areaController.text,
                                                       buildingNo: buildingnoController.text,
-                                                      managerEmail: managerEmailController.text,
-                                                      managerPassword: managerPasswordController.text,
+                                                      // managerEmail: managerEmailController.text,
+                                                      // managerPassword: managerPasswordController.text,
+                                                      // committeeEmail: committeeEmailController.text,
+                                                      // committeePassword: committeePasswordController.text,
+                                                      // staffEmail: staffEmailController.text,
+                                                      // staffPassword: staffPasswordController.text,
                                                       pincode: pincodeController.text,
                                                       state: stateController.text,
                                                       streetName: streetController.text,
@@ -750,7 +973,6 @@ class _SettingsTabState extends State<SettingsTab> {
                                               )
                                             ],
                                           ),
-
                                         ],
                                       ),
                                     )
