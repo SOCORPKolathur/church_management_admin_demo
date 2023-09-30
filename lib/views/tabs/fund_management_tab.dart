@@ -887,7 +887,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                               color: Colors.white),
                                           SizedBox(width: 10),
                                           KText(
-                                            text: 'Select Profile Photo',
+                                            text: 'Select Picture',
                                             style: TextStyle(color: Colors.white),
                                           ),
                                         ],

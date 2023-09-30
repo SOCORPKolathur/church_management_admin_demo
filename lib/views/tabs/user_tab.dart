@@ -21,7 +21,7 @@ import 'package:intl/intl.dart';
 
 
 class UserTab extends StatefulWidget {
-  const UserTab({super.key});
+   UserTab({super.key});
 
   @override
   State<UserTab> createState() => _UserTabState();
@@ -38,6 +38,7 @@ class _UserTabState extends State<UserTab> {
   TextEditingController anniversaryDateController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController();
@@ -45,6 +46,7 @@ class _UserTabState extends State<UserTab> {
   TextEditingController filterTextController = TextEditingController();
   String filterText = "";
   String marriedController = "Select Status";
+  String GenderController = "Select Gender";
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
@@ -82,12 +84,13 @@ class _UserTabState extends State<UserTab> {
     sheet.getRangeByName("F1").setText("Profession");
     sheet.getRangeByName("G1").setText("Baptize Date");
     sheet.getRangeByName("H1").setText("Marital Status");
-    sheet.getRangeByName("I1").setText("Blood Group");
-    sheet.getRangeByName("J1").setText("Date of birth");
-    sheet.getRangeByName("K1").setText("Locality");
-    sheet.getRangeByName("L1").setText("Address");
-    sheet.getRangeByName("M1").setText("About");
-    sheet.getRangeByName("N1").setText("Annivarsary Date");
+    sheet.getRangeByName("I1").setText("Gender");
+    sheet.getRangeByName("J1").setText("Blood Group");
+    sheet.getRangeByName("K1").setText("Date of birth");
+    sheet.getRangeByName("L1").setText("Pin code");
+    sheet.getRangeByName("M1").setText("Address");
+    sheet.getRangeByName("N1").setText("About");
+    sheet.getRangeByName("O1").setText("Annivarsary Date");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -100,18 +103,26 @@ class _UserTabState extends State<UserTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding:  EdgeInsets.symmetric(
+        vertical: height/81.375,
+        horizontal: width/170.75
+      ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+             padding:  EdgeInsets.symmetric(
+        vertical: height/81.375,
+        horizontal: width/170.75
+      ),
               child: KText(
                 text: "USERS",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.53,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -119,11 +130,14 @@ class _UserTabState extends State<UserTab> {
             Container(
               height: marriedController.toUpperCase() ==
                   "MARRIED"? size.height * 1.95 : size.height * 1.85,
-              width: 1100,
-              margin: const EdgeInsets.all(20),
+              width: width/1.2418,
+              margin:  EdgeInsets.symmetric(
+                horizontal: width/68.3,
+                vertical: height/32.55
+              ),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow:  [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -139,15 +153,15 @@ class _UserTabState extends State<UserTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding:  EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
                             text: "Add User",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize:width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -156,18 +170,18 @@ class _UserTabState extends State<UserTab> {
                               PopupMenuButton(
                                 itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                                    PopupMenuItem(
-                                    child: const Text('Download Template'),
+                                    child:  Text('Download Template'),
                                     onTap: (){
                                       downloadTemplateExcel();
                                     },
                                   )
                                 ],
-                                child: const Icon(
+                                child:  Icon(
                                   Icons.remove_red_eye,
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                               SizedBox(width:width/136.6),
                               InkWell(
                                 onTap: () async {
                                   FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
@@ -199,12 +213,12 @@ class _UserTabState extends State<UserTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
-                                  width: 150,
+                                 height:height/18.6,
+                                  width:width/9.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow:  [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -214,12 +228,12 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                     EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "Bulk Upload",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 13,
+                                          fontSize:width/105.076,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -236,20 +250,23 @@ class _UserTabState extends State<UserTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration:  BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(15),
+                      padding:  EdgeInsets.symmetric(
+                        vertical: height/43.4,
+                        horizontal: width/91.06
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height:height/3.829,
+                              width:width/3.902,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -267,32 +284,32 @@ class _UserTabState extends State<UserTab> {
                                         )
                                       : null),
                               child: uploadedImage == null
-                                  ? const Center(
+                                  ?  Center(
                                       child: Icon(
                                         Icons.cloud_upload,
-                                        size: 160,
+                                        size:width/8.537,
                                         color: Colors.grey,
                                       ),
                                     )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                           SizedBox(height:height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                 height:height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child:  Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width:width/136.6),
                                       KText(
                                         text: 'Select Profile Photo',
                                         style: TextStyle(color: Colors.white),
@@ -301,19 +318,19 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                               SizedBox(width:width/27.32),
                               Container(
-                                height: 35,
+                               height:height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width:width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -323,66 +340,69 @@ class _UserTabState extends State<UserTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: firstNameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: lastNameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: phoneController,
                                     )
                                   ],
@@ -390,11 +410,11 @@ class _UserTabState extends State<UserTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -402,20 +422,20 @@ class _UserTabState extends State<UserTab> {
                                       text: "Email",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               // SizedBox(
-                              //   width: 300,
+                              //   width:width/4.553,
                               //   child: Column(
                               //     crossAxisAlignment: CrossAxisAlignment.start,
                               //     children: [
@@ -423,20 +443,20 @@ class _UserTabState extends State<UserTab> {
                               //         text: "Password",
                               //         style: GoogleFonts.openSans(
                               //           color: Colors.black,
-                              //           fontSize: 13,
+                              //           fontSize:width/105.076,
                               //           fontWeight: FontWeight.bold,
                               //         ),
                               //       ),
                               //       TextFormField(
-                              //         style: const TextStyle(fontSize: 12),
+                              //         style:  TextStyle(fontSize:width/113.83),
                               //         controller: passwordController,
                               //       )
                               //     ],
                               //   ),
                               // ),
-                              // const SizedBox(width: 20),
+                              //  SizedBox(width:width/68.3),
                               // SizedBox(
-                              //   width: 300,
+                              //   width:width/4.553,
                               //   child: Column(
                               //     crossAxisAlignment: CrossAxisAlignment.start,
                               //     children: [
@@ -444,19 +464,19 @@ class _UserTabState extends State<UserTab> {
                               //         text: "Confirm Password",
                               //         style: GoogleFonts.openSans(
                               //           color: Colors.black,
-                              //           fontSize: 13,
+                              //           fontSize:width/105.076,
                               //           fontWeight: FontWeight.bold,
                               //         ),
                               //       ),
                               //       TextFormField(
-                              //         style: const TextStyle(fontSize: 12),
+                              //         style:  TextStyle(fontSize:width/113.83),
                               //         controller: confPaswordController,
                               //       )
                               //     ],
                               //   ),
                               // ),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -464,33 +484,37 @@ class _UserTabState extends State<UserTab> {
                                       text: "Profession",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: professionController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
-                                child: Column(
+                                width:width/4.553,
+                                child:
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Aadhar Number",
+                                      text: "Aadhaar Number",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: aadharController,
                                     )
                                   ],
@@ -498,12 +522,12 @@ class _UserTabState extends State<UserTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
-                              //const SizedBox(width: 20),
+                              // SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -511,12 +535,12 @@ class _UserTabState extends State<UserTab> {
                                       text: "Baptize Date",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       onTap: () async {
                                         DateTime? pickedDate = await showDatePicker(
                                             context: context,
@@ -534,24 +558,25 @@ class _UserTabState extends State<UserTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Marital status",
+                                      text: "Marital status *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     DropdownButton(
+                                       isDense: true,
                                       value: marriedController,
                                       icon:
-                                      const Icon(Icons.keyboard_arrow_down),
+                                       Icon(Icons.keyboard_arrow_down),
                                       items: ["Select Status", "Married", "Single"]
                                           .map((items) {
                                         return DropdownMenuItem(
@@ -568,16 +593,77 @@ class _UserTabState extends State<UserTab> {
                                   ],
                                 ),
                               ),
+                              SizedBox(width:width/68.3),
+                              SizedBox(
+                                width: width/10.507,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender *",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize:width/105.076,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      isDense: true,
+                                      value: GenderController,
+                                      icon:
+                                       Icon(Icons.keyboard_arrow_down),
+                                      items: ["Select Gender", "Male", "Female","Transgender"]
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          GenderController = newValue!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width:width/68.3),
+                              SizedBox(
+                                width:width/9.106,
+                                child:
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Pin Code",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize:width/105.076,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
+                                      style:  TextStyle(fontSize:width/113.83),
+                                      controller: pincodeController,
+                                    )
+                                  ],
+                                ),
+                              ),
+
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Visibility(
                             visible: marriedController.toUpperCase() ==
                                 "MARRIED",
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 300,
+                                  width:width/4.553,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -586,12 +672,12 @@ class _UserTabState extends State<UserTab> {
                                         text: "Anniversary Date",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
-                                          fontSize: 13,
+                                          fontSize:width/105.076,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextFormField(
-                                        style: const TextStyle(fontSize: 12),
+                                        style:  TextStyle(fontSize:width/113.83),
                                         controller: anniversaryDateController,
                                       )
                                     ],
@@ -600,27 +686,30 @@ class _UserTabState extends State<UserTab> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
+
+
+
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 13),
+                                     SizedBox(height:height/50.076),
                                     DropdownButton(
                                       isExpanded: true,
                                       value: bloodGroupController.text,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon:  Icon(Icons.keyboard_arrow_down),
                                       items: ["Select Blood Group", "AB+", "AB-","O+","O-","A+","A-","B+","B-"]
                                           .map((items) {
                                         return DropdownMenuItem(
@@ -639,9 +728,9 @@ class _UserTabState extends State<UserTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -649,12 +738,12 @@ class _UserTabState extends State<UserTab> {
                                       text: "Date of Birth",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
                                         DateTime? pickedDate = await showDatePicker(
@@ -668,29 +757,29 @@ class _UserTabState extends State<UserTab> {
                                           });
                                         }
                                       },
-                                      decoration: const InputDecoration(
+                                      decoration:  InputDecoration(
                                         hintText: "Ex: 2/9/2000"
                                       ),
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Locality",
+                                      text: "Locality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: localityController,
                                     )
                                   ],
@@ -698,7 +787,7 @@ class _UserTabState extends State<UserTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -706,17 +795,17 @@ class _UserTabState extends State<UserTab> {
                                 text: "Address",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.076,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin:  EdgeInsets.all(20),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow:  [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -728,26 +817,26 @@ class _UserTabState extends State<UserTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                     SizedBox(
+                                      height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration:  BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                 TextStyle(fontSize:width/113.83),
                                             controller: addressController,
-                                            decoration: const InputDecoration(
+                                            decoration:  InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(
-                                                    left: 15,
-                                                    top: 4,
-                                                    bottom: 4)),
+                                                    left: width/91.06,
+                                                    top: height/162.75,
+                                                    bottom: height/162.75)),
                                             maxLines: null,
                                           )),
                                     ),
@@ -756,7 +845,7 @@ class _UserTabState extends State<UserTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -764,17 +853,17 @@ class _UserTabState extends State<UserTab> {
                                 text: "About",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.076,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin:  EdgeInsets.all(20),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow:  [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -786,21 +875,21 @@ class _UserTabState extends State<UserTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                     SizedBox(
+                                      height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration:  BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                 TextStyle(fontSize:width/113.83),
                                             controller: aboutController,
-                                            decoration: const InputDecoration(
+                                            decoration:  InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(
                                                     left: 15,
@@ -814,31 +903,26 @@ class _UserTabState extends State<UserTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      baptizeDateController.text != "" &&
                                       bloodGroupController.text != "Select Blood Group" &&
-                                      aboutController.text != "" &&
-                                      addressController.text != "" &&
-                                      dobController.text != "" &&
-                                      emailController.text != "" &&
-                                      //passwordController.text != "" &&
-                                      marriedController != "Select Status" &&
                                       firstNameController.text != "" &&
-                                      //confPaswordController.text != "" &&
                                       lastNameController.text != "" &&
                                       localityController.text != "" &&
                                       phoneController.text != "" &&
-                                      professionController.text != "") {
-                                    Response response =
-                                        await UserFireCrud.addUser(
+                                      GenderController != "Select Gender"&&
+                                      marriedController != "Select Status"
+                                  ) {
+                                    Response response = await UserFireCrud.addUser(
                                           maritialStatus:marriedController,
-                                      image: profileImage!,
+                                         pincode: pincodeController.text,
+                                         gender: GenderController,
+                                        image: profileImage!,
                                       baptizeDate: baptizeDateController.text,
                                       anniversaryDate:
                                           anniversaryDateController.text,
@@ -874,6 +958,7 @@ class _UserTabState extends State<UserTab> {
                                         aadharController.text = "";
                                         anniversaryDateController.text = "";
                                         marriedController = "Select Status";
+                                        GenderController = "Select Gender";
                                         firstNameController.text = "";
                                         aboutController.text = "";
                                         addressController.text = "";
@@ -884,7 +969,8 @@ class _UserTabState extends State<UserTab> {
                                         professionController.text = "";
                                         //confPaswordController.text = "";
                                       });
-                                    } else {
+                                    }
+                                    else {
                                       CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.error,
@@ -894,17 +980,18 @@ class _UserTabState extends State<UserTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                     }
-                                  } else {
+                                  }
+                                  else {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                 height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow:  [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -913,8 +1000,8 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding:  EdgeInsets.symmetric(
+                                        horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "ADD NOW",
@@ -937,7 +1024,8 @@ class _UserTabState extends State<UserTab> {
                 ],
               ),
             ),
-            filterText != "" ? StreamBuilder(
+            filterText != "" ?
+            StreamBuilder(
               stream: UserFireCrud.fetchUsersWithFilter(filterText),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -946,10 +1034,10 @@ class _UserTabState extends State<UserTab> {
                   List<UserModel> users = snapshot.data!;
                   return Container(
                     width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    margin:  EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -965,7 +1053,7 @@ class _UserTabState extends State<UserTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
+                            padding:  EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -973,43 +1061,78 @@ class _UserTabState extends State<UserTab> {
                                 KText(
                                   text: "All Users (${users.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize:width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                     filterText = "";
-                                     filterTextController.text = "";
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 35,
-                                    decoration: BoxDecoration(
+                                Row(
+                                  children: [
+                                    Material(
+                                      borderRadius: BorderRadius.circular(5),
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(1, 2),
-                                          blurRadius: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
-                                      child: Center(
-                                        child: KText(
-                                          text: "Clear Filter",
-                                          style: GoogleFonts.openSans(
-                                            fontSize: 13,
+                                      elevation: 10,
+                                      child: SizedBox(
+                                        height:height/18.6,
+                                        width:width/9.106,
+                                        child: Padding(
+                                          padding:  EdgeInsets.symmetric(
+                                              vertical: height/81.375,
+                                              horizontal: width/170.75
+                                          ),
+                                          child: TextField(
+                                            controller: filterTextController,
+                                            onSubmitted: (val){
+                                              setState(() {
+                                                filterText = val;
+                                              });
+                                            },
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Filter Profession",
+                                              hintStyle: GoogleFonts.openSans(
+                                                fontSize: 14,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    SizedBox(width:width/273.2),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          filterText = filterTextController.text;
+                                          filterTextController.text = "";
+                                        });
+                                      },
+                                      child: Container(
+                                        height:height/18.6,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(8),
+                                          boxShadow:  [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              offset: Offset(1, 2),
+                                              blurRadius: 3,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                          EdgeInsets.symmetric(horizontal:width/227.66),
+                                          child: Center(
+                                            child: KText(
+                                              text: "Apply",
+                                              style: GoogleFonts.openSans(
+                                                fontSize:width/105.076,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
                               ],
                             ),
@@ -1020,13 +1143,16 @@ class _UserTabState extends State<UserTab> {
                               ? 130 + users.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding:  EdgeInsets.symmetric(
+                              horizontal: width/68.3,
+                              vertical: height/32.55
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1034,11 +1160,12 @@ class _UserTabState extends State<UserTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateUserPdf(PdfPageFormat.letter, users,false);
+                                      generateUserPdf(
+                                          PdfPageFormat.letter, users,false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -1049,18 +1176,18 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                              Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1070,14 +1197,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -1088,18 +1215,18 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                              Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1109,15 +1236,15 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateUserPdf(PdfPageFormat.letter, users,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -1128,18 +1255,18 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                              Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1149,14 +1276,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -1167,19 +1294,19 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1191,80 +1318,83 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
+                                  padding:  EdgeInsets.symmetric(
+                                      vertical: height/217,
+                                      horizontal: width/455.33
+                                  ),
                                   child: Row(
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                        width: 80,
+                                        width:width/17.075,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 100,
+                                        width:width/136.60,
                                         child: KText(
                                           text: "Photo",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width:width/8.035,
                                         child: KText(
                                           text: "Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width:width/9.106,
                                         child: KText(
                                           text: "Profession",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width:width/8.035,
                                         child: KText(
                                           text: "Phone",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width:width/9.106,
                                         child: KText(
-                                          text: "Locality",
+                                          text: "Pin Code",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width:width/7.588,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1278,9 +1408,9 @@ class _UserTabState extends State<UserTab> {
                                   itemCount: users.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height:height/10.55,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -1294,23 +1424,26 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal: width/273.2,
+                                            vertical: height/130.2
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                           children: [
                                             SizedBox(
-                                              width: 80,
+                                              width:width/17.075,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 100,
+                                              width:width/13.660,
                                               child: Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -1324,48 +1457,48 @@ class _UserTabState extends State<UserTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width:width/8.035,
                                               child: KText(
                                                 text:
                                                 "${users[i].firstName!} ${users[i].lastName!}",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width:width/9.106,
                                               child: KText(
                                                 text: users[i].profession!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width:width/8.035,
                                               child: KText(
                                                 text: users[i].phone!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width:width/9.106,
                                               child: KText(
-                                                text: users[i].locality!,
+                                                text: users[i].pincode!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                                width: 180,
+                                                width:width/7.588,
                                                 child: Row(
                                                   children: [
                                                     InkWell(
@@ -1373,9 +1506,9 @@ class _UserTabState extends State<UserTab> {
                                                         viewPopup(users[i]);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                        const BoxDecoration(
+                                                        BoxDecoration(
                                                           color:
                                                           Color(0xff2baae4),
                                                           boxShadow: [
@@ -1390,22 +1523,19 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal:
-                                                              6),
+                                                          EdgeInsets.symmetric(horizontal: width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
-                                                                  Icons
-                                                                      .remove_red_eye,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 15,
+                                                                Icon(
+                                                                    Icons
+                                                                        .remove_red_eye,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    size:width/91.066
                                                                 ),
                                                                 KText(
                                                                   text: "View",
@@ -1414,7 +1544,7 @@ class _UserTabState extends State<UserTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                    10,
+                                                                    width/136.6,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -1426,16 +1556,14 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                    SizedBox(width:width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
-                                                          baptizeDateController
-                                                              .text =
-                                                          users[i]
-                                                              .baptizeDate!;
-                                                          bloodGroupController
-                                                              .text =
+                                                          GenderController=users[i].gender!;
+                                                          pincodeController.text=users[i].pincode!;
+                                                          baptizeDateController.text = users[i].baptizeDate!;
+                                                          bloodGroupController.text =
                                                           users[i]
                                                               .bloodGroup!;
                                                           dobController.text =
@@ -1451,14 +1579,13 @@ class _UserTabState extends State<UserTab> {
                                                           addressController
                                                               .text =
                                                           users[i].address!;
-                                                          lastNameController
-                                                              .text =
+                                                          lastNameController.text =
                                                           users[i]
                                                               .lastName!;
                                                           // passwordController
-                                                          //     .text =
-                                                          // users[i]
-                                                          //     .password!;
+                                                          //         .text =
+                                                          //     users[i]
+                                                          //         .password!;
                                                           localityController
                                                               .text =
                                                           users[i]
@@ -1467,12 +1594,11 @@ class _UserTabState extends State<UserTab> {
                                                           users[i].phone!;
                                                           professionController
                                                               .text =
-                                                          users[i]
-                                                              .profession!;
+                                                          users[i].profession!;
                                                           // confPaswordController
-                                                          //     .text =
-                                                          // users[i]
-                                                          //     .password!;
+                                                          //         .text =
+                                                          //     users[i]
+                                                          //         .password!;
                                                           selectedImg =
                                                               users[i].imgUrl;
                                                           marriedController = users[i].maritialStatus!;
@@ -1481,9 +1607,9 @@ class _UserTabState extends State<UserTab> {
                                                         editPopUp(users[i], size);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                        const BoxDecoration(
+                                                        BoxDecoration(
                                                           color:
                                                           Color(0xffff9700),
                                                           boxShadow: [
@@ -1498,21 +1624,21 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
+                                                          EdgeInsets
                                                               .symmetric(
                                                               horizontal:
-                                                              6),
+                                                              width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
-                                                                  Icons.add,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 15,
+                                                                Icon(
+                                                                    Icons.add,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    size:width/91.066
                                                                 ),
                                                                 KText(
                                                                   text: "Edit",
@@ -1521,7 +1647,7 @@ class _UserTabState extends State<UserTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                    10,
+                                                                    width/136.6,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -1533,7 +1659,7 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                    SizedBox(width:width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         CoolAlert.show(
@@ -1555,7 +1681,7 @@ class _UserTabState extends State<UserTab> {
                                                             cancelBtnText:
                                                             'Cancel',
                                                             cancelBtnTextStyle:
-                                                            const TextStyle(
+                                                            TextStyle(
                                                                 color: Colors
                                                                     .black),
                                                             onConfirmBtnTap:
@@ -1568,9 +1694,9 @@ class _UserTabState extends State<UserTab> {
                                                             });
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                        const BoxDecoration(
+                                                        BoxDecoration(
                                                           color:
                                                           Color(0xfff44236),
                                                           boxShadow: [
@@ -1585,22 +1711,22 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
+                                                          EdgeInsets
                                                               .symmetric(
                                                               horizontal:
-                                                              6),
+                                                              width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
-                                                                  Icons
-                                                                      .cancel_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 15,
+                                                                Icon(
+                                                                    Icons
+                                                                        .cancel_outlined,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    size:width/91.066
                                                                 ),
                                                                 KText(
                                                                   text:
@@ -1610,7 +1736,7 @@ class _UserTabState extends State<UserTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                    10,
+                                                                    width/136.6,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -1640,7 +1766,8 @@ class _UserTabState extends State<UserTab> {
                 }
                 return Container();
               },
-            ) : StreamBuilder(
+            ) :
+            StreamBuilder(
               stream: UserFireCrud.fetchUsers(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1649,10 +1776,10 @@ class _UserTabState extends State<UserTab> {
                   List<UserModel> users = snapshot.data!;
                   return Container(
                     width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    margin:  EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -1668,7 +1795,7 @@ class _UserTabState extends State<UserTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
+                            padding:  EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1676,7 +1803,7 @@ class _UserTabState extends State<UserTab> {
                                 KText(
                                   text: "All Users (${users.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize:width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1687,15 +1814,18 @@ class _UserTabState extends State<UserTab> {
                                       color: Colors.white,
                                       elevation: 10,
                                       child: SizedBox(
-                                        height: 35,
-                                        width: 150,
+                                       height:height/18.6,
+                                        width:width/9.106,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                         padding:  EdgeInsets.symmetric(
+        vertical: height/81.375,
+        horizontal: width/170.75
+      ),
                                           child: TextField(
                                             controller: filterTextController,
                                             onSubmitted: (val){
                                               setState(() {
-                                                filterText = val!;
+                                                filterText = val;
                                               });
                                             },
                                             decoration: InputDecoration(
@@ -1709,7 +1839,7 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 5),
+                                     SizedBox(width:width/273.2),
                                     InkWell(
                                       onTap: () {
                                         setState(() {
@@ -1718,11 +1848,11 @@ class _UserTabState extends State<UserTab> {
                                         });
                                       },
                                       child: Container(
-                                        height: 35,
+                                       height:height/18.6,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(8),
-                                          boxShadow: const [
+                                          boxShadow:  [
                                             BoxShadow(
                                               color: Colors.black26,
                                               offset: Offset(1, 2),
@@ -1732,12 +1862,12 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                         child: Padding(
                                           padding:
-                                          const EdgeInsets.symmetric(horizontal: 6),
+                                           EdgeInsets.symmetric(horizontal:width/227.66),
                                           child: Center(
                                             child: KText(
                                               text: "Apply",
                                               style: GoogleFonts.openSans(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                               ),
                                             ),
                                           ),
@@ -1755,13 +1885,16 @@ class _UserTabState extends State<UserTab> {
                               ? 130 + users.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding:  EdgeInsets.symmetric(
+                            horizontal: width/68.3,
+                            vertical: height/32.55
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1773,8 +1906,8 @@ class _UserTabState extends State<UserTab> {
                                           PdfPageFormat.letter, users,false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                     height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -1785,18 +1918,18 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                               Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1806,14 +1939,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                   SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                     height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -1824,18 +1957,18 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                               Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1845,15 +1978,15 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                   SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateUserPdf(PdfPageFormat.letter, users,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                     height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -1864,18 +1997,18 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                               Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1885,14 +2018,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                   SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                     height:height/18.6,
+                                      decoration:  BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -1903,19 +2036,19 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                               Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1927,80 +2060,83 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
+                                  padding:  EdgeInsets.symmetric(
+                                    vertical: height/217,
+                                    horizontal: width/455.33
+                                  ),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                        width: 80,
+                                       width:width/17.075,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 100,
+                                        width:width/136.60,
                                         child: KText(
                                           text: "Photo",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width:width/8.035,
                                         child: KText(
                                           text: "Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width:width/9.106,
                                         child: KText(
                                           text: "Profession",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width:width/8.035,
                                         child: KText(
                                           text: "Phone",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width:width/9.106,
                                         child: KText(
-                                          text: "Locality",
+                                          text: "Pin Code",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width:width/7.588,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -2014,9 +2150,9 @@ class _UserTabState extends State<UserTab> {
                                   itemCount: users.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height:height/10.55,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -2030,23 +2166,26 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                                        padding:  EdgeInsets.symmetric(
+                                          horizontal: width/273.2,
+                                          vertical: height/130.2
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             SizedBox(
-                                              width: 80,
+                                             width:width/17.075,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 100,
+                                              width:width/13.660,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -2060,48 +2199,48 @@ class _UserTabState extends State<UserTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width:width/8.035,
                                               child: KText(
                                                 text:
                                                     "${users[i].firstName!} ${users[i].lastName!}",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width:width/9.106,
                                               child: KText(
                                                 text: users[i].profession!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width:width/8.035,
                                               child: KText(
                                                 text: users[i].phone!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width:width/9.106,
                                               child: KText(
-                                                text: users[i].locality!,
+                                                text: users[i].pincode!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize:width/105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                                width: 180,
+                                                width:width/7.588,
                                                 child: Row(
                                                   children: [
                                                     InkWell(
@@ -2109,9 +2248,9 @@ class _UserTabState extends State<UserTab> {
                                                         viewPopup(users[i]);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                            const BoxDecoration(
+                                                             BoxDecoration(
                                                           color:
                                                               Color(0xff2baae4),
                                                           boxShadow: [
@@ -2126,22 +2265,19 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      6),
+                                                               EdgeInsets.symmetric(horizontal: width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                 Icon(
                                                                   Icons
                                                                       .remove_red_eye,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                 size:width/91.066
                                                                 ),
                                                                 KText(
                                                                   text: "View",
@@ -2150,7 +2286,7 @@ class _UserTabState extends State<UserTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                        10,
+                                                                        width/136.6,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -2162,16 +2298,14 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                     SizedBox(width:width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
-                                                          baptizeDateController
-                                                                  .text =
-                                                              users[i]
-                                                                  .baptizeDate!;
-                                                          bloodGroupController
-                                                                  .text =
+                                                          GenderController=users[i].gender!;
+                                                          pincodeController.text=users[i].pincode!;
+                                                          baptizeDateController.text = users[i].baptizeDate!;
+                                                          bloodGroupController.text =
                                                               users[i]
                                                                   .bloodGroup!;
                                                           dobController.text =
@@ -2187,8 +2321,7 @@ class _UserTabState extends State<UserTab> {
                                                           addressController
                                                                   .text =
                                                               users[i].address!;
-                                                          lastNameController
-                                                                  .text =
+                                                          lastNameController.text =
                                                               users[i]
                                                                   .lastName!;
                                                           // passwordController
@@ -2203,8 +2336,7 @@ class _UserTabState extends State<UserTab> {
                                                               users[i].phone!;
                                                           professionController
                                                                   .text =
-                                                              users[i]
-                                                                  .profession!;
+                                                              users[i].profession!;
                                                           // confPaswordController
                                                           //         .text =
                                                           //     users[i]
@@ -2214,13 +2346,12 @@ class _UserTabState extends State<UserTab> {
                                                           marriedController = users[i].maritialStatus!;
                                                           anniversaryDateController.text = users[i].anniversaryDate!;
                                                         });
-                                                        editPopUp(
-                                                            users[i], size);
+                                                        editPopUp(users[i], size);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                            const BoxDecoration(
+                                                             BoxDecoration(
                                                           color:
                                                               Color(0xffff9700),
                                                           boxShadow: [
@@ -2235,21 +2366,21 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                               EdgeInsets
                                                                       .symmetric(
                                                                   horizontal:
-                                                                      6),
+                                                                  width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                 Icon(
                                                                   Icons.add,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                 size:width/91.066
                                                                 ),
                                                                 KText(
                                                                   text: "Edit",
@@ -2258,7 +2389,7 @@ class _UserTabState extends State<UserTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                        10,
+                                                                        width/136.6,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -2270,7 +2401,7 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                     SizedBox(width:width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         CoolAlert.show(
@@ -2292,7 +2423,7 @@ class _UserTabState extends State<UserTab> {
                                                             cancelBtnText:
                                                                 'Cancel',
                                                             cancelBtnTextStyle:
-                                                                const TextStyle(
+                                                                 TextStyle(
                                                                     color: Colors
                                                                         .black),
                                                             onConfirmBtnTap:
@@ -2305,9 +2436,9 @@ class _UserTabState extends State<UserTab> {
                                                             });
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                            const BoxDecoration(
+                                                             BoxDecoration(
                                                           color:
                                                               Color(0xfff44236),
                                                           boxShadow: [
@@ -2322,22 +2453,22 @@ class _UserTabState extends State<UserTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                               EdgeInsets
                                                                       .symmetric(
                                                                   horizontal:
-                                                                      6),
+                                                                  width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                 Icon(
                                                                   Icons
                                                                       .cancel_outlined,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                 size:width/91.066
                                                                 ),
                                                                 KText(
                                                                   text:
@@ -2347,7 +2478,7 @@ class _UserTabState extends State<UserTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                        10,
+                                                                        width/136.6,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -2385,6 +2516,8 @@ class _UserTabState extends State<UserTab> {
   }
 
   viewPopup(UserModel user) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     Size size = MediaQuery.of(context).size;
     return showDialog(
       context: context,
@@ -2393,10 +2526,10 @@ class _UserTabState extends State<UserTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             width: size.width * 0.5,
-            margin: const EdgeInsets.all(20),
+            margin:  EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow:  [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -2412,14 +2545,14 @@ class _UserTabState extends State<UserTab> {
                   width: double.infinity,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                         EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           user.firstName!,
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize:width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2432,7 +2565,7 @@ class _UserTabState extends State<UserTab> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow:  [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2442,7 +2575,7 @@ class _UserTabState extends State<UserTab> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                   EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "CLOSE",
@@ -2462,7 +2595,7 @@ class _UserTabState extends State<UserTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(10),
@@ -2486,245 +2619,289 @@ class _UserTabState extends State<UserTab> {
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                              padding:  EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 15),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: "${user.firstName!} ${user.lastName!}",
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Phone",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.phone!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Email",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.email!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Aadhaar Number",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       Text(
                                         mask(user.aadharNo!.toString()),
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Position",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.profession!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Baptize Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.baptizeDate!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Blood Group",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.bloodGroup!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.dob!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Gender",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
+                                      KText(
+                                        text: user.gender!,
+                                        style:  TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Locality",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.locality!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "About",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.about!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child:  KText(
                                           text: "Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: user.address!,
-                                        style: const TextStyle(fontSize: 14),
+                                        style:  TextStyle(fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                   SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Pin Code",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                       Text(":"),
+                                       SizedBox(width:width/68.3),
+                                      KText(
+                                        text: user.pincode!,
+                                        style:  TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                   SizedBox(height:height/32.55),
                                 ],
                               ),
                             ),
@@ -2756,6 +2933,8 @@ class _UserTabState extends State<UserTab> {
   }
 
   editPopUp(UserModel user, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -2767,10 +2946,10 @@ class _UserTabState extends State<UserTab> {
                 height: marriedController.toUpperCase() ==
                     "MARRIED"? size.height * 1.95 : size.height * 1.85,
                 width: 1100,
-                margin: const EdgeInsets.all(20),
+                margin:  EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Constants().primaryAppColor,
-                  boxShadow: const [
+                  boxShadow:  [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(1, 2),
@@ -2787,14 +2966,14 @@ class _UserTabState extends State<UserTab> {
                       width: double.infinity,
                       child: Padding(
                         padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                             EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             KText(
                               text: "Edit User",
                               style: GoogleFonts.openSans(
-                                fontSize: 20,
+                                fontSize:width/68.3,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -2818,11 +2997,12 @@ class _UserTabState extends State<UserTab> {
                                   localityController.text = "";
                                   phoneController.text = "";
                                   professionController.text = "";
+                                  pincodeController.text="";
                                   //confPaswordController.text = "";
                                 });
                                 Navigator.pop(context);
                               },
-                              child: const Icon(
+                              child:  Icon(
                                 Icons.cancel_outlined,
                               ),
                             )
@@ -2833,21 +3013,21 @@ class _UserTabState extends State<UserTab> {
                     Expanded(
                       child: Container(
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
                             )),
-                        padding: const EdgeInsets.all(15),
+                        padding:  EdgeInsets.all(15),
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Center(
                                 child: Container(
-                                  height: 170,
-                                  width: 350,
+                                  height:height/3.829,
+                                  width:width/3.902,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Constants().primaryAppColor,
@@ -2869,32 +3049,32 @@ class _UserTabState extends State<UserTab> {
                                                 )
                                               : null),
                                   child: selectedImg == null
-                                      ? const Center(
+                                      ?  Center(
                                           child: Icon(
                                             Icons.cloud_upload,
-                                            size: 160,
+                                            size:width/8.537,
                                             color: Colors.grey,
                                           ),
                                         )
                                       : null,
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: selectImage,
                                     child: Container(
-                                      height: 35,
+                                     height:height/18.6,
                                       width: size.width * 0.25,
                                       color: Constants().primaryAppColor,
-                                      child: const Row(
+                                      child:  Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
                                               color: Colors.white),
-                                          SizedBox(width: 10),
+                                          SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Select Profile Photo',
                                             style: TextStyle(color: Colors.white),
@@ -2903,19 +3083,19 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 50),
+                                   SizedBox(width:width/27.32),
                                   Container(
-                                    height: 35,
+                                   height:height/18.6,
                                     width: size.width * 0.25,
                                     color: Constants().primaryAppColor,
-                                    child: const Row(
+                                    child:  Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.crop,
                                           color: Colors.white,
                                         ),
-                                        SizedBox(width: 10),
+                                        SizedBox(width:width/136.6),
                                         KText(
                                           text: 'Disable Crop',
                                           style: TextStyle(color: Colors.white),
@@ -2925,45 +3105,45 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Firstname",
+                                          text: "Firstname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: firstNameController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Lastname",
+                                          text: "Lastname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: lastNameController,
                                         )
                                       ],
@@ -2971,11 +3151,11 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2983,41 +3163,44 @@ class _UserTabState extends State<UserTab> {
                                           text: "Email",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Phone",
+                                          text: "Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                          ],
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: phoneController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3025,19 +3208,22 @@ class _UserTabState extends State<UserTab> {
                                           text: "Aadhaar Number",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                          ],
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: aadharController,
                                         )
                                       ],
                                     ),
                                   ),
                                   // SizedBox(
-                                  //   width: 300,
+                                  //   width:width/4.553,
                                   //   child: Column(
                                   //     crossAxisAlignment: CrossAxisAlignment.start,
                                   //     children: [
@@ -3045,20 +3231,20 @@ class _UserTabState extends State<UserTab> {
                                   //         text: "Password",
                                   //         style: GoogleFonts.openSans(
                                   //           color: Colors.black,
-                                  //           fontSize: 13,
+                                  //           fontSize:width/105.076,
                                   //           fontWeight: FontWeight.bold,
                                   //         ),
                                   //       ),
                                   //       TextFormField(
-                                  //         style: const TextStyle(fontSize: 12),
+                                  //         style:  TextStyle(fontSize:width/113.83),
                                   //         controller: passwordController,
                                   //       )
                                   //     ],
                                   //   ),
                                   // ),
-                                  // const SizedBox(width: 20),
+                                  //  SizedBox(width:width/68.3),
                                   // SizedBox(
-                                  //   width: 300,
+                                  //   width:width/4.553,
                                   //   child: Column(
                                   //     crossAxisAlignment: CrossAxisAlignment.start,
                                   //     children: [
@@ -3066,12 +3252,12 @@ class _UserTabState extends State<UserTab> {
                                   //         text: "Confirm Password",
                                   //         style: GoogleFonts.openSans(
                                   //           color: Colors.black,
-                                  //           fontSize: 13,
+                                  //           fontSize:width/105.076,
                                   //           fontWeight: FontWeight.bold,
                                   //         ),
                                   //       ),
                                   //       TextFormField(
-                                  //         style: const TextStyle(fontSize: 12),
+                                  //         style:  TextStyle(fontSize:width/113.83),
                                   //         controller: confPaswordController,
                                   //       )
                                   //     ],
@@ -3079,11 +3265,11 @@ class _UserTabState extends State<UserTab> {
                                   // ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3091,20 +3277,20 @@ class _UserTabState extends State<UserTab> {
                                           text: "Profession",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: professionController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3112,35 +3298,35 @@ class _UserTabState extends State<UserTab> {
                                           text: "Baptize Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width: 160,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marital status",
+                                          text: "Marital status *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         DropdownButton(
                                           value: marriedController,
                                           icon:
-                                          const Icon(Icons.keyboard_arrow_down),
+                                           Icon(Icons.keyboard_arrow_down),
                                           items: ["Select Status", "Married", "Single"]
                                               .map((items) {
                                             return DropdownMenuItem(
@@ -3157,16 +3343,50 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
+                                   SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: 160,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Gender *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          value: GenderController,
+                                          icon:
+                                           Icon(Icons.keyboard_arrow_down),
+                                          items: ["Select Gender", "Male", "Female","Transgender"]
+                                              .map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              GenderController = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Visibility(
                                 visible: marriedController.toUpperCase() ==
                                     "MARRIED",
                                 child: Row(
                                   children: [
                                     SizedBox(
-                                      width: 300,
+                                      width:width/4.553,
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -3175,13 +3395,38 @@ class _UserTabState extends State<UserTab> {
                                             text: "Anniversary Date",
                                             style: GoogleFonts.openSans(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                              fontSize:width/105.076,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           TextFormField(
-                                            style: const TextStyle(fontSize: 12),
+                                            style:  TextStyle(fontSize:width/113.83),
                                             controller: anniversaryDateController,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                     SizedBox(width:width/68.3),
+                                    SizedBox(
+                                      width:width/4.553,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Pin Code",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize:width/105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextFormField(
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            ],
+                                            style:  TextStyle(fontSize:width/113.83),
+                                            controller: pincodeController,
                                           )
                                         ],
                                       ),
@@ -3189,32 +3434,32 @@ class _UserTabState extends State<UserTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Blood Group",
+                                          text: "Blood Group *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: bloodGroupController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3222,33 +3467,33 @@ class _UserTabState extends State<UserTab> {
                                           text: "Date of Birth",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: dobController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                    width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Locality",
+                                          text: "Locality *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style:  TextStyle(fontSize:width/113.83),
                                           controller: localityController,
                                         )
                                       ],
@@ -3256,7 +3501,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -3264,17 +3509,17 @@ class _UserTabState extends State<UserTab> {
                                     text: "Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.076,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Container(
                                     height: size.height * 0.15,
                                     width: double.infinity,
-                                    margin: const EdgeInsets.all(20),
+                                    margin:  EdgeInsets.all(20),
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
-                                      boxShadow: const [
+                                      boxShadow:  [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -3286,21 +3531,21 @@ class _UserTabState extends State<UserTab> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        const SizedBox(
-                                          height: 20,
+                                         SizedBox(
+                                          height:height/32.55,
                                           width: double.infinity,
                                         ),
                                         Expanded(
                                           child: Container(
                                               width: double.infinity,
-                                              decoration: const BoxDecoration(
+                                              decoration:  BoxDecoration(
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
                                                 style:
-                                                    const TextStyle(fontSize: 12),
+                                                     TextStyle(fontSize:width/113.83),
                                                 controller: addressController,
-                                                decoration: const InputDecoration(
+                                                decoration:  InputDecoration(
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(
                                                         left: 15,
@@ -3314,7 +3559,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -3322,17 +3567,17 @@ class _UserTabState extends State<UserTab> {
                                     text: "About",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.076,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Container(
                                     height: size.height * 0.15,
                                     width: double.infinity,
-                                    margin: const EdgeInsets.all(20),
+                                    margin:  EdgeInsets.all(20),
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
-                                      boxShadow: const [
+                                      boxShadow:  [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -3344,21 +3589,21 @@ class _UserTabState extends State<UserTab> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        const SizedBox(
-                                          height: 20,
+                                         SizedBox(
+                                          height:height/32.55,
                                           width: double.infinity,
                                         ),
                                         Expanded(
                                           child: Container(
                                               width: double.infinity,
-                                              decoration: const BoxDecoration(
+                                              decoration:  BoxDecoration(
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
                                                 style:
-                                                    const TextStyle(fontSize: 12),
+                                                     TextStyle(fontSize:width/113.83),
                                                 controller: aboutController,
-                                                decoration: const InputDecoration(
+                                                decoration:  InputDecoration(
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(
                                                         left: 15,
@@ -3372,49 +3617,49 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                               SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   InkWell(
                                     onTap: () async {
+                                      print("dufffffffffffffffffffffffffffffffffffffffffffffffffff");
+                                      print(pincodeController.text);
                                       if (baptizeDateController.text != "" &&
                                           bloodGroupController.text != "" &&
                                           aboutController.text != "" &&
                                           dobController.text != "" &&
                                           addressController.text != "" &&
                                           emailController.text != "" &&
-                                          //passwordController.text != "" &&
                                           marriedController != "Select Status" &&
                                           firstNameController.text != "" &&
-                                          //confPaswordController.text != "" &&
                                           lastNameController.text != "" &&
                                           localityController.text != "" &&
                                           phoneController.text != "" &&
-                                          professionController.text != "") {
+                                          phoneController.text != "" &&
+                                          pincodeController.text != "") {
+                                        print("Enteredddddd");
+
                                         Response response =
                                             await UserFireCrud.updateRecord(
                                                 UserModel(
                                                   id: user.id,
+                                                  pincode: pincodeController.text,
                                                   timestamp: user.timestamp,
-                                                  baptizeDate:
-                                                      baptizeDateController.text,
-                                                  bloodGroup:
-                                                      bloodGroupController.text,
+                                                  baptizeDate: baptizeDateController.text,
+                                                  bloodGroup: bloodGroupController.text,
                                                   dob: dobController.text,
                                                   address: addressController.text,
                                                   email: emailController.text,
                                                   aadharNo: aadharController.text,
-                                                  firstName:
-                                                      firstNameController.text,
+                                                  firstName: firstNameController.text,
                                                   maritialStatus: marriedController,
                                                   anniversaryDate:  marriedController.toUpperCase() ==
                                                       "MARRIED"? anniversaryDateController.text : "",
                                                   lastName: lastNameController.text,
                                                   locality: localityController.text,
                                                   phone: phoneController.text,
-                                                  profession:
-                                                      professionController.text,
+                                                  profession: professionController.text,
                                                   about: aboutController.text,
                                                   //password: passwordController.text,
                                                 ),
@@ -3450,7 +3695,8 @@ class _UserTabState extends State<UserTab> {
                                           });
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                        } else {
+                                        }
+                                        else {
                                           CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
@@ -3467,11 +3713,11 @@ class _UserTabState extends State<UserTab> {
                                       }
                                     },
                                     child: Container(
-                                      height: 35,
+                                     height:height/18.6,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
-                                        boxShadow: const [
+                                        boxShadow:  [
                                           BoxShadow(
                                             color: Colors.black26,
                                             offset: Offset(1, 2),
@@ -3480,8 +3726,8 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: KText(
                                             text: "Update",
@@ -3525,6 +3771,7 @@ class _UserTabState extends State<UserTab> {
     row.add("Blood Group");
     row.add("Date of birth");
     row.add("Locality");
+    row.add("Pin Code");
     row.add("Address");
     row.add("About");
     rows.add(row);
@@ -3540,11 +3787,12 @@ class _UserTabState extends State<UserTab> {
       row.add(users[i].bloodGroup);
       row.add(users[i].dob);
       row.add(users[i].locality);
+      row.add(users[i].pincode);
       row.add(users[i].address);
       row.add(users[i].about);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv =  ListToCsvConverter().convert(rows);
     saveCsvToFile(csv);
   }
 
@@ -3592,7 +3840,7 @@ class _UserTabState extends State<UserTab> {
       row.add(users[i].locality);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows,
+    String csv =  ListToCsvConverter().convert(rows,
         fieldDelimiter: null,
         eol: null,
         textEndDelimiter: null,
@@ -3605,11 +3853,11 @@ class _UserTabState extends State<UserTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding:  EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow:  [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -3622,14 +3870,14 @@ class _UserTabState extends State<UserTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+             Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+             Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child:  Text("Undo"))
           ],
         )),
   );

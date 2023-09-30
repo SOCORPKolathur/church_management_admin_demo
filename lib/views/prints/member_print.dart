@@ -48,7 +48,7 @@ class MemberModelforPdf{
       'Name',
       'Position',
       'Phone',
-      'Country'
+      'Pin Code'
     ];
 
     return pw.

@@ -119,7 +119,7 @@ class MembersModel {
       case 4:
         return phone!.toString();
       case 5:
-        return nationality!;
+        return pincode!;
     }
     return '';
   }

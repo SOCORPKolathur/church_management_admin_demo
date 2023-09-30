@@ -1,12 +1,13 @@
-import 'package:church_management_admin/constants.dart';
+
 import 'package:church_management_admin/models/message_model.dart';
 import 'package:church_management_admin/services/messages_firecrud.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../constants.dart';
 import '../../widgets/kText.dart';
 
 class MessagesTab extends StatefulWidget {
-  const MessagesTab({super.key});
+   MessagesTab({super.key});
 
   @override
   State<MessagesTab> createState() => _MessagesTabState();
@@ -16,10 +17,13 @@ class _MessagesTabState extends State<MessagesTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding:  EdgeInsets.symmetric(vertical: height/65.1,horizontal: width/136.6),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -27,22 +31,22 @@ class _MessagesTabState extends State<MessagesTab> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding:  EdgeInsets.only(left: width/68.3),
                     child: InkWell(
                       onTap: (){
                         Navigator.pop(context);
                       },
-                      child: const Icon(
+                      child:  Icon(
                           Icons.arrow_back
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:  EdgeInsets.symmetric(horizontal: width/170.75,vertical: height/81.375),
                     child: KText(
                       text: 'MESSAGES',
                       style: GoogleFonts.openSans(
-                        fontSize: 32,
+                        fontSize: width/42.687,
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                       ),
@@ -50,7 +54,7 @@ class _MessagesTabState extends State<MessagesTab> {
                   ),
                 ],
               ),
-              SizedBox(height: size.height * 0.03),
+              SizedBox(height: size.height * 0.01),
               StreamBuilder(
                 stream: MessagesFireCrud.fetchMessages(),
                 builder: (ctx, snapshot) {
@@ -60,10 +64,13 @@ class _MessagesTabState extends State<MessagesTab> {
                     List<MessageModel> messages = snapshot.data!;
                     return Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.all(20),
+                      margin:  EdgeInsets.symmetric(
+                        vertical: height/32.55,
+                        horizontal: width/68.3,
+                      ),
                       decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        boxShadow: const [
+                        boxShadow:  [
                           BoxShadow(
                             color: Colors.black26,
                             offset: Offset(1, 2),
@@ -79,8 +86,8 @@ class _MessagesTabState extends State<MessagesTab> {
                             height: size.height * 0.1,
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 8),
+                              padding:  EdgeInsets.symmetric(
+                                  horizontal: width/68.3, vertical: height/81.375),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -88,7 +95,7 @@ class _MessagesTabState extends State<MessagesTab> {
                                   KText(
                                     text: "All Messages (${messages.length})",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 20,
+                                      fontSize: width/68.3,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -102,112 +109,126 @@ class _MessagesTabState extends State<MessagesTab> {
                                     ? 130 + messages.length * 60
                                     : size.height * 0.7,
                             width: double.infinity,
-                            decoration: const BoxDecoration(
+                            decoration:  BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(10),
                                   bottomRight: Radius.circular(10),
                                 )),
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
+                            padding:  EdgeInsets.symmetric(
+                              horizontal: width/68.3,
+                              vertical: height/32.55
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ListView.builder(
                                     itemCount: messages.length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
                                     itemBuilder: (ctx, i) {
-                                      return Container(
-                                        height: 200,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.grey.shade50,
+                                      return Padding(
+                                        padding:  EdgeInsets.symmetric(
+                                          vertical: height/81.375,
+                                          horizontal: width/170.75
                                         ),
-                                        padding: const EdgeInsets.all(20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  messages[i].title!,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 20),
-                                                SizedBox(
-                                                  height: 40,
-                                                  child: Text(
-                                                    messages[i].content!,
-                                                    style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.normal,
+                                        child: Container(
+                                          height: height/6.0,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey.shade50,
+                                          ),
+                                          padding:  EdgeInsets.symmetric(
+                                              horizontal: width/68.3,
+                                              vertical: height/32.55),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    messages[i].title!,
+                                                    style:  TextStyle(
+                                                      fontSize: width/75.888  ,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Date : ",
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      messages[i].date!,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
+                                                 //  SizedBox(height: height/32.55),
+                                                  SizedBox(
+                                                    height: height/15.4,
+                                                    width: width/1.366,
+                                                    child: Text(
+                                                      messages[i].content!,
+                                                      style:  TextStyle(
+                                                        fontSize: width/91.066,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                                const SizedBox(height: 20),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Time : ",
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                       Text(
+                                                        "Date : ",
+                                                        style: TextStyle(
+                                                          fontSize: width/97.571,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      messages[i].time!,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
+                                                      Text(
+                                                        messages[i].date!,
+                                                        style:  TextStyle(
+                                                          fontSize: width/97.571,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                    ],
+                                                  ),
+                                                   SizedBox(height: height/32.55),
+                                                  Row(
+                                                    children: [
+                                                       Text(
+                                                        "Time : ",
+                                                        style: TextStyle(
+                                                          fontSize: width/97.571,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        messages[i].time!,
+                                                        style:  TextStyle(
+                                                          fontSize: width/97.571,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],

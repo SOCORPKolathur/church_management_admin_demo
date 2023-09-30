@@ -417,7 +417,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -438,7 +438,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -463,7 +463,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -471,6 +471,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -505,7 +508,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -608,6 +611,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: aadharNoController,
                                     )
@@ -704,7 +710,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -746,7 +752,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -804,7 +810,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Nationality",
+                                      text: "Nationality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -825,7 +831,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode",
+                                      text: "Pin code *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -833,6 +839,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: pincodeController,
                                     )
@@ -905,22 +914,14 @@ class _MembersTabState extends State<MembersTab> {
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      baptizeDateController.text != "" &&
                                       bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
-                                      dobController.text != "" &&
-                                      emailController.text != "" &&
                                       familyController.text != "" &&
                                       pincodeController.text != "" &&
                                       firstNameController.text != "" &&
                                       genderController.text != "Select Gender" &&
-                                      addressController.text != "" &&
-                                      jobController.text != "" &&
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
-                                      phoneController.text != "" &&
-                                      positionController.text != "" &&
-                                      socialStatusController.text != "") {
+                                      phoneController.text != "" ) {
                                     Response response =
                                         await MembersFireCrud.addMember(
                                           aadharNo: aadharNoController.text,
@@ -981,7 +982,8 @@ class _MembersTabState extends State<MembersTab> {
                                         socialStatusController.text = "";
                                         countryController.text = "";
                                       });
-                                    } else {
+                                    }
+                                    else {
                                       CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.error,
@@ -991,7 +993,9 @@ class _MembersTabState extends State<MembersTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                     }
-                                  } else {
+                                  }
+
+                                  else {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }
@@ -1350,7 +1354,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: 130,
                                         child: KText(
-                                          text: "Country",
+                                          text: "Pin Code",
                                           style: GoogleFonts.poppins(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -1465,7 +1469,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: 130,
                                               child: KText(
-                                                text: members[i].nationality!,
+                                                text: members[i].pincode!,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w600,
@@ -2278,6 +2282,30 @@ class _MembersTabState extends State<MembersTab> {
                                     ],
                                   ),
                                   const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Pin Code",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: member.pincode!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
                                 ],
                               ),
                             ),
@@ -2551,6 +2579,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -2676,6 +2707,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: aadharNoController,
                                     )
@@ -2870,7 +2904,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode",
+                                      text: "Pin code",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2878,6 +2912,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: pincodeController,
                                     )
@@ -3108,6 +3145,7 @@ class _MembersTabState extends State<MembersTab> {
     row.add("Date of Birth");
     row.add("Nationality");
     row.add("Address");
+    row.add("Pin Code");
     rows.add(row);
     for (int i = 0; i < members.length; i++) {
       List<dynamic> row = [];
@@ -3128,6 +3166,7 @@ class _MembersTabState extends State<MembersTab> {
       row.add(members[i].dob);
       row.add(members[i].nationality);
       row.add(members[i].address);
+      row.add(members[i].pincode);
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

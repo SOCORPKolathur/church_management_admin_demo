@@ -453,7 +453,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: 'Guardian',
+                                      text: 'Father / Guardian',
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -474,7 +474,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Guardian Phone",
+                                      text: "Father / Guardian Phone",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -564,7 +564,7 @@ class _StudentTabState extends State<StudentTab> {
                                       value: classController.text,
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                      items: ["Select Class",  "PKG","UKG",]
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -946,7 +946,7 @@ class _StudentTabState extends State<StudentTab> {
                                     underline: Container(),
                                     icon:
                                     const Icon(Icons.keyboard_arrow_down),
-                                    items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                    items: ["Select Class", "PKG", "UKG",]
                                         .map((items) {
                                       return DropdownMenuItem(
                                         value: items,
@@ -2381,7 +2381,7 @@ class _StudentTabState extends State<StudentTab> {
                                       value: classController.text,
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Class", "LKG", "UKG", "I","II","III","IV","V","VI","VII","VIII","XI","X","XI","XII"]
+                                      items: ["Select Class","PKG","UKG",]
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,

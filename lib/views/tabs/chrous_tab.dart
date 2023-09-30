@@ -83,7 +83,7 @@ class _ChorusTabState extends State<ChorusTab> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: KText(
-                text: "CHORUS",
+                text: "QUIRE",
                 style: GoogleFonts.openSans(
                     fontSize: 26,
                     fontWeight: FontWeight.w900,

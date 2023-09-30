@@ -12,14 +12,13 @@ import '../../widgets/kText.dart';
 import 'package:intl/intl.dart';
 
 class SettingsTab extends StatefulWidget {
-  const SettingsTab({super.key});
+  SettingsTab({super.key});
 
   @override
   State<SettingsTab> createState() => _SettingsTabState();
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController buildingnoController = TextEditingController();
@@ -41,28 +40,28 @@ class _SettingsTabState extends State<SettingsTab> {
   TextEditingController verseController = TextEditingController();
   TextEditingController textController = TextEditingController();
 
-
   bool isAdminPasswordVisible = true;
   bool isManagerPasswordVisible = true;
   bool isCommitteePasswordVisible = true;
   bool isStaffPasswordVisible = true;
 
-  setData(ChurchDetailsModel church){
-      nameController.text = church.name ?? "";
-      phoneController.text = church.phone ?? "";
-      buildingnoController.text = church.buildingNo ?? "";
-      streetController.text = church.streetName ?? "";
-      areaController.text = church.area ?? "";
-      cityController.text = church.city ?? "";
-      stateController.text = church.state ?? "";
-      pincodeController.text = church.pincode ?? "";
-      websiteController.text = church.website ?? "";
-      roleCredentialsList.clear();
-      church.roles!.forEach((element) {
-        roleCredentialsList.add(
-            RoleCredentialsModel(roleEmail: TextEditingController(text: element.roleName), rolePassword: TextEditingController(text: element.rolePassword), isObsecure: true)
-        );
-      });
+  setData(ChurchDetailsModel church) {
+    nameController.text = church.name ?? "";
+    phoneController.text = church.phone ?? "";
+    buildingnoController.text = church.buildingNo ?? "";
+    streetController.text = church.streetName ?? "";
+    areaController.text = church.area ?? "";
+    cityController.text = church.city ?? "";
+    stateController.text = church.state ?? "";
+    pincodeController.text = church.pincode ?? "";
+    websiteController.text = church.website ?? "";
+    roleCredentialsList.clear();
+    church.roles!.forEach((element) {
+      roleCredentialsList.add(RoleCredentialsModel(
+          roleEmail: TextEditingController(text: element.roleName),
+          rolePassword: TextEditingController(text: element.rolePassword),
+          isObsecure: true));
+    });
   }
 
   List<RoleCredentialsModel> roleCredentialsList = [];
@@ -72,10 +71,13 @@ class _SettingsTabState extends State<SettingsTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: width / 170.75, vertical: height / 81.375),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,33 +85,32 @@ class _SettingsTabState extends State<SettingsTab> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(left: width/68.3),
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                       },
-                      child: const Icon(
-                        Icons.arrow_back
-                      ),
+                      child: Icon(Icons.arrow_back),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width / 170.75, vertical: height / 81.375),
                     child: KText(
                       text: "SETTINGS",
                       style: GoogleFonts.openSans(
-                          fontSize: 26,
+                          fontSize: width/37.94,
                           fontWeight: FontWeight.w900,
                           color: Colors.black),
                     ),
                   ),
                   Expanded(child: Container()),
                   Padding(
-                    padding: const EdgeInsets.only(right: 30),
+                    padding: EdgeInsets.only(right: width/45.533),
                     child: Row(
                       children: [
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             viewVersesPopUp();
                           },
                           child: Material(
@@ -118,7 +119,9 @@ class _SettingsTabState extends State<SettingsTab> {
                             elevation: 4,
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width / 170.75,
+                                    vertical: height / 81.375),
                                 child: Text(
                                   "View Bible Verses",
                                   style: TextStyle(
@@ -129,10 +132,10 @@ class _SettingsTabState extends State<SettingsTab> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 20),
+                        SizedBox(width: width/68.3),
                         InkWell(
-                          onTap: (){
-                            addVersesPopUp(true,null);
+                          onTap: () {
+                            addVersesPopUp(true, null);
                           },
                           child: Material(
                             color: Colors.white,
@@ -140,9 +143,11 @@ class _SettingsTabState extends State<SettingsTab> {
                             elevation: 4,
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width / 170.75,
+                                    vertical: height / 81.375),
                                 child: Text(
-                                    "Add Bible Verses",
+                                  "Add Bible Verses",
                                   style: TextStyle(
                                     color: Constants().primaryAppColor,
                                   ),
@@ -159,13 +164,13 @@ class _SettingsTabState extends State<SettingsTab> {
               SizedBox(height: size.height * 0.03),
               StreamBuilder(
                 stream: ChurchDetailsFireCrud.fetchChurchDetails2(),
-                builder: (ctx,snapshot){
-                  if(snapshot.hasData){
+                builder: (ctx, snapshot) {
+                  if (snapshot.hasData) {
                     ChurchDetailsModel church1 = snapshot.data!.first;
                     setData(church1);
                     return Center(
                       child: Container(
-                        height: size.height * 0.28 * church1.roles!.length,
+                        height: size.height * 0.78 ,
                         width: size.width * 0.95,
                         decoration: BoxDecoration(
                           color: Constants().primaryAppColor,
@@ -197,93 +202,80 @@ class _SettingsTabState extends State<SettingsTab> {
                                       child: Column(
                                         children: [
                                           SizedBox(height: size.height * 0.1),
-                                          const Icon(
+                                          Icon(
                                             Icons.church,
-                                            size: 180,
+                                            size: width/7.588,
                                           ),
                                         ],
                                       ),
                                     ),
                                     Container(
                                       width: size.width * 0.75,
-                                      padding: const EdgeInsets.all(20),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: height/32.55,
+                                        horizontal: width/68.3
+                                      ),
                                       child: Column(
                                         children: [
                                           Row(
                                             children: [
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Church Name",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 0,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 300,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: nameController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/4.553,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          nameController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(width: 30),
+                                              SizedBox(width: width/45.53),
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Church Phone Number",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 300,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: phoneController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/4.553,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          phoneController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
@@ -292,162 +284,130 @@ class _SettingsTabState extends State<SettingsTab> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 30),
+                                          SizedBox(height: height/21.7),
                                           Row(
                                             children: [
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Building No",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 200,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: buildingnoController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/6.83,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          buildingnoController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(width: 30),
+                                              SizedBox(width: width/45.53),
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Street Name",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 200,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: streetController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/6.83,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          streetController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(width: 30),
+                                              SizedBox(width: width/45.53),
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Area",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 200,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: areaController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/6.83,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          areaController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(width: 30),
+                                              SizedBox(width: width/45.53),
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "City / District",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 200,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: cityController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/6.83,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          cityController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
@@ -456,122 +416,98 @@ class _SettingsTabState extends State<SettingsTab> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 30),
+                                          SizedBox(height: height/21.7),
                                           Row(
                                             children: [
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "State",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 250,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: stateController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width:width/5.464,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          stateController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(width: 50),
+                                              SizedBox(width: width/27.32),
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Pincode",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 250,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: pincodeController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width:width/5.464,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          pincodeController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(width: 50),
+                                              SizedBox(width:width/27.32),
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
                                                     text: "Website",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Material(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: const Color(0xffdddeee),
-                                                    elevation: 1,
-                                                    child: SizedBox(
-                                                      height: 40,
-                                                      width: 250,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(8.0),
-                                                        child: TextFormField(
-                                                          controller: websiteController,
-                                                          onTap: () {},
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintStyle:
-                                                            GoogleFonts.openSans(
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width:width/5.464,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          websiteController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                          fontSize: width/97.571,
                                                         ),
                                                       ),
                                                     ),
@@ -580,161 +516,92 @@ class _SettingsTabState extends State<SettingsTab> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 30),
-                                          for(int r = 0; r < roleCredentialsList.length; r ++)
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 10),
-                                              child: Row(
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      KText(
-                                                        text: "${roleCredentialsList[r].roleEmail!.text} Email",
-                                                        style: GoogleFonts.openSans(
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 6),
-                                                      Material(
-                                                        borderRadius:
-                                                        BorderRadius.circular(5),
-                                                        color: const Color(0xffdddeee),
-                                                        elevation: 1,
-                                                        child: SizedBox(
-                                                          height: 40,
-                                                          width: 250,
-                                                          child: Padding(
-                                                            padding:
-                                                            const EdgeInsets.all(8.0),
-                                                            child: TextFormField(
-                                                              controller: roleCredentialsList[r].roleEmail,
-                                                              onTap: () {},
-                                                              decoration: InputDecoration(
-                                                                border: InputBorder.none,
-                                                                hintStyle:
-                                                                GoogleFonts.openSans(
-                                                                  fontSize: 14,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(width: 50),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      KText(
-                                                        text: "${roleCredentialsList[r].rolePassword!.text} Password",
-                                                        style: GoogleFonts.openSans(
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 6),
-                                                      Material(
-                                                        borderRadius:
-                                                        BorderRadius.circular(5),
-                                                        color: const Color(0xffdddeee),
-                                                        elevation: 1,
-                                                        child: SizedBox(
-                                                          height: 40,
-                                                          width: 250,
-                                                          child: Padding(
-                                                            padding:
-                                                            const EdgeInsets.all(8.0),
-                                                            child: TextFormField(
-                                                              obscureText: roleCredentialsList[r].isObsecure == true?true:false,
-                                                              controller: roleCredentialsList[r].rolePassword,
-                                                              onTap: () {},
-                                                              decoration: InputDecoration(
-                                                                  contentPadding: const EdgeInsets.symmetric(vertical: 5),
-                                                                  border: InputBorder.none,
-                                                                  hintStyle:
-                                                                  GoogleFonts.openSans(
-                                                                    fontSize: 14,
-                                                                  ),
-                                                                  suffix: IconButton(
-                                                                    onPressed: (){
-                                                                      setState(() {
-                                                                        roleCredentialsList[r].isObsecure = !roleCredentialsList[r].isObsecure!;
-                                                                      });
-                                                                      print(roleCredentialsList[r].isObsecure);
-                                                                    },
-                                                                    icon: Icon(roleCredentialsList[r].isObsecure! ? Icons.visibility : Icons.visibility_off),
-                                                                  )
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          Expanded(child: Container()),
+                                          SizedBox(height: height/11.7),
+
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             children: [
                                               InkWell(
                                                 onTap: () async {
-                                                  List<RoleUserModel> roles1 = [];
-                                                  roleCredentialsList.forEach((element) {
-                                                    roles1.add(
-                                                        RoleUserModel(
-                                                          roleName: element.roleEmail!.text,
-                                                          rolePassword: element.rolePassword!.text
-                                                        )
-                                                    );
+                                                  List<RoleUserModel> roles1 =
+                                                      [];
+                                                  roleCredentialsList
+                                                      .forEach((element) {
+                                                    roles1.add(RoleUserModel(
+                                                        roleName: element
+                                                            .roleEmail!.text,
+                                                        rolePassword: element
+                                                            .rolePassword!
+                                                            .text));
                                                   });
-                                                  Response response = await ChurchDetailsFireCrud.updateRecord(
+                                                  Response response =
+                                                      await ChurchDetailsFireCrud
+                                                          .updateRecord(
                                                     ChurchDetailsModel(
-                                                      phone: phoneController.text,
-                                                      id: church1.id,
-                                                      name: nameController.text,
-                                                      city: cityController.text,
-                                                      area: areaController.text,
-                                                      buildingNo: buildingnoController.text,
-                                                      pincode: pincodeController.text,
-                                                      state: stateController.text,
-                                                      streetName: streetController.text,
-                                                      website: websiteController.text,
-                                                      roles: roles1
-                                                    ),
+                                                        phone: phoneController
+                                                            .text,
+                                                        id: church1.id,
+                                                        name:
+                                                            nameController.text,
+                                                        city:
+                                                            cityController.text,
+                                                        area:
+                                                            areaController.text,
+                                                        buildingNo:
+                                                            buildingnoController
+                                                                .text,
+                                                        pincode:
+                                                            pincodeController
+                                                                .text,
+                                                        state: stateController
+                                                            .text,
+                                                        streetName:
+                                                            streetController
+                                                                .text,
+                                                        website:
+                                                            websiteController
+                                                                .text,
+                                                        roles: roles1),
                                                   );
-                                                  if(response.code == 200){
+                                                  if (response.code == 200) {
                                                     CoolAlert.show(
                                                         context: context,
-                                                        type: CoolAlertType.success,
-                                                        text: "Updated successfully!",
+                                                        type: CoolAlertType
+                                                            .success,
+                                                        text:
+                                                            "Updated successfully!",
                                                         width: size.width * 0.4,
-                                                        backgroundColor: Constants()
-                                                            .primaryAppColor
-                                                            .withOpacity(0.8));
-                                                  }else{
+                                                        backgroundColor:
+                                                            Constants()
+                                                                .primaryAppColor
+                                                                .withOpacity(
+                                                                    0.8));
+                                                  }
+                                                  else {
                                                     CoolAlert.show(
                                                         context: context,
-                                                        type: CoolAlertType.error,
-                                                        text: "Failed to Update",
+                                                        type:
+                                                            CoolAlertType.error,
+                                                        text:
+                                                            "Failed to Update",
                                                         width: size.width * 0.4,
-                                                        backgroundColor: Constants()
-                                                            .primaryAppColor
-                                                            .withOpacity(0.8));
+                                                        backgroundColor:
+                                                            Constants()
+                                                                .primaryAppColor
+                                                                .withOpacity(
+                                                                    0.8));
                                                   }
                                                 },
                                                 child: Container(
-                                                  height: 35,
+                                                  height:height/18.6,
                                                   decoration: BoxDecoration(
-                                                    color: Constants().primaryAppColor,
-                                                    borderRadius: BorderRadius.circular(8),
-                                                    boxShadow: const [
+                                                    color: Constants()
+                                                        .primaryAppColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    boxShadow: [
                                                       BoxShadow(
                                                         color: Colors.black26,
                                                         offset: Offset(1, 2),
@@ -744,13 +611,16 @@ class _SettingsTabState extends State<SettingsTab> {
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                    const EdgeInsets.symmetric(horizontal: 6),
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 6),
                                                     child: Center(
                                                       child: KText(
                                                         text: "Update",
-                                                        style: GoogleFonts.openSans(
-                                                          fontSize: 13,
-                                                          fontWeight: FontWeight.bold,
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          fontSize: width/105.07,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
                                                       ),
                                                     ),
@@ -770,7 +640,8 @@ class _SettingsTabState extends State<SettingsTab> {
                         ),
                       ),
                     );
-                  }return Container();
+                  }
+                  return Container();
                 },
               ),
               SizedBox(height: size.height * 0.03),
@@ -783,16 +654,20 @@ class _SettingsTabState extends State<SettingsTab> {
 
   viewVersesPopUp() async {
     Size size = MediaQuery.of(context).size;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return showDialog(
       context: context,
       builder: (ctx) {
         return StatefulBuilder(builder: (ctx, setState) {
           return StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("BibleVerses").snapshots(),
-            builder: (ctx, snap){
-              if(snap.hasData){
+            stream: FirebaseFirestore.instance
+                .collection("BibleVerses")
+                .snapshots(),
+            builder: (ctx, snap) {
+              if (snap.hasData) {
                 var verseDocument = snap.data!;
-                if(selectVersesList.isEmpty){
+                if (selectVersesList.isEmpty) {
                   verseDocument.docs.forEach((element) {
                     selectVersesList.add(false);
                   });
@@ -807,10 +682,10 @@ class _SettingsTabState extends State<SettingsTab> {
                         Container(
                           height: size.height * 0.1,
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3),
                           decoration: BoxDecoration(
                               color: Constants().primaryAppColor,
-                              borderRadius: const BorderRadius.only(
+                              borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   topRight: Radius.circular(10))),
                           child: Row(
@@ -819,7 +694,7 @@ class _SettingsTabState extends State<SettingsTab> {
                               KText(
                                 text: "Verses",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 20,
+                                  fontSize: width/68.3,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -828,11 +703,11 @@ class _SettingsTabState extends State<SettingsTab> {
                                   Navigator.pop(context);
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -842,12 +717,12 @@ class _SettingsTabState extends State<SettingsTab> {
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                        EdgeInsets.symmetric(horizontal: width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "Close",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -861,109 +736,115 @@ class _SettingsTabState extends State<SettingsTab> {
                         ),
                         Expanded(
                             child: Container(
-                              height: size.height * 0.47,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade50,
-                              ),
-                              child: ListView.builder(
-                                itemCount: verseDocument.docs.length,
-                                itemBuilder: (ctx, i) {
-                                  return Padding(
-                                    padding:
-                                    const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Checkbox(
-                                            value: selectVersesList[i],
-                                            onChanged: (val){
-                                              setState((){
-                                                selectVersesList[i] = !selectVersesList[i];
-                                                for(int j = 0; j < selectVersesList.length; j ++){
-                                                  if(i != j){
-                                                    selectVersesList[j] = false;
-                                                  }
-                                                }
-                                              });
-                                              updateTodayVerse(verseDocument.docs);
+                          height: size.height * 0.47,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                          ),
+                          child: ListView.builder(
+                            itemCount: verseDocument.docs.length,
+                            itemBuilder: (ctx, i) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width/170.75,
+                                    vertical: height/81.375
+                                ),
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                        value: selectVersesList[i],
+                                        onChanged: (val) {
+                                          setState(() {
+                                            selectVersesList[i] =
+                                                !selectVersesList[i];
+                                            for (int j = 0;
+                                                j < selectVersesList.length;
+                                                j++) {
+                                              if (i != j) {
+                                                selectVersesList[j] = false;
+                                              }
                                             }
+                                          });
+                                          updateTodayVerse(verseDocument.docs);
+                                        }),
+                                    Container(
+                                      height: height/8.1375,
+                                      width: size.width * 0.65,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: height/130.2,
+                                        horizontal: width/273.2
+                                      ),
+                                      child: ListTile(
+                                        style: ListTileStyle.list,
+                                        leading: InkWell(
+                                          onTap: () {
+                                            addVersesPopUp(
+                                                false,
+                                                Verse(
+                                                    id: verseDocument.docs[i]
+                                                        ['id'],
+                                                    verse: verseDocument.docs[i]
+                                                        ['verse'],
+                                                    text: verseDocument.docs[i]
+                                                        ['text']));
+                                          },
+                                          child: Icon(Icons.edit),
                                         ),
-                                        Container(
-                                          height: 80,
-                                          width: size.width * 0.65,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                10),
-                                          ),
-                                          margin:
-                                          const EdgeInsets.all(5),
-                                          child: ListTile(
-                                            style: ListTileStyle.list,
-                                            leading: InkWell(
-                                              onTap: (){
-                                                addVersesPopUp(
-                                                    false,
-                                                    Verse(
-                                                        id: verseDocument.docs[i]['id'],
-                                                        verse: verseDocument.docs[i]['verse'],
-                                                        text: verseDocument.docs[i]['text']
-                                                    )
-                                                );
-                                              },
-                                              child: Icon(Icons.edit),
-                                            ),
-                                            trailing: InkWell(
-                                              onTap: () async {
-                                                await CoolAlert.show(
-                                                    context: context,
-                                                    type: CoolAlertType.info,
-                                                    text: "Are you sure want to delete",
-                                                    confirmBtnText: 'Delete',
-                                                    onConfirmBtnTap: () async {
-                                                      return deleteVerse(verseDocument.docs[i]['id']);
-                                                    },
-                                                    cancelBtnText: 'Cancel',
-                                                    showCancelBtn: true,
-                                                    width: size.width * 0.4,
-                                                    backgroundColor: Constants()
-                                                        .primaryAppColor
-                                                        .withOpacity(0.8));
-                                                setState((){
-
-                                                });
-                                              },
-                                              child: Icon(Icons.delete),
-                                            ),
-                                            title: Text(
-                                              verseDocument.docs[i]['text'],
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            subtitle: Text(
-                                              verseDocument.docs[i]['verse'],
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
+                                        trailing: InkWell(
+                                          onTap: () async {
+                                            await CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.info,
+                                                text:
+                                                    "Are you sure want to delete",
+                                                confirmBtnText: 'Delete',
+                                                onConfirmBtnTap: () async {
+                                                  return deleteVerse(
+                                                      verseDocument.docs[i]
+                                                          ['id']);
+                                                },
+                                                cancelBtnText: 'Cancel',
+                                                showCancelBtn: true,
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            setState(() {});
+                                          },
+                                          child: Icon(Icons.delete),
+                                        ),
+                                        title: Text(
+                                          verseDocument.docs[i]['text'],
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      ],
+                                        subtitle: Text(
+                                          verseDocument.docs[i]['verse'],
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  );
-                                },
-                              ),
-                            )
-                        )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ))
                       ],
                     ),
                   ),
                 );
-              }return Container();
+              }
+              return Container();
             },
           );
         });
@@ -972,33 +853,34 @@ class _SettingsTabState extends State<SettingsTab> {
   }
 
   updateTodayVerse(listOfVerse) async {
-    var church1 = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+    var church1 =
+        await FirebaseFirestore.instance.collection('ChurchDetails').get();
     String id = church1.docs.first.id;
-    var church = await FirebaseFirestore.instance.collection('ChurchDetails').doc(id);
+    var church =
+        await FirebaseFirestore.instance.collection('ChurchDetails').doc(id);
     String date = formatter.format(DateTime.now());
     String verse = "";
-    for(int v = 0; v < selectVersesList.length; v ++){
-      if(selectVersesList[v]){
+    for (int v = 0; v < selectVersesList.length; v++) {
+      if (selectVersesList[v]) {
         verse = listOfVerse[v]['text'];
       }
     }
-    Map<String,dynamic> map = {
-      "verseForToday": {
-        "date" : date,
-        "text" : verse
-      }
+    Map<String, dynamic> map = {
+      "verseForToday": {"date": date, "text": verse}
     };
     await church.update(map);
   }
 
-  addVersesPopUp(bool isAddNew,Verse? verse) async {
+  addVersesPopUp(bool isAddNew, Verse? verse) async {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     Size size = MediaQuery.of(context).size;
     return showDialog(
       context: context,
       builder: (ctx) {
         return StatefulBuilder(builder: (ctx, setState) {
-          setState((){
-            if(!isAddNew){
+          setState(() {
+            if (!isAddNew) {
               textController.text = verse!.text;
               verseController.text = verse.verse;
             }
@@ -1013,19 +895,19 @@ class _SettingsTabState extends State<SettingsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
-                          text: isAddNew? "Add Verses" : "Edit Verse",
+                          text: isAddNew ? "Add Verses" : "Edit Verse",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1034,11 +916,11 @@ class _SettingsTabState extends State<SettingsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                            height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1047,13 +929,12 @@ class _SettingsTabState extends State<SettingsTab> {
                               ],
                             ),
                             child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              padding: EdgeInsets.symmetric(horizontal: width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.571,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1067,128 +948,48 @@ class _SettingsTabState extends State<SettingsTab> {
                   ),
                   Expanded(
                       child: Container(
-                        height: size.height * 0.47,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade50,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
+                    height: size.height * 0.47,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: width/68.3,
+                        vertical: height/32.55
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Verse",
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Material(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
-                                    elevation: 10,
-                                    child: SizedBox(
-                                      height: 40,
-                                      width: size.width * 0.2,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: TextFormField(
-                                          controller: verseController,
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              KText(
+                                text: "Verse",
+                                style: GoogleFonts.openSans(
+                                  fontSize: width/97.571,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              const SizedBox(height: 20),
-                              Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Text",
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Material(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
-                                    elevation: 10,
-                                    child: SizedBox(
-                                      height: size.height * 0.2,
-                                      width: size.width * 0.5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: TextFormField(
-                                          maxLines: null,
-                                          controller: textController,
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              InkWell(
-                                onTap: (){
-                                  if(isAddNew){
-                                    if(
-                                    textController.text != "" &&
-                                    verseController.text != ""
-                                    ){
-                                      addVerse(Verse(
-                                          id: "id",verse: verseController.text,text: textController.text
-                                      ));
-                                    }else{
-                                    }
-                                  }else{
-                                    updateVerse(
-                                      Verse(
-                                          id: verse!.id,
-                                          verse: verseController.text,
-                                          text: textController.text
-                                      )
-                                    );
-                                  }
-                                },
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Constants().primaryAppColor,
-                                  elevation: 10,
-                                  child: SizedBox(
-                                    height: 40,
-                                    width: 150,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: Text(
-                                          isAddNew? "Add Verse" : "Update Verse",
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
+                              SizedBox(height: height/108.5),
+                              Material(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                elevation: 10,
+                                child: SizedBox(
+                                  height: height/16.275,
+                                  width: size.width * 0.2,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width / 170.75,
+                                        vertical: height / 81.375),
+                                    child: TextFormField(
+                                      controller: verseController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintStyle: GoogleFonts.openSans(
+                                          fontSize: width/97.571,
                                         ),
                                       ),
                                     ),
@@ -1197,9 +998,90 @@ class _SettingsTabState extends State<SettingsTab> {
                               )
                             ],
                           ),
-                        ),
-                      )
-                  )
+                          SizedBox(height:height/32.55),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Text",
+                                style: GoogleFonts.openSans(
+                                  fontSize: width/97.571,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: height/108.5),
+                              Material(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                elevation: 10,
+                                child: SizedBox(
+                                  height: size.height * 0.2,
+                                  width: size.width * 0.5,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width / 170.75,
+                                        vertical: height / 81.375),
+                                    child: TextFormField(
+                                      maxLines: null,
+                                      controller: textController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintStyle: GoogleFonts.openSans(
+                                          fontSize: width/97.571,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height:height/32.55),
+                          InkWell(
+                            onTap: () {
+                              if (isAddNew) {
+                                if (textController.text != "" &&
+                                    verseController.text != "") {
+                                  addVerse(Verse(
+                                      id: "id",
+                                      verse: verseController.text,
+                                      text: textController.text));
+                                } else {}
+                              } else {
+                                updateVerse(Verse(
+                                    id: verse!.id,
+                                    verse: verseController.text,
+                                    text: textController.text));
+                              }
+                            },
+                            child: Material(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Constants().primaryAppColor,
+                              elevation: 10,
+                              child: SizedBox(
+                                height: height/16.275,
+                                width: width/9.106,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width / 170.75,
+                                      vertical: height / 81.375),
+                                  child: Center(
+                                    child: Text(
+                                      isAddNew ? "Add Verse" : "Update Verse",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ))
                 ],
               ),
             ),
@@ -1211,7 +1093,8 @@ class _SettingsTabState extends State<SettingsTab> {
 
   addVerse(Verse verse) async {
     Size size = MediaQuery.of(context).size;
-    var document = await FirebaseFirestore.instance.collection("BibleVerses").doc();
+    var document =
+        await FirebaseFirestore.instance.collection("BibleVerses").doc();
     verse.id = document.id;
     var json = verse.toJson();
     Response response = Response();
@@ -1222,38 +1105,34 @@ class _SettingsTabState extends State<SettingsTab> {
       response.code = 500;
       response.message = 'Failed';
     });
-    if(response.code == 200){
+    if (response.code == 200) {
       await CoolAlert.show(
           context: context,
           type: CoolAlertType.success,
-          text:
-          "Verse created successfully!",
+          text: "Verse created successfully!",
           width: size.width * 0.4,
-          backgroundColor: Constants()
-              .primaryAppColor
-              .withOpacity(0.8));
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
       setState(() {
         textController.text = "";
         verseController.text = "";
       });
       Navigator.pop(context);
-    }else{
+    } else {
       await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          text:
-          "Failed to create verse!",
+          text: "Failed to create verse!",
           width: size.width * 0.4,
-          backgroundColor: Constants()
-              .primaryAppColor
-              .withOpacity(0.8));
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
       Navigator.pop(context);
     }
   }
 
   updateVerse(Verse verse) async {
     Size size = MediaQuery.of(context).size;
-    var document = await FirebaseFirestore.instance.collection("BibleVerses").doc(verse.id);
+    var document = await FirebaseFirestore.instance
+        .collection("BibleVerses")
+        .doc(verse.id);
     var json = verse.toJson();
     Response response = Response();
     await document.update(json).whenComplete(() {
@@ -1263,31 +1142,25 @@ class _SettingsTabState extends State<SettingsTab> {
       response.code = 500;
       response.message = 'Failed';
     });
-    if(response.code == 200){
+    if (response.code == 200) {
       await CoolAlert.show(
           context: context,
           type: CoolAlertType.success,
-          text:
-          "Verse updated successfully!",
+          text: "Verse updated successfully!",
           width: size.width * 0.4,
-          backgroundColor: Constants()
-              .primaryAppColor
-              .withOpacity(0.8));
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
       setState(() {
         textController.text = "";
         verseController.text = "";
       });
       Navigator.pop(context);
-    }else{
+    } else {
       await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          text:
-          "Failed to update verse!",
+          text: "Failed to update verse!",
           width: size.width * 0.4,
-          backgroundColor: Constants()
-              .primaryAppColor
-              .withOpacity(0.8));
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
       Navigator.pop(context);
     }
   }
@@ -1295,44 +1168,43 @@ class _SettingsTabState extends State<SettingsTab> {
   deleteVerse(String id) async {
     Size size = MediaQuery.of(context).size;
     Response response = Response();
-    await FirebaseFirestore.instance.collection("BibleVerses").doc(id).delete().whenComplete(() {
+    await FirebaseFirestore.instance
+        .collection("BibleVerses")
+        .doc(id)
+        .delete()
+        .whenComplete(() {
       response.code = 200;
       response.message = 'Success';
     }).catchError((e) {
       response.code = 500;
       response.message = 'Failed';
     });
-    if(response.code == 200){
+    if (response.code == 200) {
       CoolAlert.show(
           context: context,
           type: CoolAlertType.success,
-          text:
-          "Verse deleted successfully!",
+          text: "Verse deleted successfully!",
           width: size.width * 0.4,
-          backgroundColor: Constants()
-              .primaryAppColor
-              .withOpacity(0.8));
-    }else{
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
+    } else {
       CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          text:
-          "Failed to delete verse!",
+          text: "Failed to delete verse!",
           width: size.width * 0.4,
-          backgroundColor: Constants()
-              .primaryAppColor
-              .withOpacity(0.8));
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
     }
     return response;
   }
-
 }
 
 class RoleCredentialsModel {
-  RoleCredentialsModel({required this.roleEmail, required this.rolePassword, required this.isObsecure});
+  RoleCredentialsModel(
+      {required this.roleEmail,
+      required this.rolePassword,
+      required this.isObsecure});
+
   TextEditingController? roleEmail;
   TextEditingController? rolePassword;
   bool? isObsecure;
-
 }
-

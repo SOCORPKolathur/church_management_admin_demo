@@ -365,7 +365,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                   List<String>? tagss = await controller.getTags;
                                   if(tagss!.isNotEmpty) {
                                     Response response = await sendEmail(
-                                        tagss!, subjectController.text,
+                                        tagss, subjectController.text,
                                         descriptionController.text);
                                     if (response.code == 200) {
                                       CoolAlert.show(

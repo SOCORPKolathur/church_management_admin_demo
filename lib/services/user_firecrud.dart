@@ -48,6 +48,7 @@ class UserFireCrud {
         required String baptizeDate,
         required String anniversaryDate,
         required String maritialStatus,
+        required String gender,
         required String bloodGroup,
         required String dob,
         required String email,
@@ -56,6 +57,7 @@ class UserFireCrud {
         required String locality,
         required String phone,
         required String aadharNo,
+        required String pincode,
         required String profession,
         //required String password,
         required String about,
@@ -64,6 +66,7 @@ class UserFireCrud {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
     DocumentReference documentReferencer = UserCollection.doc();
+
     UserModel user = UserModel(
         id: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -74,6 +77,7 @@ class UserFireCrud {
         fcmToken: "",
         firstName: firstName,
         maritialStatus: maritialStatus,
+        gender: gender,
         email: email,
         aadharNo: aadharNo,
         dob: dob,
@@ -82,6 +86,7 @@ class UserFireCrud {
         //password: password,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
+        pincode: pincode,
         anniversaryDate: anniversaryDate,
         imgUrl: downloadUrl);
     user.id = documentReferencer.id;
@@ -149,16 +154,17 @@ class UserFireCrud {
           firstName: row[i][1].toString(),
           lastName: row[i][2].toString(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          address: row[i][11].toString(),
+          address: row[i][12].toString(),
           imgUrl: "",
           phone: row[i][3].toString(),
           email: row[i][4].toString(),
-          about: row[i][12].toString(),
-          dob: row[i][9].toString(),
-          bloodGroup: row[i][8].toString(),
+          about: row[i][13].toString(),
+          dob: row[i][10].toString(),
+          gender:row[i][8].toString() ,
+          bloodGroup: row[i][9].toString(),
           baptizeDate: row[i][6].toString(),
           anniversaryDate: row[i][13].toString(),
-          locality: row[i][10].toString(),
+          pincode: row[i][11].toString(),
           maritialStatus: row[i][7].toString(),
           profession: row[i][5].toString(),
       );

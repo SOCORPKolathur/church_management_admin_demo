@@ -1,3 +1,5 @@
+
+
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
             useMaterial3: true,
           ),
-          home: const LoginView(),
+          home:  HomeView(currentRole: 'Admin',),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

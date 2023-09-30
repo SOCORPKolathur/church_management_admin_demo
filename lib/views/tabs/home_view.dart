@@ -59,13 +59,13 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
         name: "Dashboard",
         icon: Icons.dashboard,
-        page: const DashBoardTab(currentRole: 'Admin'),
+        page:  DashBoardTab(currentRole: 'Admin'),
         isExpanded: false,
         children: []
     ),
     DrawerModel(
       name: "User",
-      page: const UserTab(),
+      page:  UserTab(),
       icon: Icons.person_pin,
       isExpanded: false,
       children: [],
@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Families",
       icon: Icons.group,
-      page: const FamilyTab(),
+      page:  FamilyTab(),
       isExpanded: false,
       children: [],
     ),
@@ -106,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Chorus",
+      name: "Quire",
       page: const ChorusTab(),
       icon: Icons.music_video,
       isExpanded: false,
@@ -374,7 +374,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Families",
                   icon: Icons.group,
-                  page: const FamilyTab(),
+                  page:  FamilyTab(),
                   isExpanded: false,
                   children: [],
                 ));
@@ -437,7 +437,7 @@ class _HomeViewState extends State<HomeView> {
                 break;
               case "CHORUS":
                 drawerItems.add(DrawerModel(
-                  name: "Chorus",
+                  name: "Quire",
                   page: const ChorusTab(),
                   icon: Icons.music_video,
                   isExpanded: false,
@@ -465,7 +465,7 @@ class _HomeViewState extends State<HomeView> {
               case "USER":
                 drawerItems.add(DrawerModel(
                   name: "User",
-                  page: const UserTab(),
+                  page:  UserTab(),
                   icon: Icons.person_pin,
                   isExpanded: false,
                   children: [],

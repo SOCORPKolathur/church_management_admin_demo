@@ -267,24 +267,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          right: 10,
-                                          bottom: 10,
-                                          child: InkWell(
-                                            onTap: () {
-                                              GalleryFireCrud.deleteImage(
-                                                  allData[i].id!, 'SI');
-                                            },
-                                            child: const CircleAvatar(
-                                              radius: 15,
-                                              backgroundColor: Colors.red,
-                                              child: Icon(
-                                                Icons.remove_circle_outline,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+
                                       ],
                                     )
                                   : Container(

@@ -9,12 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
+
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 
 class FamilyTab extends StatefulWidget {
-  const FamilyTab({super.key});
+   FamilyTab({super.key});
 
   @override
   State<FamilyTab> createState() => _FamilyTabState();
@@ -84,18 +85,20 @@ class _FamilyTabState extends State<FamilyTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding:  EdgeInsets.symmetric(vertical: height/81.375,horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.symmetric(vertical: height/81.375,horizontal: width/170.75),
               child: KText(
                 text: "FAMILIES",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.538,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -103,10 +106,12 @@ class _FamilyTabState extends State<FamilyTab> {
             Container(
               height: size.height * 1.4,
               width: double.infinity,
-              margin: const EdgeInsets.all(20),
+              margin:  EdgeInsets.symmetric(
+                horizontal: width/68.3,vertical: height/32.55
+              ),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow:  [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -122,16 +127,16 @@ class _FamilyTabState extends State<FamilyTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding:  EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         children: [
-                          const Icon(Icons.group),
-                          const SizedBox(width: 10),
+                           Icon(Icons.group),
+                           SizedBox(width:width/136.6),
                           KText(
                             text: "ADD FAMILY",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize:width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -142,20 +147,20 @@ class _FamilyTabState extends State<FamilyTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration:  BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
+                      padding:  EdgeInsets.symmetric(horizontal: width/68.5,vertical: height/32.5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height:height/3.829,
+                              width: width/3.902,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -173,32 +178,32 @@ class _FamilyTabState extends State<FamilyTab> {
                                   )
                                       : null),
                               child: uploadedImage == null
-                                  ? const Center(
+                                  ?  Center(
                                 child: Icon(
                                   Icons.cloud_upload,
-                                  size: 160,
+                                  size: width/8.537,
                                   color: Colors.grey,
                                 ),
                               )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                           SizedBox(height:height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child:  Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width:width/136.6),
                                       KText(
                                         text: 'Select Family Leader Photo',
                                         style: TextStyle(color: Colors.white),
@@ -207,19 +212,19 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                               SizedBox(width: width/27.32),
                               Container(
-                                height: 35,
+                                height:height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width:width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -229,11 +234,11 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -241,21 +246,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family ID",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
                                       readOnly: true,
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: familyIdController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -263,20 +268,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Name/Title",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: familynameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -284,12 +289,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Leader Name",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: familyleadernameController,
                                     )
                                   ],
@@ -297,11 +302,11 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -310,7 +315,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Members Count",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -318,11 +323,11 @@ class _FamilyTabState extends State<FamilyTab> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const SizedBox(width: 20),
+                                         SizedBox(width:width/68.3),
                                         Text(
                                           familyQuanity.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 20,
+                                          style:  TextStyle(
+                                            fontSize:width/68.3,
                                           ),
                                         ),
                                         Column(
@@ -334,21 +339,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 });
                                               },
                                               child: Container(
-                                                height: 30,
-                                                width: 30,
+                                                height:height/21.7,
+                                                width:width/68.3,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             5),
-                                                    boxShadow: const [
+                                                    boxShadow:  [
                                                       BoxShadow(
                                                           color:
                                                               Color(0xffc0c0c1),
                                                           offset: Offset(2, 3),
                                                           blurRadius: 3)
                                                     ]),
-                                                child: const Center(
+                                                child:  Center(
                                                   child:
                                                       Icon(Icons.arrow_drop_up),
                                                 ),
@@ -363,21 +368,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 }
                                               },
                                               child: Container(
-                                                height: 30,
-                                                width: 30,
+                                                height:height/21.7,
+                                                width:width/68.3,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             5),
-                                                    boxShadow: const [
+                                                    boxShadow:  [
                                                       BoxShadow(
                                                           color:
                                                               Color(0xffc0c0c1),
                                                           offset: Offset(2, 3),
                                                           blurRadius: 3)
                                                     ]),
-                                                child: const Center(
+                                                child:  Center(
                                                   child: Icon(
                                                       Icons.arrow_drop_down),
                                                 ),
@@ -390,9 +395,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -400,20 +405,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Contact Number",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 14,
+                                        fontSize:width/97.57,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: familynumberController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -421,12 +426,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Email",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 14,
+                                        fontSize:width/97.57,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
                                   ],
@@ -434,7 +439,7 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -442,17 +447,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                 text: "Address",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.076,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin:  EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                                ),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow:  [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -463,23 +471,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                     SizedBox(
+                                      height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                         width: double.infinity,
-                                        decoration: const BoxDecoration(
+                                        decoration:  BoxDecoration(
                                           color: Colors.white,
                                         ),
                                         child: TextFormField(
                                           maxLines: null,
-                                            style: const TextStyle(fontSize: 12),
+                                            style:  TextStyle(fontSize:width/113.83),
                                             controller: addressController,
-                                          decoration: const InputDecoration(
+                                          decoration:  InputDecoration(
                                             border: InputBorder.none,
-                                            contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                            contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                           ),
                                           )
                                       ),
@@ -489,11 +497,11 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 200,
+                                width:width/6.830,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -501,20 +509,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "City",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: cityController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 200,
+                                width:width/6.830,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -522,20 +530,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Country",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: countryController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 200,
+                                width:width/6.830,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -543,12 +551,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Postal/Zone",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: zoneController,
                                     )
                                   ],
@@ -622,11 +630,11 @@ class _FamilyTabState extends State<FamilyTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow:  [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -636,13 +644,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                     EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -668,10 +676,13 @@ class _FamilyTabState extends State<FamilyTab> {
                   List<FamilyModel> families = snapshot.data!;
                   return Container(
                     width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    margin:  EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                                ),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -687,7 +698,7 @@ class _FamilyTabState extends State<FamilyTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
+                            padding:  EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -695,7 +706,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 KText(
                                   text: "ALL Families (${families.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize:width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -707,11 +718,11 @@ class _FamilyTabState extends State<FamilyTab> {
                                     });
                                   },
                                   child: Container(
-                                    height: 35,
+                                    height:height/18.6,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow:  [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -721,12 +732,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                       EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "Clear Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                           ),
                                         ),
                                       ),
@@ -740,19 +751,19 @@ class _FamilyTabState extends State<FamilyTab> {
                         Container(
                           height: size.height * 0.7 > 70 + families.length * 60 ? 70 + families.length * 60 : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                           padding:  EdgeInsets.symmetric(horizontal: width/68.5,vertical: height/32.5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                  padding:  EdgeInsets.all(0.0),
                                   child: Row(
                                     children: [
                                       SizedBox(
@@ -760,7 +771,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -770,7 +781,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Family Name/Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -780,7 +791,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Family Leader Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -790,17 +801,17 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Family Quantity",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/68.30,
                                         child: KText(
                                           text: "Contact Number",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -810,7 +821,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -819,7 +830,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                               SizedBox(height: 10),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: families.length,
@@ -827,7 +838,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                     return Container(
                                       height: 60,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -847,7 +858,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -857,7 +868,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: families[i].name!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -867,7 +878,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: families[i].leaderName!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -877,23 +888,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: families[i].quantity!.toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/68.30,
                                             child: KText(
                                               text: families[i].contactNumber!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
+                                              width:width/68.30,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -902,7 +913,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                     },
                                                     child: Container(
                                                       height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:  BoxDecoration(
                                                         color: Color(0xff2baae4),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -913,13 +924,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding:  EdgeInsets.symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons.remove_red_eye,
                                                                 color: Colors.white,
                                                                 size: 15,
@@ -928,7 +939,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                                 text: "View",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -938,7 +949,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                   SizedBox(width: 5),
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
@@ -957,7 +968,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                     },
                                                     child: Container(
                                                       height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:  BoxDecoration(
                                                         color: Color(0xffff9700),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -968,13 +979,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding:  EdgeInsets.symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons.add,
                                                                 color: Colors.white,
                                                                 size: 15,
@@ -983,7 +994,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                                 text: "Edit",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -993,7 +1004,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                   SizedBox(width: 5),
                                                   InkWell(
                                                     onTap: () {
                                                       CoolAlert.show(
@@ -1005,7 +1016,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                           backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                           onConfirmBtnTap: () async {
                                                             Response res = await FamilyFireCrud.deleteRecord(id: families[i].id!);
                                                           }
@@ -1013,7 +1024,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                     },
                                                     child: Container(
                                                       height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:  BoxDecoration(
                                                         color: Color(0xfff44236),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1024,13 +1035,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding:  EdgeInsets.symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons.cancel_outlined,
                                                                 color: Colors.white,
                                                                 size: 15,
@@ -1039,7 +1050,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                                 text: "Delete",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -1076,10 +1087,13 @@ class _FamilyTabState extends State<FamilyTab> {
                   List<FamilyModel> families = snapshot.data!;
                   return Container(
                     width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    margin:  EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                                ),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -1095,7 +1109,7 @@ class _FamilyTabState extends State<FamilyTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
+                            padding:  EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1103,7 +1117,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 KText(
                                   text: "ALL Families (${families.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize:width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1114,29 +1128,29 @@ class _FamilyTabState extends State<FamilyTab> {
                                       color: Colors.white,
                                       elevation: 10,
                                       child: SizedBox(
-                                        height: 35,
+                                        height:height/18.6,
                                         width: 150,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        padding:  EdgeInsets.symmetric(vertical: height/81.375,horizontal: width/170.75),
                                           child: TextField(
                                             controller: filterTextController,
                                             onSubmitted: (val){
                                               setState(() {
-                                                filterText = val!;
+                                                filterText = val;
                                               });
                                             },
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               hintText: "Filter Postal code",
                                               hintStyle: GoogleFonts.openSans(
-                                                fontSize: 14,
+                                                fontSize:width/97.57,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 5),
+                                     SizedBox(width: 5),
                                     InkWell(
                                       onTap: () {
                                         setState(() {
@@ -1145,11 +1159,11 @@ class _FamilyTabState extends State<FamilyTab> {
                                         });
                                       },
                                       child: Container(
-                                        height: 35,
+                                        height:height/18.6,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(8),
-                                          boxShadow: const [
+                                          boxShadow:  [
                                             BoxShadow(
                                               color: Colors.black26,
                                               offset: Offset(1, 2),
@@ -1159,12 +1173,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                         ),
                                         child: Padding(
                                           padding:
-                                          const EdgeInsets.symmetric(horizontal: 6),
+                                           EdgeInsets.symmetric(horizontal:width/227.66),
                                           child: Center(
                                             child: KText(
                                               text: "Apply",
                                               style: GoogleFonts.openSans(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                               ),
                                             ),
                                           ),
@@ -1180,19 +1194,19 @@ class _FamilyTabState extends State<FamilyTab> {
                         Container(
                           height: size.height * 0.7 > 70 + families.length * 60 ? 70 + families.length * 60 : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                           padding:  EdgeInsets.symmetric(horizontal: width/68.5,vertical: height/32.5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                  padding:  EdgeInsets.all(0.0),
                                   child: Row(
                                     children: [
                                       SizedBox(
@@ -1200,7 +1214,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1210,7 +1224,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Family Name/Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1220,7 +1234,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Family Leader Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1230,17 +1244,17 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Family Quantity",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/68.30,
                                         child: KText(
                                           text: "Contact Number",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1250,7 +1264,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1259,7 +1273,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                               SizedBox(height: 10),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: families.length,
@@ -1267,7 +1281,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                     return Container(
                                       height: 60,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -1287,7 +1301,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -1297,7 +1311,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: families[i].name!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -1307,7 +1321,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: families[i].leaderName!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -1317,23 +1331,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                             child: KText(
                                               text: families[i].quantity!.toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/68.30,
                                             child: KText(
                                               text: families[i].contactNumber!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
+                                              width:width/68.30,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -1342,7 +1356,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                     },
                                                     child: Container(
                                                       height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:  BoxDecoration(
                                                         color: Color(0xff2baae4),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1353,13 +1367,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding:  EdgeInsets.symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons.remove_red_eye,
                                                                 color: Colors.white,
                                                                 size: 15,
@@ -1368,7 +1382,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                                 text: "View",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -1378,7 +1392,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                   SizedBox(width: 5),
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
@@ -1397,7 +1411,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                     },
                                                     child: Container(
                                                       height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:  BoxDecoration(
                                                         color: Color(0xffff9700),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1408,13 +1422,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding:  EdgeInsets.symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons.add,
                                                                 color: Colors.white,
                                                                 size: 15,
@@ -1423,7 +1437,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                                 text: "Edit",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -1433,7 +1447,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                   SizedBox(width: 5),
                                                   InkWell(
                                                     onTap: () {
                                                       CoolAlert.show(
@@ -1445,7 +1459,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                           backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                           onConfirmBtnTap: () async {
                                                             Response res = await FamilyFireCrud.deleteRecord(id: families[i].id!);
                                                           }
@@ -1453,7 +1467,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                     },
                                                     child: Container(
                                                       height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:  BoxDecoration(
                                                         color: Color(0xfff44236),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1464,13 +1478,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding:  EdgeInsets.symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons.cancel_outlined,
                                                                 color: Colors.white,
                                                                 size: 15,
@@ -1479,7 +1493,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                                 text: "Delete",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -1516,6 +1530,8 @@ class _FamilyTabState extends State<FamilyTab> {
 
   viewPopup(FamilyModel family) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1523,10 +1539,13 @@ class _FamilyTabState extends State<FamilyTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             width: size.width * 0.5,
-            margin: const EdgeInsets.all(20),
+            margin:  EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                                ),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow:  [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1542,14 +1561,14 @@ class _FamilyTabState extends State<FamilyTab> {
                   width: double.infinity,
                   child: Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                     EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           family.name!,
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize:width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1562,7 +1581,7 @@ class _FamilyTabState extends State<FamilyTab> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow:  [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1572,7 +1591,7 @@ class _FamilyTabState extends State<FamilyTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                               EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "CLOSE",
@@ -1592,7 +1611,7 @@ class _FamilyTabState extends State<FamilyTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(10),
@@ -1602,7 +1621,7 @@ class _FamilyTabState extends State<FamilyTab> {
                     child: SizedBox(
                       width: double.infinity,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding:  EdgeInsets.symmetric(
                             horizontal: 10, vertical: 15),
                         child: SingleChildScrollView(
                           child: Column(
@@ -1619,12 +1638,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Family ID",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1632,22 +1651,22 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.familyId!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Name",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1655,22 +1674,22 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.name!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Email",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1678,22 +1697,22 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.email!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Leader Name",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1701,22 +1720,22 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.leaderName!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Family members count",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1724,23 +1743,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.quantity!.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Contact Number",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1748,23 +1767,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.contactNumber!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Address",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1772,26 +1791,26 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   SizedBox(
                                     width: size.width * 0.3,
                                     child: KText(
                                       text: family.address!,
-                                      style: const TextStyle(
-                                          fontSize: 14
+                                      style:  TextStyle(
+                                          fontSize:width/97.57
                                       ),
                                     ),
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "City",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1799,23 +1818,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.city!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Post/Zone",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1823,23 +1842,23 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.zone!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     width: size.width * 0.15,
-                                    child: const KText(
+                                    child:  KText(
                                       text: "Country",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -1847,17 +1866,17 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                   ),
-                                  const Text(":"),
-                                  const SizedBox(width: 20),
+                                   Text(":"),
+                                   SizedBox(width:width/68.3),
                                   KText(
                                     text: family.country!,
-                                    style: const TextStyle(
-                                        fontSize: 14
+                                    style:  TextStyle(
+                                        fontSize:width/97.57
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                               SizedBox(height:height/32.55),
                             ],
                           ),
                         ),
@@ -1874,6 +1893,8 @@ class _FamilyTabState extends State<FamilyTab> {
   }
 
   editPopUp(FamilyModel family, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1882,10 +1903,13 @@ class _FamilyTabState extends State<FamilyTab> {
           content: Container(
             height: size.height * 0.95,
             width: double.infinity,
-            margin: const EdgeInsets.all(20),
+            margin:  EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                                ),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow:  [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1901,20 +1925,20 @@ class _FamilyTabState extends State<FamilyTab> {
                   height: size.height * 0.1,
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                    padding:  EdgeInsets.symmetric(
                         horizontal: 20, vertical: 8),
                     child: Row(
                       children: [
-                        const Icon(Icons.group),
-                        const SizedBox(width: 10),
+                         Icon(Icons.group),
+                         SizedBox(width:width/136.6),
                         KText(
                           text: "EDIT FAMILY",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize:width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Expanded(child: SizedBox()),
+                         Expanded(child: SizedBox()),
                         InkWell(
                           onTap: (){
                             setState(() {
@@ -1932,7 +1956,7 @@ class _FamilyTabState extends State<FamilyTab> {
                             });
                             Navigator.pop(context);
                           },
-                          child: const Icon(Icons.cancel_outlined),
+                          child:  Icon(Icons.cancel_outlined),
                         )
                       ],
                     ),
@@ -1941,13 +1965,13 @@ class _FamilyTabState extends State<FamilyTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         )),
-                    padding: const EdgeInsets.all(20),
+                    padding:  EdgeInsets.symmetric(vertical: height/32.55,horizontal: width/68.3),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1955,7 +1979,7 @@ class _FamilyTabState extends State<FamilyTab> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1963,21 +1987,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family ID",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
                                       readOnly: true,
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: familyIdController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1985,20 +2009,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Name/Title",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: familynameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2006,12 +2030,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Leader Name",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: familyleadernameController,
                                     )
                                   ],
@@ -2019,11 +2043,11 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -2032,7 +2056,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Members Quantity",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -2040,11 +2064,11 @@ class _FamilyTabState extends State<FamilyTab> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const SizedBox(width: 20),
+                                         SizedBox(width:width/68.3),
                                         Text(
                                           familyQuanity.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 20,
+                                          style:  TextStyle(
+                                            fontSize:width/68.3,
                                           ),
                                         ),
                                         Column(
@@ -2056,21 +2080,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 });
                                               },
                                               child: Container(
-                                                height: 30,
-                                                width: 30,
+                                                height:height/21.7,
+                                                width:width/68.3,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                     BorderRadius.circular(
                                                         5),
-                                                    boxShadow: const [
+                                                    boxShadow:  [
                                                       BoxShadow(
                                                           color:
                                                           Color(0xffc0c0c1),
                                                           offset: Offset(2, 3),
                                                           blurRadius: 3)
                                                     ]),
-                                                child: const Center(
+                                                child:  Center(
                                                   child:
                                                   Icon(Icons.arrow_drop_up),
                                                 ),
@@ -2085,21 +2109,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 }
                                               },
                                               child: Container(
-                                                height: 30,
-                                                width: 30,
+                                                height:height/21.7,
+                                                width:width/68.3,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                     BorderRadius.circular(
                                                         5),
-                                                    boxShadow: const [
+                                                    boxShadow:  [
                                                       BoxShadow(
                                                           color:
                                                           Color(0xffc0c0c1),
                                                           offset: Offset(2, 3),
                                                           blurRadius: 3)
                                                     ]),
-                                                child: const Center(
+                                                child:  Center(
                                                   child: Icon(
                                                       Icons.arrow_drop_down),
                                                 ),
@@ -2112,9 +2136,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2122,20 +2146,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Contact Number",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 14,
+                                        fontSize:width/97.57,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: familynumberController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2143,12 +2167,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Family Email",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 14,
+                                        fontSize:width/97.57,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
                                   ],
@@ -2156,7 +2180,7 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -2164,17 +2188,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                 text: "Address",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.076,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin:  EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                                ),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow:  [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -2185,21 +2212,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                     SizedBox(
+                                      height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration:  BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             maxLines: null,
-                                            style: const TextStyle(fontSize: 12),
+                                            style:  TextStyle(fontSize:width/113.83),
                                             controller: addressController,
-                                            decoration: const InputDecoration(
+                                            decoration:  InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
                                             ),
@@ -2211,11 +2238,11 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                           SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 200,
+                                width:width/68.30,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2223,20 +2250,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "City",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style:  TextStyle(fontSize:width/113.83),
                                       controller: cityController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 200,
+                                width:width/68.30,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2244,20 +2271,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Country",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: countryController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                               SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 200,
+                                width:width/68.30,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2265,12 +2292,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                       text: "Postal/Zone",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: zoneController,
                                     )
                                   ],
@@ -2278,7 +2305,7 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                           SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -2352,11 +2379,11 @@ class _FamilyTabState extends State<FamilyTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow:  [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -2366,13 +2393,13 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                     EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "Update",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -2400,11 +2427,11 @@ class _FamilyTabState extends State<FamilyTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding:  EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow:  [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -2417,14 +2444,14 @@ class _FamilyTabState extends State<FamilyTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+             Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+             Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child:  Text("Undo"))
           ],
         )),
   );

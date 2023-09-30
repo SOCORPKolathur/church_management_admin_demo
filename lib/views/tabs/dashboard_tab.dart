@@ -14,8 +14,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:translator/translator.dart';
-import '../../constants.dart';
+
 import 'package:intl/intl.dart';
+import '../../constants.dart';
 import '../../models/manage_role_model.dart';
 import '../../models/verses_model.dart';
 import '../../services/role_permission_firecrud.dart';
@@ -23,7 +24,7 @@ import '../../widgets/kText.dart';
 import '../login_view.dart';
 
 class DashBoardTab extends StatefulWidget {
-  const DashBoardTab({super.key, required this.currentRole});
+   DashBoardTab({super.key, required this.currentRole});
 
   final String currentRole;
   @override
@@ -37,11 +38,14 @@ class _DashBoardTabState extends State<DashBoardTab> {
   List<String> dashboardItemsList = [];
   bool isFetched = false;
 
-  void _showPopupMenu() async {
+   _showPopupMenu() async {
+     double height=MediaQuery.of(context).size.height;
+     double width=MediaQuery.of(context).size.width;
+     
     await showMenu(
         context: context,
         color: Colors.white,
-        position: const RelativeRect.fromLTRB(200, 100, 100, 500),
+        position:  const RelativeRect.fromLTRB(200, 100, 100, 500),
         items: [
           PopupMenuItem(
             child: PopupMenuButton(
@@ -53,7 +57,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                 return [
                   PopupMenuItem<String>(
                     value: 'ta',
-                    child: const Text('Tamil'),
+                    child:  const Text('Tamil'),
                     onTap: () {
                       changeLocale(context, 'ta');
                       changeHomeViewLanguage();
@@ -61,7 +65,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                   ),
                   PopupMenuItem<String>(
                     value: 'hi',
-                    child: const Text('Hindi'),
+                    child:  const Text('Hindi'),
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'hi');
@@ -71,7 +75,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                   ),
                   PopupMenuItem<String>(
                     value: 'te',
-                    child: const Text('Telugu'),
+                    child:  const Text('Telugu'),
                     onTap: () {
                       changeLocale(context, 'te');
                       changeHomeViewLanguage();
@@ -79,7 +83,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                   ),
                   PopupMenuItem<String>(
                     value: 'ml',
-                    child: const Text('Malayalam'),
+                    child:  const Text('Malayalam'),
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'ml');
@@ -89,7 +93,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                   ),
                   PopupMenuItem<String>(
                     value: 'kn',
-                    child: const Text('Kannada'),
+                    child:  const Text('Kannada'),
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'kn');
@@ -103,11 +107,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
                 children: [
                   CountryFlag.fromLanguageCode(
                     "hi",
-                    height: 40,
-                    width: 30,
+                    height: height/16.275,
+                    width: width/45.53,
                   ),
-                  const SizedBox(width: 10),
-                  const Text("South India"),
+                   SizedBox(width: width/136.6),
+                   const Text("South India"),
                 ],
               ),
             ),
@@ -118,11 +122,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromLanguageCode(
                   "en",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('English'),
+                 SizedBox(width: width/136.6),
+                 const Text('English'),
               ],
             ),
             onTap: () {
@@ -136,11 +140,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromCountryCode(
                   "BD",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('Bengali'),
+                 SizedBox(width: width/136.6),
+                 const Text('Bengali'),
               ],
             ),
             onTap: () {
@@ -154,11 +158,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromLanguageCode(
                   "es",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('Spanish'),
+                 SizedBox(width: width/136.6),
+                 const Text('Spanish'),
               ],
             ),
             onTap: () {
@@ -174,11 +178,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromCountryCode(
                   "PT",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('Portuguese'),
+                 SizedBox(width: width/136.6),
+                 const Text('Portuguese'),
               ],
             ),
             onTap: () {
@@ -194,11 +198,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromLanguageCode(
                   "fr",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('French'),
+                 SizedBox(width: width/136.6),
+                 const Text('French'),
               ],
             ),
             onTap: () {
@@ -214,11 +218,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromCountryCode(
                   "NL",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('Dutch'),
+                 SizedBox(width: width/136.6),
+                 const Text('Dutch'),
               ],
             ),
             onTap: () {
@@ -234,11 +238,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromLanguageCode(
                   "de",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('German'),
+                 SizedBox(width: width/136.6),
+                 const Text('German'),
               ],
             ),
             onTap: () {
@@ -254,11 +258,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromLanguageCode(
                   "it",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('Italian'),
+                 SizedBox(width: width/136.6),
+                 const Text('Italian'),
               ],
             ),
             onTap: () {
@@ -274,11 +278,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
               children: [
                 CountryFlag.fromCountryCode(
                   "SE",
-                  height: 40,
-                  width: 30,
+                  height: height/16.275,
+                  width: width/45.53,
                 ),
-                const SizedBox(width: 10),
-                const Text('Swedish'),
+                 SizedBox(width: width/136.6),
+                 const Text('Swedish'),
               ],
             ),
             onTap: () {
@@ -293,15 +297,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
         useRootNavigator: true);
   }
 
-  void _showPopupMenu1() async {
-    await showMenu(
-      context: context,
-      color: Colors.white,
-      position: const RelativeRect.fromLTRB(250, 100, 100, 500),
-      items: [],
-      elevation: 8.0,
-    );
-  }
+
 
   int randomNumFromDate = 1;
 
@@ -336,16 +332,22 @@ class _DashBoardTabState extends State<DashBoardTab> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+
     int currentDate = DateTime.now().day;
     int month = DateTime.now().month;
     int rand = int.parse((month / 4).floor().toString());
     randomNumFromDate = currentDate * rand;
     Size size = MediaQuery.of(context).size;
     var localizationDelegate = LocalizedApp.of(context).delegate;
+
     return Stack(
       children: [
         Container(
-          decoration: const BoxDecoration(
+          decoration:  const BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage("assets/Background.png"),
@@ -353,7 +355,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
           ),
         ),
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -363,15 +365,13 @@ class _DashBoardTabState extends State<DashBoardTab> {
               ])),
         ),
         Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding:  EdgeInsets.symmetric(vertical: height/21.7,horizontal: width/45.53),
           child: SingleChildScrollView(
             child: FutureBuilder(
               future: DashboardFireCrud.fetchDashBoard(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
-                  return Container(
-                    child: Text(snapshot.error.toString()),
-                  );
+                  return Text(snapshot.error.toString());
                 } else if (snapshot.hasData) {
                   DashboardModel dashboard = snapshot.data!;
                   return Column(
@@ -396,13 +396,13 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 KText(
                                   text: 'TO DO THE PREACHING OF JESUS',
                                   style: GoogleFonts.openSans(
-                                      fontSize: 20,
+                                      fontSize: width/68.3,
                                       fontWeight: FontWeight.w900,
                                       color: Colors.white,
                                       shadows: [
                                         Shadow(
                                             color: Constants().primaryAppColor,
-                                            offset: const Offset(2, 2),
+                                            offset:  const Offset(2, 2),
                                             blurRadius: 3)
                                       ]),
                                 ),
@@ -419,7 +419,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                       _showPopupMenu();
                                     },
                                     child:
-                                        const Icon(Icons.g_translate, size: 27),
+                                         Icon(Icons.g_translate, size: width/50.59),
                                   ),
                                   InkWell(
                                     onTap: () {
@@ -427,10 +427,10 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (ctx) =>
-                                                  const MessagesTab()));
+                                                    MessagesTab()));
                                     },
-                                    child: const Icon(CupertinoIcons.mail,
-                                        size: 27),
+                                    child:  Icon(CupertinoIcons.mail,
+                                        size: width/50.59),
                                   ),
                                   InkWell(
                                     onTap: () {
@@ -438,9 +438,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (ctx) =>
-                                                  const SettingsTab()));
+                                                    SettingsTab()));
                                     },
-                                    child: const Icon(Icons.settings, size: 27),
+                                    child:  Icon(Icons.settings, size: width/50.59),
                                   ),
                                   InkWell(
                                     onTap: () async {
@@ -456,7 +456,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (ctx) =>
-                                                        const LoginView()));
+                                                         const LoginView()));
                                           },
                                           cancelBtnText: 'Cancel',
                                           showCancelBtn: true,
@@ -465,7 +465,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                     },
-                                    child: const Icon(Icons.logout, size: 27),
+                                    child:  Icon(Icons.logout, size: width/50.59),
                                   ),
                                 ],
                               ),
@@ -488,11 +488,11 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                   return KText(
                                     text: churchDeatils['verseForToday']['date'] == DateFormat('dd-MM-yyyy').format(DateTime.now()) ? churchDeatils['verseForToday']['text'] : bibleVerses.docs[randnum]['text'],
                                     style: GoogleFonts.amaranth(
-                                      fontSize: 27,
+                                      fontSize: width/50.59,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
-                                      shadows: const [
-                                        Shadow(
+                                      shadows:  [
+                                        const Shadow(
                                             color: Colors.black,
                                             offset: Offset(2, 2),
                                             blurRadius: 3)
@@ -518,15 +518,15 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //           Row(
                       //             mainAxisAlignment: MainAxisAlignment.start,
                       //             children: [
-                      //               const SizedBox(width: 20),
+                      //                SizedBox(width: 20),
                       //               Container(
                       //                 height: 120,
                       //                 width: 270,
                       //                 decoration: BoxDecoration(
                       //                   border: Border.all(
-                      //                       color: const Color(0xff4EC812)),
+                      //                       color:  Color(0xff4EC812)),
                       //                   borderRadius: BorderRadius.circular(10),
-                      //                   color: const Color(0xffDCFFCB),
+                      //                   color:  Color(0xffDCFFCB),
                       //                 ),
                       //                 child: Padding(
                       //                   padding:
@@ -540,8 +540,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //                       KText(
                       //                         text: "Total Collect",
                       //                         style: GoogleFonts.poppins(
-                      //                           fontSize: 18,
-                      //                           color: const Color(0xff121843),
+                      //                           fontSize: width/75.888,
+                      //                           color:  Color(0xff121843),
                       //                         ),
                       //                       ),
                       //                       KText(
@@ -550,22 +550,22 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //                                 0.toString(),
                       //                         style: GoogleFonts.rubik(
                       //                           fontSize: 48,
-                      //                           color: const Color(0xff121843),
+                      //                           color:  Color(0xff121843),
                       //                         ),
                       //                       )
                       //                     ],
                       //                   ),
                       //                 ),
                       //               ),
-                      //               const SizedBox(width: 20),
+                      //                SizedBox(width: 20),
                       //               Container(
                       //                 height: 120,
                       //                 width: 270,
                       //                 decoration: BoxDecoration(
                       //                   border: Border.all(
-                      //                       color: const Color(0xffFE8C8C)),
+                      //                       color:  Color(0xffFE8C8C)),
                       //                   borderRadius: BorderRadius.circular(10),
-                      //                   color: const Color(0xffFFD1D1),
+                      //                   color:  Color(0xffFFD1D1),
                       //                 ),
                       //                 child: Padding(
                       //                   padding:
@@ -579,8 +579,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //                       KText(
                       //                         text: "Total Spend",
                       //                         style: GoogleFonts.poppins(
-                      //                           fontSize: 18,
-                      //                           color: const Color(0xff121843),
+                      //                           fontSize: width/75.888,
+                      //                           color:  Color(0xff121843),
                       //                         ),
                       //                       ),
                       //                       KText(
@@ -588,22 +588,22 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //                             0.toString(),
                       //                         style: GoogleFonts.rubik(
                       //                           fontSize: 48,
-                      //                           color: const Color(0xff121843),
+                      //                           color:  Color(0xff121843),
                       //                         ),
                       //                       )
                       //                     ],
                       //                   ),
                       //                 ),
                       //               ),
-                      //               const SizedBox(width: 20),
+                      //                SizedBox(width: 20),
                       //               Container(
                       //                 height: 120,
                       //                 width: 270,
                       //                 decoration: BoxDecoration(
                       //                   border: Border.all(
-                      //                       color: const Color(0xff3786F1)),
+                      //                       color:  Color(0xff3786F1)),
                       //                   borderRadius: BorderRadius.circular(10),
-                      //                   color: const Color(0xffE8F0FB),
+                      //                   color:  Color(0xffE8F0FB),
                       //                 ),
                       //                 child: Padding(
                       //                   padding:
@@ -617,8 +617,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //                       KText(
                       //                         text: "Current Balance",
                       //                         style: GoogleFonts.poppins(
-                      //                           fontSize: 18,
-                      //                           color: const Color(0xff121843),
+                      //                           fontSize: width/75.888,
+                      //                           color:  Color(0xff121843),
                       //                         ),
                       //                       ),
                       //                       KText(
@@ -627,7 +627,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       //                             0.toString(),
                       //                         style: GoogleFonts.rubik(
                       //                           fontSize: 48,
-                      //                           color: const Color(0xff121843),
+                      //                           color:  Color(0xff121843),
                       //                         ),
                       //                       )
                       //                     ],
@@ -663,39 +663,40 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Visibility(
-                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Pastors") || dashboardItemsList.contains("Users") || dashboardItemsList.contains("Committee")),
+                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true :
+                                    (dashboardItemsList.contains("Pastors") || dashboardItemsList.contains("Users") || dashboardItemsList.contains("Committee")),
                                     child: Container(
                                       height: size.height * 0.15,
-                                      width: 980,
+                                      width: width/1.393,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         border:
-                                        Border.all(color: const Color(0xffE0E0E0)),
+                                        Border.all(color:  const Color(0xffE0E0E0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
                                         children: [
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Users"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                    const Color(0xffE1F1FF),
+                                                     const Color(0xffE1F1FF),
                                                     radius: 35,
                                                     child: SvgPicture.asset(
                                                         "assets/basil_user-solid.svg"),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -705,17 +706,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Users",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalUsers ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -725,29 +726,29 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Committee"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                       backgroundColor:
-                                                      const Color(0xffD1F3E0),
+                                                       const Color(0xffD1F3E0),
                                                       radius: 35,
                                                       child: Icon(
                                                         Icons.groups,
-                                                        size: 50,
+                                                        size: width/27.32,
                                                         color: Colors.green,
                                                       )),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -757,17 +758,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Committee",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalCommite ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -777,29 +778,29 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Pastors"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                       backgroundColor:
-                                                      const Color(0xffFFF2D8),
+                                                       const Color(0xffFFF2D8),
                                                       radius: 35,
                                                       child: Icon(
                                                         Icons.person,
-                                                        size: 50,
+                                                        size: width/27.32,
                                                         color: Colors.amber,
                                                       )),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -809,17 +810,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Pastors",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalPastors ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -838,36 +839,36 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Clans") || dashboardItemsList.contains("Chorus") || dashboardItemsList.contains("Staff")),
                                     child: Container(
                                       height: size.height * 0.15,
-                                      width: 980,
+                                      width: width/1.393,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         border:
-                                        Border.all(color: const Color(0xffE0E0E0)),
+                                        Border.all(color:  const Color(0xffE0E0E0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
                                         children: [
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Clans"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                    const Color(0xffFFF1E1),
+                                                     const Color(0xffFFF1E1),
                                                     radius: 35,
                                                     child: SvgPicture.asset(
                                                         "assets/ri_group-2-fill.svg"),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -877,17 +878,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Clans",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalClans ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -897,27 +898,27 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Chorus"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                    const Color(0xffE6D1F3),
+                                                     const Color(0xffE6D1F3),
                                                     radius: 35,
                                                     child: SvgPicture.asset(
                                                         "assets/typcn_group-outline.svg"),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -927,17 +928,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Chorus",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalChorus ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -947,27 +948,27 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Staff"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                    const Color(0xffC5FFF8),
+                                                     const Color(0xffC5FFF8),
                                                     radius: 35,
                                                     child: SvgPicture.asset(
                                                         "assets/medical-icon_i-care-staff-area.svg"),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -977,17 +978,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Staffs",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalStaffs ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -1006,36 +1007,36 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Member") || dashboardItemsList.contains("Families") || dashboardItemsList.contains("Student")),
                                     child: Container(
                                       height: size.height * 0.15,
-                                      width: 980,
+                                      width: width/1.393,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         border:
-                                        Border.all(color: const Color(0xffE0E0E0)),
+                                        Border.all(color:  const Color(0xffE0E0E0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
                                         children: [
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Student"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                    const Color(0xffFFE1F7),
+                                                     const Color(0xffFFE1F7),
                                                     radius: 35,
                                                     child: SvgPicture.asset(
                                                         "assets/ph_student-bold.svg"),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -1045,17 +1046,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Students",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalStudents ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -1065,27 +1066,27 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Member"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                    const Color(0xffFFF495),
+                                                     const Color(0xffFFF495),
                                                     radius: 35,
                                                     child: SvgPicture.asset(
                                                         "assets/fluent_people-28-regular.svg"),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -1095,17 +1096,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Members",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalMembers ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -1115,26 +1116,26 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Families"),
                                             child: SizedBox(
-                                              width: 300,
+                                              width: width/4.553,
                                               child: Row(
                                                 children: [
-                                                  const CircleAvatar(
-                                                      backgroundColor: Color(0xffE1F1FF),
+                                                   CircleAvatar(
+                                                      backgroundColor: const Color(0xffE1F1FF),
                                                       radius: 35,
                                                       child: Icon(Icons.family_restroom,
-                                                          color: Color(0xff3F7AFC),
-                                                          size: 50)),
-                                                  const SizedBox(width: 15),
+                                                          color: const Color(0xff3F7AFC),
+                                                          size: width/27.32)),
+                                                   SizedBox(width: width/91.066),
                                                   Container(
                                                     height: size.height * 0.06,
-                                                    width: 1,
-                                                    color: const Color(0xffE0A700),
+                                                    width: width/1366,
+                                                    color:  const Color(0xffE0A700),
                                                   ),
-                                                  const SizedBox(width: 15),
+                                                   SizedBox(width: width/91.066),
                                                   Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -1144,17 +1145,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                       KText(
                                                         text: "Total Families",
                                                         style: GoogleFonts.poppins(
-                                                          fontSize: 18,
-                                                          color: const Color(0xff121843),
+                                                          fontSize: width/75.888,
+                                                          color:  const Color(0xff121843),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3),
+                                                       SizedBox(height: height/217),
                                                       KText(
                                                         text: dashboard.totalFamilies ??
                                                             0.toString(),
                                                         style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
-                                                          fontSize: 20,
+                                                          fontSize: width/68.3,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -1173,35 +1174,35 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Birthday") || dashboardItemsList.contains("Anniversary")),
                                     child: Container(
                                       height: size.height * 0.15,
-                                      width: 980,
+                                      width: width/1.393,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         border:
-                                        Border.all(color: const Color(0xffE0E0E0)),
+                                        Border.all(color:  const Color(0xffE0E0E0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
                                         children: [
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Birthday"),
                                             child: Row(
                                               children: [
-                                                const CircleAvatar(
-                                                    backgroundColor: const Color(0xffFFE1F7),
+                                                 CircleAvatar(
+                                                    backgroundColor:  const Color(0xffFFE1F7),
                                                     radius: 35,
                                                     child: Icon(
                                                       Icons.cake,
-                                                      size: 50,
+                                                      size: width/27.32,
                                                       color: Colors.pink,
                                                     )),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Container(
                                                   height: size.height * 0.06,
-                                                  width: 1,
-                                                  color: const Color(0xffE0A700),
+                                                  width: width/1366,
+                                                  color:  const Color(0xffE0A700),
                                                 ),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Column(
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1210,17 +1211,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                     KText(
                                                       text: "Today's Birthday Count",
                                                       style: GoogleFonts.poppins(
-                                                        fontSize: 18,
-                                                        color: const Color(0xff121843),
+                                                        fontSize: width/75.888,
+                                                        color:  const Color(0xff121843),
                                                       ),
                                                     ),
-                                                    const SizedBox(height: 3),
+                                                     SizedBox(height: height/217),
                                                     KText(
                                                       text: dashboard.birthdayCount ??
                                                           0.toString(),
                                                       style: GoogleFonts.poppins(
                                                         fontWeight: FontWeight.w600,
-                                                        fontSize: 20,
+                                                        fontSize: width/68.3,
                                                         color: Colors.black,
                                                       ),
                                                     ),
@@ -1229,26 +1230,26 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Anniversary"),
                                             child: Row(
                                               children: [
-                                                const CircleAvatar(
-                                                    backgroundColor: const Color(0xffFFF495),
+                                                 CircleAvatar(
+                                                    backgroundColor:  const Color(0xffFFF495),
                                                     radius: 35,
                                                     child: Icon(
                                                       Icons.wallet_giftcard,
-                                                      size: 50,
+                                                      size: width/27.32,
                                                       color: Colors.amber,
                                                     )),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Container(
                                                   height: size.height * 0.06,
-                                                  width: 1,
-                                                  color: const Color(0xffE0A700),
+                                                  width: width/1366,
+                                                  color:  const Color(0xffE0A700),
                                                 ),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Column(
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1257,17 +1258,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                     KText(
                                                       text: "Today's Anniversary Count",
                                                       style: GoogleFonts.poppins(
-                                                        fontSize: 18,
-                                                        color: const Color(0xff121843),
+                                                        fontSize: width/75.888,
+                                                        color:  const Color(0xff121843),
                                                       ),
                                                     ),
-                                                    const SizedBox(height: 3),
+                                                     SizedBox(height: height/217),
                                                     KText(
                                                       text: dashboard.annivarsaryCount ??
                                                           0.toString(),
                                                       style: GoogleFonts.poppins(
                                                         fontWeight: FontWeight.w600,
-                                                        fontSize: 20,
+                                                        fontSize: width/68.3,
                                                         color: Colors.black,
                                                       ),
                                                     ),
@@ -1285,16 +1286,16 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("MemberPresent") || dashboardItemsList.contains("Event Count")),
                                     child: Container(
                                       height: size.height * 0.15,
-                                      width: 980,
+                                      width: width/1.393,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         border:
-                                        Border.all(color: const Color(0xffE0E0E0)),
+                                        Border.all(color:  const Color(0xffE0E0E0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
                                         children: [
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("MemberPresent"),
                                             child: Row(
@@ -1304,16 +1305,16 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                     radius: 35,
                                                     child: Icon(
                                                       Icons.receipt_long_outlined,
-                                                      size: 50,
+                                                      size: width/27.32,
                                                       color: Colors.orange,
                                                     )),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Container(
                                                   height: size.height * 0.06,
-                                                  width: 1,
-                                                  color: const Color(0xffE0A700),
+                                                  width: width/1366,
+                                                  color:  const Color(0xffE0A700),
                                                 ),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Column(
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1322,17 +1323,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                     KText(
                                                       text: "Members Present Today",
                                                       style: GoogleFonts.poppins(
-                                                        fontSize: 18,
-                                                        color: const Color(0xff121843),
+                                                        fontSize: width/75.888,
+                                                        color:  const Color(0xff121843),
                                                       ),
                                                     ),
-                                                    const SizedBox(height: 3),
+                                                     SizedBox(height: height/217),
                                                     KText(
                                                       text: dashboard.todayPresentMembers ??
                                                           0.toString(),
                                                       style: GoogleFonts.poppins(
                                                         fontWeight: FontWeight.w600,
-                                                        fontSize: 20,
+                                                        fontSize: width/68.3,
                                                         color: Colors.black,
                                                       ),
                                                     ),
@@ -1341,26 +1342,26 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
+                                           SizedBox(width: width/91.066),
                                           Visibility(
                                             visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Event Count"),
                                             child: Row(
                                               children: [
                                                 CircleAvatar(
-                                                    backgroundColor: const Color(0xffD1F3E0),
+                                                    backgroundColor:  const Color(0xffD1F3E0),
                                                     radius: 35,
                                                     child: Icon(
                                                       Icons.notifications_on_sharp,
-                                                      size: 50,
+                                                      size: width/27.32,
                                                       color: Colors.green,
                                                     )),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Container(
                                                   height: size.height * 0.06,
-                                                  width: 1,
-                                                  color: const Color(0xffE0A700),
+                                                  width: width/1366,
+                                                  color:  const Color(0xffE0A700),
                                                 ),
-                                                const SizedBox(width: 15),
+                                                 SizedBox(width: width/91.066),
                                                 Column(
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1369,17 +1370,17 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                     KText(
                                                       text: "Today Events Count",
                                                       style: GoogleFonts.poppins(
-                                                        fontSize: 18,
-                                                        color: const Color(0xff121843),
+                                                        fontSize: width/75.888,
+                                                        color:  const Color(0xff121843),
                                                       ),
                                                     ),
-                                                    const SizedBox(height: 3),
+                                                     SizedBox(height: height/217),
                                                     KText(
                                                       text: dashboard.todayEventsCount ??
                                                           0.toString(),
                                                       style: GoogleFonts.poppins(
                                                         fontWeight: FontWeight.w600,
-                                                        fontSize: 20,
+                                                        fontSize: width/68.3,
                                                         color: Colors.black,
                                                       ),
                                                     ),
@@ -1404,7 +1405,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                 return SizedBox(
                   height: size.height,
                   width: double.infinity,
-                  child: const Center(
+                  child:  const Center(
                     child: CircularProgressIndicator(),
                   ),
                 );

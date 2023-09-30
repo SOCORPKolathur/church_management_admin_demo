@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -199,6 +200,7 @@ class _OrdersTabState extends State<OrdersTab>
                           height: orders.isNotEmpty ? orders.length * 200 : 200,
                           width: double.infinity,
                           child: TabBarView(
+                            dragStartBehavior:DragStartBehavior.down,
                             controller: _tabController,
                             children: [
                               tabViewWidget(newBookingsList,true),

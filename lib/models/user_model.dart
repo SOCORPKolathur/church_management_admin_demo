@@ -6,18 +6,19 @@ class UserModel {
   String? phone;
   String? email;
   String? fcmToken;
-  //String? password;
   String? profession;
   String? aadharNo;
   String? baptizeDate;
   String? anniversaryDate;
   String? maritialStatus;
+  String? gender;
   String? bloodGroup;
   String? dob;
   String? locality;
   String? about;
   String? address;
   String? imgUrl;
+  String? pincode;
 
   UserModel(
       {this.id,
@@ -33,16 +34,19 @@ class UserModel {
         this.baptizeDate,
         this.anniversaryDate,
         this.maritialStatus,
+        this.gender,
         this.bloodGroup,
         this.dob,
         this.locality,
         this.about,
         this.address,
+        this.pincode,
         this.imgUrl});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     timestamp = json['timestamp'];
+    pincode = json['pincode'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     fcmToken = json['fcmToken'];
@@ -55,6 +59,7 @@ class UserModel {
     baptizeDate = json['baptizeDate'];
     anniversaryDate = json['anniversaryDate'];
     bloodGroup = json['bloodGroup'];
+    gender = json['gender'];
     dob = json['dob'];
     locality = json['locality'];
     about = json['about'];
@@ -80,6 +85,7 @@ class UserModel {
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;
     data['locality'] = this.locality;
+    data['pincode'] = this.pincode;
     data['about'] = this.about;
     data['address'] = this.address;
     data['imgUrl'] = this.imgUrl;
@@ -99,7 +105,7 @@ class UserModel {
       case 4:
         return phone!.toString();
       case 5:
-        return locality!;
+        return pincode!;
     }
     return '';
   }

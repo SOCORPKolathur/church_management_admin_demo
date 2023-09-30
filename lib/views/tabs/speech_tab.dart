@@ -3,6 +3,7 @@ import 'dart:html';
 import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:church_management_admin/models/speech_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,77 @@ class _SpeechTabState extends State<SpeechTab> {
       });
       setState(() {});
     });
+  }
+
+
+  List<String> Usernamelist=[];
+  List<String> Userphonelist=[];
+  List<String> Useridlist=[];
+  String dropdownvalue_userid="Select";
+  String dropdownvalue_username="Select";
+  String dropdownvalue_userphone="Select";
+
+  userdataaddfunction()async{
+    setState(() {
+     Usernamelist.clear();
+       Userphonelist.clear();
+      Useridlist.clear();
+    });
+    setState(() {
+      Usernamelist.add("Select");
+      Userphonelist.add("Select");
+      Useridlist.add("Select");
+    });
+    var userdata=await cf.FirebaseFirestore.instance.collection("Users").get();
+    for(int i=0;i<userdata.docs.length;i++){
+      setState(() {
+        Usernamelist.add(userdata.docs[i]['firstName']);
+        Userphonelist.add(userdata.docs[i]['phone']);
+        Useridlist.add(userdata.docs[i]['id']);
+      });
+    }
+    print(Usernamelist);
+    print(Userphonelist);
+    print(Useridlist);
+
+
+  }
+
+
+  userdatafetchfunction(value)async{
+
+    var userdata=await cf.FirebaseFirestore.instance.collection("Users").get();
+    for(int i=0;i<userdata.docs.length;i++){
+      if(value==userdata.docs[i]['id'] ||
+          value==userdata.docs[i]['firstName'].toString() ||
+          value==userdata.docs[i]['phone']){
+        setState(() {
+          dropdownvalue_userphone=userdata.docs[i]['phone'].toString();
+          lastNameController.text=userdata.docs[i]['phone'].toString();
+          dropdownvalue_userid=userdata.docs[i]['id'].toString();
+          positionController.text=userdata.docs[i]['id'].toString();
+          dropdownvalue_username=userdata.docs[i]['firstName'].toString();
+          firstNameController.text=userdata.docs[i]['firstName'].toString();
+        });
+      }
+
+
+
+    }
+    print("Username:$dropdownvalue_username ");
+    print("Userphone:$dropdownvalue_userphone ");
+    print("Userid:$dropdownvalue_userid ");
+
+
+  }
+
+
+
+  @override
+  void initState() {
+    userdataaddfunction();
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -217,17 +289,30 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Name",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: firstNameController,
-                                    )
+                                    DropdownButton(
+                                      value: dropdownvalue_username,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items:Usernamelist.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue1) {
+
+                                        setState(() {
+                                           dropdownvalue_username = newValue1!.toString();
+                                        });
+                                        userdatafetchfunction(newValue1!.toString());
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -238,17 +323,31 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Phone",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: lastNameController,
-                                    )
+                                    DropdownButton(
+                                      value: dropdownvalue_userphone,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: Userphonelist.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue2) {
+
+                                        setState(() {
+                                          dropdownvalue_userphone= newValue2!.toString();
+                                        });
+                                        userdatafetchfunction(newValue2!.toString());
+                                      },
+                                    ),
+
                                   ],
                                 ),
                               ),
@@ -259,17 +358,30 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Position",
+                                      text: "User-Id",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: positionController,
-                                    )
+                                    DropdownButton(
+                                      value: dropdownvalue_userid,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: Useridlist.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue3) {
+                                        setState(() {
+                                          dropdownvalue_userid = newValue3!.toString();
+                                        });
+                                        userdatafetchfunction(newValue3!.toString());
+                                      },
+                                    ),
+
                                   ],
                                 ),
                               ),

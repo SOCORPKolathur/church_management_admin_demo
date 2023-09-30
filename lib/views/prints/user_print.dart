@@ -48,7 +48,7 @@ class UserModelforPdf{
       'Date of Birth',
       'Position',
       'Phone',
-      'Country'
+      'Pin code'
     ];
 
     return pw.
