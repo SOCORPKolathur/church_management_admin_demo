@@ -111,12 +111,14 @@ class MembersModel {
       case 0:
         return (row + 1).toString();
       case 1:
-        return "${firstName!} ${lastName!}";
+        return memberId!;
       case 2:
-        return position!;
+        return "${firstName!} ${lastName!}";
       case 3:
-        return phone!.toString();
+        return position!;
       case 4:
+        return phone!.toString();
+      case 5:
         return nationality!;
     }
     return '';

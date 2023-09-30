@@ -45,6 +45,7 @@ class UserModelforPdf{
     const tableHeaders = [
       'Si.NO',
       'Name',
+      'Date of Birth',
       'Position',
       'Phone',
       'Country'
@@ -62,6 +63,7 @@ class UserModelforPdf{
       cellHeight: 40,
       cellAlignments: {
         0: pw.Alignment.centerLeft,
+        1: pw.Alignment.centerLeft,
         1: pw.Alignment.centerLeft,
         2: pw.Alignment.centerLeft,
         3: pw.Alignment.centerLeft,

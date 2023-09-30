@@ -279,15 +279,15 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void authenticate(ChurchDetailsModel church) {
+  Future<void> authenticate(ChurchDetailsModel church) async {
     if(church.roles!.isNotEmpty){
       church.roles!.forEach((element) {
-        if(emailController.text.toLowerCase() == element.roleName!.toLowerCase() && passwordController.text.toLowerCase() == element.rolePassword!.toLowerCase()){
+        if(emailController.text == element.roleName! && passwordController.text == element.rolePassword!){
           Navigator.pushReplacement(context, MaterialPageRoute(
                      builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
         }
       });
-    }else{
+      await Future.delayed(Duration(seconds: 3));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }

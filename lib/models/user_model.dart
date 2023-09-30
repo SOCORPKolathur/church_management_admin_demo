@@ -93,10 +93,12 @@ class UserModel {
       case 1:
         return "${firstName!} ${lastName!}";
       case 2:
-        return profession!;
+        return dob!;
       case 3:
-        return phone!.toString();
+        return profession!;
       case 4:
+        return phone!.toString();
+      case 5:
         return locality!;
     }
     return '';

@@ -1,7 +1,7 @@
 class EventsModel {
   String? id;
   String? date;
-  num? views;
+  List<String>? views;
   num? timestamp;
   String? description;
   String? imgUrl;
@@ -14,7 +14,12 @@ class EventsModel {
   EventsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     date = json['date'];
-    views = json['views'];
+    if (json['views'] != null) {
+      views = <String>[];
+      json['views'].forEach((v) {
+        views!.add(v);
+      });
+    }
     timestamp = json['timestamp'];
     description = json['description'];
     imgUrl = json['imgUrl'];
@@ -26,7 +31,9 @@ class EventsModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['date'] = this.date;
-    data['views'] = this.views;
+    if (this.views != null) {
+      data['views'] = this.views!.map((v) => v).toList();
+    }
     data['timestamp'] = this.timestamp;
     data['description'] = this.description;
     data['imgUrl'] = this.imgUrl;

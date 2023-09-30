@@ -15,6 +15,13 @@ class RolePermissionFireCrud {
           .map((doc) => ManageRoleModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
 
+  static Stream<List<ManageRoleModel>> fetchPermissionsfordashboard() =>
+      firestore.collection('RolePermissions')
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => ManageRoleModel.fromJson(doc.data() as Map<String,dynamic>))
+          .toList());
+
   static Future<Response> updatedRole(ManageRoleModel role) async {
     Response response = Response();
     if(role.id != "") {

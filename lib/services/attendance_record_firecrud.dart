@@ -30,6 +30,7 @@ class AttendanceRecordFireCrud {
 
   static Stream<List<AttendanceRecordModel>> fetchAttendancesWithFilterRange(start,end) =>
       AttendanceCollection
+          .orderBy('timestamp', descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
           .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
@@ -46,6 +47,7 @@ class AttendanceRecordFireCrud {
 
   static Stream<List<AttendanceFamilyRecordModel>> fetchFamilyAttendancesWithFilterRange(start,end) =>
       AttendanceFamilyCollection
+          .orderBy('timestamp', descending: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
           .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)

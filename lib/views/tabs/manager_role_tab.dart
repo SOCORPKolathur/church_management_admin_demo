@@ -1,6 +1,7 @@
 import 'package:church_management_admin/models/manage_role_model.dart';
 import 'package:church_management_admin/models/response.dart';
 import 'package:church_management_admin/services/role_permission_firecrud.dart';
+import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,10 +25,12 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
   TextEditingController rolePasswordController = TextEditingController();
 
   List<String> rolesList = [];
+  List<String> dashboardItemsList = [];
   bool isFetched = false;
 
   setRoles(ManageRoleModel roles){
     rolesList.clear();
+    dashboardItemsList.clear();
     if(roles.role != null){
       if(roles.permissions!.isNotEmpty) {
         for (int j = 0; j < roles.permissions!.length; j ++) {
@@ -36,8 +39,16 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
       }else{
         rolesList = [];
       }
+      if(roles.dashboardItems!.isNotEmpty){
+        for (int j = 0; j < roles.dashboardItems!.length; j ++) {
+          dashboardItemsList.add(roles.dashboardItems![j]);
+        }
+      }else{
+        dashboardItemsList = [];
+      }
     }else{
       rolesList = [];
+      dashboardItemsList = [];
     }
     isFetched = true;
   }
@@ -54,6 +65,24 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
     ManageRoleModel role = ManageRoleModel();
     role.role = roleString;
     role.id = id;
+    role.permissions = rolesList;
+    role.dashboardItems = dashboardItemsList;
+    Response res = await RolePermissionFireCrud.updatedRole(role);
+  }
+
+  updateDashboardItem(String content, bool isAlreadyIn, String id, String roleString) async {
+    setState(() {
+      if(isAlreadyIn){
+        dashboardItemsList.removeWhere((element) => element == content);
+      }else{
+        dashboardItemsList.add(content);
+      }
+    });
+    //// update to firebase
+    ManageRoleModel role = ManageRoleModel();
+    role.role = roleString;
+    role.id = id;
+    role.dashboardItems = dashboardItemsList;
     role.permissions = rolesList;
     Response res = await RolePermissionFireCrud.updatedRole(role);
   }
@@ -96,7 +125,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                   });
                   setRoles(managerRole);
                   return !isFetched ? Container() : Container(
-                    height: size.height * 0.72,
+                    height: size.height * 1.02,
                     width: 1100,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -129,38 +158,74 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      isAddRole = !isAddRole;
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(1, 2),
-                                          blurRadius: 3,
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (ctx)=> const SettingsTab()));
+                                      },
+                                      child: Container(
+                                        height: 35,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(8),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              offset: Offset(1, 2),
+                                              blurRadius: 3,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
-                                      child: Center(
-                                        child: KText(
-                                          text: isAddRole ? "Cancel" : "Add Role",
-                                          style: GoogleFonts.openSans(
-                                            fontSize: 13,
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(horizontal: 6),
+                                          child: Center(
+                                            child: KText(
+                                              text: "Manage role",
+                                              style: GoogleFonts.openSans(
+                                                fontSize: 13,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    const SizedBox(width: 10),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isAddRole = !isAddRole;
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 35,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(8),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              offset: Offset(1, 2),
+                                              blurRadius: 3,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(horizontal: 6),
+                                          child: Center(
+                                            child: KText(
+                                              text: isAddRole ? "Cancel" : "Add Role",
+                                              style: GoogleFonts.openSans(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
@@ -296,7 +361,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                 )),
                             padding: const EdgeInsets.all(10),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 20),
                                 Center(
@@ -313,13 +378,13 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                             if(snaps.hasData){
                                               ChurchDetailsModel church = snaps.data!.first;
                                               return DropdownButton(
-                                                value: widget.currentRole,
+                                                value: widget.currentRole.toUpperCase(),
                                                 icon: const Icon(Icons.keyboard_arrow_down),
                                                 items: church.roles!
                                                     .map((items) {
                                                   return DropdownMenuItem(
-                                                    value: items.roleName,
-                                                    child: Text(items.roleName!),
+                                                    value: items.roleName!.toUpperCase(),
+                                                    child: Text(items.roleName!.toUpperCase()),
                                                   );
                                                 }).toList(),
                                                 onChanged: (newValue) {
@@ -829,6 +894,278 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                     ),
                                     const SizedBox(
                                       width: 250
+                                    ),
+                                  ],
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 20,bottom: 30,top: 30),
+                                  child: Text(
+                                      "Dashboard Items",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Users"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Users", dashboardItemsList.contains("Users"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Users",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Committee"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Committee", dashboardItemsList.contains("Committee"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Committee",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Pastors"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Pastors", dashboardItemsList.contains("Pastors"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Pastors",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Clans"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Clans", dashboardItemsList.contains("Clans"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Clans",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Chorus"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Chorus", dashboardItemsList.contains("Chorus"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Chorus",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Staff"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Staff", dashboardItemsList.contains("Staff"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Staff",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Student"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Student", dashboardItemsList.contains("Student"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Student",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Member"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Member", dashboardItemsList.contains("Member"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Member",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Families"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Families", dashboardItemsList.contains("Families"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Families",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Birthday"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Birthday", dashboardItemsList.contains("Birthday"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Birthday Count",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Anniversary"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Anniversary", dashboardItemsList.contains("Anniversary"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Anniversary Count",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("MemberPresent"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("MemberPresent", dashboardItemsList.contains("MemberPresent"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Member Present Count",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Event Count"),
+                                            onChanged: (val) {
+                                              updateDashboardItem("Event Count", dashboardItemsList.contains("Event Count"),managerRole.id!,widget.currentRole);
+                                            },
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const KText(
+                                            text: "Event Count",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                        width: 250
+                                    ),
+                                    const SizedBox(
+                                        width: 250
+                                    ),
+                                    const SizedBox(
+                                        width: 250
                                     ),
                                   ],
                                 ),

@@ -1395,6 +1395,7 @@ class _StudentTabState extends State<StudentTab> {
                                                           //socialStatusController.text = students[i].socialStatus!;
                                                           countryController.text = students[i].country!;
                                                           genderController.text = students[i].gender!;
+                                                          studentIdController.text = students[i].studentId!;
                                                           selectedImg = students[i].imgUrl;
                                                         });
                                                          editPopUp(students[i], size);
@@ -1811,7 +1812,7 @@ class _StudentTabState extends State<StudentTab> {
                                       const Text(":"),
                                       const SizedBox(width: 20),
                                       KText(
-                                        text: student.aadharNo!,
+                                        text: mask(student.aadharNo!),
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2152,6 +2153,28 @@ class _StudentTabState extends State<StudentTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Student ID",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      readOnly: true,
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: studentIdController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2501,6 +2524,7 @@ class _StudentTabState extends State<StudentTab> {
                                       guardianController.text != "" &&
                                       guardianPhoneController.text != "" &&
                                       baptizeDateController.text != "" &&
+                                      studentIdController.text != "" &&
                                       bloodGroupController.text != "" &&
                                       //departmentController.text != "" &&
                                       dobController.text != "" &&
@@ -2515,6 +2539,7 @@ class _StudentTabState extends State<StudentTab> {
                                     Response response =
                                     await StudentFireCrud.updateRecord(
                                       StudentModel(
+                                        studentId: studentIdController.text,
                                         baptizeDate: baptizeDateController.text,
                                         bloodGroup: bloodGroupController.text,
                                         //department: departmentController.text,
@@ -2572,6 +2597,7 @@ class _StudentTabState extends State<StudentTab> {
                                         countryController.text = "";
                                         genderController.text = 'Select Gender';
                                       });
+                                      setStudentId();
                                       Navigator.pop(context);
                                       Navigator.pop(context);
                                     } else {
@@ -2688,6 +2714,19 @@ class _StudentTabState extends State<StudentTab> {
       ..setAttribute("download", "Students.pdf")
       ..click();
     Url.revokeObjectUrl(url);
+  }
+
+  String mask(String input) {
+    String result = '';
+    int maskLen = input.length  - 4;
+    for(int i = 0; i < input.length; i++){
+      if(i < maskLen){
+        result += 'x';
+      }else{
+        result += input[i].toString();
+      }
+    }
+    return result;
   }
 
   copyToClipBoard(List<StudentModel> students) async  {

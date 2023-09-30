@@ -45,6 +45,7 @@ class SpeechModelforPdf{
     const tableHeaders = [
       'Si.NO',
       'Name',
+      'Name',
       'Position',
       'Speech',
     ];

@@ -831,7 +831,7 @@ class _EventsTabState extends State<EventsTab>
                                           SizedBox(
                                             width: 150,
                                             child: KText(
-                                              text: events[i].views!.toString(),
+                                              text: events[i].views!.length.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -1492,7 +1492,7 @@ class _EventsTabState extends State<EventsTab>
                                           SizedBox(
                                             width: 150,
                                             child: KText(
-                                              text: events[i].views!.toString(),
+                                              text: events[i].views!.length.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,

@@ -2150,7 +2150,7 @@ class _MembersTabState extends State<MembersTab> {
                                       const Text(":"),
                                       const SizedBox(width: 20),
                                       KText(
-                                        text: member.aadharNo!,
+                                        text: mask(member.aadharNo!),
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -3180,6 +3180,19 @@ class _MembersTabState extends State<MembersTab> {
     }
     String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
+  }
+
+  String mask(String input) {
+    String result = '';
+    int maskLen = input.length  - 4;
+    for(int i = 0; i < input.length; i++){
+      if(i < maskLen){
+        result += 'x';
+      }else{
+        result += input[i].toString();
+      }
+    }
+    return result;
   }
 
   final snackBar = SnackBar(

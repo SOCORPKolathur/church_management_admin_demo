@@ -1906,7 +1906,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       const Text(":"),
                                       const SizedBox(width: 20),
                                       KText(
-                                        text: churchStaff.aadharNo!,
+                                        text: mask(churchStaff.aadharNo!),
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2960,6 +2960,19 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
         );
       },
     );
+  }
+
+  String mask(String input) {
+    String result = '';
+    int maskLen = input.length  - 4;
+    for(int i = 0; i < input.length; i++){
+      if(i < maskLen){
+        result += 'x';
+      }else{
+        result += input[i].toString();
+      }
+    }
+    return result;
   }
 
   convertToCsv(List<ChurchStaffModel> churchStaffs) async {

@@ -59,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
         name: "Dashboard",
         icon: Icons.dashboard,
-        page: const DashBoardTab(),
+        page: const DashBoardTab(currentRole: 'Admin'),
         isExpanded: false,
         children: []
     ),
@@ -279,14 +279,16 @@ class _HomeViewState extends State<HomeView> {
   setDrawerItems(List<ManageRoleModel> roles) {
     if (drawerItems.isEmpty) {
       for (int i = 0; i < roles.length; i++) {
-        if (roles[i].role == widget.currentRole) {
+        if (widget.currentRole.toUpperCase() == 'ADMIN') {
+          drawerItems = drawerItems1;
+        }else  if (roles[i].role!.toLowerCase() == widget.currentRole.toLowerCase()) {
           for (int j = 0; j < roles[i].permissions!.length; j++) {
             switch (roles[i].permissions![j].toString().toUpperCase()) {
               case "DASHBOARD":
                 drawerItems.add(DrawerModel(
                     name: "Dashboard",
                     icon: Icons.dashboard,
-                    page: const DashBoardTab(),
+                    page: DashBoardTab(currentRole: widget.currentRole),
                     isExpanded: false,
                     children: []));
                 break;
@@ -542,8 +544,6 @@ class _HomeViewState extends State<HomeView> {
                 break;
             }
           }
-        } else if (widget.currentRole.toUpperCase() == 'ADMIN') {
-          drawerItems = drawerItems1;
         }
       }
     }

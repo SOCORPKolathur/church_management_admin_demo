@@ -1,12 +1,10 @@
 import 'package:church_management_admin/views/login_view.dart';
-import 'package:church_management_admin/views/tabs/dashboard_tab.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:reference_parser/reference_parser.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -34,7 +32,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
             useMaterial3: true,
           ),
-          home: LoginView(),
+          home: const LoginView(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

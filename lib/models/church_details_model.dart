@@ -22,6 +22,7 @@ class ChurchDetailsModel {
         this.state,
         this.pincode,
         this.website,
+        this.roles
       });
 
   ChurchDetailsModel.fromJson(Map<String, dynamic> json) {

@@ -13,6 +13,10 @@ class DashboardModel {
   String? totalChorus;
   String? birthdayCount;
   String? annivarsaryCount;
+  String? todayPresentMembers;
+  String? todayEventsCount;
+  Verse? verseForToday;
+
 
   DashboardModel(
       {this.totalCollect,
@@ -28,6 +32,9 @@ class DashboardModel {
         this.annivarsaryCount,
         this.totalStudents,
         this.totalMembers,
+        this.verseForToday,
+        this.todayPresentMembers,
+        this.todayEventsCount,
         this.totalChorus});
 
   DashboardModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +44,7 @@ class DashboardModel {
     annivarsaryCount = json['annivarsaryCount'];
     currentBalance = json['currentBalance'];
     totalUsers = json['totalUsers'];
+    verseForToday = json['verseForToday'] != null ? Verse.fromJson(json['verseForToday']) : null;
     totalCommite = json['totalCommite'];
     totalFamilies = json['totalFamilies'];
     totalPastors = json['totalPastors'];
@@ -44,6 +52,8 @@ class DashboardModel {
     totalStaffs = json['totalStaffs'];
     totalStudents = json['totalStudents'];
     totalMembers = json['totalMembers'];
+    todayPresentMembers = json['todayPresentMembers'];
+    todayEventsCount = json['todayEventsCount'];
     totalChorus = json['totalChorus'];
   }
 
@@ -59,9 +69,33 @@ class DashboardModel {
     data['totalPastors'] = this.totalPastors;
     data['totalClans'] = this.totalClans;
     data['totalStaffs'] = this.totalStaffs;
+    data['todayPresentMembers'] = this.todayPresentMembers;
+    data['todayEventsCount'] = this.todayEventsCount;
     data['totalStudents'] = this.totalStudents;
     data['totalMembers'] = this.totalMembers;
     data['totalChorus'] = this.totalChorus;
+    if (this.verseForToday != null) {
+      data['verseForToday'] = this.verseForToday!.toJson();
+    }
+    return data;
+  }
+}
+
+class Verse {
+  String? date;
+  String? text;
+
+  Verse({this.date, this.text});
+
+  Verse.fromJson(Map<String, dynamic> json) {
+    date = json['date'];
+    text = json['text'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['date'] = this.date;
+    data['text'] = this.text;
     return data;
   }
 }

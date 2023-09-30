@@ -951,6 +951,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         emailController.text = families[i].email!;
                                                         countryController.text = families[i].country!;
                                                         zoneController.text = families[i].zone!;
+                                                        familyIdController.text = families[i].familyId!;
                                                       });
                                                       editPopUp(families[i],size);
                                                     },
@@ -1390,6 +1391,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         emailController.text = families[i].email!;
                                                         countryController.text = families[i].country!;
                                                         zoneController.text = families[i].zone!;
+                                                        familyIdController.text = families[i].familyId!;
                                                       });
                                                       editPopUp(families[i],size);
                                                     },
@@ -1958,6 +1960,28 @@ class _FamilyTabState extends State<FamilyTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
+                                      text: "Family ID",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      readOnly: true,
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: familyIdController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
                                       text: "Family Name/Title",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
@@ -2262,6 +2286,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 onTap: () async {
                                   if (familynameController.text != "" &&
                                       familyleadernameController.text != "" &&
+                                      familyIdController.text != "" &&
                                       familynumberController.text != "" &&
                                       familyQuanity != 0 &&
                                       cityController.text != "" &&
@@ -2273,6 +2298,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         FamilyModel(
                                           id: family.id,
                                             timestamp: family.timestamp,
+                                            familyId: family.familyId,
                                             name: familynameController.text,
                                             leaderName: familyleadernameController.text,
                                             contactNumber: familynumberController.text,
@@ -2307,6 +2333,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         countryController.text = "";
                                         zoneController.text = "";
                                       });
+                                      setFamilyId();
                                       Navigator.pop(context);
                                       Navigator.pop(context);
                                     } else {

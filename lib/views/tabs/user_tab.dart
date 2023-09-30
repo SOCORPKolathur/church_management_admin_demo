@@ -2567,7 +2567,7 @@ class _UserTabState extends State<UserTab> {
                                       const Text(":"),
                                       const SizedBox(width: 20),
                                       Text(
-                                        user.aadharNo!,
+                                        mask(user.aadharNo!.toString()),
                                         style: const TextStyle(fontSize: 14),
                                       )
                                     ],
@@ -2740,6 +2740,19 @@ class _UserTabState extends State<UserTab> {
         );
       },
     );
+  }
+
+  String mask(String input) {
+    String result = '';
+    int maskLen = input.length  - 4;
+    for(int i = 0; i < input.length; i++){
+      if(i < maskLen){
+        result += 'x';
+      }else{
+        result += input[i].toString();
+      }
+    }
+    return result;
   }
 
   editPopUp(UserModel user, Size size) {
