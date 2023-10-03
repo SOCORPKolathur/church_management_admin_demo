@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 import 'package:church_management_admin/models/user_model.dart';
+import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateUserPdf(PdfPageFormat pageFormat,List<UserModel> usersList,bool isPdf) async {
+Future<Uint8List> generateUserPdf(PdfPageFormat pageFormat,List<UserModelWithDocId> usersList,bool isPdf) async {
 
   final user = UserModelforPdf(
       title: "Users",
@@ -18,7 +19,7 @@ class UserModelforPdf{
 
   UserModelforPdf({required this.title, required this.users});
   String? title;
-  List<UserModel> users = [];
+  List<UserModelWithDocId> users = [];
 
   Future<Uint8List> buildPdf(PdfPageFormat pageFormat,bool isPdf) async {
 
@@ -64,10 +65,10 @@ class UserModelforPdf{
       cellAlignments: {
         0: pw.Alignment.centerLeft,
         1: pw.Alignment.centerLeft,
-        1: pw.Alignment.centerLeft,
         2: pw.Alignment.centerLeft,
         3: pw.Alignment.centerLeft,
-        4: pw.Alignment.centerRight,
+        4: pw.Alignment.centerLeft,
+        5: pw.Alignment.centerRight,
       },
       headerStyle: pw.TextStyle(
         color: PdfColors.amber,
@@ -93,7 +94,7 @@ class UserModelforPdf{
         users.length,
             (row) => List<String>.generate(
           tableHeaders.length,
-              (col) => users[row].getIndex(col,row),
+              (col) => users[row].user.getIndex(col,row),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:church_management_admin/models/user_model.dart';
 import 'package:church_management_admin/services/user_firecrud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
@@ -38,8 +39,7 @@ class _UserTabState extends State<UserTab> {
   TextEditingController aboutController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
-  TextEditingController bloodGroupController =
-      TextEditingController(text: 'Select Blood Group');
+  TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController();
   TextEditingController aadharController = TextEditingController();
@@ -1160,22 +1160,24 @@ class _UserTabState extends State<UserTab> {
             )
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
-                    stream: UserFireCrud.fetchUsers(),
+                    stream: cf.FirebaseFirestore.instance.collection('Users').snapshots(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
                         return Container();
                       } else if (snapshot.hasData) {
-                        List<UserModel> users = [];
-                        List<UserModel> users1 = snapshot.data!;
-                        for (var element in users1) {
+                        List<UserModelWithDocId> users = [];
+                        //List<UserModel> users1 = snapshot.data!;
+                        for (var element in snapshot.data!.docs) {
                           if(filterText != ""){
-                            if(element.profession!.toLowerCase().startsWith(filterText.toLowerCase())||
-                                element.firstName!.toLowerCase().startsWith(filterText.toLowerCase())||
-                                element.phone!.toLowerCase().startsWith(filterText.toLowerCase())){
-                              users.add(element);
+                            if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                element.get("firstName")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                element.get("phone")!.toLowerCase().startsWith(filterText.toLowerCase())){
+                              users.add(
+                                UserModelWithDocId(element.id, UserModel.fromJson(element.data()))
+                              );
                             }
                           }else{
-                            users.add(element);
+                            users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
                           }
                         }
                         return Container(
@@ -1306,10 +1308,7 @@ class _UserTabState extends State<UserTab> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            generateUserPdf(
-                                                PdfPageFormat.letter,
-                                                users,
-                                                false);
+                                            generateUserPdf(PdfPageFormat.letter, users, false);
                                           },
                                           child: Container(
                                             height: height / 18.6,
@@ -1615,8 +1614,7 @@ class _UserTabState extends State<UserTab> {
                                                         CircleAvatar(
                                                           backgroundImage:
                                                               NetworkImage(
-                                                                  users[i]
-                                                                      .imgUrl!),
+                                                                  users[i].user.imgUrl!),
                                                         ),
                                                       ],
                                                     ),
@@ -1625,7 +1623,7 @@ class _UserTabState extends State<UserTab> {
                                                     width: width / 8.035,
                                                     child: KText(
                                                       text:
-                                                          "${users[i].firstName!} ${users[i].lastName!}",
+                                                          "${users[i].user.firstName!} ${users[i].user.lastName!}",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -1639,7 +1637,7 @@ class _UserTabState extends State<UserTab> {
                                                     width: width / 9.106,
                                                     child: KText(
                                                       text:
-                                                          users[i].profession!,
+                                                          users[i].user.profession!,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -1652,7 +1650,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 8.035,
                                                     child: KText(
-                                                      text: users[i].phone!,
+                                                      text: users[i].user.phone!,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -1665,7 +1663,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 9.106,
                                                     child: KText(
-                                                      text: users[i].pincode!,
+                                                      text: users[i].user.pincode!,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -1681,8 +1679,7 @@ class _UserTabState extends State<UserTab> {
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              viewPopup(
-                                                                  users[i]);
+                                                              viewPopup(users[i].user);
                                                             },
                                                             child: Container(
                                                               height: height /
@@ -1749,43 +1746,40 @@ class _UserTabState extends State<UserTab> {
                                                             onTap: () {
                                                               setState(() {
                                                                 GenderController =
-                                                                    users[i]
-                                                                        .gender!;
+                                                                    users[i].user.gender!;
                                                                 pincodeController
                                                                         .text =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .pincode!;
                                                                 baptizeDateController
-                                                                    .text = users[
-                                                                        i]
+                                                                    .text = users[i].user
                                                                     .baptizeDate!;
                                                                 bloodGroupController
-                                                                    .text = users[
-                                                                        i]
+                                                                    .text = users[i].user
                                                                     .bloodGroup!;
                                                                 dobController
                                                                         .text =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .dob!;
                                                                 emailController
                                                                         .text =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .email!;
                                                                 firstNameController
                                                                     .text = users[
-                                                                        i]
+                                                                        i].user
                                                                     .firstName!;
                                                                 aboutController
                                                                         .text =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .about!;
                                                                 addressController
                                                                         .text =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .address!;
                                                                 lastNameController
                                                                     .text = users[
-                                                                        i]
+                                                                        i].user
                                                                     .lastName!;
                                                                 // passwordController
                                                                 //         .text =
@@ -1793,34 +1787,32 @@ class _UserTabState extends State<UserTab> {
                                                                 //         .password!;
                                                                 localityController
                                                                     .text = users[
-                                                                        i]
+                                                                        i].user
                                                                     .locality!;
                                                                 phoneController
                                                                         .text =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .phone!;
                                                                 professionController
                                                                     .text = users[
-                                                                        i]
+                                                                        i].user
                                                                     .profession!;
                                                                 // confPaswordController
                                                                 //         .text =
                                                                 //     users[i]
                                                                 //         .password!;
                                                                 selectedImg =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .imgUrl;
                                                                 marriedController =
-                                                                    users[i]
+                                                                    users[i].user
                                                                         .maritialStatus!;
                                                                 anniversaryDateController
                                                                     .text = users[
-                                                                        i]
+                                                                        i].user
                                                                     .anniversaryDate!;
                                                               });
-                                                              editPopUp(
-                                                                  users[i],
-                                                                  size);
+                                                              editPopUp(users[i].user,users[i].userDocId, size);
                                                             },
                                                             child: Container(
                                                               height: height /
@@ -1892,7 +1884,7 @@ class _UserTabState extends State<UserTab> {
                                                                       CoolAlertType
                                                                           .info,
                                                                   text:
-                                                                      "${users[i].firstName} ${users[i].lastName} will be deleted",
+                                                                      "${users[i].user.firstName} ${users[i].user.lastName} will be deleted",
                                                                   title:
                                                                       "Delete this Record?",
                                                                   width: size
@@ -1913,9 +1905,7 @@ class _UserTabState extends State<UserTab> {
                                                                   onConfirmBtnTap:
                                                                       () async {
                                                                     Response
-                                                                        res =
-                                                                        await UserFireCrud.deleteRecord(
-                                                                            id: users[i].id!);
+                                                                        res = await UserFireCrud.deleteRecord(id: users[i].userDocId);
                                                                   });
                                                             },
                                                             child: Container(
@@ -2419,7 +2409,7 @@ class _UserTabState extends State<UserTab> {
     return result;
   }
 
-  editPopUp(UserModel user, Size size) {
+  editPopUp(UserModel user,String userDocID, Size size) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return showDialog(
@@ -3145,9 +3135,6 @@ class _UserTabState extends State<UserTab> {
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    print(
-                                        "dufffffffffffffffffffffffffffffffffffffffffffffffffff");
-                                    print(pincodeController.text);
                                     if (baptizeDateController.text != "" &&
                                         bloodGroupController.text != "" &&
                                         aboutController.text != "" &&
@@ -3159,12 +3146,10 @@ class _UserTabState extends State<UserTab> {
                                         lastNameController.text != "" &&
                                         localityController.text != "" &&
                                         phoneController.text != "" &&
-                                        phoneController.text != "" &&
                                         pincodeController.text != "") {
-                                      print("Enteredddddd");
-
                                       Response response =
                                           await UserFireCrud.updateRecord(
+                                              userDocID,
                                               UserModel(
                                                 id: user.id,
                                                 pincode: pincodeController.text,
@@ -3181,6 +3166,9 @@ class _UserTabState extends State<UserTab> {
                                                     firstNameController.text,
                                                 maritialStatus:
                                                     marriedController,
+                                                fcmToken: user.fcmToken,
+                                                gender: GenderController,
+                                                imgUrl: user.imgUrl!,
                                                 anniversaryDate: marriedController
                                                             .toUpperCase() ==
                                                         "MARRIED"
@@ -3290,7 +3278,7 @@ class _UserTabState extends State<UserTab> {
     );
   }
 
-  convertToCsv(List<UserModel> users) async {
+  convertToCsv(List<UserModelWithDocId> users) async {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");
@@ -3310,18 +3298,18 @@ class _UserTabState extends State<UserTab> {
     for (int i = 0; i < users.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
-      row.add("${users[i].firstName!} ${users[i].lastName!}");
-      row.add(users[i].phone);
-      row.add(users[i].email);
-      row.add(users[i].profession);
-      row.add(users[i].baptizeDate);
-      row.add(users[i].maritialStatus);
-      row.add(users[i].bloodGroup);
-      row.add(users[i].dob);
-      row.add(users[i].locality);
-      row.add(users[i].pincode);
-      row.add(users[i].address);
-      row.add(users[i].about);
+      row.add("${users[i].user.firstName!} ${users[i].user.lastName!}");
+      row.add(users[i].user.phone);
+      row.add(users[i].user.email);
+      row.add(users[i].user.profession);
+      row.add(users[i].user.baptizeDate);
+      row.add(users[i].user.maritialStatus);
+      row.add(users[i].user.bloodGroup);
+      row.add(users[i].user.dob);
+      row.add(users[i].user.locality);
+      row.add(users[i].user.pincode);
+      row.add(users[i].user.address);
+      row.add(users[i].user.about);
       rows.add(row);
     }
     String csv = ListToCsvConverter().convert(rows);
@@ -3346,7 +3334,7 @@ class _UserTabState extends State<UserTab> {
     Url.revokeObjectUrl(url);
   }
 
-  copyToClipBoard(List<UserModel> users) async {
+  copyToClipBoard(List<UserModelWithDocId> users) async {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");
@@ -3363,13 +3351,13 @@ class _UserTabState extends State<UserTab> {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("       ");
-      row.add("${users[i].firstName} ${users[i].lastName}");
+      row.add("${users[i].user.firstName} ${users[i].user.lastName}");
       row.add("       ");
-      row.add(users[i].profession);
+      row.add(users[i].user.profession);
       row.add("       ");
-      row.add(users[i].phone);
+      row.add(users[i].user.phone);
       row.add("       ");
-      row.add(users[i].locality);
+      row.add(users[i].user.locality);
       rows.add(row);
     }
     String csv = ListToCsvConverter().convert(rows,
@@ -3413,4 +3401,10 @@ class _UserTabState extends State<UserTab> {
           ],
         )),
   );
+}
+
+class UserModelWithDocId{
+  UserModelWithDocId(this.userDocId, this.user);
+  String userDocId;
+  UserModel user;
 }

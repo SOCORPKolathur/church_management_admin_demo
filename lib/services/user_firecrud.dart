@@ -110,7 +110,7 @@ class UserFireCrud {
     return downloadUrl;
   }
 
-  static Future<Response> updateRecord(UserModel user,File? image,String imgUrl) async {
+  static Future<Response> updateRecord(String userDocId, UserModel user,File? image,String imgUrl) async {
     Response res = Response();
     if(image != null) {
       String downloadUrl = await uploadImageToStorage(image);
@@ -118,7 +118,7 @@ class UserFireCrud {
     }else{
       user.imgUrl = imgUrl;
     }
-    DocumentReference documentReferencer = UserCollection.doc(user.id);
+    DocumentReference documentReferencer = UserCollection.doc(userDocId);
     var result = await documentReferencer.update(user.toJson()).whenComplete(() {
       res.code = 200;
       res.message = "Sucessfully Updated from database";
