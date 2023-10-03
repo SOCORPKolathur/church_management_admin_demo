@@ -58,7 +58,6 @@ class UserFireCrud {
         required String aadharNo,
         required String pincode,
         required String profession,
-        //required String password,
         required String about,
         required String address,
       }) async {

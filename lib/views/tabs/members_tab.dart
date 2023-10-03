@@ -3056,6 +3056,8 @@ class _MembersTabState extends State<MembersTab> {
                                     Response response =
                                     await MembersFireCrud.updateRecord(
                                       MembersModel(
+                                        imgUrl: member.imgUrl,
+                                        baptizemCertificate: member.baptizemCertificate,
                                         address: addressController.text,
                                         gender: genderController.text,
                                         id: member.id,timestamp: member.timestamp,
@@ -3082,7 +3084,7 @@ class _MembersTabState extends State<MembersTab> {
                                         member.imgUrl ?? ""
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
+                                      await CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.success,
                                           text: "Member updated successfully!",
