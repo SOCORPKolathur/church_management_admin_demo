@@ -374,6 +374,9 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -2227,6 +2230,9 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )

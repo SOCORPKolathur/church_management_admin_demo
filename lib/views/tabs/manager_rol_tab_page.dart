@@ -16,18 +16,34 @@ class manager_rol_tab_page extends StatefulWidget {
 
 class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
 
-
+  bool isAdded = false;
   setData(ChurchDetailsModel church) {
     roleCredentialsList.clear();
     church.roles!.forEach((element) {
-      roleCredentialsList.add(RoleCredentialsModel(
-          roleEmail: TextEditingController(text: element.roleName),
-          rolePassword: TextEditingController(text: element.rolePassword),
-          isObsecure: true));
+      roleCredentialsList.add(
+          RoleCredentialsModel(
+              roleEmail: TextEditingController(text: element.roleName),
+              rolePassword: TextEditingController(text: element.rolePassword),
+              isObsecure: true
+          )
+      );
     });
+    if(!isAdded){
+      roleCredentialsList.forEach((element) {
+        roleCredentialsList1.add(
+            RoleCredentialsModel(
+                isObsecure: element.isObsecure,
+                rolePassword: element.rolePassword,
+                roleEmail: element.roleEmail
+            )
+        );
+      });
+      isAdded = true;
+    }
   }
 
   List<RoleCredentialsModel> roleCredentialsList = [];
+  List<RoleCredentialsModel> roleCredentialsList1 = [];
 
   List<bool> selectVersesList = [];
 
@@ -127,9 +143,8 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                       ),
                                       child: Column(
                                         children: [
-
                                           for (int r = 0;
-                                          r < roleCredentialsList.length;
+                                          r < roleCredentialsList1.length;
                                           r++)
                                             Padding(
                                               padding: EdgeInsets.symmetric(
@@ -156,7 +171,7 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                                         width:width/5.464,
                                                         child: TextFormField(
                                                           controller:
-                                                          roleCredentialsList[r].roleEmail,
+                                                          roleCredentialsList1[r].roleEmail,
                                                           onTap: () {},
                                                           decoration:
                                                           InputDecoration(
@@ -191,9 +206,8 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                                         height: height/16.275,
                                                         width:width/5.464,
                                                         child: TextFormField(
-                                                          obscureText:
-                                                          roleCredentialsList[r].isObsecure == true ? true : false,
-                                                          controller: roleCredentialsList[r].rolePassword,
+                                                          obscureText: roleCredentialsList1[r].isObsecure == true ? true : false,
+                                                          controller: roleCredentialsList1[r].rolePassword,
                                                           decoration:
                                                           InputDecoration(
 
@@ -208,12 +222,10 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                                               IconButton(
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                        roleCredentialsList[r].isObsecure =
-                                                                        !roleCredentialsList[r].isObsecure!;
-                                                                      });
-                                                                  print(roleCredentialsList[r].isObsecure);
+                                                                        roleCredentialsList1[r].isObsecure = !roleCredentialsList1[r].isObsecure!;
+                                                                  });
                                                                 },
-                                                                icon: Icon(roleCredentialsList[r].isObsecure!
+                                                                icon: Icon(roleCredentialsList1[r].isObsecure!
                                                                     ? Icons.visibility
                                                                     : Icons.visibility_off),
                                                               )),

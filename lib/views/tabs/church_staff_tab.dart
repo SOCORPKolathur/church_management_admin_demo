@@ -420,6 +420,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -462,6 +465,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: aadharNoController,
                                     )
@@ -796,6 +802,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: pincodeController,
                                     )
@@ -875,6 +884,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       emailController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
+                                      phoneController.text.length == 10 &&
+                                      aadharNoController.text.length == 12 &&
                                       pincodeController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&
@@ -2519,6 +2530,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -2561,6 +2575,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: aadharNoController,
                                     )
@@ -2883,6 +2900,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: pincodeController,
                                     )
@@ -2962,6 +2982,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       familyController.text != "" &&
                                       pincodeController.text != "" &&
                                       firstNameController.text != "" &&
+                                      phoneController.text.length == 10 &&
+                                      aadharNoController.text.length == 12 &&
                                       jobController.text != "" &&
                                       addressController.text != "" &&
                                       dateofjoiningController.text != "" &&

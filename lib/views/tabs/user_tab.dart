@@ -1026,12 +1026,13 @@ class _UserTabState extends State<UserTab> {
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      bloodGroupController.text !=
-                                          "Select Blood Group" &&
+                                      bloodGroupController.text != "Select Blood Group" &&
                                       firstNameController.text != "" &&
                                       lastNameController.text != "" &&
                                       localityController.text != "" &&
                                       phoneController.text != "" &&
+                                      phoneController.text.length == 10 &&
+                                      aadharController.text.length == 12 &&
                                       GenderController != "Select Gender" &&
                                       marriedController != "Select Status") {
                                     Response response =
@@ -1041,8 +1042,7 @@ class _UserTabState extends State<UserTab> {
                                       gender: GenderController,
                                       image: profileImage!,
                                       baptizeDate: baptizeDateController.text,
-                                      anniversaryDate:
-                                          anniversaryDateController.text,
+                                      anniversaryDate: anniversaryDateController.text,
                                       aadharNo: aadharController.text,
                                       bloodGroup: bloodGroupController.text,
                                       dob: dobController.text,
@@ -1054,7 +1054,6 @@ class _UserTabState extends State<UserTab> {
                                       profession: professionController.text,
                                       about: aboutController.text,
                                       address: addressController.text,
-                                      //password: passwordController.text,
                                     );
                                     if (response.code == 200) {
                                       CoolAlert.show(
@@ -1279,7 +1278,7 @@ class _UserTabState extends State<UserTab> {
                                 ),
                               ),
                               Container(
-                                height: size.height * 0.75,
+                                height: size.height * 0.73,
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
@@ -2789,8 +2788,23 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       TextFormField(
                                         style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        TextStyle(fontSize: width / 113.83),
                                         controller: baptizeDateController,
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              baptizeDateController.text =
+                                                  formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
+                                        decoration: InputDecoration(),
                                       )
                                     ],
                                   ),
@@ -3154,6 +3168,8 @@ class _UserTabState extends State<UserTab> {
                                         aboutController.text != "" &&
                                         dobController.text != "" &&
                                         addressController.text != "" &&
+                                        phoneController.text.length == 10 &&
+                                        aadharController.text.length == 12 &&
                                         emailController.text != "" &&
                                         marriedController != "Select Status" &&
                                         firstNameController.text != "" &&

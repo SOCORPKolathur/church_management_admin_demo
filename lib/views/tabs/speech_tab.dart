@@ -72,7 +72,6 @@ class _SpeechTabState extends State<SpeechTab> {
   String dropdownvalue_userid="Select";
   String dropdownvalue_username="Select";
   String dropdownvalue_userphone="Select";
-
   String currentTab = 'View';
 
   userdataaddfunction()async{
@@ -94,9 +93,6 @@ class _SpeechTabState extends State<SpeechTab> {
         Useridlist.add(userdata.docs[i]['id']);
       });
     }
-    print(Usernamelist);
-    print(Userphonelist);
-    print(Useridlist);
 
 
   }
@@ -104,7 +100,7 @@ class _SpeechTabState extends State<SpeechTab> {
 
   userdatafetchfunction(value)async{
 
-    var userdata=await cf.FirebaseFirestore.instance.collection("Users").get();
+    var userdata = await cf.FirebaseFirestore.instance.collection("Users").get();
     for(int i=0;i<userdata.docs.length;i++){
       if(value==userdata.docs[i]['id'] ||
           value==userdata.docs[i]['firstName'].toString() ||
@@ -118,9 +114,6 @@ class _SpeechTabState extends State<SpeechTab> {
           firstNameController.text=userdata.docs[i]['firstName'].toString();
         });
       }
-
-
-
     }
     print("Username:$dropdownvalue_username ");
     print("Userphone:$dropdownvalue_userphone ");
@@ -173,7 +166,6 @@ class _SpeechTabState extends State<SpeechTab> {
                           });
                           //clearTextControllers();
                         }
-
                       },
                       child: Container(
                         height: 35,
@@ -361,7 +353,6 @@ class _SpeechTabState extends State<SpeechTab> {
                                         );
                                       }).toList(),
                                       onChanged: (newValue1) {
-
                                         setState(() {
                                            dropdownvalue_username = newValue1!.toString();
                                         });

@@ -500,6 +500,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       locationController.text != "" &&
                                       descriptionController.text != "" &&
                                       numberController.text != "" &&
+                                      numberController.text.length == 10 &&
                                       cityController.text != "" &&
                                       addressController.text != "" &&
                                       countryController.text != "" &&
@@ -1876,6 +1877,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   if (nameController.text != "" &&
                                       leadernameController.text != "" &&
                                       locationController.text != "" &&
+                                      numberController.text.length == 10 &&
                                       descriptionController.text != "" &&
                                       numberController.text != "" &&
                                       cityController.text != "" &&

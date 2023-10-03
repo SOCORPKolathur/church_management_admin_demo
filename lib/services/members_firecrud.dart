@@ -61,7 +61,10 @@ class MembersFireCrud {
       required String position,
       required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
-    String downloadUrl1 = await uploadImageToStorage(document);
+    String downloadUrl1 = "";
+    if(document != null) {
+      downloadUrl1 = await uploadImageToStorage(document);
+    }
     Response response = Response();
     DocumentReference documentReferencer = MemberCollection.doc();
     MembersModel member = MembersModel(

@@ -144,34 +144,53 @@ class _MembersTabState extends State<MembersTab> {
 
   @override
   void initState() {
-    setMemberId();
     familydatafetchfunc();
+    setMemberId();
     super.initState();
   }
 
 
-  List<String>FamilyIdList=[];
-  List<String>FamilynameList=[];
+  List<FamilyNameWithId>FamilyIdList=[];
 
   familydatafetchfunc()async{
     setState((){
       FamilyIdList.clear();
-      FamilynameList.clear();
     });
-    setState((){
-      FamilyIdList.add("Select");
-      FamilynameList.add("Select");
+    setState(()  {
+      FamilyIdList.add(
+        FamilyNameWithId(count: 0, id: "Select", name: "Select")
+      );
     });
     var familydata=await cf.FirebaseFirestore.instance.collection("Families").get();
     for(int i=0;i<familydata.docs.length;i++){
       setState((){
-        FamilyIdList.add(familydata.docs[i]['familyId'].toString());
-        FamilynameList.add(familydata.docs[i]['name'].toString());
+        FamilyIdList.add(
+          FamilyNameWithId(count: familydata.docs[i]['quantity'], id: familydata.docs[i]['familyId'].toString(), name: familydata.docs[i]['name'].toString()));
       });
+    }
+  }
+
+
+  checkAvailableSlot(int count, String familyName) async {
+    var memberData =await cf.FirebaseFirestore.instance.collection("Members").get();
+    int memberCount = 0;
+    memberData.docs.forEach((element) {
+      if(element['family'] == familyName){
+        memberCount++;
+      }
+    });
+    if((count-memberCount) <= 0){
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.info,
+          text: "Family Count Exceeded",
+          width: MediaQuery.of(context).size.width * 0.4,
+          backgroundColor: Constants()
+              .primaryAppColor
+              .withOpacity(0.8));
+    }else{
 
     }
-
-
   }
 
 
@@ -184,10 +203,8 @@ class _MembersTabState extends State<MembersTab> {
 
     return Padding(
       padding:  EdgeInsets.symmetric(
-
         vertical: height/81.375,
         horizontal: width/170.75
-
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -218,9 +235,7 @@ class _MembersTabState extends State<MembersTab> {
                           setState(() {
                             currentTab = 'View';
                           });
-                          //clearTextControllers();
                         }
-
                       },
                       child: Container(
                         height: height/18.6,
@@ -859,15 +874,20 @@ class _MembersTabState extends State<MembersTab> {
                                       isExpanded: true,
                                       underline: Container(),
                                       icon:  const Icon(Icons.keyboard_arrow_down),
-                                      items: FamilynameList.map((items) {
+                                      items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
+                                          value: items.name,
+                                          child: Text(items.name),
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.name == newValue){
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -901,8 +921,8 @@ class _MembersTabState extends State<MembersTab> {
                                       icon:  const Icon(Icons.keyboard_arrow_down),
                                       items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
+                                          value: items.id,
+                                          child: Text(items.id),
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
@@ -961,6 +981,7 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
+                              SizedBox(width: width/68.3),
                               SizedBox(
                                 width: width/4.553,
                                 child: Column(
@@ -1166,6 +1187,8 @@ class _MembersTabState extends State<MembersTab> {
                                         bloodGroupController.text = "";
                                         genderController.text = "Select Gender";
                                         addressController.text = "";
+                                        familyController.text = "Select";
+                                        familyIDController.text = "Select";
                                         departmentController.text = "";
                                         docname = "";
                                         documentForUpload = null;
@@ -3098,10 +3121,10 @@ class _MembersTabState extends State<MembersTab> {
                                       isExpanded: true,
                                       underline: Container(),
                                       icon:  Icon(Icons.keyboard_arrow_down),
-                                      items: FamilynameList.map((items) {
+                                      items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
+                                          value: items.name,
+                                          child: Text(items.name),
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
@@ -3110,8 +3133,6 @@ class _MembersTabState extends State<MembersTab> {
                                         });
                                       },
                                     ),
-
-
                                     // TextFormField(
                                     //   style:  TextStyle(fontSize: width/113.83),
                                     //   controller: familyController,
@@ -3146,8 +3167,8 @@ class _MembersTabState extends State<MembersTab> {
                                       icon:  Icon(Icons.keyboard_arrow_down),
                                       items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
+                                          value: items.id,
+                                          child: Text(items.id),
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
@@ -3377,6 +3398,7 @@ class _MembersTabState extends State<MembersTab> {
                                         department: departmentController.text,
                                         dob: dobController.text,
                                         aadharNo: aadharNoController.text,
+                                        familyid: member.familyid,
                                         email: emailController.text,
                                         family: familyController.text,
                                         firstName: firstNameController.text,
@@ -3412,6 +3434,10 @@ class _MembersTabState extends State<MembersTab> {
                                         memberIdController.text = "";
                                         aadharNoController.text = "";
                                         dobController.text = "";
+                                        familyController.text = "Select";
+                                        familyIDController.text = "Select";
+                                        socialStatusController.text = "Select";
+                                        genderController.text = "Select Gender";
                                         emailController.text = "";
                                         familyController.text = "";
                                         pincodeController.text = "";
@@ -3425,7 +3451,6 @@ class _MembersTabState extends State<MembersTab> {
                                         socialStatusController.text = "";
                                         countryController.text = "";
                                       });
-                                      Navigator.pop(context);
                                       Navigator.pop(context);
                                     } else {
                                       CoolAlert.show(
@@ -3628,4 +3653,12 @@ class _MembersTabState extends State<MembersTab> {
           ],
         )),
   );
+}
+
+
+class FamilyNameWithId{
+  FamilyNameWithId({ required this.count,required this.id,required this.name});
+  String name;
+  String id;
+  int count;
 }

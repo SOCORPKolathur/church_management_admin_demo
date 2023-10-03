@@ -325,6 +325,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -731,6 +734,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: aadharNoController,
                                     )
@@ -809,10 +815,11 @@ class _PastorsTabState extends State<PastorsTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
+                                      phoneController.text.length == 10 &&
+                                      aadharNoController.text.length == 12 &&
                                       pincodeController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
-                                      addressController.text != "" &&
                                       genderController.text != "Select Gender" &&
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
@@ -2170,6 +2177,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -2540,6 +2550,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: aadharNoController,
                                     )
@@ -2620,6 +2633,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       addressController.text != "" &&
                                       genderController.text != "" &&
                                       familyController.text != "" &&
+                                          phoneController.text.length == 10 &&
+                                          aadharNoController.text.length == 12 &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
                                       lastNameController.text != "" &&

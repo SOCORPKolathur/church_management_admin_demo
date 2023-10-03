@@ -418,6 +418,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                             if(snaps.hasData){
                                               ChurchDetailsModel church = snaps.data!.first;
                                               return DropdownButton(
+                                                isExpanded: true,
                                                 value: widget.currentRole.toUpperCase(),
                                                 icon: const Icon(Icons.keyboard_arrow_down),
                                                 items: church.roles!

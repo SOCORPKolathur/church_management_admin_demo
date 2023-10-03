@@ -120,6 +120,7 @@ class StudentFireCrud {
     }else{
       student.imgUrl = imgUrl;
     }
+    print(student.id! + "---------------------------");
     DocumentReference documentReferencer = StudentCollection.doc(student.id);
     var result = await documentReferencer.update(student.toJson()).whenComplete(() {
       res.code = 200;

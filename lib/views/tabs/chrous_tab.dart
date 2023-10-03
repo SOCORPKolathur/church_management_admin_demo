@@ -375,6 +375,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -730,6 +733,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       pincodeController.text != "" &&
+                                      phoneController.text.length == 10 &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       jobController.text != "" &&
@@ -2229,6 +2233,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -2547,6 +2554,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
                                       emailController.text != "" &&
+                                          phoneController.text.length == 10 &&
                                       pincodeController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&

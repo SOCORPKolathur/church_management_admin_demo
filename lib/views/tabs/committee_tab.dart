@@ -141,7 +141,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.79,
+              height: size.height * 1.89,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -375,6 +375,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -787,6 +790,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       dobController.text != "" &&
                                       emailController.text != "" &&
                                       addressController.text != "" &&
+                                      phoneController.text.length == 10 &&
                                       pincodeController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
@@ -2153,6 +2157,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: phoneController,
                                     )
@@ -2527,6 +2534,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       dobController.text != "" &&
                                       addressController.text != "" &&
                                       pincodeController.text != "" &&
+                                          phoneController.text.length == 10 &&
                                       genderController.text != "Select Gender" &&
                                       emailController.text != "" &&
                                       familyController.text != "" &&
