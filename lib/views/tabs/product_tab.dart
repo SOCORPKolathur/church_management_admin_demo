@@ -37,6 +37,7 @@ class _ProductTabState extends State<ProductTab> {
   String? selectedImg;
 
   String currentTab = 'View';
+  String searchString = "";
 
   selectImage() {
     InputElement input = FileUploadInputElement() as InputElement
@@ -519,7 +520,7 @@ class _ProductTabState extends State<ProductTab> {
               ),
             )
                 : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
-              stream: ProductsFireCrud.fetchProducts(),
+              stream:searchString != "" ? ProductsFireCrud.fetchClansWithSearch(searchString):ProductsFireCrud.fetchProducts(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -556,6 +557,31 @@ class _ProductTabState extends State<ProductTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    onChanged: (val) {
+                                      setState(() {
+                                        searchString = val;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      contentPadding:  EdgeInsets.only(
+                                          left: 10, bottom: 10),
+                                    ),
                                   ),
                                 ),
                               ],

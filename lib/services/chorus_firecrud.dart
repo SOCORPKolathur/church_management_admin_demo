@@ -20,7 +20,9 @@ class ChorusFireCrud {
       .orderBy("timestamp", descending: false)
       .snapshots()
       .map((snapshot) => snapshot.docs
-      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .where((element) => (element['phone'].toString().toLowerCase().startsWith(text)||
+      element['firstName'].toString().toLowerCase().startsWith(text)||
+      element['position'].toString().toLowerCase().startsWith(text)))
       .map((doc) => ChorusModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 

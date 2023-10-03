@@ -1144,7 +1144,7 @@ class _MembersTabState extends State<MembersTab> {
                                     },
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search Pincode',
+                                      hintText: 'Search',
                                       hintStyle: const TextStyle(
                                         color: Colors.black,
                                       ),

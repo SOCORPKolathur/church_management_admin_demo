@@ -20,7 +20,10 @@ class ChurchStaffFireCrud {
       .orderBy("timestamp", descending: false)
       .snapshots()
       .map((snapshot) => snapshot.docs
-      .where((element) => element['pincode'].toString().toLowerCase().startsWith(text))
+      .where((element) => (element['position'].toString().toLowerCase().startsWith(text)||
+      element['firstName'].toString().toLowerCase().startsWith(text)||
+      element['phone'].toString().toLowerCase().startsWith(text)
+  ))
       .map((doc) => ChurchStaffModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
@@ -46,7 +49,8 @@ class ChurchStaffFireCrud {
         required String nationality,
         required String phone,
         required String position,
-        required String socialStatus}) async {
+        required String socialStatus})
+  async {
     String downloadUrl = await uploadImageToStorage(image);
     String downloadUrl1 = await uploadImageToStorage(document);
     Response response = Response();

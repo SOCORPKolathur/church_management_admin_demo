@@ -862,8 +862,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       hintStyle: const TextStyle(
                                         color: Colors.black,
                                       ),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
+                                      contentPadding:  EdgeInsets.only(
+                                          left: 10, bottom: 10),
                                     ),
                                   ),
                                 ),

@@ -34,9 +34,7 @@ class DepartmentFireCrud {
           .map((snapshot) =>
           snapshot.docs
               .where((element) =>
-          element['name'].toString()
-              .toLowerCase()
-              .startsWith(text) ||
+          element['name'].toString().toLowerCase().startsWith(text) ||
               element['leaderName'].toString().toLowerCase().startsWith(text) ||
               element['location'].toString().toLowerCase().startsWith(text))
               .map((doc) =>

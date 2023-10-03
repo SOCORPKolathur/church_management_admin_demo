@@ -726,7 +726,10 @@ class _FamilyTabState extends State<FamilyTab> {
                   List<FamilyModel> families1 = snapshot.data!;
                   for (var element in families1) {
                     if(filterText != ""){
-                      if(element.zone!.toLowerCase().startsWith(filterText.toLowerCase())){
+                      if(element.zone!.toLowerCase().startsWith(filterText.toLowerCase())||
+                          element.name!.toLowerCase().startsWith(filterText.toLowerCase())||
+                          element.contactNumber!.toLowerCase().startsWith(filterText.toLowerCase())
+                      ){
                         families.add(element);
                       }
                     }else{
@@ -789,7 +792,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Enter picode",
+                                          "Search",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: 14,
@@ -817,72 +820,69 @@ class _FamilyTabState extends State<FamilyTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                child: Padding(
-                                  padding:  EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 80,
-                                        child: KText(
-                                          text: "No.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                      child: KText(
+                                        text: "No.",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 180,
-                                        child: KText(
-                                          text: "Family Name/Title",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/113.83,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: 180,
+                                      child: KText(
+                                        text: "Family Name/Title",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 180,
-                                        child: KText(
-                                          text: "Family Leader Name",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/113.83,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: 180,
+                                      child: KText(
+                                        text: "Family Leader Name",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 170,
-                                        child: KText(
-                                          text: "Family Quantity",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: 170,
+                                      child: KText(
+                                        text: "Family Quantity",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width:width/68.30,
-                                        child: KText(
-                                          text: "Contact Number",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/6.830,
+                                      child: KText(
+                                        text: "Contact Number",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: 150,
+                                      child: KText(
+                                        text: "Actions",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                                SizedBox(height: 10),
@@ -949,7 +949,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width:width/68.30,
+                                            width:width/6.830,
                                             child: KText(
                                               text: families[i].contactNumber!,
                                               style: GoogleFonts.poppins(
@@ -959,7 +959,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                              width:width/68.30,
+                                              width:180,
                                               child: Row(
                                                 children: [
                                                   InkWell(

@@ -151,42 +151,34 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                                         ),
                                                       ),
                                                       SizedBox(height: height/108.5),
-                                                      Material(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(5),
-                                                        color:
-                                                        Color(0xffdddeee),
-                                                        elevation: 1,
-                                                        child: SizedBox(
-                                                          height: height/16.275,
-                                                          width:width/5.464,
-                                                          child: Padding(
-                                                            padding:
-                                                            EdgeInsets.symmetric(
-                                                                horizontal: width/170.75,
-                                                                vertical: height/81.375
-                                                            ),
-                                                            child:
-                                                            TextFormField(
-                                                              controller:
-                                                              roleCredentialsList[r].roleEmail,
-                                                              onTap: () {},
-                                                              decoration:
-                                                              InputDecoration(
-                                                                border:
-                                                                InputBorder
-                                                                    .none,
-                                                                hintStyle:
-                                                                GoogleFonts
-                                                                    .openSans(
-                                                                  fontSize: width/97.571,
-                                                                ),
+                                                      SizedBox(
+                                                        height: height/16.275,
+                                                        width:width/5.464,
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: width/170.75,
+                                                              vertical: height/81.375
+                                                          ),
+                                                          child:
+                                                          TextFormField(
+                                                            controller:
+                                                            roleCredentialsList[r].roleEmail,
+                                                            onTap: () {},
+                                                            decoration:
+                                                            InputDecoration(
+                                                              border:
+                                                              InputBorder
+                                                                  .none,
+                                                              hintStyle:
+                                                              GoogleFonts
+                                                                  .openSans(
+                                                                fontSize: width/97.571,
                                                               ),
                                                             ),
                                                           ),
                                                         ),
-                                                      )
+                                                      ),
                                                     ],
                                                   ),
                                                   SizedBox(width:width/27.32),

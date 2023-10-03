@@ -1497,6 +1497,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
       content: body,
       to: user.phone,
       subject: title,
+      isViewed: false,
     );
     var json = notificationModel.toJson();
     var userDocument =

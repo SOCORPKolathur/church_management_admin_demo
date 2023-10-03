@@ -645,12 +645,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                     },
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search Area',
+                                      hintText: 'Search',
                                       hintStyle: const TextStyle(
                                         color: Colors.black,
                                       ),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
+                                      contentPadding:  EdgeInsets.only(
+                                          left: 10, bottom: 10),
                                     ),
                                   ),
                                 ),

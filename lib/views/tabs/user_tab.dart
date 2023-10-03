@@ -1155,7 +1155,8 @@ class _UserTabState extends State<UserTab> {
                 ],
               ),
             )
-                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
+                : currentTab.toUpperCase() == "VIEW" ?
+            StreamBuilder(
                     stream: UserFireCrud.fetchUsers(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
@@ -1165,7 +1166,9 @@ class _UserTabState extends State<UserTab> {
                         List<UserModel> users1 = snapshot.data!;
                         for (var element in users1) {
                           if(filterText != ""){
-                            if(element.profession!.toLowerCase().startsWith(filterText.toLowerCase())){
+                            if(element.profession!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                element.firstName!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                element.phone!.toLowerCase().startsWith(filterText.toLowerCase())){
                               users.add(element);
                             }
                           }else{
@@ -1229,7 +1232,7 @@ class _UserTabState extends State<UserTab> {
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
                                                     hintText:
-                                                        "Filter Profession",
+                                                        "Search",
                                                     hintStyle:
                                                         GoogleFonts.openSans(
                                                       fontSize: 14,
@@ -1988,7 +1991,8 @@ class _UserTabState extends State<UserTab> {
                       }
                       return Container();
                     },
-                  ) : Container()
+                  ) :
+            Container()
           ],
         ),
       ),
