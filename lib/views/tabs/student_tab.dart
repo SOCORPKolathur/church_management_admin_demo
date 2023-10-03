@@ -42,7 +42,8 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
   TextEditingController filterClassController = TextEditingController(text: 'Select Class');
   //TextEditingController jobController = TextEditingController();
-  TextEditingController familyController = TextEditingController();
+  TextEditingController familyController = TextEditingController(text: "Select");
+  TextEditingController familyIDController = TextEditingController(text: "Select");
   //TextEditingController departmentController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
@@ -115,9 +116,38 @@ class _StudentTabState extends State<StudentTab> {
 
   @override
   void initState() {
+    familydatafetchfunc();
     setStudentId();
     super.initState();
   }
+
+  List<String>FamilyIdList=[];
+  List<String>FamilynameList=[];
+
+  familydatafetchfunc()async{
+    setState((){
+      FamilyIdList.clear();
+      FamilynameList.clear();
+    });
+    setState((){
+      FamilyIdList.add("Select");
+      FamilynameList.add("Select");
+    });
+    var familydata=await cf.FirebaseFirestore.instance.collection("Families").get();
+    for(int i=0;i<familydata.docs.length;i++){
+      setState((){
+        FamilyIdList.add(familydata.docs[i]['familyId'].toString());
+        FamilynameList.add(familydata.docs[i]['name'].toString());
+      });
+
+
+
+    }
+
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -423,7 +453,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -444,7 +474,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -474,7 +504,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -510,7 +540,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: 'Father / Guardian',
+                                      text: 'Father / Guardian *',
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -531,7 +561,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Father / Guardian Phone",
+                                      text: "Father / Guardian Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -649,23 +679,87 @@ class _StudentTabState extends State<StudentTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: familyController,
-                                    )
+                                    DropdownButton(
+                                      value: familyController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilynameList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+
+
+                                    // TextFormField(
+                                    //   style: const TextStyle(fontSize: 12),
+                                    //   controller: familyController,
+                                    // )
+
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Container(
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Family ID *",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: familyIDController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilyIdList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyIDController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -676,7 +770,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Aadhar Number",
+                                      text: "Aadhaar Number",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -722,7 +816,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -830,7 +924,9 @@ class _StudentTabState extends State<StudentTab> {
                                       guardianPhone:
                                           guardianPhoneController.text,
                                       dob: dobController.text,
+
                                       family: familyController.text,
+                                      familyid: familyIDController.text,
                                       firstName: firstNameController.text,
                                       //job: jobController.text,
                                       lastName: lastNameController.text,
@@ -1452,6 +1548,7 @@ class _StudentTabState extends State<StudentTab> {
                                                           //departmentController.text = students[i].department!;
                                                           dobController.text = students[i].dob!;
                                                           familyController.text = students[i].family!;
+                                                          familyIDController.text = students[i].familyid!;
                                                           firstNameController.text = students[i].firstName!;
                                                           //jobController.text = students[i].job!;
                                                           lastNameController.text = students[i].lastName!;
@@ -1844,7 +1941,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Family",
+                                          text: "Family Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1855,6 +1952,29 @@ class _StudentTabState extends State<StudentTab> {
                                       const SizedBox(width: 20),
                                       KText(
                                         text: student.family!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Family ID",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: student.familyid!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2246,7 +2366,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2267,7 +2387,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2293,7 +2413,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: 'Father/Guardian',
+                                      text: 'Father/Guardian *',
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2314,7 +2434,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Father/Guardian Phone",
+                                      text: "Father/Guardian Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2441,23 +2561,87 @@ class _StudentTabState extends State<StudentTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: familyController,
-                                    )
+                                    DropdownButton(
+                                      value: familyController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilynameList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+
+
+                                    // TextFormField(
+                                    //   style: const TextStyle(fontSize: 12),
+                                    //   controller: familyController,
+                                    // )
+
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Container(
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Family ID *",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: familyIDController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilyIdList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyIDController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2473,7 +2657,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2515,7 +2699,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

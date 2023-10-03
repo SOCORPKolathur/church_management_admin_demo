@@ -40,7 +40,8 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController marriageDateController = TextEditingController();
   TextEditingController socialStatusController = TextEditingController(text: "Select");
   TextEditingController jobController = TextEditingController();
-  TextEditingController familyController = TextEditingController();
+  TextEditingController familyController = TextEditingController(text: "Select");
+  TextEditingController familyIDController = TextEditingController(text: "Select");
   TextEditingController departmentController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController();
   TextEditingController dobController = TextEditingController();
@@ -144,8 +145,36 @@ class _MembersTabState extends State<MembersTab> {
   @override
   void initState() {
     setMemberId();
+    familydatafetchfunc();
     super.initState();
   }
+
+
+  List<String>FamilyIdList=[];
+  List<String>FamilynameList=[];
+
+  familydatafetchfunc()async{
+    setState((){
+      FamilyIdList.clear();
+      FamilynameList.clear();
+    });
+    setState((){
+      FamilyIdList.add("Select");
+      FamilynameList.add("Select");
+    });
+    var familydata=await cf.FirebaseFirestore.instance.collection("Families").get();
+    for(int i=0;i<familydata.docs.length;i++){
+      setState((){
+        FamilyIdList.add(familydata.docs[i]['familyId'].toString());
+        FamilynameList.add(familydata.docs[i]['name'].toString());
+      });
+
+    }
+
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +244,7 @@ class _MembersTabState extends State<MembersTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.8,
+              height: size.height * 2.0,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -793,23 +822,87 @@ class _MembersTabState extends State<MembersTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                border: Border(bottom: BorderSide(
+                                  width: 1.5,color: Colors.grey
+                                ))
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family *",
+                                      text: "Family Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: familyController,
-                                    )
+                                    DropdownButton(
+                                      value: familyController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilynameList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+
+
+                                    // TextFormField(
+                                    //   style: const TextStyle(fontSize: 12),
+                                    //   controller: familyController,
+                                    // )
+
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Container(
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Family ID *",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: familyIDController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilyIdList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyIDController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -834,7 +927,12 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -855,11 +953,6 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -913,7 +1006,14 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+
+
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -1011,8 +1111,7 @@ class _MembersTabState extends State<MembersTab> {
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" ) {
-                                    Response response =
-                                        await MembersFireCrud.addMember(
+                                    Response response = await MembersFireCrud.addMember(
                                           aadharNo: aadharNoController.text,
                                           membersId: memberIdController.text,
                                       image: profileImage!,
@@ -1025,6 +1124,7 @@ class _MembersTabState extends State<MembersTab> {
                                       dob: dobController.text,
                                       email: emailController.text,
                                       family: familyController.text,
+                                      familyid: familyIDController.text,
                                       firstName: firstNameController.text,
                                       job: jobController.text,
                                       lastName: lastNameController.text,
@@ -1639,6 +1739,7 @@ class _MembersTabState extends State<MembersTab> {
                                                           dobController.text = members[i].dob!;
                                                           emailController.text = members[i].email!;
                                                           familyController.text = members[i].family!;
+                                                          familyIDController.text = members[i].familyid!;
                                                           firstNameController.text = members[i].firstName!;
                                                           jobController.text = members[i].job!;
                                                           lastNameController.text = members[i].lastName!;
@@ -2137,7 +2238,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Family",
+                                          text: "Family Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -2148,6 +2249,30 @@ class _MembersTabState extends State<MembersTab> {
                                       const SizedBox(width: 20),
                                       KText(
                                         text: member.family!,
+                                        style: const TextStyle(
+                                            fontSize: 14
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: const KText(
+                                          text: "Family ID",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(":"),
+                                      const SizedBox(width: 20),
+                                      KText(
+                                        text: member.familyid!,
                                         style: const TextStyle(
                                             fontSize: 14
                                         ),
@@ -2917,23 +3042,87 @@ class _MembersTabState extends State<MembersTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: familyController,
-                                    )
+                                    DropdownButton(
+                                      value: familyController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilynameList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+
+
+                                    // TextFormField(
+                                    //   style: const TextStyle(fontSize: 12),
+                                    //   controller: familyController,
+                                    // )
+
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Container(
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(
+                                        width: 1.5,color: Colors.grey
+                                    ))
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Family ID *",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: familyIDController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: FamilyIdList.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          familyIDController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2958,7 +3147,13 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -2979,12 +3174,7 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
-
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 300,
                                 child: Column(
@@ -3026,7 +3216,11 @@ class _MembersTabState extends State<MembersTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
                               SizedBox(
                                 width: 300,
                                 child: Column(

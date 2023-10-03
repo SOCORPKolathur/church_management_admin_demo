@@ -19,6 +19,7 @@ class StudentModel {
   //String? job;
   String? country;
   String? family;
+  String? familyid;
   //String? department;
   String? bloodGroup;
   String? dob;
@@ -46,6 +47,7 @@ class StudentModel {
         //this.socialStatus,
         //this.job,
         this.family,
+        this.familyid,
         //this.department,
         this.bloodGroup,
         this.dob,
@@ -73,6 +75,7 @@ class StudentModel {
     //socialStatus = json['socialStatus'];
     //job = json['job'];
     family = json['family'];
+    familyid = json['familyid'];
     //department = json['department'];
     bloodGroup = json['bloodGroup'];
     dob = json['dob'];
@@ -102,6 +105,7 @@ class StudentModel {
     //data['socialStatus'] = this.socialStatus;
     //data['job'] = this.job;
     data['family'] = this.family;
+    data['familyid'] = this.familyid;
     //data['department'] = this.department;
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;
