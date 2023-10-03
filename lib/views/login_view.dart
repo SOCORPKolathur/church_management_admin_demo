@@ -280,7 +280,9 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> authenticate(ChurchDetailsModel church) async {
+
     if(church.roles!.isNotEmpty){
+
       church.roles!.forEach((element) {
         if(emailController.text == element.roleName! && passwordController.text == element.rolePassword!){
           Navigator.pushReplacement(context, MaterialPageRoute(

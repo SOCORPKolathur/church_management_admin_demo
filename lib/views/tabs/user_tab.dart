@@ -125,6 +125,8 @@ class _UserTabState extends State<UserTab> {
   }
 
   String currentTab = 'View';
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
