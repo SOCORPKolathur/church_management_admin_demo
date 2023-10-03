@@ -29,11 +29,13 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
   List<String> rolesList = [];
   List<String> rolesList1 = [];
   List<String> dashboardItemsList = [];
+  List<String> dashboardItemsList1 = [];
   bool isFetched = false;
   bool isAddedFirst = true;
   setRoles(ManageRoleModel roles){
     if(isAddedFirst){
       rolesList.clear();
+      dashboardItemsList.clear();
     }
     rolesList1.clear();
     dashboardItemsList.clear();
@@ -43,22 +45,25 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
           rolesList1.add(roles.permissions![j]);
         }
       }else{
-        rolesList = [];
+        rolesList1 = [];
       }
       if(roles.dashboardItems!.isNotEmpty){
         for (int j = 0; j < roles.dashboardItems!.length; j ++) {
-          //dashboardItemsList.add(roles.dashboardItems![j]);
+          dashboardItemsList1.add(roles.dashboardItems![j]);
         }
       }else{
-        dashboardItemsList = [];
+        dashboardItemsList1 = [];
       }
     }else{
-      rolesList = [];
-      dashboardItemsList = [];
+      rolesList1 = [];
+      dashboardItemsList1 = [];
     }
     if(isAddedFirst){
       rolesList1.forEach((element) {
         rolesList.add(element);
+      });
+      dashboardItemsList1.forEach((element) {
+        dashboardItemsList.add(element);
       });
       isAddedFirst = false;
     }
@@ -75,33 +80,27 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
         rolesList1.add(content);
       }
     });
-    //// update to firebase
-    // ManageRoleModel role = ManageRoleModel();
-    // role.role = roleString;
-    // role.id = id;
-    // role.permissions = rolesList;
-    // role.dashboardItems = dashboardItemsList;
-    // Response res = await RolePermissionFireCrud.updatedRole(role);
   }
 
   updateDashboardItem(String content, bool isAlreadyIn) async {
     setState(() {
       if(isAlreadyIn){
         dashboardItemsList.removeWhere((element) => element == content);
+        dashboardItemsList1.removeWhere((element) => element == content);
       }else{
         dashboardItemsList.add(content);
+        dashboardItemsList1.add(content);
       }
     });
-    print(dashboardItemsList.toString());
-    //// update to firebase
   }
 
   updateToCloud( String id, String roleString) async {
     List<String> permissions =  rolesList.toSet().toList();
+    List<String> dashboardPermissions =  dashboardItemsList.toSet().toList();
     ManageRoleModel role = ManageRoleModel();
     role.role = roleString;
     role.id = id;
-    role.dashboardItems = dashboardItemsList;
+    role.dashboardItems = dashboardPermissions;
     role.permissions = permissions;
     Response res = await RolePermissionFireCrud.updatedRole(role);
     setState(() {
