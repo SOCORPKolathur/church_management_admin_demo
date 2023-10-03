@@ -34,6 +34,8 @@ class _PrayersTabState extends State<PrayersTab> {
   DateTime? dateRangeEnd;
   bool isFiltered= false;
 
+  String currentTab = 'View';
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -73,15 +75,62 @@ class _PrayersTabState extends State<PrayersTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "PRAYERS",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "PRAYERS",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Prayer" : "View Prayers",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -135,6 +184,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                           .primaryAppColor
                                           .withOpacity(0.8));
                                   setState(() {
+                                    currentTab = 'View';
                                     titleController.text = "";
                                     descriptionController.text = "";
                                   });
@@ -357,8 +407,8 @@ class _PrayersTabState extends State<PrayersTab> {
                   ),
                 ],
               ),
-            ),
-            dateRangeStart != null ? StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ? StreamBuilder(
               stream: PrayersFireCrud.fetchPrayersWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1371,7 +1421,7 @@ class _PrayersTabState extends State<PrayersTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),
