@@ -42,6 +42,8 @@ class _FundManagementTabState extends State<FundManagementTab>
   String? selectedImg;
   String docname = "";
 
+  String currentTab = 'View';
+
   setDateTime() async {
     setState(() {
       dateController.text = formatter.format(DateTime.now());
@@ -113,13 +115,60 @@ class _FundManagementTabState extends State<FundManagementTab>
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: KText(
-                      text: "FUND MANAGEMENT",
-                      style: GoogleFonts.openSans(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        KText(
+                          text: "FUND MANAGEMENT",
+                          style: GoogleFonts.openSans(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black,
+                          ),
+                        ),
+                        InkWell(
+                            onTap:(){
+                              if(currentTab.toUpperCase() == "VIEW") {
+                                setState(() {
+                                  currentTab = "Add";
+                                });
+                              }else{
+                                setState(() {
+                                  currentTab = 'View';
+                                });
+                                //clearTextControllers();
+                              }
+
+                            },
+                            child: Container(
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(1, 2),
+                                    blurRadius: 3,
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 6),
+                                child: Center(
+                                  child: KText(
+                                    text: currentTab.toUpperCase() == "VIEW" ? "Add New Record" : "View Records",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: size.height * 0.03),
@@ -459,7 +508,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                     ),
                   ),
                   SizedBox(height: size.height * 0.06),
-                  Container(
+                  currentTab.toUpperCase() == "ADD"
+                      ? Container(
                     width: double.infinity,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -925,9 +975,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                         ),
                       ],
                     ),
-                  ),
-                  isFiltered
-                      ? StreamBuilder(
+                  )
+                      : currentTab.toUpperCase() == "VIEW" ? isFiltered ? StreamBuilder(
                           stream: recordTypeController.text != "Select Type" ? FundManageFireCrud.fetchFundsWithFilter1(
                               dateRangeStart!,
                               dateRangeEnd!,
@@ -1297,8 +1346,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                             }
                             return Container();
                           },
-                        )
-                      : StreamBuilder(
+                        ) : StreamBuilder(
                           stream: FundManageFireCrud.fetchFunds(),
                           builder: (ctx, snapshot) {
                             if (snapshot.hasError) {
@@ -1662,7 +1710,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                             }
                             return Container();
                           },
-                        )
+                        ) : Container()
                 ],
               );
             }

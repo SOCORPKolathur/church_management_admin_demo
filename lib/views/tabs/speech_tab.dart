@@ -70,6 +70,8 @@ class _SpeechTabState extends State<SpeechTab> {
   String dropdownvalue_username="Select";
   String dropdownvalue_userphone="Select";
 
+  String currentTab = 'View';
+
   userdataaddfunction()async{
     setState(() {
      Usernamelist.clear();
@@ -144,15 +146,63 @@ class _SpeechTabState extends State<SpeechTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "SPEECH",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "SPEECH",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Speech" : "View Speeches",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 1.05,
               width: 1100,
               margin: const EdgeInsets.all(20),
@@ -732,8 +782,8 @@ class _SpeechTabState extends State<SpeechTab> {
                   ),
                 ],
               ),
-            ),
-            StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: SpeechFireCrud.fetchSpeechList(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1208,7 +1258,7 @@ class _SpeechTabState extends State<SpeechTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),

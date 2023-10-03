@@ -58,6 +58,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   List<UserModel> marriedusersList = [];
   List<MembersModel> picodeUserList = [];
 
+  String currentTab = 'View';
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -69,15 +71,63 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "NOTIFICATIONS",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "NOTIFICATIONS",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Send Notification" : "View Notifications",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 0.97,
               width: double.infinity,
               margin: const EdgeInsets.all(20),
@@ -912,8 +962,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   ),
                 ],
               ),
-            ),
-            StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('Notifications')
                   .snapshots(),
@@ -1143,7 +1193,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),
@@ -1418,8 +1468,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
     });
   }
 
-  Future<bool> addToNotificationCollection(
-      String title, String body, UserModel user) async {
+  Future<bool> addToNotificationCollection(String title, String body, UserModel user) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
       date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
@@ -1440,8 +1489,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
     return isAdded;
   }
 
-  Future<bool> addToUserNotificationCollection(
-      String title, String body, UserModel user) async {
+  Future<bool> addToUserNotificationCollection(String title, String body, UserModel user) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
       date: DateFormat('yyyy-MM-dd').format(DateTime.now()),

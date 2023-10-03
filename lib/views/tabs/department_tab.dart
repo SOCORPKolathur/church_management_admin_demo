@@ -35,6 +35,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
   TextEditingController descriptionController = TextEditingController();
   String searchString = "";
 
+  String currentTab = 'View';
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -48,15 +50,62 @@ class _DepartmentTabState extends State<DepartmentTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "DEPARTMENTS",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "DEPARTMENTS",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Department" : "View Departments",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 1.2,
               width: double.infinity,
               margin: const EdgeInsets.all(20),
@@ -539,8 +588,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                   ),
                 ],
               ),
-            ),
-            StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: searchString != "" ? DepartmentFireCrud.fetchDepartmentswithSerach(searchString) : DepartmentFireCrud.fetchDepartments(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1131,7 +1180,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),

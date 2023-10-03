@@ -332,18 +332,16 @@ class _DashBoardTabState extends State<DashBoardTab> {
 
   @override
   Widget build(BuildContext context) {
-
-
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
-
     int currentDate = DateTime.now().day;
     int month = DateTime.now().month;
     int rand = int.parse((month / 4).floor().toString());
     randomNumFromDate = currentDate * rand;
     Size size = MediaQuery.of(context).size;
     var localizationDelegate = LocalizedApp.of(context).delegate;
-
+    print(size.height.toString() + "--------------------------------------------------------");
+    print(size.width.toString() + "=========================================================");
     return Stack(
       children: [
         Container(
@@ -386,7 +384,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: 'WELCOME TO STAY CONNECTED',
+                                  text: 'WELCOME TO IKIA',
                                   style: GoogleFonts.openSans(
                                     fontSize: 32,
                                     fontWeight: FontWeight.w900,

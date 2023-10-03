@@ -57,6 +57,8 @@ class _MembersTabState extends State<MembersTab> {
   String? selectedImg;
   String docname = "";
 
+  String currentTab = 'View';
+
   selectImage(){
     InputElement input = FileUploadInputElement()
     as InputElement
@@ -156,15 +158,63 @@ class _MembersTabState extends State<MembersTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "MEMBERS",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "MEMBERS",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Member" : "View Members",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 1.8,
               width: 1100,
               margin: const EdgeInsets.all(20),
@@ -1037,8 +1087,8 @@ class _MembersTabState extends State<MembersTab> {
                   ),
                 ],
               ),
-            ),
-            StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: searchString != "" ? MembersFireCrud.fetchMembersWithSearch(searchString) : MembersFireCrud.fetchMembers(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1108,9 +1158,7 @@ class _MembersTabState extends State<MembersTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 130 + members.length * 60
-                              ? 130 + members.length * 60
-                              : size.height * 0.7,
+                          height: size.height * 0.75,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -1710,7 +1758,7 @@ class _MembersTabState extends State<MembersTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),

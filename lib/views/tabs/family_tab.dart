@@ -37,6 +37,8 @@ class _FamilyTabState extends State<FamilyTab> {
   TextEditingController filterTextController = TextEditingController();
   String filterText = "";
 
+  String currentTab = 'View';
+
   setFamilyId() async {
     var document = await cf.FirebaseFirestore.instance.collection('Families').get();
     int lastId = document.docs.length + 1;
@@ -94,16 +96,63 @@ class _FamilyTabState extends State<FamilyTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-            padding:  EdgeInsets.symmetric(vertical: height/81.375,horizontal: width/170.75),
-              child: KText(
-                text: "FAMILIES",
-                style: GoogleFonts.openSans(
-                    fontSize: width/52.538,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+            padding:  EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "FAMILIES",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Family" : "View Families",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 1.4,
               width: double.infinity,
               margin:  EdgeInsets.symmetric(
@@ -666,431 +715,27 @@ class _FamilyTabState extends State<FamilyTab> {
                   ),
                 ],
               ),
-            ),
-            filterText != "" ? StreamBuilder(
-              stream: FamilyFireCrud.fetchFamiliesWithFilter(filterText),
-              builder: (ctx, snapshot) {
-                if (snapshot.hasError) {
-                  return Container();
-                } else if (snapshot.hasData) {
-                  List<FamilyModel> families = snapshot.data!;
-                  return Container(
-                    width: 1100,
-                    margin:  EdgeInsets.symmetric(
-                                  vertical: height/32.55,
-                                  horizontal: width/68.3
-                                ),
-                    decoration: BoxDecoration(
-                      color: Constants().primaryAppColor,
-                      boxShadow:  [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(1, 2),
-                          blurRadius: 3,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.1,
-                          width: double.infinity,
-                          child: Padding(
-                            padding:  EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                KText(
-                                  text: "ALL Families (${families.length})",
-                                  style: GoogleFonts.openSans(
-                                    fontSize:width/68.3,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      filterText = "";
-                                      filterTextController.text = "";
-                                    });
-                                  },
-                                  child: Container(
-                                    height:height/18.6,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow:  [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(1, 2),
-                                          blurRadius: 3,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding:
-                                       EdgeInsets.symmetric(horizontal:width/227.66),
-                                      child: Center(
-                                        child: KText(
-                                          text: "Clear Filter",
-                                          style: GoogleFonts.openSans(
-                                            fontSize:width/105.076,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: size.height * 0.7 > 70 + families.length * 60 ? 70 + families.length * 60 : size.height * 0.7,
-                          width: double.infinity,
-                          decoration:  BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              )),
-                           padding:  EdgeInsets.symmetric(horizontal: width/68.5,vertical: height/32.5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                child: Padding(
-                                  padding:  EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 80,
-                                        child: KText(
-                                          text: "No.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 180,
-                                        child: KText(
-                                          text: "Family Name/Title",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/113.83,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 180,
-                                        child: KText(
-                                          text: "Family Leader Name",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/113.83,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 170,
-                                        child: KText(
-                                          text: "Family Quantity",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width:width/68.30,
-                                        child: KText(
-                                          text: "Contact Number",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize:width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                               SizedBox(height: 10),
-                              Expanded(
-                                child: ListView.builder(
-                                  itemCount: families.length,
-                                  itemBuilder: (ctx, i) {
-                                    return Container(
-                                      height: 60,
-                                      width: double.infinity,
-                                      decoration:  BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                          top: BorderSide(
-                                            color: Color(0xfff1f1f1),
-                                            width: 0.5,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Color(0xfff1f1f1),
-                                            width: 0.5,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 80,
-                                            child: KText(
-                                              text: (i + 1).toString(),
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.076,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 180,
-                                            child: KText(
-                                              text: families[i].name!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.076,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 180,
-                                            child: KText(
-                                              text: families[i].leaderName!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.076,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 170,
-                                            child: KText(
-                                              text: families[i].quantity!.toString(),
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.076,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width:width/68.30,
-                                            child: KText(
-                                              text: families[i].contactNumber!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.076,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width:width/68.30,
-                                              child: Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      viewPopup(families[i]);
-                                                    },
-                                                    child: Container(
-                                                      height: 25,
-                                                      decoration:  BoxDecoration(
-                                                        color: Color(0xff2baae4),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: Colors.black26,
-                                                            offset: Offset(1, 2),
-                                                            blurRadius: 3,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:  EdgeInsets.symmetric(
-                                                            horizontal:width/227.66),
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            children: [
-                                                               Icon(
-                                                                Icons.remove_red_eye,
-                                                                color: Colors.white,
-                                                                size: 15,
-                                                              ),
-                                                              KText(
-                                                                text: "View",
-                                                                style: GoogleFonts.openSans(
-                                                                  color: Colors.white,
-                                                                  fontSize:width/136.6,
-                                                                  fontWeight: FontWeight.bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                   SizedBox(width: 5),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        familynameController.text = families[i].name!;
-                                                        familyleadernameController.text = families[i].leaderName!;
-                                                        familyQuanity = families[i].quantity!;
-                                                        familynumberController.text = families[i].contactNumber!;
-                                                        addressController.text = families[i].address!;
-                                                        cityController.text = families[i].city!;
-                                                        emailController.text = families[i].email!;
-                                                        countryController.text = families[i].country!;
-                                                        zoneController.text = families[i].zone!;
-                                                        familyIdController.text = families[i].familyId!;
-                                                      });
-                                                      editPopUp(families[i],size);
-                                                    },
-                                                    child: Container(
-                                                      height: 25,
-                                                      decoration:  BoxDecoration(
-                                                        color: Color(0xffff9700),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: Colors.black26,
-                                                            offset: Offset(1, 2),
-                                                            blurRadius: 3,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:  EdgeInsets.symmetric(
-                                                            horizontal:width/227.66),
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            children: [
-                                                               Icon(
-                                                                Icons.add,
-                                                                color: Colors.white,
-                                                                size: 15,
-                                                              ),
-                                                              KText(
-                                                                text: "Edit",
-                                                                style: GoogleFonts.openSans(
-                                                                  color: Colors.white,
-                                                                  fontSize:width/136.6,
-                                                                  fontWeight: FontWeight.bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                   SizedBox(width: 5),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      CoolAlert.show(
-                                                          context: context,
-                                                          type: CoolAlertType.info,
-                                                          text: "${families[i].name} will be deleted",
-                                                          title: "Delete this Record?",
-                                                          width: size.width * 0.4,
-                                                          backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                          showCancelBtn: true,
-                                                          cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle:  TextStyle(color: Colors.black),
-                                                          onConfirmBtnTap: () async {
-                                                            Response res = await FamilyFireCrud.deleteRecord(id: families[i].id!);
-                                                          }
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      height: 25,
-                                                      decoration:  BoxDecoration(
-                                                        color: Color(0xfff44236),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: Colors.black26,
-                                                            offset: Offset(1, 2),
-                                                            blurRadius: 3,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:  EdgeInsets.symmetric(
-                                                            horizontal:width/227.66),
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            children: [
-                                                               Icon(
-                                                                Icons.cancel_outlined,
-                                                                color: Colors.white,
-                                                                size: 15,
-                                                              ),
-                                                              KText(
-                                                                text: "Delete",
-                                                                style: GoogleFonts.openSans(
-                                                                  color: Colors.white,
-                                                                  fontSize:width/136.6,
-                                                                  fontWeight: FontWeight.bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return Container();
-              },
-            ) : StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: FamilyFireCrud.fetchFamilies(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<FamilyModel> families = snapshot.data!;
+                  List<FamilyModel> families = [];
+                  List<FamilyModel> families1 = snapshot.data!;
+                  for (var element in families1) {
+                    if(filterText != ""){
+                      if(element.zone!.toLowerCase().startsWith(filterText.toLowerCase())){
+                        families.add(element);
+                      }
+                    }else{
+                      families.add(element);
+                    }
+                  }
                   return Container(
                     width: 1100,
-                    margin:  EdgeInsets.symmetric(
-                                  vertical: height/32.55,
-                                  horizontal: width/68.3
-                                ),
+                    margin:  EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
                       boxShadow:  [
@@ -1121,71 +766,38 @@ class _FamilyTabState extends State<FamilyTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Material(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      elevation: 10,
-                                      child: SizedBox(
-                                        height:height/18.6,
-                                        width: 150,
-                                        child: Padding(
-                                        padding:  EdgeInsets.symmetric(vertical: height/81.375,horizontal: width/170.75),
-                                          child: TextField(
-                                            controller: filterTextController,
-                                            onSubmitted: (val){
-                                              setState(() {
-                                                filterText = val;
-                                              });
-                                            },
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "Filter Postal code",
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize:width/97.57,
-                                              ),
-                                            ),
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 9.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        controller:
+                                        filterTextController,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            filterText = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Enter picode",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: 14,
                                           ),
                                         ),
                                       ),
                                     ),
-                                     SizedBox(width: 5),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          filterText = filterTextController.text;
-                                          filterTextController.text = "";
-                                        });
-                                      },
-                                      child: Container(
-                                        height:height/18.6,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(8),
-                                          boxShadow:  [
-                                            BoxShadow(
-                                              color: Colors.black26,
-                                              offset: Offset(1, 2),
-                                              blurRadius: 3,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                           EdgeInsets.symmetric(horizontal:width/227.66),
-                                          child: Center(
-                                            child: KText(
-                                              text: "Apply",
-                                              style: GoogleFonts.openSans(
-                                                fontSize:width/105.076,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 )
                               ],
                             ),
@@ -1521,7 +1133,7 @@ class _FamilyTabState extends State<FamilyTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),

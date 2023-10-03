@@ -71,6 +71,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
     });
   }
 
+  String currentTab = 'View';
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -82,15 +84,63 @@ class _CommitteeTabState extends State<CommitteeTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "COMMITTEE",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "COMMITTEE",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Committee Member" : "View Committee Members",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 1.79,
               width: 1100,
               margin: const EdgeInsets.all(20),
@@ -812,8 +862,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                   ),
                 ],
               ),
-            ),
-            StreamBuilder(
+            ) : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: searchString != "" ? CommitteeFireCrud.fetchCommittiesWithSearch(searchString) : CommitteeFireCrud.fetchCommitties(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1321,7 +1370,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),

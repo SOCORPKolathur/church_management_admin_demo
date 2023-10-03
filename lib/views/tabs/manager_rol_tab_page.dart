@@ -1,12 +1,9 @@
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../constants.dart';
 import '../../models/church_details_model.dart';
-import '../../models/response.dart';
 import '../../services/church_details_firecrud.dart';
 import '../../widgets/kText.dart';
 

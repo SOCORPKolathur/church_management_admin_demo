@@ -29,7 +29,6 @@ class UserFireCrud {
 
   static Stream<List<UserModel>> fetchUsersWithFilter(String profession) =>
       UserCollection
-          .where("profession", isEqualTo: profession.toUpperCase())
           .snapshots()
           .map((snapshot) => snapshot.docs
           .map((doc) => UserModel.fromJson(doc.data() as Map<String,dynamic>))

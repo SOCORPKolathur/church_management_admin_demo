@@ -31,6 +31,8 @@ class _DonationsTabState extends State<DonationsTab> {
   DateTime? dateRangeEnd;
   bool isFiltered= false;
 
+  String currentTab = 'View';
+
   setDateTime() async {
     setState(() {
       dateController.text = formatter.format(selectedDate);
@@ -54,15 +56,62 @@ class _DonationsTabState extends State<DonationsTab> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KText(
-                text: "DONATIONS",
-                style: GoogleFonts.openSans(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "DONATIONS",
+                    style: GoogleFonts.openSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                          //clearTextControllers();
+                        }
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 6),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Donation" : "View Records",
+                              style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 0.78,
               width: double.infinity,
               margin: const EdgeInsets.all(20),
@@ -404,8 +453,8 @@ class _DonationsTabState extends State<DonationsTab> {
                   ),
                 ],
               ),
-            ),
-            dateRangeStart != null ? StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ? StreamBuilder(
               stream: DonationFireCrud.fetchDonationsWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -1262,7 +1311,7 @@ class _DonationsTabState extends State<DonationsTab> {
                 }
                 return Container();
               },
-            )
+            ) : Container()
           ],
         ),
       ),
