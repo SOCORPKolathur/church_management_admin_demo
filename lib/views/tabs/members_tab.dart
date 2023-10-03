@@ -2662,7 +2662,7 @@ class _MembersTabState extends State<MembersTab> {
                         children: [
                           Center(
                             child: Container(
-                              height: height/3.829,
+                              height: height/3.8258,
                               width: width/3.902,
                               decoration: BoxDecoration(
                                   border: Border.all(
