@@ -27,16 +27,20 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
   TextEditingController rolePasswordController = TextEditingController();
 
   List<String> rolesList = [];
+  List<String> rolesList1 = [];
   List<String> dashboardItemsList = [];
   bool isFetched = false;
-
+  bool isAddedFirst = true;
   setRoles(ManageRoleModel roles){
-    rolesList.clear();
+    if(isAddedFirst){
+      rolesList.clear();
+    }
+    rolesList1.clear();
     dashboardItemsList.clear();
     if(roles.role != null){
       if(roles.permissions!.isNotEmpty) {
         for (int j = 0; j < roles.permissions!.length; j ++) {
-          //rolesList.add(roles.permissions![j]);
+          rolesList1.add(roles.permissions![j]);
         }
       }else{
         rolesList = [];
@@ -52,6 +56,12 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
       rolesList = [];
       dashboardItemsList = [];
     }
+    if(isAddedFirst){
+      rolesList1.forEach((element) {
+        rolesList.add(element);
+      });
+      isAddedFirst = false;
+    }
     isFetched = true;
   }
 
@@ -59,8 +69,10 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
     setState(() {
       if(isAlreadyIn){
         rolesList.removeWhere((element) => element == content);
+        rolesList1.removeWhere((element) => element == content);
       }else{
         rolesList.add(content);
+        rolesList1.add(content);
       }
     });
     //// update to firebase
@@ -82,20 +94,38 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
     });
     print(dashboardItemsList.toString());
     //// update to firebase
-
-    setState(() {
-
-    });
   }
 
   updateToCloud( String id, String roleString) async {
+    List<String> permissions =  rolesList.toSet().toList();
     ManageRoleModel role = ManageRoleModel();
     role.role = roleString;
     role.id = id;
     role.dashboardItems = dashboardItemsList;
-    role.permissions = rolesList;
+    role.permissions = permissions;
     Response res = await RolePermissionFireCrud.updatedRole(role);
-
+    setState(() {
+      isAddedFirst = true;
+    });
+    if(res.code == 200){
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          text: "Roles Updated successfully!",
+          width: MediaQuery.of(context).size.width * 0.4,
+          backgroundColor: Constants()
+              .primaryAppColor
+              .withOpacity(0.8));
+    }else{
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          text: "Failed update roles!",
+          width: MediaQuery.of(context).size.width * 0.4,
+          backgroundColor: Constants()
+              .primaryAppColor
+              .withOpacity(0.8));
+    }
   }
 
   bool isAddRole = false;
@@ -402,6 +432,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                                   if(newValue != "") {
                                                     setState(() {
                                                       widget.currentRole= newValue!;
+                                                      isAddedFirst = true;
                                                     });
                                                   }
                                                 },
