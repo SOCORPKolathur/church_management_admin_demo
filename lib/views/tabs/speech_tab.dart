@@ -15,6 +15,7 @@ import '../../models/response.dart';
 import '../../services/speech_firecrud.dart';
 import '../../widgets/kText.dart';
 import '../prints/speech_print.dart';
+import 'package:intl/intl.dart';
 
 class SpeechTab extends StatefulWidget {
   const SpeechTab({super.key});
@@ -36,6 +37,8 @@ class _SpeechTabState extends State<SpeechTab> {
   TextEditingController pinterestController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
   TextEditingController whatsappController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController TimeController = TextEditingController();
 
   File? profileImage;
   var uploadedImage;
@@ -135,6 +138,8 @@ class _SpeechTabState extends State<SpeechTab> {
     super.initState();
   }
 
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -203,7 +208,7 @@ class _SpeechTabState extends State<SpeechTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.05,
+              height: size.height * 1.2,
               width: 1100,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -432,6 +437,68 @@ class _SpeechTabState extends State<SpeechTab> {
                                       },
                                     ),
 
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 30),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Date",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
+                                      controller: dateController,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Time",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      style: const TextStyle(fontSize: 12),
+                                      onTap: () async {
+                                        _selectTime(context);
+                                          },
+                                      controller: TimeController,
+                                    )
                                   ],
                                 ),
                               ),
@@ -704,6 +771,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                       position: positionController.text,
                                       lastName: lastNameController.text,
                                       firstName: firstNameController.text,
+                                            Date:dateController.text,
+                                          Time: TimeController.text
                                     );
                                     if (response.code == 200) {
                                       CoolAlert.show(
@@ -730,6 +799,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                         positionController.text == "";
                                         lastNameController.text == "";
                                         firstNameController.text == "";
+                                        dateController.text == "";
+                                        TimeController.text == "";
                                       });
                                     } else {
                                       CoolAlert.show(
@@ -2142,4 +2213,34 @@ class _SpeechTabState extends State<SpeechTab> {
           ],
         )),
   );
+
+
+    TimeOfDay _selectedTime = TimeOfDay.now();
+
+    Future<void> _selectTime(BuildContext context) async {
+      TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: _selectedTime,
+      );
+
+      if (picked != null && picked != _selectedTime)
+        setState(() {
+          _selectedTime = picked;
+          TimeController.text = picked.toString();
+        });
+      _formatTime(picked!);
+    }
+
+
+  String _formatTime(TimeOfDay time) {
+    int hour = time.hourOfPeriod;
+    int minute = time.minute;
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    setState(() {
+      TimeController.text ='${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+    });
+
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+  }
+
 }

@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
-final CollectionReference SpeechCollection = firestore.collection('Speech');
+final CollectionReference SpeechCollection = firestore.collection('Speeches');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class SpeechFireCrud {
@@ -29,6 +29,8 @@ class SpeechFireCrud {
       required String speech,
       required String twitter,
       required String whatsapp,
+      required String Date,
+      required String Time,
       required String youtube}) async {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
@@ -45,6 +47,8 @@ class SpeechFireCrud {
         twitter: twitter,
         google: google,
         speech: speech,
+        Date: Date,
+        Time: Time,
         pinterest: pinterest,
         linkedin: linkedin,
         instagram: instagram,

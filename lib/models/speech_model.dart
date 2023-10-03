@@ -14,6 +14,8 @@ class SpeechModel {
   String? pinterest;
   String? instagram;
   String? whatsapp;
+  String? Date;
+  String? Time;
 
   SpeechModel(
       {this.id,
@@ -30,6 +32,8 @@ class SpeechModel {
         this.linkedin,
         this.pinterest,
         this.instagram,
+        this.Date,
+        this.Time,
         this.whatsapp});
 
   SpeechModel.fromJson(Map<String, dynamic> json) {
@@ -48,6 +52,8 @@ class SpeechModel {
     pinterest = json['pinterest'];
     instagram = json['instagram'];
     whatsapp = json['whatsapp'];
+    Date = json['"Date'];
+    Time = json['Time'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +73,8 @@ class SpeechModel {
     data['pinterest'] = this.pinterest;
     data['instagram'] = this.instagram;
     data['whatsapp'] = this.whatsapp;
+    data['Date'] = this.Date;
+    data['Time'] = this.Time;
     return data;
   }
 
