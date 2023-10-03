@@ -38,7 +38,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
       dashboardItemsList.clear();
     }
     rolesList1.clear();
-    dashboardItemsList.clear();
+    dashboardItemsList1.clear();
     if(roles.role != null){
       if(roles.permissions!.isNotEmpty) {
         for (int j = 0; j < roles.permissions!.length; j ++) {
