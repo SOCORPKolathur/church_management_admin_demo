@@ -879,6 +879,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         documentForUpload = null;

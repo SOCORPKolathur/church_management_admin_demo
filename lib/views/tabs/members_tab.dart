@@ -1008,6 +1008,7 @@ class _MembersTabState extends State<MembersTab> {
                                               .withOpacity(0.8));
                                       setMemberId();
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";

@@ -182,6 +182,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                           .primaryAppColor
                                           .withOpacity(0.8));
                                   setState(() {
+                                    currentTab = 'View';
                                     titleController.text = "";
                                     descriptionController.text = "";
                                   });

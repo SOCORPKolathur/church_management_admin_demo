@@ -393,6 +393,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         amountController.text = "";
                                         verifierController.text != "";
                                         bankController.text = "";

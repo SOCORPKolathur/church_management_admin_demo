@@ -729,6 +729,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";

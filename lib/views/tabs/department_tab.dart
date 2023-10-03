@@ -526,6 +526,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               .primaryAppColor.withOpacity(0.8)
                                       );
                                       setState(() {
+                                        currentTab = 'View';
                                         nameController.text = "";
                                         leadernameController.text = "";
                                         numberController.text = "";

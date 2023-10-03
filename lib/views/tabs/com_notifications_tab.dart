@@ -1439,6 +1439,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
       bool isSended2 = await addToUserNotificationCollection(
           subjectController.text, descriptionController.text, user);
       if (isSended) {
+        currentTab = 'View';
         subjectController.clear();
         descriptionController.clear();
         classController.text = 'Select Class';

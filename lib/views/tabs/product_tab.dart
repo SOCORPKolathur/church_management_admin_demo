@@ -457,6 +457,7 @@ class _ProductTabState extends State<ProductTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         titleController.text = "";

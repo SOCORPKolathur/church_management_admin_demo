@@ -576,6 +576,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                 .primaryAppColor
                                                 .withOpacity(0.8));
                                         setState(() {
+                                          currentTab = 'View';
                                           verifierController.text = "";
                                           amountController.text = "";
                                           remarksController.text = "";

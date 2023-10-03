@@ -840,6 +840,7 @@ class _StudentTabState extends State<StudentTab> {
                                               .withOpacity(0.8));
                                       setStudentId();
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         ageController.text = "";

@@ -728,6 +728,7 @@ class _ClansTabState extends State<ClansTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";

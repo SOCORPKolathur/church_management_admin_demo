@@ -531,6 +531,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         approxValueController.text = "";
                                         verifierController.text = "";
                                         assetsController.text = "";

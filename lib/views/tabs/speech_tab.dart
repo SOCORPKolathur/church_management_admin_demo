@@ -715,6 +715,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         linkedinController.text == "";

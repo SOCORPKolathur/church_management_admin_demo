@@ -652,6 +652,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       );
                                       setFamilyId();
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         familynameController.text = "";

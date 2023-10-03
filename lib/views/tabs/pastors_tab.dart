@@ -812,6 +812,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";

@@ -789,6 +789,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
+                                        currentTab = 'View';
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";
