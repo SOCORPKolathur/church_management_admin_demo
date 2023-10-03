@@ -912,10 +912,13 @@ class _UserTabState extends State<UserTab> {
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: EdgeInsets.all(20),
+                                margin: EdgeInsets.symmetric(
+                                   horizontal: width/68.3,
+                                  vertical: height/32.55
+                                ),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -934,7 +937,7 @@ class _UserTabState extends State<UserTab> {
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
@@ -970,7 +973,10 @@ class _UserTabState extends State<UserTab> {
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: EdgeInsets.all(20),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: width/68.3,
+                                    vertical: height/32.55
+                                ),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
                                   boxShadow: [
@@ -1197,7 +1203,10 @@ class _UserTabState extends State<UserTab> {
                         }
                         return Container(
                           width: 1100,
-                          margin: const EdgeInsets.all(20),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: width/68.3,
+                              vertical: height/32.55
+                          ),
                           decoration: BoxDecoration(
                             color: Constants().primaryAppColor,
                             boxShadow: const [
@@ -1216,7 +1225,7 @@ class _UserTabState extends State<UserTab> {
                                 height: size.height * 0.1,
                                 width: double.infinity,
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                                  padding:  EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -1255,50 +1264,14 @@ class _UserTabState extends State<UserTab> {
                                                         "Search",
                                                     hintStyle:
                                                         GoogleFonts.openSans(
-                                                      fontSize: 14,
+                                                      fontSize: width/97.571,
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          // SizedBox(width: width / 273.2),
-                                          // InkWell(
-                                          //   onTap: () {
-                                          //     setState(() {
-                                          //       filterText =
-                                          //           filterTextController.text;
-                                          //       filterTextController.text = "";
-                                          //     });
-                                          //   },
-                                          //   child: Container(
-                                          //     height: height / 18.6,
-                                          //     decoration: BoxDecoration(
-                                          //       color: Colors.white,
-                                          //       borderRadius:
-                                          //           BorderRadius.circular(8),
-                                          //       boxShadow: [
-                                          //         BoxShadow(
-                                          //           color: Colors.black26,
-                                          //           offset: Offset(1, 2),
-                                          //           blurRadius: 3,
-                                          //         ),
-                                          //       ],
-                                          //     ),
-                                          //     child: Padding(
-                                          //       padding: EdgeInsets.symmetric(
-                                          //           horizontal: width / 227.66),
-                                          //       child: Center(
-                                          //         child: KText(
-                                          //           text: "Apply",
-                                          //           style: GoogleFonts.openSans(
-                                          //             fontSize: width / 105.076,
-                                          //           ),
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // )
+
                                         ],
                                       )
                                     ],
@@ -1315,7 +1288,7 @@ class _UserTabState extends State<UserTab> {
                                       bottomRight: Radius.circular(10),
                                     ),
                                 ),
-                                padding: EdgeInsets.symmetric(horizontal:8, vertical: 10),
+                                padding: EdgeInsets.symmetric(horizontal:width/170.75, vertical: height/65.1),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1495,7 +1468,8 @@ class _UserTabState extends State<UserTab> {
                                     SizedBox(height: height / 21.7),
                                     SizedBox(
                                       child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                                        padding: EdgeInsets.symmetric( horizontal: width / 273.2,
+                                            vertical: height / 130.2),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -1511,7 +1485,7 @@ class _UserTabState extends State<UserTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: width / 136.60,
+                                              width: width / 13.660,
                                               child: KText(
                                                 text: "Photo",
                                                 style: GoogleFonts.poppins(
@@ -2015,7 +1989,10 @@ class _UserTabState extends State<UserTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             width: size.width * 0.5,
-            margin: EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(
+                horizontal: width/68.3,
+                vertical: height/32.55
+            ),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
               boxShadow: [
@@ -2130,7 +2107,7 @@ class _UserTabState extends State<UserTab> {
                                       KText(
                                         text:
                                             "${user.firstName!} ${user.lastName!}",
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       )
                                     ],
                                   ),
@@ -2150,7 +2127,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.phone!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       )
                                     ],
                                   ),
@@ -2170,7 +2147,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.email!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       )
                                     ],
                                   ),
@@ -2190,7 +2167,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       Text(
                                         mask(user.aadharNo!.toString()),
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       )
                                     ],
                                   ),
@@ -2210,7 +2187,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.profession!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       )
                                     ],
                                   ),
@@ -2232,7 +2209,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.baptizeDate!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2254,7 +2231,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.bloodGroup!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2276,7 +2253,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.dob!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2298,7 +2275,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.gender!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2320,7 +2297,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.locality!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2342,7 +2319,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.about!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2364,7 +2341,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.address!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2386,7 +2363,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.pincode!,
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
                                   ),
@@ -2435,7 +2412,10 @@ class _UserTabState extends State<UserTab> {
                   ? size.height * 1.95
                   : size.height * 1.85,
               width: 1100,
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
                 boxShadow: [
@@ -3054,7 +3034,10 @@ class _UserTabState extends State<UserTab> {
                                 Container(
                                   height: size.height * 0.15,
                                   width: double.infinity,
-                                  margin: EdgeInsets.all(20),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: width/68.3,
+                                      vertical: height/32.55
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     boxShadow: [
@@ -3113,7 +3096,10 @@ class _UserTabState extends State<UserTab> {
                                 Container(
                                   height: size.height * 0.15,
                                   width: double.infinity,
-                                  margin: EdgeInsets.all(20),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: width/68.3,
+                                      vertical: height/32.55
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     boxShadow: [

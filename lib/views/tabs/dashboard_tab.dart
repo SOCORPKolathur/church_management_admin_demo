@@ -386,7 +386,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 KText(
                                   text: 'WELCOME TO IKIA',
                                   style: GoogleFonts.openSans(
-                                    fontSize: 32,
+                                    fontSize: width/42.687,
                                     fontWeight: FontWeight.w900,
                                     color: Constants().primaryAppColor,
                                   ),

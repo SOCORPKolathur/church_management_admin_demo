@@ -73,7 +73,7 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Members",
       icon: Icons.family_restroom_sharp,
-      page: const MembersTab(),
+      page:  MembersTab(),
       isExpanded: false,
       children: [],
     ),
@@ -412,7 +412,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Members",
                   icon: Icons.family_restroom_sharp,
-                  page: const MembersTab(),
+                  page:  MembersTab(),
                   isExpanded: false,
                   children: [],
                 ));
