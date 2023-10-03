@@ -463,8 +463,13 @@ class _StudentTabState extends State<StudentTab> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                  )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -478,6 +483,8 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     DropdownButton(
                                       value: genderController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
                                       items: ["Select Gender", "Male", "Female","Transgender"]
@@ -597,8 +604,13 @@ class _StudentTabState extends State<StudentTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                    )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -612,9 +624,11 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     DropdownButton(
                                       value: classController.text,
+                                      underline: Container(),
+                                       isExpanded: true,
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Class",  "PKG","UKG",]
+                                      items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -997,7 +1011,7 @@ class _StudentTabState extends State<StudentTab> {
                                     underline: Container(),
                                     icon:
                                     const Icon(Icons.keyboard_arrow_down),
-                                    items: ["Select Class", "PKG", "UKG",]
+                                    items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
                                         .map((items) {
                                       return DropdownMenuItem(
                                         value: items,
@@ -1853,7 +1867,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Aadhar Number",
+                                          text: "Aadhaar Number",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1973,7 +1987,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Guardian",
+                                          text: "Father/Guardian",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -1997,7 +2011,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: const KText(
-                                          text: "Guardian Contact",
+                                          text: "Father/Guardian Contact",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16
@@ -2267,40 +2281,7 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Gender",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      value: genderController.text,
-                                      icon:
-                                      const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Gender", "Male", "Female","Transgender"]
-                                          .map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          genderController.text = newValue!;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
+
                             ],
                           ),
                           const SizedBox(height: 30),
@@ -2312,7 +2293,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: 'Guardian',
+                                      text: 'Father/Guardian',
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2333,7 +2314,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Guardian Phone",
+                                      text: "Father/Guardian Phone",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2415,8 +2396,13 @@ class _StudentTabState extends State<StudentTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                    )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2430,9 +2416,11 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     DropdownButton(
                                       value: classController.text,
+                                      isExpanded: true,
+                                       underline: Container(),
                                       icon:
                                       const Icon(Icons.keyboard_arrow_down),
-                                      items: ["Select Class","PKG","UKG",]
+                                      items: ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -2473,27 +2461,49 @@ class _StudentTabState extends State<StudentTab> {
                                   ],
                                 ),
                               ),
-                              // const SizedBox(width: 20),
-                              // SizedBox(
-                              //   width: 300,
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       KText(
-                              //         text: "Department",
-                              //         style: GoogleFonts.openSans(
-                              //           color: Colors.black,
-                              //           fontSize: 13,
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //       TextFormField(
-                              //         style: const TextStyle(fontSize: 12),
-                              //         controller: departmentController,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
+                              const SizedBox(width: 20),
+                              Container(
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                    )
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Gender",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                    DropdownButton(
+                                      value: genderController.text,
+                                      isExpanded: true,
+
+                                      underline: Container(),
+                                      icon:
+                                      const Icon(Icons.keyboard_arrow_down),
+                                      items: ["Select Gender", "Male", "Female","Transgender"]
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          genderController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),

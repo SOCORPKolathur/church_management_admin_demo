@@ -154,27 +154,17 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                                       SizedBox(
                                                         height: height/16.275,
                                                         width:width/5.464,
-                                                        child: Padding(
-                                                          padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: width/170.75,
-                                                              vertical: height/81.375
-                                                          ),
-                                                          child:
-                                                          TextFormField(
-                                                            controller:
-                                                            roleCredentialsList[r].roleEmail,
-                                                            onTap: () {},
-                                                            decoration:
-                                                            InputDecoration(
-                                                              border:
-                                                              InputBorder
-                                                                  .none,
-                                                              hintStyle:
-                                                              GoogleFonts
-                                                                  .openSans(
-                                                                fontSize: width/97.571,
-                                                              ),
+                                                        child: TextFormField(
+                                                          controller:
+                                                          roleCredentialsList[r].roleEmail,
+                                                          onTap: () {},
+                                                          decoration:
+                                                          InputDecoration(
+                                                            contentPadding: EdgeInsets.only(bottom: 20),
+                                                            hintStyle:
+                                                            GoogleFonts
+                                                                .openSans(
+                                                              fontSize: width/97.571,
                                                             ),
                                                           ),
                                                         ),
@@ -197,55 +187,36 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                                         ),
                                                       ),
                                                       SizedBox(height: height/108.5),
-                                                      Material(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(5),
-                                                        color:
-                                                        Color(0xffdddeee),
-                                                        elevation: 1,
-                                                        child: SizedBox(
-                                                          height: height/16.275,
-                                                          width:width/5.464,
-                                                          child: Padding(
-                                                            padding:
-                                                            EdgeInsets.symmetric(
-                                                                horizontal: width/170.75,
-                                                                vertical: height/81.375
-                                                            ),
-                                                            child:
-                                                            TextFormField(
-                                                              obscureText:
-                                                              roleCredentialsList[r].isObsecure == true ? true : false,
-                                                              controller: roleCredentialsList[r].rolePassword,
-                                                              decoration:
-                                                              InputDecoration(
-                                                                  contentPadding: EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                      5),
-                                                                  border: InputBorder
-                                                                      .none,
-                                                                  hintStyle:
-                                                                  GoogleFonts
-                                                                      .openSans(
-                                                                    fontSize:
-                                                                    14,
-                                                                  ),
-                                                                  suffix:
-                                                                  IconButton(
-                                                                    onPressed: () {
-                                                                      setState(() {
-                                                                            roleCredentialsList[r].isObsecure =
-                                                                            !roleCredentialsList[r].isObsecure!;
-                                                                          });
-                                                                      print(roleCredentialsList[r].isObsecure);
-                                                                    },
-                                                                    icon: Icon(roleCredentialsList[r].isObsecure!
-                                                                        ? Icons.visibility
-                                                                        : Icons.visibility_off),
-                                                                  )),
-                                                            ),
-                                                          ),
+                                                      SizedBox(
+                                                        height: height/16.275,
+                                                        width:width/5.464,
+                                                        child: TextFormField(
+                                                          obscureText:
+                                                          roleCredentialsList[r].isObsecure == true ? true : false,
+                                                          controller: roleCredentialsList[r].rolePassword,
+                                                          decoration:
+                                                          InputDecoration(
+
+                                                              contentPadding: EdgeInsets.only(bottom: 15),
+                                                              hintStyle:
+                                                              GoogleFonts
+                                                                  .openSans(
+                                                                fontSize:
+                                                                14,
+                                                              ),
+                                                              suffix:
+                                                              IconButton(
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                        roleCredentialsList[r].isObsecure =
+                                                                        !roleCredentialsList[r].isObsecure!;
+                                                                      });
+                                                                  print(roleCredentialsList[r].isObsecure);
+                                                                },
+                                                                icon: Icon(roleCredentialsList[r].isObsecure!
+                                                                    ? Icons.visibility
+                                                                    : Icons.visibility_off),
+                                                              )),
                                                         ),
                                                       )
                                                     ],

@@ -32,7 +32,7 @@ class _PastorsTabState extends State<PastorsTab> {
   TextEditingController positionController = TextEditingController();
   TextEditingController baptizeDateController = TextEditingController();
   TextEditingController marriageDateController = TextEditingController();
-  TextEditingController socialStatusController = TextEditingController();
+  TextEditingController socialStatusController = TextEditingController(text: "Select");
   TextEditingController jobController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
@@ -448,8 +448,16 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                  border:  Border(
+                                    bottom: BorderSide(
+                                      color:Colors.grey,
+                                      width: 1.5
+                                    )
+                                  )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -461,10 +469,32 @@ class _PastorsTabState extends State<PastorsTab> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: socialStatusController,
-                                    )
+                                    DropdownButton(
+                                      isExpanded: true,
+                                      value: socialStatusController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      underline: Container(),
+                                      items: [
+                                        "Select",
+                                        "Politicians",
+                                        "Social Service",
+                                        "Others"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          socialStatusController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+                                    // TextFormField(
+                                    //   style: const TextStyle(fontSize: 12),
+                                    //   controller: socialStatusController,
+                                    // )
                                   ],
                                 ),
                               ),
@@ -536,8 +566,16 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      width: 1.5,
+                                      color: Colors.grey
+                                    )
+                                  )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -551,6 +589,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                     DropdownButton(
                                       value: genderController.text,
+                                      isExpanded: true,
+                                      underline: Container(),
                                       icon: const Icon(Icons.keyboard_arrow_down),
                                       items: [
                                         "Select Gender",
@@ -2229,8 +2269,16 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                       width: 1.5,
+                                      color: Colors.grey
+                                    )
+                                  )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2242,10 +2290,32 @@ class _PastorsTabState extends State<PastorsTab> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: socialStatusController,
-                                    )
+                                    DropdownButton(
+                                      isExpanded: true,
+                                      value: socialStatusController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      underline: Container(),
+                                      items: [
+                                        "Select",
+                                        "Politicians",
+                                        "Social Service",
+                                        "Others"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          socialStatusController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+                                    // TextFormField(
+                                    //   style: const TextStyle(fontSize: 12),
+                                    //   controller: socialStatusController,
+                                    // )
                                   ],
                                 ),
                               ),
@@ -2317,8 +2387,16 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              SizedBox(
+                              Container(
                                 width: 300,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey,
+                                      width: 1.5
+                                    )
+                                  )
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2332,6 +2410,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                     DropdownButton(
                                       value: genderController.text,
+                                      underline: Container(),
+                                      isExpanded: true,
                                       icon: const Icon(Icons.keyboard_arrow_down),
                                       items: [
                                         "Select Gender",
