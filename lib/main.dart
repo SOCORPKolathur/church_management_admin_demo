@@ -3,11 +3,14 @@
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'firebase_options.dart';
+import 'models/church_details_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +22,16 @@ void main() async {
   runApp(LocalizedApp(delegate, const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +45,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
             useMaterial3: true,
           ),
-          home:  HomeView(currentRole: 'Admin',),
+          home: user != null ? HomeView(currentRole: user!.email!) : const LoginView(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

@@ -1,8 +1,4 @@
 import 'dart:math';
-
-import 'package:church_management_admin/models/dashboard_model.dart';
-import 'package:church_management_admin/services/dashboard_firecrud.dart';
-import 'package:church_management_admin/views/tabs/messages_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -14,14 +10,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:translator/translator.dart';
-
 import 'package:intl/intl.dart';
 import '../../constants.dart';
+import '../../models/dashboard_model.dart';
 import '../../models/manage_role_model.dart';
-import '../../models/verses_model.dart';
+import '../../services/dashboard_firecrud.dart';
 import '../../services/role_permission_firecrud.dart';
 import '../../widgets/kText.dart';
 import '../login_view.dart';
+import 'messages_tab.dart';
 
 class DashBoardTab extends StatefulWidget {
    DashBoardTab({super.key, required this.currentRole});
@@ -340,8 +337,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
     randomNumFromDate = currentDate * rand;
     Size size = MediaQuery.of(context).size;
     var localizationDelegate = LocalizedApp.of(context).delegate;
-    print(size.height.toString() + "--------------------------------------------------------");
-    print(size.width.toString() + "=========================================================");
     return Stack(
       children: [
         Container(
@@ -435,8 +430,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (ctx) =>
-                                                    SettingsTab()));
+                                              builder: (ctx) => SettingsTab()));
                                     },
                                     child:  Icon(Icons.settings, size: width/50.59),
                                   ),
@@ -448,8 +442,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           text: "Are you sure want to logout",
                                           confirmBtnText: 'Log Out',
                                           onConfirmBtnTap: () async {
-                                            await FirebaseAuth.instance
-                                                .signOut();
+                                            await FirebaseAuth.instance.signOut();
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
@@ -649,7 +642,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                             roles.forEach((element) {
                               if(element.role!.toUpperCase() == widget.currentRole.toUpperCase()){
                                 managerRole = element;
-                              }else if(widget.currentRole.toLowerCase() == 'admin'){
+                              }else if(widget.currentRole.toLowerCase() == 'ADMIN@GMAIL.COM@gmail.com'){
                                 managerRole = element;
                               }
                             });
@@ -661,7 +654,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Visibility(
-                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true :
+                                    visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true :
                                     (dashboardItemsList.contains("Pastors") || dashboardItemsList.contains("Users") || dashboardItemsList.contains("Committee")),
                                     child: Container(
                                       height: size.height * 0.15,
@@ -676,7 +669,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         children: [
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Users"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Users"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -726,7 +719,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Committee"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Committee"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -778,7 +771,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Pastors"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Pastors"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -834,7 +827,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                   ),
                                   SizedBox(height: size.height * 0.02),
                                   Visibility(
-                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Clans") || dashboardItemsList.contains("Chorus") || dashboardItemsList.contains("Staff")),
+                                    visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Clans") || dashboardItemsList.contains("Chorus") || dashboardItemsList.contains("Staff")),
                                     child: Container(
                                       height: size.height * 0.15,
                                       width: width/1.393,
@@ -848,7 +841,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         children: [
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Clans"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Clans"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -898,7 +891,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Chorus"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Chorus"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -948,7 +941,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Staff"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Staff"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -1002,7 +995,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                   ),
                                   SizedBox(height: size.height * 0.02),
                                   Visibility(
-                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Member") || dashboardItemsList.contains("Families") || dashboardItemsList.contains("Student")),
+                                    visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Member") || dashboardItemsList.contains("Families") || dashboardItemsList.contains("Student")),
                                     child: Container(
                                       height: size.height * 0.15,
                                       width: width/1.393,
@@ -1016,7 +1009,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         children: [
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Student"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Student"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -1066,7 +1059,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Member"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Member"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -1116,7 +1109,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Families"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Families"),
                                             child: SizedBox(
                                               width: width/4.553,
                                               child: Row(
@@ -1169,7 +1162,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                   ),
                                   SizedBox(height: size.height * 0.02),
                                   Visibility(
-                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("Birthday") || dashboardItemsList.contains("Anniversary")),
+                                    visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Birthday") || dashboardItemsList.contains("Anniversary")),
                                     child: Container(
                                       height: size.height * 0.15,
                                       width: width/1.393,
@@ -1183,7 +1176,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         children: [
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Birthday"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Birthday"),
                                             child: Row(
                                               children: [
                                                  CircleAvatar(
@@ -1230,7 +1223,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Anniversary"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Anniversary"),
                                             child: Row(
                                               children: [
                                                  CircleAvatar(
@@ -1281,7 +1274,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                   ),
                                   SizedBox(height: size.height * 0.02),
                                   Visibility(
-                                    visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : (dashboardItemsList.contains("MemberPresent") || dashboardItemsList.contains("Event Count")),
+                                    visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("MemberPresent") || dashboardItemsList.contains("Event Count")),
                                     child: Container(
                                       height: size.height * 0.15,
                                       width: width/1.393,
@@ -1295,7 +1288,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         children: [
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("MemberPresent"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("MemberPresent"),
                                             child: Row(
                                               children: [
                                                 CircleAvatar(
@@ -1342,7 +1335,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           ),
                                            SizedBox(width: width/91.066),
                                           Visibility(
-                                            visible: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Event Count"),
+                                            visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Event Count"),
                                             child: Row(
                                               children: [
                                                 CircleAvatar(

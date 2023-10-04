@@ -336,7 +336,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Name",
+                                      text: "Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -369,7 +369,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -404,7 +404,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "User-Id",
+                                      text: "User-Id *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -443,7 +443,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date",
+                                      text: "Date *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -476,7 +476,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Time",
+                                      text: "Time *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -500,7 +500,7 @@ class _SpeechTabState extends State<SpeechTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Speech",
+                                text: "Speech *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -891,10 +891,7 @@ class _SpeechTabState extends State<SpeechTab> {
                           ),
                         ),
                         Container(
-                          height:
-                              size.height * 0.82 > 270 + speechList.length * 80
-                                  ? 270 + speechList.length * 80
-                                  : size.height * 0.82,
+                          height: size.height * 0.75,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Color(0xfff5f5f5),
@@ -1690,7 +1687,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1711,7 +1708,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1753,7 +1750,7 @@ class _SpeechTabState extends State<SpeechTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Speech",
+                                text: "Speech *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                   fontSize: 13,

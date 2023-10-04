@@ -226,7 +226,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Name/Title",
+                                      text: "Department Name/Title *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -247,7 +247,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Leader Name",
+                                      text: "Department Leader Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -272,7 +272,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Contact",
+                                      text: "Department Contact *",
                                       style: GoogleFonts.openSans(
                                         color:Colors.black,
                                         fontSize: 13,
@@ -293,7 +293,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Area/Zone/Location",
+                                      text: "Department Area/Zone/Location *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -371,7 +371,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Address",
+                                text: "Address *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -474,7 +474,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Postal/Zone",
+                                      text: "Postal/Zone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1604,7 +1604,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Name/Title",
+                                      text: "Department Name/Title *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1625,7 +1625,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Leader Name",
+                                      text: "Department Leader Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1650,7 +1650,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Contact",
+                                      text: "Department Contact *",
                                       style: GoogleFonts.openSans(
                                         color:Colors.black,
                                         fontSize: 13,
@@ -1671,7 +1671,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Area/Zone/Location",
+                                      text: "Department Area/Zone/Location *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1749,7 +1749,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Address",
+                                text: "Address *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -1831,7 +1831,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Country",
+                                      text: "Country *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1852,7 +1852,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Postal/Zone",
+                                      text: "Postal/Zone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

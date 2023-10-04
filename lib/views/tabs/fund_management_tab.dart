@@ -663,7 +663,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Date",
+                                        text: "Date *",
                                         style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -699,7 +699,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Amount",
+                                        text: "Amount *",
                                         style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -735,7 +735,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Record Type",
+                                        text: "Record Type *",
                                         style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -788,7 +788,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Verifier",
+                                        text: "Verifier *",
                                         style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -824,7 +824,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Source",
+                                        text: "Source *",
                                         style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,

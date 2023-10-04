@@ -59,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
         name: "Dashboard",
         icon: Icons.dashboard,
-        page:  DashBoardTab(currentRole: 'Admin'),
+        page:  DashBoardTab(currentRole: 'Admin@gmail.com'),
         isExpanded: false,
         children: []
     ),
@@ -241,7 +241,7 @@ class _HomeViewState extends State<HomeView> {
     ),
     DrawerModel(
       name: "Manage Role",
-      page: ManagerRoleTab(currentRole: 'Admin'),
+      page: ManagerRoleTab(currentRole: 'Admin@gmail.com'),
       icon: Icons.remove_from_queue,
       isExpanded: false,
       children: [],
@@ -279,7 +279,7 @@ class _HomeViewState extends State<HomeView> {
   setDrawerItems(List<ManageRoleModel> roles) {
     if (drawerItems.isEmpty) {
       for (int i = 0; i < roles.length; i++) {
-        if (widget.currentRole.toUpperCase() == 'ADMIN') {
+        if (widget.currentRole.toUpperCase() == 'ADMIN@GMAIL.COM') {
           drawerItems = drawerItems1;
         }else  if (roles[i].role!.toLowerCase() == widget.currentRole.toLowerCase()) {
           for (int j = 0; j < roles[i].permissions!.length; j++) {
@@ -572,12 +572,6 @@ class _HomeViewState extends State<HomeView> {
                     : Container(
                         height: size.height,
                         width: size.width,
-                        // decoration: const BoxDecoration(
-                        //   image: DecorationImage(
-                        //     fit: BoxFit.cover,
-                        //     image: AssetImage("assets/Background.png"),
-                        //   ),
-                        // ),
                         decoration: BoxDecoration(
                            color: Constants().primaryAppColor
                         ),

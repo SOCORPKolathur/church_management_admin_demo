@@ -1,14 +1,14 @@
-import 'package:church_management_admin/models/manage_role_model.dart';
-import 'package:church_management_admin/models/response.dart';
-import 'package:church_management_admin/services/role_permission_firecrud.dart';
-import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
 import '../../models/church_details_model.dart';
+import '../../models/manage_role_model.dart';
+import '../../models/response.dart';
 import '../../services/church_details_firecrud.dart';
+import '../../services/role_permission_firecrud.dart';
 import '../../widgets/kText.dart';
 import 'manager_rol_tab_page.dart';
 
@@ -159,7 +159,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                   roles.forEach((element) {
                     if(element.role!.toUpperCase() == widget.currentRole.toUpperCase()){
                       managerRole = element;
-                    }else if(widget.currentRole.toLowerCase() == 'admin'){
+                    }else if(widget.currentRole.toLowerCase() == 'admin@gmail.com'){
                       managerRole = element;
                     }
                   });
@@ -453,7 +453,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Dashboard"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Dashboard"),
                                             onChanged: (val) {
                                               updateRole("Dashboard", rolesList.contains("Dashboard"));
                                             },
@@ -471,7 +471,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Gallery"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Gallery"),
                                             onChanged: (val) {
                                               updateRole("Gallery", rolesList.contains("Gallery"));
                                             },
@@ -489,7 +489,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Finance"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Finance"),
                                             onChanged: (val) {
                                               updateRole("Finance", rolesList.contains("Finance"));
                                             },
@@ -507,7 +507,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Event Management"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Event Management"),
                                             onChanged: (val) {
                                               updateRole("Event Management", rolesList.contains("Event Management"));
                                             },
@@ -530,7 +530,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Prayers"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Prayers"),
                                             onChanged: (val) {
                                               updateRole("Prayers", rolesList.contains("Prayers"));
                                             },
@@ -548,7 +548,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Notices"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Notices"),
                                             onChanged: (val) {
                                               updateRole("Notices", rolesList.contains("Notices"));
                                             },
@@ -566,7 +566,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Speech"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Speech"),
                                             onChanged: (val) {
                                               updateRole("Speech", rolesList.contains("Speech"));
                                             },
@@ -584,7 +584,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Families"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Families"),
                                             onChanged: (val) {
                                               updateRole("Families", rolesList.contains("Families"));
                                             },
@@ -607,7 +607,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Department"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Department"),
                                             onChanged: (val) {
                                               updateRole("Department", rolesList.contains("Department"));
                                             },
@@ -625,7 +625,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Committee"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Committee"),
                                             onChanged: (val) {
                                               updateRole("Committee", rolesList.contains("Committee"));
                                             },
@@ -643,7 +643,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Members"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Members"),
                                             onChanged: (val) {
                                               updateRole("Members", rolesList.contains("Members"));
                                             },
@@ -661,7 +661,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Pastors"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Pastors"),
                                             onChanged: (val) {
                                               updateRole("Pastors", rolesList.contains("Pastors"));
                                             },
@@ -684,7 +684,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Clans"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Clans"),
                                             onChanged: (val) {
                                               updateRole("Clans", rolesList.contains("Clans"));
                                             },
@@ -702,7 +702,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Chorus"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Chorus"),
                                             onChanged: (val) {
                                               updateRole("Chorus", rolesList.contains("Chorus"));
                                             },
@@ -720,7 +720,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Church Staff"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Church Staff"),
                                             onChanged: (val) {
                                               updateRole("Church Staff", rolesList.contains("Church Staff"));
                                             },
@@ -738,7 +738,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Student"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Student"),
                                             onChanged: (val) {
                                               updateRole("Student", rolesList.contains("Student"));
                                             },
@@ -761,7 +761,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("User"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("User"),
                                             onChanged: (val) {
                                               updateRole("User", rolesList.contains("User"));
                                             },
@@ -779,7 +779,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Attendance Record"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Attendance Record"),
                                             onChanged: (val) {
                                               updateRole("Attendance Record", rolesList.contains("Attendance Record"));
                                             },
@@ -797,7 +797,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Communication"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Communication"),
                                             onChanged: (val) {
                                               updateRole("Communication", rolesList.contains("Communication"));
                                             },
@@ -815,7 +815,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Blog"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Blog"),
                                             onChanged: (val) {
                                               updateRole("Blog", rolesList.contains("Blog"));
                                             },
@@ -838,7 +838,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Product"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Product"),
                                             onChanged: (val) {
                                               updateRole("Product", rolesList.contains("Product"));
                                             },
@@ -856,7 +856,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Orders"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Orders"),
                                             onChanged: (val) {
                                               updateRole("Orders", rolesList.contains("Orders"));
                                             },
@@ -874,7 +874,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Greetings"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Greetings"),
                                             onChanged: (val) {
                                               updateRole("Greetings", rolesList.contains("Greetings"));
                                             },
@@ -892,7 +892,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Blood Requirement"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Blood Requirement"),
                                             onChanged: (val) {
                                               updateRole("Blood Requirement", rolesList.contains("Blood Requirement"));
                                             },
@@ -915,7 +915,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : rolesList.contains("Social Media"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : rolesList.contains("Social Media"),
                                             onChanged: (val) {
                                               updateRole("Social Media", rolesList.contains("Social Media"));
                                             },
@@ -956,7 +956,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Users"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Users"),
                                             onChanged: (val) {
                                               updateDashboardItem("Users", dashboardItemsList.contains("Users"));
                                             },
@@ -974,7 +974,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Committee"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Committee"),
                                             onChanged: (val) {
                                               updateDashboardItem("Committee", dashboardItemsList.contains("Committee"));
                                             },
@@ -992,7 +992,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Pastors"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Pastors"),
                                             onChanged: (val) {
                                               updateDashboardItem("Pastors", dashboardItemsList.contains("Pastors"));
                                             },
@@ -1010,7 +1010,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Clans"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Clans"),
                                             onChanged: (val) {
                                               updateDashboardItem("Clans", dashboardItemsList.contains("Clans"));
                                             },
@@ -1033,7 +1033,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Chorus"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Chorus"),
                                             onChanged: (val) {
                                               updateDashboardItem("Chorus", dashboardItemsList.contains("Chorus"));
                                             },
@@ -1051,7 +1051,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Staff"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Staff"),
                                             onChanged: (val) {
                                               updateDashboardItem("Staff", dashboardItemsList.contains("Staff"));
                                             },
@@ -1069,7 +1069,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Student"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Student"),
                                             onChanged: (val) {
                                               updateDashboardItem("Student", dashboardItemsList.contains("Student"));
                                             },
@@ -1087,7 +1087,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Member"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Member"),
                                             onChanged: (val) {
                                               updateDashboardItem("Member", dashboardItemsList.contains("Member"));
                                             },
@@ -1110,7 +1110,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Families"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Families"),
                                             onChanged: (val) {
                                               updateDashboardItem("Families", dashboardItemsList.contains("Families"));
                                             },
@@ -1128,7 +1128,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Birthday"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Birthday"),
                                             onChanged: (val) {
                                               updateDashboardItem("Birthday", dashboardItemsList.contains("Birthday"));
                                             },
@@ -1146,7 +1146,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Anniversary"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Anniversary"),
                                             onChanged: (val) {
                                               updateDashboardItem("Anniversary", dashboardItemsList.contains("Anniversary"));
                                             },
@@ -1164,7 +1164,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("MemberPresent"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("MemberPresent"),
                                             onChanged: (val) {
                                               updateDashboardItem("MemberPresent", dashboardItemsList.contains("MemberPresent"));
                                             },
@@ -1187,7 +1187,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                       child: Row(
                                         children: [
                                           Checkbox(
-                                            value: widget.currentRole.toUpperCase() == "ADMIN" ? true : dashboardItemsList.contains("Event Count"),
+                                            value: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Event Count"),
                                             onChanged: (val) {
                                               updateDashboardItem("Event Count", dashboardItemsList.contains("Event Count"));
                                             },
@@ -1274,24 +1274,48 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
 
 
   addRole() async {
-    RoleUserModel role = RoleUserModel(
-      roleName: roleNameController.text,
-      rolePassword: rolePasswordController.text,
-    );
-    var json = role.toJson();
-    List roles = [];
-    var document = await FirebaseFirestore.instance.collection('ChurchDetails').doc("NQ2hhPLdQT8RTHP9ndMk").get();
-    Map<String,dynamic>?values=document.data();
-    roles= values!["roles"];
-    roles.add(json);
-    FirebaseFirestore.instance.collection('ChurchDetails').doc("NQ2hhPLdQT8RTHP9ndMk").update(
-      {
-        "roles" : roles
-      }
-    );
-    setState(() {
-      isAddRole = false;
-    });
+    bool isadded = await _register();
+    if(isadded){
+      RoleUserModel role = RoleUserModel(
+        roleName: roleNameController.text,
+        rolePassword: rolePasswordController.text,
+      );
+      var json = role.toJson();
+      List roles = [];
+      var document = await FirebaseFirestore.instance.collection('ChurchDetails').doc("NQ2hhPLdQT8RTHP9ndMk").get();
+      Map<String,dynamic>?values=document.data();
+      roles= values!["roles"];
+      roles.add(json);
+      FirebaseFirestore.instance.collection('ChurchDetails').doc("NQ2hhPLdQT8RTHP9ndMk").update(
+          {
+            "roles" : roles
+          }
+      );
+      setState(() {
+        isAddRole = false;
+      });
+    }
+  }
+
+  Future<bool> _register() async {
+    bool isAdd = false;
+    final User? user = (await
+    FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: roleNameController.text,
+      password: rolePasswordController.text,
+    )
+    ).user;
+    if (user != null) {
+      setState(() {
+        isAdd = true;
+        String _userEmail = user.uid;
+      });
+    } else {
+      setState(() {
+        isAdd = true;
+      });
+    }
+    return isAdd;
   }
 
   final snackBar = SnackBar(

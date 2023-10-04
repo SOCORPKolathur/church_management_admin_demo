@@ -264,7 +264,7 @@ class _ProductTabState extends State<ProductTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Title",
+                                      text: "Title *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -285,7 +285,7 @@ class _ProductTabState extends State<ProductTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Price",
+                                      text: "Price *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -306,7 +306,7 @@ class _ProductTabState extends State<ProductTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Categories",
+                                      text: "Categories *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

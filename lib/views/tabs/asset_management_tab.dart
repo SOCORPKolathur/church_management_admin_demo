@@ -325,7 +325,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date",
+                                      text: "Date *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -388,7 +388,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Verifier",
+                                      text: "Verifier *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -413,7 +413,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "AMC Date",
+                                      text: "AMC Date *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -1976,7 +1976,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Date",
+                                    text: "Date *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,
@@ -2039,7 +2039,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Verifier",
+                                    text: "Verifier *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,

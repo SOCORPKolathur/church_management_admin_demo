@@ -108,7 +108,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                 children: [
                                   KText(
                                     text:
-                                        "Single/Mulitiple Email (Seperate By Comma)",
+                                        "Single/Mulitiple Email (Seperate By Comma) *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,
@@ -280,7 +280,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Subject",
+                                    text: "Subject *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,

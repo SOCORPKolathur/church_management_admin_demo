@@ -292,7 +292,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family ID",
+                                      text: "Family ID *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/105.076,
@@ -314,7 +314,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family Name/Title",
+                                      text: "Family Name/Title *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/105.076,
@@ -335,7 +335,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family Leader Name",
+                                      text: "Family Leader Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/105.076,
@@ -361,7 +361,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     KText(
-                                      text: "Family Members Count",
+                                      text: "Family Members Count *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/105.076,
@@ -451,7 +451,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family Contact Number",
+                                      text: "Family Contact Number *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/97.57,
@@ -493,7 +493,7 @@ class _FamilyTabState extends State<FamilyTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Address",
+                                text: "Address *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                   fontSize:width/105.076,
@@ -597,7 +597,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Postal/Zone",
+                                      text: "Postal/Zone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/105.076,

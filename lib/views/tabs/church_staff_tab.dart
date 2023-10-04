@@ -319,7 +319,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -340,7 +340,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -369,7 +369,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -412,7 +412,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -539,7 +539,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Joining",
+                                      text: "Date of Joining *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -715,7 +715,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -740,7 +740,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Birth",
+                                      text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -773,7 +773,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Nationality",
+                                      text: "Nationality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -794,7 +794,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode",
+                                      text: "Pincode *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2429,7 +2429,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2450,7 +2450,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2479,7 +2479,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2522,7 +2522,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2649,7 +2649,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Joining",
+                                      text: "Date of Joining *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2783,7 +2783,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2825,7 +2825,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2850,7 +2850,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Birth",
+                                      text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2871,7 +2871,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Nationality",
+                                      text: "Nationality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2892,7 +2892,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode",
+                                      text: "Pincode *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

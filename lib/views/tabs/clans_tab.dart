@@ -95,16 +95,6 @@ class _ClansTabState extends State<ClansTab> {
                   ),
                   InkWell(
                       onTap:(){
-                        if(currentTab.toUpperCase() == "VIEW") {
-                          setState(() {
-                            currentTab = "Add";
-                          });
-                        }else{
-                          setState(() {
-                            currentTab = 'View';
-                          });
-                          //clearTextControllers();
-                        }
 
                       },
                       child: Container(
@@ -125,7 +115,7 @@ class _ClansTabState extends State<ClansTab> {
                           const EdgeInsets.symmetric(horizontal: 6),
                           child: Center(
                             child: KText(
-                              text: currentTab.toUpperCase() == "VIEW" ? "Add Clan Member" : "View Clan Members",
+                              text: "Add Clan",
                               style: GoogleFonts.openSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
@@ -273,7 +263,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -294,7 +284,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -323,7 +313,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -366,7 +356,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -578,7 +568,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -599,7 +589,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department",
+                                      text: "Department *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -620,7 +610,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -645,7 +635,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Birth",
+                                      text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -678,7 +668,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Nationality",
+                                      text: "Nationality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -699,7 +689,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode",
+                                      text: "Pincode *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -875,7 +865,7 @@ class _ClansTabState extends State<ClansTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Clan Members (${clans.length})",
+                                  text: "All Clans (${clans.length})",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -2129,7 +2119,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Firstname",
+                                      text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2150,7 +2140,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Lastname",
+                                      text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2179,7 +2169,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Gender",
+                                      text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2222,7 +2212,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Phone",
+                                      text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2246,7 +2236,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Email",
+                                      text: "Email *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2410,7 +2400,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Family",
+                                      text: "Family *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2431,7 +2421,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department",
+                                      text: "Department *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2452,7 +2442,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Blood Group",
+                                      text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2477,7 +2467,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Birth",
+                                      text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2498,7 +2488,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Nationality",
+                                      text: "Nationality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -2519,7 +2509,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode",
+                                      text: "Pincode *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

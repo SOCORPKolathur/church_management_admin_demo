@@ -171,7 +171,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date",
+                                      text: "Date *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -192,7 +192,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Amount",
+                                      text: "Amount *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -213,7 +213,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Source",
+                                      text: "Source *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -238,7 +238,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Through/By/Via",
+                                      text: "Through/By/Via *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -259,7 +259,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Cheque/Bank/UPI",
+                                      text: "Cheque/Bank/UPI ",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,
@@ -280,7 +280,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Verifier",
+                                      text: "Verifier *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: 13,

@@ -2,6 +2,7 @@ import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/widgets/custom_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,8 +18,15 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
 
+
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool _success = false;
+  String _userEmail = '';
+
+  FirebaseAuth auth = FirebaseAuth.instance;
 
 
   String? validateEmail(String? value) {
@@ -280,17 +288,58 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> authenticate(ChurchDetailsModel church) async {
+    bool isAuthenticated = await _signInWithEmailAndPassword();
+    if(isAuthenticated){
+      if(church.roles!.isNotEmpty){
+        church.roles!.forEach((element) {
+          if(emailController.text == element.roleName! && passwordController.text == element.rolePassword!){
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
+          }
+        });
+      }
+    }
+  }
 
-    if(church.roles!.isNotEmpty){
-
-      church.roles!.forEach((element) {
-        if(emailController.text == element.roleName! && passwordController.text == element.rolePassword!){
-          Navigator.pushReplacement(context, MaterialPageRoute(
-                     builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
-        }
-      });
-      await Future.delayed(Duration(seconds: 3));
+  Future<bool> _signInWithEmailAndPassword() async {
+    bool result = false;
+    final User? user = (await auth.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    ).catchError((e){
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    })).user;
+    if (user != null) {
+      setState(() {
+        _success = true;
+        result = true;
+        _userEmail = user.uid;
+      });
+    } else {
+      setState(() {
+        _success = false;
+        result = false;
+      });
+    }
+    return result;
+  }
+
+  void _register() async {
+    final User? user = (await
+    auth.createUserWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    )
+    ).user;
+    if (user != null) {
+      setState(() {
+        _success = true;
+        _userEmail = user.uid;
+      });
+    } else {
+      setState(() {
+        _success = true;
+      });
     }
   }
 

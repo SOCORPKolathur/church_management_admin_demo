@@ -252,7 +252,7 @@ class _NoticesTabState extends State<NoticesTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: "Date",
+                                  text: "Date *",
                                   style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -290,7 +290,7 @@ class _NoticesTabState extends State<NoticesTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: "Time",
+                                  text: "Time *",
                                   style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -328,7 +328,7 @@ class _NoticesTabState extends State<NoticesTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
-                              text: "Title",
+                              text: "Title *",
                               style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -1038,7 +1038,7 @@ class _NoticesTabState extends State<NoticesTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
-                              text: "Title",
+                              text: "Title *",
                               style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,

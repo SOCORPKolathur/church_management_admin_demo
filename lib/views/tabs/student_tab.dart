@@ -20,6 +20,8 @@ import 'package:excel/excel.dart' as ex;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
 import 'package:intl/intl.dart';
 
+import 'members_tab.dart';
+
 class StudentTab extends StatefulWidget {
   const StudentTab({super.key});
 
@@ -85,6 +87,31 @@ class _StudentTabState extends State<StudentTab> {
     });
   }
 
+  checkAvailableSlot(int count, String familyName) async {
+    var studentData =await cf.FirebaseFirestore.instance.collection("Students").get();
+    int studentCount = 0;
+    studentData.docs.forEach((element) {
+      if(element['family'] == familyName){
+        studentCount++;
+      }
+    });
+    if((count-studentCount) <= 0){
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.info,
+          text: "Family Count Exceeded",
+          width: MediaQuery.of(context).size.width * 0.4,
+          backgroundColor: Constants()
+              .primaryAppColor
+              .withOpacity(0.8));
+      setState(() {
+        familyIDController.text = "Select";
+      });
+    }else{
+
+    }
+  }
+
   downloadTemplateExcel() async {
     final wb.Workbook workbook = wb.Workbook();
     final wb.Worksheet sheet   = workbook.worksheets[0];
@@ -121,30 +148,24 @@ class _StudentTabState extends State<StudentTab> {
     super.initState();
   }
 
-  List<String>FamilyIdList=[];
-  List<String>FamilynameList=[];
+  List<FamilyNameWithId>FamilyIdList=[];
 
   familydatafetchfunc()async{
     setState((){
       FamilyIdList.clear();
-      FamilynameList.clear();
     });
-    setState((){
-      FamilyIdList.add("Select");
-      FamilynameList.add("Select");
+    setState(()  {
+      FamilyIdList.add(
+          FamilyNameWithId(count: 0, id: "Select", name: "Select")
+      );
     });
     var familydata=await cf.FirebaseFirestore.instance.collection("Families").get();
     for(int i=0;i<familydata.docs.length;i++){
       setState((){
-        FamilyIdList.add(familydata.docs[i]['familyId'].toString());
-        FamilynameList.add(familydata.docs[i]['name'].toString());
+        FamilyIdList.add(
+            FamilyNameWithId(count: familydata.docs[i]['quantity'], id: familydata.docs[i]['familyId'].toString(), name: familydata.docs[i]['name'].toString()));
       });
-
-
-
     }
-
-
   }
 
 
@@ -708,15 +729,21 @@ class _StudentTabState extends State<StudentTab> {
                                       isExpanded: true,
                                       underline: Container(),
                                       icon: const Icon(Icons.keyboard_arrow_down),
-                                      items: FamilynameList.map((items) {
+                                      items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
+                                          value: items.name,
+                                          child: Text(items.name),
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.name == newValue){
+                                              familyIDController.text = element.id;
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -756,8 +783,8 @@ class _StudentTabState extends State<StudentTab> {
                                       icon: const Icon(Icons.keyboard_arrow_down),
                                       items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
+                                          value: items.id,
+                                          child: Text(items.id),
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
@@ -2600,20 +2627,24 @@ class _StudentTabState extends State<StudentTab> {
                                           isExpanded: true,
                                           underline: Container(),
                                           icon: const Icon(Icons.keyboard_arrow_down),
-                                          items: FamilynameList.map((items) {
+                                          items: FamilyIdList.map((items) {
                                             return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
+                                              value: items.name,
+                                              child: Text(items.name),
                                             );
                                           }).toList(),
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.name == newValue){
+                                                  familyIDController.text = element.id;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),
-
-
                                         // TextFormField(
                                         //   style: const TextStyle(fontSize: 12),
                                         //   controller: familyController,
@@ -2648,8 +2679,8 @@ class _StudentTabState extends State<StudentTab> {
                                           icon: const Icon(Icons.keyboard_arrow_down),
                                           items: FamilyIdList.map((items) {
                                             return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
+                                              value: items.id,
+                                              child: Text(items.id),
                                             );
                                           }).toList(),
                                           onChanged: (newValue) {
@@ -2785,6 +2816,7 @@ class _StudentTabState extends State<StudentTab> {
                                         Response response =
                                         await StudentFireCrud.updateRecord(
                                           StudentModel(
+                                            id: student.id,
                                             studentId: studentIdController.text,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,

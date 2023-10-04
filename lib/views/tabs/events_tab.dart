@@ -298,7 +298,7 @@ class _EventsTabState extends State<EventsTab>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Date",
+                                    text: "Date *",
                                     style: GoogleFonts.openSans(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
@@ -337,7 +337,7 @@ class _EventsTabState extends State<EventsTab>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Time",
+                                    text: "Time *",
                                     style: GoogleFonts.openSans(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
@@ -373,7 +373,7 @@ class _EventsTabState extends State<EventsTab>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Location",
+                                    text: "Location *",
                                     style: GoogleFonts.openSans(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
@@ -2211,7 +2211,7 @@ class _EventsTabState extends State<EventsTab>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date",
+                                      text: "Date *",
                                       style: GoogleFonts.openSans(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -2250,7 +2250,7 @@ class _EventsTabState extends State<EventsTab>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Time",
+                                      text: "Time *",
                                       style: GoogleFonts.openSans(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -2286,7 +2286,7 @@ class _EventsTabState extends State<EventsTab>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Location",
+                                      text: "Location *",
                                       style: GoogleFonts.openSans(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

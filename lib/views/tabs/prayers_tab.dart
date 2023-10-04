@@ -254,7 +254,7 @@ class _PrayersTabState extends State<PrayersTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: "Date",
+                                  text: "Date *",
                                   style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -292,7 +292,7 @@ class _PrayersTabState extends State<PrayersTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: "Time",
+                                  text: "Time *",
                                   style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -330,7 +330,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
-                              text: "Title",
+                              text: "Title *",
                               style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -1478,6 +1478,8 @@ class _PrayersTabState extends State<PrayersTab> {
                                   await PrayersFireCrud.updateRecord(
                                     PrayersModel(
                                       id: prayer.id,
+                                      date: prayer.date,
+                                      time: prayer.time,
                                       timestamp: prayer.timestamp,
                                       title: titleController.text,
                                       description: descriptionController.text,
@@ -1602,7 +1604,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
-                              text: "Title",
+                              text: "Title *",
                               style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,

@@ -188,6 +188,9 @@ class _MembersTabState extends State<MembersTab> {
           backgroundColor: Constants()
               .primaryAppColor
               .withOpacity(0.8));
+      setState(() {
+        familyIDController.text = "Select";
+      });
     }else{
 
     }
@@ -885,6 +888,7 @@ class _MembersTabState extends State<MembersTab> {
                                           familyController.text = newValue!;
                                           FamilyIdList.forEach((element) {
                                             if(element.name == newValue){
+                                              familyIDController.text = element.id;
                                               checkAvailableSlot(element.count, element.name);
                                             }
                                           });

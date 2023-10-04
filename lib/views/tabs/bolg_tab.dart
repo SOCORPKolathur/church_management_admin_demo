@@ -239,7 +239,7 @@ class _BlogTabState extends State<BlogTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Title",
+                                    text: "Title *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,
@@ -264,7 +264,7 @@ class _BlogTabState extends State<BlogTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Author Name",
+                                    text: "Author Name *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,
@@ -1379,7 +1379,7 @@ class _BlogTabState extends State<BlogTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Title",
+                                    text: "Title *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: 13,
