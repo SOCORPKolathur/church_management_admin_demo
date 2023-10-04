@@ -48,7 +48,7 @@ class _EventsTabState extends State<EventsTab>
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(1900, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
       final DateFormat formatter = DateFormat('dd-MM-yyyy');

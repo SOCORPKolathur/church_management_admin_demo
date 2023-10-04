@@ -400,7 +400,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                         DateTime? pickedDate = await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000),
+                                            firstDate: DateTime(1900),
                                             lastDate: DateTime(3000));
                                         if (pickedDate != null) {
                                           setState(() {
@@ -437,7 +437,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                         DateTime? pickedDate = await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000),
+                                            firstDate: DateTime(1900),
                                             lastDate: DateTime(3000));
                                         if (pickedDate != null) {
                                           setState(() {
@@ -660,7 +660,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                         DateTime? pickedDate = await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000),
+                                            firstDate: DateTime(1900),
                                             lastDate: DateTime(3000));
                                         if (pickedDate != null) {
                                           setState(() {
