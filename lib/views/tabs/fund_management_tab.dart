@@ -8,6 +8,7 @@ import 'package:church_management_admin/services/fund_manage_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -545,21 +546,15 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   onTap: () async {
                                     if (verifierController.text != "" &&
                                         amountController.text != "" &&
-                                        remarksController.text != "" &&
-                                        recordTypeController.text !=
-                                            "Select Type" &&
+                                        recordTypeController.text != "Select Type" &&
                                         sourceController.text != "") {
-                                      Response response =
-                                          await FundManageFireCrud.addFund(
-                                        image: profileImage!,
-                                            remarks:remarksController.text,
-                                        document: documentForUpload!,
+                                      Response response = await FundManageFireCrud.addFund(
+                                        image: profileImage, remarks:remarksController.text,
+                                        document: documentForUpload,
                                         totalCollect: totalFunds.totalCollect!,
                                         totalSpend: totalFunds.totalSpend!,
-                                        currentBalance:
-                                            totalFunds.currentBalance!,
-                                        amount:
-                                            double.parse(amountController.text),
+                                        currentBalance: totalFunds.currentBalance!,
+                                        amount: double.parse(amountController.text),
                                         verifier: verifierController.text,
                                         source: sourceController.text,
                                         date: dateController.text,
@@ -636,7 +631,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                           ),
                         ),
                         Container(
-                          height: size.height * 0.75,
+                          height: size.height * 0.95,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Color(0xffF7FAFC),
@@ -675,17 +670,30 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 40,
+                                          height: 50,
                                           width: 150,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
                                               controller: dateController,
                                               decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintStyle: GoogleFonts.openSans(
-                                                  fontSize: 14,
-                                                ),
+                                                 border: InputBorder.none,
+                                                  suffixIcon: IconButton(
+                                                    onPressed: () async {
+                                                      DateTime? pickedDate =
+                                                      await showDatePicker(
+                                                          context: context,
+                                                          initialDate: DateTime.now(),
+                                                          firstDate: DateTime(1900),
+                                                          lastDate: DateTime(3000));
+                                                      if (pickedDate != null) {
+                                                        setState(() {
+                                                          dateController.text = formatter.format(pickedDate);
+                                                        });
+                                                      }
+                                                    },
+                                                    icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                                  )
                                               ),
                                             ),
                                           ),
@@ -717,6 +725,10 @@ class _FundManagementTabState extends State<FundManagementTab>
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
                                               controller: amountController,
+                                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                                              ],
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
@@ -782,6 +794,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                               ),
                               const SizedBox(height: 10),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
@@ -872,13 +885,15 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 40,
+                                          height: 200,
                                           width: 500,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
+                                              maxLines: null,
                                               controller: remarksController,
                                               decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.symmetric(vertical: 10),
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
                                                   fontSize: 14,

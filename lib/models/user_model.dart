@@ -1,47 +1,47 @@
 class UserModel {
-  String? id;
-  int? timestamp;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  String? email;
-  String? fcmToken;
-  String? profession;
-  String? aadharNo;
-  String? baptizeDate;
-  String? anniversaryDate;
-  String? maritialStatus;
-  String? gender;
-  String? bloodGroup;
-  String? dob;
-  String? locality;
-  String? about;
-  String? address;
-  String? imgUrl;
-  String? pincode;
+  late String id;
+  late int timestamp;
+  late String firstName;
+  late String lastName;
+  late String phone;
+  late String email;
+  late String fcmToken;
+  late String profession;
+  late String aadharNo;
+  late String baptizeDate;
+  late String anniversaryDate;
+  late String maritialStatus;
+  late String gender;
+  late String bloodGroup;
+  late String dob;
+  late String locality;
+  late String about;
+  late String address;
+  late String imgUrl;
+  late String pincode;
 
   UserModel(
-      {this.id,
-        this.timestamp,
-        this.firstName,
-        this.lastName,
-        this.aadharNo,
-        this.phone,
-        this.email,
-        this.fcmToken,
+      {required this.id,
+        required this.timestamp,
+        required this.firstName,
+        required this.lastName,
+        required this.aadharNo,
+        required this.phone,
+        required this.email,
+        required this.fcmToken,
         //this.password,
-        this.profession,
-        this.baptizeDate,
-        this.anniversaryDate,
-        this.maritialStatus,
-        this.gender,
-        this.bloodGroup,
-        this.dob,
-        this.locality,
-        this.about,
-        this.address,
-        this.pincode,
-        this.imgUrl});
+        required this.profession,
+        required this.baptizeDate,
+        required this.anniversaryDate,
+        required this.maritialStatus,
+        required this.gender,
+        required this.bloodGroup,
+        required this.dob,
+        required this.locality,
+        required this.about,
+        required this.address,
+        required this.pincode,
+        required this.imgUrl});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,7 +54,6 @@ class UserModel {
     aadharNo = json['aadharNo'];
     email = json['email'];
     maritialStatus = json['maritialStatus'];
-    //password = json['password'];
     profession = json['profession'];
     baptizeDate = json['baptizeDate'];
     anniversaryDate = json['anniversaryDate'];
@@ -77,6 +76,7 @@ class UserModel {
     data['aadharNo'] = this.aadharNo;
     data['maritialStatus'] = this.maritialStatus;
     data['phone'] = this.phone;
+    data['gender'] = this.gender;
     data['email'] = this.email;
     //data['password'] = this.password;
     data['profession'] = this.profession;

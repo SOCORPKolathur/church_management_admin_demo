@@ -4,6 +4,7 @@ import 'package:church_management_admin/services/fund_manage_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
@@ -181,6 +182,24 @@ class _DonationsTabState extends State<DonationsTab> {
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
                                       controller: dateController,
+                                      decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            onPressed: () async {
+                                              DateTime? pickedDate =
+                                              await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(1900),
+                                                  lastDate: DateTime(3000));
+                                              if (pickedDate != null) {
+                                                setState(() {
+                                                  dateController.text = formatter.format(pickedDate);
+                                                });
+                                              }
+                                            },
+                                            icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                          )
+                                      ),
                                     )
                                   ],
                                 ),
@@ -201,6 +220,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       controller: amountController,
                                     )
                                   ],
@@ -362,8 +384,6 @@ class _DonationsTabState extends State<DonationsTab> {
                                 onTap: () async {
                                   if (amountController.text != "" &&
                                       verifierController.text != "" &&
-                                      bankController.text != "" &&
-                                      descriptionController.text != "" &&
                                       viaController.text != "" &&
                                       dateController.text != "" &&
                                       sourceController.text != "") {
@@ -1411,6 +1431,24 @@ class _DonationsTabState extends State<DonationsTab> {
                                   TextFormField(
                                     style: const TextStyle(fontSize: 12),
                                     controller: dateController,
+                                    decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          onPressed: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                dateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                          icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                        )
+                                    ),
                                   )
                                 ],
                               ),
@@ -1431,6 +1469,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                   ),
                                   TextFormField(
                                     style: const TextStyle(fontSize: 12),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                    ],
                                     controller: amountController,
                                   )
                                 ],

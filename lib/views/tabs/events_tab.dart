@@ -27,6 +27,7 @@ class _EventsTabState extends State<EventsTab>
     with SingleTickerProviderStateMixin {
   late AnimationController lottieController;
   TextEditingController dateController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -201,15 +202,14 @@ class _EventsTabState extends State<EventsTab>
                         ),
                         InkWell(
                           onTap: () async {
-                            if (profileImage != null &&
-                                dateController.text != "" &&
+                            if (dateController.text != "" &&
                                 timeController.text != "" &&
-                                locationController.text != "" &&
-                                descriptionController.text != "") {
+                                locationController.text != "") {
                               Response response = await EventsFireCrud.addEvent(
+                                title: titleController.text,
                                 time: timeController.text,
                                 location: locationController.text,
-                                image: profileImage!,
+                                image: profileImage,
                                 description: descriptionController.text,
                                 date: dateController.text,
                               );
@@ -277,7 +277,7 @@ class _EventsTabState extends State<EventsTab>
                   ),
                 ),
                 Container(
-                  height: size.height * 0.35,
+                  height: size.height * 0.55,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                       color: Color(0xffF7FAFC),
@@ -310,21 +310,30 @@ class _EventsTabState extends State<EventsTab>
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 40,
+                                      height: 50,
                                       width: 150,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: TextFormField(
-                                          onTap: () {
-                                            _selectDate(context);
-                                          },
                                           controller: dateController,
                                           decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: "Select Date",
-                                            hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
-                                            ),
+                                              border: InputBorder.none,
+                                              suffixIcon: IconButton(
+                                                onPressed: () async {
+                                                  DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate: DateTime.now(),
+                                                      firstDate: DateTime(1900),
+                                                      lastDate: DateTime(3000));
+                                                  if (pickedDate != null) {
+                                                    setState(() {
+                                                      dateController.text = formatter.format(pickedDate);
+                                                    });
+                                                  }
+                                                },
+                                                icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                              )
                                           ),
                                         ),
                                       ),
@@ -349,15 +358,17 @@ class _EventsTabState extends State<EventsTab>
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 40,
+                                      height: 50,
                                       width: 150,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: TextFormField(
+                                          onTap: (){
+                                            _selectTime(context);
+                                          },
                                           controller: timeController,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: "0.00",
                                             hintStyle: GoogleFonts.openSans(
                                               fontSize: 14,
                                             ),
@@ -385,12 +396,55 @@ class _EventsTabState extends State<EventsTab>
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 40,
-                                      width: 150,
+                                      height: 50,
+                                      width: 200,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: TextFormField(
                                           controller: locationController,
+                                          decoration: InputDecoration(
+                                            contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                                            border: InputBorder.none,
+                                            hintStyle: GoogleFonts.openSans(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Ttile *",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: 60,
+                                      width: size.width * 0.36,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.multiline,
+                                          minLines: 1,
+                                          maxLines: null,
+                                          controller: titleController,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintStyle: GoogleFonts.openSans(
@@ -424,7 +478,7 @@ class _EventsTabState extends State<EventsTab>
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 60,
+                                      height: 100,
                                       width: size.width * 0.36,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -976,6 +1030,8 @@ class _EventsTabState extends State<EventsTab>
                                                             events[i].date!;
                                                         timeController.text =
                                                             events[i].time!;
+                                                        titleController.text =
+                                                        events[i].title!;
                                                         locationController
                                                                 .text =
                                                             events[i].location!;
@@ -986,8 +1042,7 @@ class _EventsTabState extends State<EventsTab>
                                                         selectedImg =
                                                             events[i].imgUrl;
                                                       });
-                                                      editPopUp(
-                                                          events[i], size);
+                                                      editPopUp(events[i], size);
                                                     },
                                                     child: Container(
                                                       height: 25,
@@ -1635,6 +1690,8 @@ class _EventsTabState extends State<EventsTab>
                                                       setState(() {
                                                         dateController.text =
                                                         events[i].date!;
+                                                        titleController.text =
+                                                        events[i].title!;
                                                         timeController.text =
                                                         events[i].time!;
                                                         locationController
@@ -1647,8 +1704,7 @@ class _EventsTabState extends State<EventsTab>
                                                         selectedImg =
                                                             events[i].imgUrl;
                                                       });
-                                                      editPopUp(
-                                                          events[i], size);
+                                                      editPopUp(events[i], size);
                                                     },
                                                     child: Container(
                                                       height: 25,
@@ -2028,381 +2084,444 @@ class _EventsTabState extends State<EventsTab>
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Container(
-            width: 1100,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Container(
+                width: 1100,
+                margin: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        KText(
-                          text: "EDIT EVENT",
-                          style: GoogleFonts.openSans(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Row(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              onTap: () async {
-                                if (dateController.text != "" &&
-                                    timeController.text != "" &&
-                                    locationController.text != "" &&
-                                    descriptionController.text != "") {
-                                  Response response =
-                                      await EventsFireCrud.updateRecord(
-                                          EventsModel(
-                                            id: event.id,
-                                            time: timeController.text,
-                                            location: locationController.text,
-                                            description:
-                                                descriptionController.text,
-                                            date: dateController.text,
+                            KText(
+                              text: "EDIT EVENT",
+                              style: GoogleFonts.openSans(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    if (
+                                       titleController.text != "" &&
+                                        dateController.text != "" &&
+                                        timeController.text != "" &&
+                                        locationController.text != "") {
+                                      Response response = await EventsFireCrud.updateRecord(
+                                              EventsModel(
+                                                id: event.id,
+                                                title: titleController.text,
+                                                imgUrl: event.imgUrl,
+                                                timestamp: event.timestamp,
+                                                views: event.views,
+                                                time: timeController.text,
+                                                location: locationController.text,
+                                                description: descriptionController.text,
+                                                date: dateController.text,
+                                              ),
+                                              profileImage,
+                                              event.imgUrl ?? "");
+                                      if (response.code == 200) {
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.success,
+                                            text: "Event updated successfully!",
+                                            width: size.width * 0.4,
+                                            backgroundColor: Constants()
+                                                .primaryAppColor
+                                                .withOpacity(0.8));
+                                        setState(() {
+                                          locationController.text = "";
+                                          descriptionController.text = "";
+                                          titleController.text = "";
+                                          uploadedImage = null;
+                                          profileImage = null;
+                                        });
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      } else {
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.error,
+                                            text: "Failed to update Event!",
+                                            width: size.width * 0.4,
+                                            backgroundColor: Constants()
+                                                .primaryAppColor
+                                                .withOpacity(0.8));
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Center(
+                                        child: KText(
+                                          text: "UPDATE",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          profileImage,
-                                          event.imgUrl ?? "");
-                                  if (response.code == 200) {
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.success,
-                                        text: "Event updated successfully!",
-                                        width: size.width * 0.4,
-                                        backgroundColor: Constants()
-                                            .primaryAppColor
-                                            .withOpacity(0.8));
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () async {
                                     setState(() {
                                       locationController.text = "";
                                       descriptionController.text = "";
+                                      titleController.text = "";
                                       uploadedImage = null;
                                       profileImage = null;
                                     });
                                     Navigator.pop(context);
-                                    Navigator.pop(context);
-                                  } else {
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.error,
-                                        text: "Failed to update Event!",
-                                        width: size.width * 0.4,
-                                        backgroundColor: Constants()
-                                            .primaryAppColor
-                                            .withOpacity(0.8));
-                                    Navigator.pop(context);
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              },
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
-                                  child: Center(
-                                    child: KText(
-                                      text: "UPDATE",
-                                      style: GoogleFonts.openSans(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Center(
+                                        child: KText(
+                                          text: "CANCEL",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            InkWell(
-                              onTap: () async {
-                                setState(() {
-                                  locationController.text = "";
-                                  descriptionController.text = "";
-                                  uploadedImage = null;
-                                  profileImage = null;
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
-                                  child: Center(
-                                    child: KText(
-                                      text: "CANCEL",
-                                      style: GoogleFonts.openSans(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                        color: Color(0xffF7FAFC),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )),
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Date *",
-                                      style: GoogleFonts.openSans(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Material(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      elevation: 10,
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 150,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            onTap: () {
-                                              _selectDate(context);
-                                            },
-                                            controller: dateController,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "Select Date",
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(width: 20),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Time *",
-                                      style: GoogleFonts.openSans(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Material(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      elevation: 10,
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 150,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: timeController,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "0.00",
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(width: 20),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Location *",
-                                      style: GoogleFonts.openSans(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Material(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      elevation: 10,
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 150,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: locationController,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "Select Type",
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
                               ],
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Description",
-                                      style: GoogleFonts.openSans(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Material(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      elevation: 10,
-                                      child: SizedBox(
-                                        height: 60,
-                                        width: size.width * 0.36,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            keyboardType:
-                                                TextInputType.multiline,
-                                            minLines: 1,
-                                            maxLines: 5,
-                                            controller: descriptionController,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "Lucky",
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                            )
                           ],
                         ),
-                        InkWell(
-                          onTap: selectImage,
-                          child: Container(
-                            height: size.height * 0.2,
-                            width: size.width * 0.10,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: selectedImg != null
-                                    ? DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(selectedImg!))
-                                    : uploadedImage != null
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                            color: Color(0xffF7FAFC),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            )),
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Date *",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Material(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          elevation: 10,
+                                          child: SizedBox(
+                                            height: 40,
+                                            width: 150,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: dateController,
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    suffixIcon: IconButton(
+                                                      onPressed: () async {
+                                                        DateTime? pickedDate =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate: DateTime.now(),
+                                                            firstDate: DateTime(1900),
+                                                            lastDate: DateTime(3000));
+                                                        if (pickedDate != null) {
+                                                          setState(() {
+                                                            dateController.text = formatter.format(pickedDate);
+                                                          });
+                                                        }
+                                                      },
+                                                      icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                                    )
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Time *",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Material(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          elevation: 10,
+                                          child: SizedBox(
+                                            height: 40,
+                                            width: 150,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                onTap: (){
+                                                  _selectTime(context);
+                                                },
+                                                controller: timeController,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintStyle: GoogleFonts.openSans(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Location *",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Material(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          elevation: 10,
+                                          child: SizedBox(
+                                            height: 40,
+                                            width: 200,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: locationController,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "Select Type",
+                                                  hintStyle: GoogleFonts.openSans(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Title *",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Material(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          elevation: 10,
+                                          child: SizedBox(
+                                            height: 60,
+                                            width: size.width * 0.36,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                keyboardType:
+                                                TextInputType.multiline,
+                                                minLines: 1,
+                                                maxLines: 5,
+                                                controller: titleController,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintStyle: GoogleFonts.openSans(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Description",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Material(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          elevation: 10,
+                                          child: SizedBox(
+                                            height: 100,
+                                            width: size.width * 0.36,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                keyboardType:
+                                                    TextInputType.multiline,
+                                                minLines: 1,
+                                                maxLines: 5,
+                                                controller: descriptionController,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "Lucky",
+                                                  hintStyle: GoogleFonts.openSans(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            InkWell(
+                              onTap: selectImage,
+                              child: Container(
+                                height: size.height * 0.2,
+                                width: size.width * 0.10,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: selectedImg != null
                                         ? DecorationImage(
                                             fit: BoxFit.fill,
-                                            image: MemoryImage(
-                                              Uint8List.fromList(
-                                                base64Decode(uploadedImage!
-                                                    .split(',')
-                                                    .last),
-                                              ),
-                                            ),
-                                          )
-                                        : null),
-                            child: selectedImg != null
-                                ? null
-                                : Icon(
-                                    Icons.add_photo_alternate,
-                                    size: size.height * 0.2,
-                                  ),
-                          ),
+                                            image: NetworkImage(selectedImg!))
+                                        : uploadedImage != null
+                                            ? DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: MemoryImage(
+                                                  Uint8List.fromList(
+                                                    base64Decode(uploadedImage!
+                                                        .split(',')
+                                                        .last),
+                                                  ),
+                                                ),
+                                              )
+                                            : null),
+                                child: (selectedImg != null || selectedImg != '')
+                                    ? null
+                                    : Icon(
+                                        Icons.add_photo_alternate,
+                                        size: size.height * 0.2,
+                                      ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );
@@ -2765,4 +2884,32 @@ class _EventsTabState extends State<EventsTab>
           ],
         )),
   );
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+
+    if (picked != null && picked != _selectedTime)
+      setState(() {
+        _selectedTime = picked;
+        timeController.text = picked.toString();
+      });
+    _formatTime(picked!);
+  }
+
+
+  String _formatTime(TimeOfDay time) {
+    int hour = time.hourOfPeriod;
+    int minute = time.minute;
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    setState(() {
+      timeController.text ='${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+    });
+
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+  }
 }

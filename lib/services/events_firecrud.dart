@@ -28,20 +28,25 @@ class EventsFireCrud {
 
   static Future<Response> addEvent({
     required String time,
+    required String title,
     required String location,
-    required File image,
+    required File? image,
     required String description,
     required String date,
   }) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = '';
+    if(image != null){
+      downloadUrl = await uploadImageToStorage(image);
+    }
     Response response = Response();
     DocumentReference documentReferencer = EventCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     EventsModel event = EventsModel(
       time: time,
+      title: title,
       timestamp: tempDate.millisecondsSinceEpoch,
       location: location,
-      imgUrl: downloadUrl,
+      imgUrl: image != null ? downloadUrl : '',
       id: "",
       description: description,
       date: date,

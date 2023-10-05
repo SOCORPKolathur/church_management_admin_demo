@@ -50,6 +50,8 @@ class _UserTabState extends State<UserTab> {
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+  String currentTab = 'View';
+  final Formkey=GlobalKey<FormState>();
 
   selectImage() {
     InputElement input = FileUploadInputElement() as InputElement
@@ -101,33 +103,33 @@ class _UserTabState extends State<UserTab> {
   }
 
   clearTextControllers(){
-    firstNameController.clear();
-    lastNameController.clear();
-    phoneController.clear();
-     emailController.clear();
-     professionController.clear();
-     baptizeDateController.clear();
-     anniversaryDateController.clear();
-     aboutController.clear();
-     addressController.clear();
-     pincodeController.clear();
-     bloodGroupController.text = 'Select Blood Group';
-     dobController.clear();;
-     localityController.clear();
-     aadharController.clear();
-     filterTextController.clear();
-     filterText = "";
-     marriedController = "Select Status";
-     GenderController = "Select Gender";
-     profileImage = null;
-     uploadedImage = null;
-     selectedImg = null;
+    setState(() {
+      firstNameController.clear();
+      lastNameController.clear();
+      phoneController.clear();
+      emailController.clear();
+      professionController.clear();
+      baptizeDateController.clear();
+      anniversaryDateController.clear();
+      aboutController.clear();
+      addressController.clear();
+      pincodeController.clear();
+      bloodGroupController.text = 'Select Blood Group';
+      dobController.clear();
+      localityController.clear();
+      aadharController.clear();
+      filterTextController.clear();
+      filterText = "";
+      marriedController = "Select Status";
+      GenderController = "Select Gender";
+      profileImage = null;
+      uploadedImage = null;
+      selectedImg = null;
+      currentTab = 'View';
+    });
   }
 
-  String currentTab = 'View';
 
-
-  final Formkey=GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -201,11 +203,10 @@ class _UserTabState extends State<UserTab> {
             currentTab.toUpperCase() == "ADD"
                 ? Container(
               height: marriedController.toUpperCase() == "MARRIED"
-                  ? size.height * 1.95
-                  : size.height * 1.85,
+                  ? size.height * 2
+                  : size.height * 1.9,
               width: width / 1.2418,
-              margin: EdgeInsets.symmetric(
-                  horizontal: width / 68.3, vertical: height / 32.55),
+              margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
                 boxShadow: const [
@@ -324,14 +325,14 @@ class _UserTabState extends State<UserTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
-                          )),
-                      padding: EdgeInsets.symmetric(
-                          vertical: height / 43.4, horizontal: width / 91.06),
+                          ),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: height / 43.4, horizontal: width / 91.06),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -379,10 +380,9 @@ class _UserTabState extends State<UserTab> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.add_a_photo,
-                                          color: Colors.white),
+                                      const Icon(Icons.add_a_photo, color: Colors.white),
                                       SizedBox(width: width / 136.6),
-                                      KText(
+                                      const KText(
                                         text: 'Select Profile Photo',
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -398,12 +398,9 @@ class _UserTabState extends State<UserTab> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
+                                    const Icon(Icons.crop, color: Colors.white),
                                     SizedBox(width: width / 136.6),
-                                    KText(
+                                    const KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
                                     ),
@@ -429,8 +426,7 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: firstNameController,
                                     )
                                   ],
@@ -451,8 +447,7 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: lastNameController,
                                     )
                                   ],
@@ -473,12 +468,18 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      maxLength: 10,
+                                      validator: ((value){
+                                        if (value!.length != 10) {
+                                          return 'Mobile Number must be of 10 digit';
+                                        } else {
+                                          return null;
+                                        }
+                                      }),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: phoneController,
                                     )
                                   ],
@@ -503,55 +504,13 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: emailController,
                                     )
                                   ],
                                 ),
                               ),
                               SizedBox(width: width / 68.3),
-                              // SizedBox(
-                              //   width:width/4.553,
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       KText(
-                              //         text: "Password",
-                              //         style: GoogleFonts.openSans(
-                              //           color: Colors.black,
-                              //           fontSize:width/105.076,
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //       TextFormField(
-                              //         style:  TextStyle(fontSize:width/113.83),
-                              //         controller: passwordController,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              //  SizedBox(width:width/68.3),
-                              // SizedBox(
-                              //   width:width/4.553,
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       KText(
-                              //         text: "Confirm Password",
-                              //         style: GoogleFonts.openSans(
-                              //           color: Colors.black,
-                              //           fontSize:width/105.076,
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //       TextFormField(
-                              //         style:  TextStyle(fontSize:width/113.83),
-                              //         controller: confPaswordController,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
                               SizedBox(
                                 width: width / 4.553,
                                 child: Column(
@@ -566,8 +525,7 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: professionController,
                                     )
                                   ],
@@ -588,9 +546,9 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      maxLength: 12,
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
                                       style:
                                           TextStyle(fontSize: width / 113.83),
@@ -604,7 +562,6 @@ class _UserTabState extends State<UserTab> {
                           SizedBox(height: height / 21.7),
                           Row(
                             children: [
-                              // SizedBox(width:width/68.3),
                               SizedBox(
                                 width: width / 4.553,
                                 child: Column(
@@ -619,23 +576,26 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
-                                      onTap: () async {
-                                        DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
-                                        if (pickedDate != null) {
-                                          setState(() {
-                                            baptizeDateController.text =
-                                                formatter.format(pickedDate);
-                                          });
-                                        }
-                                      },
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: baptizeDateController,
+                                      decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                            onPressed: () async {
+                                              DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(1900),
+                                                  lastDate: DateTime(3000));
+                                              if (pickedDate != null) {
+                                                setState(() {
+                                                  baptizeDateController.text = formatter.format(pickedDate);
+                                                });
+                                              }
+                                            },
+                                            icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                        )
+                                      ),
                                     )
                                   ],
                                 ),
@@ -643,7 +603,7 @@ class _UserTabState extends State<UserTab> {
                               SizedBox(width: width / 68.3),
                               Container(
                                 width: width / 4.553,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(width: 1.5,color: Colors.grey)
                                     )
@@ -686,7 +646,7 @@ class _UserTabState extends State<UserTab> {
                               SizedBox(width: width / 68.3),
                               Container(
                                 width: width / 10.507,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(width: 1.5,color: Colors.grey)
                                     )
@@ -746,8 +706,7 @@ class _UserTabState extends State<UserTab> {
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
                                       ],
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: pincodeController,
                                     )
                                   ],
@@ -757,15 +716,13 @@ class _UserTabState extends State<UserTab> {
                           ),
                           SizedBox(height: height / 21.7),
                           Visibility(
-                            visible:
-                                marriedController.toUpperCase() == "MARRIED",
+                            visible: marriedController.toUpperCase() == "MARRIED",
                             child: Row(
                               children: [
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Anniversary Date",
@@ -776,9 +733,26 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: anniversaryDateController,
+                                        decoration: InputDecoration(
+                                            suffixIcon: IconButton(
+                                              onPressed: () async {
+                                                DateTime? pickedDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime(3000));
+                                                if (pickedDate != null) {
+                                                  setState(() {
+                                                    anniversaryDateController.text = formatter.format(pickedDate);
+                                                  });
+                                                }
+                                              },
+                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                            )
+                                        ),
                                       )
                                     ],
                                   ),
@@ -806,7 +780,7 @@ class _UserTabState extends State<UserTab> {
                                     DropdownButton(
                                       isExpanded: true,
                                       value: bloodGroupController.text,
-                                      icon: Icon(Icons.keyboard_arrow_down),
+                                      icon: const Icon(Icons.keyboard_arrow_down),
                                       items: [
                                         "Select Blood Group",
                                         "AB+",
@@ -850,25 +824,26 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: dobController,
-                                      onTap: () async {
-                                        DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
-                                        if (pickedDate != null) {
-                                          setState(() {
-                                            dobController.text =
-                                                formatter.format(pickedDate);
-                                          });
-                                        }
-                                      },
                                       decoration: InputDecoration(
-                                          hintText: "Ex: 2/9/2000"),
+                                          suffixIcon: IconButton(
+                                            onPressed: () async {
+                                              DateTime? pickedDate =
+                                              await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(1900),
+                                                  lastDate: DateTime(3000));
+                                              if (pickedDate != null) {
+                                                setState(() {
+                                                  dobController.text = formatter.format(pickedDate);
+                                                });
+                                              }
+                                            },
+                                            icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                          )
+                                      ),
                                     )
                                   ],
                                 ),
@@ -888,8 +863,7 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      style:
-                                          TextStyle(fontSize: width / 113.83),
+                                      style: TextStyle(fontSize: width / 113.83),
                                       controller: localityController,
                                     )
                                   ],
@@ -979,7 +953,7 @@ class _UserTabState extends State<UserTab> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1035,8 +1009,7 @@ class _UserTabState extends State<UserTab> {
                                       aadharController.text.length == 12 &&
                                       GenderController != "Select Gender" &&
                                       marriedController != "Select Status") {
-                                    Response response =
-                                        await UserFireCrud.addUser(
+                                    Response response = await UserFireCrud.addUser(
                                       maritialStatus: marriedController,
                                       pincode: pincodeController.text,
                                       gender: GenderController,
@@ -1056,7 +1029,7 @@ class _UserTabState extends State<UserTab> {
                                       address: addressController.text,
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
+                                      await CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.success,
                                           text: "User created successfully!",
@@ -1064,31 +1037,9 @@ class _UserTabState extends State<UserTab> {
                                           backgroundColor: Constants()
                                               .primaryAppColor
                                               .withOpacity(0.8));
-                                      setState(() {
-                                        currentTab = 'View';
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        baptizeDateController.text = "";
-                                        bloodGroupController.text =
-                                            "Select Blood Group";
-                                        dobController.text = "";
-                                        emailController.text = "";
-                                        aadharController.text = "";
-                                        anniversaryDateController.text = "";
-                                        marriedController = "Select Status";
-                                        GenderController = "Select Gender";
-                                        firstNameController.text = "";
-                                        aboutController.text = "";
-                                        addressController.text = "";
-                                        lastNameController.text = "";
-                                        //passwordController.text = "";
-                                        localityController.text = "";
-                                        phoneController.text = "";
-                                        professionController.text = "";
-                                        //confPaswordController.text = "";
-                                      });
+                                      clearTextControllers();
                                     } else {
-                                      CoolAlert.show(
+                                      await CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.error,
                                           text: "Failed to Create User!",
@@ -1098,8 +1049,7 @@ class _UserTabState extends State<UserTab> {
                                               .withOpacity(0.8));
                                     }
                                   } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   }
                                 },
                                 child: Container(
@@ -1185,7 +1135,6 @@ class _UserTabState extends State<UserTab> {
                         return Container();
                       } else if (snapshot.hasData) {
                         List<UserModelWithDocId> users = [];
-                        //List<UserModel> users1 = snapshot.data!;
                         for (var element in snapshot.data!.docs) {
                           if(filterText != ""){
                             if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
@@ -1194,7 +1143,6 @@ class _UserTabState extends State<UserTab> {
                               users.add(
                                 UserModelWithDocId(element.id, UserModel.fromJson(element.data()))
                               );
-                              print("");
                             }
                           }else{
                             users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
@@ -1202,10 +1150,7 @@ class _UserTabState extends State<UserTab> {
                         }
                         return Container(
                           width: 1100,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: width/68.3,
-                              vertical: height/32.55
-                          ),
+                          margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           decoration: BoxDecoration(
                             color: Constants().primaryAppColor,
                             boxShadow: const [
@@ -1730,72 +1675,24 @@ class _UserTabState extends State<UserTab> {
                                                           InkWell(
                                                             onTap: () {
                                                               setState(() {
-                                                                GenderController =
-                                                                    users[i].user.gender!;
-                                                                pincodeController
-                                                                        .text =
-                                                                    users[i].user
-                                                                        .pincode!;
-                                                                baptizeDateController
-                                                                    .text = users[i].user
-                                                                    .baptizeDate!;
-                                                                bloodGroupController
-                                                                    .text = users[i].user
-                                                                    .bloodGroup!;
-                                                                dobController
-                                                                        .text =
-                                                                    users[i].user
-                                                                        .dob!;
-                                                                emailController
-                                                                        .text =
-                                                                    users[i].user
-                                                                        .email!;
-                                                                firstNameController
-                                                                    .text = users[
-                                                                        i].user
-                                                                    .firstName!;
-                                                                aboutController
-                                                                        .text =
-                                                                    users[i].user
-                                                                        .about!;
-                                                                addressController
-                                                                        .text =
-                                                                    users[i].user
-                                                                        .address!;
-                                                                lastNameController
-                                                                    .text = users[
-                                                                        i].user
-                                                                    .lastName!;
-                                                                // passwordController
-                                                                //         .text =
-                                                                //     users[i]
-                                                                //         .password!;
-                                                                localityController
-                                                                    .text = users[
-                                                                        i].user
-                                                                    .locality!;
-                                                                phoneController
-                                                                        .text =
-                                                                    users[i].user
-                                                                        .phone!;
-                                                                professionController
-                                                                    .text = users[
-                                                                        i].user
-                                                                    .profession!;
-                                                                // confPaswordController
-                                                                //         .text =
-                                                                //     users[i]
-                                                                //         .password!;
-                                                                selectedImg =
-                                                                    users[i].user
-                                                                        .imgUrl;
-                                                                marriedController =
-                                                                    users[i].user
-                                                                        .maritialStatus!;
-                                                                anniversaryDateController
-                                                                    .text = users[
-                                                                        i].user
-                                                                    .anniversaryDate!;
+                                                                GenderController = users[i].user.gender;
+                                                                pincodeController.text = users[i].user.pincode;
+                                                                baptizeDateController.text = users[i].user.baptizeDate;
+                                                                bloodGroupController.text = users[i].user.bloodGroup;
+                                                                dobController.text = users[i].user.dob;
+                                                                emailController.text = users[i].user.email;
+                                                                firstNameController.text = users[i].user.firstName;
+                                                                aboutController.text = users[i].user.about;
+                                                                addressController.text = users[i].user.address;
+                                                                lastNameController.text = users[i].user.lastName;
+                                                                localityController.text = users[i].user.locality;
+                                                                phoneController.text = users[i].user.phone;
+                                                                professionController.text = users[i].user.profession;
+                                                                selectedImg = users[i].user.imgUrl;
+                                                                uploadedImage = users[i].user.imgUrl;
+                                                                marriedController = users[i].user.maritialStatus;
+                                                                aadharController.text = users[i].user.aadharNo;
+                                                                anniversaryDateController.text = users[i].user.anniversaryDate;
                                                               });
                                                               editPopUp(users[i].user,users[i].userDocId, size);
                                                             },
@@ -2408,16 +2305,13 @@ class _UserTabState extends State<UserTab> {
             backgroundColor: Colors.transparent,
             content: Container(
               height: marriedController.toUpperCase() == "MARRIED"
-                  ? size.height * 1.95
-                  : size.height * 1.85,
-              width: 1100,
-              margin: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
-              ),
+                  ? size.height * 2
+                  : size.height * 1.9,
+              width: width / 1.2418,
+              margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -2433,8 +2327,8 @@ class _UserTabState extends State<UserTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width / 68.3, vertical: height / 81.375),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -2446,34 +2340,38 @@ class _UserTabState extends State<UserTab> {
                             ),
                           ),
                           InkWell(
-                            onTap: () {
-                              setState(() {
-                                uploadedImage = null;
-                                profileImage = null;
-                                baptizeDateController.text = "";
-                                bloodGroupController.text = "";
-                                dobController.text = "";
-                                addressController.text = "";
-                                aadharController.text = "";
-                                anniversaryDateController.text = "";
-                                marriedController = "Select Status";
-                                emailController.text = "";
-                                firstNameController.text = "";
-                                aboutController.text = "";
-                                lastNameController.text = "";
-                                //passwordController.text = "";
-                                localityController.text = "";
-                                phoneController.text = "";
-                                professionController.text = "";
-                                pincodeController.text = "";
-                                //confPaswordController.text = "";
-                              });
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.cancel_outlined,
-                            ),
-                          )
+                              onTap:(){
+                                clearTextControllers();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  child: Center(
+                                    child: KText(
+                                      text: "Cancel",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                          ),
                         ],
                       ),
                     ),
@@ -2481,49 +2379,50 @@ class _UserTabState extends State<UserTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )),
-                      padding: EdgeInsets.all(15),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: height / 43.4, horizontal: width / 91.06),
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Center(
                               child: Container(
-                                height: height / 3.829,
-                                width: width / 3.902,
+                                height: height/3.8258,
+                                width: width/3.902,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Constants().primaryAppColor,
                                         width: 2),
                                     image: selectedImg != null
                                         ? DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(selectedImg!))
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(selectedImg!))
                                         : uploadedImage != null
-                                            ? DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: MemoryImage(
-                                                  Uint8List.fromList(
-                                                    base64Decode(uploadedImage!
-                                                        .split(',')
-                                                        .last),
-                                                  ),
-                                                ),
-                                              )
-                                            : null),
-                                child: selectedImg == null
-                                    ? Center(
-                                        child: Icon(
-                                          Icons.cloud_upload,
-                                          size: width / 8.537,
-                                          color: Colors.grey,
+                                        ? DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: MemoryImage(
+                                        Uint8List.fromList(
+                                          base64Decode(uploadedImage!
+                                              .split(',')
+                                              .last),
                                         ),
-                                      )
+                                      ),
+                                    )
+                                        : null),
+                                child: selectedImg == null
+                                    ?  Center(
+                                  child: Icon(
+                                    Icons.cloud_upload,
+                                    size: width/8.537,
+                                    color: Colors.grey,
+                                  ),
+                                )
                                     : null,
                               ),
                             ),
@@ -2538,13 +2437,11 @@ class _UserTabState extends State<UserTab> {
                                     width: size.width * 0.25,
                                     color: Constants().primaryAppColor,
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.add_a_photo,
-                                            color: Colors.white),
+                                        const Icon(Icons.add_a_photo, color: Colors.white),
                                         SizedBox(width: width / 136.6),
-                                        KText(
+                                        const KText(
                                           text: 'Select Profile Photo',
                                           style: TextStyle(color: Colors.white),
                                         ),
@@ -2560,12 +2457,9 @@ class _UserTabState extends State<UserTab> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        Icons.crop,
-                                        color: Colors.white,
-                                      ),
+                                      const Icon(Icons.crop, color: Colors.white),
                                       SizedBox(width: width / 136.6),
-                                      KText(
+                                      const KText(
                                         text: 'Disable Crop',
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -2580,8 +2474,7 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Firstname *",
@@ -2592,8 +2485,7 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: firstNameController,
                                       )
                                     ],
@@ -2603,8 +2495,7 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Lastname *",
@@ -2615,36 +2506,8 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: lastNameController,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: height / 21.7),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: width / 4.553,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Email",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
-                                        controller: emailController,
                                       )
                                     ],
                                   ),
@@ -2653,8 +2516,7 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Phone *",
@@ -2665,85 +2527,23 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        maxLength: 10,
+                                        validator: ((value){
+                                          if (value!.length != 10) {
+                                            return 'Mobile Number must be of 10 digit';
+                                          } else {
+                                            return null;
+                                          }
+                                        }),
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[0-9]')),
+                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                         ],
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: phoneController,
                                       )
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: width / 68.3),
-                                SizedBox(
-                                  width: width / 4.553,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Aadhaar Number",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[0-9]')),
-                                        ],
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
-                                        controller: aadharController,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // SizedBox(
-                                //   width:width/4.553,
-                                //   child: Column(
-                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       KText(
-                                //         text: "Password",
-                                //         style: GoogleFonts.openSans(
-                                //           color: Colors.black,
-                                //           fontSize:width/105.076,
-                                //           fontWeight: FontWeight.bold,
-                                //         ),
-                                //       ),
-                                //       TextFormField(
-                                //         style:  TextStyle(fontSize:width/113.83),
-                                //         controller: passwordController,
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
-                                //  SizedBox(width:width/68.3),
-                                // SizedBox(
-                                //   width:width/4.553,
-                                //   child: Column(
-                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       KText(
-                                //         text: "Confirm Password",
-                                //         style: GoogleFonts.openSans(
-                                //           color: Colors.black,
-                                //           fontSize:width/105.076,
-                                //           fontWeight: FontWeight.bold,
-                                //         ),
-                                //       ),
-                                //       TextFormField(
-                                //         style:  TextStyle(fontSize:width/113.83),
-                                //         controller: confPaswordController,
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
                               ],
                             ),
                             SizedBox(height: height / 21.7),
@@ -2752,8 +2552,28 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Email",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: emailController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width / 68.3),
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Profession",
@@ -2764,8 +2584,7 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: professionController,
                                       )
                                     ],
@@ -2775,8 +2594,37 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Aadhaar Number",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        maxLength: 12,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        ],
+                                        style:
+                                        TextStyle(fontSize: width / 113.83),
+                                        controller: aadharController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height / 21.7),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Baptize Date",
@@ -2787,40 +2635,40 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                        TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: baptizeDateController,
-                                        onTap: () async {
-                                          DateTime? pickedDate =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2000),
-                                              lastDate: DateTime(3000));
-                                          if (pickedDate != null) {
-                                            setState(() {
-                                              baptizeDateController.text =
-                                                  formatter.format(pickedDate);
-                                            });
-                                          }
-                                        },
-                                        decoration: InputDecoration(),
+                                        decoration: InputDecoration(
+                                            suffixIcon: IconButton(
+                                              onPressed: () async {
+                                                DateTime? pickedDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime(3000));
+                                                if (pickedDate != null) {
+                                                  setState(() {
+                                                    baptizeDateController.text = formatter.format(pickedDate);
+                                                  });
+                                                }
+                                              },
+                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                            )
+                                        ),
                                       )
                                     ],
                                   ),
                                 ),
                                 SizedBox(width: width / 68.3),
                                 Container(
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(
-                                      width: 1.5,
-                                      color: Colors.grey
-                                    ))
+                                  width: width / 4.553,
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                      )
                                   ),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Marital status *",
@@ -2831,10 +2679,10 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       DropdownButton(
-                                        value: marriedController,
                                         isExpanded: true,
-                                        underline: Container(),
+                                        value: marriedController,
                                         icon: Icon(Icons.keyboard_arrow_down),
+                                        underline: Container(),
                                         items: [
                                           "Select Status",
                                           "Married",
@@ -2856,16 +2704,14 @@ class _UserTabState extends State<UserTab> {
                                 ),
                                 SizedBox(width: width / 68.3),
                                 Container(
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(
-                                          width: 1.5,
-                                          color: Colors.grey
-                                      ))
+                                  width: width / 10.507,
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                      )
                                   ),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Gender *",
@@ -2876,9 +2722,9 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       DropdownButton(
-                                        underline: Container(),
-                                        isExpanded: true,
                                         value: GenderController,
+                                        isExpanded: true,
+                                        underline: Container(),
                                         icon: Icon(Icons.keyboard_arrow_down),
                                         items: [
                                           "Select Gender",
@@ -2900,19 +2746,42 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                 ),
+                                SizedBox(width: width / 68.3),
+                                SizedBox(
+                                  width: width / 9.106,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Pin Code",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]')),
+                                        ],
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: pincodeController,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(height: height / 21.7),
                             Visibility(
-                              visible:
-                                  marriedController.toUpperCase() == "MARRIED",
+                              visible: marriedController.toUpperCase() == "MARRIED",
                               child: Row(
                                 children: [
                                   SizedBox(
                                     width: width / 4.553,
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
                                           text: "Anniversary Date",
@@ -2923,36 +2792,26 @@ class _UserTabState extends State<UserTab> {
                                           ),
                                         ),
                                         TextFormField(
-                                          style: TextStyle(
-                                              fontSize: width / 113.83),
+                                          style: TextStyle(fontSize: width / 113.83),
                                           controller: anniversaryDateController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: width / 68.3),
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Pin Code",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
+                                          decoration: InputDecoration(
+                                              suffixIcon: IconButton(
+                                                onPressed: () async {
+                                                  DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate: DateTime.now(),
+                                                      firstDate: DateTime(1900),
+                                                      lastDate: DateTime(3000));
+                                                  if (pickedDate != null) {
+                                                    setState(() {
+                                                      anniversaryDateController.text = formatter.format(pickedDate);
+                                                    });
+                                                  }
+                                                },
+                                                icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                              )
                                           ),
-                                        ),
-                                        TextFormField(
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'[0-9]')),
-                                          ],
-                                          style: TextStyle(
-                                              fontSize: width / 113.83),
-                                          controller: pincodeController,
                                         )
                                       ],
                                     ),
@@ -2966,8 +2825,7 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Blood Group *",
@@ -2977,11 +2835,36 @@ class _UserTabState extends State<UserTab> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
-                                        controller: bloodGroupController,
-                                      )
+                                      SizedBox(height: height / 50.076),
+                                      DropdownButton(
+                                        isExpanded: true,
+                                        value: bloodGroupController.text,
+                                        icon: const Icon(Icons.keyboard_arrow_down),
+                                        items: [
+                                          "Select Blood Group",
+                                          "AB+",
+                                          "AB-",
+                                          "O+",
+                                          "O-",
+                                          "A+",
+                                          "A-",
+                                          "B+",
+                                          "B-"
+                                        ].map((items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          if (newValue != "Select Role") {
+                                            setState(() {
+                                              bloodGroupController.text =
+                                              newValue!;
+                                            });
+                                          }
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -2989,8 +2872,7 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Date of Birth",
@@ -3001,9 +2883,26 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: dobController,
+                                        decoration: InputDecoration(
+                                            suffixIcon: IconButton(
+                                              onPressed: () async {
+                                                DateTime? pickedDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime(3000));
+                                                if (pickedDate != null) {
+                                                  setState(() {
+                                                    dobController.text = formatter.format(pickedDate);
+                                                  });
+                                                }
+                                              },
+                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                            )
+                                        ),
                                       )
                                     ],
                                   ),
@@ -3012,8 +2911,7 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
                                         text: "Locality *",
@@ -3024,8 +2922,7 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        style:
-                                            TextStyle(fontSize: width / 113.83),
+                                        style: TextStyle(fontSize: width / 113.83),
                                         controller: localityController,
                                       )
                                     ],
@@ -3054,7 +2951,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -3064,7 +2961,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
                                         height: height / 32.55,
@@ -3073,7 +2970,7 @@ class _UserTabState extends State<UserTab> {
                                       Expanded(
                                         child: Container(
                                             width: double.infinity,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Colors.white,
                                             ),
                                             child: TextFormField(
@@ -3082,11 +2979,10 @@ class _UserTabState extends State<UserTab> {
                                               controller: addressController,
                                               decoration: InputDecoration(
                                                   border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 15,
-                                                          top: 4,
-                                                          bottom: 4)),
+                                                  contentPadding: EdgeInsets.only(
+                                                      left: width / 91.06,
+                                                      top: height / 162.75,
+                                                      bottom: height / 162.75)),
                                               maxLines: null,
                                             )),
                                       ),
@@ -3116,7 +3012,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -3126,7 +3022,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
                                         height: height / 32.55,
@@ -3144,11 +3040,10 @@ class _UserTabState extends State<UserTab> {
                                               controller: aboutController,
                                               decoration: InputDecoration(
                                                   border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 15,
-                                                          top: 4,
-                                                          bottom: 4)),
+                                                  contentPadding: EdgeInsets.only(
+                                                      left: 15,
+                                                      top: 4,
+                                                      bottom: 4)),
                                               maxLines: null,
                                             )),
                                       ),
@@ -3163,57 +3058,39 @@ class _UserTabState extends State<UserTab> {
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    if (baptizeDateController.text != "" &&
-                                        bloodGroupController.text != "" &&
-                                        aboutController.text != "" &&
-                                        dobController.text != "" &&
-                                        addressController.text != "" &&
-                                        phoneController.text.length == 10 &&
-                                        aadharController.text.length == 12 &&
-                                        emailController.text != "" &&
-                                        marriedController != "Select Status" &&
+                                    if (marriedController != "Select Status" &&
                                         firstNameController.text != "" &&
                                         lastNameController.text != "" &&
                                         localityController.text != "" &&
                                         phoneController.text != "" &&
                                         pincodeController.text != "") {
-                                      Response response =
-                                          await UserFireCrud.updateRecord(userDocID, UserModel(
-                                                id: user.id,
-                                                pincode: pincodeController.text,
-                                                timestamp: user.timestamp,
-                                                baptizeDate:
-                                                    baptizeDateController.text,
-                                                bloodGroup:
-                                                    bloodGroupController.text,
-                                                dob: dobController.text,
-                                                address: addressController.text,
-                                                email: emailController.text,
-                                                aadharNo: aadharController.text,
-                                                firstName:
-                                                    firstNameController.text,
-                                                maritialStatus:
-                                                    marriedController,
-                                                fcmToken: user.fcmToken,
-                                                gender: GenderController,
-                                                imgUrl: user.imgUrl!,
-                                                anniversaryDate: marriedController
-                                                            .toUpperCase() ==
-                                                        "MARRIED"
-                                                    ? anniversaryDateController
-                                                        .text
-                                                    : "",
-                                                lastName:
-                                                    lastNameController.text,
-                                                locality:
-                                                    localityController.text,
-                                                phone: phoneController.text,
-                                                profession:
-                                                    professionController.text,
-                                                about: aboutController.text,
-                                                //password: passwordController.text,
-                                              ),
-                                              profileImage, user.imgUrl ?? "");
+                                      Response response = await UserFireCrud.updateRecord(userDocID, UserModel(
+                                        id: user.id,
+                                        pincode: pincodeController.text != "" ? pincodeController.text : user.pincode,
+                                        timestamp: user.timestamp,
+                                        baptizeDate: baptizeDateController.text != "" ? baptizeDateController.text : user.baptizeDate,
+                                        bloodGroup: bloodGroupController.text != "" ? bloodGroupController.text : user.bloodGroup,
+                                        dob: dobController.text.isNotEmpty ? dobController.text : user.dob,
+                                        address: addressController.text.isNotEmpty ? addressController.text : user.address,
+                                        email: emailController.text.isNotEmpty ? emailController.text : user.email,
+                                        aadharNo: aadharController.text.isNotEmpty ? aadharController.text : user.aadharNo,
+                                        firstName: firstNameController.text.isNotEmpty ? firstNameController.text : user.firstName,
+                                        maritialStatus: marriedController.isNotEmpty ? marriedController : user.maritialStatus,
+                                        fcmToken: user.fcmToken,
+                                        gender: GenderController.isNotEmpty ? GenderController : user.gender,
+                                        imgUrl: user.imgUrl,
+                                        anniversaryDate: marriedController
+                                            .toUpperCase() ==
+                                            "MARRIED"
+                                            ? anniversaryDateController.text
+                                            : user.anniversaryDate,
+                                        lastName: lastNameController.text.isNotEmpty ? lastNameController.text : user.lastName,
+                                        locality: localityController.text.isNotEmpty ? localityController.text : user.locality,
+                                        phone: phoneController.text.isNotEmpty ? phoneController.text : user.phone,
+                                        profession: professionController.text.isNotEmpty ? professionController.text : user.profession,
+                                        about: aboutController.text.isNotEmpty ? aboutController.text : user.about,
+                                      ),
+                                          profileImage, user.imgUrl ?? "");
                                       if (response.code == 200) {
                                         CoolAlert.show(
                                             context: context,
@@ -3242,6 +3119,7 @@ class _UserTabState extends State<UserTab> {
                                           professionController.text = "";
                                           //confPaswordController.text = "";
                                         });
+                                        clearTextControllers();
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                       } else {
@@ -3253,6 +3131,8 @@ class _UserTabState extends State<UserTab> {
                                             backgroundColor: Constants()
                                                 .primaryAppColor
                                                 .withOpacity(0.8));
+                                        clearTextControllers();
+                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                       }
                                     } else {
@@ -3279,6 +3159,44 @@ class _UserTabState extends State<UserTab> {
                                       child: Center(
                                         child: KText(
                                           text: "Update",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      currentTab = 'View';
+                                    });
+                                    clearTextControllers();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height: height / 18.6,
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: width / 227.66),
+                                      child: Center(
+                                        child: KText(
+                                          text: "Cancel",
                                           style: GoogleFonts.openSans(
                                             color: Colors.white,
                                             fontSize: 10,

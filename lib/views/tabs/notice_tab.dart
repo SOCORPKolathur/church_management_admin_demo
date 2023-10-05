@@ -163,8 +163,7 @@ class _NoticesTabState extends State<NoticesTab> {
                           ),
                           InkWell(
                             onTap: () async {
-                              if (timeController.text != "" && dateController.text != "" && titleController.text != "" &&
-                                  descriptionController.text != "") {
+                              if (timeController.text != "" && dateController.text != "" && titleController.text != "") {
                                 Response response =
                                 await NoticeFireCrud.addNotice(
                                   date: dateController.text,
@@ -269,15 +268,25 @@ class _NoticesTabState extends State<NoticesTab> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
-                                        onTap: () {
-                                          _selectDate(context);
-                                        },
                                         controller: dateController,
                                         decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
-                                          ),
+                                            border: InputBorder.none,
+                                            suffixIcon: IconButton(
+                                              onPressed: () async {
+                                                DateTime? pickedDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime(3000));
+                                                if (pickedDate != null) {
+                                                  setState(() {
+                                                    dateController.text = formatter.format(pickedDate);
+                                                  });
+                                                }
+                                              },
+                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
+                                            )
                                         ),
                                       ),
                                     ),
@@ -307,6 +316,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
+                                        onTap:(){ _selectTime(context);},
                                         controller: timeController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
@@ -340,13 +350,14 @@ class _NoticesTabState extends State<NoticesTab> {
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 40,
-                                width: 150,
+                                height: 60,
+                                width: 350,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 3),
                                       border: InputBorder.none,
                                       hintStyle: GoogleFonts.openSans(
                                         fontSize: 14,
@@ -907,8 +918,7 @@ class _NoticesTabState extends State<NoticesTab> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                if (titleController.text != "" &&
-                                    descriptionController.text != "") {
+                                if (titleController.text != "") {
                                   Response response =
                                   await NoticeFireCrud.updateRecord(
                                     NoticeModel(
@@ -1218,4 +1228,32 @@ class _NoticesTabState extends State<NoticesTab> {
           ],
         )),
   );
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+
+    if (picked != null && picked != _selectedTime)
+      setState(() {
+        _selectedTime = picked;
+        timeController.text = picked.toString();
+      });
+    _formatTime(picked!);
+  }
+
+
+  String _formatTime(TimeOfDay time) {
+    int hour = time.hourOfPeriod;
+    int minute = time.minute;
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    setState(() {
+      timeController.text ='${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+    });
+
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+  }
 }

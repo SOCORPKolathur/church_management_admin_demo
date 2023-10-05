@@ -81,7 +81,6 @@ class UserFireCrud {
         dob: dob,
         about: about,
         address: address,
-        //password: password,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
         pincode: pincode,
@@ -89,6 +88,7 @@ class UserFireCrud {
         imgUrl: downloadUrl);
     user.id = documentReferencer.id;
     var json = user.toJson();
+    print(json);
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;
       response.message = "Sucessfully added to the database";
@@ -165,6 +165,9 @@ class UserFireCrud {
           pincode: row[i][11].toString(),
           maritialStatus: row[i][7].toString(),
           profession: row[i][5].toString(),
+          aadharNo: "",
+          fcmToken: "",
+          locality: ""
       );
       var json = user.toJson();
       await UserCollection.doc(documentID).set(

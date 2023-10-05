@@ -59,8 +59,14 @@ class FundManageFireCrud {
       required String date,
       required String recordType}) async {
     Response response = Response();
-    String imgUrl = await uploadImageToStorage(image);
-    String docUrl = await uploadDocumentToStorage(document);
+    String imgUrl = '';
+    String docUrl = '';
+    if(image != null){
+      imgUrl = await uploadImageToStorage(image);
+    }
+    if(document != null){
+      docUrl = await uploadDocumentToStorage(document);
+    }
     DocumentReference documentReferencer = FundManageCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     FundManagementModel fund = FundManagementModel(
@@ -72,8 +78,8 @@ class FundManageFireCrud {
       source: source,
       verifier: verifier,
       amount: amount,
-      imgUrl: imgUrl,
-      document: docUrl,
+      imgUrl: image != null ? imgUrl : "",
+      document: document != null ? docUrl : "",
     );
     fund.id = documentReferencer.id;
     var json = fund.toJson();
