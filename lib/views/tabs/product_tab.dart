@@ -93,7 +93,6 @@ class _ProductTabState extends State<ProductTab> {
                           });
                           //clearTextControllers();
                         }
-
                       },
                       child: Container(
                         height: 35,
@@ -293,6 +292,9 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: priceController,
                                     )
@@ -433,10 +435,7 @@ class _ProductTabState extends State<ProductTab> {
                                   if (profileImage != null &&
                                       titleController.text != "" &&
                                       priceController.text != "" &&
-                                      categoriesController.text != "" &&
-                                      tagsController.text != "" &&
-                                      saleController.text != "" &&
-                                      descriptionController.text != "") {
+                                      categoriesController.text != "") {
                                     Response response =
                                     await ProductsFireCrud.addProduct(
                                       image: profileImage!,
@@ -1169,263 +1168,267 @@ class _ProductTabState extends State<ProductTab> {
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Container(
-            width: size.width * 0.5,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
+        return StatefulBuilder(
+          builder: (context,setState) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Container(
+                width: size.width * 0.5,
+                margin: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          product.title!,
-                          style: GoogleFonts.openSans(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              product.title!,
+                              style: GoogleFonts.openSans(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  child: Center(
+                                    child: KText(
+                                      text: "CLOSE",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(1, 2),
-                                  blurRadius: 3,
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
-                              child: Center(
-                                child: KText(
-                                  text: "CLOSE",
-                                  style: GoogleFonts.openSans(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: size.width * 0.3,
+                                height: size.height * 0.4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(product.imgUrl!),
                                   ),
                                 ),
                               ),
-                            ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 15),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.15,
+                                            child: const KText(
+                                              text: "Title",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 16
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(":"),
+                                          const SizedBox(width: 20),
+                                          KText(
+                                            text: product.title!,
+                                            style: const TextStyle(
+                                                fontSize: 14
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.15,
+                                            child: const KText(
+                                              text: "Price",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 16
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(":"),
+                                          const SizedBox(width: 20),
+                                          KText(
+                                            text: product.price!.toString(),
+                                            style: const TextStyle(
+                                                fontSize: 14
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.15,
+                                            child: const KText(
+                                              text: "Categories",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 16
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(":"),
+                                          const SizedBox(width: 20),
+                                          KText(
+                                            text: product.categories!,
+                                            style: const TextStyle(
+                                                fontSize: 14
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.15,
+                                            child: const KText(
+                                              text: "Tags",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 16
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(":"),
+                                          const SizedBox(width: 20),
+                                          KText(
+                                            text: product.tags!,
+                                            style: const TextStyle(
+                                                fontSize: 14
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.15,
+                                            child: const KText(
+                                              text: "Sale",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 16
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(":"),
+                                          const SizedBox(width: 20),
+                                          KText(
+                                            text: product.sale!,
+                                            style: const TextStyle(
+                                                fontSize: 14
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.15,
+                                            child: const KText(
+                                              text: "Description",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 16
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(":"),
+                                          const SizedBox(width: 20),
+                                          SizedBox(
+                                            width: size.width * 0.3,
+                                            child: KText(
+                                              text: product.description!,
+                                              style: const TextStyle(
+                                                  fontSize: 14
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
+                        ),
                       ),
                     ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: size.width * 0.3,
-                            height: size.height * 0.4,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(product.imgUrl!),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Title",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      KText(
-                                        text: product.title!,
-                                        style: const TextStyle(
-                                            fontSize: 14
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Price",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      KText(
-                                        text: product.price!.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 14
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Categories",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      KText(
-                                        text: product.categories!,
-                                        style: const TextStyle(
-                                            fontSize: 14
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Tags",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      KText(
-                                        text: product.tags!,
-                                        style: const TextStyle(
-                                            fontSize: 14
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Sale",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      KText(
-                                        text: product.sale!,
-                                        style: const TextStyle(
-                                            fontSize: 14
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: const KText(
-                                          text: "Description",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
-                                      SizedBox(
-                                        width: size.width * 0.3,
-                                        child: KText(
-                                          text: product.description!,
-                                          style: const TextStyle(
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );
@@ -1625,6 +1628,9 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: priceController,
                                     )
@@ -1764,14 +1770,12 @@ class _ProductTabState extends State<ProductTab> {
                                 onTap: () async {
                                   if (titleController.text != "" &&
                                       priceController.text != "" &&
-                                      categoriesController.text != "" &&
-                                      tagsController.text != "" &&
-                                      saleController.text != "" &&
-                                      descriptionController.text != "") {
+                                      categoriesController.text != "") {
                                     Response response =
                                     await ProductsFireCrud.updateRecord(
                                       ProductModel(
                                         id: product.id,
+                                        imgUrl: product.imgUrl,
                                         timestamp: product.timestamp,
                                         title: titleController.text,
                                         tags: tagsController.text,

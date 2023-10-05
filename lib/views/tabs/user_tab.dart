@@ -203,8 +203,8 @@ class _UserTabState extends State<UserTab> {
             currentTab.toUpperCase() == "ADD"
                 ? Container(
               height: marriedController.toUpperCase() == "MARRIED"
-                  ? size.height * 2
-                  : size.height * 1.9,
+                  ? size.height * 2.2
+                  : size.height * 2,
               width: width / 1.2418,
               margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
               decoration: BoxDecoration(
@@ -426,6 +426,9 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: firstNameController,
                                     )
@@ -447,6 +450,9 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: lastNameController,
                                     )
@@ -525,6 +531,9 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: professionController,
                                     )
@@ -577,25 +586,20 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                     TextFormField(
                                       style: TextStyle(fontSize: width / 113.83),
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                            await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                       controller: baptizeDateController,
-                                      decoration: InputDecoration(
-                                        suffixIcon: IconButton(
-                                            onPressed: () async {
-                                              DateTime? pickedDate =
-                                                  await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(1900),
-                                                  lastDate: DateTime(3000));
-                                              if (pickedDate != null) {
-                                                setState(() {
-                                                  baptizeDateController.text = formatter.format(pickedDate);
-                                                });
-                                              }
-                                            },
-                                            icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                        )
-                                      ),
                                     )
                                   ],
                                 ),
@@ -735,24 +739,19 @@ class _UserTabState extends State<UserTab> {
                                       TextFormField(
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: anniversaryDateController,
-                                        decoration: InputDecoration(
-                                            suffixIcon: IconButton(
-                                              onPressed: () async {
-                                                DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1900),
-                                                    lastDate: DateTime(3000));
-                                                if (pickedDate != null) {
-                                                  setState(() {
-                                                    anniversaryDateController.text = formatter.format(pickedDate);
-                                                  });
-                                                }
-                                              },
-                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                            )
-                                        ),
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              anniversaryDateController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
                                       )
                                     ],
                                   ),
@@ -826,24 +825,19 @@ class _UserTabState extends State<UserTab> {
                                     TextFormField(
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: dobController,
-                                      decoration: InputDecoration(
-                                          suffixIcon: IconButton(
-                                            onPressed: () async {
-                                              DateTime? pickedDate =
-                                              await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(1900),
-                                                  lastDate: DateTime(3000));
-                                              if (pickedDate != null) {
-                                                setState(() {
-                                                  dobController.text = formatter.format(pickedDate);
-                                                });
-                                              }
-                                            },
-                                            icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                          )
-                                      ),
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -976,6 +970,9 @@ class _UserTabState extends State<UserTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            ],
                                             style: TextStyle(
                                                 fontSize: width / 113.83),
                                             controller: aboutController,
@@ -2485,6 +2482,9 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                        ],
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: firstNameController,
                                       )
@@ -2506,6 +2506,9 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                        ],
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: lastNameController,
                                       )
@@ -2637,24 +2640,19 @@ class _UserTabState extends State<UserTab> {
                                       TextFormField(
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: baptizeDateController,
-                                        decoration: InputDecoration(
-                                            suffixIcon: IconButton(
-                                              onPressed: () async {
-                                                DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1900),
-                                                    lastDate: DateTime(3000));
-                                                if (pickedDate != null) {
-                                                  setState(() {
-                                                    baptizeDateController.text = formatter.format(pickedDate);
-                                                  });
-                                                }
-                                              },
-                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                            )
-                                        ),
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              baptizeDateController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
                                       )
                                     ],
                                   ),
@@ -2794,24 +2792,19 @@ class _UserTabState extends State<UserTab> {
                                         TextFormField(
                                           style: TextStyle(fontSize: width / 113.83),
                                           controller: anniversaryDateController,
-                                          decoration: InputDecoration(
-                                              suffixIcon: IconButton(
-                                                onPressed: () async {
-                                                  DateTime? pickedDate =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate: DateTime.now(),
-                                                      firstDate: DateTime(1900),
-                                                      lastDate: DateTime(3000));
-                                                  if (pickedDate != null) {
-                                                    setState(() {
-                                                      anniversaryDateController.text = formatter.format(pickedDate);
-                                                    });
-                                                  }
-                                                },
-                                                icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                              )
-                                          ),
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                anniversaryDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
                                         )
                                       ],
                                     ),
@@ -2885,24 +2878,19 @@ class _UserTabState extends State<UserTab> {
                                       TextFormField(
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: dobController,
-                                        decoration: InputDecoration(
-                                            suffixIcon: IconButton(
-                                              onPressed: () async {
-                                                DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1900),
-                                                    lastDate: DateTime(3000));
-                                                if (pickedDate != null) {
-                                                  setState(() {
-                                                    dobController.text = formatter.format(pickedDate);
-                                                  });
-                                                }
-                                              },
-                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                            )
-                                        ),
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              dobController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
                                       )
                                     ],
                                   ),
@@ -3035,6 +3023,9 @@ class _UserTabState extends State<UserTab> {
                                               color: Colors.white,
                                             ),
                                             child: TextFormField(
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                              ],
                                               style: TextStyle(
                                                   fontSize: width / 113.83),
                                               controller: aboutController,

@@ -165,8 +165,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           ),
                           InkWell(
                             onTap: () async {
-                              if (timeController.text != "" && dateController.text != "" && titleController.text != "" &&
-                                  descriptionController.text != "") {
+                              if (timeController.text != "" && dateController.text != "" && titleController.text != "") {
                                 Response response =
                                     await PrayersFireCrud.addPrayer(
                                       date: dateController.text,
@@ -236,7 +235,7 @@ class _PrayersTabState extends State<PrayersTab> {
                     ),
                   ),
                   Container(
-                    height: size.height * 0.45,
+                    height: size.height * 0.55,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                         color: Color(0xffF7FAFC),
@@ -271,16 +270,20 @@ class _PrayersTabState extends State<PrayersTab> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
-                                        onTap: () {
-                                          _selectDate(context);
-                                        },
                                         controller: dateController,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
-                                          ),
-                                        ),
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              dateController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
                                       ),
                                     ),
                                   ),
@@ -309,10 +312,12 @@ class _PrayersTabState extends State<PrayersTab> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
+                                        onTap: (){
+                                          _selectTime(context);
+                                        },
                                         controller: timeController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: "0.00",
                                           hintStyle: GoogleFonts.openSans(
                                             fontSize: 14,
                                           ),
@@ -342,13 +347,14 @@ class _PrayersTabState extends State<PrayersTab> {
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 40,
-                                width: 150,
+                                height: 50,
+                                width: 250,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 5),
                                       border: InputBorder.none,
                                       hintStyle: GoogleFonts.openSans(
                                         fontSize: 14,
@@ -379,7 +385,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 60,
+                                    height: 100,
                                     width: size.width * 0.36,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -1435,7 +1441,7 @@ class _PrayersTabState extends State<PrayersTab> {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: Container(
-            height: size.height * 0.45,
+            height: size.height * 0.55,
             width: 1100,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -1472,8 +1478,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                if (titleController.text != "" &&
-                                    descriptionController.text != "") {
+                                if (titleController.text != "") {
                                   Response response =
                                   await PrayersFireCrud.updateRecord(
                                     PrayersModel(
@@ -1595,7 +1600,8 @@ class _PrayersTabState extends State<PrayersTab> {
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
-                        )),
+                        ),
+                    ),
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1616,15 +1622,15 @@ class _PrayersTabState extends State<PrayersTab> {
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 40,
-                                width: 150,
+                                height: 50,
+                                width: 250,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 5),
                                       border: InputBorder.none,
-                                      hintText: "Select Type",
                                       hintStyle: GoogleFonts.openSans(
                                         fontSize: 14,
                                       ),
@@ -1654,7 +1660,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 60,
+                                    height: 100,
                                     width: size.width * 0.36,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -1665,7 +1671,6 @@ class _PrayersTabState extends State<PrayersTab> {
                                         controller: descriptionController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: "",
                                           hintStyle: GoogleFonts.openSans(
                                             fontSize: 14,
                                           ),
@@ -2017,4 +2022,32 @@ class _PrayersTabState extends State<PrayersTab> {
           ],
         )),
   );
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+
+    if (picked != null && picked != _selectedTime)
+      setState(() {
+        _selectedTime = picked;
+        timeController.text = picked.toString();
+      });
+    _formatTime(picked!);
+  }
+
+
+  String _formatTime(TimeOfDay time) {
+    int hour = time.hourOfPeriod;
+    int minute = time.minute;
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    setState(() {
+      timeController.text ='${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+    });
+
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+  }
 }

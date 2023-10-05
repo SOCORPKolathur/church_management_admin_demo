@@ -315,26 +315,23 @@ class _EventsTabState extends State<EventsTab>
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: TextFormField(
-                                          controller: dateController,
                                           decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              suffixIcon: IconButton(
-                                                onPressed: () async {
-                                                  DateTime? pickedDate =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate: DateTime.now(),
-                                                      firstDate: DateTime(1900),
-                                                      lastDate: DateTime(3000));
-                                                  if (pickedDate != null) {
-                                                    setState(() {
-                                                      dateController.text = formatter.format(pickedDate);
-                                                    });
-                                                  }
-                                                },
-                                                icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                              )
+                                            border: InputBorder.none
                                           ),
+                                          controller: dateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                dateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
                                         ),
                                       ),
                                     ),
@@ -2291,26 +2288,23 @@ class _EventsTabState extends State<EventsTab>
                                             child: Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: TextFormField(
-                                                controller: dateController,
                                                 decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    suffixIcon: IconButton(
-                                                      onPressed: () async {
-                                                        DateTime? pickedDate =
-                                                        await showDatePicker(
-                                                            context: context,
-                                                            initialDate: DateTime.now(),
-                                                            firstDate: DateTime(1900),
-                                                            lastDate: DateTime(3000));
-                                                        if (pickedDate != null) {
-                                                          setState(() {
-                                                            dateController.text = formatter.format(pickedDate);
-                                                          });
-                                                        }
-                                                      },
-                                                      icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                                    )
+                                                  border: InputBorder.none
                                                 ),
+                                                controller: dateController,
+                                                onTap: () async {
+                                                  DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate: DateTime.now(),
+                                                      firstDate: DateTime(1900),
+                                                      lastDate: DateTime(3000));
+                                                  if (pickedDate != null) {
+                                                    setState(() {
+                                                      dateController.text = formatter.format(pickedDate);
+                                                    });
+                                                  }
+                                                },
                                               ),
                                             ),
                                           ),

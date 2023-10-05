@@ -333,8 +333,22 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      readOnly: true,
                                       style: const TextStyle(fontSize: 12),
                                       controller: dateController,
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -421,11 +435,15 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      readOnly: true,
+                                      style: const TextStyle(fontSize: 12),
+                                      controller: amcDateController,
                                       onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000),
+                                            firstDate: DateTime(1900),
                                             lastDate: DateTime(3000));
                                         if (pickedDate != null) {
                                           setState(() {
@@ -433,8 +451,6 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                           });
                                         }
                                       },
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: amcDateController,
                                     )
                                   ],
                                 ),
@@ -503,15 +519,11 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  if (assetsController.text != "" &&
-                                      verifierController.text != "" &&
-                                      descriptionController.text != "" &&
-                                      approxValueController.text != "" &&
+                                  if (verifierController.text != "" &&
                                       amcDateController.text != "" &&
                                       dateController.text != "") {
                                     Response response =
-                                        await AssetManagementFireCrud
-                                            .addAssetManagement(
+                                        await AssetManagementFireCrud.addAssetManagement(
                                           amcDate: amcDateController.text,
                                       document: documentForUpload!,
                                       image: profileImage!,
@@ -1984,8 +1996,22 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                     ),
                                   ),
                                   TextFormField(
+                                    readOnly: true,
                                     style: const TextStyle(fontSize: 12),
                                     controller: dateController,
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                      await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1900),
+                                          lastDate: DateTime(3000));
+                                      if (pickedDate != null) {
+                                        setState(() {
+                                          dateController.text = formatter.format(pickedDate);
+                                        });
+                                      }
+                                    },
                                   )
                                 ],
                               ),
@@ -2158,10 +2184,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                             const SizedBox(width: 20),
                             InkWell(
                               onTap: () async {
-                                if (assetsController.text != "" &&
-                                    verifierController.text != "" &&
-                                    descriptionController.text != "" &&
-                                    approxValueController.text != "" &&
+                                if (verifierController.text != "" &&
                                     dateController.text != "") {
                                   Response response =
                                   await AssetManagementFireCrud
@@ -2170,6 +2193,9 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       id: asset.id,
                                       timestamp: asset.timestamp,
                                       description: descriptionController.text,
+                                      imgUrl: asset.imgUrl,
+                                      amcDate: asset.amcDate,
+                                      document: asset.document,
                                       date: dateController.text,
                                       verifier: verifierController.text,
                                       approxValue: approxValueController.text,

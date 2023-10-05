@@ -8,11 +8,13 @@ class ChorusModel {
   String? email;
   String? position;
   String? baptizeDate;
+  String? maritalStatus;
   String? marriageDate;
   String? socialStatus;
   String? job;
   String? country;
   String? family;
+  String? familyId;
   String? department;
   String? bloodGroup;
   String? dob;
@@ -29,6 +31,7 @@ class ChorusModel {
         this.email,
         this.country,
         this.gender,
+        this.maritalStatus,
         this.pincode,
         this.position,
         this.baptizeDate,
@@ -36,6 +39,7 @@ class ChorusModel {
         this.socialStatus,
         this.job,
         this.family,
+        this.familyId,
         this.department,
         this.bloodGroup,
         this.dob,
@@ -57,7 +61,9 @@ class ChorusModel {
     marriageDate = json['marriageDate'];
     socialStatus = json['socialStatus'];
     job = json['job'];
+    maritalStatus = json['maritalStatus'];
     family = json['family'];
+    familyId = json['familyId'];
     department = json['department'];
     bloodGroup = json['bloodGroup'];
     dob = json['dob'];
@@ -79,9 +85,11 @@ class ChorusModel {
     data['country'] = this.country;
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;
+    data['maritalStatus'] = this.maritalStatus;
     data['socialStatus'] = this.socialStatus;
     data['job'] = this.job;
     data['family'] = this.family;
+    data['familyId'] = this.familyId;
     data['department'] = this.department;
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;

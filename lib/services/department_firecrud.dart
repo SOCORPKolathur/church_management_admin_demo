@@ -56,9 +56,7 @@ class DepartmentFireCrud {
     DocumentReference documentReferencer = DepartmentCollection.doc();
     DepartmentModel department = DepartmentModel(
       id: "",
-      timestamp: DateTime
-          .now()
-          .millisecondsSinceEpoch,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
       country: country,
       contactNumber: contactNumber,
       location: location,

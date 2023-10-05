@@ -47,7 +47,7 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController familyController = TextEditingController(text: "Select");
   TextEditingController familyIDController = TextEditingController(text: "Select");
   //TextEditingController departmentController = TextEditingController();
-  TextEditingController bloodGroupController = TextEditingController();
+  TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController aadharNoController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
@@ -203,7 +203,6 @@ class _StudentTabState extends State<StudentTab> {
                           });
                           //clearTextControllers();
                         }
-
                       },
                       child: Container(
                         height: 35,
@@ -482,6 +481,9 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: firstNameController,
                                     )
@@ -503,6 +505,9 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: lastNameController,
                                     )
@@ -570,7 +575,7 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     TextFormField(
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: guardianController,
@@ -622,8 +627,10 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      controller: baptizeDateController,
                                       onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
@@ -634,7 +641,6 @@ class _StudentTabState extends State<StudentTab> {
                                           });
                                         }
                                       },
-                                      controller: baptizeDateController,
                                     )
                                   ],
                                 ),
@@ -859,10 +865,36 @@ class _StudentTabState extends State<StudentTab> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: bloodGroupController,
-                                    )
+                                    const SizedBox(height: 10),
+                                    DropdownButton(
+                                      isExpanded: true,
+                                      value: bloodGroupController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Blood Group",
+                                        "AB+",
+                                        "AB-",
+                                        "O+",
+                                        "O-",
+                                        "A+",
+                                        "A-",
+                                        "B+",
+                                        "B-"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        if (newValue != "Select Role") {
+                                          setState(() {
+                                            bloodGroupController.text =
+                                            newValue!;
+                                          });
+                                        }
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -882,8 +914,10 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                     TextFormField(
                                       style: const TextStyle(fontSize: 12),
+                                      controller: dobController,
                                       onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
@@ -894,7 +928,6 @@ class _StudentTabState extends State<StudentTab> {
                                           });
                                         }
                                       },
-                                      controller: dobController,
                                     )
                                   ],
                                 ),
@@ -914,6 +947,9 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: nationalityController,
                                     )
@@ -996,7 +1032,7 @@ class _StudentTabState extends State<StudentTab> {
                                         guardianController.text = "";
                                         guardianPhoneController.text = "";
                                         baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
+                                        bloodGroupController.text = 'Select Blood Group';
                                         aadharNoController.text = "";
                                         //departmentController.text = "";
                                         dobController.text = "";
@@ -2256,7 +2292,7 @@ class _StudentTabState extends State<StudentTab> {
                                   guardianController.text = "";
                                   guardianPhoneController.text = "";
                                   baptizeDateController.text = "";
-                                  bloodGroupController.text = "";
+                                  bloodGroupController.text = 'Select Blood Group';
                                   aadharNoController.text = "";
                                   //departmentController.text = "";
                                   dobController.text = "";
@@ -2414,6 +2450,9 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: const TextStyle(fontSize: 12),
                                           controller: firstNameController,
                                         )
@@ -2435,25 +2474,68 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: const TextStyle(fontSize: 12),
                                           controller: lastNameController,
                                         )
                                       ],
                                     ),
                                   ),
-
                                 ],
                               ),
                               const SizedBox(height: 30),
                               Row(
                                 children: [
+                                  Container(
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Gender *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          value: genderController.text,
+                                          isExpanded: true,
+                                          underline: Container(),
+                                          icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                          items: ["Select Gender", "Male", "Female","Transgender"]
+                                              .map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              genderController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
                                   SizedBox(
                                     width: 300,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: 'Father/Guardian *',
+                                          text: 'Father / Guardian *',
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: 13,
@@ -2461,6 +2543,9 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: const TextStyle(fontSize: 12),
                                           controller: guardianController,
                                         )
@@ -2474,28 +2559,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Father/Guardian Phone *",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          style: const TextStyle(fontSize: 12),
-                                          controller: guardianPhoneController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  SizedBox(
-                                    width: 300,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Aadhaar Number",
+                                          text: "Father / Guardian Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: 13,
@@ -2504,10 +2568,10 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                         TextFormField(
                                           inputFormatters: [
-                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                           ],
                                           style: const TextStyle(fontSize: 12),
-                                          controller: aadharNoController,
+                                          controller: guardianPhoneController,
                                         )
                                       ],
                                     ),
@@ -2533,6 +2597,19 @@ class _StudentTabState extends State<StudentTab> {
                                         TextFormField(
                                           style: const TextStyle(fontSize: 12),
                                           controller: baptizeDateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                baptizeDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
                                         )
                                       ],
                                     ),
@@ -2552,6 +2629,9 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                          ],
                                           style: const TextStyle(fontSize: 12),
                                           controller: ageController,
                                         )
@@ -2579,11 +2659,11 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                         DropdownButton(
                                           value: classController.text,
+                                          underline: Container(),
                                           isExpanded: true,
-                                           underline: Container(),
                                           icon:
                                           const Icon(Icons.keyboard_arrow_down),
-                                          items: ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
+                                          items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
                                               .map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -2645,6 +2725,8 @@ class _StudentTabState extends State<StudentTab> {
                                             });
                                           },
                                         ),
+
+
                                         // TextFormField(
                                         //   style: const TextStyle(fontSize: 12),
                                         //   controller: familyController,
@@ -2693,48 +2775,50 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                   ),
                                   const SizedBox(width: 20),
-                                  Container(
+                                  SizedBox(
                                     width: 300,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(width: 1.5,color: Colors.grey)
-                                        )
-                                    ),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender *",
+                                          text: "Aadhaar Number",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-
-                                        DropdownButton(
-                                          value: genderController.text,
-                                          isExpanded: true,
-
-                                          underline: Container(),
-                                          icon:
-                                          const Icon(Icons.keyboard_arrow_down),
-                                          items: ["Select Gender", "Male", "Female","Transgender"]
-                                              .map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              genderController.text = newValue!;
-                                            });
-                                          },
-                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                          ],
+                                          style: const TextStyle(fontSize: 12),
+                                          controller: aadharNoController,
+                                        )
                                       ],
                                     ),
                                   ),
+                                  // const SizedBox(width: 20),
+                                  // SizedBox(
+                                  //   width: 300,
+                                  //   child: Column(
+                                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       KText(
+                                  //         text: "Department",
+                                  //         style: GoogleFonts.openSans(
+                                  //           color: Colors.black,
+                                  //           fontSize: 13,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //       TextFormField(
+                                  //         style: const TextStyle(fontSize: 12),
+                                  //         controller: departmentController,
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               const SizedBox(height: 30),
@@ -2753,10 +2837,36 @@ class _StudentTabState extends State<StudentTab> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        TextFormField(
-                                          style: const TextStyle(fontSize: 12),
-                                          controller: bloodGroupController,
-                                        )
+                                        const SizedBox(height: 10),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: bloodGroupController.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Blood Group",
+                                            "AB+",
+                                            "AB-",
+                                            "O+",
+                                            "O-",
+                                            "A+",
+                                            "A-",
+                                            "B+",
+                                            "B-"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Role") {
+                                              setState(() {
+                                                bloodGroupController.text =
+                                                newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -2777,6 +2887,19 @@ class _StudentTabState extends State<StudentTab> {
                                         TextFormField(
                                           style: const TextStyle(fontSize: 12),
                                           controller: dobController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                dobController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
                                         )
                                       ],
                                     ),
@@ -2796,6 +2919,9 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: const TextStyle(fontSize: 12),
                                           controller: nationalityController,
                                         )
@@ -2823,6 +2949,9 @@ class _StudentTabState extends State<StudentTab> {
                                             //department: departmentController.text,
                                             clasS: classController.text,
                                             age: ageController.text,
+                                            imgUrl: student.imgUrl,
+                                            familyid: familyIDController.text,
+                                            timestamp: student.timestamp,
                                             guardian: guardianController.text,
                                             guardianPhone:
                                             guardianPhoneController.text,
@@ -2862,7 +2991,7 @@ class _StudentTabState extends State<StudentTab> {
                                             guardianPhoneController.text = "";
                                             baptizeDateController.text = "";
                                             aadharNoController.text = "";
-                                            bloodGroupController.text = "";
+                                            bloodGroupController.text = 'Select Blood Group';
                                             //departmentController.text = "";
                                             dobController.text = "";
                                             familyController.text = "";

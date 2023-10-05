@@ -234,6 +234,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: nameController,
                                     )
@@ -255,6 +258,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: leadernameController,
                                     )
@@ -280,6 +286,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: numberController,
                                     )
@@ -301,6 +310,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: locationController,
                                     )
@@ -350,6 +362,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            ],
                                             style: const TextStyle(
                                                 fontSize: 12),
                                             controller: descriptionController,
@@ -440,6 +455,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: cityController,
                                     )
@@ -461,6 +479,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: countryController,
                                     )
@@ -482,6 +503,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: zoneController,
                                     )
@@ -498,15 +522,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   if (nameController.text != "" &&
                                       leadernameController.text != "" &&
                                       locationController.text != "" &&
-                                      descriptionController.text != "" &&
                                       numberController.text != "" &&
-                                      numberController.text.length == 10 &&
-                                      cityController.text != "" &&
-                                      addressController.text != "" &&
-                                      countryController.text != "" &&
-                                      zoneController.text != "") {
-                                    Response response = await DepartmentFireCrud
-                                        .addDepartment(
+                                      numberController.text.length == 10) {
+                                    Response response = await DepartmentFireCrud.addDepartment(
                                         name: nameController.text,
                                         leaderName: leadernameController.text,
                                         contactNumber: numberController.text,
@@ -1551,9 +1569,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 8),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.account_tree),
-                        const SizedBox(width: 10),
                         KText(
                           text: "EDIT DEPARTMENT",
                           style: GoogleFonts.openSans(
@@ -1612,6 +1629,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: nameController,
                                     )
@@ -1633,6 +1653,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: leadernameController,
                                     )
@@ -1658,6 +1681,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: numberController,
                                     )
@@ -1679,6 +1705,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: locationController,
                                     )
@@ -1728,6 +1757,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            ],
                                             style: const TextStyle(
                                                 fontSize: 12),
                                             controller: descriptionController,
@@ -1818,6 +1850,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: cityController,
                                     )
@@ -1839,6 +1874,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: countryController,
                                     )
@@ -1860,6 +1898,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: const TextStyle(fontSize: 12),
                                       controller: zoneController,
                                     )

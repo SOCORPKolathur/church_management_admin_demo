@@ -106,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Quire",
+      name: "Choir",
       page: const ChorusTab(),
       icon: Icons.music_video,
       isExpanded: false,
@@ -247,7 +247,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Attendance Records",
+      name: "Student Attendance",
       page: const AttendanceRecordTab(),
       icon: Icons.insert_drive_file_sharp,
       isExpanded: false,
@@ -437,7 +437,7 @@ class _HomeViewState extends State<HomeView> {
                 break;
               case "CHORUS":
                 drawerItems.add(DrawerModel(
-                  name: "Quire",
+                  name: "Choir",
                   page: const ChorusTab(),
                   icon: Icons.music_video,
                   isExpanded: false,
@@ -473,7 +473,7 @@ class _HomeViewState extends State<HomeView> {
                 break;
               case "ATTENDANCE RECORD":
                 drawerItems.add(DrawerModel(
-                  name: "Attendance Records",
+                  name: "Student Attendance",
                   page: const AttendanceRecordTab(),
                   icon: Icons.insert_drive_file_sharp,
                   isExpanded: false,

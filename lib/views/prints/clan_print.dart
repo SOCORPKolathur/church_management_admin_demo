@@ -1,10 +1,10 @@
 import 'dart:typed_data';
-import 'package:church_management_admin/models/clan_model.dart';
+import 'package:church_management_admin/models/clan_member_model.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateClanPdf(PdfPageFormat pageFormat,List<ClansModel> clans, bool isPdf) async {
+Future<Uint8List> generateClanPdf(PdfPageFormat pageFormat,List<ClanMemberModel> clans, bool isPdf) async {
 
   final event = ClanModelforPdf(
       title: "Clans",
@@ -18,7 +18,7 @@ class ClanModelforPdf{
 
   ClanModelforPdf({required this.title, required this.clans});
   String? title;
-  List<ClansModel> clans = [];
+  List<ClanMemberModel> clans = [];
 
   Future<Uint8List> buildPdf(PdfPageFormat pageFormat, bool isPdf) async {
 

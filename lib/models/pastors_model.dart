@@ -15,6 +15,8 @@ class PastorsModel {
   String? job;
   String? country;
   String? family;
+  String? familyId;
+  String? maritalStatus;
   String? department;
   String? bloodGroup;
   String? dob;
@@ -40,6 +42,8 @@ class PastorsModel {
         this.socialStatus,
         this.job,
         this.family,
+        this.familyId,
+        this.maritalStatus,
         this.department,
         this.bloodGroup,
         this.dob,
@@ -64,6 +68,8 @@ class PastorsModel {
     socialStatus = json['socialStatus'];
     job = json['job'];
     family = json['family'];
+    familyId = json['familyId'];
+    maritalStatus = json['maritalStatus'];
     department = json['department'];
     bloodGroup = json['bloodGroup'];
     dob = json['dob'];
@@ -90,6 +96,8 @@ class PastorsModel {
     data['socialStatus'] = this.socialStatus;
     data['job'] = this.job;
     data['family'] = this.family;
+    data['familyId'] = this.familyId;
+    data['maritalStatus'] = this.maritalStatus;
     data['department'] = this.department;
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;

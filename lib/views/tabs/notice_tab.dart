@@ -233,7 +233,7 @@ class _NoticesTabState extends State<NoticesTab> {
                     ),
                   ),
                   Container(
-                    height: size.height * 0.45,
+                    height: size.height * 0.55,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                         color: Color(0xffF7FAFC),
@@ -268,26 +268,23 @@ class _NoticesTabState extends State<NoticesTab> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
-                                        controller: dateController,
                                         decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffixIcon: IconButton(
-                                              onPressed: () async {
-                                                DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1900),
-                                                    lastDate: DateTime(3000));
-                                                if (pickedDate != null) {
-                                                  setState(() {
-                                                    dateController.text = formatter.format(pickedDate);
-                                                  });
-                                                }
-                                              },
-                                              icon: Icon(Icons.date_range,color: Constants().primaryAppColor),
-                                            )
+                                          border: InputBorder.none
                                         ),
+                                        controller: dateController,
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              dateController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
                                       ),
                                     ),
                                   ),
@@ -1109,7 +1106,6 @@ class _NoticesTabState extends State<NoticesTab> {
                                         controller: descriptionController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: "Lucky",
                                           hintStyle: GoogleFonts.openSans(
                                             fontSize: 14,
                                           ),

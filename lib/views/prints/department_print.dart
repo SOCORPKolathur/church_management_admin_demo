@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:church_management_admin/models/clan_model.dart';
+import 'package:church_management_admin/models/clan_member_model.dart';
 import 'package:church_management_admin/models/department_model.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';

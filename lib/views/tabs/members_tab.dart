@@ -43,7 +43,7 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController familyController = TextEditingController(text: "Select");
   TextEditingController familyIDController = TextEditingController(text: "Select");
   TextEditingController departmentController = TextEditingController();
-  TextEditingController bloodGroupController = TextEditingController();
+  TextEditingController bloodGroupController = TextEditingController(text: "Select Blood Group");
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -536,6 +536,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: firstNameController,
                                     )
@@ -557,6 +560,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: lastNameController,
                                     )
@@ -700,8 +706,10 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                     TextFormField(
                                       style:  TextStyle(fontSize: width/113.83),
+                                      controller: baptizeDateController,
                                       onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
@@ -712,7 +720,6 @@ class _MembersTabState extends State<MembersTab> {
                                           });
                                         }
                                       },
-                                      controller: baptizeDateController,
                                     )
                                   ],
                                 ),
@@ -761,8 +768,10 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                     TextFormField(
                                       style:  TextStyle(fontSize: width/113.83),
+                                      controller: marriageDateController,
                                       onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
@@ -773,7 +782,6 @@ class _MembersTabState extends State<MembersTab> {
                                           });
                                         }
                                       },
-                                      controller: marriageDateController,
                                     )
                                   ],
                                 ),
@@ -966,7 +974,7 @@ class _MembersTabState extends State<MembersTab> {
                           Row(
                             children: [
                               SizedBox(
-                                width: width/4.553,
+                                width: 300,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -974,14 +982,40 @@ class _MembersTabState extends State<MembersTab> {
                                       text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: width/105.076,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
-                                      style:  TextStyle(fontSize: width/113.83),
-                                      controller: bloodGroupController,
-                                    )
+                                    const SizedBox(height: 10),
+                                    DropdownButton(
+                                      isExpanded: true,
+                                      value: bloodGroupController.text,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Blood Group",
+                                        "AB+",
+                                        "AB-",
+                                        "O+",
+                                        "O-",
+                                        "A+",
+                                        "A-",
+                                        "B+",
+                                        "B-"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        if (newValue != "Select Role") {
+                                          setState(() {
+                                            bloodGroupController.text =
+                                            newValue!;
+                                          });
+                                        }
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1001,8 +1035,10 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                     TextFormField(
                                       style:  TextStyle(fontSize: width/113.83),
+                                      controller: dobController,
                                       onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
@@ -1013,7 +1049,6 @@ class _MembersTabState extends State<MembersTab> {
                                           });
                                         }
                                       },
-                                      controller: dobController,
                                     )
                                   ],
                                 ),
@@ -1033,6 +1068,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: nationalityController,
                                     )
@@ -1188,7 +1226,7 @@ class _MembersTabState extends State<MembersTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
+                                        bloodGroupController.text = "Select Blood Group";
                                         genderController.text = "Select Gender";
                                         addressController.text = "";
                                         familyController.text = "Select";
@@ -2640,7 +2678,7 @@ class _MembersTabState extends State<MembersTab> {
                               uploadedImage = null;
                               profileImage = null;
                               baptizeDateController.text = "";
-                              bloodGroupController.text = "";
+                              bloodGroupController.text = "Select Blood Group";
                               aadharNoController.text = "";
                               departmentController.text = "";
                               dobController.text = "";
@@ -2807,6 +2845,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: firstNameController,
                                     )
@@ -2828,6 +2869,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: lastNameController,
                                     )
@@ -2972,6 +3016,19 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: baptizeDateController,
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            baptizeDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -3021,6 +3078,19 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: marriageDateController,
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            marriageDateController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -3249,6 +3319,19 @@ class _MembersTabState extends State<MembersTab> {
                                     TextFormField(
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: dobController,
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                        await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(3000));
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            dobController.text = formatter.format(pickedDate);
+                                          });
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -3268,6 +3351,9 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: nationalityController,
                                     )
@@ -3396,7 +3482,8 @@ class _MembersTabState extends State<MembersTab> {
                                         baptizemCertificate: member.baptizemCertificate,
                                         address: addressController.text,
                                         gender: genderController.text,
-                                        id: member.id,timestamp: member.timestamp,
+                                        id: member.id,
+                                        timestamp: member.timestamp,
                                         baptizeDate: baptizeDateController.text,
                                         bloodGroup: bloodGroupController.text,
                                         department: departmentController.text,
@@ -3433,7 +3520,7 @@ class _MembersTabState extends State<MembersTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
+                                        bloodGroupController.text = "Select Blood Group";
                                         departmentController.text = "";
                                         memberIdController.text = "";
                                         aadharNoController.text = "";

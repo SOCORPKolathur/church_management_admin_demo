@@ -1,33 +1,74 @@
 import 'dart:html';
-import 'package:church_management_admin/models/clan_model.dart';
+import 'package:church_management_admin/models/clan_member_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../models/clan_model.dart';
 import '../models/response.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference ClansCollection = firestore.collection('Clans');
+final CollectionReference ClanMemberCollection = firestore.collection('ClansMembers');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class ClansFireCrud {
-  static Stream<List<ClansModel>> fetchClans() => ClansCollection
-      .orderBy("timestamp", descending: false)
+  static Stream<List<ClansModel>> fetchClans() => firestore.collection('Clans')
       .snapshots()
       .map((snapshot) => snapshot.docs
-      .map((doc) => ClansModel.fromJson(doc.data() as Map<String,dynamic>))
+      .map((doc) => ClansModel.fromJson(doc.data()))
       .toList());
 
-  static Stream<List<ClansModel>> fetchClansWithSearch(String text) => ClansCollection
-      .orderBy("timestamp", descending: false)
-      .snapshots()
+  static Stream<List<ClanMemberModel>> fetchClanMembers(String id) =>
+      firestore.collection('Clans').doc(id).collection('ClansMembers').snapshots()
       .map((snapshot) => snapshot.docs
-      .where((element) => (element['firstName'].toString().toLowerCase().startsWith(text)||
-      element['phone'].toString().toLowerCase().startsWith(text)||
-      element['position'].toString().toLowerCase().startsWith(text)))
-      .map((doc) => ClansModel.fromJson(doc.data() as Map<String,dynamic>))
+      .map((doc) => ClanMemberModel.fromJson(doc.data()))
       .toList());
 
-  static Future<Response> addClan(
-      {required File image,
+  static Future<Response> addClan({required String name}) async {
+    Response response = Response();
+      DocumentReference documentReferencer = ClansCollection.doc();
+      ClansModel clan = ClansModel(
+          id: "",
+          clanName: name,
+      );
+      clan.id = documentReferencer.id;
+      var json = clan.toJson();
+      var result = await documentReferencer.set(json).whenComplete(() {
+        response.code = 200;
+        response.message = "Sucessfully added to the database";
+      }).catchError((e) {
+        response.code = 500;
+        response.message = e;
+      });
+      return response;
+  }
+
+
+  static Future<Response> deleteRecord({required String docId}) async {
+    Response res = Response();
+    DocumentReference documentReferencer = ClansCollection.doc(docId);
+    var result = await documentReferencer.delete().whenComplete((){
+      res.code = 200;
+      res.message = "Sucessfully Deleted from database";
+    }).catchError((e){
+      res.code = 500;
+      res.message = e;
+    });
+    return res;
+  }
+
+  // static Stream<List<ClansModel>> fetchClansWithSearch(String text) => ClansCollection
+  //     .orderBy("timestamp", descending: false)
+  //     .snapshots()
+  //     .map((snapshot) => snapshot.docs
+  //     .where((element) => (element['firstName'].toString().toLowerCase().startsWith(text)||
+  //     element['phone'].toString().toLowerCase().startsWith(text)||
+  //     element['position'].toString().toLowerCase().startsWith(text)))
+  //     .map((doc) => ClansModel.fromJson(doc.data() as Map<String,dynamic>))
+  //     .toList());
+  //
+  static Future<Response> addClanMember(
+      {required String docId,
+        required File image,
         required String baptizeDate,
         required String bloodGroup,
         required String department,
@@ -47,8 +88,8 @@ class ClansFireCrud {
         required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
-    DocumentReference documentReferencer = ClansCollection.doc();
-    ClansModel clan = ClansModel(
+    DocumentReference documentReferencer = ClansCollection.doc(docId).collection('ClansMembers').doc();
+    ClanMemberModel clan = ClanMemberModel(
         id: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
         socialStatus: socialStatus,
@@ -90,16 +131,10 @@ class ClansFireCrud {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
   }
-
-  static Future<Response> updateRecord(ClansModel clan,File? image,String imgUrl) async {
+  //
+  static Future<Response> updateRecord(ClanMemberModel clan,String imgUrl, docId) async {
     Response res = Response();
-    if(image != null) {
-      String downloadUrl = await uploadImageToStorage(image);
-      clan.imgUrl = downloadUrl;
-    }else{
-      clan.imgUrl = imgUrl;
-    }
-    DocumentReference documentReferencer = ClansCollection.doc(clan.id);
+    DocumentReference documentReferencer = ClansCollection.doc(docId).collection('ClansMembers').doc(clan.id);
     var result = await documentReferencer.update(clan.toJson()).whenComplete(() {
       res.code = 200;
       res.message = "Sucessfully Updated from database";
@@ -109,10 +144,10 @@ class ClansFireCrud {
     });
     return res;
   }
-
-  static Future<Response> deleteRecord({required String id}) async {
+  //
+  static Future<Response> deleteMemberRecord({required String docId, required String id}) async {
     Response res = Response();
-    DocumentReference documentReferencer = ClansCollection.doc(id);
+    DocumentReference documentReferencer = ClansCollection.doc(docId).collection('ClansMembers').doc(id);
     var result = await documentReferencer.delete().whenComplete((){
       res.code = 200;
       res.message = "Sucessfully Deleted from database";

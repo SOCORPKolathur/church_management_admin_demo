@@ -7,6 +7,7 @@ import 'package:church_management_admin/services/family_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 
@@ -322,6 +323,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: familynameController,
                                     )
@@ -343,6 +347,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: familyleadernameController,
                                     )
@@ -459,6 +466,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: familynumberController,
                                     )
@@ -563,6 +573,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: cityController,
                                     )
@@ -584,6 +597,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: countryController,
                                     )
@@ -605,6 +621,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: zoneController,
                                     )
@@ -1629,6 +1648,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: familynameController,
                                         )
@@ -1650,6 +1672,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: familyleadernameController,
                                         )
@@ -1812,6 +1837,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: cityController,
                                         )
@@ -1833,6 +1861,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: countryController,
                                         )
