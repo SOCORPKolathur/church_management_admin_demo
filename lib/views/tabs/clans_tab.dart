@@ -75,6 +75,7 @@ class _ClansTabState extends State<ClansTab> {
       setState(() {});
     });
   }
+  String chumma = '';
 
   @override
   Widget build(BuildContext context) {
