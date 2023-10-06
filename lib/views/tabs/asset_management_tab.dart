@@ -1887,7 +1887,8 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                                     ),
                                                   )
                                                 ],
-                                              )),
+                                              ),
+                                          ),
                                         ],
                                       ),
                                     );

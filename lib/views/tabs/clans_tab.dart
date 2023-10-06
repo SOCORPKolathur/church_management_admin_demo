@@ -37,7 +37,7 @@ class _ClansTabState extends State<ClansTab> {
   TextEditingController jobController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
-  TextEditingController bloodGroupController = TextEditingController();
+  TextEditingController bloodGroupController = TextEditingController(text: "Select Blood Group");
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -290,6 +290,9 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: firstNameController,
                                     )
@@ -311,6 +314,9 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: lastNameController,
                                     )
@@ -432,6 +438,9 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: positionController,
                                     )
@@ -780,7 +789,7 @@ class _ClansTabState extends State<ClansTab> {
                                         uploadedImage = null;
                                         profileImage = null;
                                         baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
+                                        bloodGroupController.text = "Select Blood Group";
                                         departmentController.text = "";
                                         pincodeController.text = "";
                                         dobController.text = "";
@@ -2379,721 +2388,821 @@ class _ClansTabState extends State<ClansTab> {
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content:  Container(
-            height: size.height * 1.51,
-            width: width/1.241,
-            margin:   EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
-                      ),
-            decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width/68.3, vertical: height/81.375),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        KText(
-                          text: "ADD CLAN MEMBER",
-                          style: GoogleFonts.openSans(
-                              fontSize: width/68.3,
-                            fontWeight: FontWeight.bold,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content:  Container(
+                height: size.height * 1.51,
+                width: width/1.241,
+                margin:   EdgeInsets.symmetric(
+                              vertical: height/32.55,
+                              horizontal: width/68.3
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              uploadedImage = null;
-                              profileImage = null;
-                              baptizeDateController.text = "";
-                              bloodGroupController.text = "";
-                              departmentController.text = "";
-                              dobController.text = "";
-                              emailController.text = "";
-                              familyController.text = "";
-                              pincodeController.text = "";
-                              firstNameController.text = "";
-                              jobController.text = "";
-                              lastNameController.text = "";
-                              marriageDateController.text = "";
-                              nationalityController.text = "";
-                              phoneController.text = "";
-                              positionController.text = "";
-                              socialStatusController.text = "";
-                              countryController.text = "";
-                              genderController.text = 'Select Gender';
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.cancel_outlined,
-                          ),
-                        )
-                      ],
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
                     ),
-                  ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )),
-                    padding:   EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
-                      ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height:height/3.829,
-                               width:width/3.902,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Constants().primaryAppColor,
-                                      width: 2),
-                                  image: selectedImg != null
-                                      ? DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(selectedImg!))
-                                      : uploadedImage != null
-                                      ? DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: MemoryImage(
-                                      Uint8List.fromList(
-                                        base64Decode(uploadedImage!
-                                            .split(',')
-                                            .last),
-                                      ),
-                                    ),
-                                  )
-                                      : null),
-                              child: selectedImg == null
-                                  ? Center(
-                                child: Icon(
-                                  Icons.cloud_upload,
-                                  size:width/8.5375,
-                                  color: Colors.grey,
-                                ),
-                              )
-                                  : null,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width/68.3, vertical: height/81.375),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            KText(
+                              text: "ADD CLAN MEMBER",
+                              style: GoogleFonts.openSans(
+                                  fontSize: width/68.3,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  uploadedImage = null;
+                                  profileImage = null;
+                                  baptizeDateController.text = "";
+                                  bloodGroupController.text = "Select Blood Group";
+                                  departmentController.text = "";
+                                  dobController.text = "";
+                                  emailController.text = "";
+                                  familyController.text = "";
+                                  pincodeController.text = "";
+                                  firstNameController.text = "";
+                                  jobController.text = "";
+                                  lastNameController.text = "";
+                                  marriageDateController.text = "";
+                                  nationalityController.text = "";
+                                  phoneController.text = "";
+                                  positionController.text = "";
+                                  socialStatusController.text = "";
+                                  countryController.text = "";
+                                  genderController.text = 'Select Gender';
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.cancel_outlined,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            )),
+                        padding:   EdgeInsets.symmetric(
+                              vertical: height/32.55,
+                              horizontal: width/68.3
                           ),
-                          SizedBox(height:height/32.55),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              InkWell(
-                                onTap: selectImage,
+                              Center(
                                 child: Container(
-                                  height:height/18.6,
-                                  width: size.width * 0.25,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.add_a_photo,
-                                          color: Colors.white),
-                                      SizedBox(width:width/136.6),
-                                      KText(
-                                        text: 'Select Profile Photo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width:width/27.32),
-                              Container(
-                                height:height/18.6,
-                                width: size.width * 0.25,
-                                color: Constants().primaryAppColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width:width/136.6),
-                                    KText(
-                                      text: 'Disable Crop',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Firstname *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: firstNameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Lastname *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: lastNameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              Container(
-                             width:width/4.553,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width:width/910.66,
-                                      color: Colors.grey
-                                    )
-                                  )
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Gender *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      value: genderController.text,
-                                      underline: Container(),
-                                      isExpanded: true,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items: [
-                                        "Select Gender",
-                                        "Male",
-                                        "Female",
-                                        "Transgender"
-                                      ].map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          genderController.text = newValue!;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Phone *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                      ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: phoneController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Email *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: emailController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Position",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: positionController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Baptize Date",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: baptizeDateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Marriage Date",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: marriageDateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              Container(
-                             width:width/4.553,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width:width/910.66,
-                                      color: Colors.grey
-                                    )
-                                  )
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Social Status",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      isExpanded: true,
-                                      value: socialStatusController.text,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: Container(),
-                                      items: [
-                                        "Select",
-                                        "Politicians",
-                                        "Social Service",
-                                        "Others"
-                                      ].map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          socialStatusController.text = newValue!;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Employment/Job",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: jobController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Family *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: familyController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: departmentController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Blood Group *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: bloodGroupController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Date of Birth *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: dobController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Nationality *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: nationalityController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Pincode *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: pincodeController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  if (
-                                      baptizeDateController.text != "" &&
-                                      bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
-                                      pincodeController.text != "" &&
-                                      dobController.text != "" &&
-                                      emailController.text != "" &&
-                                      familyController.text != "" &&
-                                      firstNameController.text != "" &&
-                                      jobController.text != "" &&
-                                      lastNameController.text != "" &&
-                                      nationalityController.text != "" &&
-                                      phoneController.text != "" &&
-                                      positionController.text != "" &&
-                                      socialStatusController.text != "") {
-                                    Response response =
-                                    await ClansFireCrud.addClanMember(
-                                            image: profileImage!,
-                                            docId: docId,
-                                            baptizeDate: baptizeDateController.text,
-                                            bloodGroup: bloodGroupController.text,
-                                            department: departmentController.text,
-                                            dob: dobController.text,
-                                            email: emailController.text,
-                                            family: familyController.text,
-                                            firstName: firstNameController.text,
-                                            job: jobController.text,
-                                            pincode: pincodeController.text,
-                                            lastName: lastNameController.text,
-                                            marriageDate: marriageDateController.text,
-                                            nationality: nationalityController.text,
-                                            phone: phoneController.text,
-                                            position: positionController.text,
-                                            socialStatus: socialStatusController.text,
-                                            country: countryController.text,
-                                            gender : genderController.text
-                                    );
-                                    if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Clan member created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      setState(() {
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
-                                        departmentController.text = "";
-                                        dobController.text = "";
-                                        pincodeController.text = "";
-                                        emailController.text = "";
-                                        familyController.text = "";
-                                        firstNameController.text = "";
-                                        jobController.text = "";
-                                        lastNameController.text = "";
-                                        marriageDateController.text = "";
-                                        nationalityController.text = "";
-                                        phoneController.text = "";
-                                        positionController.text = "";
-                                        socialStatusController.text = "";
-                                        countryController.text = "";
-                                        genderController.text = "Select Gender";
-                                      });
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to create Clan member!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      Navigator.pop(context);
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: Container(
-                                  height:height/18.6,
+                                  height:height/3.829,
+                                   width:width/3.902,
                                   decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
+                                      border: Border.all(
+                                          color: Constants().primaryAppColor,
+                                          width: 2),
+                                      image: selectedImg != null
+                                          ? DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(selectedImg!))
+                                          : uploadedImage != null
+                                          ? DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: MemoryImage(
+                                          Uint8List.fromList(
+                                            base64Decode(uploadedImage!
+                                                .split(',')
+                                                .last),
+                                          ),
+                                        ),
+                                      )
+                                          : null),
+                                  child: selectedImg == null
+                                      ? Center(
+                                    child: Icon(
+                                      Icons.cloud_upload,
+                                      size:width/8.5375,
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                      : null,
+                                ),
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: selectImage,
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add_a_photo,
+                                              color: Colors.white),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Select Profile Photo',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
-                                    child: Center(
-                                      child: KText(
-                                        text: "Add",
-                                        style: GoogleFonts.openSans(
+                                  SizedBox(width:width/27.32),
+                                  Container(
+                                    height:height/18.6,
+                                    width: size.width * 0.25,
+                                    color: Constants().primaryAppColor,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.crop,
                                           color: Colors.white,
-                                           fontSize:width/136.6,
-                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        SizedBox(width:width/136.6),
+                                        KText(
+                                          text: 'Disable Crop',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Firstname *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: firstNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Lastname *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: lastNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  Container(
+                                 width:width/4.553,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          width:width/910.66,
+                                          color: Colors.grey
+                                        )
+                                      )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Gender *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          value: genderController.text,
+                                          underline: Container(),
+                                          isExpanded: true,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Gender",
+                                            "Male",
+                                            "Female",
+                                            "Transgender"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              genderController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Phone *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 10,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: phoneController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Email *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: emailController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Position",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: positionController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Baptize Date",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: baptizeDateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                baptizeDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Marriage Date",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: marriageDateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                marriageDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  Container(
+                                 width:width/4.553,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          width:width/910.66,
+                                          color: Colors.grey
+                                        )
+                                      )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Social Status",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: socialStatusController.text,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select",
+                                            "Politicians",
+                                            "Social Service",
+                                            "Others"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              socialStatusController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Employment/Job",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: jobController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Family *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: familyController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: departmentController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Blood Group *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: height / 50.076),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: bloodGroupController.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Blood Group",
+                                            "AB+",
+                                            "AB-",
+                                            "O+",
+                                            "O-",
+                                            "A+",
+                                            "A-",
+                                            "B+",
+                                            "B-"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Role") {
+                                              setState(() {
+                                                bloodGroupController.text =
+                                                newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Date of Birth *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: dobController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                dobController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Nationality *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: nationalityController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Pincode *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 6,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: pincodeController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if (
+                                          baptizeDateController.text != "" &&
+                                          bloodGroupController.text != "" &&
+                                          departmentController.text != "" &&
+                                          pincodeController.text != "" &&
+                                          dobController.text != "" &&
+                                          emailController.text != "" &&
+                                          familyController.text != "" &&
+                                          firstNameController.text != "" &&
+                                          jobController.text != "" &&
+                                          lastNameController.text != "" &&
+                                          nationalityController.text != "" &&
+                                          phoneController.text != "" &&
+                                          positionController.text != "" &&
+                                          socialStatusController.text != "") {
+                                        Response response =
+                                        await ClansFireCrud.addClanMember(
+                                                image: profileImage!,
+                                                docId: docId,
+                                                baptizeDate: baptizeDateController.text,
+                                                bloodGroup: bloodGroupController.text,
+                                                department: departmentController.text,
+                                                dob: dobController.text,
+                                                email: emailController.text,
+                                                family: familyController.text,
+                                                firstName: firstNameController.text,
+                                                job: jobController.text,
+                                                pincode: pincodeController.text,
+                                                lastName: lastNameController.text,
+                                                marriageDate: marriageDateController.text,
+                                                nationality: nationalityController.text,
+                                                phone: phoneController.text,
+                                                position: positionController.text,
+                                                socialStatus: socialStatusController.text,
+                                                country: countryController.text,
+                                                gender : genderController.text
+                                        );
+                                        if (response.code == 200) {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.success,
+                                              text: "Clan member created successfully!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          setState(() {
+                                            uploadedImage = null;
+                                            profileImage = null;
+                                            baptizeDateController.text = "";
+                                            bloodGroupController.text = "Select Blood Group";
+                                            departmentController.text = "";
+                                            dobController.text = "";
+                                            pincodeController.text = "";
+                                            emailController.text = "";
+                                            familyController.text = "";
+                                            firstNameController.text = "";
+                                            jobController.text = "";
+                                            lastNameController.text = "";
+                                            marriageDateController.text = "";
+                                            nationalityController.text = "";
+                                            phoneController.text = "";
+                                            positionController.text = "";
+                                            socialStatusController.text = "";
+                                            countryController.text = "";
+                                            genderController.text = "Select Gender";
+                                          });
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        } else {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.error,
+                                              text: "Failed to create Clan member!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          Navigator.pop(context);
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: width/68.3),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Add",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                               fontSize:width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
+                                  SizedBox(width:width/68.3),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );
@@ -3106,689 +3215,782 @@ class _ClansTabState extends State<ClansTab> {
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content:  Container(
-            height: size.height * 1.51,
-            width: width/1.241,
-            margin:   EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
-                      ),
-            decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
+        return StatefulBuilder(
+          builder: (context,setState) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content:  Container(
+                height: size.height * 1.51,
+                width: width/1.241,
+                margin:   EdgeInsets.symmetric(
+                              vertical: height/32.55,
+                              horizontal: width/68.3
+                          ),
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width/68.3, vertical: height/81.375),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        KText(
-                          text: "EDIT CLAN MEMBER",
-                          style: GoogleFonts.openSans(
-                              fontSize: width/68.3,
-                            fontWeight: FontWeight.bold,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width/68.3, vertical: height/81.375),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            KText(
+                              text: "EDIT CLAN MEMBER",
+                              style: GoogleFonts.openSans(
+                                  fontSize: width/68.3,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  uploadedImage = null;
+                                  profileImage = null;
+                                  baptizeDateController.text = "";
+                                  bloodGroupController.text = "Select Blood Group";
+                                  departmentController.text = "";
+                                  dobController.text = "";
+                                  emailController.text = "";
+                                  familyController.text = "";
+                                  pincodeController.text = "";
+                                  firstNameController.text = "";
+                                  jobController.text = "";
+                                  lastNameController.text = "";
+                                  marriageDateController.text = "";
+                                  nationalityController.text = "";
+                                  phoneController.text = "";
+                                  positionController.text = "";
+                                  socialStatusController.text = "";
+                                  countryController.text = "";
+                                  genderController.text = 'Select Gender';
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.cancel_outlined,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            )),
+                        padding:   EdgeInsets.symmetric(
+                              vertical: height/32.55,
+                              horizontal: width/68.3
+                          ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: selectImage,
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add_a_photo,
+                                              color: Colors.white),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Select Profile Photo',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width:width/27.32),
+                                  Container(
+                                    height:height/18.6,
+                                    width: size.width * 0.25,
+                                    color: Constants().primaryAppColor,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.crop,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width:width/136.6),
+                                        KText(
+                                          text: 'Disable Crop',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Firstname *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: firstNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Lastname *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: lastNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  Container(
+                                 width:width/4.553,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                width:width/910.66,
+                                                color: Colors.grey
+                                            )
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Gender *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          value: genderController.text,
+                                          underline: Container(),
+                                          isExpanded: true,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Gender",
+                                            "Male",
+                                            "Female",
+                                            "Transgender"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              genderController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Phone *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 10,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: phoneController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Email *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: emailController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Position",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: positionController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Baptize Date",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: baptizeDateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                baptizeDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Marriage Date",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: marriageDateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                marriageDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  Container(
+                                 width:width/4.553,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                width:width/910.66,
+                                                color: Colors.grey
+                                            )
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Social Status",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: socialStatusController.text,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select",
+                                            "Politicians",
+                                            "Social Service",
+                                            "Others"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              socialStatusController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                  width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Employment/Job",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: jobController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Family *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: familyController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: departmentController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Blood Group *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: height / 50.076),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: bloodGroupController.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Blood Group",
+                                            "AB+",
+                                            "AB-",
+                                            "O+",
+                                            "O-",
+                                            "A+",
+                                            "A-",
+                                            "B+",
+                                            "B-"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Role") {
+                                              setState(() {
+                                                bloodGroupController.text =
+                                                newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Date of Birth *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: dobController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                dobController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Nationality *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: nationalityController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                 width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Pincode *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                               fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: pincodeController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if (baptizeDateController.text != "" &&
+                                          bloodGroupController.text != "" &&
+                                          departmentController.text != "" &&
+                                          pincodeController.text != "" &&
+                                          dobController.text != "" &&
+                                          emailController.text != "" &&
+                                          familyController.text != "" &&
+                                          firstNameController.text != "" &&
+                                          jobController.text != "" &&
+                                          lastNameController.text != "" &&
+                                          nationalityController.text != "" &&
+                                          phoneController.text != "" &&
+                                          positionController.text != "" &&
+                                          socialStatusController.text != "") {
+                                        Response response =
+                                        await ClansFireCrud.updateRecord(
+                                            ClanMemberModel(
+                                                imgUrl: clanMember.imgUrl,
+                                                baptizeDate: baptizeDateController.text,
+                                                bloodGroup: bloodGroupController.text,
+                                                department: departmentController.text,
+                                                dob: dobController.text,
+                                                email: emailController.text,
+                                                family: familyController.text,
+                                                firstName: firstNameController.text,
+                                                job: jobController.text,
+                                                timestamp: clanMember.timestamp,
+                                                id: clanMember.id,
+                                                pincode: pincodeController.text,
+                                                lastName: lastNameController.text,
+                                                marriageDate: marriageDateController.text,
+                                                nationality: nationalityController.text,
+                                                phone: phoneController.text,
+                                                position: positionController.text,
+                                                socialStatus: socialStatusController.text,
+                                                country: countryController.text,
+                                                gender : genderController.text
+                                            ),
+                                            "",
+                                            docId
+                                        );
+                                        if (response.code == 200) {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.success,
+                                              text: "Clan member updated successfully!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          setState(() {
+                                            uploadedImage = null;
+                                            profileImage = null;
+                                            baptizeDateController.text = "";
+                                            bloodGroupController.text = "Select Blood Group";
+                                            departmentController.text = "";
+                                            dobController.text = "";
+                                            pincodeController.text = "";
+                                            emailController.text = "";
+                                            familyController.text = "";
+                                            firstNameController.text = "";
+                                            jobController.text = "";
+                                            lastNameController.text = "";
+                                            marriageDateController.text = "";
+                                            nationalityController.text = "";
+                                            phoneController.text = "";
+                                            positionController.text = "";
+                                            socialStatusController.text = "";
+                                            countryController.text = "";
+                                            genderController.text = "Select Gender";
+                                          });
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        } else {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.error,
+                                              text: "Failed to update Clan member!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          Navigator.pop(context);
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: width/68.3),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Update",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                               fontSize:width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              uploadedImage = null;
-                              profileImage = null;
-                              baptizeDateController.text = "";
-                              bloodGroupController.text = "";
-                              departmentController.text = "";
-                              dobController.text = "";
-                              emailController.text = "";
-                              familyController.text = "";
-                              pincodeController.text = "";
-                              firstNameController.text = "";
-                              jobController.text = "";
-                              lastNameController.text = "";
-                              marriageDateController.text = "";
-                              nationalityController.text = "";
-                              phoneController.text = "";
-                              positionController.text = "";
-                              socialStatusController.text = "";
-                              countryController.text = "";
-                              genderController.text = 'Select Gender';
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.cancel_outlined,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )),
-                    padding:   EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
-                      ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                onTap: selectImage,
-                                child: Container(
-                                  height:height/18.6,
-                                  width: size.width * 0.25,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.add_a_photo,
-                                          color: Colors.white),
-                                      SizedBox(width:width/136.6),
-                                      KText(
-                                        text: 'Select Profile Photo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width:width/27.32),
-                              Container(
-                                height:height/18.6,
-                                width: size.width * 0.25,
-                                color: Constants().primaryAppColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width:width/136.6),
-                                    KText(
-                                      text: 'Disable Crop',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Firstname *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: firstNameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Lastname *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: lastNameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              Container(
-                             width:width/4.553,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width:width/910.66,
-                                            color: Colors.grey
-                                        )
-                                    )
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Gender *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      value: genderController.text,
-                                      underline: Container(),
-                                      isExpanded: true,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items: [
-                                        "Select Gender",
-                                        "Male",
-                                        "Female",
-                                        "Transgender"
-                                      ].map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          genderController.text = newValue!;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Phone *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                      ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: phoneController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Email *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: emailController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Position",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: positionController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Baptize Date",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: baptizeDateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Marriage Date",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: marriageDateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              Container(
-                             width:width/4.553,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width:width/910.66,
-                                            color: Colors.grey
-                                        )
-                                    )
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Social Status",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      isExpanded: true,
-                                      value: socialStatusController.text,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: Container(),
-                                      items: [
-                                        "Select",
-                                        "Politicians",
-                                        "Social Service",
-                                        "Others"
-                                      ].map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          socialStatusController.text = newValue!;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Employment/Job",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: jobController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Family *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: familyController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: departmentController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Blood Group *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: bloodGroupController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Date of Birth *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: dobController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Nationality *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: nationalityController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                             width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Pincode *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                           fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: pincodeController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  if (baptizeDateController.text != "" &&
-                                      bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
-                                      pincodeController.text != "" &&
-                                      dobController.text != "" &&
-                                      emailController.text != "" &&
-                                      familyController.text != "" &&
-                                      firstNameController.text != "" &&
-                                      jobController.text != "" &&
-                                      lastNameController.text != "" &&
-                                      nationalityController.text != "" &&
-                                      phoneController.text != "" &&
-                                      positionController.text != "" &&
-                                      socialStatusController.text != "") {
-                                    Response response =
-                                    await ClansFireCrud.updateRecord(
-                                        ClanMemberModel(
-                                            imgUrl: clanMember.imgUrl,
-                                            baptizeDate: baptizeDateController.text,
-                                            bloodGroup: bloodGroupController.text,
-                                            department: departmentController.text,
-                                            dob: dobController.text,
-                                            email: emailController.text,
-                                            family: familyController.text,
-                                            firstName: firstNameController.text,
-                                            job: jobController.text,
-                                            timestamp: clanMember.timestamp,
-                                            id: clanMember.id,
-                                            pincode: pincodeController.text,
-                                            lastName: lastNameController.text,
-                                            marriageDate: marriageDateController.text,
-                                            nationality: nationalityController.text,
-                                            phone: phoneController.text,
-                                            position: positionController.text,
-                                            socialStatus: socialStatusController.text,
-                                            country: countryController.text,
-                                            gender : genderController.text
-                                        ),
-                                        "",
-                                        docId
-                                    );
-                                    if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Clan member updated successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      setState(() {
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        baptizeDateController.text = "";
-                                        bloodGroupController.text = "";
-                                        departmentController.text = "";
-                                        dobController.text = "";
-                                        pincodeController.text = "";
-                                        emailController.text = "";
-                                        familyController.text = "";
-                                        firstNameController.text = "";
-                                        jobController.text = "";
-                                        lastNameController.text = "";
-                                        marriageDateController.text = "";
-                                        nationalityController.text = "";
-                                        phoneController.text = "";
-                                        positionController.text = "";
-                                        socialStatusController.text = "";
-                                        countryController.text = "";
-                                        genderController.text = "Select Gender";
-                                      });
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to update Clan member!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      Navigator.pop(context);
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: Container(
-                                  height:height/18.6,
-                                  decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
-                                    child: Center(
-                                      child: KText(
-                                        text: "Update",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.white,
-                                           fontSize:width/136.6,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                            ],
-                          )
-                        ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );

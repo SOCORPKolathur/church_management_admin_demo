@@ -474,17 +474,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      maxLength: 10,
-                                      validator: ((value){
-                                        if (value!.length != 10) {
-                                          return 'Mobile Number must be of 10 digit';
-                                        } else {
-                                          return null;
-                                        }
-                                      }),
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: phoneController,
                                     )
@@ -555,10 +552,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
-                                      maxLength: 12,
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 12,
                                       style:
                                           TextStyle(fontSize: width / 113.83),
                                       controller: aadharController,
@@ -706,10 +707,14 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: pincodeController,
                                     )
@@ -1125,7 +1130,7 @@ class _UserTabState extends State<UserTab> {
               ),
             )
                 : currentTab.toUpperCase() == "VIEW" ?
-            StreamBuilder(
+             StreamBuilder(
                     stream: cf.FirebaseFirestore.instance.collection('Users').snapshots(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
@@ -2530,17 +2535,14 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        maxLength: 10,
-                                        validator: ((value){
-                                          if (value!.length != 10) {
-                                            return 'Mobile Number must be of 10 digit';
-                                          } else {
-                                            return null;
-                                          }
-                                        }),
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]')),
                                         ],
+                                        maxLength: 10,
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: phoneController,
                                       )
@@ -2608,10 +2610,14 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        maxLength: 12,
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]')),
                                         ],
+                                        maxLength: 12,
                                         style:
                                         TextStyle(fontSize: width / 113.83),
                                         controller: aadharController,
@@ -2759,10 +2765,14 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp(r'[0-9]')),
                                         ],
+                                        maxLength: 6,
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: pincodeController,
                                       )

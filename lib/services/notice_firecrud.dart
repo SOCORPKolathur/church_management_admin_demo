@@ -7,7 +7,6 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference NoticeCollection = firestore.collection('Notices');
 
 class NoticeFireCrud {
-
   static Stream<List<NoticeModel>> fetchNotice() => NoticeCollection.orderBy("timestamp",descending: false)
       .snapshots()
       .map((snapshot) =>
@@ -26,6 +25,7 @@ class NoticeFireCrud {
     NoticeModel notice = NoticeModel(
         title : title,
         id: "",
+        views: [],
         date: date,
         time: time,
         description: description,
@@ -68,6 +68,7 @@ class NoticeFireCrud {
     });
     return res;
   }
+
 
 
 }

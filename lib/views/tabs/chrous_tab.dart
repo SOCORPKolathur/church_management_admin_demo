@@ -441,8 +441,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                     ),
                                     TextFormField(
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: phoneController,
                                     )
@@ -532,6 +534,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: positionController,
                                     )
@@ -835,13 +840,15 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: departmentController,
                                     )
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                           SizedBox(height:height/21.7),
@@ -895,6 +902,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -919,10 +929,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: pincodeController,
                                     )
@@ -2480,8 +2494,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                         ),
                                         TextFormField(
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 10,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: phoneController,
                                         )
@@ -2528,6 +2544,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: positionController,
                                         )
@@ -2794,6 +2813,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: departmentController,
                                         )
@@ -2853,6 +2875,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2877,10 +2902,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 6,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: pincodeController,
                                         )

@@ -447,9 +447,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: phoneController,
                                     )
@@ -539,6 +544,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: positionController,
                                     )
@@ -791,6 +799,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: departmentController,
                                     )
@@ -922,10 +933,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     ),
                                     SizedBox(height:height/65.1),
                                     TextFormField(
-                                      maxLength: 6,
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: pincodeController,
                                     )
@@ -2402,9 +2417,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 10,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: phoneController,
                                         )
@@ -2494,6 +2514,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: positionController,
                                         )
@@ -2793,6 +2816,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: departmentController,
                                         )
@@ -2877,9 +2903,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 6,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: pincodeController,
                                         )

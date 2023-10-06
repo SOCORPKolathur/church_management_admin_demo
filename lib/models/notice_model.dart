@@ -5,8 +5,9 @@ class NoticeModel {
   String? date;
   String? time;
   num? timestamp;
+  List<String>? views;
 
-  NoticeModel({this.title, this.description, this.id,this.timestamp,this.date,this.time});
+  NoticeModel({this.title, this.description, this.id,this.timestamp,this.date,this.time,this.views});
 
   NoticeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -15,6 +16,12 @@ class NoticeModel {
     title = json['title'];
     description = json['description'];
     timestamp = json['timestamp'];
+    if (json['views'] != null) {
+      views = <String>[];
+      json['views'].forEach((v) {
+        views!.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +32,9 @@ class NoticeModel {
     data['title'] = this.title;
     data['description'] = this.description;
     data['timestamp'] = this.timestamp;
+    if (this.views != null) {
+      data['views'] = this.views!.map((v) => v).toList();
+    }
     return data;
   }
 

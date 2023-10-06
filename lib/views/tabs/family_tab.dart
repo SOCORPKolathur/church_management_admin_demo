@@ -467,9 +467,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: familynumberController,
                                     )
@@ -622,9 +627,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: zoneController,
                                     )
@@ -909,23 +919,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
-
                                   itemCount: families.length,
                                   itemBuilder: (ctx, i) {
-                                    return
-                                      Container(
-                                      height: height/10.85,
+                                    return Container(
+                                      height: height/7.233,
                                       width: double.infinity,
                                       decoration:  BoxDecoration(
-                                        color: Colors.white,
+                                        //color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
-                                            color: Color(0xfff1f1f1),
-                                            width: width/2.732,
+                                            color: const Color(0xfff1f1f1),
+                                            width: width/1366,
                                           ),
                                           bottom: BorderSide(
-                                            color: Color(0xfff1f1f1),
-                                            width: width/2.732,
+                                            color: const Color(0xfff1f1f1),
+                                            width: width/1366,
                                           ),
                                         ),
                                       ),
@@ -1793,6 +1801,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 10,
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: familynumberController,
                                         )
@@ -1887,6 +1903,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 6,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: zoneController,
                                         )

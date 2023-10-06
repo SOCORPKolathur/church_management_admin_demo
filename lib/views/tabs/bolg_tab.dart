@@ -1468,9 +1468,10 @@ class _BlogTabState extends State<BlogTab> {
                                             BlogModel(
                                               timestamp: blog.timestamp,
                                               id: blog.id,
-                                              author: "",
-                                              time: formatter
-                                                  .format(DateTime.now()).toString(),
+                                              author: blog.author,
+                                              views: blog.views,
+                                              imgUrl: blog.imgUrl,
+                                              time: blog.time,
                                               title: titleController.text,
                                               description:
                                                   descriptionController.text,

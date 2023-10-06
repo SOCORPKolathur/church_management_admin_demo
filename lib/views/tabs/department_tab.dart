@@ -298,9 +298,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: numberController,
                                     )
@@ -521,9 +526,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: zoneController,
                                     )
@@ -1716,9 +1726,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: numberController,
                                     )
@@ -1939,9 +1954,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: zoneController,
                                     )

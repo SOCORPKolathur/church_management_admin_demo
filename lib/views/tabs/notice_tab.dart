@@ -934,6 +934,9 @@ class _NoticesTabState extends State<NoticesTab> {
                                       id: notice.id,
                                       title: titleController.text,
                                       description: descriptionController.text,
+                                      date: notice.date,
+                                      time: notice.time,
+                                      views: notice.views,
                                     )
                                   );
                                   if (response.code == 200) {

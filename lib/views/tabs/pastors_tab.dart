@@ -400,9 +400,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: phoneController,
                                     )
@@ -449,6 +454,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: positionController,
                                     )
@@ -802,6 +810,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: departmentController,
                                     )
@@ -936,9 +947,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 6,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: pincodeController,
                                     )
@@ -960,9 +976,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 12,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: aadharNoController,
                                     )
@@ -2445,9 +2466,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 10,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: phoneController,
                                         )
@@ -2494,6 +2520,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: positionController,
                                         )
@@ -2847,6 +2876,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: departmentController,
                                         )
@@ -2981,9 +3013,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 6,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: pincodeController,
                                         )
@@ -3005,9 +3042,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 12,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: aadharNoController,
                                         )

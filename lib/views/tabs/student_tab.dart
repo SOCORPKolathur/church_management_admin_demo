@@ -608,9 +608,14 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: guardianPhoneController,
                                     )
@@ -670,6 +675,14 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
+                                      ],
+                                      maxLength: 3,
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: ageController,
                                     )
@@ -827,9 +840,14 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: const InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 12,
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: aadharNoController,
                                     )
@@ -2585,9 +2603,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 10,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: guardianPhoneController,
                                         )
@@ -2647,9 +2670,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 3,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: ageController,
                                         )
@@ -2807,9 +2835,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
                                           ],
+                                          maxLength: 12,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: aadharNoController,
                                         )

@@ -45,6 +45,7 @@ class BlogFireCrud {
         author: author,
         title: title,
         time: time,
+        views: [],
         imgUrl: downloadUrl);
     blog.id = documentReferencer.id;
     var json = blog.toJson();
