@@ -18,7 +18,7 @@ import '../prints/speech_print.dart';
 import 'package:intl/intl.dart';
 
 class SpeechTab extends StatefulWidget {
-  const SpeechTab({super.key});
+  SpeechTab({super.key});
 
   @override
   State<SpeechTab> createState() => _SpeechTabState();
@@ -136,21 +136,23 @@ class _SpeechTabState extends State<SpeechTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
                     text: "SPEECH",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -168,11 +170,11 @@ class _SpeechTabState extends State<SpeechTab> {
                         }
                       },
                       child: Container(
-                        height: 35,
+                        height:height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
                               offset: Offset(1, 2),
@@ -182,12 +184,12 @@ class _SpeechTabState extends State<SpeechTab> {
                         ),
                         child: Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                          EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Speech" : "View Speeches",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -201,11 +203,11 @@ class _SpeechTabState extends State<SpeechTab> {
             currentTab.toUpperCase() == "ADD"
                 ? Container(
               height: size.height * 1.2,
-              width: 1100,
-              margin: const EdgeInsets.all(20),
+              width: width/1.241,
+              margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -221,15 +223,14 @@ class _SpeechTabState extends State<SpeechTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
                             text: "ADD SPEECH",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -240,20 +241,20 @@ class _SpeechTabState extends State<SpeechTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
+                      padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                      ,child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height:height/3.829,
+                              width:width/3.902,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -271,32 +272,32 @@ class _SpeechTabState extends State<SpeechTab> {
                                         )
                                       : null),
                               child: uploadedImage == null
-                                  ? const Center(
+                                  ? Center(
                                       child: Icon(
                                         Icons.cloud_upload,
-                                        size: 160,
+                                         size:width/8.5375,
                                         color: Colors.grey,
                                       ),
                                     )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox( height:height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width:width/136.6),
                                       KText(
                                         text: 'Select Profile Photo',
                                         style: TextStyle(color: Colors.white),
@@ -305,19 +306,19 @@ class _SpeechTabState extends State<SpeechTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                              SizedBox(width:width/27.32),
                               Container(
-                                height: 35,
+                                height:height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width:width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -327,11 +328,11 @@ class _SpeechTabState extends State<SpeechTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -339,13 +340,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     DropdownButton(
+                                      isExpanded: true,
                                       value: dropdownvalue_username,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       items:Usernamelist.map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -362,9 +364,9 @@ class _SpeechTabState extends State<SpeechTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -372,13 +374,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     DropdownButton(
+                                      isExpanded: true,
                                       value: dropdownvalue_userphone,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       items: Userphonelist.map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -397,9 +400,9 @@ class _SpeechTabState extends State<SpeechTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -407,13 +410,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "User-Id *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     DropdownButton(
+                                      isExpanded: true,
                                       value: dropdownvalue_userid,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       items: Useridlist.map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -434,11 +438,11 @@ class _SpeechTabState extends State<SpeechTab> {
                             ],
                           ),
 
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -446,12 +450,12 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Date *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       onTap: () async {
                                         DateTime? pickedDate = await showDatePicker(
                                             context: context,
@@ -469,9 +473,9 @@ class _SpeechTabState extends State<SpeechTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -479,12 +483,12 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Time *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       onTap: () async {
                                         _selectTime(context);
                                           },
@@ -495,7 +499,7 @@ class _SpeechTabState extends State<SpeechTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -503,17 +507,17 @@ class _SpeechTabState extends State<SpeechTab> {
                                 text: "Speech *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.07,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
+                                margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                                ,decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -525,23 +529,23 @@ class _SpeechTabState extends State<SpeechTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                       height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                TextStyle(fontSize:width/113.83),
                                             controller: speechController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                                contentPadding: EdgeInsets.only(left: width/91.066,top: height/162.75,bottom: height/162.75)
                                             ),
                                             maxLines: null,
                                           )),
@@ -551,7 +555,7 @@ class _SpeechTabState extends State<SpeechTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           // Row(
                           //   children: [
                           //     SizedBox(
@@ -563,18 +567,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Facebook",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: facebookController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -584,18 +588,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Twitter",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: twitterController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -605,18 +609,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Google+",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: googleplusController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -626,12 +630,12 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Linkedin",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: linkedinController,
                           //           )
                           //         ],
@@ -639,7 +643,7 @@ class _SpeechTabState extends State<SpeechTab> {
                           //     ),
                           //   ],
                           // ),
-                          // const SizedBox(height: 30),
+                          // SizedBox(height:height/21.7),
                           // Row(
                           //   children: [
                           //     SizedBox(
@@ -651,18 +655,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Youtube",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: youtubeController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -672,18 +676,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Pinterest",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: pinterestController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -693,18 +697,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Instagram",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: instagramController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -714,12 +718,12 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Whatsapp",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: whatsappController,
                           //           )
                           //         ],
@@ -727,7 +731,7 @@ class _SpeechTabState extends State<SpeechTab> {
                           //     ),
                           //   ],
                           // ),
-                          // const SizedBox(height: 30),
+                          // SizedBox(height:height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -809,11 +813,11 @@ class _SpeechTabState extends State<SpeechTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -822,14 +826,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -854,11 +858,11 @@ class _SpeechTabState extends State<SpeechTab> {
                 } else if (snapshot.hasData) {
                   List<SpeechModel> speechList = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
+                    width: width/1.241,
+                    margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                    ,decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -874,15 +878,15 @@ class _SpeechTabState extends State<SpeechTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "All Speeches (${speechList.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -893,16 +897,16 @@ class _SpeechTabState extends State<SpeechTab> {
                         Container(
                           height: size.height * 0.75,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Color(0xfff5f5f5),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
+                          padding: EdgeInsets.symmetric(horizontal: width/34.15),
                           child: Column(
                             children: [
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   InkWell(
@@ -910,8 +914,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                       generateSpeechPdf(PdfPageFormat.letter, speechList, false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -922,18 +926,18 @@ class _SpeechTabState extends State<SpeechTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                              Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -943,14 +947,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(speechList);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -961,18 +965,18 @@ class _SpeechTabState extends State<SpeechTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                              Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -982,15 +986,15 @@ class _SpeechTabState extends State<SpeechTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateSpeechPdf(PdfPageFormat.letter, speechList, true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -1001,18 +1005,18 @@ class _SpeechTabState extends State<SpeechTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                              Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1022,14 +1026,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(speechList);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -1040,19 +1044,19 @@ class _SpeechTabState extends State<SpeechTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1064,11 +1068,11 @@ class _SpeechTabState extends State<SpeechTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Expanded(
                                 child: GridView.builder(
                                     gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                        SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisSpacing: 4.0,
                                       mainAxisSpacing: 4.0,
                                       crossAxisCount: 3,
@@ -1078,18 +1082,18 @@ class _SpeechTabState extends State<SpeechTab> {
                                     itemBuilder: (ctx, i) {
                                       SpeechModel data = speechList[i];
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
+                                        padding: EdgeInsets.symmetric(horizontal: width/54.64,vertical: height/81.375),
                                         child: SizedBox(
                                           child: Stack(
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.only(
-                                                    top: 70, left: 22, right: 22),
+                                                padding: EdgeInsets.only(
+                                                    top: height/9.3, left: width/62.09, right: width/62.09),
                                                 child: Container(
                                                   color: Colors.white,
                                                   width: double.infinity,
                                                   padding:
-                                                      const EdgeInsets.only(top: 70),
+                                                      EdgeInsets.only(top: height/9.3),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.center,
@@ -1098,29 +1102,32 @@ class _SpeechTabState extends State<SpeechTab> {
                                                     children: [
                                                       KText(
                                                         text: data.position!,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                             color: Colors.grey,
-                                                            fontSize: 14),
+                                                            fontSize:width/97.57),
                                                       ),
                                                       KText(
                                                         text:
                                                             "${data.firstName!} ${data.lastName!}",
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 18,
+                                                          fontSize: width/75.88,
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        height: 60,
+                                                        height: height/10.85,
                                                         width: double.infinity,
                                                         child: Padding(
-                                                          padding: const EdgeInsets.all(8.0),
+                                                          padding: EdgeInsets.symmetric(
+                                                            horizontal: width/170.75,
+                                                            vertical: height/81.375
+                                                          ),
                                                           child: KText(
                                                             text:
                                                             data.speech!,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                               color: Colors.black54,
-                                                              fontSize: 13,
+                                                              fontSize:width/105.07,
                                                             ),
                                                           ),
                                                         ),
@@ -1134,8 +1141,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                 viewPopup(speechList[i]);
                                                               },
                                                               child: Container(
-                                                                height: 25,
-                                                                decoration: const BoxDecoration(
+                                                                height:height/26.04,
+                                                                decoration: BoxDecoration(
                                                                   color: Color(0xff2baae4),
                                                                   boxShadow: [
                                                                     BoxShadow(
@@ -1146,22 +1153,22 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                   ],
                                                                 ),
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(
-                                                                      horizontal: 6),
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      horizontal:width/227.66),
                                                                   child: Center(
                                                                     child: Row(
                                                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                       children: [
-                                                                        const Icon(
+                                                                        Icon(
                                                                           Icons.remove_red_eye,
                                                                           color: Colors.white,
-                                                                          size: 15,
+                                                                          size: width/91.06,
                                                                         ),
                                                                         KText(
                                                                           text: "View",
                                                                           style: GoogleFonts.openSans(
                                                                             color: Colors.white,
-                                                                            fontSize: 10,
+                                                                            fontSize:width/136.6,
                                                                             fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
@@ -1171,7 +1178,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                 ),
                                                               ),
                                                             ),
-                                                            const SizedBox(width: 5),
+                                                            SizedBox(width: width/273.2),
                                                             InkWell(
                                                               onTap: () {
                                                                 setState(() {
@@ -1184,8 +1191,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                 editPopUp(speechList[i], size);
                                                               },
                                                               child: Container(
-                                                                height: 25,
-                                                                decoration: const BoxDecoration(
+                                                                height:height/26.04,
+                                                                decoration: BoxDecoration(
                                                                   color: Color(0xffff9700),
                                                                   boxShadow: [
                                                                     BoxShadow(
@@ -1196,22 +1203,22 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                   ],
                                                                 ),
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(
-                                                                      horizontal: 6),
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      horizontal:width/227.66),
                                                                   child: Center(
                                                                     child: Row(
                                                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                       children: [
-                                                                        const Icon(
+                                                                        Icon(
                                                                           Icons.add,
                                                                           color: Colors.white,
-                                                                          size: 15,
+                                                                          size: width/91.06,
                                                                         ),
                                                                         KText(
                                                                           text: "Edit",
                                                                           style: GoogleFonts.openSans(
                                                                             color: Colors.white,
-                                                                            fontSize: 10,
+                                                                            fontSize:width/136.6,
                                                                             fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
@@ -1221,7 +1228,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                 ),
                                                               ),
                                                             ),
-                                                            const SizedBox(width: 5),
+                                                            SizedBox(width: width/273.2),
                                                             InkWell(
                                                               onTap: () {
                                                                 CoolAlert.show(
@@ -1233,15 +1240,15 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                     backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                                     showCancelBtn: true,
                                                                     cancelBtnText: 'Cancel',
-                                                                    cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                                    cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                                     onConfirmBtnTap: () async {
                                                                       Response res = await SpeechFireCrud.deleteRecord(id: speechList[i].id!);
                                                                     }
                                                                 );
                                                               },
                                                               child: Container(
-                                                                height: 25,
-                                                                decoration: const BoxDecoration(
+                                                                height:height/26.04,
+                                                                decoration: BoxDecoration(
                                                                   color: Color(0xfff44236),
                                                                   boxShadow: [
                                                                     BoxShadow(
@@ -1252,22 +1259,22 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                   ],
                                                                 ),
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(
-                                                                      horizontal: 6),
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      horizontal:width/227.66),
                                                                   child: Center(
                                                                     child: Row(
                                                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                       children: [
-                                                                        const Icon(
+                                                                        Icon(
                                                                           Icons.cancel_outlined,
                                                                           color: Colors.white,
-                                                                          size: 15,
+                                                                          size: width/91.06,
                                                                         ),
                                                                         KText(
                                                                           text: "Delete",
                                                                           style: GoogleFonts.openSans(
                                                                             color: Colors.white,
-                                                                            fontSize: 10,
+                                                                            fontSize:width/136.6,
                                                                             fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
@@ -1285,12 +1292,12 @@ class _SpeechTabState extends State<SpeechTab> {
                                                 ),
                                               ),
                                               Positioned(
-                                                top: 25,
-                                                left: 10,
-                                                right: 10,
+                                                top: height/26.04,
+                                                left: width/136.6,
+                                                right: width/136.6,
                                                 child: Container(
-                                                  height: 100,
-                                                  width: 100,
+                                                  height: height/6.51,
+                                                  width:width/136.60,
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       color:
@@ -1327,6 +1334,8 @@ class _SpeechTabState extends State<SpeechTab> {
 
   viewPopup(SpeechModel speech) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1334,10 +1343,10 @@ class _SpeechTabState extends State<SpeechTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             width: size.width * 0.5,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+            ,decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1353,14 +1362,14 @@ class _SpeechTabState extends State<SpeechTab> {
                   width: double.infinity,
                   child: Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           speech.firstName!,
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1369,11 +1378,11 @@ class _SpeechTabState extends State<SpeechTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 40,
+                            height: height/16.275,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1383,12 +1392,12 @@ class _SpeechTabState extends State<SpeechTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "CLOSE",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 16,
+                                    fontSize: width/85.375,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1403,7 +1412,7 @@ class _SpeechTabState extends State<SpeechTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(10),
@@ -1427,85 +1436,85 @@ class _SpeechTabState extends State<SpeechTab> {
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width/136.6, vertical: height/43.4),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const SizedBox(height: 20),
+                                  SizedBox( height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: "${speech.firstName!} ${speech.lastName!}",
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.57
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox( height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Position",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: speech.position!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.57
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox( height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Speech",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       SizedBox(
                                         width: size.width * 0.3,
                                         child: KText(
                                           text: speech.speech!,
-                                          style: const TextStyle(
-                                              fontSize: 14
+                                          style: TextStyle(
+                                              fontSize:width/97.57
                                           ),
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox( height:height/32.55),
                                 ],
                               ),
                             ),
@@ -1524,6 +1533,8 @@ class _SpeechTabState extends State<SpeechTab> {
   }
 
   editPopUp(SpeechModel speech, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1531,11 +1542,11 @@ class _SpeechTabState extends State<SpeechTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             height: size.height * 1.05,
-            width: 1100,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            width: width/1.241,
+            margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+            ,decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1551,15 +1562,15 @@ class _SpeechTabState extends State<SpeechTab> {
                   height: size.height * 0.1,
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 8),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
                           text: "EDIT SPEECH",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1575,7 +1586,7 @@ class _SpeechTabState extends State<SpeechTab> {
                             });
                             Navigator.pop(context);
                           },
-                          child: const Icon(
+                          child: Icon(
                             Icons.cancel_outlined,
                           ),
                         )
@@ -1586,21 +1597,21 @@ class _SpeechTabState extends State<SpeechTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         )),
-                    padding: const EdgeInsets.all(20),
-                    child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                    ,child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height:height/3.829,
+                              width:width/3.902,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -1622,32 +1633,32 @@ class _SpeechTabState extends State<SpeechTab> {
                                   )
                                       : null),
                               child: selectedImg == null
-                                  ? const Center(
+                                  ? Center(
                                 child: Icon(
                                   Icons.cloud_upload,
-                                  size: 160,
+                                   size:width/8.5375,
                                   color: Colors.grey,
                                 ),
                               )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox( height:height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width:width/136.6),
                                       KText(
                                         text: 'Select Profile Photo',
                                         style: TextStyle(color: Colors.white),
@@ -1656,19 +1667,19 @@ class _SpeechTabState extends State<SpeechTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                              SizedBox(width:width/27.32),
                               Container(
-                                height: 35,
+                                height:height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width:width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -1678,11 +1689,11 @@ class _SpeechTabState extends State<SpeechTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1690,20 +1701,20 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: firstNameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1711,20 +1722,20 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: lastNameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1732,12 +1743,12 @@ class _SpeechTabState extends State<SpeechTab> {
                                       text: "Position",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: positionController,
                                     )
                                   ],
@@ -1745,7 +1756,7 @@ class _SpeechTabState extends State<SpeechTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1753,17 +1764,17 @@ class _SpeechTabState extends State<SpeechTab> {
                                 text: "Speech *",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.07,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
+                                margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                                ,decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1775,21 +1786,21 @@ class _SpeechTabState extends State<SpeechTab> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                       height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             style:
-                                            const TextStyle(fontSize: 12),
+                                            TextStyle(fontSize:width/113.83),
                                             controller: speechController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
                                             ),
@@ -1801,7 +1812,7 @@ class _SpeechTabState extends State<SpeechTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           // Row(
                           //   children: [
                           //     SizedBox(
@@ -1813,18 +1824,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Facebook",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: facebookController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -1834,18 +1845,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Twitter",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: twitterController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -1855,18 +1866,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Google+",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: googleplusController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -1876,12 +1887,12 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Linkedin",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: linkedinController,
                           //           )
                           //         ],
@@ -1889,7 +1900,7 @@ class _SpeechTabState extends State<SpeechTab> {
                           //     ),
                           //   ],
                           // ),
-                          // const SizedBox(height: 30),
+                          // SizedBox(height:height/21.7),
                           // Row(
                           //   children: [
                           //     SizedBox(
@@ -1901,18 +1912,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Youtube",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: youtubeController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -1922,18 +1933,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Pinterest",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: pinterestController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -1943,18 +1954,18 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Instagram",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: instagramController,
                           //           )
                           //         ],
                           //       ),
                           //     ),
-                          //     const SizedBox(width: 20),
+                          //     SizedBox(width:width/68.3),
                           //     SizedBox(
                           //       width: 230,
                           //       child: Column(
@@ -1964,12 +1975,12 @@ class _SpeechTabState extends State<SpeechTab> {
                           //             text: "Whatsapp",
                           //             style: GoogleFonts.openSans(
                           //               color: Colors.black,
-                          //               fontSize: 13,
+                          //               fontSize:width/105.07,
                           //               fontWeight: FontWeight.bold,
                           //             ),
                           //           ),
                           //           TextFormField(
-                          //             style: const TextStyle(fontSize: 12),
+                          //             style: TextStyle(fontSize:width/113.83),
                           //             controller: whatsappController,
                           //           )
                           //         ],
@@ -1977,7 +1988,7 @@ class _SpeechTabState extends State<SpeechTab> {
                           //     ),
                           //   ],
                           // ),
-                          // const SizedBox(height: 30),
+                          // SizedBox(height:height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -2062,11 +2073,11 @@ class _SpeechTabState extends State<SpeechTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -2075,14 +2086,14 @@ class _SpeechTabState extends State<SpeechTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "Update",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -2121,7 +2132,7 @@ class _SpeechTabState extends State<SpeechTab> {
       row.add(speeches[i].speech);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv = ListToCsvConverter().convert(rows);
     saveCsvToFile(csv);
   }
 
@@ -2165,7 +2176,7 @@ class _SpeechTabState extends State<SpeechTab> {
       row.add(speeches[i].speech);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    String csv = ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
@@ -2173,11 +2184,11 @@ class _SpeechTabState extends State<SpeechTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -2190,14 +2201,14 @@ class _SpeechTabState extends State<SpeechTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

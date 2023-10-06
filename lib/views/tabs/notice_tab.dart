@@ -15,7 +15,7 @@ import '../../models/response.dart';
 import '../../widgets/kText.dart';
 
 class NoticesTab extends StatefulWidget {
-  const NoticesTab({super.key});
+  NoticesTab({super.key});
 
   @override
   State<NoticesTab> createState() => _NoticesTabState();
@@ -64,21 +64,23 @@ class _NoticesTabState extends State<NoticesTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
                     text: "NOTICES",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -97,11 +99,11 @@ class _NoticesTabState extends State<NoticesTab> {
 
                       },
                       child: Container(
-                        height: 35,
+                           height:height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
                               offset: Offset(1, 2),
@@ -111,12 +113,12 @@ class _NoticesTabState extends State<NoticesTab> {
                         ),
                         child: Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                          EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Notice" : "View Notices",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                   fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -129,11 +131,11 @@ class _NoticesTabState extends State<NoticesTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              width: 1100,
-              margin: const EdgeInsets.all(20),
+             width: width/1.241,
+              margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -149,15 +151,15 @@ class _NoticesTabState extends State<NoticesTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
                             text: "ADD NOTICE",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                               fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -201,11 +203,11 @@ class _NoticesTabState extends State<NoticesTab> {
                               }
                             },
                             child: Container(
-                              height: 40,
+                              height:   height/16.275,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     color: Colors.black26,
                                     offset: Offset(1, 2),
@@ -215,12 +217,12 @@ class _NoticesTabState extends State<NoticesTab> {
                               ),
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 6),
+                                EdgeInsets.symmetric(horizontal:width/227.66),
                                 child: Center(
                                   child: KText(
                                     text: "ADD NOW",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 16,
+                                      fontSize: width/85.375,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -235,13 +237,13 @@ class _NoticesTabState extends State<NoticesTab> {
                   Container(
                     height: size.height * 0.55,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(0xffF7FAFC),
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         )),
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -253,20 +255,20 @@ class _NoticesTabState extends State<NoticesTab> {
                                 KText(
                                   text: "Date *",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.571,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 40,
-                                    width: 150,
+                                    height:   height/16.275,
+                                    width: width/9.106,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                       child: TextFormField(
                                         decoration: InputDecoration(
                                           border: InputBorder.none
@@ -291,27 +293,27 @@ class _NoticesTabState extends State<NoticesTab> {
                                 )
                               ],
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
                                   text: "Time *",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.571,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 40,
-                                    width: 150,
+                                    height:   height/16.275,
+                                    width: width/9.106,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                       child: TextFormField(
                                         onTap:(){ _selectTime(context);},
                                         controller: timeController,
@@ -319,7 +321,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                           border: InputBorder.none,
                                           hintText: "0.00",
                                           hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.571,
                                           ),
                                         ),
                                       ),
@@ -330,34 +332,34 @@ class _NoticesTabState extends State<NoticesTab> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: height/65.1),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
                               text: "Title *",
                               style: GoogleFonts.openSans(
-                                fontSize: 14,
+                                fontSize: width/97.571,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: height/108.5),
                             Material(
                               borderRadius: BorderRadius.circular(5),
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 60,
-                                width: 350,
+                                height: height/10.850,
+                                width: width/3.902,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 3),
+                                      contentPadding: EdgeInsets.symmetric(vertical: height/217),
                                       border: InputBorder.none,
                                       hintStyle: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.571,
                                       ),
                                     ),
                                   ),
@@ -366,7 +368,7 @@ class _NoticesTabState extends State<NoticesTab> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: height/65.1),
                         Row(
                           children: [
                             Column(
@@ -375,20 +377,21 @@ class _NoticesTabState extends State<NoticesTab> {
                                 KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.571,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 60,
+                                    height: height/10.850,
                                     width: size.width * 0.36,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.symmetric(vertical: height/81.375,
+                                          horizontal: width/170.75),
                                       child: TextFormField(
                                         keyboardType: TextInputType.multiline,
                                         minLines: 1,
@@ -397,7 +400,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.571,
                                           ),
                                         ),
                                       ),
@@ -422,11 +425,11 @@ class _NoticesTabState extends State<NoticesTab> {
                 } else if (snapshot.hasData) {
                   List<NoticeModel> notices = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                   width: width/1.241,
+                    margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -442,15 +445,15 @@ class _NoticesTabState extends State<NoticesTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "All Notices (${notices.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -461,13 +464,13 @@ class _NoticesTabState extends State<NoticesTab> {
                         Container(
                           height: size.height * 0.7 > 130 + notices.length * 60 ? 130 + notices.length * 60 : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -478,8 +481,8 @@ class _NoticesTabState extends State<NoticesTab> {
                                       generateNoticePdf(PdfPageFormat.letter, notices,false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                         height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -490,18 +493,18 @@ class _NoticesTabState extends State<NoticesTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                              Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -511,14 +514,14 @@ class _NoticesTabState extends State<NoticesTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(notices);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                         height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -529,18 +532,18 @@ class _NoticesTabState extends State<NoticesTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                              Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -550,15 +553,15 @@ class _NoticesTabState extends State<NoticesTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateNoticePdf(PdfPageFormat.letter, notices, true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                         height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -569,18 +572,18 @@ class _NoticesTabState extends State<NoticesTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                              Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -590,14 +593,14 @@ class _NoticesTabState extends State<NoticesTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(notices);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                         height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -608,19 +611,19 @@ class _NoticesTabState extends State<NoticesTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -632,49 +635,52 @@ class _NoticesTabState extends State<NoticesTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: height/217,
+                                    horizontal: width/455.33
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: 100,
+                                        width: width/13.66,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.830,
                                         child: KText(
                                           text: "Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 450,
+                                       width: width/3.0355,
                                         child: KText(
                                           text: "Description",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width: width/5.464,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -688,9 +694,9 @@ class _NoticesTabState extends State<NoticesTab> {
                                   itemCount: notices.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.850,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -704,43 +710,46 @@ class _NoticesTabState extends State<NoticesTab> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: width/273.2,
+                                          vertical: height/130.2
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.660,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 200,
+                                              width: width/6.830,
                                               child: KText(
                                                 text: notices[i].title!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 450,
+                                             width: width/3.0355,
                                               child: KText(
                                                 text: notices[i].description!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                                width: 250,
+                                                width: width/5.464,
                                                 child: Row(
                                                   children: [
                                                     InkWell(
@@ -752,8 +761,8 @@ class _NoticesTabState extends State<NoticesTab> {
                                                         editPopUp(notices[i],size);
                                                       },
                                                       child: Container(
-                                                        height: 25,
-                                                        decoration: const BoxDecoration(
+                                                        height: height/26.04,
+                                                        decoration: BoxDecoration(
                                                           color: Color(0xffff9700),
                                                           boxShadow: [
                                                             BoxShadow(
@@ -764,22 +773,22 @@ class _NoticesTabState extends State<NoticesTab> {
                                                           ],
                                                         ),
                                                         child: Padding(
-                                                          padding: const EdgeInsets.symmetric(
-                                                              horizontal: 6),
+                                                          padding: EdgeInsets.symmetric(
+                                                              horizontal:width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons.add,
                                                                   color: Colors.white,
-                                                                  size: 15,
+                                                                  size: width/91.066,
                                                                 ),
                                                                 KText(
                                                                   text: "Edit",
                                                                   style: GoogleFonts.openSans(
                                                                     color: Colors.white,
-                                                                    fontSize: 10,
+                                                                    fontSize: width/136.6,
                                                                     fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
@@ -789,7 +798,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                    SizedBox(width: width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         CoolAlert.show(
@@ -801,15 +810,15 @@ class _NoticesTabState extends State<NoticesTab> {
                                                             backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                             showCancelBtn: true,
                                                             cancelBtnText: 'Cancel',
-                                                            cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                            cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                             onConfirmBtnTap: () async {
                                                               Response res = await NoticeFireCrud.deleteRecord(id: notices[i].id!);
                                                             }
                                                         );
                                                       },
                                                       child: Container(
-                                                        height: 25,
-                                                        decoration: const BoxDecoration(
+                                                        height: height/26.04,
+                                                        decoration: BoxDecoration(
                                                           color: Color(0xfff44236),
                                                           boxShadow: [
                                                             BoxShadow(
@@ -820,22 +829,22 @@ class _NoticesTabState extends State<NoticesTab> {
                                                           ],
                                                         ),
                                                         child: Padding(
-                                                          padding: const EdgeInsets.symmetric(
-                                                              horizontal: 6),
+                                                          padding: EdgeInsets.symmetric(
+                                                              horizontal:width/227.66),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons.cancel_outlined,
                                                                   color: Colors.white,
-                                                                  size: 15,
+                                                                  size: width/91.066,
                                                                 ),
                                                                 KText(
                                                                   text: "Delete",
                                                                   style: GoogleFonts.openSans(
                                                                     color: Colors.white,
-                                                                    fontSize: 10,
+                                                                    fontSize: width/136.6,
                                                                     fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
@@ -872,6 +881,8 @@ class _NoticesTabState extends State<NoticesTab> {
   }
 
   editPopUp(NoticeModel notice, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -879,11 +890,11 @@ class _NoticesTabState extends State<NoticesTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             height: size.height * 0.45,
-            width: 1100,
-            margin: const EdgeInsets.all(20),
+           width: width/1.241,
+            margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -899,15 +910,15 @@ class _NoticesTabState extends State<NoticesTab> {
                   height: size.height * 0.1,
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 8),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
                           text: "EDIT NOTICE",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                             fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -957,11 +968,11 @@ class _NoticesTabState extends State<NoticesTab> {
                                 }
                               },
                               child: Container(
-                                height: 40,
+                                height:   height/16.275,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -971,12 +982,12 @@ class _NoticesTabState extends State<NoticesTab> {
                                 ),
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  EdgeInsets.symmetric(horizontal:width/227.66),
                                   child: Center(
                                     child: KText(
                                       text: "Update",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 16,
+                                        fontSize: width/85.375,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -984,7 +995,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            SizedBox(width: width/136.6),
                             InkWell(
                               onTap: () async {
 
@@ -995,11 +1006,11 @@ class _NoticesTabState extends State<NoticesTab> {
                                     Navigator.pop(context);
                               },
                               child: Container(
-                                height: 40,
+                                height:   height/16.275,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1009,12 +1020,12 @@ class _NoticesTabState extends State<NoticesTab> {
                                 ),
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  EdgeInsets.symmetric(horizontal:width/227.66),
                                   child: Center(
                                     child: KText(
                                       text: "Cancel",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 16,
+                                        fontSize: width/85.375,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1031,13 +1042,13 @@ class _NoticesTabState extends State<NoticesTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(0xffF7FAFC),
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         )),
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1047,27 +1058,27 @@ class _NoticesTabState extends State<NoticesTab> {
                             KText(
                               text: "Title *",
                               style: GoogleFonts.openSans(
-                                fontSize: 14,
+                                fontSize: width/97.571,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: height/108.5),
                             Material(
                               borderRadius: BorderRadius.circular(5),
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 40,
-                                width: 150,
+                                height:   height/16.275,
+                                width: width/9.106,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Select Type",
                                       hintStyle: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.571,
                                       ),
                                     ),
                                   ),
@@ -1076,7 +1087,7 @@ class _NoticesTabState extends State<NoticesTab> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: height/65.1),
                         Row(
                           children: [
                             Column(
@@ -1085,20 +1096,20 @@ class _NoticesTabState extends State<NoticesTab> {
                                 KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.571,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 60,
+                                    height: height/10.850,
                                     width: size.width * 0.36,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                       child: TextFormField(
                                         keyboardType: TextInputType.multiline,
                                         minLines: 1,
@@ -1107,7 +1118,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.571,
                                           ),
                                         ),
                                       ),
@@ -1148,7 +1159,7 @@ class _NoticesTabState extends State<NoticesTab> {
       row.add(notices[i].description!);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv = ListToCsvConverter().convert(rows);
     saveCsvToFile(csv);
   }
 
@@ -1188,7 +1199,7 @@ class _NoticesTabState extends State<NoticesTab> {
       row.add(notices[i].description);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    String csv = ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
@@ -1196,11 +1207,11 @@ class _NoticesTabState extends State<NoticesTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -1213,14 +1224,14 @@ class _NoticesTabState extends State<NoticesTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

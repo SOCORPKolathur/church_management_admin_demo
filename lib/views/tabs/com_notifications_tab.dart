@@ -17,7 +17,7 @@ import '../../widgets/kText.dart';
 import 'package:intl/intl.dart';
 
 class ComNotificationsTab extends StatefulWidget {
-  const ComNotificationsTab({super.key});
+  ComNotificationsTab({super.key});
 
   @override
   State<ComNotificationsTab> createState() => _ComNotificationsTabState();
@@ -63,21 +63,23 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
                     text: "NOTIFICATIONS",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -96,11 +98,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
                       },
                       child: Container(
-                        height: 35,
+                         height:height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
                               offset: Offset(1, 2),
@@ -110,12 +112,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         ),
                         child: Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                          EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Send Notification" : "View Notifications",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -128,18 +130,18 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 0.97,
-              width: double.infinity,
-              margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Constants().primaryAppColor,
-                boxShadow: const [
+                 height: size.height * 0.97,
+                 width: double.infinity,
+                 margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
+                 decoration: BoxDecoration(
+                 color: Constants().primaryAppColor,
+                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
                     blurRadius: 3,
                   ),
-                ],
+                 ],
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -149,16 +151,15 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric( horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         children: [
-                          const Icon(Icons.message),
-                          const SizedBox(width: 10),
+                          Icon(Icons.message),
+                          SizedBox(width:width/136.6),
                           KText(
                             text: "Send Notification",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -169,18 +170,18 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Padding(
-                          //   padding: const EdgeInsets.only(left: 25),
+                          //   padding: EdgeInsets.only(left: width/54.64),
                           //   child: SizedBox(
                           //     width: double.infinity,
                           //     child: Row(
@@ -193,17 +194,17 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //             KText(
                           //               text: "Gender",
                           //               style: GoogleFonts.openSans(
-                          //                 fontSize: 14,
+                          //                 fontSize: width/97.57,
                           //                 fontWeight: FontWeight.bold,
                           //               ),
                           //             ),
-                          //             const SizedBox(height: 6),
+                          //             SizedBox(height: 6),
                           //             Container(
                           //               decoration: BoxDecoration(
                           //                 color: Colors.white,
                           //                 borderRadius:
                           //                 BorderRadius.circular(10),
-                          //                 boxShadow: const [
+                          //                 boxShadow: [
                           //                   BoxShadow(
                           //                     color: Colors.black26,
                           //                     blurRadius: 3,
@@ -241,11 +242,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //             KText(
                           //               text: "Marital Status",
                           //               style: GoogleFonts.openSans(
-                          //                 fontSize: 14,
+                          //                 fontSize: width/97.57,
                           //                 fontWeight: FontWeight.bold,
                           //               ),
                           //             ),
-                          //             const SizedBox(height: 6),
+                          //             SizedBox(height: 6),
                           //             Column(
                           //               crossAxisAlignment: CrossAxisAlignment.start,
                           //               children: [
@@ -259,8 +260,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //                         });
                           //                       },
                           //                     ),
-                          //                     const SizedBox(width: 10),
-                          //                     const Text("Married")
+                          //                     SizedBox(width:width/136.6),
+                          //                     Text("Married")
                           //                   ],
                           //                 ),
                           //                 Row(
@@ -273,8 +274,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //                         });
                           //                       },
                           //                     ),
-                          //                     const SizedBox(width: 10),
-                          //                     const Text("Single")
+                          //                     SizedBox(width:width/136.6),
+                          //                     Text("Single")
                           //                   ],
                           //                 ),
                           //               ],
@@ -288,11 +289,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //             KText(
                           //               text: "Student",
                           //               style: GoogleFonts.openSans(
-                          //                 fontSize: 14,
+                          //                 fontSize: width/97.57,
                           //                 fontWeight: FontWeight.bold,
                           //               ),
                           //             ),
-                          //             const SizedBox(height: 6),
+                          //             SizedBox(height: 6),
                           //             Column(
                           //               children: [
                           //                 Row(
@@ -305,7 +306,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //                         });
                           //                       },
                           //                     ),
-                          //                     SizedBox(width: 10),
+                          //                     SizedBox(width:width/136.6),
                           //                     Text("Student")
                           //                   ],
                           //                 ),
@@ -322,17 +323,17 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //               KText(
                           //                 text: "Class",
                           //                 style: GoogleFonts.openSans(
-                          //                   fontSize: 14,
+                          //                   fontSize: width/97.57,
                           //                   fontWeight: FontWeight.bold,
                           //                 ),
                           //               ),
-                          //               const SizedBox(height: 6),
+                          //               SizedBox(height: 6),
                           //               Container(
                           //                 decoration: BoxDecoration(
                           //                   color: Colors.white,
                           //                   borderRadius:
                           //                   BorderRadius.circular(10),
-                          //                   boxShadow: const [
+                          //                   boxShadow: [
                           //                     BoxShadow(
                           //                       color: Colors.black26,
                           //                       blurRadius: 3,
@@ -383,17 +384,17 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           //                 }
                           //               },
                           //             ),
-                          //             const SizedBox(width: 10),
-                          //             const  Text("ALL")
+                          //             SizedBox(width:width/136.6),
+                          //              Text("ALL")
                           //           ],
                           //         )
                           //       ],
                           //     ),
                           //   ),
                           // ),
-                          // const SizedBox(height: 10),
+                          // SizedBox(height: height/65.1),
                           Padding(
-                            padding: const EdgeInsets.only(left: 25),
+                            padding: EdgeInsets.only(left: width/54.64),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -403,8 +404,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -420,14 +421,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Users")
+                                          SizedBox(width:width/136.6),
+                                          Text("Users")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -443,24 +444,24 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Pastors")
+                                          SizedBox(width:width/136.6),
+                                          Text("Pastors")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
-                                          const Text("Gender"),
-                                          const SizedBox(width: 10),
+                                          Text("Gender"),
+                                          SizedBox(width:width/136.6),
                                           Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              boxShadow: const [
+                                              boxShadow: [
                                                 BoxShadow(
                                                   color: Colors.black26,
                                                   blurRadius: 3,
@@ -502,8 +503,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -519,14 +520,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Members")
+                                          SizedBox(width:width/136.6),
+                                          Text("Members")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -542,23 +543,23 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Committee")
+                                          SizedBox(width:width/136.6),
+                                          Text("Committee")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 60,
-                                      width: 250,
+                                      height: height/10.85,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
-                                          const Text("Pincode"),
-                                          const SizedBox(width: 10),
+                                          Text("Pincode"),
+                                          SizedBox(width:width/136.6),
                                           Material(
                                             elevation: 2,
                                             child: Container(
-                                              height: 35,
-                                              width: 150,
+                                               height:height/18.6,
+                                              width: width/9.106,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -566,14 +567,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               ),
                                               child: TextField(
                                                 controller: pincodeController,
-                                                decoration: const InputDecoration(
+                                                decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintText: 'Search Pincode',
-                                                  hintStyle: const TextStyle(
+                                                  hintStyle: TextStyle(
                                                     color: Colors.black,
                                                   ),
-                                                  contentPadding: const EdgeInsets.symmetric(
-                                                      horizontal: 10, vertical: 10),
+                                                  contentPadding: EdgeInsets.symmetric(
+                                                      horizontal: width/136.6, vertical: height/65.1),
                                                 ),
                                               ),
                                             ),
@@ -589,8 +590,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                      height: 50,
-                                      width: 200,
+                                      height: height/13.02,
+                                      width: width/6.83,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -606,14 +607,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Student")
+                                          SizedBox(width:width/136.6),
+                                          Text("Student")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 200,
+                                      height: height/13.02,
+                                      width: width/6.83,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -629,14 +630,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Chorus")
+                                          SizedBox(width:width/136.6),
+                                          Text("Chorus")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 200,
+                                      height: height/13.02,
+                                      width: width/6.83,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -652,8 +653,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Church Staff")
+                                          SizedBox(width:width/136.6),
+                                          Text("Church Staff")
                                         ],
                                       ),
                                     )
@@ -665,8 +666,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -682,24 +683,24 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                               }
                                             },
                                           ),
-                                          const SizedBox(width: 10),
-                                          const Text("Department")
+                                          SizedBox(width:width/136.6),
+                                          Text("Department")
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 260,
+                                      height: height/13.02,
+                                      width: width/5.253,
                                       child: Row(
                                         children: [
-                                          const Text("Blood Group"),
-                                          const SizedBox(width: 8),
+                                          Text("Blood Group"),
+                                          SizedBox(width: width/170.75),
                                           Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              boxShadow: const [
+                                              boxShadow: [
                                                 BoxShadow(
                                                   color: Colors.black26,
                                                   blurRadius: 3,
@@ -737,8 +738,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                      height: height/13.02,
+                                      width: width/5.464,
                                       child: Row(
                                         children: [
                                           Row(
@@ -756,8 +757,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                                   }
                                                 },
                                               ),
-                                              const SizedBox(width: 10),
-                                              const Text("Married"),
+                                              SizedBox(width:width/136.6),
+                                              Text("Married"),
                                             ],
                                           ),
                                           Row(
@@ -775,8 +776,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                                   }
                                                 },
                                               ),
-                                              const SizedBox(width: 10),
-                                              const Text("Single"),
+                                              SizedBox(width:width/136.6),
+                                              Text("Single"),
                                             ],
                                           ),
                                         ],
@@ -795,11 +796,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   addUsersForSendNotification();
                                 },
                                 child: Container(
-                                  height: 35,
+                                   height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -808,13 +809,13 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: width/136.6),
                                     child: Center(
                                       child: KText(
                                         text: "Apply",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -824,12 +825,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               )
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: height/65.1),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width/68.3, vertical: height/65.1),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -837,29 +838,29 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                     text: "Subject",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     controller: subjectController,
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 25),
+                                padding: EdgeInsets.only(left: width/54.64),
                                 child: KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize:width/105.07,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -867,10 +868,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin: EdgeInsets.symmetric(vertical: height/32.55,horizontal: width/68.3),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -882,26 +883,26 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                TextStyle(fontSize: width/113.83),
                                             controller: descriptionController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(
-                                                    left: 15,
-                                                    top: 4,
-                                                    bottom: 4)),
+                                                    left: width/91.06,
+                                                    top: height/162.75,
+                                                    bottom: height/162.75)),
                                             maxLines: null,
                                           )),
                                     ),
@@ -910,7 +911,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: height/65.1),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -919,11 +920,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   sendNotification();
                                 },
                                 child: Container(
-                                  height: 35,
+                                   height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -932,19 +933,19 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:width/227.66),
                                     child: Center(
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.send,
+                                          Icon(Icons.send,
                                               color: Colors.white),
-                                          const SizedBox(width: 5),
+                                          SizedBox(width: width/273.2),
                                           KText(
                                             text: "SEND",
                                             style: GoogleFonts.openSans(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -973,11 +974,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                 } else if (snapshot.hasData) {
                   List notifications = snapshot.data!.docs;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width: width/1.2418,
+                    margin: EdgeInsets.symmetric(vertical: height/32.55,horizontal: width/68.3),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -993,8 +994,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -1002,7 +1003,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   text:
                                       "Notifications (${notifications.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1016,94 +1017,91 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   ? 70 + notifications.length * 60
                                   : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(vertical: height/32.55,horizontal: width/68.3),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 80,
-                                        child: KText(
-                                          text: "No.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: width/17.075,
+                                      child: KText(
+                                        text: "No.",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 110,
-                                        child: KText(
-                                          text: "Date",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/12.418,
+                                      child: KText(
+                                        text: "Date",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 110,
-                                        child: KText(
-                                          text: "Time",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/12.418,
+                                      child: KText(
+                                        text: "Time",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "To",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "To",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "Subject",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/6.83,
+                                      child: KText(
+                                        text: "Subject",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "Content",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/6.83,
+                                      child: KText(
+                                        text: "Content",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: notifications.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -1119,61 +1117,61 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                            width: width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 110,
+                                            width: width/12.418,
                                             child: KText(
                                               text: notifications[i]['date'],
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 110,
+                                            width: width/12.418,
                                             child: KText(
                                               text: notifications[i]['time'],
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106,
                                             child: KText(
                                               text: notifications[i]['to'],
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width/6.83,
                                             child: KText(
                                               text: notifications[i]['subject'],
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width/6.83,
                                             child: KText(
                                               text: notifications[i]['content'],
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -1202,6 +1200,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addUserPopUp(List<UserModel> users, String type) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Users").get();
     bool isAll = false;
     return showDialog(
@@ -1220,10 +1220,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -1232,7 +1232,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Users",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1241,11 +1241,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1255,12 +1255,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1276,7 +1276,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -1294,7 +1294,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -1312,9 +1312,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         itemBuilder: (ctx, i) {
                           return Padding(
                             padding:
-                            const EdgeInsets.all(8.0),
+                            EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                             child: Container(
-                              height: 80,
+                              height: height/8.1375,
                               width: size.width * 0.7,
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -1323,7 +1323,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                     10),
                               ),
                               margin:
-                              const EdgeInsets.all(5),
+                              EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                               child: ListTile(
                                 style: ListTileStyle.list,
                                 leading: Checkbox(
@@ -1556,6 +1556,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addPastorPopUp(List<PastorsModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Pastors").get();
     bool isAll = false;
     return showDialog(
@@ -1572,10 +1574,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -1584,7 +1586,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Pastors",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1593,11 +1595,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1607,12 +1609,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1628,7 +1630,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -1646,7 +1648,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -1664,9 +1666,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -1675,7 +1677,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -1714,6 +1716,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addMemberPopUp(List<MembersModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Members").get();
     bool isAll = false;
     return showDialog(
@@ -1730,10 +1734,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -1742,7 +1746,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Members",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1751,11 +1755,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1765,12 +1769,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1786,7 +1790,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -1804,7 +1808,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -1822,9 +1826,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -1833,7 +1837,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -1872,6 +1876,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addStudentPopUp(List<StudentModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Students").get();
     bool isAll = false;
     return showDialog(
@@ -1888,10 +1894,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -1900,7 +1906,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Students",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1909,11 +1915,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1923,12 +1929,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1944,7 +1950,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -1962,7 +1968,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -1980,9 +1986,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -1991,7 +1997,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2030,6 +2036,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addChurchStaffPopUp(List<ChurchStaffModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("ChurchStaff").get();
     bool isAll = false;
     return showDialog(
@@ -2046,10 +2054,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -2058,7 +2066,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Church Staff",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2067,11 +2075,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2081,12 +2089,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -2102,7 +2110,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -2120,7 +2128,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -2138,9 +2146,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2149,7 +2157,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2188,6 +2196,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addCommitteePopUp(List<CommitteeModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Committee").get();
     bool isAll = false;
     return showDialog(
@@ -2204,10 +2214,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -2216,7 +2226,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Committies",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2225,11 +2235,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2239,12 +2249,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -2260,7 +2270,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -2278,7 +2288,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -2296,9 +2306,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2307,7 +2317,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2346,6 +2356,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addChorusPopUp(List<ChorusModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Chorus").get();
     bool isAll = false;
     return showDialog(
@@ -2362,10 +2374,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -2374,7 +2386,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Chorus",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2383,11 +2395,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2397,12 +2409,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -2418,7 +2430,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -2436,7 +2448,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -2454,9 +2466,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2465,7 +2477,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2504,6 +2516,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addDepartmentPopUp(List<DepartmentModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Departments").get();
     bool isAll = false;
     return showDialog(
@@ -2520,10 +2534,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -2532,7 +2546,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Departments",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2541,11 +2555,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2555,12 +2569,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -2576,7 +2590,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -2594,7 +2608,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -2612,9 +2626,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2623,7 +2637,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2662,6 +2676,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addMarriedPopUp(List<UserModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Users").get();
     bool isAll = false;
     return showDialog(
@@ -2678,10 +2694,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -2690,7 +2706,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Users",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2699,11 +2715,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2713,12 +2729,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -2734,7 +2750,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -2752,7 +2768,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -2770,9 +2786,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding:
-                              const EdgeInsets.all(8.0),
+                              EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2781,7 +2797,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       10),
                                 ),
                                 margin:
-                                const EdgeInsets.all(5),
+                                EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2820,6 +2836,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
 
   addSinglePopUp(List<UserModel> users) async {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var userDocument = await FirebaseFirestore.instance.collection("Users").get();
     bool isAll = false;
     return showDialog(
@@ -2836,10 +2854,10 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                   Container(
                     height: size.height * 0.1,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     decoration: BoxDecoration(
                         color: Constants().primaryAppColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10))),
                     child: Row(
@@ -2848,7 +2866,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                         KText(
                           text: "Users",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -2857,11 +2875,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                             height:height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -2871,12 +2889,12 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -2892,7 +2910,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: 5),
                       child: Row(
                         children: [
                           Checkbox(
@@ -2910,7 +2928,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width:width/136.6),
                           Text("Select All"),
                         ],
                       ),
@@ -2927,10 +2945,9 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           itemCount: userDocument.docs.length,
                           itemBuilder: (ctx, i) {
                             return Padding(
-                              padding:
-                              const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                               child: Container(
-                                height: 80,
+                                height: height/8.1375,
                                 width: size.width * 0.7,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2938,8 +2955,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   BorderRadius.circular(
                                       10),
                                 ),
-                                margin:
-                                const EdgeInsets.all(5),
+                                margin: EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                 child: ListTile(
                                   style: ListTileStyle.list,
                                   leading: Checkbox(
@@ -2982,11 +2998,11 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -2999,14 +3015,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

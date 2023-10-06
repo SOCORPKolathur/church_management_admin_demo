@@ -8,7 +8,7 @@ import '../../services/department_firecrud.dart';
 import '../../widgets/kText.dart';
 
 class SmsCommunicationTab extends StatefulWidget {
-  const SmsCommunicationTab({super.key});
+  SmsCommunicationTab({super.key});
 
   @override
   State<SmsCommunicationTab> createState() => _SmsCommunicationTabState();
@@ -22,18 +22,20 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: KText(
                 text: "SMS COMMUNICATION",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.538,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -41,10 +43,10 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
             Container(
               height: size.height * 0.67,
               width: double.infinity,
-              margin: const EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -60,16 +62,15 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         children: [
-                          const Icon(Icons.message),
-                          const SizedBox(width: 10),
+                          Icon(Icons.message),
+                          SizedBox(width:width/136.6),
                           KText(
                             text: "SMS",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize:width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -80,20 +81,20 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                              padding: EdgeInsets.symmetric(horizontal: width/68.3,vertical: height/65.1),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -101,29 +102,29 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                     text: "Single/Mulitiple Phone Numbers With Country Code *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize:width/113.83),
                                     controller: phoneController,
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 25),
+                                padding: EdgeInsets.only(left: width/54.64),
                                 child: KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize:width/105.07,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -131,10 +132,10 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -146,23 +147,23 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                   mainAxisAlignment: MainAxisAlignment
                                       .spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
-                                            style: const TextStyle(
-                                                fontSize: 12),
+                                            style: TextStyle(
+                                                fontSize:width/113.83),
                                             controller: descriptionController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                                contentPadding: EdgeInsets.only(left: width/91.066,top: height/162.75,bottom: height/162.75)
                                             ),
                                             maxLines: null,
                                           )
@@ -173,18 +174,18 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height:height/65.1),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               InkWell(
                                 onTap: (){},
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -194,17 +195,17 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                    EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.send, color: Colors.white),
-                                          const SizedBox(width: 5),
+                                          Icon(Icons.send, color: Colors.white),
+                                          SizedBox(width:width/273.2),
                                           KText(
                                             text: "SEND",
                                             style: GoogleFonts.openSans(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -231,11 +232,11 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                 } else if (snapshot.hasData) {
                   List<DepartmentModel> sms = [];
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                   width:width/1.241,
+                    margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -251,15 +252,15 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "SMS (${sms.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize:width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -272,124 +273,121 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                               ? 70 + sms.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 40,
-                                        child: KText(
-                                          text: "No.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: width/34.15,
+                                      child: KText(
+                                        text: "No.",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 80,
-                                        child: KText(
-                                          text: "Time",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/17.075,
+                                      child: KText(
+                                        text: "Time",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 100,
-                                        child: KText(
-                                          text: "Phone",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/136.60,
+                                      child: KText(
+                                        text: "Phone",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 100,
-                                        child: KText(
-                                          text: "Content",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/136.60,
+                                      child: KText(
+                                        text: "Content",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 100,
-                                        child: KText(
-                                          text: "SMS ID",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/136.60,
+                                      child: KText(
+                                        text: "SMS ID",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "SMS Network",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/9.106,
+                                      child: KText(
+                                        text: "SMS Network",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 100,
-                                        child: KText(
-                                          text: "SMS Cost",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/136.60,
+                                      child: KText(
+                                        text: "SMS Cost",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "Current Balance",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/6.83,
+                                      child: KText(
+                                        text: "Current Balance",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width:width/9.106,
+                                      child: KText(
+                                        text: "Actions",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height:height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: 0,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -405,64 +403,64 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                            width:width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width:width/7.588,
                                             child: KText(
                                               text: "departments[i].name!",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width:width/7.588,
                                             child: KText(
                                               text: "departments[i].leaderName!",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width:width/8.035,
                                             child: KText(
                                               text: "departments[i].contactNumber!",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: "departments[i].location!",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
+                                              width:width/6.83,
                                               child: Row(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {},
                                                     child: Container(
-                                                      height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      height:height/26.04,
+                                                      decoration: BoxDecoration(
                                                         color: Color(
                                                             0xff2baae4),
                                                         boxShadow: [
@@ -476,20 +474,20 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets
+                                                        padding: EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .remove_red_eye,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "View",
@@ -497,7 +495,7 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight
                                                                       .bold,
                                                                 ),
@@ -508,12 +506,12 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width:width/273.2),
                                                   InkWell(
                                                     onTap: () {},
                                                     child: Container(
-                                                      height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      height:height/26.04,
+                                                      decoration: BoxDecoration(
                                                         color: Color(
                                                             0xffff9700),
                                                         boxShadow: [
@@ -527,19 +525,19 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets
+                                                        padding: EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -547,7 +545,7 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight
                                                                       .bold,
                                                                 ),
@@ -558,12 +556,12 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width:width/273.2),
                                                   InkWell(
                                                     onTap: () {},
                                                     child: Container(
-                                                      height: 25,
-                                                      decoration: const BoxDecoration(
+                                                      height:height/26.04,
+                                                      decoration: BoxDecoration(
                                                         color: Color(
                                                             0xfff44236),
                                                         boxShadow: [
@@ -577,20 +575,20 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets
+                                                        padding: EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -598,7 +596,7 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight: FontWeight
                                                                       .bold,
                                                                 ),
@@ -638,11 +636,11 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -655,14 +653,14 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

@@ -12,7 +12,7 @@ import '../../services/department_firecrud.dart';
 import '../../widgets/kText.dart';
 
 class EmailCommunictionTab extends StatefulWidget {
-  const EmailCommunictionTab({super.key});
+  EmailCommunictionTab({super.key});
 
   @override
   State<EmailCommunictionTab> createState() => _EmailCommunictionTabState();
@@ -23,25 +23,27 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
   TextEditingController emailController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  static const List<String> _pickLanguage = <String>[];
+  static List<String> _pickLanguage = <String>[];
 
 
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: KText(
                 text: "EMAIL COMMUNICATION",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.538,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -49,10 +51,10 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
             Container(
               height: size.height * 0.84,
               width: double.infinity,
-              margin: const EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -68,16 +70,16 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         children: [
-                          const Icon(Icons.message),
-                          const SizedBox(width: 10),
+                          Icon(Icons.message),
+                          SizedBox(width: width/136.6),
                           KText(
                             text: "EMAIL",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -88,21 +90,21 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width/68.3, vertical: height/65.1),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -111,21 +113,21 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                         "Single/Mulitiple Email (Seperate By Comma) *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: width/105.076,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Autocomplete<String>(
                                     optionsViewBuilder: (context, onSelected, options) {
                                       return Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 4.0),
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:width/136.6, vertical: height/162.75),
                                         child: Align(
                                           alignment: Alignment.topCenter,
                                           child: Material(
                                             elevation: 4.0,
                                             child: ConstrainedBox(
-                                              constraints: const BoxConstraints(maxHeight: 200),
+                                              constraints:  const BoxConstraints(maxHeight: 20),
                                               child: ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: options.length,
@@ -138,12 +140,12 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                     child: Align(
                                                       alignment: Alignment.centerLeft,
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            vertical: 15.0),
+                                                        padding: EdgeInsets.symmetric(
+                                                            vertical: height/43.4),
                                                         child: Text(
                                                           '#$option',
                                                           textAlign: TextAlign.left,
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             color: Color.fromARGB(255, 74, 137, 92),
                                                           ),
                                                         ),
@@ -159,7 +161,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                     },
                                     optionsBuilder: (TextEditingValue textEditingValue) {
                                       if (textEditingValue.text == '') {
-                                        return const Iterable<String>.empty();
+                                        return Iterable<String>.empty();
                                       }
                                       return _pickLanguage.where((String option) {
                                         return option.contains(textEditingValue.text.toLowerCase());
@@ -173,8 +175,8 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                         textEditingController: ttec,
                                         focusNode: tfn,
                                         textfieldTagsController: controller,
-                                        initialTags: const [],
-                                        textSeparators: const [' ', ','],
+                                        initialTags: [],
+                                        textSeparators: [' ', ','],
                                         letterCase: LetterCase.normal,
                                         validator: (String tag) {
                                           if (tag == 'php') {
@@ -188,7 +190,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                             (context, tec, fn, error, onChanged, onSubmitted) {
                                           return ((context, sc, tags, onTagDelete) {
                                             return Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                              padding: EdgeInsets.symmetric(horizontal:width/136.6),
                                               child: TextField(
                                                 controller: tec,
                                                 focusNode: fn,
@@ -196,13 +198,13 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                   border: UnderlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Constants().primaryAppColor,
-                                                        width: 3.0,
+                                                        width: width/455.333,
                                                     ),
                                                   ),
                                                   focusedBorder: UnderlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color: Constants().primaryAppColor,
-                                                        width: 3.0,
+                                                        width: width/455.333,
                                                     ),
                                                   ),
                                                   helperStyle: TextStyle(
@@ -219,15 +221,15 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                         children: tags.map((String tag) {
                                                           return Container(
                                                             decoration: BoxDecoration(
-                                                              borderRadius: const BorderRadius.all(
+                                                              borderRadius: BorderRadius.all(
                                                                 Radius.circular(20.0),
                                                               ),
                                                               color: Constants().primaryAppColor,
                                                             ),
                                                             margin:
-                                                            const EdgeInsets.only(right: 10.0),
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 10.0, vertical: 4.0),
+                                                            EdgeInsets.only(right: width/136.6),
+                                                            padding: EdgeInsets.symmetric(
+                                                                horizontal: width/136.6, vertical: height/162.75),
                                                             child: Row(
                                                               mainAxisAlignment:
                                                               MainAxisAlignment.spaceBetween,
@@ -235,15 +237,15 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                                 InkWell(
                                                                   child: Text(
                                                                     tag,
-                                                                    style: const TextStyle(
+                                                                    style: TextStyle(
                                                                         color: Colors.white),
                                                                   ),
                                                                 ),
-                                                                const SizedBox(width: 4.0),
+                                                                SizedBox(width: width/341.5),
                                                                 InkWell(
-                                                                  child: const Icon(
+                                                                  child: Icon(
                                                                     Icons.cancel,
-                                                                    size: 14.0,
+                                                                    size:width/97.571,
                                                                     color: Colors.black
                                                                   ),
                                                                   onTap: () {
@@ -270,12 +272,12 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height /21.7),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width/68.3, vertical: height/65.1),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -283,29 +285,29 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                     text: "Subject *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: width/105.076,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width /113.83),
                                     controller: subjectController,
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height /21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 25),
+                                padding: EdgeInsets.only(left: width/54.64),
                                 child: KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: width/105.076,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -313,10 +315,10 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                                margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -328,26 +330,26 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height /32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                TextStyle(fontSize: width /113.83),
                                             controller: descriptionController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(
-                                                    left: 15,
-                                                    top: 4,
-                                                    bottom: 4)),
+                                                    left: width/91.06,
+                                                    top: height/162.75,
+                                                    bottom: height/162.75)),
                                             maxLines: null,
                                           )),
                                     ),
@@ -356,7 +358,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: height /65.1),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -401,11 +403,11 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height: height/height/162.75,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -414,19 +416,19 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width /227.66),
                                     child: Center(
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.send,
+                                          Icon(Icons.send,
                                               color: Colors.white),
-                                          const SizedBox(width: 5),
+                                          SizedBox(width: width /273.2),
                                           KText(
                                             text: "SEND",
                                             style: GoogleFonts.openSans(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: width /136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -453,11 +455,11 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                 } else if (snapshot.hasData) {
                   List<MailModel> email = [];
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width: width /1.241,
+                    margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -473,15 +475,15 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "Emails (${email.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -494,104 +496,101 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                               ? 70 + email.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 80,
-                                        child: KText(
-                                          text: "No.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: width /17.075,
+                                      child: KText(
+                                        text: "No.",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 110,
-                                        child: KText(
-                                          text: "Time",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width /12.418,
+                                      child: KText(
+                                        text: "Time",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width /113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 100,
-                                        child: KText(
-                                          text: "To",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/136.60,
+                                      child: KText(
+                                        text: "To",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width /113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Subject",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width /9.106,
+                                      child: KText(
+                                        text: "Subject",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "Content",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width /6.83,
+                                      child: KText(
+                                        text: "Content",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "SMS Network",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width /6.83,
+                                      child: KText(
+                                        text: "SMS Network",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width /9.106,
+                                      child: KText(
+                                        text: "Actions",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height /65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: 0,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height /10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -607,77 +606,77 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                            width: width /17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width /7.588,
                                             child: KText(
                                               text: email[i].to!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width /7.588,
                                             child: KText(
                                               text: email[i].message!.subject!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width /7.588,
                                             child: KText(
                                               text:
                                                   email[i].message!.text!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width /8.035,
                                             child: KText(
                                               text:
                                                   "departments[i].contactNumber!",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width /6.83,
                                             child: KText(
                                               text: "departments[i].location!",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
+                                              width: width /6.83,
                                               child: Row(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {},
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height /26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xff2baae4),
                                                         boxShadow: [
@@ -692,21 +691,21 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal: width /227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .remove_red_eye,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                               size: width /91.06,
                                                               ),
                                                               KText(
                                                                 text: "View",
@@ -714,7 +713,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width /136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -726,13 +725,13 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width: width /273.2),
                                                   InkWell(
                                                     onTap: () {},
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height /26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xffff9700),
                                                         boxShadow: [
@@ -747,20 +746,20 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal: width /227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                               size: width /91.06,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -768,7 +767,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width /136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -780,13 +779,13 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width: width /273.2),
                                                   InkWell(
                                                     onTap: () {},
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height /26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xfff44236),
                                                         boxShadow: [
@@ -801,21 +800,21 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal: width /227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                               size: width /91.06,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -823,7 +822,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width /136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -863,11 +862,11 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -880,14 +879,14 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

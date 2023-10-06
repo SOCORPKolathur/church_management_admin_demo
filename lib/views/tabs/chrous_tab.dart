@@ -202,10 +202,7 @@ class _ChorusTabState extends State<ChorusTab> {
                 ? Container(
               height: size.height * 1.56,
               width: width/1.241,
-              margin: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
-              ),
+              margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
                 boxShadow: [
@@ -249,10 +246,7 @@ class _ChorusTabState extends State<ChorusTab> {
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
-                      ),
+                      padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

@@ -12,7 +12,7 @@ import '../../widgets/kText.dart';
 import '../prints/blood_requirement_print.dart';
 
 class BloodRequirementTab extends StatefulWidget {
-  const BloodRequirementTab({super.key});
+  BloodRequirementTab({super.key});
 
   @override
   State<BloodRequirementTab> createState() => _BloodRequirementTabState();
@@ -24,23 +24,26 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: KText(
                 text: "Blood Requirement",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.538,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
             ),
-            dropdownValue == "Select Blood Group" ? StreamBuilder(
+            dropdownValue == "Select Blood Group" ?
+            StreamBuilder(
               stream: UserFireCrud.fetchUsers(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -48,11 +51,11 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                 } else if (snapshot.hasData) {
                   List<UserModel> users = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width: width/1.2418,
+                    margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -68,8 +71,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                               horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
@@ -77,7 +80,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                 KText(
                                   text: "Blood Group List",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                  fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -86,18 +89,16 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 >
-                              70 + users.length * 60
-                              ? 115 + users.length * 60
-                              : size.height * 0.7,
+                      height: size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3,
+                              vertical: height/32.55),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -108,8 +109,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       generateBloodRequirementPdf(PdfPageFormat.letter, users,false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -120,18 +121,18 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                              Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -141,14 +142,14 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/13.66),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -159,18 +160,18 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                              Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -180,15 +181,15 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/13.66),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateBloodRequirementPdf(PdfPageFormat.letter, users, true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -199,18 +200,18 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                              Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -220,14 +221,14 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/13.66),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -238,19 +239,19 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -262,16 +263,16 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height:height/32.55),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Select Blood Group"),
+                                  Text("Select Blood Group"),
                                   SizedBox(
-                                    height: 50,
+                                   height:height/13.02,
                                     child: DropdownButton(
                                       value: dropdownValue,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       items: ["Select Blood Group", "AB+", "AB-","O+","O-","A+","A-","B+","B-"]
                                           .map((items) {
                                         return DropdownMenuItem(
@@ -290,58 +291,58 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                  padding: EdgeInsets.all(0.0),
                                   child: Row(
                                     children: [
                                       SizedBox(
-                                        width: 100,
+                                        width:width/13.66,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/6.83,
                                         child: KText(
                                           text: "Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/6.83,
                                         child: KText(
                                           text: "Phone",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/6.83,
                                         child: KText(
                                           text: "Blood Group",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width:width/5.464,
                                         child: KText(
                                           text: "Address",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -350,15 +351,15 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height:height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: users.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                     height:height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -376,55 +377,55 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         MainAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: 100,
+                                            width:width/13.66,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: "${users[i].firstName!} ${users[i].lastName!}",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: users[i].phone!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: users[i].bloodGroup!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 250,
+                                            width:width/5.464,
                                             child: KText(
                                               text: users[i].address!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
@@ -436,7 +437,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height:height/65.1),
                             ],
                           ),
                         ),
@@ -446,7 +447,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                 }
                 return Container();
               },
-            ) : StreamBuilder(
+            ) :
+            StreamBuilder(
               stream: UserFireCrud.fetchUsersWithBlood(dropdownValue),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -454,11 +456,11 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                 } else if (snapshot.hasData) {
                   List<UserModel> users = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width: width/1.2418,
+                    margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -474,8 +476,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                               horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
@@ -483,7 +485,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                 KText(
                                   text: "Blood Group List",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                  fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -492,18 +494,15 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 >
-                              170 + users.length * 70
-                              ? 170 + users.length * 70
-                              : size.height * 0.7,
+                          height: size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -514,8 +513,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       generateBloodRequirementPdf(PdfPageFormat.letter, users,false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -526,18 +525,18 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                              Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -547,14 +546,14 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/13.66),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -565,18 +564,18 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                              Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -586,15 +585,15 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/13.66),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateBloodRequirementPdf(PdfPageFormat.letter, users, true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -605,18 +604,18 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                              Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -626,14 +625,14 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/13.66),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(users);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -644,19 +643,19 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -668,7 +667,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height:height/32.55),
                               InkWell(
                                 onTap: (){
                                   setState(() {
@@ -676,8 +675,8 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   });
                                 },
                                 child: Container(
-                                  height: 35,
-                                  width: 90,
+                                  height:height/18.6,
+                                  width: width/15.177,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(10),
@@ -692,58 +691,58 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                  padding: EdgeInsets.all(0.0),
                                   child: Row(
                                     children: [
                                       SizedBox(
-                                        width: 100,
+                                        width:width/13.66,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/6.83,
                                         child: KText(
                                           text: "Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/6.83,
                                         child: KText(
                                           text: "Phone",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width:width/6.83,
                                         child: KText(
                                           text: "Blood Group",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width:width/5.464,
                                         child: KText(
                                           text: "Address",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                           fontSize:width/113.83,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -752,15 +751,15 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height:height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: users.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                     height:height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
@@ -778,55 +777,55 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                         MainAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: 100,
+                                            width:width/13.66,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: "${users[i].firstName!} ${users[i].lastName!}",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: users[i].phone!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width:width/6.83,
                                             child: KText(
                                               text: users[i].bloodGroup!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 250,
+                                            width:width/5.464,
                                             child: KText(
                                               text: users[i].address!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight:
                                                 FontWeight.w600,
                                               ),
@@ -838,7 +837,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height:height/65.1),
                             ],
                           ),
                         ),
@@ -873,7 +872,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
       row.add(users[i].address!);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv = ListToCsvConverter().convert(rows);
     saveCsvToFile(csv);
   }
 
@@ -921,7 +920,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
       row.add(users[i].address);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    String csv = ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 }

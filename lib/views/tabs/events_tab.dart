@@ -17,7 +17,7 @@ import '../../widgets/kText.dart';
 import '../prints/event_print.dart';
 
 class EventsTab extends StatefulWidget {
-  const EventsTab({super.key});
+  EventsTab({super.key});
 
   @override
   State<EventsTab> createState() => _EventsTabState();
@@ -104,21 +104,23 @@ class _EventsTabState extends State<EventsTab>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 KText(
                   text: "EVENTS",
                   style: GoogleFonts.openSans(
-                      fontSize: 26,
+                      fontSize: width/52.538,
                       fontWeight: FontWeight.w900,
                       color: Colors.black),
                 ),
@@ -136,11 +138,11 @@ class _EventsTabState extends State<EventsTab>
                       }
                     },
                     child: Container(
-                      height: 35,
+                      height:height/18.6,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
                             color: Colors.black26,
                             offset: Offset(1, 2),
@@ -150,12 +152,12 @@ class _EventsTabState extends State<EventsTab>
                       ),
                       child: Padding(
                         padding:
-                        const EdgeInsets.symmetric(horizontal: 6),
+                        EdgeInsets.symmetric(horizontal:width/227.66),
                         child: Center(
                           child: KText(
                             text: currentTab.toUpperCase() == "VIEW" ? "Add Event" : "View Events",
                             style: GoogleFonts.openSans(
-                              fontSize: 13,
+                              fontSize:width/105.07,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -168,11 +170,11 @@ class _EventsTabState extends State<EventsTab>
           ),
           currentTab.toUpperCase() == "ADD"
               ? Container(
-            width: 1100,
-            margin: const EdgeInsets.all(20),
+            width:width/1.2418,
+            margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -189,14 +191,14 @@ class _EventsTabState extends State<EventsTab>
                   width: double.infinity,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
                           text: "ADD NEW EVENT",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -245,11 +247,11 @@ class _EventsTabState extends State<EventsTab>
                             }
                           },
                           child: Container(
-                            height: 40,
+                            height: height/16.275,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -259,12 +261,12 @@ class _EventsTabState extends State<EventsTab>
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "ADD NOW",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 16,
+                                    fontSize: width/85.375,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -279,13 +281,13 @@ class _EventsTabState extends State<EventsTab>
                 Container(
                   height: size.height * 0.55,
                   width: double.infinity,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                       color: Color(0xffF7FAFC),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       )),
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -300,20 +302,20 @@ class _EventsTabState extends State<EventsTab>
                                   KText(
                                     text: "Date *",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                     fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
+                                  SizedBox(height: height/108.5),
                                   Material(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 50,
-                                      width: 150,
+                                      height: height/13.02,
+                                      width: width/9.106,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
                                           decoration: InputDecoration(
                                             border: InputBorder.none
@@ -338,27 +340,27 @@ class _EventsTabState extends State<EventsTab>
                                   )
                                 ],
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
                                     text: "Time *",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                     fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
+                                  SizedBox(height: height/108.5),
                                   Material(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 50,
-                                      width: 150,
+                                      height: height/13.02,
+                                      width: width/9.106,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
                                           onTap: (){
                                             _selectTime(context);
@@ -367,7 +369,7 @@ class _EventsTabState extends State<EventsTab>
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
+                                             fontSize: width/97.571,
                                             ),
                                           ),
                                         ),
@@ -376,34 +378,34 @@ class _EventsTabState extends State<EventsTab>
                                   )
                                 ],
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
                                     text: "Location *",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                     fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
+                                  SizedBox(height: height/108.5),
                                   Material(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 50,
-                                      width: 200,
+                                      height: height/13.02,
+                                      width: width/6.830,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
                                           controller: locationController,
                                           decoration: InputDecoration(
-                                            contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                                            contentPadding: EdgeInsets.symmetric(vertical: 5),
                                             border: InputBorder.none,
                                             hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
+                                             fontSize: width/97.571,
                                             ),
                                           ),
                                         ),
@@ -414,7 +416,7 @@ class _EventsTabState extends State<EventsTab>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: height/65.1),
                           Row(
                             children: [
                               Column(
@@ -423,20 +425,20 @@ class _EventsTabState extends State<EventsTab>
                                   KText(
                                     text: "Ttile *",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                     fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
+                                  SizedBox(height: height/108.5),
                                   Material(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 60,
+                                      height: height/10.850,
                                       width: size.width * 0.36,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
                                           keyboardType: TextInputType.multiline,
                                           minLines: 1,
@@ -445,7 +447,7 @@ class _EventsTabState extends State<EventsTab>
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
+                                             fontSize: width/97.571,
                                             ),
                                           ),
                                         ),
@@ -456,7 +458,7 @@ class _EventsTabState extends State<EventsTab>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: height/65.1),
                           Row(
                             children: [
                               Column(
@@ -465,20 +467,20 @@ class _EventsTabState extends State<EventsTab>
                                   KText(
                                     text: "Description",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                     fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
+                                  SizedBox(height: height/108.5),
                                   Material(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.white,
                                     elevation: 10,
                                     child: SizedBox(
-                                      height: 100,
+                                      height: height/6.510,
                                       width: size.width * 0.36,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
                                           keyboardType: TextInputType.multiline,
                                           minLines: 1,
@@ -487,7 +489,7 @@ class _EventsTabState extends State<EventsTab>
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintStyle: GoogleFonts.openSans(
-                                              fontSize: 14,
+                                             fontSize: width/97.571,
                                             ),
                                           ),
                                         ),
@@ -532,7 +534,9 @@ class _EventsTabState extends State<EventsTab>
               ],
             ),
           )
-              : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ? StreamBuilder(
+              : currentTab.toUpperCase() == "VIEW" ?
+          dateRangeStart != null ?
+          StreamBuilder(
             stream: EventsFireCrud.fetchEventsWithFilter(dateRangeStart!,dateRangeEnd!),
             builder: (ctx, snapshot) {
               if (snapshot.hasError) {
@@ -540,11 +544,12 @@ class _EventsTabState extends State<EventsTab>
               } else if (snapshot.hasData) {
                 List<EventsModel> events = snapshot.data!;
                 return Container(
-                  width: 1100,
-                  margin: const EdgeInsets.all(20),
+                  width:width/1.2418,
+                  margin: EdgeInsets.symmetric(horizontal: width/68.3,
+                      vertical: height/32.55),
                   decoration: BoxDecoration(
                     color: Constants().primaryAppColor,
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(1, 2),
@@ -560,15 +565,15 @@ class _EventsTabState extends State<EventsTab>
                         height: size.height * 0.1,
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 8),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width/68.3, vertical: height/81.375),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               KText(
                                 text: "Event Records (${events.length})",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 20,
+                                  fontSize: width/68.3,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -581,11 +586,11 @@ class _EventsTabState extends State<EventsTab>
                                   });
                                 },
                                 child: Container(
-                                  height: 40,
+                                  height: height/16.275,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -595,12 +600,12 @@ class _EventsTabState extends State<EventsTab>
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                    EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "Clear Filter",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                         fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -617,13 +622,13 @@ class _EventsTabState extends State<EventsTab>
                             ? 130 + events.length * 60
                             : size.height * 0.7,
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
                             )),
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -635,8 +640,8 @@ class _EventsTabState extends State<EventsTab>
                                    print(data);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xfffe5722),
                                       boxShadow: [
                                         BoxShadow(
@@ -647,18 +652,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.print,
+                                            Icon(Icons.print,
                                                 color: Colors.white),
                                             KText(
                                               text: "PRINT",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -668,14 +673,14 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () {
                                     copyToClipBoard(events);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xffff9700),
                                       boxShadow: [
                                         BoxShadow(
@@ -686,18 +691,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.copy,
+                                            Icon(Icons.copy,
                                                 color: Colors.white),
                                             KText(
                                               text: "COPY",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -707,15 +712,15 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () async {
                                    var data = await generateEventPdf(PdfPageFormat.a4, events,true);
                                    savePdfToFile(data);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xff9b28b0),
                                       boxShadow: [
                                         BoxShadow(
@@ -726,18 +731,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.picture_as_pdf,
+                                            Icon(Icons.picture_as_pdf,
                                                 color: Colors.white),
                                             KText(
                                               text: "PDF",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -747,14 +752,14 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () {
                                     convertToCsv(events);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xff019688),
                                       boxShadow: [
                                         BoxShadow(
@@ -765,18 +770,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.file_copy_rounded,
+                                            Icon(Icons.file_copy_rounded,
                                                 color: Colors.white),
                                             KText(
                                               text: "CSV",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -788,80 +793,80 @@ class _EventsTabState extends State<EventsTab>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 30),
+                            SizedBox(height: height/21.7),
                             SizedBox(
                               child: Padding(
-                                padding: const EdgeInsets.all(3.0),
+                                padding: EdgeInsets.symmetric(horizontal: width/455.33,vertical: height/217),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                      width: 80,
+                                     width:width/17.075,
                                       child: KText(
                                         text: "No.",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 100,
+                                      width: width/13.66,
                                       child: KText(
                                         text: "Event",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 170,
+                                      width:width/8.035,
                                       child: KText(
                                         text: "Date",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 150,
+                                      width: width/9.106,
                                       child: KText(
                                         text: "Views",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 130,
+                                      width:width/10.507,
                                       child: KText(
                                         text: "Location",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 190,
+                                      width:width/7.189,
                                       child: KText(
                                         text: "Description",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 180,
+                                      width:width/7.588,
                                       child: KText(
                                         text: "Actions",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -875,9 +880,9 @@ class _EventsTabState extends State<EventsTab>
                                 itemCount: events.length,
                                 itemBuilder: (ctx, i) {
                                   return Container(
-                                    height: 60,
+                                    height: height/10.850,
                                     width: double.infinity,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border(
                                         top: BorderSide(
@@ -891,23 +896,24 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
+                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
+                                      child:
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                           width:width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 100,
+                                            width: width/13.66,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -920,47 +926,47 @@ class _EventsTabState extends State<EventsTab>
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width:width/8.035,
                                             child: KText(
                                               text: events[i].date!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106,
                                             child: KText(
                                               text: events[i].views!.length.toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 130,
+                                            width:width/10.507,
                                             child: KText(
                                               text: events[i].location!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 190,
+                                            width:width/7.189,
                                             child: KText(
                                               text: events[i].description!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 180,
+                                              width:width/7.588,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -968,9 +974,9 @@ class _EventsTabState extends State<EventsTab>
                                                       viewPopup(events[i]);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height:height/26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xff2baae4),
                                                         boxShadow: [
@@ -985,21 +991,21 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .remove_red_eye,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "View",
@@ -1007,7 +1013,7 @@ class _EventsTabState extends State<EventsTab>
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -1019,7 +1025,7 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width:width/273.2),
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
@@ -1042,9 +1048,9 @@ class _EventsTabState extends State<EventsTab>
                                                       editPopUp(events[i], size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height:height/26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xffff9700),
                                                         boxShadow: [
@@ -1059,20 +1065,20 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -1080,7 +1086,7 @@ class _EventsTabState extends State<EventsTab>
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -1092,7 +1098,7 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width:width/273.2),
                                                   InkWell(
                                                     onTap: () {
                                                       CoolAlert.show(
@@ -1112,7 +1118,7 @@ class _EventsTabState extends State<EventsTab>
                                                                       0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                           onConfirmBtnTap:
                                                               () async {
                                                             Response res =
@@ -1123,9 +1129,9 @@ class _EventsTabState extends State<EventsTab>
                                                           });
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height:height/26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xfff44236),
                                                         boxShadow: [
@@ -1140,21 +1146,21 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -1162,7 +1168,7 @@ class _EventsTabState extends State<EventsTab>
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -1192,7 +1198,8 @@ class _EventsTabState extends State<EventsTab>
               }
               return Container();
             },
-          ) : StreamBuilder(
+          ) :
+          StreamBuilder(
             stream: EventsFireCrud.fetchEvents(),
             builder: (ctx, snapshot) {
               if (snapshot.hasError) {
@@ -1200,11 +1207,11 @@ class _EventsTabState extends State<EventsTab>
               } else if (snapshot.hasData) {
                 List<EventsModel> events = snapshot.data!;
                 return Container(
-                  width: 1100,
-                  margin: const EdgeInsets.all(20),
+                  width:width/1.2418,
+                  margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                   decoration: BoxDecoration(
                     color: Constants().primaryAppColor,
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(1, 2),
@@ -1220,15 +1227,15 @@ class _EventsTabState extends State<EventsTab>
                         height: size.height * 0.1,
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 8),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width/68.3, vertical: height/81.375),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               KText(
                                 text: "Event Records (${events.length})",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 20,
+                                  fontSize: width/68.3,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1242,11 +1249,11 @@ class _EventsTabState extends State<EventsTab>
                                   }
                                 },
                                 child: Container(
-                                  height: 40,
+                                  height: height/16.275,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -1256,12 +1263,12 @@ class _EventsTabState extends State<EventsTab>
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                    EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "Filter",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                         fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -1278,13 +1285,13 @@ class _EventsTabState extends State<EventsTab>
                             ? 130 + events.length * 60
                             : size.height * 0.7,
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
                             )),
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1296,8 +1303,8 @@ class _EventsTabState extends State<EventsTab>
                                     print(data);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xfffe5722),
                                       boxShadow: [
                                         BoxShadow(
@@ -1308,18 +1315,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.print,
+                                            Icon(Icons.print,
                                                 color: Colors.white),
                                             KText(
                                               text: "PRINT",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -1329,14 +1336,14 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () {
                                     copyToClipBoard(events);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xffff9700),
                                       boxShadow: [
                                         BoxShadow(
@@ -1347,18 +1354,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.copy,
+                                            Icon(Icons.copy,
                                                 color: Colors.white),
                                             KText(
                                               text: "COPY",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -1368,7 +1375,7 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () async {
                                     //convertToPdf(events);
@@ -1376,8 +1383,8 @@ class _EventsTabState extends State<EventsTab>
                                    savePdfToFile(data);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xff9b28b0),
                                       boxShadow: [
                                         BoxShadow(
@@ -1388,18 +1395,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.picture_as_pdf,
+                                            Icon(Icons.picture_as_pdf,
                                                 color: Colors.white),
                                             KText(
                                               text: "PDF",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -1409,14 +1416,14 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () {
                                     convertToCsv(events);
                                   },
                                   child: Container(
-                                    height: 35,
-                                    decoration: const BoxDecoration(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
                                       color: Color(0xff019688),
                                       boxShadow: [
                                         BoxShadow(
@@ -1427,18 +1434,18 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.file_copy_rounded,
+                                            Icon(Icons.file_copy_rounded,
                                                 color: Colors.white),
                                             KText(
                                               text: "CSV",
                                               style: GoogleFonts.openSans(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -1450,80 +1457,80 @@ class _EventsTabState extends State<EventsTab>
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 30),
+                            SizedBox(height: height/21.7),
                             SizedBox(
                               child: Padding(
-                                padding: const EdgeInsets.all(3.0),
+                                padding: EdgeInsets.symmetric(horizontal: width/455.33,vertical: height/217),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                      width: 80,
+                                     width:width/17.075,
                                       child: KText(
                                         text: "No.",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 100,
+                                      width: width/13.66,
                                       child: KText(
                                         text: "Event",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 170,
+                                      width:width/8.035,
                                       child: KText(
                                         text: "Date",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 150,
+                                      width: width/9.106,
                                       child: KText(
                                         text: "Views",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 130,
+                                      width:width/10.507,
                                       child: KText(
                                         text: "Location",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 190,
+                                      width:width/7.189,
                                       child: KText(
                                         text: "Description",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 180,
+                                      width:width/7.588,
                                       child: KText(
                                         text: "Actions",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -1537,9 +1544,9 @@ class _EventsTabState extends State<EventsTab>
                                 itemCount: events.length,
                                 itemBuilder: (ctx, i) {
                                   return Container(
-                                    height: 60,
+                                    height: height/10.850,
                                     width: double.infinity,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border(
                                         top: BorderSide(
@@ -1553,23 +1560,23 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
+                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
                                       child: Row(
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                           width:width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 100,
+                                            width: width/13.66,
                                             child: Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -1582,47 +1589,47 @@ class _EventsTabState extends State<EventsTab>
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width:width/8.035,
                                             child: KText(
                                               text: events[i].date!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106,
                                             child: KText(
                                               text: events[i].views!.length.toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 130,
+                                            width:width/10.507,
                                             child: KText(
                                               text: events[i].location!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 190,
+                                            width:width/7.189,
                                             child: KText(
                                               text: events[i].description!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 180,
+                                              width:width/7.588,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -1630,9 +1637,9 @@ class _EventsTabState extends State<EventsTab>
                                                       viewPopup(events[i]);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height:height/26.04,
                                                       decoration:
-                                                      const BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
                                                         Color(0xff2baae4),
                                                         boxShadow: [
@@ -1647,21 +1654,21 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
+                                                        EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .remove_red_eye,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "View",
@@ -1669,7 +1676,7 @@ class _EventsTabState extends State<EventsTab>
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -1681,7 +1688,7 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width:width/273.2),
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
@@ -1704,9 +1711,9 @@ class _EventsTabState extends State<EventsTab>
                                                       editPopUp(events[i], size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height:height/26.04,
                                                       decoration:
-                                                      const BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
                                                         Color(0xffff9700),
                                                         boxShadow: [
@@ -1721,20 +1728,20 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
+                                                        EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -1742,7 +1749,7 @@ class _EventsTabState extends State<EventsTab>
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -1754,7 +1761,7 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width:width/273.2),
                                                   InkWell(
                                                     onTap: () {
                                                       CoolAlert.show(
@@ -1774,7 +1781,7 @@ class _EventsTabState extends State<EventsTab>
                                                               0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                           onConfirmBtnTap:
                                                               () async {
                                                             Response res =
@@ -1785,9 +1792,9 @@ class _EventsTabState extends State<EventsTab>
                                                           });
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height:height/26.04,
                                                       decoration:
-                                                      const BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
                                                         Color(0xfff44236),
                                                         boxShadow: [
@@ -1802,21 +1809,21 @@ class _EventsTabState extends State<EventsTab>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
+                                                        EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size:width/91.06,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -1824,7 +1831,7 @@ class _EventsTabState extends State<EventsTab>
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -1862,6 +1869,8 @@ class _EventsTabState extends State<EventsTab>
 
   viewPopup(EventsModel event) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1869,10 +1878,10 @@ class _EventsTabState extends State<EventsTab>
           backgroundColor: Colors.transparent,
           content: Container(
             width: size.width * 0.5,
-            margin: const EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1888,14 +1897,14 @@ class _EventsTabState extends State<EventsTab>
                   width: double.infinity,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           event.location!,
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1904,11 +1913,11 @@ class _EventsTabState extends State<EventsTab>
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 40,
+                            height: height/16.275,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1918,12 +1927,12 @@ class _EventsTabState extends State<EventsTab>
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  EdgeInsets.symmetric(horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "CLOSE",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 16,
+                                    fontSize: width/85.375,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1938,7 +1947,7 @@ class _EventsTabState extends State<EventsTab>
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(10),
@@ -1962,104 +1971,104 @@ class _EventsTabState extends State<EventsTab>
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width/136.6, vertical: height/65.1),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Date",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w800,
-                                            fontSize: 16
+                                            fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
                                       Text(
                                         event.date!,
-                                        style: const TextStyle(
-                                          fontSize: 14
+                                        style: TextStyle(
+                                         fontSize: width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Time",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
                                       Text(
                                         event.time!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                           fontSize: width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Location",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
                                       KText(
                                         text: event.location!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                           fontSize: width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Description",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize: width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
                                       KText(
                                         text: event.description!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                           fontSize: width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                 ],
                               ),
                             ),
@@ -2078,6 +2087,8 @@ class _EventsTabState extends State<EventsTab>
   }
 
   editPopUp(EventsModel event, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -2086,11 +2097,11 @@ class _EventsTabState extends State<EventsTab>
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
-                width: 1100,
-                margin: const EdgeInsets.all(20),
+                width:width/1.2418,
+                margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                 decoration: BoxDecoration(
                   color: Constants().primaryAppColor,
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(1, 2),
@@ -2107,14 +2118,14 @@ class _EventsTabState extends State<EventsTab>
                       width: double.infinity,
                       child: Padding(
                         padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                            EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             KText(
                               text: "EDIT EVENT",
                               style: GoogleFonts.openSans(
-                                fontSize: 20,
+                                fontSize: width/68.3,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -2176,11 +2187,11 @@ class _EventsTabState extends State<EventsTab>
                                     }
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -2190,12 +2201,12 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                     child: Padding(
                                       padding:
-                                          const EdgeInsets.symmetric(horizontal: 6),
+                                          EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "UPDATE",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 16,
+                                            fontSize: width/85.375,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2203,7 +2214,7 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: () async {
                                     setState(() {
@@ -2216,11 +2227,11 @@ class _EventsTabState extends State<EventsTab>
                                     Navigator.pop(context);
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -2230,12 +2241,12 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                     child: Padding(
                                       padding:
-                                          const EdgeInsets.symmetric(horizontal: 6),
+                                          EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "CANCEL",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 16,
+                                            fontSize: width/85.375,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2252,13 +2263,13 @@ class _EventsTabState extends State<EventsTab>
                     Expanded(
                       child: Container(
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Color(0xffF7FAFC),
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
                             )),
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -2273,20 +2284,20 @@ class _EventsTabState extends State<EventsTab>
                                         KText(
                                           text: "Date *",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                           fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: height/108.5),
                                         Material(
                                           borderRadius: BorderRadius.circular(5),
                                           color: Colors.white,
                                           elevation: 10,
                                           child: SizedBox(
-                                            height: 40,
-                                            width: 150,
+                                            height: height/16.275,
+                                            width: width/9.106,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none
@@ -2311,27 +2322,27 @@ class _EventsTabState extends State<EventsTab>
                                         )
                                       ],
                                     ),
-                                    const SizedBox(width: 20),
+                                    SizedBox(width: width/68.3),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
                                           text: "Time *",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                           fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: height/108.5),
                                         Material(
                                           borderRadius: BorderRadius.circular(5),
                                           color: Colors.white,
                                           elevation: 10,
                                           child: SizedBox(
-                                            height: 40,
-                                            width: 150,
+                                            height: height/16.275,
+                                            width: width/9.106,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
                                                 onTap: (){
                                                   _selectTime(context);
@@ -2340,7 +2351,7 @@ class _EventsTabState extends State<EventsTab>
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintStyle: GoogleFonts.openSans(
-                                                    fontSize: 14,
+                                                   fontSize: width/97.571,
                                                   ),
                                                 ),
                                               ),
@@ -2349,34 +2360,34 @@ class _EventsTabState extends State<EventsTab>
                                         )
                                       ],
                                     ),
-                                    const SizedBox(width: 20),
+                                    SizedBox(width: width/68.3),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
                                           text: "Location *",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                           fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: height/108.5),
                                         Material(
                                           borderRadius: BorderRadius.circular(5),
                                           color: Colors.white,
                                           elevation: 10,
                                           child: SizedBox(
-                                            height: 40,
-                                            width: 200,
+                                            height: height/16.275,
+                                            width: width/6.830,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
                                                 controller: locationController,
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintText: "Select Type",
                                                   hintStyle: GoogleFonts.openSans(
-                                                    fontSize: 14,
+                                                   fontSize: width/97.571,
                                                   ),
                                                 ),
                                               ),
@@ -2387,7 +2398,7 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                SizedBox(height: height/65.1),
                                 Row(
                                   children: [
                                     Column(
@@ -2396,20 +2407,20 @@ class _EventsTabState extends State<EventsTab>
                                         KText(
                                           text: "Title *",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                           fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: height/108.5),
                                         Material(
                                           borderRadius: BorderRadius.circular(5),
                                           color: Colors.white,
                                           elevation: 10,
                                           child: SizedBox(
-                                            height: 60,
+                                            height: height/10.850,
                                             width: size.width * 0.36,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
                                                 keyboardType:
                                                 TextInputType.multiline,
@@ -2419,7 +2430,7 @@ class _EventsTabState extends State<EventsTab>
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintStyle: GoogleFonts.openSans(
-                                                    fontSize: 14,
+                                                   fontSize: width/97.571,
                                                   ),
                                                 ),
                                               ),
@@ -2430,7 +2441,7 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                SizedBox(height: height/65.1),
                                 Row(
                                   children: [
                                     Column(
@@ -2439,20 +2450,20 @@ class _EventsTabState extends State<EventsTab>
                                         KText(
                                           text: "Description",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                           fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: height/108.5),
                                         Material(
                                           borderRadius: BorderRadius.circular(5),
                                           color: Colors.white,
                                           elevation: 10,
                                           child: SizedBox(
-                                            height: 100,
+                                            height: height/6.510,
                                             width: size.width * 0.36,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
                                                 keyboardType:
                                                     TextInputType.multiline,
@@ -2463,7 +2474,7 @@ class _EventsTabState extends State<EventsTab>
                                                   border: InputBorder.none,
                                                   hintText: "Lucky",
                                                   hintStyle: GoogleFonts.openSans(
-                                                    fontSize: 14,
+                                                   fontSize: width/97.571,
                                                   ),
                                                 ),
                                               ),
@@ -2539,7 +2550,7 @@ class _EventsTabState extends State<EventsTab>
       row.add(events[i].description!);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv = ListToCsvConverter().convert(rows);
     saveCsvToFile(csv);
   }
 
@@ -2561,7 +2572,7 @@ class _EventsTabState extends State<EventsTab>
       row.add(events[i].description!);
       rows.add(row);
     }
-    String pdf = const ListToCsvConverter().convert(rows);
+    String pdf = ListToCsvConverter().convert(rows);
     savePdfToFile(pdf);
   }
 
@@ -2609,12 +2620,14 @@ class _EventsTabState extends State<EventsTab>
       row.add(events[i].description);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    String csv = ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
   filterPopUp() {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -2638,11 +2651,11 @@ class _EventsTabState extends State<EventsTab>
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: width/68.3),
                               child: KText(
                                 text: "Filter",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
+                                  fontSize: width/85.375,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -2652,7 +2665,7 @@ class _EventsTabState extends State<EventsTab>
                       ),
                       Expanded(
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(10),
@@ -2660,30 +2673,30 @@ class _EventsTabState extends State<EventsTab>
                               )
                           ),
                           width: double.infinity,
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width:width/15.177,
                                     child: KText(
                                       text: "Start Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                       fontSize: width/97.571,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width:width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width:width/15.177,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           blurRadius: 3,
@@ -2693,7 +2706,7 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
                                         border: InputBorder.none,
                                       ),
@@ -2716,23 +2729,23 @@ class _EventsTabState extends State<EventsTab>
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width:width/15.177,
                                     child: KText(
                                       text: "End Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                       fontSize: width/97.571,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width:width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width:width/15.177,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           blurRadius: 3,
@@ -2742,7 +2755,7 @@ class _EventsTabState extends State<EventsTab>
                                     ),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
                                         border: InputBorder.none,
                                       ),
@@ -2770,11 +2783,11 @@ class _EventsTabState extends State<EventsTab>
                                       Navigator.pop(context,false);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
-                                        boxShadow: const [
+                                        boxShadow: [
                                           BoxShadow(
                                             color: Colors.black26,
                                             offset: Offset(1, 2),
@@ -2784,12 +2797,12 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                       child: Padding(
                                         padding:
-                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        EdgeInsets.symmetric(horizontal:width/227.66),
                                         child: Center(
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -2797,17 +2810,17 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width:width/273.2),
                                   InkWell(
                                     onTap: () {
                                       Navigator.pop(context,true);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
-                                        boxShadow: const [
+                                        boxShadow: [
                                           BoxShadow(
                                             color: Colors.black26,
                                             offset: Offset(1, 2),
@@ -2817,12 +2830,12 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                       child: Padding(
                                         padding:
-                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        EdgeInsets.symmetric(horizontal:width/227.66),
                                         child: Center(
                                           child: KText(
                                             text: "Apply",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -2850,11 +2863,11 @@ class _EventsTabState extends State<EventsTab>
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -2867,14 +2880,14 @@ class _EventsTabState extends State<EventsTab>
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

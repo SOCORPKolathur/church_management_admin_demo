@@ -164,14 +164,14 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Speech",
       icon: CupertinoIcons.speaker_2_fill,
-      page: const SpeechTab(),
+      page:  SpeechTab(),
       isExpanded: false,
       children: [],
     ),
     DrawerModel(
       name: "Notices",
       icon: CupertinoIcons.square_list_fill,
-      page: const NoticesTab(),
+      page:  NoticesTab(),
       isExpanded: false,
       children: [],
     ),
@@ -182,17 +182,17 @@ class _HomeViewState extends State<HomeView> {
       children: [
         DrawerChildren(
           name: 'SMS Communication',
-          page: const SmsCommunicationTab(),
+          page:  SmsCommunicationTab(),
           icon: Icons.add,
         ),
         DrawerChildren(
           name: 'Email Communication',
-          page: const EmailCommunictionTab(),
+          page:  EmailCommunictionTab(),
           icon: Icons.add,
         ),
         DrawerChildren(
           name: 'Notifications',
-          page: const ComNotificationsTab(),
+          page:  ComNotificationsTab(),
           icon: Icons.add,
         ),
       ],
@@ -200,14 +200,14 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Event Management",
       icon: Icons.notifications_on_sharp,
-      page: const EventsTab(),
+      page:  EventsTab(),
       isExpanded: false,
       children: [],
     ),
     DrawerModel(
       name: "Blood Requirement",
       icon: Icons.bloodtype,
-      page: const BloodRequirementTab(),
+      page:  BloodRequirementTab(),
       isExpanded: false,
       children: [],
     ),
@@ -329,7 +329,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Event Management",
                   icon: Icons.notifications_on_sharp,
-                  page: const EventsTab(),
+                  page:  EventsTab(),
                   isExpanded: false,
                   children: [],
                 ));
@@ -338,7 +338,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Blood Requirement",
                   icon: Icons.bloodtype,
-                  page: const BloodRequirementTab(),
+                  page:  BloodRequirementTab(),
                   isExpanded: false,
                   children: [],
                 ));
@@ -356,7 +356,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Notices",
                   icon: CupertinoIcons.square_list_fill,
-                  page: const NoticesTab(),
+                  page:  NoticesTab(),
                   isExpanded: false,
                   children: [],
                 ));
@@ -365,7 +365,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Speech",
                   icon: CupertinoIcons.speaker_2_fill,
-                  page: const SpeechTab(),
+                  page:  SpeechTab(),
                   isExpanded: false,
                   children: [],
                 ));
@@ -489,17 +489,17 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       DrawerChildren(
                         name: 'SMS Communication',
-                        page: const SmsCommunicationTab(),
+                        page:  SmsCommunicationTab(),
                         icon: Icons.add,
                       ),
                       DrawerChildren(
                         name: 'Email Communication',
-                        page: const EmailCommunictionTab(),
+                        page:  EmailCommunictionTab(),
                         icon: Icons.add,
                       ),
                       DrawerChildren(
                         name: 'Notifications',
-                        page: const ComNotificationsTab(),
+                        page:  ComNotificationsTab(),
                         icon: Icons.add,
                       ),
                     ],
