@@ -17,7 +17,7 @@ import '../../widgets/kText.dart';
 import 'dart:html';
 
 class FundManagementTab extends StatefulWidget {
-  const FundManagementTab({super.key});
+  FundManagementTab({super.key});
 
   @override
   State<FundManagementTab> createState() => _FundManagementTabState();
@@ -101,8 +101,13 @@ class _FundManagementTabState extends State<FundManagementTab>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: width/68.3,
+        vertical: height/32.55
+      ),
       child: SingleChildScrollView(
         child: StreamBuilder(
           stream: FundManageFireCrud.fetchTotalFunds(),
@@ -115,14 +120,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
                           text: "FUND MANAGEMENT",
                           style: GoogleFonts.openSans(
-                            fontSize: 32,
+                            fontSize: width/42.6875,
                             fontWeight: FontWeight.w900,
                             color: Colors.black,
                           ),
@@ -142,11 +147,11 @@ class _FundManagementTabState extends State<FundManagementTab>
 
                             },
                             child: Container(
-                              height: 35,
+                             height:height/18.6,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     color: Colors.black26,
                                     offset: Offset(1, 2),
@@ -156,12 +161,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                               ),
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 6),
+                                EdgeInsets.symmetric(horizontal:width/227.66),
                                 child: Center(
                                   child: KText(
                                     text: currentTab.toUpperCase() == "VIEW" ? "Add New Record" : "View Records",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -179,10 +184,10 @@ class _FundManagementTabState extends State<FundManagementTab>
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          height: 160,
-                          width: 320,
+                          height: height/4.06875,
+                          width: width/4.06875,
                           decoration: BoxDecoration(
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -201,7 +206,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     text: "Total Receivable",
                                     style: GoogleFonts.inter(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 24,
+                                      fontSize: width/56.916,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -209,8 +214,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                               ),
                               Expanded(
                                 child: Container(
-                                  width: 320,
-                                  decoration: const BoxDecoration(
+                                  width: width/4.06875,
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                       bottomRight: Radius.circular(10),
@@ -222,8 +227,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 13),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/105.076),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
@@ -236,30 +241,30 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   text: totalFunds.totalCollect!
                                                       .toString(),
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 33,
+                                                    fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
                                                   text: totalFunds.totalCollect!
                                                       .toString(),
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 16,
+                                                    fontSize: width/85.375,
                                                     color:
-                                                        const Color(0xff8A92A6),
+                                                        Color(0xff8A92A6),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(width: 20),
+                                            SizedBox(width: width/68.3),
                                             Container(
-                                              height: 40,
-                                              width: 40,
+                                              height: height/16.275,
+                                              width: width/34.15,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: const Color(0xfff2d6d3),
+                                                color: Color(0xfff2d6d3),
                                               ),
-                                              child: const Center(
+                                              child: Center(
                                                 child: Icon(
                                                   Icons.arrow_upward_outlined,
                                                   color: Color(0xffC03221),
@@ -270,11 +275,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(12.0),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: height/54.25,
+                                          horizontal: width/113.833
+                                        ),
                                         child: LinearProgressIndicator(
                                           backgroundColor:
-                                              const Color(0xfff2d6d3),
-                                          color: const Color(0xffC03221),
+                                              Color(0xfff2d6d3),
+                                          color: Color(0xffC03221),
                                           value: 10,
                                           semanticsLabel:
                                               'Linear progress indicator',
@@ -288,10 +296,10 @@ class _FundManagementTabState extends State<FundManagementTab>
                           ),
                         ),
                         Container(
-                          height: 160,
-                          width: 320,
+                          height: height/4.06875,
+                          width: width/4.06875,
                           decoration: BoxDecoration(
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -310,7 +318,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     text: "Total Expense",
                                     style: GoogleFonts.inter(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 24,
+                                      fontSize: width/56.916,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -318,8 +326,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                               ),
                               Expanded(
                                 child: Container(
-                                  width: 320,
-                                  decoration: const BoxDecoration(
+                                  width: width/4.06875,
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                       bottomRight: Radius.circular(10),
@@ -331,8 +339,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 13),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/105.076),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
@@ -345,30 +353,30 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   text: totalFunds.totalSpend!
                                                       .toString(),
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 33,
+                                                    fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
                                                   text: totalFunds.totalSpend!
                                                       .toString(),
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 16,
+                                                    fontSize: width/85.375,
                                                     color:
-                                                        const Color(0xff8A92A6),
+                                                        Color(0xff8A92A6),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(width: 20),
+                                            SizedBox(width: width/68.3),
                                             Container(
-                                              height: 40,
-                                              width: 40,
+                                              height: height/16.275,
+                                              width: width/34.15,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: const Color(0xffcdebec),
+                                                color: Color(0xffcdebec),
                                               ),
-                                              child: const Center(
+                                              child: Center(
                                                 child: Icon(
                                                     Icons.arrow_upward_outlined,
                                                     color: Color(0xff068B92)),
@@ -378,11 +386,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(12.0),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: height/54.25,
+                                          horizontal: width/113.833
+                                        ),
                                         child: LinearProgressIndicator(
                                           backgroundColor:
-                                              const Color(0xffcdebec),
-                                          color: const Color(0xff068B92),
+                                              Color(0xffcdebec),
+                                          color: Color(0xff068B92),
                                           value: 4,
                                           semanticsLabel:
                                               'Linear progress indicator',
@@ -396,10 +407,10 @@ class _FundManagementTabState extends State<FundManagementTab>
                           ),
                         ),
                         Container(
-                          height: 160,
-                          width: 320,
+                          height: height/4.06875,
+                          width: width/4.06875,
                           decoration: BoxDecoration(
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -418,7 +429,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     text: "Current Balance",
                                     style: GoogleFonts.inter(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 24,
+                                      fontSize: width/56.916,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -426,8 +437,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                               ),
                               Expanded(
                                 child: Container(
-                                  width: 320,
-                                  decoration: const BoxDecoration(
+                                  width: width/4.06875,
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                       bottomRight: Radius.circular(10),
@@ -439,8 +450,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 13),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/105.076),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
@@ -454,7 +465,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                       .currentBalance!
                                                       .toString(),
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 33,
+                                                    fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
@@ -462,23 +473,23 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                       .currentBalance!
                                                       .toString(),
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 16,
+                                                    fontSize: width/85.375,
                                                     color:
-                                                        const Color(0xff8A92A6),
+                                                        Color(0xff8A92A6),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(width: 20),
+                                            SizedBox(width: width/68.3),
                                             Container(
-                                              height: 40,
-                                              width: 40,
+                                              height: height/16.275,
+                                              width: width/34.15,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: const Color(0xffd1ecdd),
+                                                color: Color(0xffd1ecdd),
                                               ),
-                                              child: const Center(
+                                              child: Center(
                                                 child: Icon(
                                                     Icons.arrow_upward_outlined,
                                                     color: Color(0xff17904B)),
@@ -488,11 +499,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(12.0),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: height/54.25,
+                                          horizontal: width/113.833
+                                        ),
                                         child: LinearProgressIndicator(
                                           backgroundColor:
-                                              const Color(0xffd1ecdd),
-                                          color: const Color(0xff17904B),
+                                              Color(0xffd1ecdd),
+                                          color: Color(0xff17904B),
                                           value: 20,
                                           semanticsLabel:
                                               'Linear progress indicator',
@@ -512,10 +526,10 @@ class _FundManagementTabState extends State<FundManagementTab>
                   currentTab.toUpperCase() == "ADD"
                       ? Container(
                     width: double.infinity,
-                    margin: const EdgeInsets.all(20),
+                    margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                             color: Colors.black26,
                             offset: Offset(1, 2),
@@ -530,15 +544,15 @@ class _FundManagementTabState extends State<FundManagementTab>
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "ADD NEW RECORD",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize:  width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -599,11 +613,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     }
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -612,13 +626,13 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "ADD NOW",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 16,
+                                            fontSize: width/85.375,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -633,24 +647,24 @@ class _FundManagementTabState extends State<FundManagementTab>
                         Container(
                           height: size.height * 1.0,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Color(0xffF7FAFC),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
                                 text: "USER INFORMATION",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 13,
+                                  fontSize:width/105.07,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Row(
                                 children: [
                                   Column(
@@ -660,20 +674,20 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       KText(
                                         text: "Date *",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: height/108.5),
                                       Material(
                                         borderRadius: BorderRadius.circular(5),
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 50,
-                                          width: 150,
+                                          height: height/13.02,
+                                          width: width/9.106,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
                                               controller: dateController,
                                               decoration: InputDecoration(
@@ -698,7 +712,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       )
                                     ],
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width: width/68.3),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -706,30 +720,30 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       KText(
                                         text: "Amount *",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: height/108.5),
                                       Material(
                                         borderRadius: BorderRadius.circular(5),
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 40,
-                                          width: 150,
+                                          height: height/16.275,
+                                          width: width/9.106,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
                                               controller: amountController,
-                                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
                                               inputFormatters: [
                                                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                                               ],
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
-                                                  fontSize: 14,
+                                                  fontSize: width/97.571,
                                                 ),
                                               ),
                                             ),
@@ -738,7 +752,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       )
                                     ],
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width: width/68.3),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -746,17 +760,17 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       KText(
                                         text: "Record Type *",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: height/108.5),
                                       Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          boxShadow: const [
+                                          boxShadow: [
                                             BoxShadow(
                                               color: Colors.black26,
                                               blurRadius: 3,
@@ -789,7 +803,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -800,26 +814,26 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       KText(
                                         text: "Verifier *",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: height/108.5),
                                       Material(
                                         borderRadius: BorderRadius.circular(5),
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 40,
-                                          width: 150,
+                                          height: height/16.275,
+                                          width: width/9.106,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
                                               controller: verifierController,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
-                                                  fontSize: 14,
+                                                  fontSize: width/97.571,
                                                 ),
                                               ),
                                             ),
@@ -828,7 +842,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       )
                                     ],
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width: width/68.3),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -836,26 +850,26 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       KText(
                                         text: "Source *",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: height/108.5),
                                       Material(
                                         borderRadius: BorderRadius.circular(5),
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 40,
-                                          width: 150,
+                                          height: height/16.275,
+                                          width: width/9.106,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
                                               controller: sourceController,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
-                                                  fontSize: 14,
+                                                  fontSize: width/97.571,
                                                 ),
                                               ),
                                             ),
@@ -864,7 +878,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       )
                                     ],
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width: width/68.3),
                                   Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
@@ -872,20 +886,20 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       KText(
                                         text: "Remarks",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 14,
+                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: height/108.5),
                                       Material(
                                         borderRadius: BorderRadius.circular(5),
                                         color: Colors.white,
                                         elevation: 10,
                                         child: SizedBox(
-                                          height: 200,
-                                          width: 500,
+                                          height: height/3.255,
+                                          width: width/2.732,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
                                               inputFormatters: [
                                                 FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -893,10 +907,10 @@ class _FundManagementTabState extends State<FundManagementTab>
                                               maxLines: null,
                                               controller: remarksController,
                                               decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                                                contentPadding: EdgeInsets.symmetric(vertical: height/65.1),
                                                 border: InputBorder.none,
                                                 hintStyle: GoogleFonts.openSans(
-                                                  fontSize: 14,
+                                                  fontSize: width/97.571,
                                                 ),
                                               ),
                                             ),
@@ -907,11 +921,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: height/21.7),
                               Center(
                                 child: Container(
-                                  height: 170,
-                                  width: 350,
+                                  height: height/3.829,
+                                  width: width/3.902,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Constants().primaryAppColor,
@@ -927,31 +941,31 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       )
                                           : null),
                                   child: uploadedImage == null
-                                      ? const Center(
+                                      ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
-                                      size: 160,
+                                      size: width/8.5375,
                                       color: Colors.grey,
                                     ),
                                   ) : null,
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: selectImage,
                                     child: Container(
-                                      height: 35,
+                                     height:height/18.6,
                                       width: size.width * 0.23,
                                       color: Constants().primaryAppColor,
-                                      child: const Row(
+                                      child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
                                               color: Colors.white),
-                                          SizedBox(width: 10),
+                                          SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Select Picture',
                                             style: TextStyle(color: Colors.white),
@@ -960,25 +974,25 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    height: 35,
+                                  SizedBox(
+                                   height:height/18.6,
                                     width: size.width * 0.23,
                                   ),
                                   InkWell(
                                     onTap: selectDocument,
                                     child: Container(
-                                      height: 35,
+                                     height:height/18.6,
                                       width: size.width * 0.23,
                                       color: Constants().primaryAppColor,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.file_copy,
+                                          Icon(Icons.file_copy,
                                               color: Colors.white),
-                                          const SizedBox(width: 10),
+                                          SizedBox(width: width/136.6),
                                           KText(
                                             text: docname == "" ? 'Select Document' : docname,
-                                            style: const TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Colors.white),
                                           ),
                                         ],
                                       ),
@@ -992,7 +1006,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                       ],
                     ),
                   )
-                      : currentTab.toUpperCase() == "VIEW" ? isFiltered ? StreamBuilder(
+                      : currentTab.toUpperCase() == "VIEW" ? isFiltered ?
+                  StreamBuilder(
                           stream: recordTypeController.text != "Select Type" ? FundManageFireCrud.fetchFundsWithFilter1(
                               dateRangeStart!,
                               dateRangeEnd!,
@@ -1006,11 +1021,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                             else if (snapshot.hasData) {
                               List<FundManagementModel> funds = snapshot.data!;
                               return Container(
-                                width: 1100,
-                                margin: const EdgeInsets.all(20),
+                                width: width/1.2418,
+                                margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1027,8 +1042,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       height: size.height * 0.1,
                                       width: double.infinity,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 8),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/68.3, vertical: height/81.375),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -1037,7 +1052,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                               text:
                                                   "Fund Records (${funds.length})",
                                               style: GoogleFonts.openSans(
-                                                fontSize: 20,
+                                                fontSize:  width/68.3,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -1051,12 +1066,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                 });
                                               },
                                               child: Container(
-                                                height: 40,
+                                                height: height/16.275,
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
                                                       BorderRadius.circular(8),
-                                                  boxShadow: const [
+                                                  boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black26,
                                                       offset: Offset(1, 2),
@@ -1065,14 +1080,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 6),
+                                                  padding: EdgeInsets
+                                                      .symmetric(horizontal:width/227.66),
                                                   child: Center(
                                                     child: KText(
                                                       text: "Clear Filter",
                                                       style:
                                                           GoogleFonts.openSans(
-                                                        fontSize: 14,
+                                                        fontSize: width/97.571,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
@@ -1091,121 +1106,117 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           ? 70 + funds.length * 60
                                           : size.height * 0.7,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10),
                                           )),
-                                      padding: const EdgeInsets.all(20),
+                                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.all(0.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: 80,
-                                                    child: KText(
-                                                      text: "No.",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: width/17.075,
+                                                  child: KText(
+                                                    text: "No.",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 100,
-                                                    child: KText(
-                                                      text: "Date",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/136.60,
+                                                  child: KText(
+                                                    text: "Date",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize: width/113.83,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 140,
-                                                    child: KText(
-                                                      text: "Amount",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.757,
+                                                  child: KText(
+                                                    text: "Amount",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize: width/113.83,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Verifier",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Verifier",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Source",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Source",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Record Type",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Record Type",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Document",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Document",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: height/65.1),
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: funds.length,
                                               itemBuilder: (ctx, i) {
                                                 return Container(
-                                                  height: 60,
+                                                  height: height/10.850,
                                                   width: double.infinity,
                                                   decoration:
-                                                  const BoxDecoration(
+                                                  BoxDecoration(
                                                     color: Colors.white,
                                                     border: Border(
                                                       top: BorderSide(
@@ -1223,78 +1234,78 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   child: Row(
                                                     children: [
                                                       SizedBox(
-                                                        width: 80,
+                                                        width: width/17.075,
                                                         child: KText(
                                                           text: (i + 1)
                                                               .toString(),
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 100,
+                                                        width: width/136.60,
                                                         child: KText(
                                                           text: funds[i].date!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 140,
+                                                        width: width/9.757,
                                                         child: KText(
                                                           text: funds[i]
                                                               .amount!
                                                               .toString(),
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: KText(
                                                           text: funds[i]
                                                               .verifier!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: KText(
                                                           text:
                                                           funds[i].source!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: KText(
                                                           text: funds[i]
                                                               .recordType!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                             color: funds[i]
@@ -1306,7 +1317,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                          width: 150,
+                                                          width: width/9.106,
                                                           child: InkWell(
                                                             onTap: () async {
                                                               final Uri toLaunch =
@@ -1318,12 +1329,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                               }
                                                             },
                                                             child: Container(
-                                                              height: 35,
-                                                              margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                                             height:height/18.6,
+                                                              margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
                                                               decoration: BoxDecoration(
                                                                 color: Colors.white,
                                                                 borderRadius: BorderRadius.circular(8),
-                                                                boxShadow: const [
+                                                                boxShadow: [
                                                                   BoxShadow(
                                                                     color: Colors.black26,
                                                                     offset: Offset(1, 2),
@@ -1333,12 +1344,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                               ),
                                                               child: Padding(
                                                                 padding:
-                                                                const EdgeInsets.symmetric(horizontal: 6),
+                                                                EdgeInsets.symmetric(horizontal:width/227.66),
                                                                 child: Center(
                                                                   child: KText(
                                                                     text: "Download",
                                                                     style: GoogleFonts.openSans(
-                                                                      fontSize: 12,
+                                                                      fontSize: width/113.83,
                                                                       fontWeight: FontWeight.bold,
                                                                     ),
                                                                   ),
@@ -1362,7 +1373,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                             }
                             return Container();
                           },
-                        ) : StreamBuilder(
+                        ) :
+                  StreamBuilder(
                           stream: FundManageFireCrud.fetchFunds(),
                           builder: (ctx, snapshot) {
                             if (snapshot.hasError) {
@@ -1370,11 +1382,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                             } else if (snapshot.hasData) {
                               List<FundManagementModel> funds = snapshot.data!;
                               return Container(
-                                width: 1100,
-                                margin: const EdgeInsets.all(20),
+                                width: width/1.2418,
+                                margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1391,8 +1403,8 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       height: size.height * 0.1,
                                       width: double.infinity,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 8),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/68.3, vertical: height/81.375),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -1401,7 +1413,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                               text:
                                                   "Fund Records (${funds.length})",
                                               style: GoogleFonts.openSans(
-                                                fontSize: 20,
+                                                fontSize:  width/68.3,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -1415,12 +1427,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                 }
                                               },
                                               child: Container(
-                                                height: 40,
+                                                height: height/16.275,
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
                                                       BorderRadius.circular(8),
-                                                  boxShadow: const [
+                                                  boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black26,
                                                       offset: Offset(1, 2),
@@ -1429,14 +1441,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 6),
+                                                  padding: EdgeInsets
+                                                      .symmetric(horizontal:width/227.66),
                                                   child: Center(
                                                     child: KText(
                                                       text: "Filter",
                                                       style:
                                                           GoogleFonts.openSans(
-                                                        fontSize: 14,
+                                                        fontSize: width/97.571,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
@@ -1455,121 +1467,117 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           ? 70 + funds.length * 60
                                           : size.height * 0.7,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10),
                                           )),
-                                      padding: const EdgeInsets.all(20),
+                                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(0.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: 80,
-                                                    child: KText(
-                                                      text: "No.",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: width/17.075,
+                                                  child: KText(
+                                                    text: "No.",
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 100,
-                                                    child: KText(
-                                                      text: "Date",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/136.60,
+                                                  child: KText(
+                                                    text: "Date",
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize: width/113.83,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 140,
-                                                    child: KText(
-                                                      text: "Amount",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.757,
+                                                  child: KText(
+                                                    text: "Amount",
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize: width/113.83,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Verifier",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Verifier",
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Source",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Source",
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Record Type",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Record Type",
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: KText(
-                                                      text: "Document",
-                                                      style:
-                                                      GoogleFonts.poppins(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Document",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: height/65.1),
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: funds.length,
                                               itemBuilder: (ctx, i) {
                                                 return Container(
-                                                  height: 60,
+                                                  height: height/10.850,
                                                   width: double.infinity,
                                                   decoration:
-                                                      const BoxDecoration(
+                                                      BoxDecoration(
                                                     color: Colors.white,
                                                     border: Border(
                                                       top: BorderSide(
@@ -1587,78 +1595,78 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   child: Row(
                                                     children: [
                                                       SizedBox(
-                                                        width: 80,
+                                                        width: width/17.075,
                                                         child: KText(
                                                           text: (i + 1)
                                                               .toString(),
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 100,
+                                                        width: width/136.60,
                                                         child: KText(
                                                           text: funds[i].date!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 140,
+                                                        width: width/9.757,
                                                         child: KText(
                                                           text: funds[i]
                                                               .amount!
                                                               .toString(),
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: KText(
                                                           text: funds[i]
                                                               .verifier!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: KText(
                                                           text:
                                                               funds[i].source!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: KText(
                                                           text: funds[i]
                                                               .recordType!,
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            fontSize: 13,
+                                                            fontSize:width/105.07,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             color: funds[i]
@@ -1670,7 +1678,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 150,
+                                                        width: width/9.106,
                                                         child: InkWell(
                                                           onTap: () async {
                                                             final Uri toLaunch =
@@ -1682,12 +1690,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                             }
                                                           },
                                                           child: Container(
-                                                            height: 35,
-                                                            margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                                           height:height/18.6,
+                                                            margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
                                                             decoration: BoxDecoration(
                                                               color: Colors.white,
                                                               borderRadius: BorderRadius.circular(8),
-                                                              boxShadow: const [
+                                                              boxShadow: [
                                                                 BoxShadow(
                                                                   color: Colors.black26,
                                                                   offset: Offset(1, 2),
@@ -1697,12 +1705,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                             ),
                                                             child: Padding(
                                                               padding:
-                                                              const EdgeInsets.symmetric(horizontal: 6),
+                                                              EdgeInsets.symmetric(horizontal:width/227.66),
                                                               child: Center(
                                                                 child: KText(
                                                                   text: "Download",
                                                                   style: GoogleFonts.openSans(
-                                                                    fontSize: 12,
+                                                                    fontSize: width/113.83,
                                                                     fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
@@ -1733,7 +1741,7 @@ class _FundManagementTabState extends State<FundManagementTab>
             return Container(
               height: size.height,
               width: double.infinity,
-              child: const Center(
+              child: Center(
                 child: CircularProgressIndicator(),
               ),
             );
@@ -1745,6 +1753,8 @@ class _FundManagementTabState extends State<FundManagementTab>
 
   filterPopUp() {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1768,11 +1778,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: EdgeInsets.symmetric(horizontal: width/68.3),
                             child: KText(
                               text: "Filter",
                               style: GoogleFonts.openSans(
-                                fontSize: 16,
+                                fontSize: width/85.375,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -1782,7 +1792,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                     ),
                     Expanded(
                       child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(10),
@@ -1790,30 +1800,30 @@ class _FundManagementTabState extends State<FundManagementTab>
                           )
                         ),
                         width: double.infinity,
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 90,
+                                  width: width/15.177,
                                   child: KText(
                                     text: "Start Date",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                      fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                SizedBox(width: width/85.375),
                                 Container(
-                                  height: 40,
-                                  width: 90,
+                                  height: height/16.275,
+                                  width: width/15.177,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(7),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         blurRadius: 3,
@@ -1823,7 +1833,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   ),
                                   child: TextField(
                                     decoration: InputDecoration(
-                                      hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                      hintStyle: TextStyle(color: Color(0xff00A99D)),
                                       hintText: dateRangeStart != null ? "${dateRangeStart!.day}-${dateRangeStart!.month}-${dateRangeStart!.year}" : "",
                                       border: InputBorder.none,
                                     ),
@@ -1847,23 +1857,23 @@ class _FundManagementTabState extends State<FundManagementTab>
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 90,
+                                  width: width/15.177,
                                   child: KText(
                                     text: "End Date",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                      fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                SizedBox(width: width/85.375),
                                 Container(
-                                  height: 40,
-                                  width: 90,
+                                  height: height/16.275,
+                                  width: width/15.177,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(7),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         blurRadius: 3,
@@ -1873,7 +1883,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                   ),
                                   child: TextField(
                                     decoration: InputDecoration(
-                                      hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                      hintStyle: TextStyle(color: Color(0xff00A99D)),
                                       hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}-${dateRangeEnd!.month}-${dateRangeEnd!.year}" : "",
                                       border: InputBorder.none,
                                     ),
@@ -1899,17 +1909,17 @@ class _FundManagementTabState extends State<FundManagementTab>
                                 KText(
                                   text: "Record Type",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.571,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                SizedBox(width: width/85.375),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
                                     BorderRadius.circular(10),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         blurRadius: 3,
@@ -1948,11 +1958,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     Navigator.pop(context,false);
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -1962,12 +1972,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "Cancel",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 16,
+                                            fontSize: width/85.375,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1975,17 +1985,17 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 5),
+                                SizedBox(width: width/273.2),
                                 InkWell(
                                   onTap: () {
                                     Navigator.pop(context,true);
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -1995,12 +2005,12 @@ class _FundManagementTabState extends State<FundManagementTab>
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "Apply",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 16,
+                                            fontSize: width/85.375,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2028,11 +2038,11 @@ class _FundManagementTabState extends State<FundManagementTab>
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -2045,14 +2055,14 @@ class _FundManagementTabState extends State<FundManagementTab>
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

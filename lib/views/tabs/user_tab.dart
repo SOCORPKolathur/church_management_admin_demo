@@ -170,7 +170,7 @@ class _UserTabState extends State<UserTab> {
 
                       },
                       child: Container(
-                        height: 35,
+                        height:height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -184,12 +184,12 @@ class _UserTabState extends State<UserTab> {
                         ),
                         child: Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                           EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add User" : "View Users",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -343,7 +343,7 @@ class _UserTabState extends State<UserTab> {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
-                                      width: 2),
+                                      width: width/683),
                                   image: uploadedImage != null
                                       ? DecorationImage(
                                           fit: BoxFit.fill,
@@ -607,9 +607,9 @@ class _UserTabState extends State<UserTab> {
                               SizedBox(width: width / 68.3),
                               Container(
                                 width: width / 4.553,
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                     border: Border(
-                                        bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                        bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                     )
                                 ),
                                 child: Column(
@@ -650,9 +650,9 @@ class _UserTabState extends State<UserTab> {
                               SizedBox(width: width / 68.3),
                               Container(
                                 width: width / 10.507,
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                     border: Border(
-                                        bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                        bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                     )
                                 ),
                                 child: Column(
@@ -1070,7 +1070,7 @@ class _UserTabState extends State<UserTab> {
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -1078,7 +1078,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                               SizedBox(width: width/136.6),
                               InkWell(
                                 onTap: (){
                                   setState(() {
@@ -1107,7 +1107,7 @@ class _UserTabState extends State<UserTab> {
                                         text: "Cancel",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -1146,7 +1146,7 @@ class _UserTabState extends State<UserTab> {
                           }
                         }
                         return Container(
-                          width: 1100,
+                          width: width/1.2418,
                           margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                           decoration: BoxDecoration(
                             color: Constants().primaryAppColor,
@@ -1903,7 +1903,7 @@ class _UserTabState extends State<UserTab> {
                   height: size.height * 0.1,
                   width: double.infinity,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1919,7 +1919,7 @@ class _UserTabState extends State<UserTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 40,
+                            height: height/16.275,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
@@ -1938,7 +1938,7 @@ class _UserTabState extends State<UserTab> {
                                 child: KText(
                                   text: "CLOSE",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 16,
+                                    fontSize:width/85.375,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1978,7 +1978,7 @@ class _UserTabState extends State<UserTab> {
                             width: double.infinity,
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
+                                  horizontal: width/136.6, vertical: height/43.4),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -1992,7 +1992,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2013,7 +2013,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Phone",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2033,7 +2033,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Email",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2053,7 +2053,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Aadhaar Number",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2073,7 +2073,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Position",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2095,7 +2095,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Baptize Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2117,7 +2117,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Blood Group",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2139,7 +2139,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2161,7 +2161,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Gender",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2183,7 +2183,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Locality",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2205,7 +2205,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "About",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2227,7 +2227,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2249,7 +2249,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Pin Code",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16),
+                                              fontSize:width/85.375),
                                         ),
                                       ),
                                       Text(":"),
@@ -2342,7 +2342,7 @@ class _UserTabState extends State<UserTab> {
                                 Navigator.pop(context);
                               },
                               child: Container(
-                                height: 35,
+                                height:height/18.6,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
@@ -2356,12 +2356,12 @@ class _UserTabState extends State<UserTab> {
                                 ),
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                   EdgeInsets.symmetric(horizontal:width/227.66),
                                   child: Center(
                                     child: KText(
                                       text: "Cancel",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -2395,7 +2395,7 @@ class _UserTabState extends State<UserTab> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Constants().primaryAppColor,
-                                        width: 2),
+                                        width: width/683),
                                     image: selectedImg != null
                                         ? DecorationImage(
                                         fit: BoxFit.fill,
@@ -2660,9 +2660,9 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(width: width / 68.3),
                                 Container(
                                   width: width / 4.553,
-                                  decoration: const BoxDecoration(
+                                  decoration:  BoxDecoration(
                                       border: Border(
-                                          bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                          bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                       )
                                   ),
                                   child: Column(
@@ -2703,9 +2703,9 @@ class _UserTabState extends State<UserTab> {
                                 SizedBox(width: width / 68.3),
                                 Container(
                                   width: width / 10.507,
-                                  decoration: const BoxDecoration(
+                                  decoration:  BoxDecoration(
                                       border: Border(
-                                          bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                          bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                       )
                                   ),
                                   child: Column(
@@ -3152,7 +3152,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Update",
                                           style: GoogleFonts.openSans(
                                             color: Colors.white,
-                                            fontSize: 10,
+                                            fontSize:width/136.6,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3160,7 +3160,7 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                 SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: (){
                                     setState(() {
@@ -3190,7 +3190,7 @@ class _UserTabState extends State<UserTab> {
                                           text: "Cancel",
                                           style: GoogleFonts.openSans(
                                             color: Colors.white,
-                                            fontSize: 10,
+                                            fontSize:width/136.6,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3306,13 +3306,14 @@ class _UserTabState extends State<UserTab> {
   }
 
   final snackBar = SnackBar(
+
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: Constants().primaryAppColor, width: 3),
+          border: Border.all(color: Constants().primaryAppColor, width:3),
           boxShadow: [
             BoxShadow(
               color: Color(0x19000000),

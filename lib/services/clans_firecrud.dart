@@ -7,6 +7,7 @@ import '../models/response.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference ClansCollection = firestore.collection('Clans');
+final CollectionReference ClansChatCollection = firestore.collection('ClansChat');
 final CollectionReference ClanMemberCollection = firestore.collection('ClansMembers');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
@@ -35,6 +36,10 @@ class ClansFireCrud {
       var result = await documentReferencer.set(json).whenComplete(() {
         response.code = 200;
         response.message = "Sucessfully added to the database";
+        ClansChatCollection.doc(clan.id).set({
+          "id" : clan.id,
+          "name": clan.clanName
+        });
       }).catchError((e) {
         response.code = 500;
         response.message = e;
@@ -49,6 +54,7 @@ class ClansFireCrud {
     var result = await documentReferencer.delete().whenComplete((){
       res.code = 200;
       res.message = "Sucessfully Deleted from database";
+      ClansChatCollection.doc(docId).delete();
     }).catchError((e){
       res.code = 500;
       res.message = e;

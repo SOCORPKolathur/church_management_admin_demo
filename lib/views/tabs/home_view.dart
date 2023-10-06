@@ -86,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
     ),
     DrawerModel(
       name: "Student",
-      page: const StudentTab(),
+      page:  StudentTab(),
       icon: Icons.person,
       isExpanded: false,
       children: [],
@@ -95,19 +95,19 @@ class _HomeViewState extends State<HomeView> {
       name: "Pastors",
       icon: Icons.person_pin_outlined,
       isExpanded: false,
-      page: const PastorsTab(),
+      page:  PastorsTab(),
       children: [],
     ),
     DrawerModel(
       name: "Church Staff",
-      page: const ChurchStaffTab(),
+      page:  ChurchStaffTab(),
       icon: Icons.person_pin_outlined,
       isExpanded: false,
       children: [],
     ),
     DrawerModel(
       name: "Choir",
-      page: const ChorusTab(),
+      page:  ChorusTab(),
       icon: Icons.music_video,
       isExpanded: false,
       children: [],
@@ -115,20 +115,20 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Department",
       icon: Icons.account_tree,
-      page: const DepartmentTab(),
+      page:  DepartmentTab(),
       isExpanded: false,
       children: [],
     ),
     DrawerModel(
       name: "Committee",
       icon: Icons.groups,
-      page: const CommitteeTab(),
+      page:  CommitteeTab(),
       isExpanded: false,
       children: [],
     ),
     DrawerModel(
       name: "Clans",
-      page: const ClansTab(),
+      page:  ClansTab(),
       icon: Icons.class_,
       isExpanded: false,
       children: [],
@@ -141,15 +141,15 @@ class _HomeViewState extends State<HomeView> {
         DrawerChildren(
             name: 'Fund Management',
             icon: Icons.add,
-            page: const FundManagementTab()),
+            page:  FundManagementTab()),
         DrawerChildren(
           name: 'Donations',
           icon: Icons.add,
-          page: const DonationsTab(),
+          page:  DonationsTab(),
         ),
         DrawerChildren(
           name: 'Asset Management',
-          page: const AssetManagementTab(),
+          page:  AssetManagementTab(),
           icon: Icons.add,
         )
       ],
@@ -157,7 +157,7 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Gallery",
       icon: CupertinoIcons.photo,
-      page: const GalleryTab(),
+      page:  GalleryTab(),
       isExpanded: false,
       children: [],
     ),
@@ -296,7 +296,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                     name: "Gallery",
                     icon: CupertinoIcons.photo,
-                    page: const GalleryTab(),
+                    page:  GalleryTab(),
                     isExpanded: false,
                     children: []));
                 break;
@@ -310,15 +310,15 @@ class _HomeViewState extends State<HomeView> {
                       DrawerChildren(
                           name: 'Fund Management',
                           icon: Icons.add,
-                          page: const FundManagementTab()),
+                          page:  FundManagementTab()),
                       DrawerChildren(
                         name: 'Donations',
                         icon: Icons.add,
-                        page: const DonationsTab(),
+                        page:  DonationsTab(),
                       ),
                       DrawerChildren(
                         name: 'Asset Management',
-                        page: const AssetManagementTab(),
+                        page:  AssetManagementTab(),
                         icon: Icons.add,
                       )
                     ],
@@ -392,7 +392,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                   name: "Department",
                   icon: Icons.account_tree,
-                  page: const DepartmentTab(),
+                  page:  DepartmentTab(),
                   isExpanded: false,
                   children: [],
                 ));
@@ -402,7 +402,7 @@ class _HomeViewState extends State<HomeView> {
                   DrawerModel(
                     name: "Committee",
                     icon: Icons.groups,
-                    page: const CommitteeTab(),
+                    page:  CommitteeTab(),
                     isExpanded: false,
                     children: [],
                   ),
@@ -422,14 +422,14 @@ class _HomeViewState extends State<HomeView> {
                   name: "Pastors",
                   icon: Icons.person_pin_outlined,
                   isExpanded: false,
-                  page: const PastorsTab(),
+                  page:  PastorsTab(),
                   children: [],
                 ));
                 break;
               case "CLANS":
                 drawerItems.add(DrawerModel(
                   name: "Clans",
-                  page: const ClansTab(),
+                  page:  ClansTab(),
                   icon: Icons.class_,
                   isExpanded: false,
                   children: [],
@@ -438,7 +438,7 @@ class _HomeViewState extends State<HomeView> {
               case "CHORUS":
                 drawerItems.add(DrawerModel(
                   name: "Choir",
-                  page: const ChorusTab(),
+                  page:  ChorusTab(),
                   icon: Icons.music_video,
                   isExpanded: false,
                   children: [],
@@ -447,7 +447,7 @@ class _HomeViewState extends State<HomeView> {
               case "CHURCH STAFF":
                 drawerItems.add(DrawerModel(
                   name: "Church Staff",
-                  page: const ChurchStaffTab(),
+                  page:  ChurchStaffTab(),
                   icon: Icons.person_pin_outlined,
                   isExpanded: false,
                   children: [],
@@ -456,7 +456,7 @@ class _HomeViewState extends State<HomeView> {
               case "STUDENT":
                 drawerItems.add(DrawerModel(
                   name: "Student",
-                  page: const StudentTab(),
+                  page:  StudentTab(),
                   icon: Icons.person,
                   isExpanded: false,
                   children: [],

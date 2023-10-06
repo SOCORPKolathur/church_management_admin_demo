@@ -20,7 +20,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'members_tab.dart';
 
 class ChurchStaffTab extends StatefulWidget {
-  const ChurchStaffTab({super.key});
+  ChurchStaffTab({super.key});
 
   @override
   State<ChurchStaffTab> createState() => _ChurchStaffTabState();
@@ -158,21 +158,29 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(
+          vertical: height/81.375,
+          horizontal: width/170.75
+      ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(
+                  vertical: height/81.375,
+                  horizontal: width/170.75
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
                     text: "CHURCH STAFF",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -191,11 +199,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
 
                       },
                       child: Container(
-                        height: 35,
+                          height:height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
                               offset: Offset(1, 2),
@@ -205,12 +213,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                         ),
                         child: Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                          EdgeInsets.symmetric( horizontal:width/227.66),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Church Staff" : "View Church Staffs",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                   fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -224,11 +232,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
             currentTab.toUpperCase() == "ADD"
                 ?Container(
               height: size.height * 2,
-              width: 1100,
-              margin: const EdgeInsets.all(20),
+               width: width/1.241,
+             margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -244,15 +255,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
                             text: "ADD CHURCH STAFF",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -263,20 +274,23 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
+                     padding: EdgeInsets.symmetric(
+                          vertical: height/32.55,
+                          horizontal: width/68.3
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                                  height:height/3.829,
+                               width:width/3.902,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -292,31 +306,31 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   )
                                       : null),
                               child: uploadedImage == null
-                                  ? const Center(
+                                  ? Center(
                                 child: Icon(
                                   Icons.cloud_upload,
-                                  size: 160,
+                                  size:width/8.5375,
                                   color: Colors.grey,
                                 ),
                               ) : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height:height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                    height:height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width:width/136.6),
                                       KText(
                                         text: 'Select Profile Photo',
                                         style: TextStyle(color: Colors.white),
@@ -326,17 +340,17 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 ),
                               ),
                               Container(
-                                height: 35,
+                                  height:height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width:width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -347,18 +361,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               InkWell(
                                 onTap: selectDocument,
                                 child: Container(
-                                  height: 35,
+                                    height:height/18.6,
                                   width: size.width * 0.23,
                                   color: Constants().primaryAppColor,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.file_copy,
+                                      Icon(Icons.file_copy,
                                           color: Colors.white),
-                                      const SizedBox(width: 10),
+                                      SizedBox(width:width/136.6),
                                       KText(
                                         text: docname == "" ? 'Select Certificate' : docname,
-                                        style: const TextStyle(color: Colors.white),
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ],
                                   ),
@@ -366,11 +380,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -378,7 +392,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Firstname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -386,15 +400,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: firstNameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -402,7 +416,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Lastname *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -410,20 +424,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: lastNameController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               Container(
-                                width: 300,
+                                   width:width/4.553,
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
-                                      width: 1.5
+                                      width:width/910.66
                                     )
                                   )
                                 ),
@@ -434,7 +448,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Gender *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -442,7 +456,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       value: genderController.text,
                                       isExpanded: true,
                                       underline: Container(),
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       items: [
                                         "Select Gender",
                                         "Male",
@@ -465,11 +479,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -477,7 +491,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -485,15 +499,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: phoneController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -501,20 +515,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Email",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -522,7 +536,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Aadhaar Number",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -530,7 +544,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: aadharNoController,
                                     )
                                   ],
@@ -538,11 +552,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -550,20 +564,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Position",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: positionController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -571,12 +585,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Baptize Date",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: baptizeDateController,
                                       onTap: () async {
                                         DateTime? pickedDate =
@@ -595,9 +609,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -605,12 +619,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Date of Joining *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: dateofjoiningController,
                                       onTap: () async {
                                         DateTime? pickedDate =
@@ -631,11 +645,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -643,15 +657,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height:height/65.1),
                                     DropdownButton(
                                       isExpanded: true,
                                       value: bloodGroupController.text,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       items: [
                                         "Select Blood Group",
                                         "AB+",
@@ -680,12 +694,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               Container(
                                 width: size.width / 4.553,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                     border: Border(
-                                        bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                        bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                     )
                                 ),
                                 child: Column(
@@ -725,13 +739,13 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               Visibility(
                                 visible: marriedController.toUpperCase() == 'MARRIED',
                                 child: SizedBox(
-                                  width: 300,
+                                     width:width/4.553,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -739,12 +753,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         text: "Anniversary Date",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
-                                          fontSize: 13,
+                                             fontSize:width/105.07,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextFormField(
-                                        style: const TextStyle(fontSize: 12),
+                                        style: TextStyle(fontSize:width/113.83),
                                         controller: marriageDateController,
                                         onTap: () async {
                                           DateTime? pickedDate =
@@ -766,14 +780,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                               Visibility(
                                   visible: marriedController.toUpperCase() == 'MARRIED',
-                                  child: SizedBox(width: 20)
+                                  child: SizedBox(width:width/68.3)
                               ),
                               Container(
-                                width: 300,
+                                   width:width/4.553,
                                 decoration: BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
-                                            width: 1.5,
+                                            width:width/910.66,
                                             color: Colors.grey
                                         )
                                     )
@@ -785,14 +799,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Social Status",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     DropdownButton(
                                       isExpanded: true,
                                       value: socialStatusController.text,
-                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       underline: Container(),
                                       items: [
                                         "Select",
@@ -812,15 +826,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       },
                                     ),
                                     // TextFormField(
-                                    //   style: const TextStyle(fontSize: 12),
+                                    //   style: TextStyle(fontSize:width/113.83),
                                     //   controller: socialStatusController,
                                     // )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -828,12 +842,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Employment/Job",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: jobController,
                                     )
                                   ],
@@ -841,14 +855,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               Container(
-                                width: 300,
-                                decoration:const  BoxDecoration(
+                                   width:width/4.553,
+                                decoration: BoxDecoration(
                                     border: Border(bottom: BorderSide(
-                                        width: 1.5,color: Colors.grey
+                                        width:width/910.66,color: Colors.grey
                                     ))
                                 ),
                                 child: Column(
@@ -858,7 +872,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Family *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -866,7 +880,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       value: familyController.text,
                                       isExpanded: true,
                                       underline: Container(),
-                                      icon:  const Icon(Icons.keyboard_arrow_down),
+                                      icon:  Icon(Icons.keyboard_arrow_down),
                                       items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
                                           value: items.name,
@@ -888,12 +902,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               Container(
-                                width: 300,
-                                decoration:const  BoxDecoration(
+                                   width:width/4.553,
+                                decoration: BoxDecoration(
                                     border: Border(bottom: BorderSide(
-                                        width: 1.5,color: Colors.grey
+                                        width:width/910.66,color: Colors.grey
                                     ))
                                 ),
                                 child: Column(
@@ -903,7 +917,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Family ID *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -911,7 +925,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       value: familyIDController.text,
                                       isExpanded: true,
                                       underline: Container(),
-                                      icon:  const Icon(Icons.keyboard_arrow_down),
+                                      icon:  Icon(Icons.keyboard_arrow_down),
                                       items: FamilyIdList.map((items) {
                                         return DropdownMenuItem(
                                           value: items.id,
@@ -927,9 +941,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -937,12 +951,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Department",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: departmentController,
                                     )
                                   ],
@@ -950,11 +964,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -962,12 +976,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
                                         DateTime? pickedDate =
@@ -986,9 +1000,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -996,7 +1010,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       text: "Nationality *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1004,23 +1018,23 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: nationalityController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width:width/68.3),
                               SizedBox(
-                                width: 300,
+                                   width:width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Pincode *",
+                                      text: "Pin Code *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                           fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1028,7 +1042,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize:width/113.83),
                                       controller: pincodeController,
                                     )
                                   ],
@@ -1036,7 +1050,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1044,17 +1058,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 text: "Address",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                     fontSize:width/105.07,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 height: size.height * 0.15,
                                 width: double.infinity,
-                                margin: const EdgeInsets.all(20),
+                               margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1066,23 +1083,23 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   mainAxisAlignment: MainAxisAlignment
                                       .spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
-                                            style: const TextStyle(
-                                                fontSize: 12),
+                                            style: TextStyle(
+                                                fontSize:width/113.83),
                                             controller: addressController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                                 border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                                contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
                                             ),
                                             maxLines: null,
                                           )
@@ -1093,7 +1110,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -1199,11 +1216,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                    height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -1212,14 +1229,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: EdgeInsets.symmetric(
+                                         horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -1244,11 +1261,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                 } else if (snapshot.hasData) {
                   List<ChurchStaffModel> churchStaffs = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                     width: width/1.241,
+                   margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -1264,21 +1284,21 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "All Church Staffs (${churchStaffs.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Container(
-                                  height: 35,
-                                  width: 150,
+                                    height:height/18.6,
+                                  width:width/9.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -1290,14 +1310,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         searchString = val;
                                       });
                                     },
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Search',
-                                      hintStyle: const TextStyle(
+                                      hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),
                                       contentPadding:  EdgeInsets.only(
-                                          left: 10, bottom: 10),
+                                          left: width/136.6, bottom: width/136.6),
                                     ),
                                   ),
                                 ),
@@ -1310,13 +1330,16 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               ? 130 + churchStaffs.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                         padding: EdgeInsets.symmetric(
+                          vertical: height/32.55,
+                          horizontal: width/68.3
+                      ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1327,8 +1350,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       generateChurchStaffPdf(PdfPageFormat.letter,  churchStaffs,false);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                        height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
                                           BoxShadow(
@@ -1339,18 +1362,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                             horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.print,
+                                              Icon(Icons.print,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1360,14 +1383,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(churchStaffs);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                        height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
                                           BoxShadow(
@@ -1378,18 +1401,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                             horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.copy,
+                                              Icon(Icons.copy,
                                                   color: Colors.white),
                                               KText(
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1399,15 +1422,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateChurchStaffPdf(PdfPageFormat.letter,  churchStaffs, true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                        height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
                                           BoxShadow(
@@ -1418,18 +1441,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                             horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.picture_as_pdf,
+                                              Icon(Icons.picture_as_pdf,
                                                   color: Colors.white),
                                               KText(
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1439,14 +1462,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width:width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(churchStaffs);
                                     },
                                     child: Container(
-                                      height: 35,
-                                      decoration: const BoxDecoration(
+                                        height:height/18.6,
+                                      decoration: BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
                                           BoxShadow(
@@ -1457,19 +1480,19 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                             horizontal:width/227.66),
                                         child: Center(
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                   Icons.file_copy_rounded,
                                                   color: Colors.white),
                                               KText(
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1481,80 +1504,80 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
+                                  padding: EdgeInsets.all(3.0),
                                   child: Row(
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                        width: 80,
+                                        width:width/17.075,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 100,
+                                        width: width/13.66,
                                         child: KText(
                                           text: "Photo",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width:width/8.035,
                                         child: KText(
                                           text: "Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width:width/9.106,
                                         child: KText(
                                           text: "Position",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width:width/8.035,
                                         child: KText(
                                           text: "Phone",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width:width/9.106,
                                         child: KText(
                                           text: "Gender",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width:width/7.588,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1568,39 +1591,42 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   itemCount: churchStaffs.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
                                             color: Color(0xfff1f1f1),
-                                            width: 0.5,
+                                            width:width/2732,
                                           ),
                                           bottom: BorderSide(
                                             color: Color(0xfff1f1f1),
-                                            width: 0.5,
+                                            width:width/2732,
                                           ),
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: width/273.2,
+                                          vertical: height/130.2
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                           children: [
                                             SizedBox(
-                                              width: 80,
+                                              width:width/17.075,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.66,
                                               child: Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -1613,48 +1639,48 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width:width/8.035,
                                               child: KText(
                                                 text:
                                                 "${churchStaffs[i].firstName!} ${churchStaffs[i].lastName!}",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width:width/9.106,
                                               child: KText(
                                                 text: churchStaffs[i].position!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width:width/8.035,
                                               child: KText(
                                                 text: churchStaffs[i].phone!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width:width/9.106,
                                               child: KText(
                                                 text: churchStaffs[i].gender!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                     fontSize:width/105.07,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                                width: 180,
+                                                width:width/7.588,
                                                 child: Row(
                                                   children: [
                                                     InkWell(
@@ -1662,9 +1688,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         viewPopup(churchStaffs[i]);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                        const BoxDecoration(
+                                                        BoxDecoration(
                                                           color:
                                                           Color(0xff2baae4),
                                                           boxShadow: [
@@ -1679,7 +1705,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
+                                                          EdgeInsets
                                                               .symmetric(
                                                               horizontal:
                                                               6),
@@ -1689,12 +1715,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons
                                                                       .remove_red_eye,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                  size:width/91.06,
                                                                 ),
                                                                 KText(
                                                                   text: "View",
@@ -1715,7 +1741,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                    SizedBox(width:width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
@@ -1746,9 +1772,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         editPopUp(churchStaffs[i], size);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                        const BoxDecoration(
+                                                        BoxDecoration(
                                                           color:
                                                           Color(0xffff9700),
                                                           boxShadow: [
@@ -1763,7 +1789,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
+                                                          EdgeInsets
                                                               .symmetric(
                                                               horizontal:
                                                               6),
@@ -1773,11 +1799,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons.add,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                  size:width/91.06,
                                                                 ),
                                                                 KText(
                                                                   text: "Edit",
@@ -1798,7 +1824,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                    SizedBox(width:width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         CoolAlert.show(
@@ -1810,16 +1836,16 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                             backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                             showCancelBtn: true,
                                                             cancelBtnText: 'Cancel',
-                                                            cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                            cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                             onConfirmBtnTap: () async {
                                                               Response res = await ChurchStaffFireCrud.deleteRecord(id: churchStaffs[i].id!);
                                                             }
                                                         );
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height:height/26.04,
                                                         decoration:
-                                                        const BoxDecoration(
+                                                        BoxDecoration(
                                                           color:
                                                           Color(0xfff44236),
                                                           boxShadow: [
@@ -1834,7 +1860,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
+                                                          EdgeInsets
                                                               .symmetric(
                                                               horizontal:
                                                               6),
@@ -1844,12 +1870,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons
                                                                       .cancel_outlined,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                  size:width/91.06,
                                                                 ),
                                                                 KText(
                                                                   text:
@@ -1898,6 +1924,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
 
   viewPopup(ChurchStaffModel churchStaff) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1905,10 +1933,13 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             width: size.width * 0.5,
-            margin: const EdgeInsets.all(20),
+           margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1924,14 +1955,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                   width: double.infinity,
                   child: Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           churchStaff.firstName!,
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1940,11 +1971,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 40,
+                            height: height/16.275,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(1, 2),
@@ -1954,12 +1985,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 6),
+                              EdgeInsets.symmetric( horizontal:width/227.66),
                               child: Center(
                                 child: KText(
                                   text: "CLOSE",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 16,
+                                    fontSize:width/85.375,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1974,7 +2005,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(10),
@@ -1998,26 +2029,26 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width/136.6, vertical: height/43.4),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Certificate",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       InkWell(
                                         onTap: () async {
                                           final Uri toLaunch =
@@ -2029,11 +2060,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           }
                                         },
                                         child: Container(
-                                          height: 35,
+                                            height:height/18.6,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(8),
-                                            boxShadow: const [
+                                            boxShadow: [
                                               BoxShadow(
                                                 color: Colors.black26,
                                                 offset: Offset(1, 2),
@@ -2043,12 +2074,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                           child: Padding(
                                             padding:
-                                            const EdgeInsets.symmetric(horizontal: 6),
+                                            EdgeInsets.symmetric( horizontal:width/227.66),
                                             child: Center(
                                               child: KText(
                                                 text: "Download Document",
                                                 style: GoogleFonts.openSans(
-                                                  fontSize: 15,
+                                                  fontSize:width/91.06,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -2058,409 +2089,409 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: "${churchStaff.firstName!} ${churchStaff.lastName!}",
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Phone",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.phone!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Email",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.email!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Gender",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.gender!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Gender",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.gender!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Position",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.position!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Department",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.department!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Aadhaar Number",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: mask(churchStaff.aadharNo!),
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Family",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.family!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Baptize Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.baptizeDate!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Social Status",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.socialStatus!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Marriage Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.marriageDate!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Employment/Job",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.job!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Blood Group",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.bloodGroup!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Date of Birth",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.dob!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Nationality",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.nationality!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
-                                        child: const KText(
+                                        child: KText(
                                           text: "Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              fontSize: 16
+                                              fontSize:width/85.375
                                           ),
                                         ),
                                       ),
-                                      const Text(":"),
-                                      const SizedBox(width: 20),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
                                       KText(
                                         text: churchStaff.address!,
-                                        style: const TextStyle(
-                                            fontSize: 14
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  SizedBox(height:height/32.55),
                                 ],
                               ),
                             ),
@@ -2479,6 +2510,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   }
 
   editPopUp(ChurchStaffModel churchStaff, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -2488,11 +2521,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
               backgroundColor: Colors.transparent,
               content: Container(
                 height: size.height * 1.81,
-                width: 1100,
-                margin: const EdgeInsets.all(20),
+                 width: width/1.241,
+               margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                 decoration: BoxDecoration(
                   color: Constants().primaryAppColor,
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(1, 2),
@@ -2508,15 +2544,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                       height: size.height * 0.1,
                       width: double.infinity,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width/68.3, vertical: height/81.375),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             KText(
                               text: "EDIT CHURCH STAFF",
                               style: GoogleFonts.openSans(
-                                fontSize: 20,
+                                fontSize: width/68.3,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -2550,7 +2586,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 });
                                 Navigator.pop(context);
                               },
-                              child: const Icon(
+                              child: Icon(
                                 Icons.cancel_outlined,
                               ),
                             )
@@ -2561,21 +2597,24 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                     Expanded(
                       child: Container(
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
                             )),
-                        padding: const EdgeInsets.all(20),
+                       padding: EdgeInsets.symmetric(
+                          vertical: height/32.55,
+                          horizontal: width/68.3
+                      ),
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Center(
                                 child: Container(
-                                  height: 170,
-                                  width: 350,
+                                      height:height/3.829,
+                                   width:width/3.902,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Constants().primaryAppColor,
@@ -2597,32 +2636,32 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       )
                                           : null),
                                   child: selectedImg == null
-                                      ? const Center(
+                                      ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
-                                      size: 160,
+                                      size:width/8.5375,
                                       color: Colors.grey,
                                     ),
                                   )
                                       : null,
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height:height/32.55),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: selectImage,
                                     child: Container(
-                                      height: 35,
+                                        height:height/18.6,
                                       width: size.width * 0.25,
                                       color: Constants().primaryAppColor,
-                                      child: const Row(
+                                      child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
                                               color: Colors.white),
-                                          SizedBox(width: 10),
+                                          SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Select Profile Photo',
                                             style: TextStyle(color: Colors.white),
@@ -2632,17 +2671,17 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                     ),
                                   ),
                                   Container(
-                                    height: 35,
+                                      height:height/18.6,
                                     width: size.width * 0.25,
                                     color: Constants().primaryAppColor,
-                                    child: const Row(
+                                    child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.crop,
                                           color: Colors.white,
                                         ),
-                                        SizedBox(width: 10),
+                                        SizedBox(width:width/136.6),
                                         KText(
                                           text: 'Disable Crop',
                                           style: TextStyle(color: Colors.white),
@@ -2653,18 +2692,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   InkWell(
                                     onTap: selectDocument,
                                     child: Container(
-                                      height: 35,
+                                        height:height/18.6,
                                       width: size.width * 0.23,
                                       color: Constants().primaryAppColor,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.file_copy,
+                                          Icon(Icons.file_copy,
                                               color: Colors.white),
-                                          const SizedBox(width: 10),
+                                          SizedBox(width:width/136.6),
                                           KText(
                                             text: docname == "" ? 'Select Certificate' : docname,
-                                            style: const TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Colors.white),
                                           ),
                                         ],
                                       ),
@@ -2672,11 +2711,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2684,7 +2723,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Firstname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2692,15 +2731,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: firstNameController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2708,7 +2747,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Lastname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2716,20 +2755,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: lastNameController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   Container(
-                                    width: 300,
+                                       width:width/4.553,
                                     decoration: BoxDecoration(
                                         border: Border(
                                             bottom: BorderSide(
                                                 color: Colors.grey,
-                                                width: 1.5
+                                                width:width/910.66
                                             )
                                         )
                                     ),
@@ -2740,7 +2779,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Gender *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2748,7 +2787,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           value: genderController.text,
                                           isExpanded: true,
                                           underline: Container(),
-                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          icon: Icon(Icons.keyboard_arrow_down),
                                           items: [
                                             "Select Gender",
                                             "Male",
@@ -2771,11 +2810,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2783,7 +2822,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2791,15 +2830,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                           ],
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: phoneController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2807,20 +2846,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Email",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2828,7 +2867,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Aadhaar Number",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2836,7 +2875,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                           ],
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: aadharNoController,
                                         )
                                       ],
@@ -2844,11 +2883,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2856,20 +2895,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Position",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: positionController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2877,12 +2916,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Baptize Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
@@ -2901,9 +2940,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2911,12 +2950,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Date of Joining *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: dateofjoiningController,
                                           onTap: () async {
                                             DateTime? pickedDate =
@@ -2937,11 +2976,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -2949,15 +2988,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Blood Group *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
+                                        SizedBox(height:height/65.1),
                                         DropdownButton(
                                           isExpanded: true,
                                           value: bloodGroupController.text,
-                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          icon: Icon(Icons.keyboard_arrow_down),
                                           items: [
                                             "Select Blood Group",
                                             "AB+",
@@ -2986,12 +3025,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   Container(
                                     width: size.width / 4.553,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                         border: Border(
-                                            bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                         )
                                     ),
                                     child: Column(
@@ -3031,13 +3070,13 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   Visibility(
                                     visible: marriedController.toUpperCase() == 'MARRIED',
                                     child: SizedBox(
-                                      width: 300,
+                                         width:width/4.553,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -3045,12 +3084,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             text: "Anniversary Date",
                                             style: GoogleFonts.openSans(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                                 fontSize:width/105.07,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           TextFormField(
-                                            style: const TextStyle(fontSize: 12),
+                                            style: TextStyle(fontSize:width/113.83),
                                             controller: marriageDateController,
                                             onTap: () async {
                                               DateTime? pickedDate =
@@ -3072,14 +3111,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                   Visibility(
                                       visible: marriedController.toUpperCase() == 'MARRIED',
-                                      child: SizedBox(width: 20)
+                                      child: SizedBox(width:width/68.3)
                                   ),
                                   Container(
-                                    width: 300,
+                                       width:width/4.553,
                                     decoration: BoxDecoration(
                                         border: Border(
                                             bottom: BorderSide(
-                                                width: 1.5,
+                                                width:width/910.66,
                                                 color: Colors.grey
                                             )
                                         )
@@ -3091,14 +3130,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Social Status",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         DropdownButton(
                                           isExpanded: true,
                                           value: socialStatusController.text,
-                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          icon: Icon(Icons.keyboard_arrow_down),
                                           underline: Container(),
                                           items: [
                                             "Select",
@@ -3118,15 +3157,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           },
                                         ),
                                         // TextFormField(
-                                        //   style: const TextStyle(fontSize: 12),
+                                        //   style: TextStyle(fontSize:width/113.83),
                                         //   controller: socialStatusController,
                                         // )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3134,12 +3173,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Employment/Job",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
                                       ],
@@ -3147,14 +3186,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   Container(
-                                    width: 300,
-                                    decoration:const  BoxDecoration(
+                                       width:width/4.553,
+                                    decoration: BoxDecoration(
                                         border: Border(bottom: BorderSide(
-                                            width: 1.5,color: Colors.grey
+                                            width:width/910.66,color: Colors.grey
                                         ))
                                     ),
                                     child: Column(
@@ -3164,7 +3203,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Family *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3172,7 +3211,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           value: familyController.text,
                                           isExpanded: true,
                                           underline: Container(),
-                                          icon:  const Icon(Icons.keyboard_arrow_down),
+                                          icon:  Icon(Icons.keyboard_arrow_down),
                                           items: FamilyIdList.map((items) {
                                             return DropdownMenuItem(
                                               value: items.name,
@@ -3194,12 +3233,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   Container(
-                                    width: 300,
-                                    decoration:const  BoxDecoration(
+                                       width:width/4.553,
+                                    decoration: BoxDecoration(
                                         border: Border(bottom: BorderSide(
-                                            width: 1.5,color: Colors.grey
+                                            width:width/910.66,color: Colors.grey
                                         ))
                                     ),
                                     child: Column(
@@ -3209,7 +3248,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Family ID *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3217,7 +3256,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           value: familyIDController.text,
                                           isExpanded: true,
                                           underline: Container(),
-                                          icon:  const Icon(Icons.keyboard_arrow_down),
+                                          icon:  Icon(Icons.keyboard_arrow_down),
                                           items: FamilyIdList.map((items) {
                                             return DropdownMenuItem(
                                               value: items.id,
@@ -3233,9 +3272,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3243,12 +3282,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Department",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: departmentController,
                                         )
                                       ],
@@ -3256,11 +3295,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3268,12 +3307,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Date of Birth *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
@@ -3292,9 +3331,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3302,7 +3341,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Nationality *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3310,15 +3349,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: nationalityController,
                                         )
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+                                  SizedBox(width:width/68.3),
                                   SizedBox(
-                                    width: 300,
+                                       width:width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -3326,7 +3365,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           text: "Pincode *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize: 13,
+                                               fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3334,7 +3373,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                           ],
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize:width/113.83),
                                           controller: pincodeController,
                                         )
                                       ],
@@ -3342,7 +3381,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -3350,17 +3389,20 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                     text: "Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                         fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Container(
                                     height: size.height * 0.15,
                                     width: double.infinity,
-                                    margin: const EdgeInsets.all(20),
+                                   margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -3372,23 +3414,23 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       mainAxisAlignment: MainAxisAlignment
                                           .spaceEvenly,
                                       children: [
-                                        const SizedBox(
-                                          height: 20,
+                                        SizedBox(
+                                          height:height/32.55,
                                           width: double.infinity,
                                         ),
                                         Expanded(
                                           child: Container(
                                               width: double.infinity,
-                                              decoration: const BoxDecoration(
+                                              decoration: BoxDecoration(
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
-                                                style: const TextStyle(
-                                                    fontSize: 12),
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
                                                 controller: addressController,
-                                                decoration: const InputDecoration(
+                                                decoration: InputDecoration(
                                                     border: InputBorder.none,
-                                                    contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                                    contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
                                                 ),
                                                 maxLines: null,
                                               )
@@ -3399,7 +3441,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -3509,11 +3551,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       }
                                     },
                                     child: Container(
-                                      height: 35,
+                                        height:height/18.6,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
-                                        boxShadow: const [
+                                        boxShadow: [
                                           BoxShadow(
                                             color: Colors.black26,
                                             offset: Offset(1, 2),
@@ -3522,14 +3564,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(
+                                             horizontal:width/227.66),
                                         child: Center(
                                           child: KText(
                                             text: "Update",
                                             style: GoogleFonts.openSans(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -3609,7 +3651,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
       row.add(churchStaffs[i].address);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv = ListToCsvConverter().convert(rows);
     saveCsvToFile(csv);
   }
 
@@ -3657,7 +3699,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
       row.add(churchStaffs[i].gender);
       rows.add(row);
     }
-    String csv = const ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
+    String csv = ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
     await Clipboard.setData(ClipboardData(text: csv.replaceAll(",","")));
   }
 
@@ -3665,11 +3707,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -3682,14 +3724,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );

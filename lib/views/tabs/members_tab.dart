@@ -411,7 +411,7 @@ class _MembersTabState extends State<MembersTab> {
                               height: height/3.829,
                               width: width/3.902,
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Constants().primaryAppColor, width: 2),
+                                  border: Border.all(color: Constants().primaryAppColor, width:width/683),
                                   image: uploadedImage != null
                                       ? DecorationImage(
                                     fit: BoxFit.fill,
@@ -621,11 +621,11 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(width: width/68.3),
                               Container(
                                 width: width/4.553,
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
                                             color: Colors.grey,
-                                            width: 1.5
+                                            width:width/910.66
                                         )
                                     )
                                 ),
@@ -789,9 +789,9 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(width: width/68.3),
                               Container(
                                 width: width/4.553,
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                   border: Border(
-                                    bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                    bottom: BorderSide(width:width/910.66,color: Colors.grey)
                                   )
                                 ),
                                 child: Column(
@@ -864,9 +864,9 @@ class _MembersTabState extends State<MembersTab> {
                             children: [
                               Container(
                                 width: width/4.553,
-                                decoration:const  BoxDecoration(
+                                decoration:  BoxDecoration(
                                 border: Border(bottom: BorderSide(
-                                  width: 1.5,color: Colors.grey
+                                  width:width/910.66,color: Colors.grey
                                 ))
                                 ),
                                 child: Column(
@@ -909,9 +909,9 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(width: width/68.3),
                               Container(
                                 width: width/4.553,
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                     border: Border(bottom: BorderSide(
-                                        width: 1.5,
+                                        width:width/910.66,
                                         color: Colors.grey
                                     ))
                                 ),
@@ -974,7 +974,7 @@ class _MembersTabState extends State<MembersTab> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -982,11 +982,11 @@ class _MembersTabState extends State<MembersTab> {
                                       text: "Blood Group *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.076,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                     SizedBox(height: height/65.1),
                                     DropdownButton(
                                       isExpanded: true,
                                       value: bloodGroupController.text,
@@ -1560,11 +1560,9 @@ class _MembersTabState extends State<MembersTab> {
                                     horizontal: width/455.33
                                   ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                        width: 17.075,
+                                        width: width/20.66,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
@@ -1574,7 +1572,7 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width/13.66,
+                                        width: width/11.66,
                                         child: KText(
                                           text: "Member ID",
                                           style: GoogleFonts.poppins(
@@ -1604,7 +1602,7 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width/11.38,
+                                        width: width/9.6,
                                         child: KText(
                                           text: "Position",
                                           style: GoogleFonts.poppins(
@@ -1614,13 +1612,17 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width/9.757,
-                                        child: KText(
-                                          text: "Phone",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: width/105.076,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                        width: width/11.5,
+                                        child: Row(
+                                          children: [
+                                            KText(
+                                              text: "Phone",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.076,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       SizedBox(
@@ -1634,7 +1636,7 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width/7.588,
+                                        width: width/8.588,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
@@ -2732,7 +2734,7 @@ class _MembersTabState extends State<MembersTab> {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
-                                      width: 2),
+                                      width:width/683),
                                   image: selectedImg != null
                                       ? DecorationImage(
                                       fit: BoxFit.fill,
@@ -2934,7 +2936,7 @@ class _MembersTabState extends State<MembersTab> {
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
-                                      width: 1.5
+                                      width:width/910.66
                                     )
                                   )
                                 ),
@@ -3102,7 +3104,7 @@ class _MembersTabState extends State<MembersTab> {
                                   border: Border(
                                     bottom: BorderSide(
                                        color: Colors.grey,
-                                      width: 1.5
+                                      width:width/910.66
                                     )
                                   )
                                 ),
@@ -3176,7 +3178,7 @@ class _MembersTabState extends State<MembersTab> {
                                 width: width/4.553,
                                 decoration: BoxDecoration(
                                     border: Border(bottom: BorderSide(
-                                        width: 1.5,color: Colors.grey
+                                        width:width/910.66,color: Colors.grey
                                     ))
                                 ),
                                 child: Column(
@@ -3220,7 +3222,7 @@ class _MembersTabState extends State<MembersTab> {
                                 width: width/4.553,
                                 decoration: BoxDecoration(
                                     border: Border(bottom: BorderSide(
-                                        width: 1.5,color: Colors.grey
+                                        width:width/910.66,color: Colors.grey
                                     ))
                                 ),
                                 child: Column(

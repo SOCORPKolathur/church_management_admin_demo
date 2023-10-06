@@ -19,7 +19,7 @@ import '../../widgets/kText.dart';
 import 'package:path_provider/path_provider.dart';
 
 class GalleryTab extends StatefulWidget {
-  const GalleryTab({super.key});
+  GalleryTab({super.key});
 
   @override
   State<GalleryTab> createState() => _GalleryTabState();
@@ -77,18 +77,20 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
             child: KText(
               text: 'GALLERY',
               style: GoogleFonts.openSans(
-                fontSize: 32,
+                fontSize: width/52.538,
                 fontWeight: FontWeight.w900,
                 color: Colors.black,
               ),
@@ -101,7 +103,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -115,14 +117,14 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                   height: size.height * 0.1,
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
                           text: "SLIDER IMAGES",
                           style: GoogleFonts.openSans(
-                            fontSize: 22,
+                            fontSize: width/62.09,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -138,7 +140,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "Apply",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -154,15 +156,15 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "ADD",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.add_circle,
                                   ),
-                                  const SizedBox(width: 15),
+                                  SizedBox(width: width/91.06),
                                   InkWell(
                                     onTap: () {
                                       setState(() {
@@ -172,15 +174,15 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "EDIT",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.edit_note,
                                   ),
-                                  const SizedBox(width: 15),
+                                  SizedBox(width: width/91.06),
                                   InkWell(
                                     onTap: () {
                                       showImageGidView(context, 'SI');
@@ -188,12 +190,12 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "VIEW MORE",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const RotatedBox(
+                                  RotatedBox(
                                     quarterTurns: 3,
                                     child: Icon(
                                       Icons.expand_circle_down_outlined,
@@ -208,7 +210,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                 Container(
                   height: size.height * 0.2,
                   width: double.infinity,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
@@ -235,9 +237,9 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                       alignment: Alignment.topRight,
                                       children: [
                                         Container(
-                                          height: 130,
-                                          width: 100,
-                                          margin: const EdgeInsets.all(20),
+                                          height: height/5.007,
+                                          width: width/13.66,
+                                          margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -250,14 +252,14 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                           ),
                                         ),
                                         Positioned(
-                                          right: 10,
-                                          top: 10,
+                                          right: width/136.6,
+                                          top: height/65.1,
                                           child: InkWell(
                                             onTap: () {
                                               GalleryFireCrud.deleteImage(
                                                   allData[i].id!, 'SI');
                                             },
-                                            child: const CircleAvatar(
+                                            child: CircleAvatar(
                                               radius: 15,
                                               backgroundColor: Colors.red,
                                               child: Icon(
@@ -271,9 +273,9 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                       ],
                                     )
                                   : Container(
-                                      height: 130,
-                                      width: 100,
-                                      margin: const EdgeInsets.all(20),
+                                      height: height/5.007,
+                                      width: width/13.66,
+                                      margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
@@ -288,7 +290,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                           },
                         );
                       } else {
-                        return const Center(
+                        return Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -305,7 +307,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -319,14 +321,14 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                   height: size.height * 0.1,
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: width/68.3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
                           text: "PHOTO GALLERY",
                           style: GoogleFonts.openSans(
-                            fontSize: 22,
+                            fontSize: width/62.09,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -342,7 +344,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "Apply",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -358,15 +360,15 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "ADD",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.add_circle,
                                   ),
-                                  const SizedBox(width: 15),
+                                  SizedBox(width: width/91.06),
                                   InkWell(
                                     onTap: () {
                                       setState(() {
@@ -376,15 +378,15 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "EDIT",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.edit_note,
                                   ),
-                                  const SizedBox(width: 15),
+                                  SizedBox(width: width/91.06),
                                   InkWell(
                                     onTap: () {
                                       showImageGidView(context, 'GI');
@@ -392,12 +394,12 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                     child: KText(
                                       text: "VIEW MORE",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 18,
+                                        fontSize: width/75.88,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                  const RotatedBox(
+                                  RotatedBox(
                                     quarterTurns: 3,
                                     child: Icon(
                                       Icons.expand_circle_down_outlined,
@@ -412,7 +414,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                 Container(
                   height: size.height * 0.2,
                   width: double.infinity,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
@@ -439,9 +441,9 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                       alignment: Alignment.topRight,
                                       children: [
                                         Container(
-                                          height: 130,
-                                          width: 100,
-                                          margin: const EdgeInsets.all(20),
+                                          height: height/5.007,
+                                          width: width/13.66,
+                                          margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -454,14 +456,14 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                           ),
                                         ),
                                         Positioned(
-                                          right: 10,
-                                          top: 10,
+                                          right: width/136.6,
+                                          top: height/65.1,
                                           child: InkWell(
                                             onTap: () {
                                               GalleryFireCrud.deleteImage(
                                                   allData[i].id!, 'GI');
                                             },
-                                            child: const CircleAvatar(
+                                            child: CircleAvatar(
                                               radius: 15,
                                               backgroundColor: Colors.red,
                                               child: Icon(
@@ -474,9 +476,9 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                                       ],
                                     )
                                   : Container(
-                                      height: 130,
-                                      width: 100,
-                                      margin: const EdgeInsets.all(20),
+                                      height: height/5.007,
+                                      width: width/13.66,
+                                      margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
@@ -491,7 +493,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                           },
                         );
                       } else {
-                        return const Center(
+                        return Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -507,15 +509,17 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
   }
 
   AwesomeDialog popup(context, bool isSuccess) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return AwesomeDialog(
       context: context,
       dialogType: isSuccess ? DialogType.success : DialogType.error,
       borderSide: BorderSide(
         color: isSuccess ? Colors.green : Colors.red,
-        width: 2,
+        width: width/683,
       ),
-      width: 280,
-      buttonsBorderRadius: const BorderRadius.all(
+      width: width/4.878,
+      buttonsBorderRadius: BorderRadius.all(
         Radius.circular(2),
       ),
       dismissOnTouchOutside: true,
@@ -525,7 +529,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
           SnackBar(
             content: KText(
               text: 'Dismissed by $type',
-              style: const TextStyle(),
+              style: TextStyle(),
             ),
           ),
         );
@@ -542,6 +546,8 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
 
   showImageModel(context, String imgUrl) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
@@ -550,7 +556,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          insetPadding: const EdgeInsets.all(12),
+          insetPadding: EdgeInsets.all(12),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -559,7 +565,10 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
             alignment: Alignment.topRight,
             children: [
               Padding(
-                padding: const EdgeInsets.all(3.0),
+                padding: EdgeInsets.symmetric(
+                  vertical: height/217,
+                  horizontal: width/455.33
+                ),
                 child: Container(
                   height: size.height * 0.8,
                   width: size.width * 0.6,
@@ -575,7 +584,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 15,
                   backgroundColor: Colors.red,
                   child: Icon(
@@ -605,17 +614,17 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                     Navigator.pop(context);
                   },
                   child: Container(
-                    height: 35,
-                    width: 150,
+                    height: height/18.6,
+                    width: width/91.060,
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.download_rounded, color: Colors.white),
-                        SizedBox(width: 10),
+                        SizedBox(width: width/136.6),
                         Text(
                           "Download",
                           style: TextStyle(
@@ -636,6 +645,8 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
 
   showImageGidView(context, String collection) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
@@ -644,7 +655,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          insetPadding: const EdgeInsets.all(12),
+          insetPadding: EdgeInsets.all(12),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -667,7 +678,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                 decoration: BoxDecoration(
                   color: Constants().primaryAppColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(color: Colors.black26,offset: Offset(2,3),blurRadius: 3)
                   ]
                 ),
@@ -675,14 +686,14 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                   children: [
                     Container(
                       height: size.height * 0.1,
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
                             text: collection.toUpperCase() == 'GI' ? 'Photo Gallery' : 'Slider Images',
                             style: GoogleFonts.openSans(
-                              fontSize: 18,
+                              fontSize: width/75.88,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -693,7 +704,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                             child: KText(
                               text: 'Close',
                               style: GoogleFonts.openSans(
-                                fontSize: 18,
+                                fontSize: width/75.88,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -703,7 +714,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                     ),
                     Expanded(
                       child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10),
@@ -712,7 +723,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                         ),
                         child: GridView.builder(
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisSpacing: 4.0,
                               mainAxisSpacing: 4.0,
                               crossAxisCount: 3,
@@ -722,7 +733,7 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                             itemBuilder: (ctx, i) {
                               var data = snapshot.data!.docs[i];
                               return Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),

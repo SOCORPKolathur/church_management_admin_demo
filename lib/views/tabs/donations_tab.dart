@@ -12,7 +12,7 @@ import '../../widgets/kText.dart';
 import 'package:intl/intl.dart';
 
 class DonationsTab extends StatefulWidget {
-  const DonationsTab({super.key});
+  DonationsTab({super.key});
 
   @override
   State<DonationsTab> createState() => _DonationsTabState();
@@ -49,21 +49,23 @@ class _DonationsTabState extends State<DonationsTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
                     text: "DONATIONS",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -81,11 +83,11 @@ class _DonationsTabState extends State<DonationsTab> {
                         }
                       },
                       child: Container(
-                        height: 35,
+                        height:height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
                               offset: Offset(1, 2),
@@ -95,12 +97,12 @@ class _DonationsTabState extends State<DonationsTab> {
                         ),
                         child: Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                          EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Donation" : "View Records",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -115,10 +117,13 @@ class _DonationsTabState extends State<DonationsTab> {
                 ? Container(
               height: size.height * 0.78,
               width: double.infinity,
-              margin: const EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(1, 2),
@@ -134,16 +139,16 @@ class _DonationsTabState extends State<DonationsTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         children: [
-                          const Icon(Icons.account_tree),
-                          const SizedBox(width: 10),
+                          Icon(Icons.account_tree),
+                          SizedBox(width: width/136.6),
                           KText(
                             text: "ADD DONATION",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -154,20 +159,23 @@ class _DonationsTabState extends State<DonationsTab> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
                           )),
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -175,12 +183,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                       text: "Date *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.83),
                                       controller: dateController,
                                       onTap: () async {
                                         DateTime? pickedDate =
@@ -199,9 +207,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -209,12 +217,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                       text: "Amount *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.83),
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
@@ -223,9 +231,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -233,12 +241,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                       text: "Source *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.83),
                                       controller: sourceController,
                                     )
                                   ],
@@ -246,11 +254,11 @@ class _DonationsTabState extends State<DonationsTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -258,20 +266,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                       text: "Through/By/Via *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.83),
                                       controller: viaController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -279,20 +287,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                       text: "Cheque/Bank/UPI ",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.83),
                                       controller: bankController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -300,12 +308,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                       text: "Verifier *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.83),
                                       controller: verifierController,
                                     )
                                   ],
@@ -313,7 +321,7 @@ class _DonationsTabState extends State<DonationsTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -321,17 +329,17 @@ class _DonationsTabState extends State<DonationsTab> {
                                 text: "Note/Description",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:width/105.07,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 5),
+                              SizedBox(height:height/130.2),
                               Container(
                                 height: size.height * 0.16,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -343,27 +351,27 @@ class _DonationsTabState extends State<DonationsTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height:height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
                                       child: Container(
                                           width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
                                             maxLines: null,
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                TextStyle(fontSize: width/113.83),
                                             controller: descriptionController,
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(
-                                                    left: 15,
-                                                    top: 4,
-                                                    bottom: 4)),
+                                                    left:width/91.06,
+                                                    top:height/162.75,
+                                                    bottom:height/162.75)),
                                           )),
                                     ),
                                   ],
@@ -371,7 +379,7 @@ class _DonationsTabState extends State<DonationsTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height:height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -433,11 +441,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height:height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(1, 2),
@@ -446,14 +454,14 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -470,7 +478,8 @@ class _DonationsTabState extends State<DonationsTab> {
                 ],
               ),
             )
-                : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ? StreamBuilder(
+                : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ?
+            StreamBuilder(
               stream: DonationFireCrud.fetchDonationsWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -478,11 +487,14 @@ class _DonationsTabState extends State<DonationsTab> {
                 } else if (snapshot.hasData) {
                   List<DonationModel> donations = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width:width/1.241,
+                    margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -498,15 +510,15 @@ class _DonationsTabState extends State<DonationsTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "Recent Records (${donations.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -519,11 +531,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                     });
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height:height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -533,12 +545,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "Clear Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -555,180 +567,180 @@ class _DonationsTabState extends State<DonationsTab> {
                               ? 70 + donations.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 35,
-                                        child: KText(
-                                          text: "SL.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: width/39.028,
+                                      child: KText(
+                                        text: "SL.",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 90,
-                                        child: KText(
-                                          text: "Date",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/15.177,
+                                      child: KText(
+                                        text: "Date",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 130,
-                                        child: KText(
-                                          text: "Amount",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/10.507,
+                                      child: KText(
+                                        text: "Amount",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Source",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "Source",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "Through/by/via",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/68.30,
+                                      child: KText(
+                                        text: "Through/by/via",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 250,
-                                        child: KText(
-                                          text: "Cheque/Bank/UPI/Other Info",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/5.464,
+                                      child: KText(
+                                        text: "Cheque/Bank/UPI/Other Info",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "Actions",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: donations.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
                                             color: Color(0xfff1f1f1),
-                                            width: 0.5,
+                                            width: width/2732,
                                           ),
                                           bottom: BorderSide(
                                             color: Color(0xfff1f1f1),
-                                            width: 0.5,
+                                            width: width/2732,
                                           ),
                                         ),
                                       ),
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 35,
+                                            width: width/39.028,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 90,
+                                            width: width/15.177,
                                             child: KText(
                                               text: donations[i].date!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 12,
+                                                fontSize: width/113.83,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 130,
+                                            width: width/10.507,
                                             child: KText(
                                               text: donations[i].amount!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 12,
+                                                fontSize: width/113.83,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106,
                                             child: KText(
                                               text: donations[i].source!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width/68.30,
                                             child: KText(
                                               text: donations[i].via!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 250,
+                                            width: width/5.464,
                                             child: KText(
                                               text: donations[i].bank!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 80,
+                                              width: width/17.075,
                                               child: Column(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -750,9 +762,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                                           donations[i], size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
-                                                      const BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
                                                         Color(0xffff9700),
                                                         boxShadow: [
@@ -767,20 +779,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
+                                                        EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.066,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -788,7 +800,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -819,7 +831,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                                               0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                           onConfirmBtnTap:
                                                               () async {
                                                             Response res =
@@ -830,9 +842,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                                           });
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
-                                                      const BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
                                                         Color(0xfff44236),
                                                         boxShadow: [
@@ -847,21 +859,21 @@ class _DonationsTabState extends State<DonationsTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
+                                                        EdgeInsets
                                                             .symmetric(
-                                                            horizontal: 6),
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.066,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -869,7 +881,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -898,7 +910,8 @@ class _DonationsTabState extends State<DonationsTab> {
                 }
                 return Container();
               },
-            ) : StreamBuilder(
+            ) : 
+            StreamBuilder(
               stream: DonationFireCrud.fetchDonations(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -906,11 +919,14 @@ class _DonationsTabState extends State<DonationsTab> {
                 } else if (snapshot.hasData) {
                   List<DonationModel> donations = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width:width/1.241,
+                    margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -926,15 +942,15 @@ class _DonationsTabState extends State<DonationsTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "Recent Records (${donations.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -948,11 +964,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                     }
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height:height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(1, 2),
@@ -962,12 +978,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      EdgeInsets.symmetric(horizontal:width/227.66),
                                       child: Center(
                                         child: KText(
                                           text: "Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.571,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -984,180 +1000,180 @@ class _DonationsTabState extends State<DonationsTab> {
                               ? 70 + donations.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 35,
-                                        child: KText(
-                                          text: "SL.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: width/39.028,
+                                      child: KText(
+                                        text: "SL.",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 90,
-                                        child: KText(
-                                          text: "Date",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/15.177,
+                                      child: KText(
+                                        text: "Date",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 130,
-                                        child: KText(
-                                          text: "Amount",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/10.507,
+                                      child: KText(
+                                        text: "Amount",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/113.83,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Source",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "Source",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        child: KText(
-                                          text: "Through/by/via",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/68.30,
+                                      child: KText(
+                                        text: "Through/by/via",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 250,
-                                        child: KText(
-                                          text: "Cheque/Bank/UPI/Other Info",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/5.464,
+                                      child: KText(
+                                        text: "Cheque/Bank/UPI/Other Info",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: KText(
-                                          text: "Actions",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "Actions",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: donations.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
                                           top: BorderSide(
                                             color: Color(0xfff1f1f1),
-                                            width: 0.5,
+                                            width: width/2732,
                                           ),
                                           bottom: BorderSide(
                                             color: Color(0xfff1f1f1),
-                                            width: 0.5,
+                                            width: width/2732,
                                           ),
                                         ),
                                       ),
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 35,
+                                            width: width/39.028,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 90,
+                                            width: width/15.177,
                                             child: KText(
                                               text: donations[i].date!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 12,
+                                                fontSize: width/113.83,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 130,
+                                            width: width/10.507,
                                             child: KText(
                                               text: donations[i].amount!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 12,
+                                                fontSize: width/113.83,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106,
                                             child: KText(
                                               text: donations[i].source!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width/68.30,
                                             child: KText(
                                               text: donations[i].via!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 250,
+                                            width: width/5.464,
                                             child: KText(
                                               text: donations[i].bank!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 80,
+                                              width: width/17.075,
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -1179,9 +1195,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                                           donations[i], size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xffff9700),
                                                         boxShadow: [
@@ -1196,20 +1212,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.066,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -1217,7 +1233,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -1248,7 +1264,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                                                       0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
-                                                          cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                           onConfirmBtnTap:
                                                               () async {
                                                             Response res =
@@ -1259,9 +1275,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                                           });
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
-                                                          const BoxDecoration(
+                                                          BoxDecoration(
                                                         color:
                                                             Color(0xfff44236),
                                                         boxShadow: [
@@ -1276,21 +1292,21 @@ class _DonationsTabState extends State<DonationsTab> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets
+                                                            EdgeInsets
                                                                     .symmetric(
-                                                                horizontal: 6),
+                                                                horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.066,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -1298,7 +1314,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize:width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -1335,6 +1351,8 @@ class _DonationsTabState extends State<DonationsTab> {
   }
 
   editPopUp(DonationModel donation, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1343,10 +1361,13 @@ class _DonationsTabState extends State<DonationsTab> {
           content: Container(
             height: size.height * 0.78,
             width: double.infinity,
-            margin: const EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   offset: Offset(1, 2),
@@ -1363,15 +1384,15 @@ class _DonationsTabState extends State<DonationsTab> {
                   width: double.infinity,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                     child: Row(
                       children: [
-                        const Icon(Icons.account_tree),
-                        const SizedBox(width: 10),
+                        Icon(Icons.account_tree),
+                        SizedBox(width: width/136.6),
                         KText(
                           text: "EDIT DONATION",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1389,7 +1410,7 @@ class _DonationsTabState extends State<DonationsTab> {
                             });
                             Navigator.pop(context);
                           },
-                          child: const Icon(Icons.cancel_outlined),
+                          child: Icon(Icons.cancel_outlined),
                         ),
                       ],
                     ),
@@ -1398,20 +1419,23 @@ class _DonationsTabState extends State<DonationsTab> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         )),
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             SizedBox(
-                              width: 300,
+                              width: width/4.553,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1419,12 +1443,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                     text: "Date",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     controller: dateController,
                                     onTap: () async {
                                       DateTime? pickedDate =
@@ -1443,9 +1467,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             SizedBox(
-                              width: 300,
+                              width: width/4.553,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1453,12 +1477,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                     text: "Amount",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                     ],
@@ -1467,9 +1491,9 @@ class _DonationsTabState extends State<DonationsTab> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             SizedBox(
-                              width: 300,
+                              width: width/4.553,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1477,12 +1501,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                     text: "Source",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     controller: sourceController,
                                   )
                                 ],
@@ -1490,11 +1514,11 @@ class _DonationsTabState extends State<DonationsTab> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height:height/21.7),
                         Row(
                           children: [
                             SizedBox(
-                              width: 300,
+                              width: width/4.553,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1502,20 +1526,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                     text: "Through/By/Via",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     controller: viaController,
                                   )
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             SizedBox(
-                              width: 300,
+                              width: width/4.553,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1523,20 +1547,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                     text: "Cheque/Bank/UPI",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     controller: bankController,
                                   )
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             SizedBox(
-                              width: 300,
+                              width: width/4.553,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1544,12 +1568,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                     text: "Verifier",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize:width/105.07,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.83),
                                     controller: verifierController,
                                   )
                                 ],
@@ -1557,7 +1581,7 @@ class _DonationsTabState extends State<DonationsTab> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height:height/21.7),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1565,17 +1589,17 @@ class _DonationsTabState extends State<DonationsTab> {
                               text: "Note/Description",
                               style: GoogleFonts.openSans(
                                 color: Colors.black,
-                                fontSize: 13,
+                                fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 5),
+                            SizedBox(height:height/130.2),
                             Container(
                               height: size.height * 0.16,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Constants().primaryAppColor,
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     color: Colors.black26,
                                     offset: Offset(1, 2),
@@ -1587,24 +1611,24 @@ class _DonationsTabState extends State<DonationsTab> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const SizedBox(
-                                    height: 20,
+                                  SizedBox(
+                                    height:height/32.55,
                                     width: double.infinity,
                                   ),
                                   Expanded(
                                     child: Container(
                                         width: double.infinity,
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           color: Colors.white,
                                         ),
                                         child: TextFormField(
                                           maxLines: null,
-                                          style: const TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize: width/113.83),
                                           controller: descriptionController,
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               border: InputBorder.none,
                                               contentPadding: EdgeInsets.only(
-                                                  left: 15, top: 4, bottom: 4)),
+                                                  left:width/91.06, top:height/162.75, bottom:height/162.75)),
                                         )),
                                   ),
                                 ],
@@ -1612,7 +1636,7 @@ class _DonationsTabState extends State<DonationsTab> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height:height/21.7),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -1630,11 +1654,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                 Navigator.pop(context);
                               },
                               child: Container(
-                                height: 35,
+                                height:height/18.6,
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
                                   borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1644,13 +1668,13 @@ class _DonationsTabState extends State<DonationsTab> {
                                 ),
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      EdgeInsets.symmetric(horizontal:width/227.66),
                                   child: Center(
                                     child: KText(
                                       text: "Cancel",
                                       style: GoogleFonts.openSans(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize:width/136.6,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1658,7 +1682,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             InkWell(
                               onTap: () async {
                                 if (amountController.text != "" &&
@@ -1717,11 +1741,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                 }
                               },
                               child: Container(
-                                height: 35,
+                                height:height/18.6,
                                 decoration: BoxDecoration(
                                   color: Constants().primaryAppColor,
                                   borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
                                       offset: Offset(1, 2),
@@ -1731,13 +1755,13 @@ class _DonationsTabState extends State<DonationsTab> {
                                 ),
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      EdgeInsets.symmetric(horizontal:width/227.66),
                                   child: Center(
                                     child: KText(
                                       text: "UPDATE",
                                       style: GoogleFonts.openSans(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize:width/136.6,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1761,6 +1785,8 @@ class _DonationsTabState extends State<DonationsTab> {
 
   filterPopUp() {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1784,11 +1810,11 @@ class _DonationsTabState extends State<DonationsTab> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: width/68.3),
                               child: KText(
                                 text: "Filter",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
+                                  fontSize: width/85.375,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1798,7 +1824,7 @@ class _DonationsTabState extends State<DonationsTab> {
                       ),
                       Expanded(
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(10),
@@ -1806,30 +1832,33 @@ class _DonationsTabState extends State<DonationsTab> {
                               )
                           ),
                           width: double.infinity,
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(
+                  horizontal: width/68.3,
+                  vertical: height/32.55
+              ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.177,
                                     child: KText(
                                       text: "Start Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.571,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height:height/16.275,
+                                    width: width/15.177,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           blurRadius: 3,
@@ -1839,7 +1868,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
                                         border: InputBorder.none,
                                       ),
@@ -1862,23 +1891,23 @@ class _DonationsTabState extends State<DonationsTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.177,
                                     child: KText(
                                       text: "End Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.571,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height:height/16.275,
+                                    width: width/15.177,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           blurRadius: 3,
@@ -1888,7 +1917,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        hintStyle: const TextStyle(color: Color(0xff00A99D)),
+                                        hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",
                                         border: InputBorder.none,
                                       ),
@@ -1916,11 +1945,11 @@ class _DonationsTabState extends State<DonationsTab> {
                                       Navigator.pop(context,false);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height:height/16.275,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
-                                        boxShadow: const [
+                                        boxShadow: [
                                           BoxShadow(
                                             color: Colors.black26,
                                             offset: Offset(1, 2),
@@ -1930,12 +1959,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                       ),
                                       child: Padding(
                                         padding:
-                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        EdgeInsets.symmetric(horizontal:width/227.66),
                                         child: Center(
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -1943,17 +1972,17 @@ class _DonationsTabState extends State<DonationsTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width:width/273.2),
                                   InkWell(
                                     onTap: () {
                                       Navigator.pop(context,true);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height:height/16.275,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
-                                        boxShadow: const [
+                                        boxShadow: [
                                           BoxShadow(
                                             color: Colors.black26,
                                             offset: Offset(1, 2),
@@ -1963,12 +1992,12 @@ class _DonationsTabState extends State<DonationsTab> {
                                       ),
                                       child: Padding(
                                         padding:
-                                        const EdgeInsets.symmetric(horizontal: 6),
+                                        EdgeInsets.symmetric(horizontal:width/227.66),
                                         child: Center(
                                           child: KText(
                                             text: "Apply",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -1996,11 +2025,11 @@ class _DonationsTabState extends State<DonationsTab> {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Constants().primaryAppColor, width: 3),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x19000000),
               spreadRadius: 2.0,
@@ -2013,14 +2042,14 @@ class _DonationsTabState extends State<DonationsTab> {
         child: Row(
           children: [
             Icon(Icons.info_outline, color: Constants().primaryAppColor),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
                   style: TextStyle(color: Colors.black)),
             ),
-            const Spacer(),
+            Spacer(),
             TextButton(
-                onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
           ],
         )),
   );
