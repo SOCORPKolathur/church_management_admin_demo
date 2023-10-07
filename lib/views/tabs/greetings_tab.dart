@@ -47,6 +47,8 @@ class _GreetingsTabState extends State<GreetingsTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -54,11 +56,11 @@ class _GreetingsTabState extends State<GreetingsTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: KText(
                 text: "Greetings",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.53846153846154,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -107,7 +109,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       text:
                                           "Today's Birthday Babies (${users.length})",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 20,
+                                        fontSize: width/68.3,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -116,7 +118,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                         showSendWishesPopUp(true, selectedbirthUsers);
                                       },
                                       child: Container(
-                                        height: 40,
+                                        height: height/16.275,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
@@ -136,7 +138,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             child: KText(
                                               text: "Send Wishes",
                                               style: GoogleFonts.openSans(
-                                                fontSize: 14,
+                                                fontSize: width/97.57142857142857,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -171,35 +173,35 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          const SizedBox(
-                                            width: 10,
+                                          SizedBox(
+                                            width: width/136.6,
                                           ),
                                           SizedBox(
-                                            width: 80,
+                                            width: width/17.075,
                                             child: KText(
                                               text: "Photo",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width/8.035294117647059,
                                             child: KText(
                                               text: "Name",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width/8.035294117647059,
                                             child: KText(
                                               text: "Phone",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -213,7 +215,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       itemCount: users.length,
                                       itemBuilder: (ctx, i) {
                                         return Container(
-                                          height: 60,
+                                          height: height/10.85,
                                           width: double.infinity,
                                           decoration: const BoxDecoration(
                                             color: Colors.white,
@@ -235,7 +237,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 SizedBox(
-                                                  width: 10,
+                                                  width: width/136.6,
                                                   child: Checkbox(
                                                     onChanged: (val){
                                                       setState(() {
@@ -250,9 +252,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                     value: selectedBirth[i],
                                                   ),
                                                 ),
-                                                SizedBox(width: 10),
+                                                SizedBox(width: width/136.6),
                                                 SizedBox(
-                                                  width: 80,
+                                                  width: width/17.075,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
@@ -267,23 +269,23 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 170,
+                                                  width: width/8.035294117647059,
                                                   child: KText(
                                                     text:
                                                         "${users[i].firstName!} ${users[i].lastName!}",
                                                     style: GoogleFonts.poppins(
-                                                      fontSize: 13,
+                                                      fontSize: width/105.0769230769231,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 170,
+                                                  width: width/8.035294117647059,
                                                   child: KText(
                                                     text: users[i].phone!,
                                                     style: GoogleFonts.poppins(
-                                                      fontSize: 13,
+                                                      fontSize: width/105.0769230769231,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -347,7 +349,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       text:
                                           "Today's Anniversaries (${users.length})",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 20,
+                                        fontSize: width/68.3,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -356,7 +358,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                         showSendWishesPopUp(false, selectedAnnivarUsers);
                                       },
                                       child: Container(
-                                        height: 40,
+                                        height: height/16.275,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
@@ -376,7 +378,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             child: KText(
                                               text: "Send Wishes",
                                               style: GoogleFonts.openSans(
-                                                fontSize: 14,
+                                                fontSize: width/97.57142857142857,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -412,34 +414,34 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
-                                            width: 10,
+                                            width: width/136.6,
                                           ),
                                           SizedBox(
-                                            width: 80,
+                                            width: width/17.075,
                                             child: KText(
                                               text: "Photo",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width/8.035294117647059,
                                             child: KText(
                                               text: "Name",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width/8.035294117647059,
                                             child: KText(
                                               text: "Phone",
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -453,7 +455,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       itemCount: users.length,
                                       itemBuilder: (ctx, i) {
                                         return Container(
-                                          height: 60,
+                                          height: height/10.85,
                                           width: double.infinity,
                                           decoration: const BoxDecoration(
                                             color: Colors.white,
@@ -475,7 +477,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 SizedBox(
-                                                  width: 10,
+                                                  width: width/136.6,
                                                   child: Checkbox(
                                                     onChanged: (val){
                                                       setState(() {
@@ -490,9 +492,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                     value: selectedAnnivarsary[i],
                                                   ),
                                                 ),
-                                                const SizedBox(width: 10),
+                                                SizedBox(width: width/136.6),
                                                 SizedBox(
-                                                  width: 80,
+                                                  width: width/17.075,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
@@ -507,23 +509,23 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 170,
+                                                  width: width/8.035294117647059,
                                                   child: KText(
                                                     text:
                                                         "${users[i].firstName!} ${users[i].lastName!}",
                                                     style: GoogleFonts.poppins(
-                                                      fontSize: 13,
+                                                      fontSize: width/105.0769230769231,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 170,
+                                                  width: width/8.035294117647059,
                                                   child: KText(
                                                     text: users[i].phone!,
                                                     style: GoogleFonts.poppins(
-                                                      fontSize: 13,
+                                                      fontSize: width/105.0769230769231,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -556,6 +558,8 @@ class _GreetingsTabState extends State<GreetingsTab> {
 
   addTemplatePopUp(bool isBirthday) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -584,7 +588,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                               ? "Add Birthday Template"
                               : "Add Anniversary Template",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -593,7 +597,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            height: 35,
+                            height: height/18.6,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
@@ -612,7 +616,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                 child: KText(
                                   text: "Close",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57142857142857,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -639,7 +643,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: 300,
+                            width: width/4.553333333333333,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -647,20 +651,20 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                   text: "Title",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: width/105.0769230769231,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 TextFormField(
-                                  style: const TextStyle(fontSize: 12),
+                                  style: TextStyle(fontSize: width/113.8333333333333),
                                   controller: templateTitleController,
                                 )
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: height/32.55),
                           SizedBox(
-                            width: 300,
+                            width: width/4.553333333333333,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -668,18 +672,18 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                   text: "Content",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: width/105.0769230769231,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 TextFormField(
-                                  style: const TextStyle(fontSize: 12),
+                                  style: TextStyle(fontSize: width/113.8333333333333),
                                   controller: templateContentController,
                                 )
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -713,7 +717,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -733,7 +737,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -758,6 +762,8 @@ class _GreetingsTabState extends State<GreetingsTab> {
 
   showSendWishesPopUp(bool isBirthday, List<UserModel> users) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -787,7 +793,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                 ? "Send Birthday Wishes"
                                 : "Send Anniversary Wishes",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -796,7 +802,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              height: 35,
+                              height: height/18.6,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
@@ -815,7 +821,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                   child: KText(
                                     text: "Close",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                      fontSize: width/97.57142857142857,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -850,7 +856,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                     child: KText(
                                       text: "Select Template",
                                       style: GoogleFonts.openSans(
-                                          fontSize: 16, color: Colors.black),
+                                          fontSize: width/85.375, color: Colors.black),
                                     ),
                                   ),
                                   Padding(
@@ -862,7 +868,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       child: KText(
                                         text: "Add Template",
                                         style: GoogleFonts.openSans(
-                                            fontSize: 16, color: Colors.black),
+                                            fontSize: width/85.375, color: Colors.black),
                                       ),
                                     ),
                                   ),
@@ -899,7 +905,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Container(
-                                                    height: 80,
+                                                    height: height/8.1375,
                                                     width: size.width * 0.7,
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
@@ -975,7 +981,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Container(
-                                                    height: 80,
+                                                    height: height/8.1375,
                                                     width: size.width * 0.7,
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
@@ -1023,7 +1029,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                         return Container();
                                       },
                                     ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -1059,7 +1065,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       }
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
@@ -1079,7 +1085,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                             text: "SEND NOW",
                                             style: GoogleFonts.openSans(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

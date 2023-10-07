@@ -57,6 +57,8 @@ class _BlogTabState extends State<BlogTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -71,7 +73,7 @@ class _BlogTabState extends State<BlogTab> {
                   KText(
                     text: "BLOG",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.53846153846154,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -87,10 +89,9 @@ class _BlogTabState extends State<BlogTab> {
                           });
                           //clearTextControllers();
                         }
-
                       },
                       child: Container(
-                        height: 35,
+                        height: height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -109,7 +110,7 @@ class _BlogTabState extends State<BlogTab> {
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Blog Post" : "View Blogs",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -123,7 +124,7 @@ class _BlogTabState extends State<BlogTab> {
             currentTab.toUpperCase() == "ADD"
                 ? Container(
               height: size.height * 1.26,
-              width: 1100,
+              width: width/1.241818181818182,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
@@ -151,7 +152,7 @@ class _BlogTabState extends State<BlogTab> {
                           KText(
                             text: "Add New Blog Post",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -174,8 +175,8 @@ class _BlogTabState extends State<BlogTab> {
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height: height/3.829411764705882,
+                              width: width/3.902857142857143,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -193,33 +194,33 @@ class _BlogTabState extends State<BlogTab> {
                                         )
                                       : null),
                               child: uploadedImage == null
-                                  ? const Center(
+                                  ? Center(
                                       child: Icon(
                                         Icons.cloud_upload,
-                                        size: 160,
+                                        size: width/8.5375,
                                         color: Colors.grey,
                                       ),
                                     )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   width: size.width * 0.50,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.add_a_photo,
+                                      const Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
-                                      KText(
+                                      SizedBox(width: width/136.6),
+                                      const KText(
                                         text: 'Select Blog Post Cover Photo',
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -229,7 +230,7 @@ class _BlogTabState extends State<BlogTab> {
                               )
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
@@ -242,19 +243,19 @@ class _BlogTabState extends State<BlogTab> {
                                     text: "Title *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: width/105.0769230769231,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.8333333333333),
                                     controller: titleController,
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
@@ -267,19 +268,19 @@ class _BlogTabState extends State<BlogTab> {
                                     text: "Author Name *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: width/105.0769230769231,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.8333333333333),
                                     controller: authorNameController,
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -289,7 +290,7 @@ class _BlogTabState extends State<BlogTab> {
                                   text: "Description",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: width/105.0769230769231,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -312,8 +313,8 @@ class _BlogTabState extends State<BlogTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
@@ -323,8 +324,7 @@ class _BlogTabState extends State<BlogTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
-                                            style:
-                                                const TextStyle(fontSize: 12),
+                                            style: TextStyle(fontSize: width/113.8333333333333),
                                             controller: descriptionController,
                                             decoration: const InputDecoration(
                                                 border: InputBorder.none,
@@ -340,7 +340,7 @@ class _BlogTabState extends State<BlogTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -391,7 +391,7 @@ class _BlogTabState extends State<BlogTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -404,14 +404,13 @@ class _BlogTabState extends State<BlogTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
+                                    padding: const EdgeInsets.symmetric(horizontal: 6),
                                     child: Center(
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -436,7 +435,7 @@ class _BlogTabState extends State<BlogTab> {
                 } else if (snapshot.hasData) {
                   List<BlogModel> blogs = snapshot.data!;
                   return Container(
-                    width: 1100,
+                    width: width/1.241818181818182,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
@@ -456,15 +455,14 @@ class _BlogTabState extends State<BlogTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "All Blog Post (${blogs.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -477,7 +475,7 @@ class _BlogTabState extends State<BlogTab> {
                                     });
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
@@ -496,7 +494,7 @@ class _BlogTabState extends State<BlogTab> {
                                         child: KText(
                                           text: "Clear Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -529,51 +527,51 @@ class _BlogTabState extends State<BlogTab> {
                                   child: Row(
                                     children: [
                                       SizedBox(
-                                        width: 80,
+                                        width: width/17.075,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width / 105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width: width/7.588888888888889,
                                         child: KText(
                                           text: "Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width: width/7.588888888888889,
                                         child: KText(
                                           text: "Description",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width: width/8.035294117647059,
                                         child: KText(
                                           text: "Time",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.83,
                                         child: KText(
                                           text: "Author/Writer/Speaker",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -583,7 +581,7 @@ class _BlogTabState extends State<BlogTab> {
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -592,13 +590,13 @@ class _BlogTabState extends State<BlogTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: blogs.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
                                       decoration: const BoxDecoration(
                                         color: Colors.white,
@@ -616,57 +614,57 @@ class _BlogTabState extends State<BlogTab> {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                            width: width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width/7.588888888888889,
                                             child: KText(
                                               text: blogs[i].title!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width/7.588888888888889,
                                             child: KText(
                                               text: blogs[i].description!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width/8.035294117647059,
                                             child: KText(
                                               text: blogs[i].time!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width/6.83,
                                             child: KText(
                                               text: blogs[i].author!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
+                                              width: width/6.83,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -679,7 +677,7 @@ class _BlogTabState extends State<BlogTab> {
                                                       editPopUp(blogs[i], size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
                                                           const BoxDecoration(
                                                         color:
@@ -705,11 +703,11 @@ class _BlogTabState extends State<BlogTab> {
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.06666666666667,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -717,7 +715,7 @@ class _BlogTabState extends State<BlogTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -729,7 +727,7 @@ class _BlogTabState extends State<BlogTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width: width/273.2),
                                                   InkWell(
                                                     onTap: () {
                                                       CoolAlert.show(
@@ -760,7 +758,7 @@ class _BlogTabState extends State<BlogTab> {
                                                           });
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
                                                           const BoxDecoration(
                                                         color:
@@ -786,12 +784,12 @@ class _BlogTabState extends State<BlogTab> {
                                                                 MainAxisAlignment
                                                                     .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.06666666666667,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -799,7 +797,7 @@ class _BlogTabState extends State<BlogTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width/136.6,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -836,7 +834,7 @@ class _BlogTabState extends State<BlogTab> {
                 } else if (snapshot.hasData) {
                   List<BlogModel> blogs = snapshot.data!;
                   return Container(
-                    width: 1100,
+                    width: width/1.241818181818182,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
@@ -864,7 +862,7 @@ class _BlogTabState extends State<BlogTab> {
                                 KText(
                                   text: "All Blog Post (${blogs.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -878,7 +876,7 @@ class _BlogTabState extends State<BlogTab> {
                                     }
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
@@ -897,7 +895,7 @@ class _BlogTabState extends State<BlogTab> {
                                         child: KText(
                                           text: "Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -930,61 +928,61 @@ class _BlogTabState extends State<BlogTab> {
                                   child: Row(
                                     children: [
                                       SizedBox(
-                                        width: 80,
+                                        width: width/17.075,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width: width/7.588888888888889,
                                         child: KText(
                                           text: "Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width: width/7.588888888888889,
                                         child: KText(
                                           text: "Description",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 12,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width: width/8.035294117647059,
                                         child: KText(
                                           text: "Time",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.83,
                                         child: KText(
                                           text: "Author/Writer/Speaker",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width: width/9.106666666666667,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -993,13 +991,13 @@ class _BlogTabState extends State<BlogTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
                                   itemCount: blogs.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
                                       decoration: const BoxDecoration(
                                         color: Colors.white,
@@ -1017,57 +1015,57 @@ class _BlogTabState extends State<BlogTab> {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                            width: width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width/7.588888888888889,
                                             child: KText(
                                               text: blogs[i].title!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width/7.588888888888889,
                                             child: KText(
                                               text: blogs[i].description!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 170,
+                                            width: width/8.035294117647059,
                                             child: KText(
                                               text: blogs[i].time!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 200,
+                                            width: width/6.83,
                                             child: KText(
                                               text: blogs[i].author!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                              width: 200,
+                                              width: width/6.83,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -1080,7 +1078,7 @@ class _BlogTabState extends State<BlogTab> {
                                                       editPopUp(blogs[i], size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
                                                       const BoxDecoration(
                                                         color:
@@ -1106,11 +1104,11 @@ class _BlogTabState extends State<BlogTab> {
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.06666666666667,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
@@ -1118,7 +1116,7 @@ class _BlogTabState extends State<BlogTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -1161,7 +1159,7 @@ class _BlogTabState extends State<BlogTab> {
                                                           });
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration:
                                                       const BoxDecoration(
                                                         color:
@@ -1187,12 +1185,12 @@ class _BlogTabState extends State<BlogTab> {
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .cancel_outlined,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 15,
+                                                                size: width/91.06666666666667,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
@@ -1200,7 +1198,7 @@ class _BlogTabState extends State<BlogTab> {
                                                                     .openSans(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width/136.6,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -1237,6 +1235,8 @@ class _BlogTabState extends State<BlogTab> {
   }
 
   editPopUp(BlogModel blog, Size size) {
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1244,7 +1244,7 @@ class _BlogTabState extends State<BlogTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             height: size.height * 1.08,
-            width: 1100,
+            width: width/1.241818181818182,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
@@ -1272,7 +1272,7 @@ class _BlogTabState extends State<BlogTab> {
                         KText(
                           text: "Edit Blog Post",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1310,8 +1310,8 @@ class _BlogTabState extends State<BlogTab> {
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height: height/3.829411764705882,
+                              width: width/3.902857142857143,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -1333,32 +1333,32 @@ class _BlogTabState extends State<BlogTab> {
                                             )
                                           : null),
                               child: selectedImg == null
-                                  ? const Center(
+                                  ? Center(
                                       child: Icon(
                                         Icons.cloud_upload,
-                                        size: 160,
+                                        size: width/8.5375,
                                         color: Colors.grey,
                                       ),
                                     )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   width: size.width * 0.50,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width: width/136.6),
                                       KText(
                                         text: 'Select Blog Post Cover Photo',
                                         style: TextStyle(color: Colors.white),
@@ -1369,12 +1369,11 @@ class _BlogTabState extends State<BlogTab> {
                               )
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1382,19 +1381,19 @@ class _BlogTabState extends State<BlogTab> {
                                     text: "Title *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: width/105.0769230769231,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   TextFormField(
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: width/113.8333333333333),
                                     controller: titleController,
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1404,7 +1403,7 @@ class _BlogTabState extends State<BlogTab> {
                                   text: "Description",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: width/105.0769230769231,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -1427,8 +1426,8 @@ class _BlogTabState extends State<BlogTab> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
@@ -1438,8 +1437,7 @@ class _BlogTabState extends State<BlogTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
-                                            style:
-                                                const TextStyle(fontSize: 12),
+                                            style: TextStyle(fontSize:  width/113.8333333333333),
                                             controller: descriptionController,
                                             decoration: const InputDecoration(
                                                 border: InputBorder.none,
@@ -1455,7 +1453,7 @@ class _BlogTabState extends State<BlogTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -1512,7 +1510,7 @@ class _BlogTabState extends State<BlogTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1532,7 +1530,7 @@ class _BlogTabState extends State<BlogTab> {
                                         text: "Update",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -1557,6 +1555,8 @@ class _BlogTabState extends State<BlogTab> {
 
   filterPopUp() {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1584,7 +1584,7 @@ class _BlogTabState extends State<BlogTab> {
                               child: KText(
                                 text: "Filter",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
+                                  fontSize: width/85.375,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1609,19 +1609,19 @@ class _BlogTabState extends State<BlogTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "Start Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width: width/15.17777777777778,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -1658,19 +1658,19 @@ class _BlogTabState extends State<BlogTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "End Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width: width/15.17777777777778,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -1712,7 +1712,7 @@ class _BlogTabState extends State<BlogTab> {
                                       Navigator.pop(context,false);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
@@ -1731,7 +1731,7 @@ class _BlogTabState extends State<BlogTab> {
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -1745,7 +1745,7 @@ class _BlogTabState extends State<BlogTab> {
                                       Navigator.pop(context,true);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
@@ -1764,7 +1764,7 @@ class _BlogTabState extends State<BlogTab> {
                                           child: KText(
                                             text: "Apply",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

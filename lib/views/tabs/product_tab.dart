@@ -63,6 +63,8 @@ class _ProductTabState extends State<ProductTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -77,7 +79,7 @@ class _ProductTabState extends State<ProductTab> {
                   KText(
                     text: "PRODUCTS",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: width/52.53846153846154,
                         fontWeight: FontWeight.w900,
                         color: Colors.black),
                   ),
@@ -95,7 +97,7 @@ class _ProductTabState extends State<ProductTab> {
                         }
                       },
                       child: Container(
-                        height: 35,
+                        height: height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -114,7 +116,7 @@ class _ProductTabState extends State<ProductTab> {
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add New Product" : "View Products",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -128,7 +130,7 @@ class _ProductTabState extends State<ProductTab> {
             currentTab.toUpperCase() == "ADD" 
                 ? Container(
               height: size.height * 1.2,
-              width: 1100,
+              width: width/1.241818181818182,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
@@ -156,7 +158,7 @@ class _ProductTabState extends State<ProductTab> {
                           KText(
                             text: "ADD NEW PRODUCT",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -179,8 +181,8 @@ class _ProductTabState extends State<ProductTab> {
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height: height/3.829411764705882,
+                              width: width/3.902857142857143,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -198,32 +200,32 @@ class _ProductTabState extends State<ProductTab> {
                                   )
                                       : null),
                               child: uploadedImage == null
-                                  ? const Center(
+                                  ? Center(
                                 child: Icon(
                                   Icons.cloud_upload,
-                                  size: 160,
+                                  size: width/8.5375,
                                   color: Colors.grey,
                                 ),
                               )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width: width/136.6),
                                       KText(
                                         text: 'Select Product Photo',
                                         style: TextStyle(color: Colors.white),
@@ -232,19 +234,19 @@ class _ProductTabState extends State<ProductTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                              SizedBox(width: width/27.32),
                               Container(
-                                height: 35,
+                                height: height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -254,11 +256,11 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -266,20 +268,20 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Title *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: titleController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -287,7 +289,7 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Price *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -295,15 +297,15 @@ class _ProductTabState extends State<ProductTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: priceController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -311,12 +313,12 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Categories *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: categoriesController,
                                     )
                                   ],
@@ -324,11 +326,11 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -336,20 +338,20 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Tags",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: tagsController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -357,7 +359,7 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Sale",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -370,7 +372,7 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -378,7 +380,7 @@ class _ProductTabState extends State<ProductTab> {
                                 text: "Description",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize: width/105.0769230769231,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -400,8 +402,8 @@ class _ProductTabState extends State<ProductTab> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
@@ -412,7 +414,7 @@ class _ProductTabState extends State<ProductTab> {
                                           ),
                                           child: TextFormField(
                                             style:
-                                            const TextStyle(fontSize: 12),
+                                            TextStyle(fontSize: width/113.8333333333333),
                                             controller: descriptionController,
                                             decoration: const InputDecoration(
                                               border: InputBorder.none,
@@ -426,7 +428,7 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -482,7 +484,7 @@ class _ProductTabState extends State<ProductTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -502,7 +504,7 @@ class _ProductTabState extends State<ProductTab> {
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -527,7 +529,7 @@ class _ProductTabState extends State<ProductTab> {
                 } else if (snapshot.hasData) {
                   List<ProductModel> products = snapshot.data!;
                   return Container(
-                    width: 1100,
+                    width: width/1.241818181818182,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
@@ -555,13 +557,13 @@ class _ProductTabState extends State<ProductTab> {
                                 KText(
                                   text: "All Products (${products.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Container(
-                                  height: 35,
-                                  width: 150,
+                                  height: height/18.6,
+                                  width: width/9.106666666666667,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -589,8 +591,8 @@ class _ProductTabState extends State<ProductTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 130 + products.length * 60
-                              ? 130 + products.length * 60
+                          height: size.height * 0.7 > height/5.007692307692308 + products.length * 60
+                              ? height/5.007692307692308 + products.length * 60
                               : size.height * 0.7,
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -610,7 +612,7 @@ class _ProductTabState extends State<ProductTab> {
                                       generateProductPdf(PdfPageFormat.letter, products,false);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
@@ -633,7 +635,7 @@ class _ProductTabState extends State<ProductTab> {
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -643,13 +645,13 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(products);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
@@ -672,7 +674,7 @@ class _ProductTabState extends State<ProductTab> {
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -682,14 +684,14 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () async {
                                       var data = await generateProductPdf(PdfPageFormat.letter, products,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
@@ -712,7 +714,7 @@ class _ProductTabState extends State<ProductTab> {
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -722,13 +724,13 @@ class _ProductTabState extends State<ProductTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(products);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
@@ -752,7 +754,7 @@ class _ProductTabState extends State<ProductTab> {
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -764,7 +766,7 @@ class _ProductTabState extends State<ProductTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: height/21.7),
                               SizedBox(
                                 child: Padding(
                                   padding: const EdgeInsets.all(3.0),
@@ -773,71 +775,71 @@ class _ProductTabState extends State<ProductTab> {
                                     MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                        width: 80,
+                                        width: width/17.075,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 100,
+                                        width: width/13.66,
                                         child: KText(
                                           text: "Photo",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width: width/8.035294117647059,
                                         child: KText(
                                           text: "Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width: width/9.106666666666667,
                                         child: KText(
                                           text: "Price",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width: width/8.035294117647059,
                                         child: KText(
                                           text: "Categories",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 150,
+                                        width: width/9.106666666666667,
                                         child: KText(
                                           text: "Tags",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize:  width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 180,
+                                        width: width/7.588888888888889,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -851,7 +853,7 @@ class _ProductTabState extends State<ProductTab> {
                                   itemCount: products.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
                                       decoration: const BoxDecoration(
                                         color: Colors.white,
@@ -873,17 +875,17 @@ class _ProductTabState extends State<ProductTab> {
                                           MainAxisAlignment.spaceEvenly,
                                           children: [
                                             SizedBox(
-                                              width: 80,
+                                              width: width/17.075,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.66,
                                               child: Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -896,48 +898,48 @@ class _ProductTabState extends State<ProductTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width: width/8.035294117647059,
                                               child: KText(
                                                 text:
                                                 products[i].title!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width: width/9.106666666666667,
                                               child: KText(
                                                 text: products[i].price!.toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 170,
+                                              width: width/8.035294117647059,
                                               child: KText(
                                                 text: products[i].categories!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width: width/9.106666666666667,
                                               child: KText(
                                                 text: products[i].tags!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                                width: 180,
+                                                width: width/7.588888888888889,
                                                 child: Row(
                                                   children: [
                                                     InkWell(
@@ -945,7 +947,7 @@ class _ProductTabState extends State<ProductTab> {
                                                         viewPopup(products[i]);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height: height/26.04,
                                                         decoration:
                                                         const BoxDecoration(
                                                           color:
@@ -972,12 +974,12 @@ class _ProductTabState extends State<ProductTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons
                                                                       .remove_red_eye,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                  size: width/91.06666666666667,
                                                                 ),
                                                                 KText(
                                                                   text: "View",
@@ -986,7 +988,7 @@ class _ProductTabState extends State<ProductTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                    10,
+                                                                    width/136.6,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -1013,7 +1015,7 @@ class _ProductTabState extends State<ProductTab> {
                                                         editPopUp(products[i], size);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height: height/26.04,
                                                         decoration:
                                                         const BoxDecoration(
                                                           color:
@@ -1040,11 +1042,11 @@ class _ProductTabState extends State<ProductTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons.add,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                  size: width/91.06666666666667,
                                                                 ),
                                                                 KText(
                                                                   text: "Edit",
@@ -1053,7 +1055,7 @@ class _ProductTabState extends State<ProductTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                    10,
+                                                                    width/136.6,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -1084,7 +1086,7 @@ class _ProductTabState extends State<ProductTab> {
                                                         );
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height: height/26.04,
                                                         decoration:
                                                         const BoxDecoration(
                                                           color:
@@ -1111,12 +1113,12 @@ class _ProductTabState extends State<ProductTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons
                                                                       .cancel_outlined,
                                                                   color: Colors
                                                                       .white,
-                                                                  size: 15,
+                                                                  size: width/91.06666666666667,
                                                                 ),
                                                                 KText(
                                                                   text:
@@ -1126,7 +1128,7 @@ class _ProductTabState extends State<ProductTab> {
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize:
-                                                                    10,
+                                                                    width/136.6,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -1165,6 +1167,8 @@ class _ProductTabState extends State<ProductTab> {
 
   viewPopup(ProductModel product) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1200,7 +1204,7 @@ class _ProductTabState extends State<ProductTab> {
                             Text(
                               product.title!,
                               style: GoogleFonts.openSans(
-                                fontSize: 20,
+                                fontSize: width/68.3,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -1209,7 +1213,7 @@ class _ProductTabState extends State<ProductTab> {
                                 Navigator.pop(context);
                               },
                               child: Container(
-                                height: 40,
+                                height: height/16.275,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
@@ -1228,7 +1232,7 @@ class _ProductTabState extends State<ProductTab> {
                                     child: KText(
                                       text: "CLOSE",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 16,
+                                        fontSize: width/85.375,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1272,149 +1276,149 @@ class _ProductTabState extends State<ProductTab> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                       Row(
                                         children: [
                                           SizedBox(
                                             width: size.width * 0.15,
-                                            child: const KText(
+                                            child: KText(
                                               text: "Title",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 16
+                                                  fontSize: width/85.375
                                               ),
                                             ),
                                           ),
                                           const Text(":"),
-                                          const SizedBox(width: 20),
+                                          SizedBox(width: width/68.3),
                                           KText(
                                             text: product.title!,
-                                            style: const TextStyle(
-                                                fontSize: 14
+                                            style:  TextStyle(
+                                                fontSize: width/97.57142857142857
                                             ),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                       Row(
                                         children: [
                                           SizedBox(
                                             width: size.width * 0.15,
-                                            child: const KText(
+                                            child:  KText(
                                               text: "Price",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 16
+                                                  fontSize: width/85.375
                                               ),
                                             ),
                                           ),
                                           const Text(":"),
-                                          const SizedBox(width: 20),
+                                          SizedBox(width: width/68.3),
                                           KText(
                                             text: product.price!.toString(),
-                                            style: const TextStyle(
-                                                fontSize: 14
+                                            style:  TextStyle(
+                                                fontSize: width/97.57142857142857
                                             ),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                       Row(
                                         children: [
                                           SizedBox(
                                             width: size.width * 0.15,
-                                            child: const KText(
+                                            child:  KText(
                                               text: "Categories",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 16
+                                                  fontSize: width/85.375
                                               ),
                                             ),
                                           ),
                                           const Text(":"),
-                                          const SizedBox(width: 20),
+                                          SizedBox(width: width/68.3),
                                           KText(
                                             text: product.categories!,
-                                            style: const TextStyle(
-                                                fontSize: 14
+                                            style:  TextStyle(
+                                                fontSize: width/97.57142857142857
                                             ),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                       Row(
                                         children: [
                                           SizedBox(
                                             width: size.width * 0.15,
-                                            child: const KText(
+                                            child:  KText(
                                               text: "Tags",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 16
+                                                  fontSize: width/85.375
                                               ),
                                             ),
                                           ),
                                           const Text(":"),
-                                          const SizedBox(width: 20),
+                                          SizedBox(width: width/68.3),
                                           KText(
                                             text: product.tags!,
-                                            style: const TextStyle(
-                                                fontSize: 14
+                                            style:  TextStyle(
+                                                fontSize: width/97.57142857142857
                                             ),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                       Row(
                                         children: [
                                           SizedBox(
                                             width: size.width * 0.15,
-                                            child: const KText(
+                                            child:  KText(
                                               text: "Sale",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 16
+                                                  fontSize: width/85.375
                                               ),
                                             ),
                                           ),
                                           const Text(":"),
-                                          const SizedBox(width: 20),
+                                          SizedBox(width: width/68.3),
                                           KText(
                                             text: product.sale!,
-                                            style: const TextStyle(
-                                                fontSize: 14
+                                            style: TextStyle(
+                                                fontSize: width/97.57142857142857
                                             ),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             width: size.width * 0.15,
-                                            child: const KText(
+                                            child: KText(
                                               text: "Description",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 16
+                                                  fontSize: width/85.375
                                               ),
                                             ),
                                           ),
                                           const Text(":"),
-                                          const SizedBox(width: 20),
+                                          SizedBox(width: width/68.3),
                                           SizedBox(
                                             width: size.width * 0.3,
                                             child: KText(
                                               text: product.description!,
-                                              style: const TextStyle(
-                                                  fontSize: 14
+                                              style: TextStyle(
+                                                  fontSize: width/97.57142857142857
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: height/32.55),
                                     ],
                                   ),
                                 ),
@@ -1435,6 +1439,8 @@ class _ProductTabState extends State<ProductTab> {
   }
 
   editPopUp(ProductModel product, Size size) {
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1442,7 +1448,7 @@ class _ProductTabState extends State<ProductTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             height: size.height * 1.2,
-            width: 1100,
+            width: width/1.241818181818182,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
@@ -1470,7 +1476,7 @@ class _ProductTabState extends State<ProductTab> {
                         KText(
                           text: "EDIT PRODUCT",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1512,8 +1518,8 @@ class _ProductTabState extends State<ProductTab> {
                         children: [
                           Center(
                             child: Container(
-                              height: 170,
-                              width: 350,
+                              height: height/3.829411764705882,
+                              width: width/3.902857142857143,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Constants().primaryAppColor,
@@ -1534,32 +1540,32 @@ class _ProductTabState extends State<ProductTab> {
                                   )
                                       : null),
                               child: selectedImg == null
-                                  ? const Center(
+                                  ?  Center(
                                 child: Icon(
                                   Icons.cloud_upload,
-                                  size: 160,
+                                  size: width/8.5375,
                                   color: Colors.grey,
                                 ),
                               )
                                   : null,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                           SizedBox(height: height/32.55),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   width: size.width * 0.25,
                                   color: Constants().primaryAppColor,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
                                           color: Colors.white),
-                                      SizedBox(width: 10),
+                                      SizedBox(width: width/136.6),
                                       KText(
                                         text: 'Select Product Photo',
                                         style: TextStyle(color: Colors.white),
@@ -1568,19 +1574,19 @@ class _ProductTabState extends State<ProductTab> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 50),
+                              SizedBox(width: width/27.32),
                               Container(
-                                height: 35,
+                                height: height/18.6,
                                 width: size.width * 0.25,
                                 color: Constants().primaryAppColor,
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.crop,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: width/136.6),
                                     KText(
                                       text: 'Disable Crop',
                                       style: TextStyle(color: Colors.white),
@@ -1590,11 +1596,11 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1602,20 +1608,20 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Title",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: titleController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1623,7 +1629,7 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Price",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1631,15 +1637,15 @@ class _ProductTabState extends State<ProductTab> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                       ],
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: priceController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width:width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1647,12 +1653,12 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Categories",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: categoriesController,
                                     )
                                   ],
@@ -1660,11 +1666,11 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             children: [
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1672,20 +1678,20 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Tags",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: tagsController,
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 20),
+                              SizedBox(width: width/68.3),
                               SizedBox(
-                                width: 300,
+                                width: width/4.553333333333333,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1693,12 +1699,12 @@ class _ProductTabState extends State<ProductTab> {
                                       text: "Sale",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize:  width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextFormField(
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: saleController,
                                     )
                                   ],
@@ -1706,7 +1712,7 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1714,7 +1720,7 @@ class _ProductTabState extends State<ProductTab> {
                                 text: "Description",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize:  width/105.0769230769231,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1736,8 +1742,8 @@ class _ProductTabState extends State<ProductTab> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: height/32.55,
                                       width: double.infinity,
                                     ),
                                     Expanded(
@@ -1748,7 +1754,7 @@ class _ProductTabState extends State<ProductTab> {
                                           ),
                                           child: TextFormField(
                                             style:
-                                            const TextStyle(fontSize: 12),
+                                            TextStyle(fontSize: width/113.8333333333333),
                                             controller: descriptionController,
                                             decoration: const InputDecoration(
                                                 border: InputBorder.none,
@@ -1762,7 +1768,7 @@ class _ProductTabState extends State<ProductTab> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: height/21.7),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -1825,7 +1831,7 @@ class _ProductTabState extends State<ProductTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: 35,
+                                  height: height/18.6,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1845,7 +1851,7 @@ class _ProductTabState extends State<ProductTab> {
                                         text: "Update",
                                         style: GoogleFonts.openSans(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),

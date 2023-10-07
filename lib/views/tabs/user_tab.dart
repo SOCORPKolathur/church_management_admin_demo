@@ -862,6 +862,9 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                      ],
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: localityController,
                                     )

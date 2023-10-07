@@ -1133,7 +1133,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search Pincode',
+                                      hintText: 'Search',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),

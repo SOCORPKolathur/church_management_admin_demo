@@ -42,6 +42,8 @@ class _OrdersTabState extends State<OrdersTab>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -53,7 +55,7 @@ class _OrdersTabState extends State<OrdersTab>
               child: KText(
                 text: "ORDERS",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.53846153846154,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -87,7 +89,7 @@ class _OrdersTabState extends State<OrdersTab>
                     }
                   });
                   return Container(
-                    width: 1100,
+                    width: width/1.241818181818182,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
@@ -115,7 +117,7 @@ class _OrdersTabState extends State<OrdersTab>
                                 KText(
                                   text: "All Orders (${orders.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -125,7 +127,7 @@ class _OrdersTabState extends State<OrdersTab>
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          height: 60,
+                          height: height/10.85,
                           width: double.infinity,
                           child: TabBar(
                             onTap: (int index) {
@@ -155,7 +157,7 @@ class _OrdersTabState extends State<OrdersTab>
                                       color: currentTabIndex == 0
                                           ? Colors.white
                                           : Colors.black,
-                                      fontSize: 14,
+                                      fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -171,7 +173,7 @@ class _OrdersTabState extends State<OrdersTab>
                                       color: currentTabIndex == 1
                                           ? Colors.white
                                           : Colors.black,
-                                      fontSize: 14,
+                                      fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -187,7 +189,7 @@ class _OrdersTabState extends State<OrdersTab>
                                       color: currentTabIndex == 2
                                           ? Colors.white
                                           : Colors.black,
-                                      fontSize: 14,
+                                      fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -197,7 +199,7 @@ class _OrdersTabState extends State<OrdersTab>
                           ),
                         ),
                         SizedBox(
-                          height: orders.isNotEmpty ? orders.length * 200 : 200,
+                          height: orders.isNotEmpty ? orders.length * height/3.255 : height/3.255,
                           width: double.infinity,
                           child: TabBarView(
                             dragStartBehavior:DragStartBehavior.down,
@@ -224,6 +226,8 @@ class _OrdersTabState extends State<OrdersTab>
 
   Widget tabViewWidget(List<OrdersModel> orders, bool isNewBooking) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -240,81 +244,81 @@ class _OrdersTabState extends State<OrdersTab>
               child: Row(
                 children: [
                   SizedBox(
-                    width: 35,
+                    width: width/39.02857142857143,
                     child: KText(
                       text: "SL.",
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 90,
+                    width: width/15.17777777777778,
                     child: KText(
                       text: "Username",
                       style: GoogleFonts.poppins(
-                        fontSize: 12,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 130,
+                    width: width/10.50769230769231,
                     child: KText(
                       text: "OrderID",
                       style: GoogleFonts.poppins(
-                        fontSize: 12,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 150,
+                    width: width/9.106666666666667,
                     child: KText(
                       text: "Amount",
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 150,
+                    width: width/9.106666666666667,
                     child: KText(
                       text: "Method",
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 150,
+                    width: width/9.106666666666667,
                     child: KText(
                       text: "phone",
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 150,
+                    width: width/9.106666666666667,
                     child: KText(
                       text: "Address",
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 150,
+                    width: width/9.106666666666667,
                     child: KText(
                       text: "Actions",
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -323,13 +327,13 @@ class _OrdersTabState extends State<OrdersTab>
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: height/65.1),
           Expanded(
             child: ListView.builder(
                 itemCount: orders.length,
                 itemBuilder: (ctx, i) {
                   return Container(
-                    height: 60,
+                    height: height/10.85,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -349,77 +353,77 @@ class _OrdersTabState extends State<OrdersTab>
                       child: Row(
                         children: [
                           SizedBox(
-                            width: 35,
+                            width: width/39.02857142857143,
                             child: KText(
                               text: (i + 1).toString(),
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 90,
+                            width: width/15.17777777777778,
                             child: KText(
                               text: orders[i].userName!,
                               style: GoogleFonts.poppins(
-                                fontSize: 12,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 130,
+                            width: width/10.50769230769231,
                             child: KText(
                               text: orders[i].orderId!,
                               style: GoogleFonts.poppins(
-                                fontSize: 12,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 150,
+                            width: width/9.106666666666667,
                             child: KText(
                               text: orders[i].amount!.toString(),
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 150,
+                            width: width/9.106666666666667,
                             child: KText(
                               text: orders[i].method!,
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 150,
+                            width: width/9.106666666666667,
                             child: KText(
                               text: orders[i].phone!,
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 150,
+                            width: width/9.106666666666667,
                             child: KText(
                               text: orders[i].address!,
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           SizedBox(
-                              width: 150,
+                              width: width/9.106666666666667,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -428,7 +432,7 @@ class _OrdersTabState extends State<OrdersTab>
                                       viewProductsPopUp(orders[i].products);
                                     },
                                     child: Container(
-                                      height: 25,
+                                      height: height/26.04,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff2baae4),
                                         boxShadow: [
@@ -447,16 +451,16 @@ class _OrdersTabState extends State<OrdersTab>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 Icons.remove_red_eye,
                                                 color: Colors.white,
-                                                size: 15,
+                                                size: width/91.06666666666667,
                                               ),
                                               KText(
                                                 text: "View Products",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 10,
+                                                  fontSize: width/136.6,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -498,7 +502,7 @@ class _OrdersTabState extends State<OrdersTab>
                                         }
                                       },
                                       child: Container(
-                                        height: 25,
+                                        height: height/26.04,
                                         decoration: const BoxDecoration(
                                           color: Color(0xffff9700),
                                           boxShadow: [
@@ -517,16 +521,16 @@ class _OrdersTabState extends State<OrdersTab>
                                               mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                const Icon(
+                                                Icon(
                                                   Icons.update,
                                                   color: Colors.white,
-                                                  size: 15,
+                                                  size: width/91.06666666666667,
                                                 ),
                                                 KText(
                                                   text: "Update",
                                                   style: GoogleFonts.openSans(
                                                     color: Colors.white,
-                                                    fontSize: 10,
+                                                    fontSize: width/136.6,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -552,6 +556,8 @@ class _OrdersTabState extends State<OrdersTab>
 
   updateOrderPopUp(OrdersModel order){
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -579,7 +585,7 @@ class _OrdersTabState extends State<OrdersTab>
                               child: KText(
                                 text: "Update Order Status",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
+                                  fontSize: width/85.375,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -604,20 +610,20 @@ class _OrdersTabState extends State<OrdersTab>
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "Order ID : ",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Text(
                                     order.orderId!,
                                     style: GoogleFonts.openSans(
-                                      fontSize: 14,
+                                      fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )
@@ -626,19 +632,19 @@ class _OrdersTabState extends State<OrdersTab>
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "Status",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 200,
+                                    height: height/16.275,
+                                    width: width/6.83,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -680,7 +686,7 @@ class _OrdersTabState extends State<OrdersTab>
                                       Navigator.pop(context,false);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
@@ -699,7 +705,7 @@ class _OrdersTabState extends State<OrdersTab>
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -707,13 +713,13 @@ class _OrdersTabState extends State<OrdersTab>
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width: width/273.2),
                                   InkWell(
                                     onTap: () {
                                       Navigator.pop(context,true);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
@@ -732,7 +738,7 @@ class _OrdersTabState extends State<OrdersTab>
                                           child: KText(
                                             text: "Apply",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -758,6 +764,8 @@ class _OrdersTabState extends State<OrdersTab>
 
   viewProductsPopUp(List<Products>? products) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -784,7 +792,7 @@ class _OrdersTabState extends State<OrdersTab>
                             child: KText(
                               text: "Products",
                               style: GoogleFonts.openSans(
-                                fontSize: 16,
+                                fontSize: width/85.375,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -796,7 +804,7 @@ class _OrdersTabState extends State<OrdersTab>
                                 Navigator.pop(context);
                               },
                               child: Container(
-                                height: 35,
+                                height: height/18.6,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
@@ -815,7 +823,7 @@ class _OrdersTabState extends State<OrdersTab>
                                     child: KText(
                                       text: "CLOSE",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 13,
+                                        fontSize: width/105.0769230769231,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -845,51 +853,51 @@ class _OrdersTabState extends State<OrdersTab>
                                 child: Row(
                                   children: [
                                     SizedBox(
-                                      width: 35,
+                                      width: width/39.02857142857143,
                                       child: KText(
                                         text: "SL.",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize: width/105.0769230769231,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 180,
+                                      width: width/7.588888888888889,
                                       child: KText(
                                         text: "Product Name",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 12,
+                                          fontSize: width/105.0769230769231,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 130,
+                                      width: width/10.50769230769231,
                                       child: KText(
                                         text: "Rate",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 12,
+                                          fontSize: width/105.0769230769231,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 150,
+                                      width: width/9.106666666666667,
                                       child: KText(
                                         text: "Qty",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize: width/105.0769230769231,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 150,
+                                      width: width/9.106666666666667,
                                       child: KText(
                                         text: "Value",
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize: width/105.0769230769231,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -898,13 +906,13 @@ class _OrdersTabState extends State<OrdersTab>
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: height/65.1),
                             Expanded(
                               child: ListView.builder(
                                 itemCount: products!.length,
                                 itemBuilder: (ctx, i) {
                                   return Container(
-                                    height: 60,
+                                    height: height/10.85,
                                     width: double.infinity,
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
@@ -924,55 +932,55 @@ class _OrdersTabState extends State<OrdersTab>
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 35,
+                                            width: width/39.02857142857143,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 180,
+                                            width: width/7.588888888888889,
                                             child: KText(
                                               text: products[i].name!,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 12,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 130,
+                                            width: width/10.50769230769231,
                                             child: KText(
                                               text: products[i].price!.toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 12,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106666666666667,
                                             child: KText(
                                               text: products[i]
                                                   .quantity!
                                                   .toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 150,
+                                            width: width/9.106666666666667,
                                             child: KText(
                                               text: (products[i].price! *
                                                       products[i].quantity!)
                                                   .toString(),
                                               style: GoogleFonts.poppins(
-                                                fontSize: 13,
+                                                fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -985,23 +993,23 @@ class _OrdersTabState extends State<OrdersTab>
                               ),
                             ),
                             SizedBox(
-                              height: 60,
+                              height: height/10.85,
                               width: double.infinity,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const KText(
+                                  KText(
                                     text: "Total : ",
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: width/75.88888888888889,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   Text(
                                     getTotalAmount(products),
-                                    style: const TextStyle(
-                                      fontSize: 18,
+                                    style: TextStyle(
+                                      fontSize: width/75.88888888888889,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )

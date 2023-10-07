@@ -55,6 +55,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -66,7 +68,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
               child: KText(
                 text: "ATTENDANCE RECORD",
                 style: GoogleFonts.openSans(
-                    fontSize: 26,
+                    fontSize: width/52.53846153846154,
                     fontWeight: FontWeight.w900,
                     color: Colors.black),
               ),
@@ -86,8 +88,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                   }
                 },
                 child: Container(
-                height: 35,
-                width: 200,
+                  height: height/18.6,
+                  width: width/6.83,
                 decoration: BoxDecoration(
                   color: Constants().primaryAppColor,
                   borderRadius:
@@ -126,7 +128,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                           ));
                         });
                         return Container(
-                          width: 1100,
+                          width: width/1.241818181818182,
                           margin: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: Constants().primaryAppColor,
@@ -155,7 +157,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       KText(
                                         text: "Mark Today's Attendance",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 20,
+                                          fontSize: width/68.3,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -166,8 +168,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           });
                                         },
                                         child: Container(
-                                          height: 35,
-                                          width: 80,
+                                          height: height/18.6,
+                                          width: width/17.075,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -192,10 +194,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                 ),
                               ),
                               Container(
-                                height: size.height * 0.7 >
-                                        70 + attendanceList.length * 60
-                                    ? 115 + attendanceList.length * 60
-                                    : size.height * 0.7,
+                                height: size.height * 0.7,
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
@@ -213,31 +212,31 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         child: Row(
                                           children: [
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.66,
                                               child: KText(
                                                 text: "No.",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 480,
+                                              width: width/2.845833333333333,
                                               child: KText(
                                                 text: "Name",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 12,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width: width/9.106666666666667,
                                               child: KText(
                                                 text: "Actions",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -246,7 +245,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: height/65.1),
                                     Expanded(
                                       child: ListView.builder(
                                         itemCount: attendanceList.length,
@@ -272,18 +271,18 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                  width: 100,
+                                                  width: width/13.66,
                                                   child: KText(
                                                     text: (i + 1).toString(),
                                                     style: GoogleFonts.poppins(
-                                                      fontSize: 13,
+                                                      fontSize: width/105.0769230769231,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 480,
+                                                  width: width/2.845833333333333,
                                                   child: KText(
                                                     text: attendanceList[i]
                                                         .student!,
@@ -316,7 +315,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         },
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: height/65.1),
                                     SizedBox(
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0),
@@ -362,8 +361,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                 }
                                               },
                                               child: Container(
-                                                height: 35,
-                                                width: 80,
+                                                height: height/18.6,
+                                                width: width/17.075,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
@@ -375,7 +374,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                     text: "Submit",
                                                     style: GoogleFonts.poppins(
                                                       color: Colors.white,
-                                                      fontSize: 13,
+                                                      fontSize: width/105.0769230769231,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -412,7 +411,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                           }
                         });
                         return Container(
-                          width: 1100,
+                          width: width/1.241818181818182,
                           margin: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: Constants().primaryAppColor,
@@ -439,7 +438,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       KText(
                                         text: "Attendance Records",
                                         style: GoogleFonts.openSans(
-                                          fontSize: 20,
+                                          fontSize: width/68.3,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -449,8 +448,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(10),
                                         child: Container(
-                                          height: 35,
-                                          width: 200,
+                                            height: height/18.6,
+                                            width: width/6.83,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -477,7 +476,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           )
                                         ),
                                       ),
-                                      const SizedBox(width: 10),
+                                      SizedBox(width: width/136.6),
                                       isFiltered ? InkWell(
                                         onTap: () {
                                             setState(() {
@@ -487,7 +486,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             });
                                         },
                                         child: Container(
-                                          height: 40,
+                                          height: height/16.275,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(8),
@@ -506,7 +505,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               child: KText(
                                                 text: "Clear Filter",
                                                 style: GoogleFonts.openSans(
-                                                  fontSize: 14,
+                                                  fontSize: width/97.57142857142857,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -523,7 +522,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           }
                                         },
                                         child: Container(
-                                          height: 40,
+                                          height: height/16.275,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(8),
@@ -542,7 +541,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               child: KText(
                                                 text: "Filter by Range",
                                                 style: GoogleFonts.openSans(
-                                                  fontSize: 14,
+                                                  fontSize: width/97.57142857142857,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -550,13 +549,13 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 10),
+                                      SizedBox(width: width/136.6),
                                     ],
                                   ),
                                 ),
                               ),
                               attendances1.isEmpty ? Container(
-                                height: 130,
+                                height: height/5.007692307692308,
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,

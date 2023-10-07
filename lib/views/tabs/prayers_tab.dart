@@ -67,23 +67,26 @@ class _PrayersTabState extends State<PrayersTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(width/170.75),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(width/170.75),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
                     text: "PRAYERS",
                     style: GoogleFonts.openSans(
-                        fontSize: 26,
+                        fontSize: size.width/52.53846153846154,
                         fontWeight: FontWeight.w900,
-                        color: Colors.black),
+                        color: Colors.black,
+                    ),
                   ),
                   InkWell(
                       onTap:(){
@@ -95,14 +98,13 @@ class _PrayersTabState extends State<PrayersTab> {
                           setState(() {
                             currentTab = 'View';
                           });
-                          //clearTextControllers();
                         }
                       },
                       child: Container(
-                        height: 35,
+                        height: height/18.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(width/170.75),
                           boxShadow: const [
                             BoxShadow(
                               color: Colors.black26,
@@ -112,13 +114,12 @@ class _PrayersTabState extends State<PrayersTab> {
                           ],
                         ),
                         child: Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 6),
+                          padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                           child: Center(
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Prayer" : "View Prayers",
                               style: GoogleFonts.openSans(
-                                fontSize: 13,
+                                fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -131,8 +132,8 @@ class _PrayersTabState extends State<PrayersTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              width: 1100,
-              margin: const EdgeInsets.all(20),
+              width: width/1.241818181818182,
+              margin: EdgeInsets.all(width/68.3),
               decoration: BoxDecoration(
                 color: Constants().primaryAppColor,
                 boxShadow: const [
@@ -142,7 +143,7 @@ class _PrayersTabState extends State<PrayersTab> {
                     blurRadius: 3,
                   ),
                 ],
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(width/136.6),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,15 +152,14 @@ class _PrayersTabState extends State<PrayersTab> {
                     height: size.height * 0.1,
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
                             text: "ADD REQUEST",
                             style: GoogleFonts.openSans(
-                              fontSize: 20,
+                              fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -203,10 +203,10 @@ class _PrayersTabState extends State<PrayersTab> {
                               }
                             },
                             child: Container(
-                              height: 40,
+                              height: height/16.275,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(width/170.75),
                                 boxShadow: const [
                                   BoxShadow(
                                     color: Colors.black26,
@@ -216,13 +216,12 @@ class _PrayersTabState extends State<PrayersTab> {
                                 ],
                               ),
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
+                                padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                                 child: Center(
                                   child: KText(
                                     text: "ADD NOW",
                                     style: GoogleFonts.openSans(
-                                      fontSize: 16,
+                                      fontSize: width/85.375,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -237,13 +236,13 @@ class _PrayersTabState extends State<PrayersTab> {
                   Container(
                     height: size.height * 0.55,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
-                        color: Color(0xffF7FAFC),
+                    decoration: BoxDecoration(
+                        color: const Color(0xffF7FAFC),
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(width/136.6),
+                          bottomRight: Radius.circular(width/136.6),
                         )),
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(width/68.3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -255,21 +254,24 @@ class _PrayersTabState extends State<PrayersTab> {
                                 KText(
                                   text: "Date *",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57142857142857,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(width/273.2),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 40,
-                                    width: 150,
+                                    height: height/16.275,
+                                    width: width/9.106666666666667,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(width/170.75),
                                       child: TextFormField(
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
                                         controller: dateController,
                                         onTap: () async {
                                           DateTime? pickedDate =
@@ -290,27 +292,27 @@ class _PrayersTabState extends State<PrayersTab> {
                                 )
                               ],
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: width/68.3),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
                                   text: "Time *",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57142857142857,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(width/273.2),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 40,
-                                    width: 150,
+                                    height: height/16.275,
+                                    width: width/9.106666666666667,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(width/170.75),
                                       child: TextFormField(
                                         onTap: (){
                                           _selectTime(context);
@@ -319,7 +321,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                           ),
                                         ),
                                       ),
@@ -330,34 +332,34 @@ class _PrayersTabState extends State<PrayersTab> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: height/65.1),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
                               text: "Title *",
                               style: GoogleFonts.openSans(
-                                fontSize: 14,
+                                fontSize: width/97.5714285714285,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: height/108.5),
                             Material(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(width/273.2),
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 50,
-                                width: 250,
+                                height: height/13.02,
+                                width: width/5.464,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(width/170.75),
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                                      contentPadding: EdgeInsets.symmetric(vertical: height/130.2),
                                       border: InputBorder.none,
                                       hintStyle: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                       ),
                                     ),
                                   ),
@@ -366,7 +368,7 @@ class _PrayersTabState extends State<PrayersTab> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: height/65.1),
                         Row(
                           children: [
                             Column(
@@ -375,20 +377,20 @@ class _PrayersTabState extends State<PrayersTab> {
                                 KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57142857142857,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 100,
+                                    height: height/6.51,
                                     width: size.width * 0.36,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(width/170.75),
                                       child: TextFormField(
                                         keyboardType: TextInputType.multiline,
                                         minLines: 1,
@@ -397,7 +399,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                           ),
                                         ),
                                       ),
@@ -422,8 +424,8 @@ class _PrayersTabState extends State<PrayersTab> {
                 } else if (snapshot.hasData) {
                   List<PrayersModel> prayers = snapshot.data!;
                   return Container(
-                    width: 1100,
-                    margin: const EdgeInsets.all(20),
+                    width: width/1.241818181818182,
+                    margin: EdgeInsets.all(width/68.3),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
                       boxShadow: const [
@@ -433,7 +435,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           blurRadius: 3,
                         ),
                       ],
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(width/136.6),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -442,15 +444,14 @@ class _PrayersTabState extends State<PrayersTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "All Requests (${prayers.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -463,10 +464,10 @@ class _PrayersTabState extends State<PrayersTab> {
                                     });
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(width/170.75),
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Colors.black26,
@@ -476,13 +477,12 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ],
                                     ),
                                     child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                                       child: Center(
                                         child: KText(
                                           text: "Clear Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -497,13 +497,13 @@ class _PrayersTabState extends State<PrayersTab> {
                         Container(
                           height: size.height * 0.7 > 130 + prayers.length * 60 ? 130 + prayers.length * 60 : size.height * 0.7,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(width/136.6),
+                                bottomRight: Radius.circular(width/136.6),
                               )),
-                          padding: const EdgeInsets.all(20),
+                          padding: EdgeInsets.all(width/68.3),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -514,7 +514,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                       generatePrayerPdf(PdfPageFormat.letter, prayers,false);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
@@ -526,8 +526,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                                         child: Center(
                                           child: Row(
                                             children: [
@@ -537,7 +536,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -547,13 +546,13 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(prayers);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
@@ -565,8 +564,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                                         child: Center(
                                           child: Row(
                                             children: [
@@ -576,7 +574,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -586,14 +584,14 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: ()  async {
                                       var data = await generatePrayerPdf(PdfPageFormat.letter, prayers,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
@@ -605,8 +603,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(horizontal: height/227.6666666666667),
                                         child: Center(
                                           child: Row(
                                             children: [
@@ -616,7 +613,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -626,13 +623,13 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(prayers);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
@@ -644,8 +641,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                                         child: Center(
                                           child: Row(
                                             children: [
@@ -656,7 +652,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -668,59 +664,59 @@ class _PrayersTabState extends State<PrayersTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: height/21.7),
                               SizedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
+                                  padding: EdgeInsets.all(width/455.3333333333333),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: 100,
+                                        width: width/13.66,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.83,
                                         child: KText(
                                           text: "Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.83,
                                         child: KText(
                                           text: "Date",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width: width/5.464,
                                         child: KText(
                                           text: "Description",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width: width/5.464,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -734,7 +730,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                   itemCount: prayers.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
                                       decoration: const BoxDecoration(
                                         color: Colors.white,
@@ -750,53 +746,53 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                                        padding: EdgeInsets.all(width/273.2),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.66,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 200,
+                                              width: width/6.83,
                                               child: KText(
                                                 text: prayers[i].title!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 200,
+                                              width: width/6.83,
                                               child: KText(
                                                 text: prayers[i].date!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 250,
+                                              width: width/5.464,
                                               child: KText(
                                                 text: prayers[i].description!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 250,
+                                              width: width/5.464,
                                               child: Row(
                                                 children: [
                                                   InkWell(
@@ -808,7 +804,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                       editPopUp(prayers[i],size);
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration: const BoxDecoration(
                                                         color: Color(0xffff9700),
                                                         boxShadow: [
@@ -820,22 +816,21 @@ class _PrayersTabState extends State<PrayersTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 6),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                 Icons.add,
                                                                 color: Colors.white,
-                                                                size: 15,
+                                                                size: width/91.06666666666667,
                                                               ),
                                                               KText(
                                                                 text: "Edit",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -845,7 +840,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 5),
+                                                  SizedBox(width: width/273.2),
                                                   InkWell(
                                                     onTap: () {
                                                       CoolAlert.show(
@@ -864,7 +859,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                       );
                                                     },
                                                     child: Container(
-                                                      height: 25,
+                                                      height: height/26.04,
                                                       decoration: const BoxDecoration(
                                                         color: Color(0xfff44236),
                                                         boxShadow: [
@@ -876,22 +871,21 @@ class _PrayersTabState extends State<PrayersTab> {
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                            horizontal: 6),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 6),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                             children: [
-                                                              const Icon(
+                                                              Icon(
                                                                   Icons.cancel_outlined,
                                                                   color: Colors.white,
-                                                                size: 15,
+                                                                size: width/91.06666666666667,
                                                               ),
                                                               KText(
                                                                 text: "Delete",
                                                                 style: GoogleFonts.openSans(
                                                                   color: Colors.white,
-                                                                  fontSize: 10,
+                                                                  fontSize: width/136.6,
                                                                   fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
@@ -928,7 +922,7 @@ class _PrayersTabState extends State<PrayersTab> {
                 } else if (snapshot.hasData) {
                   List<PrayersModel> prayers = snapshot.data!;
                   return Container(
-                    width: 1100,
+                    width: width/1.241818181818182,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
@@ -948,15 +942,14 @@ class _PrayersTabState extends State<PrayersTab> {
                           height: size.height * 0.1,
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
                                   text: "All Requests (${prayers.length})",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 20,
+                                    fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -970,7 +963,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                     }
                                   },
                                   child: Container(
-                                    height: 40,
+                                    height: height/16.275,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
@@ -989,7 +982,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         child: KText(
                                           text: "Filter",
                                           style: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1021,7 +1014,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                       generatePrayerPdf(PdfPageFormat.letter, prayers,false);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xfffe5722),
                                         boxShadow: [
@@ -1033,8 +1026,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: const EdgeInsets.symmetric(horizontal: 6),
                                         child: Center(
                                           child: Row(
                                             children: [
@@ -1044,7 +1036,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1054,13 +1046,13 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       copyToClipBoard(prayers);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xffff9700),
                                         boxShadow: [
@@ -1083,7 +1075,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1093,14 +1085,14 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: ()  async {
                                       var data = await generatePrayerPdf(PdfPageFormat.letter, prayers,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff9b28b0),
                                         boxShadow: [
@@ -1123,7 +1115,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1133,13 +1125,13 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
                                       convertToCsv(prayers);
                                     },
                                     child: Container(
-                                      height: 35,
+                                      height: height/18.6,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff019688),
                                         boxShadow: [
@@ -1151,8 +1143,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         ],
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
+                                        padding: const EdgeInsets.symmetric(horizontal: 6),
                                         child: Center(
                                           child: Row(
                                             children: [
@@ -1163,7 +1154,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1175,7 +1166,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: height/21.7),
                               SizedBox(
                                 child: Padding(
                                   padding: const EdgeInsets.all(3.0),
@@ -1183,51 +1174,51 @@ class _PrayersTabState extends State<PrayersTab> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: 100,
+                                        width: width/13.66,
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.83,
                                         child: KText(
                                           text: "Title",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: width/6.83,
                                         child: KText(
                                           text: "Date",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width: width/5.464,
                                         child: KText(
                                           text: "Description",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width: width/5.464,
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize: 13,
+                                            fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1241,7 +1232,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                   itemCount: prayers.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
-                                      height: 60,
+                                      height: height/10.85,
                                       width: double.infinity,
                                       decoration: const BoxDecoration(
                                         color: Colors.white,
@@ -1263,47 +1254,47 @@ class _PrayersTabState extends State<PrayersTab> {
                                           MainAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.66,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 200,
+                                              width: width/6.83,
                                               child: KText(
                                                 text: prayers[i].title!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 200,
+                                              width: width/6.83,
                                               child: KText(
                                                 text: prayers[i].date!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 250,
+                                              width: width/5.464,
                                               child: KText(
                                                 text: prayers[i].description!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                                width: 250,
+                                                width: width/5.464,
                                                 child: Row(
                                                   children: [
                                                     InkWell(
@@ -1315,7 +1306,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                         editPopUp(prayers[i],size);
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height: height/26.04,
                                                         decoration: const BoxDecoration(
                                                           color: Color(0xffff9700),
                                                           boxShadow: [
@@ -1327,22 +1318,21 @@ class _PrayersTabState extends State<PrayersTab> {
                                                           ],
                                                         ),
                                                         child: Padding(
-                                                          padding: const EdgeInsets.symmetric(
-                                                              horizontal: 6),
+                                                          padding: const EdgeInsets.symmetric(horizontal: 6),
                                                           child: Center(
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons.add,
                                                                   color: Colors.white,
-                                                                  size: 15,
+                                                                  size: width/91.06666666666667,
                                                                 ),
                                                                 KText(
                                                                   text: "Edit",
                                                                   style: GoogleFonts.openSans(
                                                                     color: Colors.white,
-                                                                    fontSize: 10,
+                                                                    fontSize: width/136.6,
                                                                     fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
@@ -1352,7 +1342,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
+                                                    SizedBox(width: width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         CoolAlert.show(
@@ -1371,7 +1361,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                                         );
                                                       },
                                                       child: Container(
-                                                        height: 25,
+                                                        height: height/26.04,
                                                         decoration: const BoxDecoration(
                                                           color: Color(0xfff44236),
                                                           boxShadow: [
@@ -1389,16 +1379,16 @@ class _PrayersTabState extends State<PrayersTab> {
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                               children: [
-                                                                const Icon(
+                                                                Icon(
                                                                   Icons.cancel_outlined,
                                                                   color: Colors.white,
-                                                                  size: 15,
+                                                                  size: width/91.06666666666667,
                                                                 ),
                                                                 KText(
                                                                   text: "Delete",
                                                                   style: GoogleFonts.openSans(
                                                                     color: Colors.white,
-                                                                    fontSize: 10,
+                                                                    fontSize: width/136.6,
                                                                     fontWeight: FontWeight.bold,
                                                                   ),
                                                                 ),
@@ -1435,6 +1425,8 @@ class _PrayersTabState extends State<PrayersTab> {
   }
 
   editPopUp(PrayersModel prayer, Size size) {
+    double width = size.width;
+    double height = size.height;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1442,7 +1434,7 @@ class _PrayersTabState extends State<PrayersTab> {
           backgroundColor: Colors.transparent,
           content: Container(
             height: size.height * 0.55,
-            width: 1100,
+            width: width/1.241818181818182,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Constants().primaryAppColor,
@@ -1470,7 +1462,7 @@ class _PrayersTabState extends State<PrayersTab> {
                         KText(
                           text: "EDIT PRAYER",
                           style: GoogleFonts.openSans(
-                            fontSize: 20,
+                            fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1522,7 +1514,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                 }
                               },
                               child: Container(
-                                height: 40,
+                                height: height/16.275,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
@@ -1541,7 +1533,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                     child: KText(
                                       text: "Update",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 16,
+                                        fontSize: width/85.375,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1549,7 +1541,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            SizedBox(width: width/136.6),
                             InkWell(
                               onTap: () async {
                                  setState(() {
@@ -1559,7 +1551,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                  Navigator.pop(context);
                               },
                               child: Container(
-                                height: 40,
+                                height: height/16.275,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
@@ -1578,7 +1570,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                     child: KText(
                                       text: "CANCEL",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 16,
+                                        fontSize: width/85.375,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -1612,7 +1604,7 @@ class _PrayersTabState extends State<PrayersTab> {
                             KText(
                               text: "Title *",
                               style: GoogleFonts.openSans(
-                                fontSize: 14,
+                                fontSize: width/97.57142857142857,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -1622,8 +1614,8 @@ class _PrayersTabState extends State<PrayersTab> {
                               color: Colors.white,
                               elevation: 10,
                               child: SizedBox(
-                                height: 50,
-                                width: 250,
+                                height: height/13.02,
+                                width: width/5.464,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextFormField(
@@ -1632,7 +1624,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                       contentPadding: EdgeInsets.symmetric(vertical: 5),
                                       border: InputBorder.none,
                                       hintStyle: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                       ),
                                     ),
                                   ),
@@ -1641,7 +1633,7 @@ class _PrayersTabState extends State<PrayersTab> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: height/65.1),
                         Row(
                           children: [
                             Column(
@@ -1650,17 +1642,17 @@ class _PrayersTabState extends State<PrayersTab> {
                                 KText(
                                   text: "Description",
                                   style: GoogleFonts.openSans(
-                                    fontSize: 14,
+                                    fontSize: width/97.57142857142857,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
+                                SizedBox(height: height/108.5),
                                 Material(
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.white,
                                   elevation: 10,
                                   child: SizedBox(
-                                    height: 100,
+                                    height: height/6.51,
                                     width: size.width * 0.36,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -1672,7 +1664,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintStyle: GoogleFonts.openSans(
-                                            fontSize: 14,
+                                            fontSize: width/97.57142857142857,
                                           ),
                                         ),
                                       ),
@@ -1759,6 +1751,8 @@ class _PrayersTabState extends State<PrayersTab> {
 
   filterPopUp() {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1786,7 +1780,7 @@ class _PrayersTabState extends State<PrayersTab> {
                               child: KText(
                                 text: "Filter",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
+                                  fontSize: width/85.375,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1811,19 +1805,19 @@ class _PrayersTabState extends State<PrayersTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "Start Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width: width/15.17777777777778,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -1860,19 +1854,19 @@ class _PrayersTabState extends State<PrayersTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "End Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width: width/15.17777777777778,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -1914,7 +1908,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                       Navigator.pop(context,false);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
@@ -1933,7 +1927,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -1941,13 +1935,13 @@ class _PrayersTabState extends State<PrayersTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width: width/273.2),
                                   InkWell(
                                     onTap: () {
                                       Navigator.pop(context,true);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
@@ -1966,7 +1960,7 @@ class _PrayersTabState extends State<PrayersTab> {
                                           child: KText(
                                             text: "Apply",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
