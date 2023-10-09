@@ -168,7 +168,12 @@ class _StudentTabState extends State<StudentTab> {
     }
   }
 
-
+  final _keyParentname = GlobalKey<FormFieldState>();
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyDob = GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +250,7 @@ class _StudentTabState extends State<StudentTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ?Container(
-              height: size.height * 1.51,
+              height: size.height * 1.61,
               width: 1100,
               margin:  EdgeInsets.symmetric(horizontal: width/68.3,vertical: height/32.55),
               decoration: BoxDecoration(
@@ -491,6 +496,18 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFirstname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -515,6 +532,18 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyLastname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -584,6 +613,18 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyParentname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -608,6 +649,14 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -649,7 +698,7 @@ class _StudentTabState extends State<StudentTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -947,6 +996,14 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDob,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
@@ -955,7 +1012,7 @@ class _StudentTabState extends State<StudentTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -981,6 +1038,10 @@ class _StudentTabState extends State<StudentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -993,21 +1054,40 @@ class _StudentTabState extends State<StudentTab> {
                             ],
                           ),
                            SizedBox(height:height/21.7),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: height/21.7),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFirstname.currentState!.validate();
+                                  _keyLastname.currentState!.validate();
+                                  _keyParentname.currentState!.validate();
+                                  _keyDob.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       classController.text != "Select Class" &&
-                                      guardianController.text != "" &&
+                                      genderController.text != "" &&
                                       guardianPhoneController.text != "" &&
                                       bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
-                                      lastNameController.text != "" &&
-                                      studentIdController.text != ""
+                                      lastNameController.text != ""
                                     ) {
                                     CoolAlert.show(
                                         context: context,
@@ -1087,6 +1167,7 @@ class _StudentTabState extends State<StudentTab> {
                                 },
                                 child: Container(
                                   height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1457,7 +1538,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width:width/8.0352,
                                         child: KText(
-                                          text: "Guardian",
+                                          text: "Parent/Guardian",
                                           style: GoogleFonts.poppins(
                                             fontSize:width/91.066,
                                             fontWeight: FontWeight.w600,
@@ -2277,7 +2358,7 @@ class _StudentTabState extends State<StudentTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context,setState) {
+          builder: (context,setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
@@ -2386,7 +2467,7 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                       )
                                           : null),
-                                  child: selectedImg == null
+                                  child: (selectedImg == null && uploadedImage == null)
                                       ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2402,7 +2483,27 @@ class _StudentTabState extends State<StudentTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                       height:height/18.6,
                                       width: size.width * 0.25,
@@ -2482,6 +2583,10 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2506,6 +2611,10 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2575,6 +2684,10 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2640,7 +2753,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -2946,7 +3059,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -2972,6 +3085,10 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],

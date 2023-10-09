@@ -127,6 +127,15 @@ class _CommitteeTabState extends State<CommitteeTab> {
   bool isEmail(String input) => EmailValidator.validate(input);
   final _key = GlobalKey<FormFieldState>();
 
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyDepartment = GlobalKey<FormFieldState>();
+  final _keyDob = GlobalKey<FormFieldState>();
+  final _keyNationality = GlobalKey<FormFieldState>();
+  final _keyPincode = GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -207,7 +216,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.89,
+              height: size.height * 2.05,
               width: width/1.241,
               margin: EdgeInsets.symmetric(
                           vertical: height/32.55,
@@ -353,6 +362,18 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFirstname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -377,6 +398,18 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyLastname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -452,6 +485,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -527,7 +568,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       items: [
                                         "Select Status",
                                         "Married",
-                                        "Single"
+                                        "Single",
+                                        "Widow"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -562,6 +604,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -594,7 +640,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -630,7 +676,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1900),
-                                              lastDate: DateTime(3000));
+                                              lastDate: DateTime.now());
                                           if (pickedDate != null) {
                                             setState(() {
                                               marriageDateController.text = formatter.format(pickedDate);
@@ -802,6 +848,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: jobController,
                                     )
@@ -823,6 +873,18 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDepartment,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -898,6 +960,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDob,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
@@ -906,7 +976,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -932,6 +1002,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyNationality,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -957,6 +1035,14 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     ),
                                     SizedBox(height:height/65.1),
                                     TextFormField(
+                                      key: _keyPincode,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -1017,10 +1103,12 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            maxLength: 255,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: addressController,
                                             decoration: InputDecoration(
+                                                counterText: "",
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
                                             ),
@@ -1034,11 +1122,34 @@ class _CommitteeTabState extends State<CommitteeTab> {
                             ],
                           ),
                           SizedBox(height:height/21.7),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height:height/21.7),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFirstname.currentState!.validate();
+                                  _keyLastname.currentState!.validate();
+                                  _keyPincode.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  _keyDepartment.currentState!.validate();
+                                  _keyDob.currentState!.validate();
+                                  _keyNationality.currentState!.validate();
+                                  _keyPincode.currentState!.validate();
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       bloodGroupController.text != "Select Blood Group" &&
                                       marriedController != "Select Status" &&
@@ -1125,6 +1236,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                 },
                                 child: Container(
                                    height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1206,7 +1318,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                 ),
                                 Container(
                                    height:height/18.6,
-                                width: width/9.106,
+                                width: width/5.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -1220,7 +1332,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search',
+                                      hintText: 'Search by Name,Position',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -2149,7 +2261,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content:  Container(
@@ -2265,7 +2377,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         ),
                                       )
                                           : null),
-                                  child: selectedImg == null
+                                  child: (selectedImg == null && uploadedImage == null)
                                       ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2281,7 +2393,27 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                        height:height/18.6,
                                       width: size.width * 0.25,
@@ -2339,6 +2471,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2363,6 +2499,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2441,11 +2581,11 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
+                                          maxLength: 10,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'[0-9]')),
                                           ],
-                                          maxLength: 10,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: phoneController,
                                         )
@@ -2513,7 +2653,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           items: [
                                             "Select Status",
                                             "Married",
-                                            "Single"
+                                            "Single",
+                                            "Widow"
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -2548,6 +2689,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2580,7 +2725,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -2616,7 +2761,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   context: context,
                                                   initialDate: DateTime.now(),
                                                   firstDate: DateTime(1900),
-                                                  lastDate: DateTime(3000));
+                                                  lastDate: DateTime.now());
                                               if (pickedDate != null) {
                                                 setState(() {
                                                   marriageDateController.text = formatter.format(pickedDate);
@@ -2695,6 +2840,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
@@ -2856,6 +3005,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2893,7 +3046,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -3003,10 +3156,12 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                maxLength: 255,
                                                 style: TextStyle(
                                                     fontSize:width/113.83),
                                                 controller: addressController,
                                                 decoration: InputDecoration(
+                                                    counterText: "",
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
                                                 ),

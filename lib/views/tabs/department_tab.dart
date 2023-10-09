@@ -37,6 +37,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
 
   String currentTab = 'View';
 
+  final _keyDeptName = GlobalKey<FormFieldState>();
+  final _keyDeptLeadName = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyDeptArea = GlobalKey<FormFieldState>();
+  final _keyzone = GlobalKey<FormFieldState>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -112,7 +118,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.2,
+              height: size.height * 1.3,
               width: double.infinity,
               margin: EdgeInsets.symmetric(
                   horizontal: width/68.3,
@@ -246,6 +252,18 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDeptName,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -270,6 +288,18 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDeptLeadName,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -298,6 +328,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -327,6 +365,18 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDeptArea,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -382,13 +432,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                            ],
+                                            maxLength: 255,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: descriptionController,
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                             ),
@@ -445,10 +494,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            maxLength: 40,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: addressController,
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                             ),
@@ -478,6 +529,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -502,6 +557,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -526,6 +585,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyzone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -543,14 +610,20 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyDeptName.currentState!.validate();
+                                  _keyDeptLeadName.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  _keyDeptArea.currentState!.validate();
+                                  _keyzone.currentState!.validate();
+
                                   if (nameController.text != "" &&
                                       leadernameController.text != "" &&
-                                      locationController.text != "" &&
                                       zoneController.text != "" &&
+                                      locationController.text != "" &&
                                       numberController.text != "") {
                                     CoolAlert.show(
                                         context: context,
@@ -601,6 +674,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 },
                                 child: Container(
                                   height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -683,7 +757,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 ),
                                 Container(
                                   height:height/18.6,
-                                  width: width/9.106,
+                                  width: width/5.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -697,7 +771,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search',
+                                      hintText: 'Search by Name,Leader Name',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -1674,6 +1748,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1698,6 +1776,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1755,6 +1837,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1810,13 +1896,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                            ],
+                                            maxLength: 255,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: descriptionController,
                                             decoration: InputDecoration(
+                                              counterText: '',
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                             ),
@@ -1873,10 +1958,12 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            maxLength: 40,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: addressController,
                                             decoration: InputDecoration(
+                                              counterText: '',
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                             ),
@@ -1906,6 +1993,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1930,6 +2021,10 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],

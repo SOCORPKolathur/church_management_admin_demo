@@ -153,6 +153,16 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   bool isEmail(String input) => EmailValidator.validate(input);
   final _key = GlobalKey<FormFieldState>();
 
+  final _keyNationality = GlobalKey<FormFieldState>();
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyPincode = GlobalKey<FormFieldState>();
+  final _keyDoJ = GlobalKey<FormFieldState>();
+  final _keyDoB = GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
+
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -235,7 +245,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ?Container(
-              height: size.height * 2,
+              height: size.height * 2.2,
                width: width/1.241,
              margin: EdgeInsets.symmetric(
                   horizontal: width/68.3,
@@ -401,6 +411,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFirstname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -425,6 +447,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyLastname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -500,6 +534,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -596,6 +638,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -628,7 +674,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -654,6 +700,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDoJ,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: dateofjoiningController,
                                       onTap: () async {
@@ -662,7 +716,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateofjoiningController.text = formatter.format(pickedDate);
@@ -751,7 +805,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       items: [
                                         "Select Status",
                                         "Married",
-                                        "Single"
+                                        "Single",
+                                        "Widow"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -796,7 +851,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1900),
-                                              lastDate: DateTime(3000));
+                                              lastDate:DateTime.now());
                                           if (pickedDate != null) {
                                             setState(() {
                                               marriageDateController.text = formatter.format(pickedDate);
@@ -877,6 +932,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: jobController,
                                     )
@@ -992,6 +1051,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1020,6 +1083,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDoB,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
@@ -1028,7 +1099,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -1054,6 +1125,18 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyNationality,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1078,6 +1161,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPincode,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -1138,10 +1229,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            maxLength: 255,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: addressController,
                                             decoration: InputDecoration(
+                                                counterText: '',
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
                                             ),
@@ -1155,17 +1248,38 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                             ],
                           ),
                           SizedBox(height:height/21.7),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: height/21.7),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFirstname.currentState!.validate();
+                                  _keyLastname.currentState!.validate();
+                                  _keyNationality.currentState!.validate();
+                                  _keyPincode.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  _keyDoJ.currentState!.validate();
+                                  _keyDoB.currentState!.validate();
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
-                                      phoneController.text.length == 10 &&
                                       pincodeController.text != "" &&
                                       lastNameController.text != "" &&
                                       dateofjoiningController.text != "" &&
@@ -1252,6 +1366,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 },
                                 child: Container(
                                     height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1333,7 +1448,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 ),
                                 Container(
                                     height:height/18.6,
-                                  width:width/9.106,
+                                  width:width/5.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -1347,7 +1462,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search',
+                                      hintText: 'Search by Name,Position,Phone',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -2551,7 +2666,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
@@ -2670,7 +2785,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         ),
                                       )
                                           : null),
-                                  child: selectedImg == null
+                                  child:(selectedImg == null && uploadedImage == null)
                                       ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2686,7 +2801,27 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                         height:height/18.6,
                                       width: size.width * 0.25,
@@ -2763,6 +2898,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2787,6 +2926,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2958,6 +3101,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2990,7 +3137,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -3024,7 +3171,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dateofjoiningController.text = formatter.format(pickedDate);
@@ -3113,7 +3260,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           items: [
                                             "Select Status",
                                             "Married",
-                                            "Single"
+                                            "Single",
+                                            "Widow"
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -3158,7 +3306,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                   context: context,
                                                   initialDate: DateTime.now(),
                                                   firstDate: DateTime(1900),
-                                                  lastDate: DateTime(3000));
+                                                  lastDate: DateTime.now());
                                               if (pickedDate != null) {
                                                 setState(() {
                                                   marriageDateController.text = formatter.format(pickedDate);
@@ -3239,6 +3387,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
@@ -3354,6 +3506,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3390,7 +3546,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -3416,6 +3572,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3500,10 +3660,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                maxLength: 40,
                                                 style: TextStyle(
                                                     fontSize:width/113.83),
                                                 controller: addressController,
                                                 decoration: InputDecoration(
+                                                  counterText: '',
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
                                                 ),

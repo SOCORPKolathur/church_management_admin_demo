@@ -295,6 +295,10 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -319,6 +323,10 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -456,6 +464,10 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -486,7 +498,7 @@ class _ClansTabState extends State<ClansTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2000),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -509,7 +521,7 @@ class _ClansTabState extends State<ClansTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Marriage Date",
+                                      text: "Anniversary Date",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                            fontSize:width/105.07,
@@ -523,7 +535,7 @@ class _ClansTabState extends State<ClansTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2000),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             marriageDateController.text = formatter.format(pickedDate);
@@ -643,6 +655,10 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: departmentController,
                                     )
@@ -695,7 +711,7 @@ class _ClansTabState extends State<ClansTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2000),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -722,6 +738,10 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: nationalityController,
                                     )
@@ -2595,6 +2615,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2619,6 +2643,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2761,6 +2789,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2793,7 +2825,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -2815,7 +2847,7 @@ class _ClansTabState extends State<ClansTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marriage Date",
+                                          text: "Anniversary Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -2831,7 +2863,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 marriageDateController.text = formatter.format(pickedDate);
@@ -2904,6 +2936,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
@@ -2953,6 +2989,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3036,7 +3076,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -3062,6 +3102,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3399,6 +3443,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3423,6 +3471,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3565,6 +3617,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3597,7 +3653,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -3619,7 +3675,7 @@ class _ClansTabState extends State<ClansTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marriage Date",
+                                          text: "Anniversary Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -3635,7 +3691,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 marriageDateController.text = formatter.format(pickedDate);
@@ -3708,6 +3764,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
@@ -3754,6 +3814,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: departmentController,
                                         )
@@ -3834,7 +3898,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -3860,6 +3924,10 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],

@@ -127,6 +127,14 @@ class _ChorusTabState extends State<ChorusTab> {
   bool isEmail(String input) => EmailValidator.validate(input);
   final _key = GlobalKey<FormFieldState>();
 
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyDoB = GlobalKey<FormFieldState>();
+  final _keyNationality = GlobalKey<FormFieldState>();
+  final _keyPincode = GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -205,7 +213,7 @@ class _ChorusTabState extends State<ChorusTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.56,
+              height: size.height * 1.76,
               width: width/1.241,
               margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
               decoration: BoxDecoration(
@@ -346,6 +354,18 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFirstname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -370,6 +390,18 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyLastname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -445,6 +477,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -520,7 +560,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                       items: [
                                         "Select Status",
                                         "Married",
-                                        "Single"
+                                        "Single",
+                                        "Widow"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -555,6 +596,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -587,7 +632,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -623,7 +668,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1900),
-                                              lastDate: DateTime(3000));
+                                              lastDate: DateTime.now());
                                           if (pickedDate != null) {
                                             setState(() {
                                               marriageDateController.text = formatter.format(pickedDate);
@@ -705,6 +750,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: jobController,
                                     )
@@ -867,6 +916,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -895,6 +948,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDoB,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
@@ -903,7 +964,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -929,9 +990,18 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyNationality,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -956,6 +1026,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPincode,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -973,11 +1051,33 @@ class _ChorusTabState extends State<ChorusTab> {
                             ],
                           ),
                           SizedBox(height:height/21.7),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: height/21.7),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFirstname.currentState!.validate();
+                                  _keyLastname.currentState!.validate();
+                                  _keyNationality.currentState!.validate();
+                                  _keyPincode.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  _keyDoB.currentState!.validate();
+
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
@@ -1060,6 +1160,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                 },
                                 child: Container(
                                  height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1139,7 +1240,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                 ),
                                 Container(
                                  height:height/18.6,
-                                    width: width/9.106,
+                                    width: width/5.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -1153,7 +1254,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search',
+                                      hintText: 'Search by Name,Position,Phone',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -2089,7 +2190,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Marriage Date",
+                                          text: "Anniversary Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                                fontSize:width/85.375
@@ -2227,7 +2328,7 @@ class _ChorusTabState extends State<ChorusTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
@@ -2343,7 +2444,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                         ),
                                       )
                                           : null),
-                                  child: selectedImg == null
+                                  child: (selectedImg == null && uploadedImage == null)
                                       ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2359,7 +2460,27 @@ class _ChorusTabState extends State<ChorusTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                      height:height/18.6,
                                       width: size.width * 0.25,
@@ -2417,6 +2538,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2441,6 +2566,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2580,6 +2709,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2612,7 +2745,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -2693,6 +2826,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
@@ -2855,6 +2992,10 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2891,7 +3032,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);

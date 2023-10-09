@@ -80,6 +80,12 @@ class _FamilyTabState extends State<FamilyTab> {
 
   bool isEmail(String input) => EmailValidator.validate(input);
   final _key = GlobalKey<FormFieldState>();
+  final _keyFamilyname = GlobalKey<FormFieldState>();
+  final _keyFamilyLeadername = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyAddress = GlobalKey<FormFieldState>();
+  final _keyZone = GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
 
   @override
   void initState() {
@@ -159,7 +165,7 @@ class _FamilyTabState extends State<FamilyTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 1.4,
+              height: size.height * 1.5,
               width: double.infinity,
               margin:  EdgeInsets.symmetric(
                 horizontal: width/68.3,vertical: height/32.55
@@ -328,6 +334,18 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFamilyname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -352,6 +370,18 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFamilyLeadername,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -471,6 +501,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -564,10 +595,20 @@ class _FamilyTabState extends State<FamilyTab> {
                                           color: Colors.white,
                                         ),
                                         child: TextFormField(
+                                          key: _keyAddress,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          maxLength: 255,
                                           maxLines: null,
                                             style:  TextStyle(fontSize:width/113.83),
                                             controller: addressController,
                                           decoration:  InputDecoration(
+                                            counterText: '',
                                             border: InputBorder.none,
                                             contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                           ),
@@ -596,6 +637,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -620,6 +665,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -644,6 +693,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyZone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -660,11 +717,31 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                             ],
                           ),
+                          SizedBox(height:height/21.7),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFamilyname.currentState!.validate();
+                                  _keyFamilyLeadername.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  _keyAddress.currentState!.validate();
+                                  _keyZone.currentState!.validate();
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       familynameController.text != "" &&
                                       familyleadernameController.text != "" &&
@@ -725,6 +802,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 },
                                 child: Container(
                                   height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -821,7 +899,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   elevation: 10,
                                   child: SizedBox(
                                     height: height / 18.6,
-                                    width: width / 9.106,
+                                    width: width / 5.106,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height / 81.375,
@@ -837,7 +915,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search",
+                                          "Search by Name,Phone",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,
@@ -1673,6 +1751,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -1697,6 +1779,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -1883,6 +1969,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -1907,6 +1997,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -1990,10 +2084,12 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                maxLength: 255,
                                                 maxLines: null,
                                                 style:  TextStyle(fontSize:width/113.83),
                                                 controller: addressController,
                                                 decoration:  InputDecoration(
+                                                  counterText: '',
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(left: width/91.06,
                                                         top: height/162.75,bottom: height/162.75)

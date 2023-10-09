@@ -129,6 +129,14 @@ class _PastorsTabState extends State<PastorsTab> {
   bool isEmail(String input) => EmailValidator.validate(input);
   final _key = GlobalKey<FormFieldState>();
 
+  final _keyDob = GlobalKey<FormFieldState>();
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyPincode= GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
+
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -211,7 +219,7 @@ class _PastorsTabState extends State<PastorsTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 2,
+              height: size.height * 2.15,
               width: width/1.241,
               margin: EdgeInsets.symmetric(
                 horizontal: width/68.3,
@@ -357,6 +365,18 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFirstname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -381,6 +401,18 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyLastname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -405,6 +437,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -472,6 +512,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -504,7 +548,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -546,7 +590,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                       items: [
                                         "Select Status",
                                         "Married",
-                                        "Single"
+                                        "Single",
+                                        "Widow"
                                       ].map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -638,7 +683,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1900),
-                                              lastDate: DateTime(3000));
+                                              lastDate: DateTime.now());
                                           if (pickedDate != null) {
                                             setState(() {
                                               marriageDateController.text = formatter.format(pickedDate);
@@ -719,6 +764,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: jobController,
                                     )
@@ -834,6 +883,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -909,6 +962,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyDob,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: dobController,
                                       onTap: () async {
@@ -917,7 +978,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -943,6 +1004,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -971,6 +1036,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPincode,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
@@ -1060,10 +1133,12 @@ class _PastorsTabState extends State<PastorsTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            maxLength: 40,
                                             style: TextStyle(
                                                 fontSize:width/113.83),
                                             controller: addressController,
                                             decoration: InputDecoration(
+                                              counterText: '',
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left:width/91.066,top:height/162.75,bottom:height/162.75)
                                             ),
@@ -1077,11 +1152,31 @@ class _PastorsTabState extends State<PastorsTab> {
                             ],
                           ),
                           SizedBox(height:height/21.7),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height:height/21.7),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFirstname.currentState!.validate();
+                                  _keyLastname.currentState!.validate();
+                                  _keyDob.currentState!.validate();
+                                  _keyPincode.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
@@ -1168,6 +1263,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                 },
                                 child: Container(
                                   height:height/18.6,
+                                  width:width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1249,7 +1345,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ),
                                 Container(
                                   height:height/18.6,
-                                  width: width/9.106,
+                                  width: width/5.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -1263,7 +1359,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search',
+                                      hintText: 'Search by Name,Phone',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
                                       ),
@@ -2241,7 +2337,7 @@ class _PastorsTabState extends State<PastorsTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
@@ -2359,7 +2455,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                         ),
                                       )
                                           : null),
-                                  child: selectedImg == null
+                                  child: (selectedImg == null && uploadedImage == null)
                                       ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2375,7 +2471,27 @@ class _PastorsTabState extends State<PastorsTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                       height:height/18.6,
                                       width: size.width * 0.25,
@@ -2433,6 +2549,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2457,6 +2577,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2548,6 +2672,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2580,7 +2708,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -2622,7 +2750,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                           items: [
                                             "Select Status",
                                             "Married",
-                                            "Single"
+                                            "Single",
+                                            "Widow"
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -2714,7 +2843,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                   context: context,
                                                   initialDate: DateTime.now(),
                                                   firstDate: DateTime(1900),
-                                                  lastDate: DateTime(3000));
+                                                  lastDate: DateTime.now());
                                               if (pickedDate != null) {
                                                 setState(() {
                                                   marriageDateController.text = formatter.format(pickedDate);
@@ -2795,6 +2924,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: jobController,
                                         )
@@ -2910,6 +3043,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2993,7 +3130,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -3019,6 +3156,10 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3136,10 +3277,12 @@ class _PastorsTabState extends State<PastorsTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                maxLength: 40,
                                                 style: TextStyle(
                                                     fontSize:width/113.83),
                                                 controller: addressController,
                                                 decoration: InputDecoration(
+                                                  counterText: '',
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(left:width/91.066,top:height/162.75,bottom:height/162.75)
                                                 ),

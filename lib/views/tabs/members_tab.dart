@@ -198,7 +198,14 @@ class _MembersTabState extends State<MembersTab> {
   }
 
   bool isEmail(String input) => EmailValidator.validate(input);
+
   final _key = GlobalKey<FormFieldState>();
+  final _keyNationality = GlobalKey<FormFieldState>();
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyPincode= GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +281,7 @@ class _MembersTabState extends State<MembersTab> {
             ),
             currentTab.toUpperCase() == "ADD"
                 ? Container(
-              height: size.height * 2.0,
+              height: profileImageValidator ? size.height * 2.2 : size.height * 2,
               width: width/1.241,
               margin:  EdgeInsets.symmetric(
                 horizontal: width/68.3,
@@ -538,6 +545,18 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyFirstname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -562,6 +581,18 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyLastname,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -590,6 +621,14 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPhone,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       decoration: const InputDecoration(
                                         counterText: "",
                                       ),
@@ -704,6 +743,10 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -736,7 +779,7 @@ class _MembersTabState extends State<MembersTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             baptizeDateController.text = formatter.format(pickedDate);
@@ -787,7 +830,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Marriage Date",
+                                      text: "Anniversary Date",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: width/105.076,
@@ -803,7 +846,7 @@ class _MembersTabState extends State<MembersTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             marriageDateController.text = formatter.format(pickedDate);
@@ -879,6 +922,10 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: jobController,
                                     )
@@ -995,6 +1042,10 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 100,
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: departmentController,
                                     )
@@ -1076,7 +1127,7 @@ class _MembersTabState extends State<MembersTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dobController.text = formatter.format(pickedDate);
@@ -1102,6 +1153,18 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyNationality,
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
+                                      maxLength: 40,
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                       ],
@@ -1132,9 +1195,17 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _keyPincode,
                                       decoration: InputDecoration(
                                         counterText: "",
                                       ),
+                                      validator: (val){
+                                        if(val!.isEmpty){
+                                          return 'Field is required';
+                                        }else{
+                                          return '';
+                                        }
+                                      },
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
@@ -1192,10 +1263,12 @@ class _MembersTabState extends State<MembersTab> {
                                             color: Colors.white,
                                           ),
                                           child: TextFormField(
+                                            maxLength: 255,
                                             style:  TextStyle(
                                                 fontSize: width/113.83),
                                             controller: addressController,
                                             decoration:  InputDecoration(
+                                                counterText: '',
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,
                                                     top: height/162.75,bottom: height/162.75)
@@ -1209,12 +1282,31 @@ class _MembersTabState extends State<MembersTab> {
                               ),
                             ],
                           ),
+                          Visibility(
+                            visible: profileImageValidator,
+                            child: const Text(
+                              "Please Select Image *",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
                            SizedBox(height: height/21.7),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  _keyFirstname.currentState!.validate();
+                                  _keyLastname.currentState!.validate();
+                                  _keyNationality.currentState!.validate();
+                                  _keyPincode.currentState!.validate();
+                                  _keyPhone.currentState!.validate();
+                                  if(profileImage == null){
+                                    setState(() {
+                                      profileImageValidator = true;
+                                    });
+                                  }
                                   if (profileImage != null &&
                                       bloodGroupController.text != "Select Blood Group" &&
                                       familyController.text != "" &&
@@ -1224,7 +1316,8 @@ class _MembersTabState extends State<MembersTab> {
                                       genderController.text != "Select Gender" &&
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
-                                      phoneController.text != "" ) {
+                                      phoneController.text != "")
+                                  {
                                     CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.success,
@@ -1308,6 +1401,7 @@ class _MembersTabState extends State<MembersTab> {
                                 },
                                 child: Container(
                                   height: height/18.6,
+                                  width: width*0.1,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1388,7 +1482,7 @@ class _MembersTabState extends State<MembersTab> {
                                 ),
                                 Container(
                                   height: height/18.6,
-                                  width: width/9.106,
+                                  width: width/5.106,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -1402,7 +1496,7 @@ class _MembersTabState extends State<MembersTab> {
                                     },
                                     decoration:  InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Search',
+                                      hintText: 'Search by Name,Position,Phone',
                                       hintStyle:  TextStyle(
                                         color: Colors.black,
                                       ),
@@ -2465,7 +2559,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child:  KText(
-                                          text: "Marriage Date",
+                                          text: "Anniversary Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: width/85.375
@@ -2675,7 +2769,7 @@ class _MembersTabState extends State<MembersTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
@@ -2776,11 +2870,7 @@ class _MembersTabState extends State<MembersTab> {
                                       border: Border.all(
                                           color: Constants().primaryAppColor,
                                           width:width/683),
-                                      image: selectedImg != null
-                                          ? DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(selectedImg!))
-                                          : uploadedImage != null
+                                      image: uploadedImage != null
                                           ? DecorationImage(
                                         fit: BoxFit.fill,
                                         image: MemoryImage(
@@ -2790,9 +2880,11 @@ class _MembersTabState extends State<MembersTab> {
                                                 .last),
                                           ),
                                         ),
-                                      )
+                                      ): selectedImg != null ? DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(selectedImg!))
                                           : null),
-                                  child: selectedImg == null
+                                  child: (uploadedImage == null && selectedImg == null)
                                       ?  Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2808,7 +2900,27 @@ class _MembersTabState extends State<MembersTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                       height: height/18.6,
                                       width: size.width * 0.25,
@@ -2888,6 +3000,10 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2912,6 +3028,10 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3054,6 +3174,10 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3086,7 +3210,7 @@ class _MembersTabState extends State<MembersTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -3137,7 +3261,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marriage Date",
+                                          text: "Anniversary Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3153,7 +3277,7 @@ class _MembersTabState extends State<MembersTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 marriageDateController.text = formatter.format(pickedDate);
@@ -3230,6 +3354,10 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: jobController,
                                         )
@@ -3350,6 +3478,10 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3433,7 +3565,7 @@ class _MembersTabState extends State<MembersTab> {
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime(1900),
-                                                lastDate: DateTime(3000));
+                                                lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -3459,6 +3591,10 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -3547,10 +3683,12 @@ class _MembersTabState extends State<MembersTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                maxLength: 255,
                                                 style:  TextStyle(
                                                     fontSize: width/113.83),
                                                 controller: addressController,
                                                 decoration:  InputDecoration(
+                                                  counterText: '',
                                                     border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,
                                                         bottom: height/162.75)
