@@ -6,6 +6,7 @@ import 'package:church_management_admin/models/church_staff_model.dart';
 import 'package:church_management_admin/services/church_staff_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -148,6 +149,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
 
     }
   }
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
 
   @override
   void initState() {
@@ -332,7 +336,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           color: Colors.white),
                                       SizedBox(width:width/136.6),
                                       KText(
-                                        text: 'Select Profile Photo',
+                                        text: 'Select Profile Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -525,6 +529,19 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
@@ -948,6 +965,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyIDController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.id == newValue){
+                                              familyController.text = element.name;
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -1138,24 +1161,23 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      baptizeDateController.text != "" &&
-                                      bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
+                                      bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
-                                      emailController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       phoneController.text.length == 10 &&
-                                      aadharNoController.text.length == 12 &&
                                       pincodeController.text != "" &&
-                                      jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      addressController.text != "" &&
                                       dateofjoiningController.text != "" &&
-                                      nationalityController.text != "" &&
-                                      phoneController.text != "" &&
-                                      positionController.text != "" &&
-                                      socialStatusController.text != "") {
+                                      nationalityController.text != "") {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Church Staff created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                     Response response =
                                     await ChurchStaffFireCrud.addChurchStaff(
                                       familyId: familyIDController.text,
@@ -1184,14 +1206,6 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         gender : genderController.text,
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Church Staff created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                       setState(() {
                                         currentTab = 'View';
                                         uploadedImage = null;
@@ -2877,6 +2891,19 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )
@@ -3300,6 +3327,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyIDController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.id == newValue){
+                                                  familyController.text = element.name;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),

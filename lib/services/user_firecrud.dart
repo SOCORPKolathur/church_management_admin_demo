@@ -78,6 +78,7 @@ class UserFireCrud {
         gender: gender,
         email: email,
         aadharNo: aadharNo,
+        isPrivacyEnabled: false,
         dob: dob,
         about: about,
         address: address,
@@ -167,7 +168,8 @@ class UserFireCrud {
           profession: row[i][5].toString(),
           aadharNo: "",
           fcmToken: "",
-          locality: ""
+          locality: "",
+        isPrivacyEnabled: false,
       );
       var json = user.toJson();
       await UserCollection.doc(documentID).set(

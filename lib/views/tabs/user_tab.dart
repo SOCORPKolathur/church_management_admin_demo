@@ -7,6 +7,7 @@ import 'package:church_management_admin/services/user_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -129,7 +130,8 @@ class _UserTabState extends State<UserTab> {
     });
   }
 
-
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +385,7 @@ class _UserTabState extends State<UserTab> {
                                       const Icon(Icons.add_a_photo, color: Colors.white),
                                       SizedBox(width: width / 136.6),
                                       const KText(
-                                        text: 'Select Profile Photo',
+                                        text: 'Select Profile Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -507,6 +509,19 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style: TextStyle(fontSize: width / 113.83),
                                       controller: emailController,
                                     )
@@ -820,7 +835,7 @@ class _UserTabState extends State<UserTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Birth",
+                                      text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: width / 105.076,
@@ -1009,11 +1024,18 @@ class _UserTabState extends State<UserTab> {
                                       firstNameController.text != "" &&
                                       lastNameController.text != "" &&
                                       localityController.text != "" &&
+                                      dobController.text != "" &&
                                       phoneController.text != "" &&
-                                      phoneController.text.length == 10 &&
-                                      aadharController.text.length == 12 &&
                                       GenderController != "Select Gender" &&
                                       marriedController != "Select Status") {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "User created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                     Response response = await UserFireCrud.addUser(
                                       maritialStatus: marriedController,
                                       pincode: pincodeController.text,
@@ -1034,14 +1056,6 @@ class _UserTabState extends State<UserTab> {
                                       address: addressController.text,
                                     );
                                     if (response.code == 200) {
-                                      await CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "User created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                       clearTextControllers();
                                     } else {
                                       await CoolAlert.show(
@@ -2571,6 +2585,19 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        key: _key,
+                                        validator: (value) {
+                                          if (!isEmail(value!)) {
+                                            return 'Please enter a valid email.';
+                                          }
+                                          return null;
+                                        },
+                                        onEditingComplete: (){
+                                          _key.currentState!.validate();
+                                        },
+                                        onChanged: (val){
+                                          _key.currentState!.validate();
+                                        },
                                         style: TextStyle(fontSize: width / 113.83),
                                         controller: emailController,
                                       )
@@ -3070,6 +3097,7 @@ class _UserTabState extends State<UserTab> {
                                         pincodeController.text != "") {
                                       Response response = await UserFireCrud.updateRecord(userDocID, UserModel(
                                         id: user.id,
+                                        isPrivacyEnabled: user.isPrivacyEnabled,
                                         pincode: pincodeController.text != "" ? pincodeController.text : user.pincode,
                                         timestamp: user.timestamp,
                                         baptizeDate: baptizeDateController.text != "" ? baptizeDateController.text : user.baptizeDate,

@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:church_management_admin/services/members_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
@@ -196,7 +197,8 @@ class _MembersTabState extends State<MembersTab> {
     }
   }
 
-
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -449,7 +451,7 @@ class _MembersTabState extends State<MembersTab> {
                                           color: Colors.white),
                                       SizedBox(width: width/136.6),
                                       KText(
-                                        text: 'Select Profile Photo',
+                                        text: 'Select Profile Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -506,7 +508,7 @@ class _MembersTabState extends State<MembersTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Member ID",
+                                      text: "Member ID *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: width/105.076,
@@ -617,6 +619,19 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style:  TextStyle(fontSize: width/113.83),
                                       controller: emailController,
                                     )
@@ -953,6 +968,12 @@ class _MembersTabState extends State<MembersTab> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyIDController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.id == newValue){
+                                              familyController.text = element.name;
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -1195,14 +1216,23 @@ class _MembersTabState extends State<MembersTab> {
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      bloodGroupController.text != "" &&
+                                      bloodGroupController.text != "Select Blood Group" &&
                                       familyController.text != "" &&
+                                      familyIDController.text != "" &&
                                       pincodeController.text != "" &&
                                       firstNameController.text != "" &&
                                       genderController.text != "Select Gender" &&
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
                                       phoneController.text != "" ) {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Member created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                     Response response = await MembersFireCrud.addMember(
                                           aadharNo: aadharNoController.text,
                                           membersId: memberIdController.text,
@@ -1229,14 +1259,6 @@ class _MembersTabState extends State<MembersTab> {
                                           pincode: pincodeController.text,
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Member created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                       setMemberId();
                                       setState(() {
                                         currentTab = 'View';
@@ -2947,6 +2969,19 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: emailController,
                                         )
@@ -3238,6 +3273,12 @@ class _MembersTabState extends State<MembersTab> {
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.name == newValue){
+                                                  familyIDController.text = element.id;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),
@@ -3282,6 +3323,12 @@ class _MembersTabState extends State<MembersTab> {
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyIDController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.id == newValue){
+                                                  familyController.text = element.name;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),

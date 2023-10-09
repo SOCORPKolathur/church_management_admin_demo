@@ -406,7 +406,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Address *",
+                                text: "Address",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                  fontSize:width/105.07,
@@ -550,8 +550,16 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   if (nameController.text != "" &&
                                       leadernameController.text != "" &&
                                       locationController.text != "" &&
-                                      numberController.text != "" &&
-                                      numberController.text.length == 10) {
+                                      zoneController.text != "" &&
+                                      numberController.text != "") {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Department created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor.withOpacity(0.8)
+                                    );
                                     Response response = await DepartmentFireCrud.addDepartment(
                                         name: nameController.text,
                                         leaderName: leadernameController.text,
@@ -564,14 +572,6 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         location: locationController.text
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Department created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor.withOpacity(0.8)
-                                      );
                                       setState(() {
                                         currentTab = 'View';
                                         nameController.text = "";

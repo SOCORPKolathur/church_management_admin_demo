@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:church_management_admin/models/family_model.dart';
 import 'package:church_management_admin/services/family_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,6 +77,9 @@ class _FamilyTabState extends State<FamilyTab> {
       setState(() {});
     });
   }
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
 
   @override
   void initState() {
@@ -256,7 +260,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           color: Colors.white),
                                       SizedBox(width:width/136.6),
                                       KText(
-                                        text: 'Select Family Leader Photo',
+                                        text: 'Select Family Leader Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -496,6 +500,19 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style:  TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
@@ -653,12 +670,16 @@ class _FamilyTabState extends State<FamilyTab> {
                                       familyleadernameController.text != "" &&
                                       familynumberController.text != "" &&
                                       familyIdController.text != "" &&
-                                      emailController.text != "" &&
                                       familyQuanity != 0 &&
-                                      cityController.text != "" &&
                                       addressController.text != "" &&
-                                      countryController.text != "" &&
                                       zoneController.text != "") {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Family created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants().primaryAppColor.withOpacity(0.8)
+                                    );
                                     Response response =  await FamilyFireCrud.addFamily(
                                         image: profileImage!,
                                       familyId: familyIdController.text,
@@ -673,13 +694,6 @@ class _FamilyTabState extends State<FamilyTab> {
                                      quantity: familyQuanity
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Family created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants().primaryAppColor.withOpacity(0.8)
-                                      );
                                       setFamilyId();
                                       setState(() {
                                         currentTab = 'View';
@@ -838,7 +852,7 @@ class _FamilyTabState extends State<FamilyTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 70 + families.length * 60 ? 70 + families.length * 60 : size.height * 0.7,
+                          height: height/10.85 + families.length * height/7.233,
                           width: double.infinity,
                           decoration:  BoxDecoration(
                               color: Colors.white,
@@ -919,6 +933,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: families.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
@@ -1830,6 +1845,19 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )

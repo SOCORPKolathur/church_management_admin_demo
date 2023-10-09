@@ -423,7 +423,7 @@ class _StudentTabState extends State<StudentTab> {
                                           color: Colors.white),
                                       SizedBox(width:width/136.6),
                                       KText(
-                                        text: 'Select Profile Photo',
+                                        text: 'Select Profile Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -461,7 +461,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Student ID",
+                                      text: "Student ID *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/91.066,
@@ -576,7 +576,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: 'Father / Guardian *',
+                                      text: 'Parent / Guardian *',
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/91.066,
@@ -600,7 +600,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Father / Guardian Phone *",
+                                      text: "Parent / Guardian Phone *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/91.066,
@@ -701,7 +701,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Class",
+                                      text: "Class *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/91.066,
@@ -819,6 +819,12 @@ class _StudentTabState extends State<StudentTab> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyIDController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.id == newValue){
+                                              familyController.text = element.name;
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -933,7 +939,7 @@ class _StudentTabState extends State<StudentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Date of Birth",
+                                      text: "Date of Birth *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/91.066,
@@ -994,24 +1000,23 @@ class _StudentTabState extends State<StudentTab> {
                                 onTap: () async {
                                   if (profileImage != null &&
                                       classController.text != "Select Class" &&
-                                      ageController.text != "" &&
                                       guardianController.text != "" &&
                                       guardianPhoneController.text != "" &&
-                                      baptizeDateController.text != "" &&
-                                      bloodGroupController.text != "" &&
-                                      //departmentController.text != "" &&
+                                      bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
                                       familyController.text != "" &&
-                                      guardianPhoneController.text.length == 10 &&
-                                      aadharNoController.text.length == 12 &&
                                       firstNameController.text != "" &&
-                                      //jobController.text != "" &&
                                       lastNameController.text != "" &&
-                                      studentIdController.text != "" &&
-                                      //marriageDateController.text != "" &&
-                                      nationalityController.text != ""
-                                      //socialStatusController.text != ""
+                                      studentIdController.text != ""
                                     ) {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Student created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                     Response response =
                                         await StudentFireCrud.addStudent(
                                           aadharNo: aadharNoController.text,
@@ -1019,7 +1024,6 @@ class _StudentTabState extends State<StudentTab> {
                                       image: profileImage!,
                                       baptizeDate: baptizeDateController.text,
                                       bloodGroup: bloodGroupController.text,
-                                      //department: departmentController.text,
                                       clasS: classController.text,
                                       age: ageController.text,
                                       guardian: guardianController.text,
@@ -1042,14 +1046,6 @@ class _StudentTabState extends State<StudentTab> {
                                       email: "",
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Student created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                       setStudentId();
                                       setState(() {
                                         currentTab = 'View';
@@ -2215,7 +2211,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Father/Guardian",
+                                          text: "Parent/Guardian",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2239,7 +2235,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Father/Guardian Contact",
+                                          text: "Parent/Guardian Contact",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2571,7 +2567,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: 'Father / Guardian *',
+                                          text: 'Parent / Guardian *',
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2595,7 +2591,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Father / Guardian Phone *",
+                                          text: "Parent / Guardian Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2814,6 +2810,12 @@ class _StudentTabState extends State<StudentTab> {
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyIDController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.id == newValue){
+                                                  familyController.text = element.name;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),

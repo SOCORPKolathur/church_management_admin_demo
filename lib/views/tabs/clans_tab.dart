@@ -6,6 +6,7 @@ import 'package:church_management_admin/models/clan_member_model.dart';
 import 'package:church_management_admin/services/clans_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,6 +76,10 @@ class _ClansTabState extends State<ClansTab> {
       setState(() {});
     });
   }
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
+
   String chumma = '';
 
   @override
@@ -413,6 +418,19 @@ class _ClansTabState extends State<ClansTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
@@ -2705,6 +2723,19 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )
@@ -3496,6 +3527,19 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )

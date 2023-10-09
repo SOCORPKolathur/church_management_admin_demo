@@ -6,6 +6,7 @@ import 'package:church_management_admin/models/committee_model.dart';
 import 'package:church_management_admin/services/committee_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -122,6 +123,10 @@ class _CommitteeTabState extends State<CommitteeTab> {
 
     }
   }
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -302,7 +307,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           color: Colors.white),
                                       SizedBox(width:width/136.6),
                                       KText(
-                                        text: 'Select Profile Photo',
+                                        text: 'Select Profile Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -476,6 +481,19 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
@@ -753,6 +771,12 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyIDController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.id == newValue){
+                                              familyController.text = element.name;
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -1020,16 +1044,13 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       marriedController != "Select Status" &&
                                       departmentController.text != "" &&
                                       dobController.text != "" &&
-                                      phoneController.text.length == 10 &&
                                       pincodeController.text != "" &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
                                       genderController.text != "Select Gender" &&
-                                      jobController.text != "" &&
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
-                                      phoneController.text != "" &&
-                                      socialStatusController.text != "") {
+                                      phoneController.text != "") {
                                     Response response =
                                     await CommitteeFireCrud.addCommittee(
                                       image: profileImage!,
@@ -1054,15 +1075,15 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       socialStatus: socialStatusController.text,
                                       country: countryController.text,
                                     );
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Committee Member created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Committee Member created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                       setState(() {
                                         currentTab = 'View';
                                         uploadedImage = null;
@@ -2446,6 +2467,19 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )
@@ -2796,6 +2830,12 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyIDController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.id == newValue){
+                                                  familyController.text = element.name;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),

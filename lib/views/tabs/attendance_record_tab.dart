@@ -251,7 +251,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         itemCount: attendanceList.length,
                                         itemBuilder: (ctx, i) {
                                           return Container(
-                                            height: 60,
+                                            height: height/10.85,
                                             width: double.infinity,
                                             decoration: const BoxDecoration(
                                               color: Colors.white,
@@ -575,7 +575,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               generateAttendancePdf(PdfPageFormat.letter, attendances1,false);
                                             },
                                             child: Container(
-                                              height: 35,
+                                              height: height/18.6,
                                               decoration: const BoxDecoration(
                                                 color: Color(0xfffe5722),
                                                 boxShadow: [
@@ -598,7 +598,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                         text: "PRINT",
                                                         style: GoogleFonts.openSans(
                                                           color: Colors.white,
-                                                          fontSize: 13,
+                                                          fontSize: width/105.0769230769231,
                                                           fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
@@ -608,13 +608,13 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 10),
+                                          SizedBox(width: width/136.6),
                                           InkWell(
                                             onTap: () {
                                               copyToClipBoard(attendances);
                                             },
                                             child: Container(
-                                              height: 35,
+                                              height: height/18.6,
                                               decoration: const BoxDecoration(
                                                 color: Color(0xffff9700),
                                                 boxShadow: [
@@ -637,7 +637,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                         text: "COPY",
                                                         style: GoogleFonts.openSans(
                                                           color: Colors.white,
-                                                          fontSize: 13,
+                                                          fontSize: width/105.0769230769231,
                                                           fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
@@ -647,14 +647,14 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 10),
+                                          SizedBox(width: width/136.6),
                                           InkWell(
                                             onTap: () async {
                                               var data = await generateAttendancePdf(PdfPageFormat.letter, attendances1, true);
                                               savePdfToFile(data);
                                             },
                                             child: Container(
-                                              height: 35,
+                                              height: height/18.6,
                                               decoration: const BoxDecoration(
                                                 color: Color(0xff9b28b0),
                                                 boxShadow: [
@@ -677,7 +677,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                         text: "PDF",
                                                         style: GoogleFonts.openSans(
                                                           color: Colors.white,
-                                                          fontSize: 13,
+                                                          fontSize: width/105.0769230769231,
                                                           fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
@@ -687,13 +687,13 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 10),
+                                          SizedBox(width: width/136.6),
                                           InkWell(
                                             onTap: () {
                                               convertToCsv(attendances);
                                             },
                                             child: Container(
-                                              height: 35,
+                                              height: height/18.6,
                                               decoration: const BoxDecoration(
                                                 color: Color(0xff019688),
                                                 boxShadow: [
@@ -717,7 +717,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                         text: "CSV",
                                                         style: GoogleFonts.openSans(
                                                           color: Colors.white,
-                                                          fontSize: 13,
+                                                          fontSize: width/105.0769230769231,
                                                           fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
@@ -772,7 +772,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             generateAttendancePdf(PdfPageFormat.letter, attendances1,false);
                                           },
                                           child: Container(
-                                            height: 35,
+                                            height: height/18.6,
                                             decoration: const BoxDecoration(
                                               color: Color(0xfffe5722),
                                               boxShadow: [
@@ -795,7 +795,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                       text: "PRINT",
                                                       style: GoogleFonts.openSans(
                                                         color: Colors.white,
-                                                        fontSize: 13,
+                                                        fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -811,7 +811,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             copyToClipBoard(attendances);
                                           },
                                           child: Container(
-                                            height: 35,
+                                            height: height/18.6,
                                             decoration: const BoxDecoration(
                                               color: Color(0xffff9700),
                                               boxShadow: [
@@ -834,7 +834,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                       text: "COPY",
                                                       style: GoogleFonts.openSans(
                                                         color: Colors.white,
-                                                        fontSize: 13,
+                                                        fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -844,14 +844,14 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 10),
+                                        SizedBox(width: width/136.6),
                                         InkWell(
                                           onTap: () async {
                                             var data = await generateAttendancePdf(PdfPageFormat.letter, attendances1, true);
                                             savePdfToFile(data);
                                           },
                                           child: Container(
-                                            height: 35,
+                                            height: height/18.6,
                                             decoration: const BoxDecoration(
                                               color: Color(0xff9b28b0),
                                               boxShadow: [
@@ -874,7 +874,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                       text: "PDF",
                                                       style: GoogleFonts.openSans(
                                                         color: Colors.white,
-                                                        fontSize: 13,
+                                                        fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -884,13 +884,13 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 10),
+                                        SizedBox(width: width/136.6),
                                         InkWell(
                                           onTap: () {
                                             convertToCsv(attendances);
                                           },
                                           child: Container(
-                                            height: 35,
+                                            height: height/18.6,
                                             decoration: const BoxDecoration(
                                               color: Color(0xff019688),
                                               boxShadow: [
@@ -914,7 +914,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                       text: "CSV",
                                                       style: GoogleFonts.openSans(
                                                         color: Colors.white,
-                                                        fontSize: 13,
+                                                        fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -938,38 +938,38 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         ),),
                                       ],
                                     ),
-                                    const SizedBox(height: 30),
+                                    SizedBox(height: height/21.7),
                                     SizedBox(
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0),
                                         child: Row(
                                           children: [
                                             SizedBox(
-                                              width: 100,
+                                              width: width/13.66,
                                               child: KText(
                                                 text: "No.",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 480,
+                                              width: width/2.845833333333333,
                                               child: KText(
                                                 text: "Name",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 12,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
+                                              width: width/9.106666666666667,
                                               child: KText(
                                                 text: "Attendance",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -978,7 +978,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: height/65.1),
                                     Expanded(
                                       child: ListView.builder(
                                         itemCount: attendances1.length,
@@ -997,7 +997,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                     child: Text(
                                                       "Date : ${attendances1[i].date!}",
                                                       style: GoogleFonts.poppins(
-                                                        fontSize: 13,
+                                                        fontSize:width/105.0769230769231,
                                                         color: Colors.white,
                                                         fontWeight:
                                                         FontWeight.w600,
@@ -1008,7 +1008,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                               ),
                                               for(int j = 0; j < attendances1[i].attendance!.length; j ++)
                                                 Container(
-                                                  height: 60,
+                                                  height: height/10.85,
                                                   width: double.infinity,
                                                   decoration: const BoxDecoration(
                                                     color: Colors.white,
@@ -1028,30 +1028,30 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                     MainAxisAlignment.start,
                                                     children: [
                                                       SizedBox(
-                                                        width: 100,
+                                                        width: width/13.66,
                                                         child: KText(
                                                           text: (j + 1).toString(),
                                                           style: GoogleFonts.poppins(
-                                                            fontSize: 13,
+                                                            fontSize: width/105.0769230769231,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 480,
+                                                        width: width/2.845833333333333,
                                                         child: KText(
                                                           text: attendances[j]
                                                               .student!,
                                                           style: GoogleFonts.poppins(
-                                                            fontSize: 13,
+                                                            fontSize: width/105.0769230769231,
                                                             fontWeight:
                                                             FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 200,
+                                                        width: width/6.83,
                                                         child: Text(
                                                           attendances[j].present!
                                                               ? "Present"
@@ -1153,6 +1153,8 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
 
   filterPopUp() {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return showDialog(
       context: context,
       builder: (ctx) {
@@ -1180,7 +1182,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                               child: KText(
                                 text: "Filter",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
+                                  fontSize: width/85.375,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1205,19 +1207,19 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "Start Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width: width/15.17777777777778,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -1254,19 +1256,19 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 90,
+                                    width: width/15.17777777777778,
                                     child: KText(
                                       text: "End Date",
                                       style: GoogleFonts.openSans(
-                                        fontSize: 14,
+                                        fontSize: width/97.57142857142857,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: width/85.375),
                                   Container(
-                                    height: 40,
-                                    width: 90,
+                                    height: height/16.275,
+                                    width: width/15.17777777777778,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(7),
@@ -1308,7 +1310,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       Navigator.pop(context,false);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
@@ -1327,7 +1329,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -1335,13 +1337,13 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width: width/273.2),
                                   InkWell(
                                     onTap: () {
                                       Navigator.pop(context,true);
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: height/16.275,
                                       decoration: BoxDecoration(
                                         color: Constants().primaryAppColor,
                                         borderRadius: BorderRadius.circular(8),
@@ -1360,7 +1362,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           child: KText(
                                             text: "Apply",
                                             style: GoogleFonts.openSans(
-                                              fontSize: 16,
+                                              fontSize: width/85.375,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

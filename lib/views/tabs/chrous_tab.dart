@@ -6,6 +6,7 @@ import 'package:church_management_admin/models/chorus_model.dart';
 import 'package:church_management_admin/services/chorus_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -122,6 +123,10 @@ class _ChorusTabState extends State<ChorusTab> {
 
     }
   }
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+  final _key = GlobalKey<FormFieldState>();
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -295,7 +300,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           color: Colors.white),
                                       SizedBox(width:width/136.6),
                                       KText(
-                                        text: 'Select Profile Photo',
+                                        text: 'Select Profile Photo *',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
@@ -440,6 +445,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                      ),
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
@@ -466,6 +474,19 @@ class _ChorusTabState extends State<ChorusTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      key: _key,
+                                      validator: (value) {
+                                        if (!isEmail(value!)) {
+                                          return 'Please enter a valid email.';
+                                        }
+                                        return null;
+                                      },
+                                      onEditingComplete: (){
+                                        _key.currentState!.validate();
+                                      },
+                                      onChanged: (val){
+                                        _key.currentState!.validate();
+                                      },
                                       style: TextStyle(fontSize:width/113.83),
                                       controller: emailController,
                                     )
@@ -819,6 +840,12 @@ class _ChorusTabState extends State<ChorusTab> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           familyIDController.text = newValue!;
+                                          FamilyIdList.forEach((element) {
+                                            if(element.id == newValue){
+                                              familyController.text = element.name;
+                                              checkAvailableSlot(element.count, element.name);
+                                            }
+                                          });
                                         });
                                       },
                                     ),
@@ -952,21 +979,22 @@ class _ChorusTabState extends State<ChorusTab> {
                               InkWell(
                                 onTap: () async {
                                   if (profileImage != null &&
-                                      baptizeDateController.text != "" &&
-                                      bloodGroupController.text != "" &&
-                                      departmentController.text != "" &&
+                                      bloodGroupController.text != "Select Blood Group" &&
                                       dobController.text != "" &&
-                                      emailController.text != "" &&
                                       pincodeController.text != "" &&
-                                      phoneController.text.length == 10 &&
                                       familyController.text != "" &&
                                       firstNameController.text != "" &&
-                                      jobController.text != "" &&
                                       lastNameController.text != "" &&
                                       nationalityController.text != "" &&
-                                      phoneController.text != "" &&
-                                      positionController.text != "" &&
-                                      socialStatusController.text != "") {
+                                      phoneController.text != "") {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Chorus created successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                     Response response =
                                     await ChorusFireCrud.addChorus(
                                         image: profileImage!,
@@ -991,14 +1019,6 @@ class _ChorusTabState extends State<ChorusTab> {
                                         gender : genderController.text
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Chorus created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                       setState(() {
                                         currentTab = 'View';
                                         uploadedImage = null;
@@ -2493,6 +2513,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'[0-9]')),
@@ -2519,6 +2542,19 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _key,
+                                          validator: (value) {
+                                            if (!isEmail(value!)) {
+                                              return 'Please enter a valid email.';
+                                            }
+                                            return null;
+                                          },
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                          },
+                                          onChanged: (val){
+                                            _key.currentState!.validate();
+                                          },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
                                         )
@@ -2792,6 +2828,12 @@ class _ChorusTabState extends State<ChorusTab> {
                                           onChanged: (newValue) {
                                             setState(() {
                                               familyIDController.text = newValue!;
+                                              FamilyIdList.forEach((element) {
+                                                if(element.id == newValue){
+                                                  familyController.text = element.name;
+                                                  checkAvailableSlot(element.count, element.name);
+                                                }
+                                              });
                                             });
                                           },
                                         ),

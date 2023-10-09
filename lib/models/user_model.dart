@@ -19,6 +19,7 @@ class UserModel {
   late String address;
   late String imgUrl;
   late String pincode;
+  late bool isPrivacyEnabled;
 
   UserModel(
       {required this.id,
@@ -36,6 +37,7 @@ class UserModel {
         required this.maritialStatus,
         required this.gender,
         required this.bloodGroup,
+        required this.isPrivacyEnabled,
         required this.dob,
         required this.locality,
         required this.about,
@@ -64,6 +66,7 @@ class UserModel {
     about = json['about'];
     address = json['address'];
     imgUrl = json['imgUrl'];
+    isPrivacyEnabled = json['isPrivacyEnabled'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +92,7 @@ class UserModel {
     data['about'] = this.about;
     data['address'] = this.address;
     data['imgUrl'] = this.imgUrl;
+    data['isPrivacyEnabled'] = this.isPrivacyEnabled;
     return data;
   }
 

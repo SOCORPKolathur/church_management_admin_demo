@@ -16,8 +16,10 @@ class SmsCommunicationTab extends StatefulWidget {
 
 class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
 
+  TextfieldTagsController controller = TextfieldTagsController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  static List<String> _pickLanguage = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +108,163 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize:width/113.83),
-                                    controller: phoneController,
-                                  )
+                                  Autocomplete<String>(
+                                    optionsViewBuilder: (context, onSelected, options) {
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:width/136.6, vertical: height/162.75),
+                                        child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Material(
+                                            elevation: 4.0,
+                                            child: ConstrainedBox(
+                                              constraints:  const BoxConstraints(maxHeight: 20),
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: options.length,
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  final dynamic option = options.elementAt(index);
+                                                  return TextButton(
+                                                    onPressed: () {
+                                                      onSelected(option);
+                                                    },
+                                                    child: Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.symmetric(
+                                                            vertical: height/43.4),
+                                                        child: Text(
+                                                          '#$option',
+                                                          textAlign: TextAlign.left,
+                                                          style: TextStyle(
+                                                            color: Color.fromARGB(255, 74, 137, 92),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    optionsBuilder: (TextEditingValue textEditingValue) {
+                                      if (textEditingValue.text == '') {
+                                        return Iterable<String>.empty();
+                                      }
+                                      return _pickLanguage.where((String option) {
+                                        return option.contains(textEditingValue.text.toLowerCase());
+                                      });
+                                    },
+                                    onSelected: (String selectedTag) {
+                                      controller.addTag = selectedTag;
+                                    },
+                                    fieldViewBuilder: (context, ttec, tfn, onFieldSubmitted) {
+                                      return TextFieldTags(
+                                        textEditingController: ttec,
+                                        focusNode: tfn,
+                                        textfieldTagsController: controller,
+                                        initialTags: [],
+                                        textSeparators: [' ',','],
+                                        letterCase: LetterCase.normal,
+                                        validator: (String tag) {
+                                          if (tag == 'php') {
+                                            return 'No, please just no';
+                                          } else if (controller.getTags!.contains(tag)) {
+                                            return 'you already entered that';
+                                          }
+                                          return null;
+                                        },
+                                        inputfieldBuilder:
+                                            (context, tec, fn, error, onChanged, onSubmitted) {
+                                          return ((context, sc, tags, onTagDelete) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(horizontal:width/136.6),
+                                              child: TextField(
+                                                controller: tec,
+                                                focusNode: fn,
+                                                decoration: InputDecoration(
+                                                  border: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Constants().primaryAppColor,
+                                                      width: width/455.333,
+                                                    ),
+                                                  ),
+                                                  focusedBorder: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Constants().primaryAppColor,
+                                                      width: width/455.333,
+                                                    ),
+                                                  ),
+                                                  helperStyle: TextStyle(
+                                                    color: Constants().primaryAppColor,
+                                                  ),
+                                                  errorText: error,
+                                                  prefixIconConstraints: BoxConstraints(
+                                                      maxWidth: size.width * 0.74),
+                                                  prefixIcon: tags.isNotEmpty
+                                                      ? SingleChildScrollView(
+                                                    controller: sc,
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                        children: tags.map((String tag) {
+                                                          return Container(
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.all(
+                                                                Radius.circular(20.0),
+                                                              ),
+                                                              color: Constants().primaryAppColor,
+                                                            ),
+                                                            margin:
+                                                            EdgeInsets.only(right: width/136.6),
+                                                            padding: EdgeInsets.symmetric(
+                                                                horizontal: width/136.6, vertical: height/162.75),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                InkWell(
+                                                                  child: Text(
+                                                                    tag,
+                                                                    style: TextStyle(
+                                                                        color: Colors.white),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: width/341.5),
+                                                                InkWell(
+                                                                  child: Icon(
+                                                                      Icons.cancel,
+                                                                      size:width/97.571,
+                                                                      color: Colors.black
+                                                                  ),
+                                                                  onTap: () {
+                                                                    onTagDelete(tag);
+                                                                  },
+                                                                )
+                                                              ],
+                                                            ),
+                                                          );
+                                                        }).toList()),
+                                                  )
+                                                      : null,
+                                                ),
+                                                onChanged: (text){
+                                                  if(text.length == 10){
+                                                    setState(() {
+                                                      controller.addTag = text;
+                                                    });
+                                                  }
+                                                },
+                                                onSubmitted: onSubmitted,
+                                              ),
+                                            );
+                                          });
+                                        },
+                                      );
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
