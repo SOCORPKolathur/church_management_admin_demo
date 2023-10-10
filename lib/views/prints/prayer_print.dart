@@ -26,6 +26,7 @@ class PrayerModelforPdf{
 
     doc.addPage(
       pw.MultiPage(
+        margin: const pw.EdgeInsets.symmetric(horizontal: 20,vertical: 30),
         build: (context) => [
           _contentTable(context),
           pw.SizedBox(height: 20),
@@ -61,12 +62,14 @@ class PrayerModelforPdf{
       headerHeight: 25,
       cellHeight: 40,
       cellAlignments: {
-        0: pw.Alignment.centerLeft,
-        1: pw.Alignment.centerLeft,
-        2: pw.Alignment.centerLeft,
-        3: pw.Alignment.centerLeft,
-        4: pw.Alignment.centerRight,
+        0: pw.Alignment.center,
+        1: pw.Alignment.center,
+        2: pw.Alignment.center,
+        3: pw.Alignment.center,
+        4: pw.Alignment.center,
       },
+      cellPadding: pw.EdgeInsets.zero,
+      headerPadding: pw.EdgeInsets.zero,
       headerStyle: pw.TextStyle(
         color: PdfColors.amber,
         fontSize: 10,
@@ -83,15 +86,29 @@ class PrayerModelforPdf{
           ),
         ),
       ),
-      headers: List<String>.generate(
+      headers: List<pw.Widget>.generate(
         tableHeaders.length,
-            (col) => tableHeaders[col],
+            (col) => pw.Container(
+              // width: 60,
+                height:40,
+                decoration:pw.BoxDecoration(
+                    border: pw.Border.all(color:PdfColors.black)
+                ),
+                child:  pw.Center(child:pw.Text(tableHeaders[col],style: pw.TextStyle(fontWeight: pw.FontWeight.bold,color: PdfColor.fromHex("E7B41F"))),)
+            ),
       ),
-      data: List<List<String>>.generate(
+      data: List<List<pw.Widget>>.generate(
         prayers.length,
-            (row) => List<String>.generate(
+            (row) => List<pw.Widget>.generate(
           tableHeaders.length,
-              (col) => prayers[row].getIndex(col,row),
+              (col) => pw.Container(
+                // width: 60,
+                  height:40,
+                  decoration:pw.BoxDecoration(
+                      border: pw.Border.all(color:PdfColors.black)
+                  ),
+                  child:  pw.Center(child:pw.Text(prayers[row].getIndex(col,row),style: pw.TextStyle()),)
+              ),
         ),
       ),
     );

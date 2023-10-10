@@ -10,6 +10,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
@@ -136,6 +137,7 @@ class _ChorusTabState extends State<ChorusTab> {
   bool profileImageValidator = false;
 
   bool isLoading = false;
+  bool isCropped = false;
 
   clearTextEditingControllers(){
     setState(() {
@@ -306,7 +308,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                            width:width/683),
                                       image: uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!.split(',').last),
@@ -349,23 +351,36 @@ class _ChorusTabState extends State<ChorusTab> {
                                     ),
                                   ),
                                   SizedBox(width:width/27.32),
-                                  Container(
-                                   height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                     height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -394,6 +409,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -430,6 +448,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyLastname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -512,11 +533,16 @@ class _ChorusTabState extends State<ChorusTab> {
                                         TextFormField(
                                           key: _keyPhone,
                                           validator: (val){
-                                            if(val!.isEmpty){
+                                            if(val!.isEmpty) {
                                               return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -657,6 +683,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                            readOnly:true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -693,6 +720,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             ),
                                           ),
                                           TextFormField(
+                                            readOnly:true,
                                             style: TextStyle(fontSize:width/113.83),
                                             controller: marriageDateController,
                                             onTap: () async {
@@ -981,6 +1009,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly:true,
                                           key: _keyDoB,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -1031,6 +1060,9 @@ class _ChorusTabState extends State<ChorusTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyNationality.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1061,11 +1093,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                         TextFormField(
                                           key: _keyPincode,
                                           validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1228,7 +1263,6 @@ class _ChorusTabState extends State<ChorusTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1236,13 +1270,9 @@ class _ChorusTabState extends State<ChorusTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -1251,6 +1281,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),
@@ -1265,12 +1296,26 @@ class _ChorusTabState extends State<ChorusTab> {
                 )
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
-              stream: searchString != "" ? ChorusFireCrud.fetchChorusesWithSearch(searchString) : ChorusFireCrud.fetchChoruses(),
+              stream: ChorusFireCrud.fetchChoruses(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<ChorusModel> choruses = snapshot.data!;
+                  List<ChorusModel> choruses1 = snapshot.data!;
+                  List<ChorusModel> choruses = [];
+                  choruses1.forEach((element) {
+                    if(searchString != ""){
+                      if(element.position!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        choruses.add(element);
+                      }
+                    }else{
+                      choruses.add(element);
+                    }
+                  });
                   return Container(
                     width: width/1.241,
                   margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
@@ -1304,29 +1349,34 @@ class _ChorusTabState extends State<ChorusTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Container(
-                                 height:height/18.6,
-                                    width: width/5.106,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        searchString = val;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search by Name,Position,Phone',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black,
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 5.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Search by Name,Position,Phone",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: width/97.571,
+                                          ),
+                                        ),
                                       ),
-                                      contentPadding:  EdgeInsets.only(
-                                        left: width/136.6,
-                                        bottom: height/65.1,),
                                     ),
                                   ),
                                 ),
@@ -2478,7 +2528,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           image: NetworkImage(selectedImg!))
                                           : uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!
@@ -2544,23 +2594,36 @@ class _ChorusTabState extends State<ChorusTab> {
                                     ),
                                   ),
                                   SizedBox(width:width/27.32),
-                                  Container(
-                                   height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setStat(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setStat(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                     height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

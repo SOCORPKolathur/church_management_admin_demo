@@ -10,6 +10,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
@@ -193,9 +194,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   final _keyPincode = GlobalKey<FormFieldState>();
   final _keyDoJ = GlobalKey<FormFieldState>();
   final _keyDoB = GlobalKey<FormFieldState>();
+  final _keyAadhar = GlobalKey<FormFieldState>();
   bool profileImageValidator = false;
 
   bool isLoading = false;
+  bool isCropped = false;
 
   @override
   void initState() {
@@ -348,7 +351,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           width: 2),
                                       image: uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!.split(',').last),
@@ -390,23 +393,36 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                      height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                        height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   InkWell(
@@ -456,6 +472,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyFirstname.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -491,6 +510,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyLastname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -573,11 +595,16 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         TextFormField(
                                           key: _keyPhone,
                                           validator: (val){
-                                            if(val!.isEmpty){
+                                            if(val!.isEmpty) {
                                               return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -642,6 +669,17 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyAadhar,
+                                          validator: (val){
+                                            if(val!.length != 12){
+                                              return 'Must be 12 digits';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          onChanged: (val){
+                                            _keyAadhar.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -703,6 +741,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -737,6 +776,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           key: _keyDoJ,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -880,6 +920,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             ),
                                           ),
                                           TextFormField(
+                                            readOnly: true,
                                             style: TextStyle(fontSize:width/113.83),
                                             controller: marriageDateController,
                                             onTap: () async {
@@ -1120,6 +1161,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           key: _keyDoB,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -1170,6 +1212,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyNationality.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1200,11 +1245,14 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         TextFormField(
                                           key: _keyPincode,
                                           validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1434,7 +1482,6 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1442,13 +1489,9 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -1457,6 +1500,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),
@@ -1470,12 +1514,26 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                   ],
                 )
                 :currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
-              stream: searchString != "" ? ChurchStaffFireCrud.fetchChurchStaffsWithSearch(searchString) : ChurchStaffFireCrud.fetchChurchStaffs(),
+              stream: ChurchStaffFireCrud.fetchChurchStaffs(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<ChurchStaffModel> churchStaffs = snapshot.data!;
+                  List<ChurchStaffModel> churchStaffs1 = snapshot.data!;
+                  List<ChurchStaffModel> churchStaffs = [];
+                  churchStaffs1.forEach((element) {
+                    if(searchString != ""){
+                      if(element.position!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        churchStaffs.add(element);
+                      }
+                    }else{
+                      churchStaffs.add(element);
+                    }
+                  });
                   return Container(
                      width: width/1.241,
                    margin: EdgeInsets.symmetric(
@@ -1512,28 +1570,34 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Container(
-                                    height:height/18.6,
-                                  width:width/5.106,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        searchString = val;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search by Name,Position,Phone',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black,
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 5.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Search by Name,Position,Phone",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: width/97.571,
+                                          ),
+                                        ),
                                       ),
-                                      contentPadding:  EdgeInsets.only(
-                                          left: width/136.6, bottom: width/136.6),
                                     ),
                                   ),
                                 ),
@@ -2699,10 +2763,13 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                       Text(":"),
                                       SizedBox(width:width/68.3),
-                                      KText(
-                                        text: churchStaff.address!,
-                                        style: TextStyle(
-                                            fontSize:width/97.571
+                                      SizedBox(
+                                        width:size.width * 0.3,
+                                        child: KText(
+                                          text: churchStaff.address!,
+                                          style: TextStyle(
+                                              fontSize:width/97.571
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -2816,7 +2883,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           image: NetworkImage(selectedImg!))
                                           : uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!
@@ -2881,23 +2948,36 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                      height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setStat(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setStat(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                        height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   InkWell(

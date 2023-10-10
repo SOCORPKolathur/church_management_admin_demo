@@ -159,16 +159,17 @@ class UserFireCrud {
           email: row[i][4].toString(),
           about: row[i][13].toString(),
           dob: row[i][10].toString(),
-          gender:row[i][8].toString() ,
+          gender:row[i][8].toString(),
           bloodGroup: row[i][9].toString(),
           baptizeDate: row[i][6].toString(),
-          anniversaryDate: row[i][13].toString(),
+          anniversaryDate: row[i][14].toString(),
           pincode: row[i][11].toString(),
           maritialStatus: row[i][7].toString(),
           profession: row[i][5].toString(),
-          aadharNo: "",
+          aadharNo: row[i][15].toString(),
           fcmToken: "",
           locality: "",
+
         isPrivacyEnabled: false,
       );
       var json = user.toJson();

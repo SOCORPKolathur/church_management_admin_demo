@@ -26,12 +26,7 @@ class EventModelforPdf{
 
     doc.addPage(
       pw.MultiPage(
-        pageTheme: _buildTheme(
-          pageFormat,
-          await PdfGoogleFonts.robotoRegular(),
-          await PdfGoogleFonts.robotoBold(),
-          await PdfGoogleFonts.robotoItalic(),
-        ),
+        margin: const pw.EdgeInsets.symmetric(horizontal: 20,vertical: 30),
         build: (context) => [
           _contentTable(context),
         ],
@@ -64,17 +59,19 @@ class EventModelforPdf{
       ),
       headerHeight: 35,
       cellAlignments: {
-        0: pw.Alignment.centerLeft,
-        1: pw.Alignment.centerLeft,
-        2: pw.Alignment.centerLeft,
-        3: pw.Alignment.centerLeft,
-        4: pw.Alignment.centerRight,
+        0: pw.Alignment.center,
+        1: pw.Alignment.center,
+        2: pw.Alignment.center,
+        3: pw.Alignment.center,
+        4: pw.Alignment.center,
       },
       headerStyle: pw.TextStyle(
         color: PdfColors.amber,
         fontSize: 10,
         fontWeight: pw.FontWeight.bold,
       ),
+      cellPadding: pw.EdgeInsets.zero,
+      headerPadding: pw.EdgeInsets.zero,
       cellStyle: const pw.TextStyle(
         fontSize: 10,
       ),
@@ -86,28 +83,30 @@ class EventModelforPdf{
           ),
         ),
       ),
-      headers: List<String>.generate(
+      headers: List<pw.Widget>.generate(
         tableHeaders.length,
-            (col) => tableHeaders[col],
+            (col) => pw.Container(
+              // width: 60,
+                height:40,
+                decoration:pw.BoxDecoration(
+                    border: pw.Border.all(color:PdfColors.black)
+                ),
+                child:  pw.Center(child:pw.Text(tableHeaders[col],style: pw.TextStyle(fontWeight: pw.FontWeight.bold,color: PdfColor.fromHex("E7B41F"))),)
+            ),
       ),
-      data: List<List<String>>.generate(
+      data: List<List<pw.Widget>>.generate(
         events.length,
-            (row) => List<String>.generate(
+            (row) => List<pw.Widget>.generate(
           tableHeaders.length,
-              (col) => events[row].getIndex(col,row),
+              (col) => pw.Container(
+                // width: 60,
+                  height:40,
+                  decoration:pw.BoxDecoration(
+                      border: pw.Border.all(color:PdfColors.black)
+                  ),
+                  child:  pw.Center(child:pw.Text(events[row].getIndex(col,row),style: pw.TextStyle()),)
+              ),
         ),
-      ),
-    );
-  }
-
-  pw.PageTheme _buildTheme(
-      PdfPageFormat pageFormat, pw.Font base, pw.Font bold, pw.Font italic) {
-    return pw.PageTheme(
-      pageFormat: pageFormat,
-      theme: pw.ThemeData.withFont(
-        base: base,
-        bold: bold,
-        italic: italic,
       ),
     );
   }

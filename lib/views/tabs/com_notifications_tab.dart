@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:church_management_admin/models/chorus_model.dart';
 import 'package:church_management_admin/models/church_staff_model.dart';
-import 'package:church_management_admin/models/committee_model.dart';
+import 'package:church_management_admin/models/committee_member_model.dart';
 import 'package:church_management_admin/models/department_model.dart';
 import 'package:church_management_admin/models/members_model.dart';
 import 'package:church_management_admin/models/notification_model.dart';
@@ -49,7 +49,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   List<PastorsModel> pastorsList = [];
   List<StudentModel> studentsList = [];
   List<ChurchStaffModel> churchStaffsList = [];
-  List<CommitteeModel> committiesList = [];
+  List<CommitteeMemberModel> committiesList = [];
   List<ChorusModel> chorusesList = [];
   List<DepartmentModel> departmentsList = [];
   List<MembersModel> genderusersList = [];
@@ -2194,7 +2194,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
     );
   }
 
-  addCommitteePopUp(List<CommitteeModel> users) async {
+  addCommitteePopUp(List<CommitteeMemberModel> users) async {
     Size size = MediaQuery.of(context).size;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -2280,7 +2280,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                 isAll = !isAll;
                                 if(isAll){
                                   userDocument.docs.forEach((element) {
-                                    users.add(CommitteeModel.fromJson(element.data()));
+                                    users.add(CommitteeMemberModel.fromJson(element.data()));
                                   });
                                 }else{
                                   users.clear();
@@ -2325,7 +2325,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                     onChanged: (val) {
                                       setState(() {
                                         if(!users.where((element) => element.id == userDocument.docs[i]['id']).isNotEmpty){
-                                          users.add(CommitteeModel.fromJson(userDocument.docs[i].data()));
+                                          users.add(CommitteeMemberModel.fromJson(userDocument.docs[i].data()));
                                         }else{
                                           users.removeWhere((element) => element.id == userDocument.docs[i]['id']);
                                         }

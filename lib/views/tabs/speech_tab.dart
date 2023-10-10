@@ -43,6 +43,7 @@ class _SpeechTabState extends State<SpeechTab> {
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+  bool isCropped = false;
 
   selectImage() {
     InputElement input = FileUploadInputElement() as InputElement
@@ -261,7 +262,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                       width: 2),
                                   image: uploadedImage != null
                                       ? DecorationImage(
-                                          fit: BoxFit.fill,
+                                          fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                           image: MemoryImage(
                                             Uint8List.fromList(
                                               base64Decode(uploadedImage!
@@ -307,23 +308,36 @@ class _SpeechTabState extends State<SpeechTab> {
                                 ),
                               ),
                               SizedBox(width:width/27.32),
-                              Container(
-                                height:height/18.6,
-                                width: size.width * 0.25,
-                                color: Constants().primaryAppColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width:width/136.6),
-                                    KText(
-                                      text: 'Disable Crop',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
+                              InkWell(
+                                onTap: (){
+                                  if(isCropped){
+                                    setState(() {
+                                      isCropped = false;
+                                    });
+                                  }else{
+                                    setState(() {
+                                      isCropped = true;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height:height/18.6,
+                                  width: size.width * 0.25,
+                                  color: Constants().primaryAppColor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.crop,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width:width/136.6),
+                                      KText(
+                                        text: 'Disable Crop',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -1538,579 +1552,615 @@ class _SpeechTabState extends State<SpeechTab> {
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Container(
-            height: size.height * 1.05,
-            width: width/1.241,
-            margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
-            ,decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width/68.3, vertical: height/81.375),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        KText(
-                          text: "EDIT SPEECH",
-                          style: GoogleFonts.openSans(
-                            fontSize: width/68.3,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              uploadedImage = null;
-                              profileImage = null;
-                              firstNameController.text = "";
-                              lastNameController.text = "";
-                              positionController.text = "";
-                              speechController.text = "";
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.cancel_outlined,
-                          ),
-                        )
-                      ],
+        return StatefulBuilder(
+          builder: (context,setStat) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Container(
+                height: size.height * 1.05,
+                width: width/1.241,
+                margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                ,decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
                     ),
-                  ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )),
-                    padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
-                    ,child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height:height/3.829,
-                              width:width/3.902,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Constants().primaryAppColor,
-                                      width: 2),
-                                  image: selectedImg != null
-                                      ? DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(selectedImg!))
-                                      : uploadedImage != null
-                                      ? DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: MemoryImage(
-                                      Uint8List.fromList(
-                                        base64Decode(uploadedImage!
-                                            .split(',')
-                                            .last),
-                                      ),
-                                    ),
-                                  )
-                                      : null),
-                              child: selectedImg == null
-                                  ? Center(
-                                child: Icon(
-                                  Icons.cloud_upload,
-                                   size:width/8.5375,
-                                  color: Colors.grey,
-                                ),
-                              )
-                                  : null,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width/68.3, vertical: height/81.375),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            KText(
+                              text: "EDIT SPEECH",
+                              style: GoogleFonts.openSans(
+                                fontSize: width/68.3,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox( height:height/32.55),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                onTap: selectImage,
-                                child: Container(
-                                  height:height/18.6,
-                                  width: size.width * 0.25,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.add_a_photo,
-                                          color: Colors.white),
-                                      SizedBox(width:width/136.6),
-                                      KText(
-                                        text: 'Select Profile Photo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  uploadedImage = null;
+                                  profileImage = null;
+                                  firstNameController.text = "";
+                                  lastNameController.text = "";
+                                  positionController.text = "";
+                                  speechController.text = "";
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.cancel_outlined,
                               ),
-                              SizedBox(width:width/27.32),
-                              Container(
-                                height:height/18.6,
-                                width: size.width * 0.25,
-                                color: Constants().primaryAppColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width:width/136.6),
-                                    KText(
-                                      text: 'Disable Crop',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Firstname *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: firstNameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Lastname *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: lastNameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Position",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: positionController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Column(
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            )),
+                        padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                        ,child: SingleChildScrollView(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              KText(
-                                text: "Speech *",
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black,
-                                  fontSize:width/105.07,
-                                  fontWeight: FontWeight.bold,
+                              Center(
+                                child: Container(
+                                  height:height/3.829,
+                                  width:width/3.902,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Constants().primaryAppColor,
+                                          width: 2),
+                                      image: selectedImg != null
+                                          ? DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(selectedImg!))
+                                          : uploadedImage != null
+                                          ? DecorationImage(
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
+                                        image: MemoryImage(
+                                          Uint8List.fromList(
+                                            base64Decode(uploadedImage!
+                                                .split(',')
+                                                .last),
+                                          ),
+                                        ),
+                                      )
+                                          : null),
+                                  child: (uploadedImage == null && selectedImg == null)
+                                      ? Center(
+                                    child: Icon(
+                                      Icons.cloud_upload,
+                                       size:width/8.5375,
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                      : null,
                                 ),
                               ),
-                              Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
-                                ,decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
+                              SizedBox( height:height/32.55),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement() as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add_a_photo,
+                                              color: Colors.white),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Select Profile Photo',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                       height:height/32.55,
-                                      width: double.infinity,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
+                                  ),
+                                  SizedBox(width:width/27.32),
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setStat(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setStat(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
                                             color: Colors.white,
                                           ),
-                                          child: TextFormField(
-                                            style:
-                                            TextStyle(fontSize:width/113.83),
-                                            controller: speechController,
-                                            decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
-                                            ),
-                                            maxLines: null,
-                                          )),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          // Row(
-                          //   children: [
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Facebook",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: facebookController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Twitter",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: twitterController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Google+",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: googleplusController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Linkedin",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: linkedinController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(height:height/21.7),
-                          // Row(
-                          //   children: [
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Youtube",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: youtubeController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Pinterest",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: pinterestController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Instagram",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: instagramController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Whatsapp",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: whatsappController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(height:height/21.7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  if (
-                                      firstNameController.text != "" &&
-                                      lastNameController.text != "" &&
-                                      positionController.text != "" &&
-                                      speechController.text != ""
-                                     // facebookController.text != "" &&
-                                     // twitterController.text != "" &&
-                                     // googleplusController.text != "" &&
-                                     // linkedinController.text != "" &&
-                                     // pinterestController.text != "" &&
-                                     // youtubeController.text != "" &&
-                                     // instagramController.text != "" &&
-                                     // whatsappController.text != ""
-                                  ) {
-                                    Response response =
-                                    await SpeechFireCrud.updateRecord(
-                                      SpeechModel(
-                                        id: speech.id,
-                                        timestamp: speech.timestamp,
-                                        linkedin: linkedinController.text,
-                                        pinterest: pinterestController.text,
-                                        speech: speechController.text,
-                                        twitter: twitterController.text,
-                                        whatsapp: whatsappController.text,
-                                        youtube: youtubeController.text,
-                                        instagram: instagramController.text,
-                                        google: googleplusController.text,
-                                        facebook: facebookController.text,
-                                        position: positionController.text,
-                                        lastName: lastNameController.text,
-                                        firstName: firstNameController.text,
-                                      ),
-                                        profileImage,
-                                        speech.imgUrl ?? ""
-                                    );
-                                    if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Speech updated successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      setState(() {
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        linkedinController.text == "";
-                                        pinterestController.text == "";
-                                        speechController.text == "";
-                                        twitterController.text == "";
-                                        whatsappController.text == "";
-                                        youtubeController.text == "";
-                                        instagramController.text == "";
-                                        googleplusController.text == "";
-                                        facebookController.text == "";
-                                        positionController.text == "";
-                                        lastNameController.text == "";
-                                        firstNameController.text == "";
-                                      });
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to update Speech!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      Navigator.pop(context);
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: Container(
-                                  height:height/18.6,
-                                  decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
-                                      ),
-                                    ],
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:width/227.66),
-                                    child: Center(
-                                      child: KText(
-                                        text: "Update",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.white,
-                                          fontSize:width/136.6,
-                                          fontWeight: FontWeight.bold,
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Firstname *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: firstNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Lastname *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: lastNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Position",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: positionController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Speech *",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                                    ,decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                           height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                style:
+                                                TextStyle(fontSize:width/113.83),
+                                                controller: speechController,
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                                ),
+                                                maxLines: null,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              // Row(
+                              //   children: [
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Facebook",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: facebookController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Twitter",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: twitterController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Google+",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: googleplusController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Linkedin",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: linkedinController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height:height/21.7),
+                              // Row(
+                              //   children: [
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Youtube",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: youtubeController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Pinterest",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: pinterestController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Instagram",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: instagramController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Whatsapp",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: whatsappController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height:height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if (
+                                          firstNameController.text != "" &&
+                                          lastNameController.text != "" &&
+                                          positionController.text != "" &&
+                                          speechController.text != ""
+                                         // facebookController.text != "" &&
+                                         // twitterController.text != "" &&
+                                         // googleplusController.text != "" &&
+                                         // linkedinController.text != "" &&
+                                         // pinterestController.text != "" &&
+                                         // youtubeController.text != "" &&
+                                         // instagramController.text != "" &&
+                                         // whatsappController.text != ""
+                                      ) {
+                                        Response response =
+                                        await SpeechFireCrud.updateRecord(
+                                          SpeechModel(
+                                            id: speech.id,
+                                            timestamp: speech.timestamp,
+                                            linkedin: linkedinController.text,
+                                            pinterest: pinterestController.text,
+                                            speech: speechController.text,
+                                            twitter: twitterController.text,
+                                            whatsapp: whatsappController.text,
+                                            youtube: youtubeController.text,
+                                            instagram: instagramController.text,
+                                            google: googleplusController.text,
+                                            facebook: facebookController.text,
+                                            position: positionController.text,
+                                            lastName: lastNameController.text,
+                                            firstName: firstNameController.text,
+                                          ),
+                                            profileImage,
+                                            speech.imgUrl ?? ""
+                                        );
+                                        if (response.code == 200) {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.success,
+                                              text: "Speech updated successfully!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          setState(() {
+                                            uploadedImage = null;
+                                            profileImage = null;
+                                            linkedinController.text == "";
+                                            pinterestController.text == "";
+                                            speechController.text == "";
+                                            twitterController.text == "";
+                                            whatsappController.text == "";
+                                            youtubeController.text == "";
+                                            instagramController.text == "";
+                                            googleplusController.text == "";
+                                            facebookController.text == "";
+                                            positionController.text == "";
+                                            lastNameController.text == "";
+                                            firstNameController.text == "";
+                                          });
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        } else {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.error,
+                                              text: "Failed to update Speech!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          Navigator.pop(context);
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Update",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                              fontSize:width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );

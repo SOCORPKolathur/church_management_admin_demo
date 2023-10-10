@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
@@ -123,7 +124,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 1.3,
+              height: size.height * 1.4,
               width: double.infinity,
               margin: EdgeInsets.symmetric(
                       horizontal: width/68.3,
@@ -265,6 +266,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyDeptName.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -301,6 +305,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyDeptLeadName.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -335,11 +342,16 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         TextFormField(
                                           key: _keyPhone,
                                           validator: (val){
-                                            if(val!.isEmpty){
+                                            if(val!.isEmpty) {
                                               return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -377,6 +389,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyDeptArea.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -592,11 +607,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         TextFormField(
                                           key: _keyzone,
                                           validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyzone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -739,7 +757,6 @@ class _DepartmentTabState extends State<DepartmentTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -747,13 +764,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -762,6 +775,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),
@@ -776,12 +790,24 @@ class _DepartmentTabState extends State<DepartmentTab> {
                 )
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
-              stream: searchString != "" ? DepartmentFireCrud.fetchDepartmentswithSerach(searchString) : DepartmentFireCrud.fetchDepartments(),
+              stream: DepartmentFireCrud.fetchDepartments(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<DepartmentModel> departments = snapshot.data!;
+                  List<DepartmentModel> departments1 = snapshot.data!;
+                  List<DepartmentModel> departments = [];
+                  departments1.forEach((element) {
+                    if(searchString != ""){
+                      if(element.name!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.leaderName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.contactNumber!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        departments.add(element);
+                      }
+                    }else{
+                      departments.add(element);
+                    }
+                  });
                   return Container(
                     width: width/1.241,
                     margin: EdgeInsets.symmetric(
@@ -818,28 +844,34 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Container(
-                                  height:height/18.6,
-                                  width: width/5.106,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        searchString = val;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search by Name,Leader Name',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black,
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 5.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Search by Name,Leadername,Phone",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: width/97.571,
+                                          ),
+                                        ),
                                       ),
-                                      contentPadding:  EdgeInsets.only(
-                                          left: width/136.6, bottom: height/65.1),
                                     ),
                                   ),
                                 ),

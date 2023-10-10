@@ -10,6 +10,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
@@ -164,9 +165,11 @@ class _PastorsTabState extends State<PastorsTab> {
   final _keyLastname = GlobalKey<FormFieldState>();
   final _keyPhone = GlobalKey<FormFieldState>();
   final _keyPincode= GlobalKey<FormFieldState>();
+  final _keyAadhar= GlobalKey<FormFieldState>();
   bool profileImageValidator = false;
 
   bool isLoading = false;
+  bool isCropped = false;
 
   @override
   void initState() {
@@ -318,7 +321,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           color: Constants().primaryAppColor, width:width/683),
                                       image: uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!.split(',').last),
@@ -361,23 +364,36 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                   ),
                                   SizedBox(width:width/27.32),
-                                  Container(
-                                    height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -406,6 +422,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -436,6 +455,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                         ),
                                         TextFormField(
                                           key: _keyLastname,
+                                          onChanged: (val){
+                                            _keyLastname.currentState!.validate();
+                                          },
                                           validator: (val){
                                             if(val!.isEmpty){
                                               return 'Field is required';
@@ -473,11 +495,16 @@ class _PastorsTabState extends State<PastorsTab> {
                                         TextFormField(
                                           key: _keyPhone,
                                           validator: (val){
-                                            if(val!.isEmpty){
+                                            if(val!.isEmpty) {
                                               return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -574,6 +601,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                            readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -709,6 +737,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             ),
                                           ),
                                           TextFormField(
+                                              readOnly: true,
                                             style: TextStyle(fontSize:width/113.83),
                                             controller: marriageDateController,
                                             onTap: () async {
@@ -996,6 +1025,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly:true,
                                           key: _keyDob,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -1072,11 +1102,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                         TextFormField(
                                           key: _keyPincode,
                                           validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1107,9 +1140,20 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyAadhar,
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
+                                          validator: (val){
+                                            if(val!.length != 12){
+                                              return 'Must be 12 digits';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          onChanged: (val){
+                                            _keyAadhar.currentState!.validate();
+                                          },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'[0-9]')),
@@ -1330,7 +1374,6 @@ class _PastorsTabState extends State<PastorsTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1338,13 +1381,9 @@ class _PastorsTabState extends State<PastorsTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -1353,6 +1392,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),
@@ -1366,12 +1406,26 @@ class _PastorsTabState extends State<PastorsTab> {
                   ],
                 )
                 : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
-              stream: searchString != "" ? PastorsFireCrud.fetchPastorsWithSearch(searchString) : PastorsFireCrud.fetchPastors(),
+              stream: PastorsFireCrud.fetchPastors(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<PastorsModel> pastors = snapshot.data!;
+                  List<PastorsModel> pastors1 = snapshot.data!;
+                  List<PastorsModel> pastors = [];
+                  pastors1.forEach((element) {
+                    if(searchString != ""){
+                      if(element.position!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.lastName!.startsWith(searchString.toLowerCase())||
+                          element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        pastors.add(element);
+                      }
+                    }else{
+                      pastors.add(element);
+                    }
+                  });
                   return Container(
                     width: width/1.241,
                    margin: EdgeInsets.symmetric(
@@ -1408,29 +1462,33 @@ class _PastorsTabState extends State<PastorsTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Container(
-                                  height:height/18.6,
-                                  width: width/5.106,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        searchString = val;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search by Name,Phone',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                      contentPadding:  EdgeInsets.only(
-                                          left: width/136.6,
-                                          bottom: height/65.1,
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 5.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Search by Name,Position,Phone",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: width/97.571,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1440,10 +1498,7 @@ class _PastorsTabState extends State<PastorsTab> {
                           ),
                         ),
                         Container(
-                          height:
-                          size.height * 0.82 > 180 + pastors.length * 210
-                              ? 180 + pastors.length * 210
-                              : size.height * 0.82,
+                          height: height/2.830434782608696 + pastors.length * 210,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Color(0xfff5f5f5),
@@ -2369,10 +2424,13 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       Text(":"),
                                       SizedBox(width:width/68.3),
-                                      KText(
-                                        text: pastor.address!,
-                                        style: TextStyle(
-                                            fontSize:width/97.571
+                                      SizedBox(
+                                        width: size.width * 0.3,
+                                        child: KText(
+                                          text: pastor.address!,
+                                          style: TextStyle(
+                                              fontSize:width/97.571
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -2482,7 +2540,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           width:width/683),
                                       image: selectedImg != null
                                           ? DecorationImage(
-                                          fit: BoxFit.fill,
+                                          fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                           image: NetworkImage(selectedImg!))
                                           : uploadedImage != null
                                           ? DecorationImage(
@@ -2552,23 +2610,36 @@ class _PastorsTabState extends State<PastorsTab> {
                                     ),
                                   ),
                                   SizedBox(width:width/27.32),
-                                  Container(
-                                    height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setStat(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setStat(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

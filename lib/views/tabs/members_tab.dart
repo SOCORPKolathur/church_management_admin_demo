@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
@@ -60,6 +61,8 @@ class _MembersTabState extends State<MembersTab> {
   String docname = "";
 
   String currentTab = 'View';
+
+  bool isCropped = false;
 
   selectImage(){
     InputElement input = FileUploadInputElement()
@@ -237,6 +240,7 @@ class _MembersTabState extends State<MembersTab> {
   final _keyLastname = GlobalKey<FormFieldState>();
   final _keyPhone = GlobalKey<FormFieldState>();
   final _keyPincode= GlobalKey<FormFieldState>();
+  final _keyAadhar= GlobalKey<FormFieldState>();
   bool profileImageValidator = false;
 
   bool isLoading = false;
@@ -318,7 +322,7 @@ class _MembersTabState extends State<MembersTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: profileImageValidator ? size.height * 2.2 : size.height * 2,
+              height: profileImageValidator ? size.height * 2.3 : size.height * 2.2,
               width: width/1.241,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,
@@ -460,7 +464,7 @@ class _MembersTabState extends State<MembersTab> {
                                       border: Border.all(color: Constants().primaryAppColor, width:width/683),
                                       image: uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                               image: MemoryImage(
                                                 Uint8List.fromList(
                                                   base64Decode(uploadedImage!.split(',').last),
@@ -502,23 +506,36 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    height: height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child:  Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width: width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height: height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child:  Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width: width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   InkWell(
@@ -590,6 +607,9 @@ class _MembersTabState extends State<MembersTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyFirstname.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -619,6 +639,9 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyLastname,
+                                          onChanged: (val){
+                                            _keyLastname.currentState!.validate();
+                                          },
                                           validator: (val){
                                             if(val!.isEmpty){
                                               return 'Field is required';
@@ -660,11 +683,16 @@ class _MembersTabState extends State<MembersTab> {
                                         TextFormField(
                                           key: _keyPhone,
                                           validator: (val){
-                                            if(val!.isEmpty){
+                                            if(val!.isEmpty) {
                                               return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
                                           },
                                           decoration: const InputDecoration(
                                             counterText: "",
@@ -808,6 +836,7 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -842,9 +871,20 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyAadhar,
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
+                                          validator: (val){
+                                            if(val!.length != 12){
+                                              return 'Must be 12 digits';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          onChanged: (val){
+                                            _keyAadhar.currentState!.validate();
+                                          },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'[0-9]')),
@@ -875,6 +915,7 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: marriageDateController,
                                           onTap: () async {
@@ -1156,6 +1197,7 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: dobController,
                                           onTap: () async {
@@ -1191,6 +1233,9 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyNationality,
+                                          onChanged: (val){
+                                            _keyNationality.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1232,17 +1277,20 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
-                                          key: _keyPincode,
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
+                                            key:_keyPincode,
                                           validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
                                             }else{
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyPincode.currentState!.validate();
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'[0-9]')),
@@ -1464,7 +1512,6 @@ class _MembersTabState extends State<MembersTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1472,13 +1519,9 @@ class _MembersTabState extends State<MembersTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -1487,6 +1530,7 @@ class _MembersTabState extends State<MembersTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),
@@ -1501,12 +1545,26 @@ class _MembersTabState extends State<MembersTab> {
                 )
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
-              stream: searchString != "" ? MembersFireCrud.fetchMembersWithSearch(searchString) : MembersFireCrud.fetchMembers(),
+              stream: MembersFireCrud.fetchMembers(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<MembersModel> members = snapshot.data!;
+                  List<MembersModel> members1 = snapshot.data!;
+                  List<MembersModel> members = [];
+                  members1.forEach((element) {
+                    if(searchString != ""){
+                      if(element.position!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        members.add(element);
+                      }
+                    }else{
+                      members.add(element);
+                    }
+                  });
                   return Container(
                     width: width/1.241,
                     margin:  EdgeInsets.symmetric(
@@ -1542,28 +1600,34 @@ class _MembersTabState extends State<MembersTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Container(
-                                  height: height/18.6,
-                                  width: width/5.106,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        searchString = val;
-                                      });
-                                    },
-                                    decoration:  InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search by Name,Position,Phone',
-                                      hintStyle:  TextStyle(
-                                        color: Colors.black,
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 5.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Search by Name,Profession,Phone",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: width/97.571,
+                                          ),
+                                        ),
                                       ),
-                                      contentPadding:  EdgeInsets.symmetric(
-                                          horizontal: width/136.6, vertical:height/65.1),
                                     ),
                                   ),
                                 ),
@@ -2775,10 +2839,13 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                        Text(":"),
                                        SizedBox(width: width/68.3),
-                                      KText(
-                                        text: member.address!,
-                                        style:  TextStyle(
-                                            fontSize: width/97.57
+                                      SizedBox(
+                                        width: size.width * 0.3,
+                                        child: KText(
+                                          text: member.address!,
+                                          style:  TextStyle(
+                                              fontSize: width/97.57
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -2921,7 +2988,7 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                       ): selectedImg != null ? DecorationImage(
-                                          fit: BoxFit.fill,
+                                          fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                           image: NetworkImage(selectedImg!))
                                           : null),
                                   child: (uploadedImage == null && selectedImg == null)
@@ -2980,23 +3047,36 @@ class _MembersTabState extends State<MembersTab> {
                                     ),
                                   ),
                                    SizedBox(width:width/27.32),
-                                  Container(
-                                    height: height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child:  Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width: width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setStat(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setStat(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height: height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child:  Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width: width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

@@ -11,6 +11,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
@@ -77,6 +78,8 @@ class _StudentTabState extends State<StudentTab> {
       setState(() {});
     });
   }
+
+  bool isCropped = false;
 
   setStudentId() async {
     var document = await cf.FirebaseFirestore.instance.collection('Students').get();
@@ -199,6 +202,7 @@ class _StudentTabState extends State<StudentTab> {
   final _keyLastname = GlobalKey<FormFieldState>();
   final _keyPhone = GlobalKey<FormFieldState>();
   final _keyDob = GlobalKey<FormFieldState>();
+  final _keyAadhar = GlobalKey<FormFieldState>();
   bool profileImageValidator = false;
 
   bool isLoading = false;
@@ -421,7 +425,7 @@ class _StudentTabState extends State<StudentTab> {
                                           width: 2),
                                       image: uploadedImage != null
                                           ? DecorationImage(
-                                              fit: BoxFit.fill,
+                                              fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                               image: MemoryImage(
                                                 Uint8List.fromList(
                                                   base64Decode(uploadedImage!
@@ -467,23 +471,36 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                   ),
                                    SizedBox(width:width/27.32),
-                                  Container(
-                                    height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child:  Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child:  Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -535,6 +552,9 @@ class _StudentTabState extends State<StudentTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyFirstname.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -570,6 +590,9 @@ class _StudentTabState extends State<StudentTab> {
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyLastname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -652,6 +675,9 @@ class _StudentTabState extends State<StudentTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyParentname.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -682,11 +708,16 @@ class _StudentTabState extends State<StudentTab> {
                                         TextFormField(
                                           key: _keyPhone,
                                           validator: (val){
-                                            if(val!.isEmpty){
+                                            if(val!.isEmpty) {
                                               return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -721,6 +752,7 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -926,6 +958,17 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyAadhar,
+                                          validator: (val){
+                                            if(val!.length != 12){
+                                              return 'Must be 12 digits';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          onChanged: (val){
+                                            _keyAadhar.currentState!.validate();
+                                          },
                                           decoration: const InputDecoration(
                                             counterText: "",
                                           ),
@@ -1027,6 +1070,7 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           key: _keyDob,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -1234,7 +1278,6 @@ class _StudentTabState extends State<StudentTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1242,13 +1285,9 @@ class _StudentTabState extends State<StudentTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -1257,6 +1296,7 @@ class _StudentTabState extends State<StudentTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),
@@ -2523,7 +2563,7 @@ class _StudentTabState extends State<StudentTab> {
                                           image: NetworkImage(selectedImg!))
                                           : uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!
@@ -2589,23 +2629,36 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                   ),
                                   SizedBox(width:width/27.32),
-                                  Container(
-                                    height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setStat(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setStat(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

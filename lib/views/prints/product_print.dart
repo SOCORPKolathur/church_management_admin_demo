@@ -26,6 +26,7 @@ class ProductModelforPdf{
 
     doc.addPage(
       pw.MultiPage(
+        margin: const pw.EdgeInsets.symmetric(horizontal: 20,vertical: 30),
         build: (context) => [
           _contentTable(context),
           pw.SizedBox(height: 20),
@@ -75,6 +76,8 @@ class ProductModelforPdf{
       cellStyle: const pw.TextStyle(
         fontSize: 10,
       ),
+      cellPadding: pw.EdgeInsets.zero,
+      headerPadding: pw.EdgeInsets.zero,
       rowDecoration: pw.BoxDecoration(
         border: pw.Border(
           bottom: pw.BorderSide(
@@ -83,15 +86,29 @@ class ProductModelforPdf{
           ),
         ),
       ),
-      headers: List<String>.generate(
+      headers: List<pw.Widget>.generate(
         tableHeaders.length,
-            (col) => tableHeaders[col],
+            (col) => pw.Container(
+              // width: 60,
+                height:40,
+                decoration:pw.BoxDecoration(
+                    border: pw.Border.all(color:PdfColors.black)
+                ),
+                child:  pw.Center(child:pw.Text(tableHeaders[col],style: pw.TextStyle(fontWeight: pw.FontWeight.bold,color: PdfColor.fromHex("E7B41F"))),)
+            ),
       ),
-      data: List<List<String>>.generate(
+      data: List<List<pw.Widget>>.generate(
         products.length,
-            (row) => List<String>.generate(
+            (row) => List<pw.Widget>.generate(
           tableHeaders.length,
-              (col) => products[row].getIndex(col,row),
+              (col) => pw.Container(
+                // width: 60,
+                  height:40,
+                  decoration:pw.BoxDecoration(
+                      border: pw.Border.all(color:PdfColors.black)
+                  ),
+                  child:  pw.Center(child:pw.Text(products[row].getIndex(col,row),style: pw.TextStyle()),)
+              ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'package:church_management_admin/models/committee_member_model.dart';
 import 'package:church_management_admin/models/committee_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,29 +7,77 @@ import '../models/response.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference CommitteeCollection = firestore.collection('Committee');
+final CollectionReference CommitteeChatCollection = firestore.collection('CommitteeChat');
+final CollectionReference CommitteeMemberCollection = firestore.collection('CommitteeMembers');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class CommitteeFireCrud {
+
   static Stream<List<CommitteeModel>> fetchCommitties() => CommitteeCollection
-      .orderBy("timestamp", descending: false)
       .snapshots()
       .map((snapshot) => snapshot.docs
       .map((doc) => CommitteeModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
-  static Stream<List<CommitteeModel>> fetchCommittiesWithSearch(String text) => CommitteeCollection
+  static Stream<List<CommitteeMemberModel>> fetchCommittiesMembers(String id) =>
+      CommitteeCollection.doc(id).collection('CommitteeMembers')
       .orderBy("timestamp", descending: false)
       .snapshots()
       .map((snapshot) => snapshot.docs
-      .where((element) => (element['position'].toString().toLowerCase().startsWith(text)||
-      element['firstName'].toString().toLowerCase().startsWith(text)||
-      element['phone'].toString().toLowerCase().startsWith(text)
-  ))
-      .map((doc) => CommitteeModel.fromJson(doc.data() as Map<String,dynamic>))
+      .map((doc) => CommitteeMemberModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 
-  static Future<Response> addCommittee(
-      {required File image,
+  // static Stream<List<CommitteeMemberModel>> fetchCommittiesWithSearch(String text) => CommitteeCollection
+  //     .orderBy("timestamp", descending: false)
+  //     .snapshots()
+  //     .map((snapshot) => snapshot.docs
+  //     .where((element) => (element['position'].toString().toLowerCase().startsWith(text)||
+  //     element['firstName'].toString().toLowerCase().startsWith(text)||
+  //     element['phone'].toString().toLowerCase().startsWith(text)
+  // ))
+  //     .map((doc) => CommitteeMemberModel.fromJson(doc.data() as Map<String,dynamic>))
+  //     .toList());
+
+  static Future<Response> addCommittee({required String name}) async {
+    Response response = Response();
+    DocumentReference documentReferencer = CommitteeCollection.doc();
+    CommitteeModel committee = CommitteeModel(
+      id: "",
+      committeeName: name,
+    );
+    committee.id = documentReferencer.id;
+    var json = committee.toJson();
+    var result = await documentReferencer.set(json).whenComplete(() {
+      response.code = 200;
+      response.message = "Sucessfully added to the database";
+      CommitteeChatCollection.doc(committee.id).set({
+        "id" : committee.id,
+        "name": committee.committeeName
+      });
+    }).catchError((e) {
+      response.code = 500;
+      response.message = e;
+    });
+    return response;
+  }
+
+  static Future<Response> deleteCommitteeRecord({required String docId}) async {
+    Response res = Response();
+    DocumentReference documentReferencer = CommitteeCollection.doc(docId);
+    var result = await documentReferencer.delete().whenComplete((){
+      res.code = 200;
+      res.message = "Sucessfully Deleted from database";
+      CommitteeChatCollection.doc(docId).delete();
+    }).catchError((e){
+      res.code = 500;
+      res.message = e;
+    });
+    return res;
+  }
+
+  static Future<Response> addCommitteeMember(
+      {required String docId,
+        required File image,
         required String baptizeDate,
         required String bloodGroup,
         required String department,
@@ -51,8 +100,8 @@ class CommitteeFireCrud {
         required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
-    DocumentReference documentReferencer = CommitteeCollection.doc();
-    CommitteeModel committee = CommitteeModel(
+    DocumentReference documentReferencer = CommitteeCollection.doc(docId).collection('CommitteeMembers').doc();
+    CommitteeMemberModel committee = CommitteeMemberModel(
         id: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
         socialStatus: socialStatus,
@@ -98,7 +147,7 @@ class CommitteeFireCrud {
     return downloadUrl;
   }
 
-  static Future<Response> updateRecord(CommitteeModel committee,File? image,String imgUrl) async {
+  static Future<Response> updateRecord(CommitteeMemberModel committee,File? image,String imgUrl) async {
     Response res = Response();
     if(image != null) {
       String downloadUrl = await uploadImageToStorage(image);
@@ -117,9 +166,9 @@ class CommitteeFireCrud {
     return res;
   }
 
-  static Future<Response> deleteRecord({required String id}) async {
+  static Future<Response> deleteRecord({required String docId,required String id}) async {
     Response res = Response();
-    DocumentReference documentReferencer = CommitteeCollection.doc(id);
+    DocumentReference documentReferencer = CommitteeCollection.doc(docId).collection('CommitteeMembers').doc(id);
     var result = await documentReferencer.delete().whenComplete((){
       res.code = 200;
       res.message = "Sucessfully Deleted from database";

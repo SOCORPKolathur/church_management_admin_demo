@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
+import 'package:lottie/lottie.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -33,7 +34,7 @@ class _FamilyTabState extends State<FamilyTab> {
   TextEditingController zoneController = TextEditingController();
   TextEditingController familyIdController = TextEditingController();
   int familyQuanity = 0;
-
+  bool isCropped = false;
   TextEditingController filterTextController = TextEditingController();
   String filterText = "";
 
@@ -252,7 +253,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           width: width/683),
                                       image: uploadedImage != null
                                           ? DecorationImage(
-                                        fit: BoxFit.fill,
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                         image: MemoryImage(
                                           Uint8List.fromList(
                                             base64Decode(uploadedImage!
@@ -298,23 +299,36 @@ class _FamilyTabState extends State<FamilyTab> {
                                     ),
                                   ),
                                    SizedBox(width: width/27.32),
-                                  Container(
-                                    height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child:  Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child:  Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width:width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -366,6 +380,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                               return '';
                                             }
                                           },
+                                          onChanged: (val){
+                                            _keyFamilyname.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -395,6 +412,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                         ),
                                         TextFormField(
                                           key: _keyFamilyLeadername,
+                                          onChanged: (val){
+                                            _keyFamilyLeadername.currentState!.validate();
+                                          },
                                           validator: (val){
                                             if(val!.isEmpty){
                                               return 'Field is required';
@@ -526,6 +546,18 @@ class _FamilyTabState extends State<FamilyTab> {
                                         ),
                                         TextFormField(
                                           key: _keyPhone,
+                                          validator: (val){
+                                            if(val!.isEmpty) {
+                                              return 'Field is required';
+                                            } else if(val.length != 10){
+                                              return 'number must be 10 digits';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          onChanged: (val){
+                                            _keyPhone.currentState!.validate();
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -627,6 +659,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                                   return '';
                                                 }
                                               },
+                                              onChanged: (val){
+                                                _keyAddress.currentState!.validate();
+                                              },
                                               maxLength: 255,
                                               maxLines: null,
                                                 style:  TextStyle(fontSize:width/113.83),
@@ -719,11 +754,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                         TextFormField(
                                           key: _keyZone,
                                           validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
                                             }else{
                                               return '';
                                             }
+                                          },
+                                          onChanged: (val){
+                                            _keyZone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -868,7 +906,6 @@ class _FamilyTabState extends State<FamilyTab> {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                           width: size.width/1.37,
-                          height: size.height/4.33,
                           alignment: AlignmentDirectional.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -876,13 +913,9 @@ class _FamilyTabState extends State<FamilyTab> {
                             children: <Widget>[
                               Center(
                                 child: SizedBox(
-                                  height: size.height/17.32,
-                                  width: size.height/17.32,
-                                  child: CircularProgressIndicator(
-                                    color: Constants().primaryAppColor,
-                                    value: null,
-                                    strokeWidth: 7.0,
-                                  ),
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
                                 ),
                               ),
                               Container(
@@ -891,6 +924,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   child: Text(
                                     "loading..Please wait...",
                                     style: TextStyle(
+                                      fontSize: width/56.91666666666667,
                                       color: Constants().primaryAppColor,
                                     ),
                                   ),

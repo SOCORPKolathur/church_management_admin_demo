@@ -26,6 +26,7 @@ class ChurchStaffModelforPdf{
 
     doc.addPage(
       pw.MultiPage(
+        margin: const pw.EdgeInsets.symmetric(horizontal: 20,vertical: 30),
         build: (context) => [
           _contentTable(context),
           pw.SizedBox(height: 20),
@@ -72,6 +73,8 @@ class ChurchStaffModelforPdf{
         fontSize: 10,
         fontWeight: pw.FontWeight.bold,
       ),
+      cellPadding: pw.EdgeInsets.zero,
+      headerPadding: pw.EdgeInsets.zero,
       cellStyle: const pw.TextStyle(
         fontSize: 10,
       ),
@@ -83,15 +86,29 @@ class ChurchStaffModelforPdf{
           ),
         ),
       ),
-      headers: List<String>.generate(
+      headers: List<pw.Widget>.generate(
         tableHeaders.length,
-            (col) => tableHeaders[col],
+            (col) => pw.Container(
+              // width: 60,
+                height:40,
+                decoration:pw.BoxDecoration(
+                    border: pw.Border.all(color:PdfColors.black)
+                ),
+                child:  pw.Center(child:pw.Text(tableHeaders[col],style: pw.TextStyle(fontWeight: pw.FontWeight.bold,color: PdfColor.fromHex("E7B41F"))),)
+            ),
       ),
-      data: List<List<String>>.generate(
+      data: List<List<pw.Widget>>.generate(
         churchStaffs.length,
-            (row) => List<String>.generate(
+            (row) => List<pw.Widget>.generate(
           tableHeaders.length,
-              (col) => churchStaffs[row].getIndex(col,row),
+              (col) => pw.Container(
+                // width: 60,
+                  height:40,
+                  decoration:pw.BoxDecoration(
+                      border: pw.Border.all(color:PdfColors.black)
+                  ),
+                  child:  pw.Center(child:pw.Text(churchStaffs[row].getIndex(col,row),style: pw.TextStyle()),)
+              ),
         ),
       ),
     );

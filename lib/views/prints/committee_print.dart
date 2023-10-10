@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 import 'package:church_management_admin/models/clan_member_model.dart';
-import 'package:church_management_admin/models/committee_model.dart';
+import 'package:church_management_admin/models/committee_member_model.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<Uint8List> generateCommitteePdf(PdfPageFormat pageFormat,List<CommitteeModel> committies, bool isPdf) async {
+Future<Uint8List> generateCommitteePdf(PdfPageFormat pageFormat,List<CommitteeMemberModel> committies, bool isPdf) async {
 
   final committee = CommitteeModelforPdf(
       title: "Committies",
@@ -19,7 +19,7 @@ class CommitteeModelforPdf{
 
   CommitteeModelforPdf({required this.title, required this.committies});
   String? title;
-  List<CommitteeModel> committies = [];
+  List<CommitteeMemberModel> committies = [];
 
   Future<Uint8List> buildPdf(PdfPageFormat pageFormat, bool isPdf) async {
 
