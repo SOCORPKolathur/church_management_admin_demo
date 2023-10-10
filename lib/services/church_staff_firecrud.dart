@@ -28,8 +28,8 @@ class ChurchStaffFireCrud {
       .toList());
 
   static Future<Response> addChurchStaff(
-      { required File image,
-        required File document,
+      { required File? image,
+        required File? document,
         required String address,
         required String dateOfJoining,
         required String baptizeDate,
@@ -53,8 +53,14 @@ class ChurchStaffFireCrud {
         required String position,
         required String socialStatus})
   async {
-    String downloadUrl = await uploadImageToStorage(image);
-    String downloadUrl1 = await uploadImageToStorage(document);
+    String downloadUrl = '';
+    String downloadUrl1 = '';
+    if(image != null){
+      downloadUrl = await uploadImageToStorage(image);
+    }
+    if(document != null){
+      downloadUrl1 = await uploadImageToStorage(document);
+    }
     Response response = Response();
     DocumentReference documentReferencer = ChurchStaffCollection.doc();
     ChurchStaffModel church_staff = ChurchStaffModel(

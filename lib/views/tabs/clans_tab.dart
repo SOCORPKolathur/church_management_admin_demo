@@ -80,6 +80,16 @@ class _ClansTabState extends State<ClansTab> {
   bool isEmail(String input) => EmailValidator.validate(input);
   final _key = GlobalKey<FormFieldState>();
 
+  final _keyFirstname = GlobalKey<FormFieldState>();
+  final _keyLastname = GlobalKey<FormFieldState>();
+  final _keyPhone = GlobalKey<FormFieldState>();
+  final _keyFamily = GlobalKey<FormFieldState>();
+  final _keyDepartment = GlobalKey<FormFieldState>();
+  final _keyDob = GlobalKey<FormFieldState>();
+  final _keyNationality = GlobalKey<FormFieldState>();
+  final _keyPincode = GlobalKey<FormFieldState>();
+  bool profileImageValidator = false;
+  bool isLoading = false;
   String chumma = '';
 
   @override
@@ -2427,7 +2437,7 @@ class _ClansTabState extends State<ClansTab> {
       context: context,
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStat) {
             return AlertDialog(
               backgroundColor: Colors.transparent,
               content:  Container(
@@ -2541,7 +2551,7 @@ class _ClansTabState extends State<ClansTab> {
                                         ),
                                       )
                                           : null),
-                                  child: selectedImg == null
+                                  child: (uploadedImage == null && selectedImg == null)
                                       ? Center(
                                     child: Icon(
                                       Icons.cloud_upload,
@@ -2557,7 +2567,27 @@ class _ClansTabState extends State<ClansTab> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: selectImage,
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement()
+                                      as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
                                     child: Container(
                                       height:height/18.6,
                                       width: size.width * 0.25,
@@ -2615,6 +2645,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyFirstname,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -2643,6 +2681,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyLastname,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -2695,7 +2741,7 @@ class _ClansTabState extends State<ClansTab> {
                                             );
                                           }).toList(),
                                           onChanged: (newValue) {
-                                            setState(() {
+                                            setStat(() {
                                               genderController.text = newValue!;
                                             });
                                           },
@@ -2722,6 +2768,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyPhone,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -2743,7 +2797,7 @@ class _ClansTabState extends State<ClansTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Email *",
+                                          text: "Email",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -2913,7 +2967,7 @@ class _ClansTabState extends State<ClansTab> {
                                             );
                                           }).toList(),
                                           onChanged: (newValue) {
-                                            setState(() {
+                                            setStat(() {
                                               socialStatusController.text = newValue!;
                                             });
                                           },
@@ -2965,6 +3019,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyFamily,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
@@ -2989,6 +3051,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyDepartment,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -3039,7 +3109,7 @@ class _ClansTabState extends State<ClansTab> {
                                           }).toList(),
                                           onChanged: (newValue) {
                                             if (newValue != "Select Role") {
-                                              setState(() {
+                                              setStat(() {
                                                 bloodGroupController.text =
                                                 newValue!;
                                               });
@@ -3068,6 +3138,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyDob,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: dobController,
                                           onTap: () async {
@@ -3102,6 +3180,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyNationality,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -3130,6 +3216,14 @@ class _ClansTabState extends State<ClansTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: _keyPincode,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -3152,89 +3246,110 @@ class _ClansTabState extends State<ClansTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (
-                                          baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
-                                          departmentController.text != "" &&
-                                          pincodeController.text != "" &&
-                                          dobController.text != "" &&
-                                          emailController.text != "" &&
-                                          familyController.text != "" &&
-                                          firstNameController.text != "" &&
-                                          jobController.text != "" &&
-                                          lastNameController.text != "" &&
-                                          nationalityController.text != "" &&
-                                          phoneController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
-                                        Response response =
-                                        await ClansFireCrud.addClanMember(
-                                                image: profileImage!,
-                                                docId: docId,
-                                                baptizeDate: baptizeDateController.text,
-                                                bloodGroup: bloodGroupController.text,
-                                                department: departmentController.text,
-                                                dob: dobController.text,
-                                                email: emailController.text,
-                                                family: familyController.text,
-                                                firstName: firstNameController.text,
-                                                job: jobController.text,
-                                                pincode: pincodeController.text,
-                                                lastName: lastNameController.text,
-                                                marriageDate: marriageDateController.text,
-                                                nationality: nationalityController.text,
-                                                phone: phoneController.text,
-                                                position: positionController.text,
-                                                socialStatus: socialStatusController.text,
-                                                country: countryController.text,
-                                                gender : genderController.text
-                                        );
-                                        if (response.code == 200) {
-                                          CoolAlert.show(
-                                              context: context,
-                                              type: CoolAlertType.success,
-                                              text: "Clan member created successfully!",
-                                              width: size.width * 0.4,
-                                              backgroundColor: Constants()
-                                                  .primaryAppColor
-                                                  .withOpacity(0.8));
+                                      if(!isLoading){
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        _keyFirstname.currentState!.validate();
+                                        _keyLastname.currentState!.validate();
+                                        _keyPhone.currentState!.validate();
+                                        _keyFamily.currentState!.validate();
+                                        _keyDepartment.currentState!.validate();
+                                        _keyDob.currentState!.validate();
+                                        _keyNationality.currentState!.validate();
+                                        _keyPincode.currentState!.validate();
+                                        if(profileImage == null){
                                           setState(() {
-                                            uploadedImage = null;
-                                            profileImage = null;
-                                            baptizeDateController.text = "";
-                                            bloodGroupController.text = "Select Blood Group";
-                                            departmentController.text = "";
-                                            dobController.text = "";
-                                            pincodeController.text = "";
-                                            emailController.text = "";
-                                            familyController.text = "";
-                                            firstNameController.text = "";
-                                            jobController.text = "";
-                                            lastNameController.text = "";
-                                            marriageDateController.text = "";
-                                            nationalityController.text = "";
-                                            phoneController.text = "";
-                                            positionController.text = "";
-                                            socialStatusController.text = "";
-                                            countryController.text = "";
-                                            genderController.text = "Select Gender";
+                                            profileImageValidator = true;
                                           });
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        } else {
-                                          CoolAlert.show(
-                                              context: context,
-                                              type: CoolAlertType.error,
-                                              text: "Failed to create Clan member!",
-                                              width: size.width * 0.4,
-                                              backgroundColor: Constants()
-                                                  .primaryAppColor
-                                                  .withOpacity(0.8));
-                                          Navigator.pop(context);
                                         }
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
+                                        if ( profileImage != null &&
+                                            genderController.text != "Select Gender" &&
+                                            bloodGroupController.text != "Select Blood Group" &&
+                                            departmentController.text != "" &&
+                                            pincodeController.text != "" &&
+                                            dobController.text != "" &&
+                                            familyController.text != "" &&
+                                            firstNameController.text != "" &&
+                                            lastNameController.text != "" &&
+                                            nationalityController.text != "" &&
+                                            phoneController.text != "") {
+                                          Response response =
+                                          await ClansFireCrud.addClanMember(
+                                              image: profileImage!,
+                                              docId: docId,
+                                              baptizeDate: baptizeDateController.text,
+                                              bloodGroup: bloodGroupController.text,
+                                              department: departmentController.text,
+                                              dob: dobController.text,
+                                              email: emailController.text,
+                                              family: familyController.text,
+                                              firstName: firstNameController.text,
+                                              job: jobController.text,
+                                              pincode: pincodeController.text,
+                                              lastName: lastNameController.text,
+                                              marriageDate: marriageDateController.text,
+                                              nationality: nationalityController.text,
+                                              phone: phoneController.text,
+                                              position: positionController.text,
+                                              socialStatus: socialStatusController.text,
+                                              country: countryController.text,
+                                              gender : genderController.text
+                                          );
+                                          if (response.code == 200) {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.success,
+                                                text: "Clan member created successfully!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            setState(() {
+                                              uploadedImage = null;
+                                              profileImage = null;
+                                              baptizeDateController.text = "";
+                                              bloodGroupController.text = "Select Blood Group";
+                                              departmentController.text = "";
+                                              dobController.text = "";
+                                              pincodeController.text = "";
+                                              emailController.text = "";
+                                              familyController.text = "";
+                                              firstNameController.text = "";
+                                              jobController.text = "";
+                                              lastNameController.text = "";
+                                              marriageDateController.text = "";
+                                              nationalityController.text = "";
+                                              phoneController.text = "";
+                                              positionController.text = "";
+                                              socialStatusController.text = "";
+                                              countryController.text = "";
+                                              genderController.text = "Select Gender";
+                                              isLoading = false;
+                                            });
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          } else {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.error,
+                                                text: "Failed to create Clan member!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          }
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                        }
                                       }
                                     },
                                     child: Container(
@@ -3381,51 +3496,6 @@ class _ClansTabState extends State<ClansTab> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    onTap: selectImage,
-                                    child: Container(
-                                      height:height/18.6,
-                                      width: size.width * 0.25,
-                                      color: Constants().primaryAppColor,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.add_a_photo,
-                                              color: Colors.white),
-                                          SizedBox(width:width/136.6),
-                                          KText(
-                                            text: 'Select Profile Photo',
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width:width/27.32),
-                                  Container(
-                                    height:height/18.6,
-                                    width: size.width * 0.25,
-                                    color: Constants().primaryAppColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.crop,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width:width/136.6),
-                                        KText(
-                                          text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
                               SizedBox(height:height/21.7),
                               Row(
                                 children: [

@@ -37,6 +37,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
 
   String currentTab = 'View';
 
+  bool isLoading = false;
+
   final _keyDeptName = GlobalKey<FormFieldState>();
   final _keyDeptLeadName = GlobalKey<FormFieldState>();
   final _keyPhone = GlobalKey<FormFieldState>();
@@ -117,600 +119,661 @@ class _DepartmentTabState extends State<DepartmentTab> {
               ),
             ),
             currentTab.toUpperCase() == "ADD"
-                ? Container(
+                ? Stack(
+              alignment: Alignment.center,
+                  children: [
+                    Container(
               height: size.height * 1.3,
               width: double.infinity,
               margin: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
+                      horizontal: width/68.3,
+                      vertical: height/32.55
               ),
               decoration: BoxDecoration(
-                color: Constants().primaryAppColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(1, 2),
-                    blurRadius: 3,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
+                    color: Constants().primaryAppColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(1, 2),
+                        blurRadius: 3,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    height: size.height * 0.1,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                           horizontal: width/68.3, vertical: height/81.375),
-                      child: Row(
-                        children: [
-                          Icon(Icons.account_tree),
-                          SizedBox(width: width/136.6),
-                          KText(
-                            text: "ADD DEPARTMENT",
-                            style: GoogleFonts.openSans(
-                             fontSize: width/68.3,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.1,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                               horizontal: width/68.3, vertical: height/81.375),
+                          child: Row(
+                            children: [
+                              Icon(Icons.account_tree),
+                              SizedBox(width: width/136.6),
+                              KText(
+                                text: "ADD DEPARTMENT",
+                                style: GoogleFonts.openSans(
+                                 fontSize: width/68.3,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Expanded(child: Container()),
+                              // InkWell(
+                              //   onTap: () async {
+                              //     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+                              //       type: FileType.custom,
+                              //       allowedExtensions: ['xlsx'],
+                              //       allowMultiple: false,
+                              //     );
+                              //     var bytes = pickedFile!.files.single.bytes;
+                              //     var excel = ex.Excel.decodeBytes(bytes!);
+                              //     Response response = await DepartmentFireCrud.bulkUploadDepartment(excel);
+                              //     if(response.code == 200){
+                              //       CoolAlert.show(
+                              //           context: context,
+                              //           type: CoolAlertType.success,
+                              //           text: "Department created successfully!",
+                              //           width: size.width * 0.4,
+                              //           backgroundColor: Constants()
+                              //               .primaryAppColor.withOpacity(0.8)
+                              //       );
+                              //     }else{
+                              //       CoolAlert.show(
+                              //           context: context,
+                              //           type: CoolAlertType.error,
+                              //           text: "Failed to Create Department!",
+                              //           width: size.width * 0.4,
+                              //           backgroundColor: Constants()
+                              //               .primaryAppColor.withOpacity(0.8)
+                              //       );
+                              //     }
+                              //   },
+                              //   child: Container(
+                              //     height:height/18.6,
+                              //     width: width/9.106,
+                              //     decoration: BoxDecoration(
+                              //       color: Colors.white,
+                              //       borderRadius: BorderRadius.circular(8),
+                              //       boxShadow: [
+                              //         BoxShadow(
+                              //           color: Colors.black26,
+                              //           offset: Offset(1, 2),
+                              //           blurRadius: 3,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     child: Padding(
+                              //       padding:
+                              //       EdgeInsets.symmetric(horizontal:width/227.66),
+                              //       child: Center(
+                              //         child: KText(
+                              //           text: "Bulk Upload",
+                              //           style: GoogleFonts.openSans(
+                              //            fontSize:width/105.07,
+                              //             fontWeight: FontWeight.bold,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(width: width/136.6),
+                            ],
                           ),
-                          Expanded(child: Container()),
-                          // InkWell(
-                          //   onTap: () async {
-                          //     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
-                          //       type: FileType.custom,
-                          //       allowedExtensions: ['xlsx'],
-                          //       allowMultiple: false,
-                          //     );
-                          //     var bytes = pickedFile!.files.single.bytes;
-                          //     var excel = ex.Excel.decodeBytes(bytes!);
-                          //     Response response = await DepartmentFireCrud.bulkUploadDepartment(excel);
-                          //     if(response.code == 200){
-                          //       CoolAlert.show(
-                          //           context: context,
-                          //           type: CoolAlertType.success,
-                          //           text: "Department created successfully!",
-                          //           width: size.width * 0.4,
-                          //           backgroundColor: Constants()
-                          //               .primaryAppColor.withOpacity(0.8)
-                          //       );
-                          //     }else{
-                          //       CoolAlert.show(
-                          //           context: context,
-                          //           type: CoolAlertType.error,
-                          //           text: "Failed to Create Department!",
-                          //           width: size.width * 0.4,
-                          //           backgroundColor: Constants()
-                          //               .primaryAppColor.withOpacity(0.8)
-                          //       );
-                          //     }
-                          //   },
-                          //   child: Container(
-                          //     height:height/18.6,
-                          //     width: width/9.106,
-                          //     decoration: BoxDecoration(
-                          //       color: Colors.white,
-                          //       borderRadius: BorderRadius.circular(8),
-                          //       boxShadow: [
-                          //         BoxShadow(
-                          //           color: Colors.black26,
-                          //           offset: Offset(1, 2),
-                          //           blurRadius: 3,
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     child: Padding(
-                          //       padding:
-                          //       EdgeInsets.symmetric(horizontal:width/227.66),
-                          //       child: Center(
-                          //         child: KText(
-                          //           text: "Bulk Upload",
-                          //           style: GoogleFonts.openSans(
-                          //            fontSize:width/105.07,
-                          //             fontWeight: FontWeight.bold,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(width: width/136.6),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )),
-                      padding: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              )),
+                          padding: EdgeInsets.symmetric(
+                      horizontal: width/68.3,
+                      vertical: height/32.55
               ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department Name/Title *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      key: _keyDeptName,
-                                      validator: (val){
-                                        if(val!.isEmpty){
-                                          return 'Field is required';
-                                        }else{
-                                          return '';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      maxLength: 40,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                      ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: nameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                width: width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department Leader Name *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      key: _keyDeptLeadName,
-                                      validator: (val){
-                                        if(val!.isEmpty){
-                                          return 'Field is required';
-                                        }else{
-                                          return '';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      maxLength: 40,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                      ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: leadernameController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department Contact *",
-                                      style: GoogleFonts.openSans(
-                                        color:Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      key: _keyPhone,
-                                      validator: (val){
-                                        if(val!.isEmpty){
-                                          return 'Field is required';
-                                        }else{
-                                          return '';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]')),
-                                      ],
-                                      maxLength: 10,
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: numberController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                width: width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Department Area/Zone/Location *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      key: _keyDeptArea,
-                                      validator: (val){
-                                        if(val!.isEmpty){
-                                          return 'Field is required';
-                                        }else{
-                                          return '';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      maxLength: 40,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                      ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: locationController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              KText(
-                                text: "Description",
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black,
-                                 fontSize:width/105.07,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                margin: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
-              ),
-                                decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                      height:height/32.55,
-                                      width: double.infinity,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department Name/Title *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          child: TextFormField(
-                                            maxLength: 255,
-                                            style: TextStyle(
-                                                fontSize:width/113.83),
-                                            controller: descriptionController,
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
-                                            ),
-                                            maxLines: null,
-                                          )
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height/65.1),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              KText(
-                                text: "Address",
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black,
-                                 fontSize:width/105.07,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                margin: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
-              ),
-                                decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                      height:height/32.55,
-                                      width: double.infinity,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
+                                        ),
+                                        TextFormField(
+                                          key: _keyDeptName,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
                                           ),
-                                          child: TextFormField(
-                                            maxLength: 40,
-                                            style: TextStyle(
-                                                fontSize:width/113.83),
-                                            controller: addressController,
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
-                                            ),
-                                            maxLines: null,
-                                          )
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width:width/6.830,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "City",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      maxLength: 40,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: nameController,
+                                        )
                                       ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: cityController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                width:width/6.830,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Country",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
                                     ),
-                                    TextFormField(
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      maxLength: 40,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                      ],
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: countryController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                width:width/6.830,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Postal/Zone *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                       fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      key: _keyzone,
-                                      validator: (val){
-                                        if(val!.isEmpty){
-                                          return 'Field is required';
-                                        }else{
-                                          return '';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                      ),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]')),
-                                      ],
-                                      maxLength: 6,
-                                      style: TextStyle(fontSize:width/113.83),
-                                      controller: zoneController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  _keyDeptName.currentState!.validate();
-                                  _keyDeptLeadName.currentState!.validate();
-                                  _keyPhone.currentState!.validate();
-                                  _keyDeptArea.currentState!.validate();
-                                  _keyzone.currentState!.validate();
-
-                                  if (nameController.text != "" &&
-                                      leadernameController.text != "" &&
-                                      zoneController.text != "" &&
-                                      locationController.text != "" &&
-                                      numberController.text != "") {
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.success,
-                                        text: "Department created successfully!",
-                                        width: size.width * 0.4,
-                                        backgroundColor: Constants()
-                                            .primaryAppColor.withOpacity(0.8)
-                                    );
-                                    Response response = await DepartmentFireCrud.addDepartment(
-                                        name: nameController.text,
-                                        leaderName: leadernameController.text,
-                                        contactNumber: numberController.text,
-                                        city: cityController.text,
-                                        zone: zoneController.text,
-                                        address: addressController.text,
-                                        country: countryController.text,
-                                        description: descriptionController.text,
-                                        location: locationController.text
-                                    );
-                                    if (response.code == 200) {
-                                      setState(() {
-                                        currentTab = 'View';
-                                        nameController.text = "";
-                                        leadernameController.text = "";
-                                        numberController.text = "";
-                                        locationController.text = "";
-                                        descriptionController.text = "";
-                                        cityController.text = "";
-                                        addressController.text = "";
-                                        countryController.text = "";
-                                        zoneController.text = "";
-                                      });
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to Create Department!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor.withOpacity(0.8)
-                                      );
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: Container(
-                                  height:height/18.6,
-                                  width:width*0.1,
-                                  decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
-                                      ),
-                                    ],
                                   ),
-                                  child: Padding(
-                                    padding:
-                                    EdgeInsets.symmetric(horizontal:width/227.66),
-                                    child: Center(
-                                      child: KText(
-                                        text: "ADD NOW",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.white,
-                                          fontSize: width/136.6,
-                                          fontWeight: FontWeight.bold,
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department Leader Name *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          key: _keyDeptLeadName,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: leadernameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department Contact *",
+                                          style: GoogleFonts.openSans(
+                                            color:Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          key: _keyPhone,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 10,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: numberController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department Area/Zone/Location *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          key: _keyDeptArea,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: locationController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Description",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                     fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                      horizontal: width/68.3,
+                      vertical: height/32.55
+              ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 255,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: descriptionController,
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/65.1),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                     fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                      horizontal: width/68.3,
+                      vertical: height/32.55
+              ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 40,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: addressController,
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width:width/6.830,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "City",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: cityController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width:width/6.830,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Country",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: countryController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width:width/6.830,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Postal/Zone *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                           fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          key: _keyzone,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 6,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: zoneController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if(!isLoading){
+                                        setState((){
+                                          isLoading = true;
+                                        });
+                                        _keyDeptName.currentState!.validate();
+                                        _keyDeptLeadName.currentState!.validate();
+                                        _keyPhone.currentState!.validate();
+                                        _keyDeptArea.currentState!.validate();
+                                        _keyzone.currentState!.validate();
+
+                                        if (nameController.text != "" &&
+                                            leadernameController.text != "" &&
+                                            zoneController.text != "" &&
+                                            locationController.text != "" &&
+                                            numberController.text != "") {
+                                          Response response = await DepartmentFireCrud.addDepartment(
+                                              name: nameController.text,
+                                              leaderName: leadernameController.text,
+                                              contactNumber: numberController.text,
+                                              city: cityController.text,
+                                              zone: zoneController.text,
+                                              address: addressController.text,
+                                              country: countryController.text,
+                                              description: descriptionController.text,
+                                              location: locationController.text
+                                          );
+                                          if (response.code == 200) {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.success,
+                                                text: "Department created successfully!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor.withOpacity(0.8)
+                                            );
+                                            setState(() {
+                                              currentTab = 'View';
+                                              nameController.text = "";
+                                              leadernameController.text = "";
+                                              numberController.text = "";
+                                              locationController.text = "";
+                                              descriptionController.text = "";
+                                              cityController.text = "";
+                                              addressController.text = "";
+                                              countryController.text = "";
+                                              zoneController.text = "";
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.error,
+                                                text: "Failed to Create Department!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor.withOpacity(0.8)
+                                            );
+                                            setState((){
+                                              isLoading = false;
+                                            });
+                                          }
+                                        } else {
+                                          setState((){
+                                            isLoading = false;
+                                          });
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      width:width*0.1,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                        EdgeInsets.symmetric(horizontal:width/227.66),
+                                        child: Center(
+                                          child: KText(
+                                            text: "ADD NOW",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                              fontSize: width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                    ],
               ),
-            )
+            ),
+                    Visibility(
+                      visible: isLoading,
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.white70,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                          width: size.width/1.37,
+                          height: size.height/4.33,
+                          alignment: AlignmentDirectional.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: SizedBox(
+                                  height: size.height/17.32,
+                                  width: size.height/17.32,
+                                  child: CircularProgressIndicator(
+                                    color: Constants().primaryAppColor,
+                                    value: null,
+                                    strokeWidth: 7.0,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 25.0),
+                                child: Center(
+                                  child: Text(
+                                    "loading..Please wait...",
+                                    style: TextStyle(
+                                      color: Constants().primaryAppColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
               stream: searchString != "" ? DepartmentFireCrud.fetchDepartmentswithSerach(searchString) : DepartmentFireCrud.fetchDepartments(),
