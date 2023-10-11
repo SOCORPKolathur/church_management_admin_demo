@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:io' as io;
 import 'dart:typed_data';
+import 'package:age_calculator/age_calculator.dart';
 import 'package:church_management_admin/models/student_model.dart';
 import 'package:church_management_admin/services/student_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
@@ -123,16 +124,18 @@ class _StudentTabState extends State<StudentTab> {
     sheet.getRangeByName("C1").setText("Firstname");
     sheet.getRangeByName("D1").setText("Lastname");
     sheet.getRangeByName("E1").setText("Gender");
-    sheet.getRangeByName("F1").setText("Guardian");
-    sheet.getRangeByName("G1").setText("Phone");
+    sheet.getRangeByName("F1").setText("Parent/Guardian");
+    sheet.getRangeByName("G1").setText("Parent/Guardian Phone");
     sheet.getRangeByName("H1").setText("Baptize Date");
     sheet.getRangeByName("I1").setText("Age");
     sheet.getRangeByName("J1").setText("Class");
-    sheet.getRangeByName("K1").setText("Family");
-    sheet.getRangeByName("L1").setText("Blood Group");
-    sheet.getRangeByName("M1").setText("Date of Birth");
-    sheet.getRangeByName("N1").setText("Nationality");
-    sheet.getRangeByName("O1").setText("Aadhar Number");
+    sheet.getRangeByName("K1").setText("Family ID");
+    sheet.getRangeByName("L1").setText("Family");
+    sheet.getRangeByName("M1").setText("Blood Group");
+    sheet.getRangeByName("N1").setText("Date of Birth");
+    sheet.getRangeByName("O1").setText("Nationality");
+    sheet.getRangeByName("P1").setText("Aadhaar Number");
+    sheet.getRangeByName("Q1").setText("Position");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -206,6 +209,12 @@ class _StudentTabState extends State<StudentTab> {
   bool profileImageValidator = false;
 
   bool isLoading = false;
+
+  setAge(DateTime dob){
+    DateDuration duration;
+    duration = AgeCalculator.age(dob);
+    ageController.text = duration.years.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -744,7 +753,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Date of Birth *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -753,8 +762,16 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                         TextFormField(
                                           readOnly: true,
-                                          style: TextStyle(fontSize:width/113.83),
-                                          controller: baptizeDateController,
+                                          key: _keyDob,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
+                                          style:  TextStyle(fontSize:width/113.83),
+                                          controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
                                             await showDatePicker(
@@ -764,7 +781,8 @@ class _StudentTabState extends State<StudentTab> {
                                                 lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
-                                                baptizeDateController.text = formatter.format(pickedDate);
+                                                dobController.text = formatter.format(pickedDate);
+                                                setAge(pickedDate);
                                               });
                                             }
                                           },
@@ -787,6 +805,7 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly:true,
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1062,7 +1081,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Date of Birth *",
+                                          text: "Baptize Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -1071,16 +1090,8 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                         TextFormField(
                                           readOnly: true,
-                                          key: _keyDob,
-                                          validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
-                                            }else{
-                                              return '';
-                                            }
-                                          },
-                                          style:  TextStyle(fontSize:width/113.83),
-                                          controller: dobController,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
                                             await showDatePicker(
@@ -1090,7 +1101,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
-                                                dobController.text = formatter.format(pickedDate);
+                                                baptizeDateController.text = formatter.format(pickedDate);
                                               });
                                             }
                                           },
@@ -2856,7 +2867,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Date of Birth",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2865,7 +2876,7 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                         TextFormField(
                                           style: TextStyle(fontSize:width/113.83),
-                                          controller: baptizeDateController,
+                                          controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
                                             await showDatePicker(
@@ -2875,7 +2886,8 @@ class _StudentTabState extends State<StudentTab> {
                                                 lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
-                                                baptizeDateController.text = formatter.format(pickedDate);
+                                                dobController.text = formatter.format(pickedDate);
+                                                setAge(pickedDate);
                                               });
                                             }
                                           },
@@ -2898,6 +2910,7 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly:true,
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -3162,7 +3175,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Date of Birth",
+                                          text: "Baptize Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -3171,7 +3184,7 @@ class _StudentTabState extends State<StudentTab> {
                                         ),
                                         TextFormField(
                                           style: TextStyle(fontSize:width/113.83),
-                                          controller: dobController,
+                                          controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
                                             await showDatePicker(
@@ -3181,7 +3194,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
-                                                dobController.text = formatter.format(pickedDate);
+                                                baptizeDateController.text = formatter.format(pickedDate);
                                               });
                                             }
                                           },

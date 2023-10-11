@@ -169,7 +169,6 @@ class UserFireCrud {
           aadharNo: row[i][15].toString(),
           fcmToken: "",
           locality: "",
-
         isPrivacyEnabled: false,
       );
       var json = user.toJson();

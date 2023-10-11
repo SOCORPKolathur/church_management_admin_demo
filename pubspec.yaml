@@ -69,6 +69,7 @@ dependencies:
   syncfusion_flutter_xlsio: ^23.1.36
   email_validator: ^2.1.17
   image_cropper: any
+  age_calculator: ^1.0.0
 
 
 
