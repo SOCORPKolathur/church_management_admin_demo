@@ -50,6 +50,7 @@ class ProductsFireCrud {
         tags: tags,
         imgUrl: downloadUrl);
     product.id = documentReferencer.id;
+    product.productId = documentReferencer.id;
     var json = product.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;

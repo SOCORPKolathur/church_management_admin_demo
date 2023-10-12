@@ -188,6 +188,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       ),
                                     ),
                                     TextFormField(
+                                      readOnly: true,
                                       style: TextStyle(fontSize: width/113.83),
                                       controller: dateController,
                                       onTap: () async {
@@ -196,7 +197,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(1900),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateController.text = formatter.format(pickedDate);
@@ -224,7 +225,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                     TextFormField(
                                       style: TextStyle(fontSize: width/113.83),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
                                       ],
                                       controller: amountController,
                                     )
@@ -1448,6 +1449,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                   ),
                                   TextFormField(
+                                    readOnly: true,
                                     style: TextStyle(fontSize: width/113.83),
                                     controller: dateController,
                                     onTap: () async {
@@ -1484,7 +1486,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                   TextFormField(
                                     style: TextStyle(fontSize: width/113.83),
                                     inputFormatters: [
-                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
                                     ],
                                     controller: amountController,
                                   )
@@ -1867,6 +1869,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
@@ -1916,6 +1919,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",

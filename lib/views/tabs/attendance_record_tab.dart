@@ -456,12 +456,13 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             BorderRadius.circular(10),
                                           ),
                                           child: TextField(
+                                            readOnly: true,
                                             onTap: () async {
                                               DateTime? pickedDate = await showDatePicker(
                                                   context: context,
                                                   initialDate: DateTime.now(),
                                                   firstDate: DateTime(2000),
-                                                  lastDate: DateTime(3000));
+                                                  lastDate: DateTime.now());
                                               if (pickedDate != null) {
                                                 setState(() {
                                                   searchDateController.text = formatter.format(pickedDate);
@@ -1232,6 +1233,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: const TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeStart != null ? "${dateRangeStart!.day}-${dateRangeStart!.month}-${dateRangeStart!.year}" : "",
@@ -1242,7 +1244,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2000),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateRangeStart = pickedDate;
@@ -1281,6 +1283,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: const TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}-${dateRangeEnd!.month}-${dateRangeEnd!.year}" : "",
@@ -1291,7 +1294,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2000),
-                                            lastDate: DateTime(3000));
+                                            lastDate: DateTime.now());
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateRangeEnd = pickedDate;

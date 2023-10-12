@@ -39,6 +39,8 @@ class _ProductTabState extends State<ProductTab> {
   String currentTab = 'View';
   String searchString = "";
 
+  bool isCropped = false;
+
   selectImage() {
     InputElement input = FileUploadInputElement() as InputElement
       ..accept = 'image/*';
@@ -189,7 +191,7 @@ class _ProductTabState extends State<ProductTab> {
                                       width: 2),
                                   image: uploadedImage != null
                                       ? DecorationImage(
-                                    fit: BoxFit.fill,
+                                    fit: isCropped ? BoxFit.contain : BoxFit.cover,
                                     image: MemoryImage(
                                       Uint8List.fromList(
                                         base64Decode(uploadedImage!
@@ -235,23 +237,36 @@ class _ProductTabState extends State<ProductTab> {
                                 ),
                               ),
                               SizedBox(width: width/27.32),
-                              Container(
-                                height: height/18.6,
-                                width: size.width * 0.25,
-                                color: Constants().primaryAppColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: width/136.6),
-                                    KText(
-                                      text: 'Disable Crop',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
+                              InkWell(
+                                onTap: (){
+                                  if(isCropped){
+                                    setState(() {
+                                      isCropped = false;
+                                    });
+                                  }else{
+                                    setState(() {
+                                      isCropped = true;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height: height/18.6,
+                                  width: size.width * 0.25,
+                                  color: Constants().primaryAppColor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.crop,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: width/136.6),
+                                      KText(
+                                        text: 'Disable Crop',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -295,7 +310,7 @@ class _ProductTabState extends State<ProductTab> {
                                     ),
                                     TextFormField(
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                        FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
                                       ],
                                       style: TextStyle(fontSize: width/113.8333333333333),
                                       controller: priceController,
@@ -349,27 +364,27 @@ class _ProductTabState extends State<ProductTab> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: width/68.3),
-                              SizedBox(
-                                width: width/4.553333333333333,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Sale",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: const TextStyle(fontSize: 12),
-                                      controller: saleController,
-                                    )
-                                  ],
-                                ),
-                              ),
+                              // SizedBox(width: width/68.3),
+                              // SizedBox(
+                              //   width: width/4.553333333333333,
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       KText(
+                              //         text: "Sale",
+                              //         style: GoogleFonts.openSans(
+                              //           color: Colors.black,
+                              //           fontSize: width/105.0769230769231,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //       TextFormField(
+                              //         style: const TextStyle(fontSize: 12),
+                              //         controller: saleController,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                           SizedBox(height: height/21.7),
@@ -1368,29 +1383,29 @@ class _ProductTabState extends State<ProductTab> {
                                           )
                                         ],
                                       ),
-                                      SizedBox(height: height/32.55),
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: size.width * 0.15,
-                                            child:  KText(
-                                              text: "Sale",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: width/85.375
-                                              ),
-                                            ),
-                                          ),
-                                          const Text(":"),
-                                          SizedBox(width: width/68.3),
-                                          KText(
-                                            text: product.sale!,
-                                            style: TextStyle(
-                                                fontSize: width/97.57142857142857
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                      // SizedBox(height: height/32.55),
+                                      // Row(
+                                      //   children: [
+                                      //     SizedBox(
+                                      //       width: size.width * 0.15,
+                                      //       child:  KText(
+                                      //         text: "Sale",
+                                      //         style: TextStyle(
+                                      //             fontWeight: FontWeight.w800,
+                                      //             fontSize: width/85.375
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //     const Text(":"),
+                                      //     SizedBox(width: width/68.3),
+                                      //     KText(
+                                      //       text: product.sale!,
+                                      //       style: TextStyle(
+                                      //           fontSize: width/97.57142857142857
+                                      //       ),
+                                      //     )
+                                      //   ],
+                                      // ),
                                       SizedBox(height: height/32.55),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1444,431 +1459,468 @@ class _ProductTabState extends State<ProductTab> {
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Container(
-            height: size.height * 1.2,
-            width: width/1.241818181818182,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        KText(
-                          text: "EDIT PRODUCT",
-                          style: GoogleFonts.openSans(
-                            fontSize: width/68.3,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              uploadedImage = null;
-                              profileImage = null;
-                              titleController.text = "";
-                              priceController.text = "";
-                              categoriesController.text = "";
-                              saleController.text = "";
-                              tagsController.text = "";
-                              descriptionController.text = "";
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.cancel_outlined,
-                          ),
-                        )
-                      ],
+        return StatefulBuilder(
+          builder: (context,setStat) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Container(
+                height: size.height * 1.2,
+                width: width/1.241818181818182,
+                margin: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
                     ),
-                  ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )),
-                    padding: const EdgeInsets.all(20),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height: height/3.829411764705882,
-                              width: width/3.902857142857143,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Constants().primaryAppColor,
-                                      width: 2),
-                                  image: selectedImg != null ? DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(selectedImg!)
-                                  ) : uploadedImage != null
-                                      ? DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: MemoryImage(
-                                      Uint8List.fromList(
-                                        base64Decode(uploadedImage!
-                                            .split(',')
-                                            .last),
-                                      ),
-                                    ),
-                                  )
-                                      : null),
-                              child: selectedImg == null
-                                  ?  Center(
-                                child: Icon(
-                                  Icons.cloud_upload,
-                                  size: width/8.5375,
-                                  color: Colors.grey,
-                                ),
-                              )
-                                  : null,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            KText(
+                              text: "EDIT PRODUCT",
+                              style: GoogleFonts.openSans(
+                                fontSize: width/68.3,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                           SizedBox(height: height/32.55),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                onTap: selectImage,
-                                child: Container(
-                                  height: height/18.6,
-                                  width: size.width * 0.25,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.add_a_photo,
-                                          color: Colors.white),
-                                      SizedBox(width: width/136.6),
-                                      KText(
-                                        text: 'Select Product Photo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  uploadedImage = null;
+                                  profileImage = null;
+                                  titleController.text = "";
+                                  priceController.text = "";
+                                  categoriesController.text = "";
+                                  saleController.text = "";
+                                  tagsController.text = "";
+                                  descriptionController.text = "";
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(
+                                Icons.cancel_outlined,
                               ),
-                              SizedBox(width: width/27.32),
-                              Container(
-                                height: height/18.6,
-                                width: size.width * 0.25,
-                                color: Constants().primaryAppColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.crop,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: width/136.6),
-                                    KText(
-                                      text: 'Disable Crop',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: width/4.553333333333333,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Title",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize: width/113.8333333333333),
-                                      controller: titleController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: width/68.3),
-                              SizedBox(
-                                width: width/4.553333333333333,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Price",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                      ],
-                                      style: TextStyle(fontSize: width/113.8333333333333),
-                                      controller: priceController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: width/68.3),
-                              SizedBox(
-                                width:width/4.553333333333333,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Categories",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize: width/113.8333333333333),
-                                      controller: categoriesController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: width/4.553333333333333,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Tags",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize: width/113.8333333333333),
-                                      controller: tagsController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: width/68.3),
-                              SizedBox(
-                                width: width/4.553333333333333,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Sale",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:  width/105.0769230769231,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize: width/113.8333333333333),
-                                      controller: saleController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height/21.7),
-                          Column(
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            )),
+                        padding: const EdgeInsets.all(20),
+                        child: SingleChildScrollView(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              KText(
-                                text: "Description",
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black,
-                                  fontSize:  width/105.0769230769231,
-                                  fontWeight: FontWeight.bold,
+                              Center(
+                                child: Container(
+                                  height: height/3.829411764705882,
+                                  width: width/3.902857142857143,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Constants().primaryAppColor,
+                                          width: 2),
+                                      image: selectedImg != null ? DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(selectedImg!)
+                                      ) : uploadedImage != null
+                                          ? DecorationImage(
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
+                                        image: MemoryImage(
+                                          Uint8List.fromList(
+                                            base64Decode(uploadedImage!
+                                                .split(',')
+                                                .last),
+                                          ),
+                                        ),
+                                      )
+                                          : null),
+                                  child: selectedImg == null
+                                      ?  Center(
+                                    child: Icon(
+                                      Icons.cloud_upload,
+                                      size: width/8.5375,
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                      : null,
                                 ),
                               ),
-                              Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                margin: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
+                               SizedBox(height: height/32.55),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      InputElement input = FileUploadInputElement() as InputElement
+                                        ..accept = 'image/*';
+                                      input.click();
+                                      input.onChange.listen((event) {
+                                        final file = input.files!.first;
+                                        FileReader reader = FileReader();
+                                        reader.readAsDataUrl(file);
+                                        reader.onLoadEnd.listen((event) {
+                                          setStat(() {
+                                            profileImage = file;
+                                          });
+                                          setStat(() {
+                                            uploadedImage = reader.result;
+                                            selectedImg = null;
+                                          });
+                                        });
+                                        setStat(() {});
+                                      });
+                                    },
+                                    child: Container(
+                                      height: height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add_a_photo,
+                                              color: Colors.white),
+                                          SizedBox(width: width/136.6),
+                                          KText(
+                                            text: 'Select Product Photo',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                      height: height/32.55,
-                                      width: double.infinity,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          width: double.infinity,
-                                          decoration: const BoxDecoration(
+                                  ),
+                                  SizedBox(width: width/27.32),
+                                  InkWell(
+                                    onTap: (){
+                                      if(isCropped){
+                                        setState(() {
+                                          isCropped = false;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          isCropped = true;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height: height/18.6,
+                                      width: size.width * 0.25,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.crop,
                                             color: Colors.white,
                                           ),
-                                          child: TextFormField(
-                                            style:
-                                            TextStyle(fontSize: width/113.8333333333333),
-                                            controller: descriptionController,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
-                                            ),
-                                            maxLines: null,
-                                          )),
+                                          SizedBox(width: width/136.6),
+                                          KText(
+                                            text: 'Disable Crop',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height/21.7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  if (titleController.text != "" &&
-                                      priceController.text != "" &&
-                                      categoriesController.text != "") {
-                                    Response response =
-                                    await ProductsFireCrud.updateRecord(
-                                      ProductModel(
-                                        id: product.id,
-                                        imgUrl: product.imgUrl,
-                                        timestamp: product.timestamp,
-                                        title: titleController.text,
-                                        tags: tagsController.text,
-                                        sale: saleController.text,
-                                        price: double.parse(priceController.text),
-                                        categories: categoriesController.text,
-                                        description: descriptionController.text,
-                                      ),
-                                      profileImage,
-                                      product.imgUrl!
-                                    );
-                                    if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Product updated successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      setState(() {
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        titleController.clear();
-                                        priceController.clear();
-                                        categoriesController.clear();
-                                        saleController.clear();
-                                        tagsController.clear();
-                                        descriptionController.clear();
-                                      });
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to update Product!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      Navigator.pop(context);
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: Container(
-                                  height: height/18.6,
-                                  decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
-                                      ),
-                                    ],
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
-                                    child: Center(
-                                      child: KText(
-                                        text: "Update",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.white,
-                                          fontSize: width/136.6,
-                                          fontWeight: FontWeight.bold,
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width/4.553333333333333,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Title",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize: width/113.8333333333333),
+                                          controller: titleController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
+                                  SizedBox(
+                                    width: width/4.553333333333333,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Price",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
+                                          ],
+                                          style: TextStyle(fontSize: width/113.8333333333333),
+                                          controller: priceController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
+                                  SizedBox(
+                                    width:width/4.553333333333333,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Categories",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize: width/113.8333333333333),
+                                          controller: categoriesController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width/4.553333333333333,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Tags",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize: width/113.8333333333333),
+                                          controller: tagsController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  // SizedBox(width: width/68.3),
+                                  // SizedBox(
+                                  //   width: width/4.553333333333333,
+                                  //   child: Column(
+                                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       KText(
+                                  //         text: "Sale",
+                                  //         style: GoogleFonts.openSans(
+                                  //           color: Colors.black,
+                                  //           fontSize:  width/105.0769230769231,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //       TextFormField(
+                                  //         style: TextStyle(fontSize: width/113.8333333333333),
+                                  //         controller: saleController,
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Description",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:  width/105.0769230769231,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.all(20),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                style:
+                                                TextStyle(fontSize: width/113.8333333333333),
+                                                controller: descriptionController,
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: 15,top: 4,bottom: 4)
+                                                ),
+                                                maxLines: null,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if (titleController.text != "" &&
+                                          priceController.text != "" &&
+                                          categoriesController.text != "") {
+                                        Response response =
+                                        await ProductsFireCrud.updateRecord(
+                                          ProductModel(
+                                            id: product.id,
+                                            productId: product.productId,
+                                            imgUrl: product.imgUrl,
+                                            timestamp: product.timestamp,
+                                            title: titleController.text,
+                                            tags: tagsController.text,
+                                            sale: saleController.text,
+                                            price: double.parse(priceController.text),
+                                            categories: categoriesController.text,
+                                            description: descriptionController.text,
+                                          ),
+                                          profileImage,
+                                          product.imgUrl!
+                                        );
+                                        if (response.code == 200) {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.success,
+                                              text: "Product updated successfully!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          setState(() {
+                                            uploadedImage = null;
+                                            profileImage = null;
+                                            titleController.clear();
+                                            priceController.clear();
+                                            categoriesController.clear();
+                                            saleController.clear();
+                                            tagsController.clear();
+                                            descriptionController.clear();
+                                          });
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        } else {
+                                          CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.error,
+                                              text: "Failed to update Product!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          Navigator.pop(context);
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Container(
+                                      height: height/18.6,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6),
+                                        child: Center(
+                                          child: KText(
+                                            text: "Update",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                              fontSize: width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );

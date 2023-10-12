@@ -1,6 +1,5 @@
 import 'dart:html';
 import 'dart:typed_data';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/gestures.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io' as io;
 import 'dart:convert';
-
 import '../../constants.dart';
 import '../../models/orders_model.dart';
 import '../../models/response.dart';
@@ -152,7 +150,7 @@ class _OrdersTabState extends State<OrdersTab>
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 8),
                                   child: Text(
-                                    "New Booking",
+                                    "New Orders",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 0
                                           ? Colors.white
@@ -254,9 +252,9 @@ class _OrdersTabState extends State<OrdersTab>
                     ),
                   ),
                   SizedBox(
-                    width: width/15.17777777777778,
+                    width: width/6.83,
                     child: KText(
-                      text: "Username",
+                      text: "OrderID",
                       style: GoogleFonts.poppins(
                         fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
@@ -264,9 +262,19 @@ class _OrdersTabState extends State<OrdersTab>
                     ),
                   ),
                   SizedBox(
-                    width: width/10.50769230769231,
+                    width: width/15.17777777777778,
                     child: KText(
-                      text: "OrderID",
+                      text: "Date",
+                      style: GoogleFonts.poppins(
+                        fontSize: width/105.0769230769231,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width/6.83,
+                    child: KText(
+                      text: "Username",
                       style: GoogleFonts.poppins(
                         fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
@@ -286,27 +294,7 @@ class _OrdersTabState extends State<OrdersTab>
                   SizedBox(
                     width: width/9.106666666666667,
                     child: KText(
-                      text: "Method",
-                      style: GoogleFonts.poppins(
-                        fontSize: width/105.0769230769231,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: width/9.106666666666667,
-                    child: KText(
                       text: "phone",
-                      style: GoogleFonts.poppins(
-                        fontSize: width/105.0769230769231,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: width/9.106666666666667,
-                    child: KText(
-                      text: "Address",
                       style: GoogleFonts.poppins(
                         fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,
@@ -363,9 +351,9 @@ class _OrdersTabState extends State<OrdersTab>
                             ),
                           ),
                           SizedBox(
-                            width: width/15.17777777777778,
+                            width: width/6.83,
                             child: KText(
-                              text: orders[i].userName!,
+                              text: orders[i].orderId!,
                               style: GoogleFonts.poppins(
                                 fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
@@ -373,9 +361,19 @@ class _OrdersTabState extends State<OrdersTab>
                             ),
                           ),
                           SizedBox(
-                            width: width/10.50769230769231,
+                            width: width/15.17777777777778,
                             child: KText(
-                              text: orders[i].orderId!,
+                              text: orders[i].date!,
+                              style: GoogleFonts.poppins(
+                                fontSize: width/105.0769230769231,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width/6.83,
+                            child: KText(
+                              text: orders[i].userName!,
                               style: GoogleFonts.poppins(
                                 fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
@@ -395,27 +393,7 @@ class _OrdersTabState extends State<OrdersTab>
                           SizedBox(
                             width: width/9.106666666666667,
                             child: KText(
-                              text: orders[i].method!,
-                              style: GoogleFonts.poppins(
-                                fontSize: width/105.0769230769231,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width/9.106666666666667,
-                            child: KText(
                               text: orders[i].phone!,
-                              style: GoogleFonts.poppins(
-                                fontSize: width/105.0769230769231,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width/9.106666666666667,
-                            child: KText(
-                              text: orders[i].address!,
                               style: GoogleFonts.poppins(
                                 fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.w600,
@@ -429,7 +407,7 @@ class _OrdersTabState extends State<OrdersTab>
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      viewProductsPopUp(orders[i].products);
+                                      viewProductsPopUp(orders[i],orders[i].products);
                                     },
                                     child: Container(
                                       height: height/26.04,
@@ -457,7 +435,7 @@ class _OrdersTabState extends State<OrdersTab>
                                                 size: width/91.06666666666667,
                                               ),
                                               KText(
-                                                text: "View Products",
+                                                text: "View Order",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
                                                   fontSize: width/136.6,
@@ -762,7 +740,7 @@ class _OrdersTabState extends State<OrdersTab>
     );
   }
 
-  viewProductsPopUp(List<Products>? products) {
+  viewProductsPopUp(OrdersModel order,List<Products>? products) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
@@ -773,7 +751,7 @@ class _OrdersTabState extends State<OrdersTab>
           return AlertDialog(
               backgroundColor: Colors.transparent,
               content: Container(
-                height: size.height * 0.6,
+                height: size.height * 0.8,
                 width: size.width * 0.6,
                 decoration: BoxDecoration(
                   color: Constants().primaryAppColor,
@@ -790,7 +768,7 @@ class _OrdersTabState extends State<OrdersTab>
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: KText(
-                              text: "Products",
+                              text: "Order Details",
                               style: GoogleFonts.openSans(
                                 fontSize: width/85.375,
                                 fontWeight: FontWeight.bold,
@@ -846,7 +824,112 @@ class _OrdersTabState extends State<OrdersTab>
                             )),
                         padding: const EdgeInsets.all(15),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            KText(
+                              text:"Order Details : ",
+                              style: GoogleFonts.poppins(
+                                decoration: TextDecoration.underline,
+                                fontSize: width/105.0769230769231,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: height*0.01),
+                            SizedBox(
+                              height: size.height * 0.2,
+                              width: size.width * 0.6,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                    children: [
+                                      KText(
+                                        text:"Order ID :  ",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      KText(
+                                        text: order.orderId!,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      KText(
+                                        text:"Username :  ",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      KText(
+                                        text: order.userName!,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      KText(
+                                        text:"Phone :  ",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      KText(
+                                        text: order.phone!,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      KText(
+                                        text:"Method :  ",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      KText(
+                                        text: order.method!,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: height*0.01),
+                            KText(
+                              text:"Products Details : ",
+                              style: GoogleFonts.poppins(
+                                fontSize: width/105.0769230769231,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            SizedBox(height: height*0.01),
                             SizedBox(
                               child: Padding(
                                 padding: const EdgeInsets.all(0.0),

@@ -317,6 +317,7 @@ class _EventsTabState extends State<EventsTab>
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
+                                          readOnly: true,
                                           decoration: InputDecoration(
                                             border: InputBorder.none
                                           ),
@@ -362,6 +363,7 @@ class _EventsTabState extends State<EventsTab>
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                         child: TextFormField(
+                                          readOnly: true,
                                           onTap: (){
                                             _selectTime(context);
                                           },
@@ -423,7 +425,7 @@ class _EventsTabState extends State<EventsTab>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Ttile *",
+                                    text: "Title *",
                                     style: GoogleFonts.openSans(
                                      fontSize: width/97.571,
                                       fontWeight: FontWeight.bold,
@@ -2299,6 +2301,7 @@ class _EventsTabState extends State<EventsTab>
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
+                                                readOnly: true,
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none
                                                 ),
@@ -2344,6 +2347,7 @@ class _EventsTabState extends State<EventsTab>
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                               child: TextFormField(
+                                                readOnly: true,
                                                 onTap: (){
                                                   _selectTime(context);
                                                 },
@@ -2705,6 +2709,7 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeStart != null ? "${dateRangeStart!.day}/${dateRangeStart!.month}/${dateRangeStart!.year}" : "",
@@ -2754,6 +2759,7 @@ class _EventsTabState extends State<EventsTab>
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}/${dateRangeEnd!.month}/${dateRangeEnd!.year}" : "",

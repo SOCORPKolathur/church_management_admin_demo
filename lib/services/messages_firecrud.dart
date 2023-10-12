@@ -8,6 +8,7 @@ class MessagesFireCrud {
 
   static Stream<List<MessageModel>> fetchMessages() =>
       MessagesCollection
+          .orderBy("timestamp",descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => MessageModel.fromJson(doc.data() as Map<String,dynamic>))

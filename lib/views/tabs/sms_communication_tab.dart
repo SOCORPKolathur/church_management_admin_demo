@@ -101,7 +101,7 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Single/Mulitiple Phone Numbers With Country Code *",
+                                    text: "Single/Mulitiple Phone Numbers *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.07,

@@ -689,6 +689,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
+                                              readOnly: true,
                                               controller: dateController,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none
@@ -699,7 +700,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     context: context,
                                                     initialDate: DateTime.now(),
                                                     firstDate: DateTime(1900),
-                                                    lastDate: DateTime(3000));
+                                                    lastDate: DateTime.now());
                                                 if (pickedDate != null) {
                                                   setState(() {
                                                     dateController.text = formatter.format(pickedDate);
@@ -1316,47 +1317,50 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(
-                                                          width: width/9.106,
-                                                          child: InkWell(
-                                                            onTap: () async {
-                                                              final Uri toLaunch =
-                                                              Uri.parse(funds[i].document!);
-                                                              if (!await launchUrl(toLaunch,
-                                                                mode: LaunchMode.externalApplication,
-                                                              )) {
-                                                                throw Exception('Could not launch $toLaunch');
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                             height:height/18.6,
-                                                              margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(8),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                EdgeInsets.symmetric(horizontal:width/227.66),
-                                                                child: Center(
-                                                                  child: KText(
-                                                                    text: "Download",
-                                                                    style: GoogleFonts.openSans(
-                                                                      fontSize: width/113.83,
-                                                                      fontWeight: FontWeight.bold,
+                                                      Visibility(
+                                                        visible: funds[i].document!.isNotEmpty,
+                                                        child: SizedBox(
+                                                            width: width/9.106,
+                                                            child: InkWell(
+                                                              onTap: () async {
+                                                                final Uri toLaunch =
+                                                                Uri.parse(funds[i].document!);
+                                                                if (!await launchUrl(toLaunch,
+                                                                  mode: LaunchMode.externalApplication,
+                                                                )) {
+                                                                  throw Exception('Could not launch $toLaunch');
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                               height:height/18.6,
+                                                                margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
+                                                                decoration: BoxDecoration(
+                                                                  color: Colors.white,
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                  EdgeInsets.symmetric(horizontal:width/227.66),
+                                                                  child: Center(
+                                                                    child: KText(
+                                                                      text: "Download",
+                                                                      style: GoogleFonts.openSans(
+                                                                        fontSize: width/113.83,
+                                                                        fontWeight: FontWeight.bold,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          )
+                                                            )
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -1677,47 +1681,50 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(
-                                                        width: width/9.106,
-                                                        child: InkWell(
-                                                          onTap: () async {
-                                                            final Uri toLaunch =
-                                                            Uri.parse(funds[i].document!);
-                                                            if (!await launchUrl(toLaunch,
-                                                              mode: LaunchMode.externalApplication,
-                                                            )) {
-                                                              throw Exception('Could not launch $toLaunch');
-                                                            }
-                                                          },
-                                                          child: Container(
-                                                           height:height/18.6,
-                                                            margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
-                                                            decoration: BoxDecoration(
-                                                              color: Colors.white,
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  color: Colors.black26,
-                                                                  offset: Offset(1, 2),
-                                                                  blurRadius: 3,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            child: Padding(
-                                                              padding:
-                                                              EdgeInsets.symmetric(horizontal:width/227.66),
-                                                              child: Center(
-                                                                child: KText(
-                                                                  text: "Download",
-                                                                  style: GoogleFonts.openSans(
-                                                                    fontSize: width/113.83,
-                                                                    fontWeight: FontWeight.bold,
+                                                      Visibility(
+                                                        visible: funds[i].document!.isNotEmpty,
+                                                        child: SizedBox(
+                                                          width: width/9.106,
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              final Uri toLaunch =
+                                                              Uri.parse(funds[i].document!);
+                                                              if (!await launchUrl(toLaunch,
+                                                                mode: LaunchMode.externalApplication,
+                                                              )) {
+                                                                throw Exception('Could not launch $toLaunch');
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                             height:height/18.6,
+                                                              margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(8),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.black26,
+                                                                    offset: Offset(1, 2),
+                                                                    blurRadius: 3,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                EdgeInsets.symmetric(horizontal:width/227.66),
+                                                                child: Center(
+                                                                  child: KText(
+                                                                    text: "Download",
+                                                                    style: GoogleFonts.openSans(
+                                                                      fontSize: width/113.83,
+                                                                      fontWeight: FontWeight.bold,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        )
+                                                          )
+                                                        ),
                                                       ),
                                                     ],
                                                   ),

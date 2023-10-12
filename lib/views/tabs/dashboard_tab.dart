@@ -414,16 +414,41 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     child:
                                          Icon(Icons.g_translate, size: width/50.59),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (ctx) =>
-                                                    MessagesTab()));
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance.collection('Messages').snapshots(),
+                                    builder: (ctx,snap){
+                                      if(snap.hasData){
+                                        int count = 0;
+                                        snap.data!.docs.forEach((element) {
+                                          if(element.get("isViewed") == false){
+                                            count++;
+                                          }
+                                        });
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (ctx) =>
+                                                        MessagesTab()));
+                                          },
+                                          child: count != 0 ? Badge(
+                                            label: Text(count.toString()),
+                                            backgroundColor: Constants().primaryAppColor,
+                                              child: Icon(CupertinoIcons.mail, size: width/50.59)
+                                          ) : Icon(CupertinoIcons.mail, size: width/50.59),
+                                        );
+                                      }return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (ctx) =>
+                                                      MessagesTab()));
+                                        },
+                                        child:  Icon(CupertinoIcons.mail, size: width/50.59),
+                                      );
                                     },
-                                    child:  Icon(CupertinoIcons.mail,
-                                        size: width/50.59),
                                   ),
                                   InkWell(
                                     onTap: () {

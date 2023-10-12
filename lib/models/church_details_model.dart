@@ -10,6 +10,7 @@ class ChurchDetailsModel {
   String? pincode;
   String? website;
   List<RoleUserModel>? roles;
+  List<AboutChurchModel>? aboutChurch;
 
   ChurchDetailsModel(
       {this.id,
@@ -22,7 +23,8 @@ class ChurchDetailsModel {
         this.state,
         this.pincode,
         this.website,
-        this.roles
+        this.roles,
+        this.aboutChurch,
       });
 
   ChurchDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,12 @@ class ChurchDetailsModel {
         roles!.add(RoleUserModel.fromJson(v));
       });
     }
+    if (json['aboutChurch'] != null) {
+      aboutChurch = <AboutChurchModel>[];
+      json['aboutChurch'].forEach((v) {
+        aboutChurch!.add(AboutChurchModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -58,6 +66,9 @@ class ChurchDetailsModel {
     data['website'] = this.website;
     if (this.roles != null) {
       data['roles'] = this.roles!.map((v) => v.toJson()).toList();
+    }
+    if (this.aboutChurch != null) {
+      data['aboutChurch'] = this.aboutChurch!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -81,3 +92,23 @@ class RoleUserModel {
     return data;
   }
 }
+
+class AboutChurchModel {
+  String? about;
+  String? img;
+
+  AboutChurchModel({this.about, this.img});
+
+  AboutChurchModel.fromJson(Map<String, dynamic> json) {
+    about = json['about'];
+    img = json['img'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['about'] = this.about;
+    data['img'] = this.img;
+    return data;
+  }
+}
+

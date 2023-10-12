@@ -1397,23 +1397,25 @@ class _StudentTabState extends State<StudentTab> {
                                     borderRadius:
                                     BorderRadius.circular(10),
                                   ),
-                                  child: DropdownButton(
-                                    value: filterClassController.text,
-                                    underline: Container(),
-                                    icon:
-                                    Icon(Icons.keyboard_arrow_down),
-                                    items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
-                                        .map((items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text(items),
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        filterClassController.text = newValue!;
-                                      });
-                                    },
+                                  child: Center(
+                                    child: DropdownButton(
+                                      value: filterClassController.text,
+                                      underline: Container(),
+                                      icon:
+                                      Icon(Icons.keyboard_arrow_down),
+                                      items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          filterClassController.text = newValue!;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 )
                               ],

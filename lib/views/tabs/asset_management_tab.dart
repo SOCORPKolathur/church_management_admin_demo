@@ -2684,6 +2684,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeStart != null ? "${dateRangeStart!.day}-${dateRangeStart!.month}-${dateRangeStart!.year}" : "",
@@ -2733,6 +2734,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         hintText: dateRangeEnd != null ? "${dateRangeEnd!.day}-${dateRangeEnd!.month}-${dateRangeEnd!.year}" : "",
@@ -2782,6 +2784,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ],
                                     ),
                                     child: TextField(
+                                      readOnly: true,
                                       decoration: InputDecoration(
                                         hintStyle: TextStyle(color: Color(0xff00A99D)),
                                         border: InputBorder.none,

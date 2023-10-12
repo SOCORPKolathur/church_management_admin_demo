@@ -9,7 +9,7 @@ final CollectionReference OrdersCollection = firestore.collection('Orders');
 class OrdersFireCrud {
 
   static Stream<List<OrdersModel>> fetchOrders() =>
-      OrdersCollection.orderBy("timestamp", descending: false)
+      OrdersCollection.orderBy("timestamp", descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => OrdersModel.fromJson(doc.data() as Map<String,dynamic>))
