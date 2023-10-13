@@ -495,7 +495,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 130 + prayers.length * 60 ? 130 + prayers.length * 60 : size.height * 0.7,
+                          height: size.height * 0.7,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -977,10 +977,10 @@ class _PrayersTabState extends State<PrayersTab> {
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      const EdgeInsets.symmetric(horizontal: 8),
                                       child: Center(
                                         child: KText(
-                                          text: "Filter",
+                                          text: " Filter by Date ",
                                           style: GoogleFonts.openSans(
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.bold,
@@ -995,7 +995,7 @@ class _PrayersTabState extends State<PrayersTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 130 + prayers.length * 60 ? 130 + prayers.length * 60 : size.height * 0.7,
+                          height: size.height * 0.7,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:church_management_admin/models/chorus_model.dart';
 import 'package:church_management_admin/models/church_staff_model.dart';
 import 'package:church_management_admin/models/committee_member_model.dart';
@@ -1012,10 +1013,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                           ),
                         ),
                         Container(
-                          height:
-                              size.height * 0.7 > 70 + notifications.length * 60
-                                  ? 70 + notifications.length * 60
-                                  : size.height * 0.7,
+                          height: size.height * 0.7,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -1061,16 +1059,6 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width/9.106,
-                                      child: KText(
-                                        text: "To",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: width/113.83,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
                                       width: width/6.83,
                                       child: KText(
                                         text: "Subject",
@@ -1084,6 +1072,16 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                       width: width/6.83,
                                       child: KText(
                                         text: "Content",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 200,
+                                      child: KText(
+                                        text: "Views",
                                         style: GoogleFonts.poppins(
                                           fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
@@ -1147,16 +1145,6 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: width/9.106,
-                                            child: KText(
-                                              text: notifications[i]['to'],
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
                                             width: width/6.83,
                                             child: KText(
                                               text: notifications[i]['subject'],
@@ -1170,6 +1158,16 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                             width: width/6.83,
                                             child: KText(
                                               text: notifications[i]['content'],
+                                              style: GoogleFonts.poppins(
+                                                fontSize:width/105.07,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 200,
+                                            child: KText(
+                                              text: notifications[i]['viewsCount'].length.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
@@ -1431,13 +1429,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   }
 
   sendNotification() async {
+    String docId = generateRandomString(20);
     totalusersList.forEach((user) async {
       bool isSended = await sendPushMessage(
           user.fcmToken!, descriptionController.text, subjectController.text);
       bool isSended1 = await addToNotificationCollection(
-          subjectController.text, descriptionController.text, user);
+          subjectController.text, descriptionController.text, user,docId);
       bool isSended2 = await addToUserNotificationCollection(
-          subjectController.text, descriptionController.text, user);
+          subjectController.text, descriptionController.text, user,docId);
       if (isSended) {
         currentTab = 'View';
         subjectController.clear();
@@ -1469,7 +1468,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
     });
   }
 
-  Future<bool> addToNotificationCollection(String title, String body, UserModel user) async {
+  String generateRandomString(int len) {
+    var r = Random();
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+
+  Future<bool> addToNotificationCollection(String title, String body, UserModel user,String docId) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
       date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
@@ -1477,11 +1483,13 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
       content: body,
       to: user.phone,
       subject: title,
+      isViewed: false,
+      viewsCount: []
     );
     var json = notificationModel.toJson();
     await FirebaseFirestore.instance
-        .collection('Notifications')
-        .add(json)
+        .collection('Notifications').doc(docId)
+        .set(json)
         .whenComplete(() {
       isAdded = true;
     }).catchError((e) {
@@ -1490,7 +1498,7 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
     return isAdded;
   }
 
-  Future<bool> addToUserNotificationCollection(String title, String body, UserModel user) async {
+  Future<bool> addToUserNotificationCollection(String title, String body, UserModel user,String docId) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
       date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
@@ -1501,15 +1509,14 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
       isViewed: false,
     );
     var json = notificationModel.toJson();
-    var userDocument =
-        await FirebaseFirestore.instance.collection('Users').get();
+    var userDocument = await FirebaseFirestore.instance.collection('Users').get();
     for (int i = 0; i < userDocument.docs.length; i++) {
       if (userDocument.docs[i]["id"] == user.id) {
         await FirebaseFirestore.instance
             .collection('Users')
             .doc(userDocument.docs[i].id)
-            .collection('Notifications')
-            .add(json)
+            .collection('Notifications').doc(docId)
+            .set(json)
             .whenComplete(() {
           isAdded = true;
         }).catchError((e) {

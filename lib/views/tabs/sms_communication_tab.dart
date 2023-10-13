@@ -20,6 +20,8 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   static List<String> _pickLanguage = <String>[];
+  String currentTab = 'View';
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,62 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-              child: KText(
-                text: "SMS COMMUNICATION",
-                style: GoogleFonts.openSans(
-                    fontSize: width/52.538,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "SMS COMMUNICATION",
+                    style: GoogleFonts.openSans(
+                        fontSize: width/52.538,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                          });
+                        }
+
+                      },
+                      child: Container(
+                        height:height/18.6,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal:width/227.66),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Send SMS" : "View SMS",
+                              style: GoogleFonts.openSans(
+                                fontSize:width/105.07,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
             ),
-            Container(
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
               height: size.height * 0.67,
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
@@ -378,8 +427,8 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                   ),
                 ],
               ),
-            ),
-            StreamBuilder(
+            )
+                : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: DepartmentFireCrud.fetchDepartments(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
@@ -781,6 +830,7 @@ class _SmsCommunicationTabState extends State<SmsCommunicationTab> {
                 return Container();
               },
             )
+                : Container()
           ],
         ),
       ),

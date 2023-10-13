@@ -22,8 +22,7 @@ class ProductsFireCrud {
       .snapshots()
       .map((snapshot) => snapshot.docs
       .where((element) => (element['title'].toString().toLowerCase().startsWith(text)||
-      element['price'].toString().toLowerCase().startsWith(text)||
-      element['categories'].toString().toLowerCase().startsWith(text)))
+      element['price'].toString().toLowerCase().startsWith(text)))
       .map((doc) => ProductModel.fromJson(doc.data() as Map<String,dynamic>))
       .toList());
 

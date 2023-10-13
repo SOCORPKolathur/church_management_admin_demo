@@ -5,8 +5,9 @@ class NotificationModel {
   String? subject;
   String? content;
   bool? isViewed;
+  List<String>? viewsCount;
 
-  NotificationModel({this.date, this.time, this.to, this.subject, this.content,this.isViewed});
+  NotificationModel({this.date, this.time, this.to, this.subject, this.content,this.isViewed,this.viewsCount});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -15,6 +16,12 @@ class NotificationModel {
     subject = json['subject'];
     content = json['content'];
     isViewed = json['isViewed'];
+    if (json['viewsCount'] != null) {
+      viewsCount = <String>[];
+      json['viewsCount'].forEach((v) {
+        viewsCount!.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +32,9 @@ class NotificationModel {
     data['subject'] = this.subject;
     data['content'] = this.content;
     data['isViewed'] = this.isViewed;
+    if (this.viewsCount != null) {
+      data['viewsCount'] = this.viewsCount;
+    }
     return data;
   }
 }

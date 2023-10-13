@@ -201,6 +201,7 @@ class _OrdersTabState extends State<OrdersTab>
                           width: double.infinity,
                           child: TabBarView(
                             dragStartBehavior:DragStartBehavior.down,
+                            physics: const NeverScrollableScrollPhysics(),
                             controller: _tabController,
                             children: [
                               tabViewWidget(newBookingsList,true),

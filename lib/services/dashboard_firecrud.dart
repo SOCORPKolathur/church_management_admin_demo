@@ -4,20 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
-final CollectionReference userCollection = firestore.collection('Users');
-final CollectionReference committeeCollection =
-    firestore.collection('Committee');
-final CollectionReference pastorsCollection = firestore.collection('Pastors');
-final CollectionReference clansCollection = firestore.collection('Clans');
-final CollectionReference chorusCollection = firestore.collection('Chorus');
-final CollectionReference churchStaffCollection =
-    firestore.collection('ChurchStaff');
-final CollectionReference studentCollection = firestore.collection('Students');
-final CollectionReference memberCollection = firestore.collection('Members');
-final CollectionReference familyCollection = firestore.collection('Families');
+
+
 final CollectionReference fundCollection = firestore.collection('Funds');
 final CollectionReference AttendanceFamilyCollection = firestore.collection('MemberAttendanceRecords');
-final CollectionReference EventCollection = firestore.collection('Events');
+
 
 class DashboardFireCrud {
 
@@ -25,7 +16,7 @@ class DashboardFireCrud {
     DashboardModel dashboard = DashboardModel();
     var document = await UserCollection.get();
     var attendanceDocument = await AttendanceFamilyCollection.get();
-    var eventsDocument = await EventCollection.get();
+    var eventsDocument = await firestore.collection('Events').get();
     int todayPresentMembers = 0;
     int todayEventsCount = 0;
     attendanceDocument.docs.forEach((element) {
@@ -44,38 +35,35 @@ class DashboardFireCrud {
     });
     int birthdayCount = document.docs.where((element) => element.get('dob').toString().startsWith("${DateTime.now().day}-${DateTime.now().month}")).length;
     int annivasaryCount = document.docs.where((element) => element.get('anniversaryDate').toString().startsWith("${DateTime.now().day}-${DateTime.now().month}")).length;
-    int totalUsers = await userCollection.get().then((value) => value.size);
-    int totalCommittee =
-        await committeeCollection.get().then((value) => value.size);
-    int totalPastors =
-        await pastorsCollection.get().then((value) => value.size);
-    int totalClans = await clansCollection.get().then((value) => value.size);
-    int totalChorus = await chorusCollection.get().then((value) => value.size);
-    int familyCount = await familyCollection.get().then((value) => value.size);
-    int totalStaffs =
-        await churchStaffCollection.get().then((value) => value.size);
-    int totalStudents =
-        await studentCollection.get().then((value) => value.size);
-    int totalMembers = await memberCollection.get().then((value) => value.size);
+
+    var totalUsers = await firestore.collection('Users').get();
+    var totalCommittee = await firestore.collection('Committee').get();
+    var totalPastors =  await firestore.collection('Pastors').get();
+    var totalClans = await firestore.collection('Clans').get();
+    var totalChorus = await firestore.collection('Chorus').get();
+    var familyCount = await firestore.collection('Families').get();
+    var totalStaffs = await firestore.collection('ChurchStaff').get();
+    var totalStudents = await firestore.collection('Students').get();
+    var totalMembers = await firestore.collection('Members').get();
     double currentBalance = await fundCollection.doc("x18zE9lNxDto7AXHlXDA").get().then((value) => value.get("currentBalance"));
     double totalCollect = await fundCollection.doc("x18zE9lNxDto7AXHlXDA").get().then((value) => value.get("totalCollect"));
     double totalSpend = await fundCollection.doc("x18zE9lNxDto7AXHlXDA").get().then((value) => value.get("totalSpend"));
     dashboard = DashboardModel(
         todayPresentMembers : todayPresentMembers.toString(),
-      totalUsers: totalUsers.toString(),
+      totalUsers: totalUsers.docs.length.toString(),
       currentBalance: currentBalance.toString(),
-      totalChorus: totalChorus.toString(),
-      totalClans: totalClans.toString(),
+      totalChorus: totalChorus.docs.length.toString(),
+      totalClans: totalClans.docs.length.toString(),
       annivarsaryCount: annivasaryCount.toString(),
       birthdayCount: birthdayCount.toString(),
       totalCollect: totalCollect.toString(),
-      totalCommite: totalCommittee.toString(),
-      totalMembers: totalMembers.toString(),
-      totalFamilies: familyCount.toString(),
-      totalPastors: totalPastors.toString(),
+      totalCommite: totalCommittee.docs.length.toString(),
+      totalMembers: totalMembers.docs.length.toString(),
+      totalFamilies: familyCount.docs.length.toString(),
+      totalPastors: totalPastors.docs.length.toString(),
       totalSpend: totalSpend.toString(),
-      totalStaffs: totalStaffs.toString(),
-      totalStudents: totalStudents.toString(),
+      totalStaffs: totalStaffs.docs.length.toString(),
+      totalStudents: totalStudents.docs.length.toString(),
       todayEventsCount: todayEventsCount.toString(),
     );
     return dashboard;

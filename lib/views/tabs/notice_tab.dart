@@ -270,6 +270,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                       child: TextFormField(
+                                        readOnly: true,
                                         decoration: InputDecoration(
                                           border: InputBorder.none
                                         ),
@@ -315,6 +316,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                       child: TextFormField(
+                                        readOnly: true,
                                         onTap:(){ _selectTime(context);},
                                         controller: timeController,
                                         decoration: InputDecoration(

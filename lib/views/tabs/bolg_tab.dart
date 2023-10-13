@@ -507,9 +507,7 @@ class _BlogTabState extends State<BlogTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.82 > 180 + blogs.length * 80
-                              ? 180 + blogs.length * 80
-                              : size.height * 0.84,
+                          height: size.height * 0.84,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -890,10 +888,10 @@ class _BlogTabState extends State<BlogTab> {
                                     ),
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                      const EdgeInsets.symmetric(horizontal: 8),
                                       child: Center(
                                         child: KText(
-                                          text: "Filter",
+                                          text: " Filter by Date ",
                                           style: GoogleFonts.openSans(
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.bold,
@@ -908,9 +906,7 @@ class _BlogTabState extends State<BlogTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 70 + blogs.length * 60
-                              ? 70 + blogs.length * 60
-                              : size.height * 0.7,
+                          height: size.height * 0.7,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,

@@ -620,9 +620,7 @@ class _EventsTabState extends State<EventsTab>
                         ),
                       ),
                       Container(
-                        height: size.height * 0.7 > 130 + events.length * 60
-                            ? 130 + events.length * 60
-                            : size.height * 0.7,
+                        height: size.height * 0.7,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -1268,7 +1266,7 @@ class _EventsTabState extends State<EventsTab>
                                     EdgeInsets.symmetric(horizontal:width/227.66),
                                     child: Center(
                                       child: KText(
-                                        text: "Filter",
+                                        text: " Filter by Date ",
                                         style: GoogleFonts.openSans(
                                          fontSize: width/97.571,
                                           fontWeight: FontWeight.bold,
@@ -1283,9 +1281,7 @@ class _EventsTabState extends State<EventsTab>
                         ),
                       ),
                       Container(
-                        height: size.height * 0.7 > 130 + events.length * 60
-                            ? 130 + events.length * 60
-                            : size.height * 0.7,
+                        height: size.height * 0.7,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -1302,7 +1298,6 @@ class _EventsTabState extends State<EventsTab>
                                 InkWell(
                                   onTap: () async {
                                     var data = await generateEventPdf(PdfPageFormat.letter, events,false);
-                                    print(data);
                                   },
                                   child: Container(
                                     height:height/18.6,

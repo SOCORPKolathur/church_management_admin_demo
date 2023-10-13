@@ -12,5 +12,8 @@ class MessagesFireCrud {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => MessageModel.fromJson(doc.data() as Map<String,dynamic>))
-              .toList());
+              .toList()
+      );
+
+
 }
