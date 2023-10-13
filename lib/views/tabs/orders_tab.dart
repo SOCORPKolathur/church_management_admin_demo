@@ -294,7 +294,7 @@ class _OrdersTabState extends State<OrdersTab>
                   SizedBox(
                     width: width/9.106666666666667,
                     child: KText(
-                      text: "phone",
+                      text: "Phone",
                       style: GoogleFonts.poppins(
                         fontSize: width/105.0769230769231,
                         fontWeight: FontWeight.w600,

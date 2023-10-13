@@ -9,6 +9,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
@@ -44,6 +45,7 @@ class _SpeechTabState extends State<SpeechTab> {
   var uploadedImage;
   String? selectedImg;
   bool isCropped = false;
+  bool isLoading = false;
 
   selectImage() {
     InputElement input = FileUploadInputElement() as InputElement
@@ -119,8 +121,6 @@ class _SpeechTabState extends State<SpeechTab> {
     print("Username:$dropdownvalue_username ");
     print("Userphone:$dropdownvalue_userphone ");
     print("Userid:$dropdownvalue_userid ");
-
-
   }
 
 
@@ -202,668 +202,725 @@ class _SpeechTabState extends State<SpeechTab> {
               ),
             ),
             currentTab.toUpperCase() == "ADD"
-                ? Container(
+                ? Stack(
+              alignment: Alignment.center,
+                  children: [
+                    Container(
               height: size.height * 1.2,
               width: width/1.241,
               margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3),
               decoration: BoxDecoration(
-                color: Constants().primaryAppColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(1, 2),
-                    blurRadius: 3,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
+                    color: Constants().primaryAppColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(1, 2),
+                        blurRadius: 3,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    height: size.height * 0.1,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          KText(
-                            text: "ADD SPEECH",
-                            style: GoogleFonts.openSans(
-                              fontSize: width/68.3,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )),
-                      padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
-                      ,child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height:height/3.829,
-                              width:width/3.902,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Constants().primaryAppColor,
-                                      width: 2),
-                                  image: uploadedImage != null
-                                      ? DecorationImage(
-                                          fit: isCropped ? BoxFit.contain : BoxFit.cover,
-                                          image: MemoryImage(
-                                            Uint8List.fromList(
-                                              base64Decode(uploadedImage!
-                                                  .split(',')
-                                                  .last),
-                                            ),
-                                          ),
-                                        )
-                                      : null),
-                              child: uploadedImage == null
-                                  ? Center(
-                                      child: Icon(
-                                        Icons.cloud_upload,
-                                         size:width/8.5375,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  : null,
-                            ),
-                          ),
-                          SizedBox( height:height/32.55),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                onTap: selectImage,
-                                child: Container(
-                                  height:height/18.6,
-                                  width: size.width * 0.25,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.add_a_photo,
-                                          color: Colors.white),
-                                      SizedBox(width:width/136.6),
-                                      KText(
-                                        text: 'Select Profile Photo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width:width/27.32),
-                              InkWell(
-                                onTap: (){
-                                  if(isCropped){
-                                    setState(() {
-                                      isCropped = false;
-                                    });
-                                  }else{
-                                    setState(() {
-                                      isCropped = true;
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  height:height/18.6,
-                                  width: size.width * 0.25,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.crop,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width:width/136.6),
-                                      KText(
-                                        text: 'Disable Crop',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Name *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      isExpanded: true,
-                                      value: dropdownvalue_username,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items:Usernamelist.map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue1) {
-                                        setState(() {
-                                           dropdownvalue_username = newValue1!.toString();
-                                        });
-                                        userdatafetchfunction(newValue1!.toString());
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Phone *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      isExpanded: true,
-                                      value: dropdownvalue_userphone,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items: Userphonelist.map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue2) {
-
-                                        setState(() {
-                                          dropdownvalue_userphone= newValue2!.toString();
-                                        });
-                                        userdatafetchfunction(newValue2!.toString());
-                                      },
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "User-Id *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      isExpanded: true,
-                                      value: dropdownvalue_userid,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items: Useridlist.map((items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue3) {
-                                        setState(() {
-                                          dropdownvalue_userid = newValue3!.toString();
-                                        });
-                                        userdatafetchfunction(newValue3!.toString());
-                                      },
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height:height/21.7),
-                          Row(
-                            children: [
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Date *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      onTap: () async {
-                                        DateTime? pickedDate = await showDatePicker(
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000),
-                                            lastDate: DateTime(3000));
-                                        if (pickedDate != null) {
-                                          setState(() {
-                                            dateController.text = formatter.format(pickedDate);
-                                          });
-                                        }
-                                      },
-                                      controller: dateController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width:width/68.3),
-                              SizedBox(
-                                   width:width/4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Time *",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      style: TextStyle(fontSize:width/113.83),
-                                      onTap: () async {
-                                        _selectTime(context);
-                                          },
-                                      controller: TimeController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.1,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               KText(
-                                text: "Speech *",
+                                text: "ADD SPEECH",
                                 style: GoogleFonts.openSans(
-                                  color: Colors.black,
-                                  fontSize:width/105.07,
+                                  fontSize: width/68.3,
                                   fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
-                                ,decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                       height:height/32.55,
-                                      width: double.infinity,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: TextFormField(
-                                            style:
-                                                TextStyle(fontSize:width/113.83),
-                                            controller: speechController,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(left: width/91.066,top: height/162.75,bottom: height/162.75)
-                                            ),
-                                            maxLines: null,
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:height/21.7),
-                          // Row(
-                          //   children: [
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Facebook",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: facebookController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Twitter",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: twitterController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Google+",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: googleplusController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Linkedin",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: linkedinController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(height:height/21.7),
-                          // Row(
-                          //   children: [
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Youtube",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: youtubeController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Pinterest",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: pinterestController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Instagram",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: instagramController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     SizedBox(width:width/68.3),
-                          //     SizedBox(
-                          //       width: 230,
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           KText(
-                          //             text: "Whatsapp",
-                          //             style: GoogleFonts.openSans(
-                          //               color: Colors.black,
-                          //               fontSize:width/105.07,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           TextFormField(
-                          //             style: TextStyle(fontSize:width/113.83),
-                          //             controller: whatsappController,
-                          //           )
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(height:height/21.7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  if (profileImage != null &&
-                                      firstNameController.text != "" &&
-                                      lastNameController.text != "" &&
-                                      positionController.text != "" &&
-                                      speechController.text != ""
-                                      // facebookController.text != "" &&
-                                      // twitterController.text != "" &&
-                                      // googleplusController.text != "" &&
-                                      // linkedinController.text != "" &&
-                                      // pinterestController.text != "" &&
-                                      // youtubeController.text != "" &&
-                                      // instagramController.text != "" &&
-                                      // whatsappController.text != ""
-                                  ) {
-                                    Response response =
-                                        await SpeechFireCrud.addSpeech(
-                                      image: profileImage!,
-                                      linkedin: linkedinController.text,
-                                      pinterest: pinterestController.text,
-                                      speech: speechController.text,
-                                      twitter: twitterController.text,
-                                      whatsapp: whatsappController.text,
-                                      youtube: youtubeController.text,
-                                      instagram: instagramController.text,
-                                      google: googleplusController.text,
-                                      facebook: facebookController.text,
-                                      position: positionController.text,
-                                      lastName: lastNameController.text,
-                                      firstName: firstNameController.text,
-                                            Date:dateController.text,
-                                          Time: TimeController.text
-                                    );
-                                    if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Speech created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      setState(() {
-                                        currentTab = 'View';
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        linkedinController.text == "";
-                                        pinterestController.text == "";
-                                        speechController.text == "";
-                                        twitterController.text == "";
-                                        whatsappController.text == "";
-                                        youtubeController.text == "";
-                                        instagramController.text == "";
-                                        googleplusController.text == "";
-                                        facebookController.text == "";
-                                        positionController.text == "";
-                                        lastNameController.text == "";
-                                        firstNameController.text == "";
-                                        dateController.text == "";
-                                        TimeController.text == "";
-                                      });
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to Create Speech!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: Container(
-                                  height:height/18.6,
-                                  decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:width/227.66),
-                                    child: Center(
-                                      child: KText(
-                                        text: "ADD NOW",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.white,
-                                          fontSize:width/136.6,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              )),
+                          padding: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                          ,child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Center(
+                              //   child: Container(
+                              //     height:height/3.829,
+                              //     width:width/3.902,
+                              //     decoration: BoxDecoration(
+                              //         border: Border.all(
+                              //             color: Constants().primaryAppColor,
+                              //             width: 2),
+                              //         image: uploadedImage != null
+                              //             ? DecorationImage(
+                              //                 fit: isCropped ? BoxFit.contain : BoxFit.cover,
+                              //                 image: MemoryImage(
+                              //                   Uint8List.fromList(
+                              //                     base64Decode(uploadedImage!
+                              //                         .split(',')
+                              //                         .last),
+                              //                   ),
+                              //                 ),
+                              //               )
+                              //             : null),
+                              //     child: uploadedImage == null
+                              //         ? Center(
+                              //             child: Icon(
+                              //               Icons.cloud_upload,
+                              //                size:width/8.5375,
+                              //               color: Colors.grey,
+                              //             ),
+                              //           )
+                              //         : null,
+                              //   ),
+                              // ),
+                              // SizedBox( height:height/32.55),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              //   children: [
+                              //     InkWell(
+                              //       onTap: selectImage,
+                              //       child: Container(
+                              //         height:height/18.6,
+                              //         width: size.width * 0.25,
+                              //         color: Constants().primaryAppColor,
+                              //         child: Row(
+                              //           mainAxisAlignment: MainAxisAlignment.center,
+                              //           children: [
+                              //             Icon(Icons.add_a_photo,
+                              //                 color: Colors.white),
+                              //             SizedBox(width:width/136.6),
+                              //             KText(
+                              //               text: 'Select Profile Photo',
+                              //               style: TextStyle(color: Colors.white),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/27.32),
+                              //     InkWell(
+                              //       onTap: (){
+                              //         if(isCropped){
+                              //           setState(() {
+                              //             isCropped = false;
+                              //           });
+                              //         }else{
+                              //           setState(() {
+                              //             isCropped = true;
+                              //           });
+                              //         }
+                              //       },
+                              //       child: Container(
+                              //         height:height/18.6,
+                              //         width: size.width * 0.25,
+                              //         color: Constants().primaryAppColor,
+                              //         child: Row(
+                              //           mainAxisAlignment: MainAxisAlignment.center,
+                              //           children: [
+                              //             Icon(
+                              //               Icons.crop,
+                              //               color: Colors.white,
+                              //             ),
+                              //             SizedBox(width:width/136.6),
+                              //             KText(
+                              //               text: 'Disable Crop',
+                              //               style: TextStyle(color: Colors.white),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Name *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: dropdownvalue_username,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items:Usernamelist.map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue1) {
+                                            setState(() {
+                                               dropdownvalue_username = newValue1!.toString();
+                                            });
+                                            userdatafetchfunction(newValue1!.toString());
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Phone *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: dropdownvalue_userphone,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items: Userphonelist.map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue2) {
+
+                                            setState(() {
+                                              dropdownvalue_userphone= newValue2!.toString();
+                                            });
+                                            userdatafetchfunction(newValue2!.toString());
+                                          },
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "User-Id *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: dropdownvalue_userid,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items: Useridlist.map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue3) {
+                                            setState(() {
+                                              dropdownvalue_userid = newValue3!.toString();
+                                            });
+                                            userdatafetchfunction(newValue3!.toString());
+                                          },
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Date *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          onTap: () async {
+                                            DateTime? pickedDate = await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(2000),
+                                                lastDate: DateTime(3000));
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                dateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                          controller: dateController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                       width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Time *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize:width/113.83),
+                                          onTap: () async {
+                                            _selectTime(context);
+                                              },
+                                          controller: TimeController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Speech *",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(vertical: height/32.55, horizontal: width/68.3)
+                                    ,decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                           height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                style:
+                                                    TextStyle(fontSize:width/113.83),
+                                                controller: speechController,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.066,top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              // Row(
+                              //   children: [
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Facebook",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: facebookController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Twitter",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: twitterController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Google+",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: googleplusController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Linkedin",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: linkedinController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height:height/21.7),
+                              // Row(
+                              //   children: [
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Youtube",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: youtubeController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Pinterest",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: pinterestController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Instagram",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: instagramController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/68.3),
+                              //     SizedBox(
+                              //       width: 230,
+                              //       child: Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           KText(
+                              //             text: "Whatsapp",
+                              //             style: GoogleFonts.openSans(
+                              //               color: Colors.black,
+                              //               fontSize:width/105.07,
+                              //               fontWeight: FontWeight.bold,
+                              //             ),
+                              //           ),
+                              //           TextFormField(
+                              //             style: TextStyle(fontSize:width/113.83),
+                              //             controller: whatsappController,
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height:height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if(!isLoading){
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        if (
+                                        //profileImage != null &&
+                                        firstNameController.text != "" &&
+                                            lastNameController.text != "" &&
+                                            positionController.text != "" &&
+                                            speechController.text != ""
+                                        // facebookController.text != "" &&
+                                        // twitterController.text != "" &&
+                                        // googleplusController.text != "" &&
+                                        // linkedinController.text != "" &&
+                                        // pinterestController.text != "" &&
+                                        // youtubeController.text != "" &&
+                                        // instagramController.text != "" &&
+                                        // whatsappController.text != ""
+                                        ) {
+                                          Response response =
+                                          await SpeechFireCrud.addSpeech(
+                                            //image: profileImage!,
+                                              linkedin: linkedinController.text,
+                                              pinterest: pinterestController.text,
+                                              speech: speechController.text,
+                                              twitter: twitterController.text,
+                                              whatsapp: whatsappController.text,
+                                              youtube: youtubeController.text,
+                                              instagram: instagramController.text,
+                                              google: googleplusController.text,
+                                              facebook: facebookController.text,
+                                              position: positionController.text,
+                                              lastName: lastNameController.text,
+                                              firstName: firstNameController.text,
+                                              Date:dateController.text,
+                                              Time: TimeController.text
+                                          );
+                                          if (response.code == 200) {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.success,
+                                                text: "Speech created successfully!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            setState(() {
+                                              currentTab = 'View';
+                                              uploadedImage = null;
+                                              profileImage = null;
+                                              linkedinController.text == "";
+                                              pinterestController.text == "";
+                                              speechController.text == "";
+                                              twitterController.text == "";
+                                              whatsappController.text == "";
+                                              youtubeController.text == "";
+                                              instagramController.text == "";
+                                              googleplusController.text == "";
+                                              facebookController.text == "";
+                                              positionController.text == "";
+                                              lastNameController.text == "";
+                                              firstNameController.text == "";
+                                              dateController.text == "";
+                                              TimeController.text == "";
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.error,
+                                                text: "Failed to Create Speech!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          }
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      height:height/18.6,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:width/227.66),
+                                        child: Center(
+                                          child: KText(
+                                            text: "ADD NOW",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                              fontSize:width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
               ),
-            )
+            ),
+                    Visibility(
+                      visible: isLoading,
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.white70,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                          width: size.width/1.37,
+                          alignment: AlignmentDirectional.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: SizedBox(
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 25.0),
+                                child: Center(
+                                  child: Text(
+                                    "loading..Please wait...",
+                                    style: TextStyle(
+                                      fontSize: width/56.91666666666667,
+                                      color: Constants().primaryAppColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
                 : currentTab.toUpperCase() == "VIEW" ? StreamBuilder(
               stream: SpeechFireCrud.fetchSpeechList(),
               builder: (ctx, snapshot) {
@@ -1101,47 +1158,60 @@ class _SpeechTabState extends State<SpeechTab> {
                                           child: Stack(
                                             children: [
                                               Container(
-                                                padding: EdgeInsets.only(
-                                                    top: height/9.3, left: width/62.09, right: width/62.09),
+                                                padding: EdgeInsets.only(left: width/62.09, right: width/62.09),
                                                 child: Container(
                                                   color: Colors.white,
                                                   width: double.infinity,
-                                                  padding:
-                                                      EdgeInsets.only(top: height/9.3),
+                                                  //padding:EdgeInsets.only(top: height/9.3),
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.spaceEvenly,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                     children: [
-                                                      KText(
-                                                        text: data.position!,
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize:width/97.57),
-                                                      ),
-                                                      KText(
-                                                        text:
-                                                            "${data.firstName!} ${data.lastName!}",
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: width/75.88,
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 10),
+                                                        child: KText(
+                                                          text: "Speech For :",
+                                                          style: TextStyle(
+                                                              color: Colors.grey,
+                                                              fontSize:width/97.57),
                                                         ),
                                                       ),
-                                                      SizedBox(
-                                                        height: height/10.85,
-                                                        width: double.infinity,
-                                                        child: Padding(
-                                                          padding: EdgeInsets.symmetric(
-                                                            horizontal: width/170.75,
-                                                            vertical: height/81.375
+                                                      Center(
+                                                        child: KText(
+                                                          text:
+                                                              data.firstName!,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: width/75.88,
                                                           ),
-                                                          child: KText(
-                                                            text:
-                                                            data.speech!,
-                                                            style: TextStyle(
-                                                              color: Colors.black54,
-                                                              fontSize:width/105.07,
+                                                        ),
+                                                      ),
+                                                      Center(
+                                                        child: KText(
+                                                          text:
+                                                          data.lastName!,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: width/75.88,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Center(
+                                                        child: SizedBox(
+                                                          height: height/10.85,
+                                                          width: double.infinity,
+                                                          child: Padding(
+                                                            padding: EdgeInsets.symmetric(
+                                                              horizontal: width/170.75,
+                                                              vertical: height/81.375
+                                                            ),
+                                                            child: KText(
+                                                              text:
+                                                              data.speech!,
+                                                              style: TextStyle(
+                                                                color: Colors.black54,
+                                                                fontSize:width/105.07,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -1201,6 +1271,9 @@ class _SpeechTabState extends State<SpeechTab> {
                                                                   positionController.text = speechList[i].position!;
                                                                   speechController.text = speechList[i].speech!;
                                                                   selectedImg = speechList[i].imgUrl;
+                                                                  dropdownvalue_userid = speechList[i].position!;
+                                                                  dropdownvalue_username = speechList[i].firstName!;
+                                                                  dropdownvalue_userphone = speechList[i].lastName!;
                                                                 });
                                                                 editPopUp(speechList[i], size);
                                                               },
@@ -1305,25 +1378,25 @@ class _SpeechTabState extends State<SpeechTab> {
                                                   ),
                                                 ),
                                               ),
-                                              Positioned(
-                                                top: height/26.04,
-                                                left: width/136.6,
-                                                right: width/136.6,
-                                                child: Container(
-                                                  height: height/6.51,
-                                                  width:width/136.60,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color:
-                                                          Constants().primaryAppColor,
-                                                      image: data.imgUrl != null
-                                                          ? DecorationImage(
-                                                              fit: BoxFit.contain,
-                                                              image: NetworkImage(
-                                                                  data.imgUrl!))
-                                                          : null),
-                                                ),
-                                              )
+                                              // Positioned(
+                                              //   top: height/26.04,
+                                              //   left: width/136.6,
+                                              //   right: width/136.6,
+                                              //   child: Container(
+                                              //     height: height/6.51,
+                                              //     width:width/136.60,
+                                              //     decoration: BoxDecoration(
+                                              //         shape: BoxShape.circle,
+                                              //         color:
+                                              //             Constants().primaryAppColor,
+                                              //         image: data.imgUrl != null
+                                              //             ? DecorationImage(
+                                              //                 fit: BoxFit.contain,
+                                              //                 image: NetworkImage(
+                                              //                     data.imgUrl!))
+                                              //             : null),
+                                              //   ),
+                                              // )
                                             ],
                                           ),
                                         ),
@@ -1436,17 +1509,17 @@ class _SpeechTabState extends State<SpeechTab> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Container(
-                            width: size.width * 0.3,
-                            height: size.height * 0.4,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(speech.imgUrl!),
-                              ),
-                            ),
-                          ),
+                          // Container(
+                          //   width: size.width * 0.3,
+                          //   height: size.height * 0.4,
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(10),
+                          //     image: DecorationImage(
+                          //       fit: BoxFit.fill,
+                          //       image: NetworkImage(speech.imgUrl!),
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
@@ -1471,7 +1544,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                       Text(":"),
                                       SizedBox(width:width/68.3),
                                       KText(
-                                        text: "${speech.firstName!} ${speech.lastName!}",
+                                        text: speech.firstName!,
                                         style: TextStyle(
                                             fontSize:width/97.57
                                         ),
@@ -1484,7 +1557,30 @@ class _SpeechTabState extends State<SpeechTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Position",
+                                          text: "Phone",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: speech.lastName!,
+                                        style: TextStyle(
+                                            fontSize:width/97.57
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox( height:height/32.55),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "User ID",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: width/85.375
@@ -1519,8 +1615,9 @@ class _SpeechTabState extends State<SpeechTab> {
                                       SizedBox(width:width/68.3),
                                       SizedBox(
                                         width: size.width * 0.3,
-                                        child: KText(
-                                          text: speech.speech!,
+                                        child: Text(
+                                          speech.speech!,
+                                          maxLines: null,
                                           style: TextStyle(
                                               fontSize:width/97.57
                                           ),
@@ -1592,13 +1689,16 @@ class _SpeechTabState extends State<SpeechTab> {
                             ),
                             InkWell(
                               onTap: () {
-                                setState(() {
+                                setStat(() {
                                   uploadedImage = null;
                                   profileImage = null;
                                   firstNameController.text = "";
                                   lastNameController.text = "";
                                   positionController.text = "";
                                   speechController.text = "";
+                                  dropdownvalue_userid="Select";
+                                  dropdownvalue_username="Select";
+                                  dropdownvalue_userphone="Select";
                                 });
                                 Navigator.pop(context);
                               },
@@ -1624,120 +1724,120 @@ class _SpeechTabState extends State<SpeechTab> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(
-                                child: Container(
-                                  height:height/3.829,
-                                  width:width/3.902,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Constants().primaryAppColor,
-                                          width: 2),
-                                      image: selectedImg != null
-                                          ? DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(selectedImg!))
-                                          : uploadedImage != null
-                                          ? DecorationImage(
-                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
-                                        image: MemoryImage(
-                                          Uint8List.fromList(
-                                            base64Decode(uploadedImage!
-                                                .split(',')
-                                                .last),
-                                          ),
-                                        ),
-                                      )
-                                          : null),
-                                  child: (uploadedImage == null && selectedImg == null)
-                                      ? Center(
-                                    child: Icon(
-                                      Icons.cloud_upload,
-                                       size:width/8.5375,
-                                      color: Colors.grey,
-                                    ),
-                                  )
-                                      : null,
-                                ),
-                              ),
-                              SizedBox( height:height/32.55),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    onTap: (){
-                                      InputElement input = FileUploadInputElement() as InputElement
-                                        ..accept = 'image/*';
-                                      input.click();
-                                      input.onChange.listen((event) {
-                                        final file = input.files!.first;
-                                        FileReader reader = FileReader();
-                                        reader.readAsDataUrl(file);
-                                        reader.onLoadEnd.listen((event) {
-                                          setStat(() {
-                                            profileImage = file;
-                                          });
-                                          setStat(() {
-                                            uploadedImage = reader.result;
-                                            selectedImg = null;
-                                          });
-                                        });
-                                        setStat(() {});
-                                      });
-                                    },
-                                    child: Container(
-                                      height:height/18.6,
-                                      width: size.width * 0.25,
-                                      color: Constants().primaryAppColor,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.add_a_photo,
-                                              color: Colors.white),
-                                          SizedBox(width:width/136.6),
-                                          KText(
-                                            text: 'Select Profile Photo',
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width:width/27.32),
-                                  InkWell(
-                                    onTap: (){
-                                      if(isCropped){
-                                        setStat(() {
-                                          isCropped = false;
-                                        });
-                                      }else{
-                                        setStat(() {
-                                          isCropped = true;
-                                        });
-                                      }
-                                    },
-                                    child: Container(
-                                      height:height/18.6,
-                                      width: size.width * 0.25,
-                                      color: Constants().primaryAppColor,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.crop,
-                                            color: Colors.white,
-                                          ),
-                                          SizedBox(width:width/136.6),
-                                          KText(
-                                            text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height:height/21.7),
+                              // Center(
+                              //   child: Container(
+                              //     height:height/3.829,
+                              //     width:width/3.902,
+                              //     decoration: BoxDecoration(
+                              //         border: Border.all(
+                              //             color: Constants().primaryAppColor,
+                              //             width: 2),
+                              //         image: selectedImg != null
+                              //             ? DecorationImage(
+                              //             fit: BoxFit.fill,
+                              //             image: NetworkImage(selectedImg!))
+                              //             : uploadedImage != null
+                              //             ? DecorationImage(
+                              //           fit: isCropped ? BoxFit.contain : BoxFit.cover,
+                              //           image: MemoryImage(
+                              //             Uint8List.fromList(
+                              //               base64Decode(uploadedImage!
+                              //                   .split(',')
+                              //                   .last),
+                              //             ),
+                              //           ),
+                              //         )
+                              //             : null),
+                              //     child: (uploadedImage == null && selectedImg == null)
+                              //         ? Center(
+                              //       child: Icon(
+                              //         Icons.cloud_upload,
+                              //          size:width/8.5375,
+                              //         color: Colors.grey,
+                              //       ),
+                              //     )
+                              //         : null,
+                              //   ),
+                              // ),
+                              // SizedBox( height:height/32.55),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              //   children: [
+                              //     InkWell(
+                              //       onTap: (){
+                              //         InputElement input = FileUploadInputElement() as InputElement
+                              //           ..accept = 'image/*';
+                              //         input.click();
+                              //         input.onChange.listen((event) {
+                              //           final file = input.files!.first;
+                              //           FileReader reader = FileReader();
+                              //           reader.readAsDataUrl(file);
+                              //           reader.onLoadEnd.listen((event) {
+                              //             setStat(() {
+                              //               profileImage = file;
+                              //             });
+                              //             setStat(() {
+                              //               uploadedImage = reader.result;
+                              //               selectedImg = null;
+                              //             });
+                              //           });
+                              //           setStat(() {});
+                              //         });
+                              //       },
+                              //       child: Container(
+                              //         height:height/18.6,
+                              //         width: size.width * 0.25,
+                              //         color: Constants().primaryAppColor,
+                              //         child: Row(
+                              //           mainAxisAlignment: MainAxisAlignment.center,
+                              //           children: [
+                              //             Icon(Icons.add_a_photo,
+                              //                 color: Colors.white),
+                              //             SizedBox(width:width/136.6),
+                              //             KText(
+                              //               text: 'Select Profile Photo',
+                              //               style: TextStyle(color: Colors.white),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     SizedBox(width:width/27.32),
+                              //     InkWell(
+                              //       onTap: (){
+                              //         if(isCropped){
+                              //           setStat(() {
+                              //             isCropped = false;
+                              //           });
+                              //         }else{
+                              //           setStat(() {
+                              //             isCropped = true;
+                              //           });
+                              //         }
+                              //       },
+                              //       child: Container(
+                              //         height:height/18.6,
+                              //         width: size.width * 0.25,
+                              //         color: Constants().primaryAppColor,
+                              //         child: Row(
+                              //           mainAxisAlignment: MainAxisAlignment.center,
+                              //           children: [
+                              //             Icon(
+                              //               Icons.crop,
+                              //               color: Colors.white,
+                              //             ),
+                              //             SizedBox(width:width/136.6),
+                              //             KText(
+                              //               text: 'Disable Crop',
+                              //               style: TextStyle(color: Colors.white),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height:height/21.7),
                               Row(
                                 children: [
                                   SizedBox(
@@ -1746,17 +1846,44 @@ class _SpeechTabState extends State<SpeechTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Firstname *",
+                                          text: "Name *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        TextFormField(
-                                          style: TextStyle(fontSize:width/113.83),
-                                          controller: firstNameController,
-                                        )
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: dropdownvalue_username,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items:Usernamelist.map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue1) async {
+                                            setStat(() {
+                                              dropdownvalue_username = newValue1!.toString();
+                                            });
+                                            var userdata = await cf.FirebaseFirestore.instance.collection("Users").get();
+                                            for(int i=0;i<userdata.docs.length;i++){
+                                              if(newValue1==userdata.docs[i]['id'] ||
+                                                  newValue1==userdata.docs[i]['firstName'].toString() ||
+                                                  newValue1==userdata.docs[i]['phone']){
+                                                setStat(() {
+                                                  dropdownvalue_userphone=userdata.docs[i]['phone'].toString();
+                                                  lastNameController.text=userdata.docs[i]['phone'].toString();
+                                                  dropdownvalue_userid=userdata.docs[i]['id'].toString();
+                                                  positionController.text=userdata.docs[i]['id'].toString();
+                                                  dropdownvalue_username=userdata.docs[i]['firstName'].toString();
+                                                  firstNameController.text=userdata.docs[i]['firstName'].toString();
+                                                });
+                                              }
+                                            }
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1767,17 +1894,44 @@ class _SpeechTabState extends State<SpeechTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Lastname *",
+                                          text: "Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        TextFormField(
-                                          style: TextStyle(fontSize:width/113.83),
-                                          controller: lastNameController,
-                                        )
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: dropdownvalue_userphone,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items:Userphonelist.map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue1) async {
+                                            setStat(() {
+                                              dropdownvalue_userphone = newValue1!.toString();
+                                            });
+                                            var userdata = await cf.FirebaseFirestore.instance.collection("Users").get();
+                                            for(int i=0;i<userdata.docs.length;i++){
+                                              if(newValue1==userdata.docs[i]['id'] ||
+                                                  newValue1==userdata.docs[i]['firstName'].toString() ||
+                                                  newValue1==userdata.docs[i]['phone']){
+                                                setStat(() {
+                                                  dropdownvalue_userphone=userdata.docs[i]['phone'].toString();
+                                                  lastNameController.text=userdata.docs[i]['phone'].toString();
+                                                  dropdownvalue_userid=userdata.docs[i]['id'].toString();
+                                                  positionController.text=userdata.docs[i]['id'].toString();
+                                                  dropdownvalue_username=userdata.docs[i]['firstName'].toString();
+                                                  firstNameController.text=userdata.docs[i]['firstName'].toString();
+                                                });
+                                              }
+                                            }
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1788,17 +1942,44 @@ class _SpeechTabState extends State<SpeechTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Position",
+                                          text: "User ID",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        TextFormField(
-                                          style: TextStyle(fontSize:width/113.83),
-                                          controller: positionController,
-                                        )
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: dropdownvalue_userid,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items:Useridlist.map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue1) async {
+                                            setStat(() {
+                                              dropdownvalue_userid = newValue1!.toString();
+                                            });
+                                            var userdata = await cf.FirebaseFirestore.instance.collection("Users").get();
+                                            for(int i=0;i<userdata.docs.length;i++){
+                                              if(newValue1==userdata.docs[i]['id'] ||
+                                                  newValue1==userdata.docs[i]['firstName'].toString() ||
+                                                  newValue1==userdata.docs[i]['phone']){
+                                                setStat(() {
+                                                  dropdownvalue_userphone=userdata.docs[i]['phone'].toString();
+                                                  lastNameController.text=userdata.docs[i]['phone'].toString();
+                                                  dropdownvalue_userid=userdata.docs[i]['id'].toString();
+                                                  positionController.text=userdata.docs[i]['id'].toString();
+                                                  dropdownvalue_username=userdata.docs[i]['firstName'].toString();
+                                                  firstNameController.text=userdata.docs[i]['firstName'].toString();
+                                                });
+                                              }
+                                            }
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -2045,7 +2226,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                       if (
                                           firstNameController.text != "" &&
                                           lastNameController.text != "" &&
-                                          positionController.text != "" &&
+                                         // positionController.text != "" &&
                                           speechController.text != ""
                                          // facebookController.text != "" &&
                                          // twitterController.text != "" &&
@@ -2074,8 +2255,8 @@ class _SpeechTabState extends State<SpeechTab> {
                                             lastName: lastNameController.text,
                                             firstName: firstNameController.text,
                                           ),
-                                            profileImage,
-                                            speech.imgUrl ?? ""
+                                            //profileImage,
+                                            //speech.imgUrl ?? ""
                                         );
                                         if (response.code == 200) {
                                           CoolAlert.show(
@@ -2101,6 +2282,9 @@ class _SpeechTabState extends State<SpeechTab> {
                                             positionController.text == "";
                                             lastNameController.text == "";
                                             firstNameController.text == "";
+                                            dropdownvalue_userid="Select";
+                                            dropdownvalue_username="Select";
+                                            dropdownvalue_userphone="Select";
                                           });
                                           Navigator.pop(context);
                                           Navigator.pop(context);

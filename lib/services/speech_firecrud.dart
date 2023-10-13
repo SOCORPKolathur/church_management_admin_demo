@@ -17,7 +17,8 @@ class SpeechFireCrud {
               .toList());
 
   static Future<Response> addSpeech(
-      {required File image,
+      {
+        //required File image,
       required String firstName,
       required String lastName,
       required String position,
@@ -32,7 +33,7 @@ class SpeechFireCrud {
       required String Date,
       required String Time,
       required String youtube}) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    //String downloadUrl = await uploadImageToStorage(image);
     Response response = Response();
     DocumentReference documentReferencer = SpeechCollection.doc();
     SpeechModel speechModel = SpeechModel(
@@ -52,7 +53,8 @@ class SpeechFireCrud {
         pinterest: pinterest,
         linkedin: linkedin,
         instagram: instagram,
-        imgUrl: downloadUrl);
+        imgUrl: "",//downloadUrl
+    );
     speechModel.id = documentReferencer.id;
     var json = speechModel.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
@@ -66,14 +68,14 @@ class SpeechFireCrud {
   }
 
 
-  static Future<Response> updateRecord(SpeechModel speech,File? image,String imgUrl) async {
+  static Future<Response> updateRecord(SpeechModel speech) async {//File? image,String imgUrl
     Response res = Response();
-    if(image != null) {
-      String downloadUrl = await uploadImageToStorage(image);
-      speech.imgUrl = downloadUrl;
-    }else{
-      speech.imgUrl = imgUrl;
-    }
+    // if(image != null) {
+    //   String downloadUrl = await uploadImageToStorage(image);
+    //   speech.imgUrl = downloadUrl;
+    // }else{
+    //   speech.imgUrl = imgUrl;
+    // }
     DocumentReference documentReferencer = SpeechCollection.doc(speech.id);
     var result = await documentReferencer.update(speech.toJson()).whenComplete(() {
       res.code = 200;
