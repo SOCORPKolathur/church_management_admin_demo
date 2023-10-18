@@ -12,14 +12,14 @@ final FirebaseStorage fs = FirebaseStorage.instance;
 
 class AssetManagementFireCrud {
   static Stream<List<AssetManagementModel>> fetchAssetManagements() =>
-      AssetManagementCollection.orderBy("timestamp", descending: false)
+      AssetManagementCollection.orderBy("timestamp", descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => AssetManagementModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
   static Stream<List<AssetManagementModel>> fetchAssetManagementsWithAmcDate(String date) =>
-      AssetManagementCollection.orderBy("timestamp", descending: false)
+      AssetManagementCollection.orderBy("timestamp", descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
           .where((element) => element['amcDate'] == date)
@@ -29,7 +29,7 @@ class AssetManagementFireCrud {
   static Stream<List<AssetManagementModel>> fetchAssetManagementsWithFilter(
           DateTime start, DateTime end) =>
       AssetManagementCollection
-          .orderBy("timestamp", descending: false)
+          .orderBy("timestamp", descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
           .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
@@ -47,8 +47,14 @@ class AssetManagementFireCrud {
     required File? document,
   }) async {
     Response response = Response();
-    String imgUrl = await uploadImageToStorage(image);
-    String docUrl = await uploadDocumentToStorage(document);
+    String imgUrl = '';
+    if(image != null){
+      imgUrl = await uploadImageToStorage(image);
+    }
+    String docUrl = '';
+    if(document != null){
+      docUrl = await uploadDocumentToStorage(document);
+    }
     DocumentReference documentReferencer = AssetManagementCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     AssetManagementModel asset = AssetManagementModel(

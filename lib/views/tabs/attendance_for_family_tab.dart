@@ -1040,7 +1040,7 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                                                 SizedBox(
                                                   width: width/2.845833333333333,
                                                   child: KText(
-                                                    text: attendances[j]
+                                                    text: attendances1[i].attendance![j]
                                                         .member!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
@@ -1052,11 +1052,11 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: Text(
-                                                    attendances[j].present!
+                                                    attendances1[i].attendance![j].present!
                                                         ? "Present"
                                                         : "Absent",
                                                     style: TextStyle(
-                                                      color: attendances[j].present!
+                                                      color: attendances1[i].attendance![j].present!
                                                           ? Colors.green
                                                           : Colors.red,
                                                     ),
@@ -1099,7 +1099,7 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
       row.add(i + 1);
       row.add(attendance[i].memberId!);
       row.add(attendance[i].member!);
-      row.add(attendance[i].present!);
+      row.add(attendance[i].present! ? "Present" : "Absent");
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

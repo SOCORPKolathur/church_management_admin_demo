@@ -1436,11 +1436,31 @@ class _DashBoardTabState extends State<DashBoardTab> {
         ),
         Visibility(
           visible: isFetched,
-          child: Lottie.asset(
-            'assets/churchLoading.json',
-            fit: BoxFit.contain,
-            height: size.height * 0.4,
-            width: size.width * 0.7,
+          child: CircleAvatar(
+            radius: width/15.17777777777778,
+            backgroundColor: Colors.white,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Center(
+                  child: Lottie.asset(
+                    'assets/churchLoading.json',
+                    fit: BoxFit.contain,
+                    height: size.height * 0.4,
+                    width: size.width * 0.7,
+                  ),
+                ),
+                SizedBox(
+                  height: height/4.34,
+                  width: width/9.106666666666667,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 7.0,
+                    backgroundColor: Colors.yellow,
+                    color: Constants().primaryAppColor,
+                  ),
+                )
+              ],
+            ),
           ),
         )
       ],

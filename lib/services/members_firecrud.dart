@@ -58,6 +58,10 @@ class MembersFireCrud {
       required String marriageDate,
       required String nationality,
       required String phone,
+      required String qualification,
+      required String relationToFamily,
+      required String attendingTime,
+      required String maritalStatus,
       required String position,
       required String socialStatus}) async {
     String downloadUrl = await uploadImageToStorage(image);
@@ -92,7 +96,11 @@ class MembersFireCrud {
         department: department,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
-        imgUrl: downloadUrl
+        imgUrl: downloadUrl,
+        attendingTime: attendingTime,
+        maritalStatus: maritalStatus,
+        qualification: qualification,
+        relationToFamily: relationToFamily,
     );
     member.id = documentReferencer.id;
     var json = member.toJson();
@@ -186,6 +194,10 @@ class MembersFireCrud {
         address: row[i][18].toString(),
         pincode: row[i][19].toString(),
         aadharNo: row[i][20].toString(),
+        maritalStatus: row[i][21].toString(),
+        attendingTime: row[i][22].toString(),
+        qualification: row[i][23].toString(),
+        relationToFamily: row[i][24].toString(),
         timestamp: DateTime.now().millisecondsSinceEpoch,
         imgUrl: "",
         country: "",

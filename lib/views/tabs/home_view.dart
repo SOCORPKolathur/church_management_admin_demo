@@ -823,8 +823,7 @@ class _HomeViewState extends State<HomeView> {
                               height: size.height,
                               width: size.width * 0.82,
                               color: Colors.white,
-                              child:
-                                  drawerItems[currentIndex].children!.isNotEmpty
+                              child: drawerItems[currentIndex].children!.isNotEmpty
                                       ? drawerItems[currentIndex]
                                           .children![selectedIndex]
                                           .page

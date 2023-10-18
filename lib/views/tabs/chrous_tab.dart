@@ -1154,7 +1154,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             bloodGroupController.text != "Select Blood Group" &&
                                             dobController.text != "" &&
                                             pincodeController.text != "" &&
-                                            familyController.text != "" &&
+                                            familyController.text != "Select" &&
                                             firstNameController.text != "" &&
                                             lastNameController.text != "" &&
                                             nationalityController.text != "" &&
@@ -1209,8 +1209,11 @@ class _ChorusTabState extends State<ChorusTab> {
                                           setState((){
                                             isLoading = false;
                                           });
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
+                                          if(bloodGroupController.text == "Select Blood Group" || familyController.text == "Select"){
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBarBlG);
+                                          }else{
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                          }
                                         }
                                       }
                                     },
@@ -3467,6 +3470,72 @@ class _ChorusTabState extends State<ChorusTab> {
             Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Please fill required fields !!',
+                  style: TextStyle(color: Colors.black)),
+            ),
+            Spacer(),
+            TextButton(
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
+          ],
+        )),
+  );
+
+  final snackBarDob = SnackBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    content: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Constants().primaryAppColor, width: 3),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x19000000),
+              spreadRadius: 2.0,
+              blurRadius: 8.0,
+              offset: Offset(2, 4),
+            )
+          ],
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.info_outline, color: Constants().primaryAppColor),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text('Please Select Date of Birth !!',
+                  style: TextStyle(color: Colors.black)),
+            ),
+            Spacer(),
+            TextButton(
+                onPressed: () => debugPrint("Undid"), child: Text("Undo"))
+          ],
+        )),
+  );
+
+  final snackBarBlG = SnackBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    content: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Constants().primaryAppColor, width: 3),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x19000000),
+              spreadRadius: 2.0,
+              blurRadius: 8.0,
+              offset: Offset(2, 4),
+            )
+          ],
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.info_outline, color: Constants().primaryAppColor),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text('Please Select required Dropdown fields!!',
                   style: TextStyle(color: Colors.black)),
             ),
             Spacer(),

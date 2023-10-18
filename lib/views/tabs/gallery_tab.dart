@@ -614,8 +614,8 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
                     Navigator.pop(context);
                   },
                   child: Container(
-                    height: height/18.6,
-                    width: width/91.060,
+                    height: height/16.275,
+                    width: width/9.106666666666667,
                     decoration: BoxDecoration(
                       color: Constants().primaryAppColor,
                       borderRadius: BorderRadius.circular(10),

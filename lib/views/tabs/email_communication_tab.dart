@@ -406,9 +406,8 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                               ),
                             ],
                           ),
-                          SizedBox(height: height /65.1),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () async {
@@ -430,6 +429,7 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                         controller.clearTags();
                                         subjectController.text = "";
                                         descriptionController.text = "";
+                                        currentTab = 'View';
                                       });
                                     } else {
                                       CoolAlert.show(
@@ -451,7 +451,8 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                   }
                                 },
                                 child: Container(
-                                  height: height/height/162.75,
+                                  height: height/18.6,
+                                  width: width/13.66,
                                   decoration: BoxDecoration(
                                     color: Constants().primaryAppColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -464,10 +465,10 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: width /227.66),
+                                    padding: EdgeInsets.symmetric(horizontal: 0),// width /227.66),
                                     child: Center(
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.send,
                                               color: Colors.white),

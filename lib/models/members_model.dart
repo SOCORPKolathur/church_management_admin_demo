@@ -25,9 +25,20 @@ class MembersModel {
   String? imgUrl;
   String? pincode;
 
+
+  String? qualification;
+  String? maritalStatus;
+  String? relationToFamily;
+  String? attendingTime;
+
+
+
   MembersModel(
       {this.id,
         this.firstName,
+        this.maritalStatus,
+        this.relationToFamily,
+        this.attendingTime,
         this.lastName,
         this.aadharNo,
         this.memberId,
@@ -37,6 +48,7 @@ class MembersModel {
         this.baptizemCertificate,
         this.address,
         this.email,
+        this.qualification,
         this.country,
         this.position,
         this.baptizeDate,
@@ -78,10 +90,20 @@ class MembersModel {
     dob = json['dob'];
     nationality = json['nationality'];
     imgUrl = json['imgUrl'];
+
+    qualification = json['qualification'];
+    maritalStatus = json['maritalStatus'];
+    relationToFamily = json['maritalStatus'];
+    attendingTime = json['attendingTime'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    
+    data['qualification'] = this.qualification;
+    data['maritalStatus'] = this.maritalStatus;
+    data['maritalStatus'] = this.maritalStatus;
+    data['attendingTime'] = this.attendingTime;
     data['id'] = this.id;
     data['memberId'] = this.memberId;
     data['timestamp'] = this.timestamp;

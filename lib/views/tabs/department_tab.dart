@@ -274,7 +274,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'[0-9]')),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: nameController,
@@ -313,7 +314,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'[0-9]')),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: leadernameController,
@@ -398,7 +400,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'[0-9]')),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: locationController,
@@ -554,7 +557,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'[0-9]')),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: cityController,
@@ -582,7 +586,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'[0-9]')),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: countryController,

@@ -28,13 +28,16 @@ class BlogFireCrud {
           .toList());
 
   static Future<Response> addBlog(
-      {required File image,
+      {required File? image,
       required String description,
       required String title,
       required String time,
       required String author,
       }) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = '';
+    if(image != null){
+      downloadUrl = await uploadImageToStorage(image);
+    }
     Response response = Response();
     DocumentReference documentReferencer = BlogCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse("${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}");

@@ -1042,7 +1042,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                       SizedBox(
                                                         width: width/2.845833333333333,
                                                         child: KText(
-                                                          text: attendances[j]
+                                                          text: attendances1[i].attendance![j]
                                                               .student!,
                                                           style: GoogleFonts.poppins(
                                                             fontSize: width/105.0769230769231,
@@ -1054,11 +1054,11 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                                       SizedBox(
                                                         width: width/6.83,
                                                         child: Text(
-                                                          attendances[j].present!
+                                                          attendances1[i].attendance![j].present!
                                                               ? "Present"
                                                               : "Absent",
                                                           style: TextStyle(
-                                                            color: attendances[j].present!
+                                                            color: attendances1[i].attendance![j].present!
                                                                 ? Colors.green
                                                                 : Colors.red,
                                                           ),
@@ -1101,7 +1101,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
       row.add(i + 1);
       row.add(attendance[i].studentId!);
       row.add(attendance[i].student!);
-      row.add(attendance[i].present!);
+      row.add(attendance[i].present! ? "Present" : "Absent");
       rows.add(row);
     }
     String csv = const ListToCsvConverter().convert(rows);

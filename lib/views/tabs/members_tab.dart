@@ -53,6 +53,11 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController pincodeController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
+
+  TextEditingController attendingTimeController = TextEditingController();
+  TextEditingController qualificationController = TextEditingController();
+  TextEditingController relationToFamilyController = TextEditingController();
+  TextEditingController marriedController = TextEditingController(text: 'Select Status');
   String searchString = "";
   File? profileImage;
   File? documentForUpload;
@@ -139,6 +144,11 @@ class _MembersTabState extends State<MembersTab> {
     sheet.getRangeByName("T1").setText("Pincode");
     sheet.getRangeByName("U1").setText("Aadhaar Number");
 
+    sheet.getRangeByName("V1").setText("Marital Status");
+    sheet.getRangeByName("W1").setText("Attending Time");
+    sheet.getRangeByName("X1").setText("Qualification");
+    sheet.getRangeByName("Y1").setText("Relationship to Family");
+
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
     AnchorElement(href: 'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
@@ -175,6 +185,10 @@ class _MembersTabState extends State<MembersTab> {
       positionController.text = "";
       socialStatusController.text = "";
       countryController.text = "";
+      attendingTimeController.text = "";
+      qualificationController.text = "";
+      relationToFamilyController.text = "";
+      marriedController.text = 'Select Status';
       isLoading = false;
     });
   }
@@ -902,6 +916,53 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
+                                  Container(
+                                    width: width / 4.553,
+                                    decoration:  BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Marital status *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: marriedController.text,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select Status",
+                                            "Single",
+                                            "Engaged",
+                                            "Married",
+                                            "Seperated",
+                                            "Divorced",
+                                            "Widow"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              marriedController.text = newValue.toString();
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                   SizedBox(
                                     width: width/4.553,
                                     child: Column(
@@ -933,56 +994,6 @@ class _MembersTabState extends State<MembersTab> {
                                             }
                                           },
                                         )
-                                      ],
-                                    ),
-                                  ),
-                                   SizedBox(width: width/68.3),
-                                  Container(
-                                    width: width/4.553,
-                                    decoration:  BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(width:width/910.66,color: Colors.grey)
-                                      )
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Social Status",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width/105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-
-                                        DropdownButton(
-                                          isExpanded: true,
-                                          value: socialStatusController.text,
-                                          icon:  Icon(Icons.keyboard_arrow_down),
-                                          underline: Container(),
-                                          items: [
-                                            "Select",
-                                            "Politicians",
-                                            "Social Service",
-                                            "Others"
-                                          ].map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              socialStatusController.text = newValue!;
-                                            });
-                                          },
-                                        ),
-
-                                        // TextFormField(
-                                        //   style:  TextStyle(fontSize: width/113.83),
-                                        //   controller: socialStatusController,
-                                        // )
                                       ],
                                     ),
                                   ),
@@ -1106,14 +1117,14 @@ class _MembersTabState extends State<MembersTab> {
                                       ],
                                     ),
                                   ),
-                                   SizedBox(width: width/68.3),
+                                  SizedBox(width: width/68.3),
                                   SizedBox(
                                     width: width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department",
+                                          text: "Relationship to Family",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -1126,14 +1137,99 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                           maxLength: 100,
                                           style:  TextStyle(fontSize: width/113.83),
-                                          controller: departmentController,
+                                          controller: relationToFamilyController,
                                         )
                                       ],
                                     ),
                                   ),
-
                                 ],
                               ),
+                               SizedBox(height: height/21.7),
+                               Row(
+                                 children: [
+                                   SizedBox(
+                                     width: width/4.553,
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         KText(
+                                           text: "Department",
+                                           style: GoogleFonts.openSans(
+                                             color: Colors.black,
+                                             fontSize: width/105.076,
+                                             fontWeight: FontWeight.bold,
+                                           ),
+                                         ),
+                                         TextFormField(
+                                           decoration: InputDecoration(
+                                             counterText: "",
+                                           ),
+                                           maxLength: 100,
+                                           style:  TextStyle(fontSize: width/113.83),
+                                           controller: departmentController,
+                                         )
+                                       ],
+                                     ),
+                                   ),
+                                   SizedBox(width: width/68.3),
+                                   SizedBox(
+                                     width: width/4.553,
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         KText(
+                                           text: "Qualification",
+                                           style: GoogleFonts.openSans(
+                                             color: Colors.black,
+                                             fontSize: width/105.076,
+                                             fontWeight: FontWeight.bold,
+                                           ),
+                                         ),
+                                         TextFormField(
+                                           decoration: InputDecoration(
+                                             counterText: "",
+                                           ),
+                                           maxLength: 100,
+                                           style:  TextStyle(fontSize: width/113.83),
+                                           controller: qualificationController,
+                                         )
+                                       ],
+                                     ),
+                                   ),SizedBox(width: width/68.3),
+                                   Column(
+                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                         text: "Attending Time",
+                                         style: GoogleFonts.openSans(
+                                           fontSize: width/97.571,
+                                           fontWeight: FontWeight.bold,
+                                         ),
+                                       ),
+                                       SizedBox(height: height/43.4),
+                                       SizedBox(
+                                         height: height/16.275,
+                                         width: width/9.106,
+                                         child: Padding(
+                                           padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                           child: TextFormField(
+                                             readOnly: true,
+                                             onTap: (){
+                                               _selectTime(context);
+                                             },
+                                             controller: attendingTimeController,
+                                             decoration: InputDecoration(
+                                               hintStyle: GoogleFonts.openSans(
+                                                 fontSize: width/97.571,
+                                               ),
+                                             ),
+                                           ),
+                                         ),
+                                       )
+                                     ],
+                                   ),
+                                 ],
+                               ),
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
@@ -1264,6 +1360,56 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
+                                  Container(
+                                    width: width/4.553,
+                                    decoration:  BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Social Status",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: socialStatusController.text,
+                                          icon:  Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select",
+                                            "Politicians",
+                                            "Social Service",
+                                            "Others"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              socialStatusController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+
+                                        // TextFormField(
+                                        //   style:  TextStyle(fontSize: width/113.83),
+                                        //   controller: socialStatusController,
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                   SizedBox(
                                     width: width/4.553,
                                     child: Column(
@@ -1432,6 +1578,10 @@ class _MembersTabState extends State<MembersTab> {
                                             socialStatus: socialStatusController.text,
                                             country: countryController.text,
                                             pincode: pincodeController.text,
+                                            relationToFamily: relationToFamilyController.text,
+                                            qualification: qualificationController.text,
+                                            maritalStatus: marriedController.text,
+                                            attendingTime: attendingTimeController.text,
                                           );
                                           if (response.code == 200) {
                                             CoolAlert.show(
@@ -2100,6 +2250,11 @@ class _MembersTabState extends State<MembersTab> {
                                                           pincodeController.text = members[i].pincode!;
                                                           memberIdController.text = members[i].memberId!;
                                                           aadharNoController.text = members[i].aadharNo!;
+
+                                                          marriedController.text = members[i].maritalStatus!;
+                                                          attendingTimeController.text = members[i].attendingTime!;
+                                                          qualificationController.text = members[i].qualification!;
+                                                          relationToFamilyController.text = members[i].relationToFamily!;
                                                         });
                                                         editPopUp(members[i], size);
                                                       },
@@ -2639,6 +2794,80 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child:  KText(
+                                          text: "Relationship to Family",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.relationToFamily!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Qualification",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.qualification!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Attending Time",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.attendingTime!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
                                           text: "Baptize Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -2681,6 +2910,30 @@ class _MembersTabState extends State<MembersTab> {
                                     ],
                                   ),
                                    SizedBox(height: height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Marital Status",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.maritalStatus!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -3376,6 +3629,53 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
+                                  Container(
+                                    width: width / 4.553,
+                                    decoration:  BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Marital status *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: marriedController.text,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select Status",
+                                            "Single",
+                                            "Engaged",
+                                            "Married",
+                                            "Seperated",
+                                            "Divorced",
+                                            "Widow"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setStat(() {
+                                              marriedController.text = newValue.toString();
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                   SizedBox(
                                     width: width/4.553,
                                     child: Column(
@@ -3406,57 +3706,6 @@ class _MembersTabState extends State<MembersTab> {
                                             }
                                           },
                                         )
-                                      ],
-                                    ),
-                                  ),
-                                   SizedBox(width: width/68.3),
-                                  Container(
-                                    width: width/4.553,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                           color: Colors.grey,
-                                          width:width/910.66
-                                        )
-                                      )
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Social Status",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width/105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        DropdownButton(
-                                          isExpanded: true,
-                                          value: socialStatusController.text,
-                                          icon:  Icon(Icons.keyboard_arrow_down),
-                                          underline: Container(),
-                                          items: [
-                                            "Select",
-                                            "Politicians",
-                                            "Social Service",
-                                            "Others"
-                                          ].map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            setStat(() {
-                                              socialStatusController.text = newValue!;
-                                            });
-                                          },
-                                        ),
-                                        // TextFormField(
-                                        //   style:  TextStyle(fontSize: width/113.83),
-                                        //   controller: socialStatusController,
-                                        // )
                                       ],
                                     ),
                                   ),
@@ -3591,7 +3840,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department",
+                                          text: "Relationship to Family",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3607,10 +3856,97 @@ class _MembersTabState extends State<MembersTab> {
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
                                           style:  TextStyle(fontSize: width/113.83),
+                                          controller: relationToFamilyController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                               SizedBox(height: height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Department",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
                                           controller: departmentController,
                                         )
                                       ],
                                     ),
+                                  ),
+                                  SizedBox(width: width/68.3),
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Qualification",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
+                                          controller: qualificationController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Attending Time",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: width/97.571,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: height/43.4),
+                                      SizedBox(
+                                        height: height/16.275,
+                                        width: width/9.106,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                          child: TextFormField(
+                                            readOnly: true,
+                                            onTap: (){
+                                              _selectTime(context);
+                                            },
+                                            controller: attendingTimeController,
+                                            decoration: InputDecoration(
+                                              hintStyle: GoogleFonts.openSans(
+                                                fontSize: width/97.571,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ],
                               ),
@@ -3730,6 +4066,57 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
+                                  Container(
+                                    width: width/4.553,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey,
+                                                width:width/910.66
+                                            )
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Social Status",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: socialStatusController.text,
+                                          icon:  Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select",
+                                            "Politicians",
+                                            "Social Service",
+                                            "Others"
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setStat(() {
+                                              socialStatusController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+                                        // TextFormField(
+                                        //   style:  TextStyle(fontSize: width/113.83),
+                                        //   controller: socialStatusController,
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                   SizedBox(
                                     width: width/4.553,
                                     child: Column(
@@ -3875,6 +4262,10 @@ class _MembersTabState extends State<MembersTab> {
                                             socialStatus: socialStatusController.text,
                                             country: countryController.text,
                                             memberId: memberIdController.text,
+                                            attendingTime: attendingTimeController.text,
+                                            maritalStatus: marriedController.text,
+                                            qualification: qualificationController.text,
+                                            relationToFamily: relationToFamilyController.text,
                                           ),
                                             profileImage,
                                             member.imgUrl ?? ""
@@ -3988,10 +4379,14 @@ class _MembersTabState extends State<MembersTab> {
     row.add("Gender");
     row.add("Position");
     row.add("Baptize Date");
+    row.add("Marital Status");
     row.add("Marriage Date");
     row.add("Social Status");
     row.add("Job");
     row.add("Family");
+    row.add("Relationship to Family");
+    row.add("Qualification");
+    row.add("Attending Time");
     row.add("Department");
     row.add("Blood Group");
     row.add("Date of Birth");
@@ -4009,10 +4404,14 @@ class _MembersTabState extends State<MembersTab> {
       row.add(members[i].gender);
       row.add(members[i].position);
       row.add(members[i].baptizeDate);
+      row.add(members[i].maritalStatus);
       row.add(members[i].marriageDate);
       row.add(members[i].socialStatus);
       row.add(members[i].job);
       row.add(members[i].family);
+      row.add(members[i].relationToFamily);
+      row.add(members[i].qualification);
+      row.add(members[i].attendingTime);
       row.add(members[i].department);
       row.add(members[i].bloodGroup);
       row.add(members[i].dob);
@@ -4118,6 +4517,34 @@ class _MembersTabState extends State<MembersTab> {
           ],
         )),
   );
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+
+    if (picked != null && picked != _selectedTime)
+      setState(() {
+        _selectedTime = picked;
+        attendingTimeController.text = picked.toString();
+      });
+    _formatTime(picked!);
+  }
+
+
+  String _formatTime(TimeOfDay time) {
+    int hour = time.hourOfPeriod;
+    int minute = time.minute;
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    setState(() {
+      attendingTimeController.text ='${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+    });
+
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+  }
 }
 
 
