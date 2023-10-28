@@ -72,6 +72,8 @@ dependencies:
   age_calculator: ^1.0.0
   visibility_detector: ^0.4.0+2
   dropdown_button2: any
+  flutter_typeahead: ^4.6.2
+  show_up_animation: ^2.0.0
 
 
 
