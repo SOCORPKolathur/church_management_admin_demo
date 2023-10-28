@@ -1119,15 +1119,15 @@ class _ChorusTabState extends State<ChorusTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
+                              // Visibility(
+                              //   visible: profileImageValidator,
+                              //   child: const Text(
+                              //     "Please Select Image *",
+                              //     style: TextStyle(
+                              //       color: Colors.red,
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(height: height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1145,12 +1145,13 @@ class _ChorusTabState extends State<ChorusTab> {
                                         _keyPhone.currentState!.validate();
                                         _keyDoB.currentState!.validate();
 
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
+                                        // if(profileImage == null){
+                                        //   setState(() {
+                                        //     profileImageValidator = true;
+                                        //   });
+                                        // }
+                                        if (
+                                        //profileImage != null &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             dobController.text != "" &&
                                             pincodeController.text != "" &&
@@ -1161,7 +1162,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             phoneController.text != "") {
                                           Response response =
                                           await ChorusFireCrud.addChorus(
-                                              image: profileImage!,
+                                              image: profileImage,
                                               familyId: familyIDController.text,
                                               maritalStatus: marriedController,
                                               baptizeDate: baptizeDateController.text,

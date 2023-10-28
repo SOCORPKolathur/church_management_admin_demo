@@ -20,7 +20,7 @@ class UserFireCrud {
   }
 
   static Stream<List<UserModel>> fetchUsers() =>
-      UserCollection.orderBy("timestamp", descending: false)
+      UserCollection.orderBy("timestamp", descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
           .map((doc) => UserModel.fromJson(doc.data() as Map<String,dynamic>))
@@ -43,7 +43,7 @@ class UserFireCrud {
           .toList());
 
   static Future<Response> addUser(
-      {required File image,
+      {required File? image,
         required String baptizeDate,
         required String anniversaryDate,
         required String maritialStatus,
@@ -61,7 +61,10 @@ class UserFireCrud {
         required String about,
         required String address,
       }) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = '';
+    if(image != null){
+      downloadUrl =  await uploadImageToStorage(image);
+    }
     Response response = Response();
     DocumentReference documentReferencer = UserCollection.doc();
 

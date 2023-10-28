@@ -1230,15 +1230,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
+                              // Visibility(
+                              //   visible: profileImageValidator,
+                              //   child: const Text(
+                              //     "Please Select Image *",
+                              //     style: TextStyle(
+                              //       color: Colors.red,
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1254,12 +1254,13 @@ class _PastorsTabState extends State<PastorsTab> {
                                         _keyDob.currentState!.validate();
                                         _keyPincode.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
+                                        // if(profileImage == null){
+                                        //   setState(() {
+                                        //     profileImageValidator = true;
+                                        //   });
+                                        // }
+                                        if (
+                                        //profileImage != null &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             dobController.text != "" &&
                                             familyController.text != "" &&
@@ -1270,7 +1271,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             phoneController.text != "") {
                                           Response response =
                                           await PastorsFireCrud.addPastor(
-                                            image: profileImage!,
+                                            image: profileImage,
                                             address: addressController.text,
                                             familyId: familyIDController.text,
                                             maritalStatus: marriedController,

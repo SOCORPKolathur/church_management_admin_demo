@@ -45,6 +45,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
   DateTime? dateRangeEnd;
   bool isFiltered= false;
   bool attendanceMarked = false;
+  bool editAttendance = false;
 
   @override
   void initState() {
@@ -75,39 +76,76 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {
-                  if(!attendanceMarked){
-                    setState(() {
-                      markAttendance = true;
-                    });
-                  }else{
-                    setState(() {
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if(!attendanceMarked){
+                        setState(() {
+                          markAttendance = true;
+                        });
+                      }else{
+                        setState(() {
 
-                    });
-                  }
-                },
-                child: Container(
-                  height: height/18.6,
-                  width: width/6.83,
-                decoration: BoxDecoration(
-                  color: Constants().primaryAppColor,
-                  borderRadius:
-                  BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      attendanceMarked ? "Attendance Marked already" : "Mark Today's Attendance",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: height/18.6,
+                      width: width/6.83,
+                      decoration: BoxDecoration(
+                        color: Constants().primaryAppColor,
+                        borderRadius:
+                        BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            attendanceMarked ? "Attendance Marked already" : "Mark Today's Attendance",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                  const SizedBox(width: 10),
+                  Visibility(
+                    visible: attendanceMarked,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          markAttendance = true;
+                          editAttendance = true;
+                        });
+                      },
+                      child: Container(
+                        height: height/18.6,
+                        width: width/6.83,
+                        decoration: BoxDecoration(
+                          color: Constants().primaryAppColor,
+                          borderRadius:
+                          BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              "Edit Today's Attendance",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             markAttendance
@@ -165,6 +203,7 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                         onTap: () {
                                           setState(() {
                                             markAttendance = false;
+                                            editAttendance = false;
                                           });
                                         },
                                         child: Container(
@@ -325,14 +364,16 @@ class _AttendanceRecordTabState extends State<AttendanceRecordTab> {
                                           children: [
                                             InkWell(
                                               onTap: () async {
-                                                Response response =
-                                                    await AttendanceRecordFireCrud
-                                                        .addAttendance(
-                                                            attendanceList:
-                                                                attendanceList);
+                                                Response response;
+                                                if(editAttendance){
+                                                  response = await AttendanceRecordFireCrud.editAttendance(attendanceList: attendanceList);
+                                                }else{
+                                                  response = await AttendanceRecordFireCrud.addAttendance(attendanceList: attendanceList);
+                                                }
                                                 if (response.code == 200) {
                                                   setState(() {
                                                     markAttendance = false;
+                                                    attendanceMarked = false;
                                                   });
                                                   CoolAlert.show(
                                                       context: context,

@@ -100,6 +100,36 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       });
                     },
                   ),
+                  PopupMenuItem<String>(
+                    value: 'mr',
+                    child:  const Text('Marathi'),
+                    onTap: () {
+                      setState(() {
+                        changeLocale(context, 'mr');
+                        changeHomeViewLanguage();
+                      });
+                    },
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'gu',
+                    child:  const Text('Gujarati'),
+                    onTap: () {
+                      setState(() {
+                        changeLocale(context, 'gu');
+                        changeHomeViewLanguage();
+                      });
+                    },
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'or',
+                    child:  const Text('Odia'),
+                    onTap: () {
+                      setState(() {
+                        changeLocale(context, 'or');
+                        changeHomeViewLanguage();
+                      });
+                    },
+                  ),
                 ];
               },
               child: Row(

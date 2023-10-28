@@ -35,7 +35,7 @@ class StudentFireCrud {
           .toList());
 
   static Future<Response> addStudent(
-      {required File image,
+      {required File? image,
       required String baptizeDate,
       required String bloodGroup,
       //required String department,
@@ -60,7 +60,10 @@ class StudentFireCrud {
       required String position,
       //required String socialStatus
       }) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = "";
+   if(image != null){
+     downloadUrl = await uploadImageToStorage(image);
+   }
     Response response = Response();
     DocumentReference documentReferencer = StudentCollection.doc();
     StudentModel student = StudentModel(

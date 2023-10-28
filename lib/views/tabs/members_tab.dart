@@ -337,7 +337,7 @@ class _MembersTabState extends State<MembersTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: profileImageValidator ? size.height * 2.3 : size.height * 2.2,
+              height: profileImageValidator ? size.height * 2.3 : size.height * 2.3,
               width: width/1.241,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,
@@ -1514,15 +1514,6 @@ class _MembersTabState extends State<MembersTab> {
                                   ),
                                 ],
                               ),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
                                SizedBox(height: height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1538,13 +1529,7 @@ class _MembersTabState extends State<MembersTab> {
                                         _keyNationality.currentState!.validate();
                                         _keyPincode.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
-                                            bloodGroupController.text != "Select Blood Group" &&
+                                        if (bloodGroupController.text != "Select Blood Group" &&
                                             familyController.text != "" &&
                                             familyIDController.text != "" &&
                                             pincodeController.text != "" &&
@@ -1557,7 +1542,7 @@ class _MembersTabState extends State<MembersTab> {
                                           Response response = await MembersFireCrud.addMember(
                                             aadharNo: aadharNoController.text,
                                             membersId: memberIdController.text,
-                                            image: profileImage!,
+                                            image: profileImage,
                                             document: documentForUpload,
                                             address: addressController.text,
                                             gender: genderController.text,

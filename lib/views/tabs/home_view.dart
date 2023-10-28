@@ -16,6 +16,9 @@ import 'package:church_management_admin/views/tabs/email_communication_tab.dart'
 import 'package:church_management_admin/views/tabs/family_tab.dart';
 import 'package:church_management_admin/views/tabs/manager_role_tab.dart';
 import 'package:church_management_admin/views/tabs/members_tab.dart';
+import 'package:church_management_admin/views/tabs/membership_master_tab.dart';
+import 'package:church_management_admin/views/tabs/membership_register_tab.dart';
+import 'package:church_management_admin/views/tabs/membership_reports_tab.dart';
 import 'package:church_management_admin/views/tabs/notice_tab.dart';
 import 'package:church_management_admin/views/tabs/orders_tab.dart';
 import 'package:church_management_admin/views/tabs/pastors_tab.dart';
@@ -141,7 +144,8 @@ class _HomeViewState extends State<HomeView> {
         DrawerChildren(
             name: 'Fund Management',
             icon: Icons.add,
-            page:  FundManagementTab()),
+            page:  FundManagementTab(),
+        ),
         DrawerChildren(
           name: 'Donations',
           icon: Icons.add,
@@ -150,6 +154,28 @@ class _HomeViewState extends State<HomeView> {
         DrawerChildren(
           name: 'Asset Management',
           page:  AssetManagementTab(),
+          icon: Icons.add,
+        )
+      ],
+    ),
+    DrawerModel(
+      name: "Membership",
+      icon: Icons.card_membership,
+      isExpanded: false,
+      children: [
+        DrawerChildren(
+            name: 'Membership Reports',
+            icon: Icons.add,
+            page: const MembershipReportsTab(),
+        ),
+        DrawerChildren(
+          name: 'Membership Register',
+          icon: Icons.add,
+          page: const MembershipRegisterTab(),
+        ),
+        DrawerChildren(
+          name: 'Membership Master',
+          page: const MembershipMasterTab(),
           icon: Icons.add,
         )
       ],

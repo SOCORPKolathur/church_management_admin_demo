@@ -780,15 +780,6 @@ class _FamilyTabState extends State<FamilyTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -803,12 +794,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         _keyPhone.currentState!.validate();
                                         _keyAddress.currentState!.validate();
                                         _keyZone.currentState!.validate();
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
+                                        if (
                                             familynameController.text != "" &&
                                             familyleadernameController.text != "" &&
                                             familynumberController.text != "" &&
@@ -817,7 +803,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             addressController.text != "" &&
                                             zoneController.text != "") {
                                           Response response =  await FamilyFireCrud.addFamily(
-                                              image: profileImage!,
+                                              image: profileImage,
                                               familyId: familyIdController.text,
                                               name: familynameController.text,
                                               email: emailController.text,

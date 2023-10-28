@@ -7,6 +7,7 @@ import 'package:church_management_admin/services/blog_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -53,6 +54,8 @@ class _BlogTabState extends State<BlogTab> {
       setState(() {});
     });
   }
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -122,311 +125,367 @@ class _BlogTabState extends State<BlogTab> {
               ),
             ),
             currentTab.toUpperCase() == "ADD"
-                ? Container(
+                ? Stack(
+              alignment: Alignment.center,
+                  children: [
+                    Container(
               height: size.height * 1.26,
               width: width/1.241818181818182,
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Constants().primaryAppColor,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(1, 2),
-                    blurRadius: 3,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
+                    color: Constants().primaryAppColor,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(1, 2),
+                        blurRadius: 3,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    height: size.height * 0.1,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          KText(
-                            text: "Add New Blog Post",
-                            style: GoogleFonts.openSans(
-                              fontSize: width/68.3,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )),
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height: height/3.829411764705882,
-                              width: width/3.902857142857143,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Constants().primaryAppColor,
-                                      width: 2),
-                                  image: uploadedImage != null
-                                      ? DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: MemoryImage(
-                                            Uint8List.fromList(
-                                              base64Decode(uploadedImage!
-                                                  .split(',')
-                                                  .last),
-                                            ),
-                                          ),
-                                        )
-                                      : null),
-                              child: uploadedImage == null
-                                  ? Center(
-                                      child: Icon(
-                                        Icons.cloud_upload,
-                                        size: width/8.5375,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  : null,
-                            ),
-                          ),
-                          SizedBox(height: height/32.55),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.1,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              InkWell(
-                                onTap: selectImage,
-                                child: Container(
-                                  height: height/18.6,
-                                  width: size.width * 0.50,
-                                  color: Constants().primaryAppColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(Icons.add_a_photo,
-                                          color: Colors.white),
-                                      SizedBox(width: width/136.6),
-                                      const KText(
-                                        text: 'Select Blog Post Cover Photo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
+                              KText(
+                                text: "Add New Blog Post",
+                                style: GoogleFonts.openSans(
+                                  fontSize: width/68.3,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               )
                             ],
                           ),
-                          SizedBox(height: height/21.7),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Title *",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize: width/105.0769230769231,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.8333333333333),
-                                    controller: titleController,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: height/21.7),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Author Name *",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize: width/105.0769230769231,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.8333333333333),
-                                    controller: authorNameController,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: height/21.7),
-                          Column(
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              )),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: KText(
-                                  text: "Description",
-                                  style: GoogleFonts.openSans(
-                                    color: Colors.black,
-                                    fontSize: width/105.0769230769231,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                margin: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                      height: height/32.55,
-                                      width: double.infinity,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          width: double.infinity,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: TextFormField(
-                                            style: TextStyle(fontSize: width/113.8333333333333),
-                                            controller: descriptionController,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 15,
-                                                    top: 4,
-                                                    bottom: 4)),
-                                            maxLines: null,
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height/21.7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  if (profileImage != null &&
-                                      titleController.text != "" &&
-                                      authorNameController.text != "" &&
-                                      descriptionController.text != "") {
-                                    Response response =
-                                        await BlogFireCrud.addBlog(
-                                      image: profileImage!,
-                                      author: authorNameController.text,
-                                      time: formatter.format(DateTime.now()),
-                                      title: titleController.text,
-                                      description: descriptionController.text,
-                                    );
-                                    if (response.code == 200) {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          text: "Blog created successfully!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                      setState(() {
-                                        currentTab = 'View';
-                                        uploadedImage = null;
-                                        profileImage = null;
-                                        titleController.text = "";
-                                        authorNameController.text = "";
-                                        descriptionController.text = "";
-                                      });
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          text: "Failed to Create Blog!",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
+                              Center(
                                 child: Container(
-                                  height: height/18.6,
+                                  height: height/3.829411764705882,
+                                  width: width/3.902857142857143,
                                   decoration: BoxDecoration(
-                                    color: Constants().primaryAppColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(1, 2),
-                                        blurRadius: 3,
+                                      border: Border.all(
+                                          color: Constants().primaryAppColor,
+                                          width: 2),
+                                      image: uploadedImage != null
+                                          ? DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: MemoryImage(
+                                                Uint8List.fromList(
+                                                  base64Decode(uploadedImage!
+                                                      .split(',')
+                                                      .last),
+                                                ),
+                                              ),
+                                            )
+                                          : null),
+                                  child: uploadedImage == null
+                                      ? Center(
+                                          child: Icon(
+                                            Icons.cloud_upload,
+                                            size: width/8.5375,
+                                            color: Colors.grey,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                              ),
+                              SizedBox(height: height/32.55),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: selectImage,
+                                    child: Container(
+                                      height: height/18.6,
+                                      width: size.width * 0.50,
+                                      color: Constants().primaryAppColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.add_a_photo,
+                                              color: Colors.white),
+                                          SizedBox(width: width/136.6),
+                                          const KText(
+                                            text: 'Select Blog Post Cover Photo',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                                    child: Center(
-                                      child: KText(
-                                        text: "ADD NOW",
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Title *",
                                         style: GoogleFonts.openSans(
-                                          color: Colors.white,
-                                          fontSize: width/136.6,
+                                          color: Colors.black,
+                                          fontSize: width/105.0769230769231,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width/113.8333333333333),
+                                        controller: titleController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: height/21.7),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Author Name *",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width/105.0769230769231,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width/113.8333333333333),
+                                        controller: authorNameController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: KText(
+                                      text: "Description",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.black,
+                                        fontSize: width/105.0769230769231,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.all(20),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                style: TextStyle(fontSize: width/113.8333333333333),
+                                                controller: descriptionController,
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(
+                                                        left: 15,
+                                                        top: 4,
+                                                        bottom: 4)),
+                                                maxLines: null,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if(!isLoading){
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        if (profileImage != null &&
+                                            titleController.text != "" &&
+                                            authorNameController.text != "" &&
+                                            descriptionController.text != "") {
+                                          Response response =
+                                          await BlogFireCrud.addBlog(
+                                            image: profileImage!,
+                                            author: authorNameController.text,
+                                            time: formatter.format(DateTime.now()),
+                                            title: titleController.text,
+                                            description: descriptionController.text,
+                                          );
+                                          if (response.code == 200) {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.success,
+                                                text: "Blog created successfully!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            setState(() {
+                                              currentTab = 'View';
+                                              uploadedImage = null;
+                                              profileImage = null;
+                                              titleController.text = "";
+                                              authorNameController.text = "";
+                                              descriptionController.text = "";
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType.error,
+                                                text: "Failed to Create Blog!",
+                                                width: size.width * 0.4,
+                                                backgroundColor: Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(0.8));
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          }
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      height: height/18.6,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(1, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                                        child: Center(
+                                          child: KText(
+                                            text: "ADD NOW",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.white,
+                                              fontSize: width/136.6,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+              ),
+            ),
+                    Visibility(
+                      visible: isLoading,
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.white70,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                          width: size.width/1.37,
+                          alignment: AlignmentDirectional.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: SizedBox(
+                                    height: height/1.86,
+                                    width: width/2.732,
+                                    child: Lottie.asset("assets/loadinganim.json")
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 25.0),
+                                child: Center(
+                                  child: Text(
+                                    "loading..Please wait...",
+                                    style: TextStyle(
+                                      fontSize: width/56.91666666666667,
+                                      color: Constants().primaryAppColor,
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            )
+                    )
+                  ],
+                )
                 : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ? StreamBuilder(
               stream: BlogFireCrud.fetchBlogsWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {

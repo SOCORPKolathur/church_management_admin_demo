@@ -1164,12 +1164,13 @@ class _StudentTabState extends State<StudentTab> {
                                         _keyParentname.currentState!.validate();
                                         _keyDob.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
+                                        // if(profileImage == null){
+                                        //   setState(() {
+                                        //     profileImageValidator = true;
+                                        //   });
+                                        // }
+                                        if (
+                                        //profileImage != null &&
                                             classController.text != "Select Class" &&
                                             genderController.text != "" &&
                                             guardianPhoneController.text != "" &&
@@ -1183,7 +1184,7 @@ class _StudentTabState extends State<StudentTab> {
                                           await StudentFireCrud.addStudent(
                                             aadharNo: aadharNoController.text,
                                             studentId: studentIdController.text,
-                                            image: profileImage!,
+                                            image: profileImage,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,
                                             clasS: classController.text,

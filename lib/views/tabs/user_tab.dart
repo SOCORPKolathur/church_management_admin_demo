@@ -145,7 +145,7 @@ class _UserTabState extends State<UserTab> {
   final _keyDob = GlobalKey<FormFieldState>();
   final _keyAadhar = GlobalKey<FormFieldState>();
   final _keyPincode = GlobalKey<FormFieldState>();
-  bool profileImageValidator = false;
+  //bool profileImageValidator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -1140,15 +1140,15 @@ class _UserTabState extends State<UserTab> {
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                  ),
-                                ),
-                              ),
+                              // Visibility(
+                              //   visible: profileImageValidator,
+                              //   child: const Text(
+                              //     "Please Select Image *",
+                              //     style: TextStyle(
+                              //         color: Colors.red,
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(height: height / 21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1164,13 +1164,12 @@ class _UserTabState extends State<UserTab> {
                                         _keyLocality.currentState!.validate();
                                         _keyDob.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
-                                            bloodGroupController.text != "Select Blood Group" &&
+                                        // if(profileImage == null){
+                                        //   setState(() {
+                                        //     profileImageValidator = true;
+                                        //   });
+                                        // }
+                                        if (bloodGroupController.text != "Select Blood Group" &&
                                             firstNameController.text != "" &&
                                             lastNameController.text != "" &&
                                             localityController.text != "" &&
@@ -1183,7 +1182,7 @@ class _UserTabState extends State<UserTab> {
                                             maritialStatus: marriedController,
                                             pincode: pincodeController.text,
                                             gender: GenderController,
-                                            image: profileImage!,
+                                            image: profileImage,
                                             baptizeDate: baptizeDateController.text,
                                             anniversaryDate: anniversaryDateController.text,
                                             aadharNo: aadharController.text,

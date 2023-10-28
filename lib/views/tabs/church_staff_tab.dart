@@ -1333,15 +1333,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
+                              // Visibility(
+                              //   visible: profileImageValidator,
+                              //   child: const Text(
+                              //     "Please Select Image *",
+                              //     style: TextStyle(
+                              //       color: Colors.red,
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(height: height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1359,12 +1359,13 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         _keyPhone.currentState!.validate();
                                         _keyDoJ.currentState!.validate();
                                         _keyDoB.currentState!.validate();
-                                        if(profileImage == null){
-                                          setState(() {
-                                            profileImageValidator = true;
-                                          });
-                                        }
-                                        if (profileImage != null &&
+                                        // if(profileImage == null){
+                                        //   setState(() {
+                                        //     profileImageValidator = true;
+                                        //   });
+                                        // }
+                                        if (
+                                        //profileImage != null &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             bloodGroupController.text != "Select Status" &&
                                             dobController.text != "" &&

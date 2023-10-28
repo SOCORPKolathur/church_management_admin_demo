@@ -26,7 +26,7 @@ class FamilyFireCrud {
           .toList());
 
   static Future<Response> addFamily({
-    required File image,
+    required File? image,
     required String name,
     required String email,
     required String familyId,
@@ -39,7 +39,10 @@ class FamilyFireCrud {
     required String zone,
   }) async {
     Response response = Response();
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = '';
+    if(image != null){
+      downloadUrl =await uploadImageToStorage(image);
+    }
     DocumentReference documentReferencer = FamilyCollection.doc();
     FamilyModel family = FamilyModel(
       id: "",

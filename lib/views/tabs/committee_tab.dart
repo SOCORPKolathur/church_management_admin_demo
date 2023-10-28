@@ -1183,15 +1183,15 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
-                              Visibility(
-                                visible: profileImageValidator,
-                                child: const Text(
-                                  "Please Select Image *",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
+                              // Visibility(
+                              //   visible: profileImageValidator,
+                              //   child: const Text(
+                              //     "Please Select Image *",
+                              //     style: TextStyle(
+                              //       color: Colors.red,
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1209,12 +1209,13 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       _keyDob.currentState!.validate();
                                       _keyNationality.currentState!.validate();
                                       _keyPincode.currentState!.validate();
-                                      if(profileImage == null){
-                                        setState(() {
-                                          profileImageValidator = true;
-                                        });
-                                      }
-                                      if (profileImage != null &&
+                                      // if(profileImage == null){
+                                      //   setState(() {
+                                      //     profileImageValidator = true;
+                                      //   });
+                                      // }
+                                      if (
+                                      //profileImage != null &&
                                           bloodGroupController.text != "Select Blood Group" &&
                                           marriedController != "Select Status" &&
                                           departmentController.text != "" &&
@@ -1229,7 +1230,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         Response response =
                                         await CommitteeFireCrud.addCommitteeMember(
                                           docId: currentCommitteeId,
-                                          image: profileImage!,
+                                          image: profileImage,
                                           gender: genderController.text,
                                           baptizeDate: baptizeDateController.text,
                                           address: addressController.text,
@@ -3270,15 +3271,15 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       ],
                                     ),
                                     SizedBox(height:height/21.7),
-                                    Visibility(
-                                      visible: profileImageValidator,
-                                      child: const Text(
-                                        "Please Select Image *",
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
+                                    // Visibility(
+                                    //   visible: profileImageValidator,
+                                    //   child: const Text(
+                                    //     "Please Select Image *",
+                                    //     style: TextStyle(
+                                    //       color: Colors.red,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     SizedBox(height:height/21.7),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -3296,12 +3297,13 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                             _keyDob.currentState!.validate();
                                             _keyNationality.currentState!.validate();
                                             _keyPincode.currentState!.validate();
-                                            if(profileImage == null){
-                                              setState(() {
-                                                profileImageValidator = true;
-                                              });
-                                            }
-                                            if (profileImage != null &&
+                                            // if(profileImage == null){
+                                            //   setState(() {
+                                            //     profileImageValidator = true;
+                                            //   });
+                                            // }
+                                            if (
+                                            //profileImage != null &&
                                                 bloodGroupController.text != "Select Blood Group" &&
                                                 marriedController != "Select Status" &&
                                                 departmentController.text != "" &&
@@ -3315,7 +3317,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                 phoneController.text != "") {
                                               Response response =
                                               await CommitteeFireCrud.addCommitteeMember(
-                                                image: profileImage!,
+                                                image: profileImage,
                                                 gender: genderController.text,
                                                 baptizeDate: baptizeDateController.text,
                                                 address: addressController.text,

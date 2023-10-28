@@ -77,7 +77,7 @@ class CommitteeFireCrud {
 
   static Future<Response> addCommitteeMember(
       {required String docId,
-        required File image,
+        required File? image,
         required String baptizeDate,
         required String bloodGroup,
         required String department,
@@ -98,7 +98,10 @@ class CommitteeFireCrud {
         required String phone,
         required String position,
         required String socialStatus}) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = "";
+   if(image != null){
+     downloadUrl = await uploadImageToStorage(image);
+   }
     Response response = Response();
     DocumentReference documentReferencer = CommitteeCollection.doc(docId).collection('CommitteeMembers').doc();
     CommitteeMemberModel committee = CommitteeMemberModel(

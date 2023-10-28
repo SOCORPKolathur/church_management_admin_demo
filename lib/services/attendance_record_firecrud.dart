@@ -58,8 +58,8 @@ class AttendanceRecordFireCrud {
     required List<Attendance> attendanceList,
   }) async {
     Response response = Response();
-    DocumentReference documentReferencer = AttendanceCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse(formatter.format(selectedDate));
+    DocumentReference documentReferencer = AttendanceCollection.doc(tempDate.toString());
     AttendanceRecordModel attendance = AttendanceRecordModel(
       timestamp: tempDate.millisecondsSinceEpoch,
       date: formatter.format(selectedDate),
@@ -76,12 +76,34 @@ class AttendanceRecordFireCrud {
     return response;
   }
 
+  static Future<Response> editAttendance({
+    required List<Attendance> attendanceList,
+  }) async {
+    Response response = Response();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(formatter.format(selectedDate));
+    DocumentReference documentReferencer = AttendanceCollection.doc(tempDate.toString());
+    AttendanceRecordModel attendance = AttendanceRecordModel(
+        timestamp: tempDate.millisecondsSinceEpoch,
+        date: formatter.format(selectedDate),
+        attendance: attendanceList
+    );
+    var json = attendance.toJson();
+    var result = await documentReferencer.update(json).whenComplete(() {
+      response.code = 200;
+      response.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      response.code = 500;
+      response.message = e;
+    });
+    return response;
+  }
+
   static Future<Response> addFamilyAttendance({
     required List<AttendanceFamily> attendanceList,
   }) async {
     Response response = Response();
-    DocumentReference documentReferencer = AttendanceFamilyCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse(formatter.format(selectedDate));
+    DocumentReference documentReferencer = AttendanceFamilyCollection.doc(tempDate.toString());
     AttendanceFamilyRecordModel attendance = AttendanceFamilyRecordModel(
         date: formatter.format(selectedDate),
         attendance: attendanceList,
@@ -89,6 +111,28 @@ class AttendanceRecordFireCrud {
     );
     var json = attendance.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
+      response.code = 200;
+      response.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      response.code = 500;
+      response.message = e;
+    });
+    return response;
+  }
+
+  static Future<Response> editFamilyAttendance({
+    required List<AttendanceFamily> attendanceList,
+  }) async {
+    Response response = Response();
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(formatter.format(selectedDate));
+    DocumentReference documentReferencer = AttendanceFamilyCollection.doc(tempDate.toString());
+    AttendanceFamilyRecordModel attendance = AttendanceFamilyRecordModel(
+      date: formatter.format(selectedDate),
+      attendance: attendanceList,
+      timestamp: tempDate.millisecondsSinceEpoch,
+    );
+    var json = attendance.toJson();
+    var result = await documentReferencer.update(json).whenComplete(() {
       response.code = 200;
       response.message = "Sucessfully added to the database";
     }).catchError((e) {

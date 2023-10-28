@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference MemberCollection = firestore.collection('Members');
@@ -37,7 +38,7 @@ class MembersFireCrud {
       .toList());
 
   static Future<Response> addMember(
-      {required File image,
+      {required File? image,
         required File? document,
       required String address,
       required String gender,
@@ -64,7 +65,10 @@ class MembersFireCrud {
       required String maritalStatus,
       required String position,
       required String socialStatus}) async {
-    String downloadUrl = await uploadImageToStorage(image);
+    String downloadUrl = '';
+    if(image != null){
+      downloadUrl = await uploadImageToStorage(image);
+    }
     String downloadUrl1 = "";
     if(document != null) {
       downloadUrl1 = await uploadImageToStorage(document);
@@ -107,6 +111,14 @@ class MembersFireCrud {
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;
       response.message = "Sucessfully added to the database";
+
+      FirebaseFirestore.instance.collection('Members').doc(documentReferencer.id).collection('Membership').doc(DateFormat('MMM yyyy').format(DateTime.now()).toString()).set({
+        "payment" : false,
+        "timestamp" : DateTime.now().millisecondsSinceEpoch,
+        "mode" : "",
+        "payOn" : "",
+        "date" : "",
+      });
     }).catchError((e) {
       response.code = 500;
       response.message = e;

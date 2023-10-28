@@ -3315,12 +3315,13 @@ class _ClansTabState extends State<ClansTab> {
                                             _keyDob.currentState!.validate();
                                             _keyNationality.currentState!.validate();
                                             _keyPincode.currentState!.validate();
-                                            if(profileImage == null){
-                                              setState(() {
-                                                profileImageValidator = true;
-                                              });
-                                            }
-                                            if ( profileImage != null &&
+                                            // if(profileImage == null){
+                                            //   setState(() {
+                                            //     profileImageValidator = true;
+                                            //   });
+                                            // }
+                                            if (
+                                            //profileImage != null &&
                                                 genderController.text != "Select Gender" &&
                                                 bloodGroupController.text != "Select Blood Group" &&
                                                 departmentController.text != "" &&
@@ -3333,7 +3334,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 phoneController.text != "") {
                                               Response response =
                                               await ClansFireCrud.addClanMember(
-                                                  image: profileImage!,
+                                                  image: profileImage,
                                                   docId: docId,
                                                   baptizeDate: baptizeDateController.text,
                                                   bloodGroup: bloodGroupController.text,
