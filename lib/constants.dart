@@ -4,4 +4,6 @@ class Constants {
 
   Color primaryAppColor = const Color(0xffE7B41F);
 
+  static String MembershipAmount = '1000';
+
 }

@@ -3,7 +3,8 @@ import 'package:church_management_admin/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import '../../widgets/kText.dart';
 
 class MembershipReportsTab extends StatefulWidget {
@@ -102,13 +103,13 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                             CrossAxisAlignment.start,
                                             children: [
                                               KText(
-                                                text: snap.data!.totalMembers.length.toString(),
+                                                text: snap.data!.totalMembers.length.toString().padLeft(5,"0"),
                                                 style: GoogleFonts.inter(
                                                   fontSize: width/41.393,
                                                 ),
                                               ),
                                               KText(
-                                                text: snap.data!.totalMembers.length.toString(),
+                                                text: snap.data!.totalMembers.length.toString().padLeft(5,"0"),
                                                 style: GoogleFonts.inter(
                                                   fontSize: width/85.375,
                                                   color:
@@ -213,13 +214,13 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                             CrossAxisAlignment.start,
                                             children: [
                                               KText(
-                                                text: snap.data!.dueMembers.length.toString(),
+                                                text: snap.data!.dueMembers.length.toString().padLeft(5,"0"),
                                                 style: GoogleFonts.inter(
                                                   fontSize: width/41.393,
                                                 ),
                                               ),
                                               KText(
-                                                text: snap.data!.dueMembers.length.toString(),
+                                                text: snap.data!.dueMembers.length.toString().padLeft(5,"0"),
                                                 style: GoogleFonts.inter(
                                                   fontSize: width/85.375,
                                                   color:
@@ -382,10 +383,363 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                     ],
                   ),
                 );
-              }return Container();
+              }return Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 150,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: height/4.06875,
+                          width: width/4.06875,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(1, 2),
+                                  blurRadius: 3),
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                            color: Constants().primaryAppColor,
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: size.height * 0.06,
+                                width: size.width * 0.2,
+                                child: Center(
+                                  child: KText(
+                                    text: "Total Members",
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: width/56.916,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: width/4.06875,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/105.076),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                KText(
+                                                  text: "000000",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: width/41.393,
+                                                  ),
+                                                ),
+                                                KText(
+                                                  text: "000000",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: width/85.375,
+                                                    color:
+                                                    Color(0xff8A92A6),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: width/68.3),
+                                            Container(
+                                              height: height/16.275,
+                                              width: width/34.15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(8),
+                                                color: Colors.green.withOpacity(0.3),
+                                              ),
+                                              child: const Center(
+                                                child: Icon(
+                                                  Icons.arrow_upward_outlined,
+                                                  color: Colors.green,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: height/54.25,
+                                            horizontal: width/113.833
+                                        ),
+                                        child: LinearProgressIndicator(
+                                          backgroundColor:
+                                          Colors.green.withOpacity(0.3),
+                                          color: Colors.green,
+                                          value: 10,
+                                          semanticsLabel:
+                                          'Linear progress indicator',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Container(
+                          height: height/4.06875,
+                          width: width/4.06875,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(1, 2),
+                                  blurRadius: 3),
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                            color: Constants().primaryAppColor,
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: size.height * 0.06,
+                                width: size.width * 0.2,
+                                child: Center(
+                                  child: KText(
+                                    text: "Due Members",
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: width/56.916,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: width/4.06875,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/105.076),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                KText(
+                                                  text: "000000",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: width/41.393,
+                                                  ),
+                                                ),
+                                                KText(
+                                                  text: "000000",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: width/85.375,
+                                                    color:
+                                                    Color(0xff8A92A6),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: width/68.3),
+                                            Container(
+                                              height: height/16.275,
+                                              width: width/34.15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(8),
+                                                color: Color(0xfff2d6d3),
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.arrow_upward_outlined,
+                                                  color: Color(0xffC03221),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: height/54.25,
+                                            horizontal: width/113.833
+                                        ),
+                                        child: LinearProgressIndicator(
+                                          backgroundColor:
+                                          Color(0xfff2d6d3),
+                                          color: Color(0xffC03221),
+                                          value: 10,
+                                          semanticsLabel:
+                                          'Linear progress indicator',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Container(
+                          height: height/4.06875,
+                          width: width/4.06875,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(1, 2),
+                                  blurRadius: 3),
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                            color: Constants().primaryAppColor,
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: size.height * 0.06,
+                                width: size.width * 0.2,
+                                child: Center(
+                                  child: KText(
+                                    text: "Total Due Amount",
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: width/56.916,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: width/4.06875,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width/105.076),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                KText(
+                                                  text: "000000",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: width/41.393,
+                                                  ),
+                                                ),
+                                                KText(
+                                                  text: "000000",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: width/85.375,
+                                                    color:
+                                                    Color(0xff8A92A6),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: width/68.3),
+                                            Container(
+                                              height: height/16.275,
+                                              width: width/34.15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(8),
+                                                color: Color(0xfff2d6d3),
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.arrow_upward_outlined,
+                                                  color: Color(0xffC03221),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: height/54.25,
+                                            horizontal: width/113.833
+                                        ),
+                                        child: LinearProgressIndicator(
+                                          backgroundColor:
+                                          Color(0xfff2d6d3),
+                                          color: Color(0xffC03221),
+                                          value: 10,
+                                          semanticsLabel:
+                                          'Linear progress indicator',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Lottie.asset(
+                      'assets/churchLoading.json',
+                      fit: BoxFit.contain,
+                      height: size.height * 0.4,
+                      width: size.width * 0.7,
+                    ),
+                  ),
+                ],
+              );
             },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           StreamBuilder(
             stream: FirebaseFirestore.instance.collection('MembershipReports').orderBy('timestamp',descending: true).snapshots(),
             builder: (ctx, snap){
@@ -435,6 +789,28 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                     ),
                                   ),
                                   SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                        "Date",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      "Time",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
                                     width: 200,
                                     child: Text(
                                       "Amount",
@@ -448,7 +824,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                   SizedBox(
                                     width: 150,
                                     child: Text(
-                                      "Months",
+                                      "Month",
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 17,
@@ -464,19 +840,6 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                         fontWeight: FontWeight.w700,
                                         fontSize: 17,
                                         color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 200,
-                                    child: Center(
-                                      child: Text(
-                                        "View",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 17,
-                                          color: Colors.black,
-                                        ),
                                       ),
                                     ),
                                   ),
@@ -526,6 +889,26 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                             ),
                                           ),
                                           SizedBox(
+                                            width: 100,
+                                            child: Text(
+                                              data.get("date"),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            child: Text(
+                                              data.get("time"),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
                                             width: 200,
                                             child: Text(
                                               data.get("amount").toString(),
@@ -538,7 +921,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                           SizedBox(
                                             width: 150,
                                             child: Text(
-                                              data.get("months").toString(),
+                                              data.get("month").toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 color: Colors.black,
@@ -552,32 +935,6 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                               style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 200,
-                                            child: InkWell(
-                                              child: Material(
-                                                elevation: 3,
-                                                borderRadius: BorderRadius.circular(10),
-                                                child: Container(
-                                                  height: 35,
-                                                  width: 180,
-                                                  decoration: BoxDecoration(
-                                                    color: Constants().primaryAppColor,
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "View",
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
                                               ),
                                             ),
                                           ),
@@ -603,21 +960,52 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
   }
 
   Future<MembershipDetailModel> getMembershipDetails() async {
-    List<DocumentSnapshot> totalMembers = [];
-    List<DocumentSnapshot> dueMembers = [];
+    List<String> totalMonths = [];
+    List<String> totalMembers = [];
+    List<String> dueMembers = [];
     double totalDueAmount = 0.0;
+
+    for (int i = 0; i <= DateTime.now().add(Duration(days: 365)).difference(DateTime.now().subtract(Duration(days: 365))).inDays; i++) {
+      if(!totalMonths.contains(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))))) {
+          totalMonths.add(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))));
+      }
+    }
+
+    totalMonths.forEach((month) async {
+      totalDueAmount += 1000.0;
+    });
+
     var membersDocument = await FirebaseFirestore.instance.collection('Members').orderBy('timestamp',descending: true).get();
+    totalDueAmount = totalDueAmount * membersDocument.docs.length;
     membersDocument.docs.forEach((member) async {
-      totalMembers.add(member);
+      totalMembers.add(member.id);
+      dueMembers.add(member.id);
       var membershipDoc = await FirebaseFirestore.instance.collection('Members').doc(member.id).collection('Membership').get();
       membershipDoc.docs.forEach((element) {
-        if(element.get("payment") == false){
-          totalDueAmount += 1000.0;
-          dueMembers.add(member);
-        }
+          totalDueAmount = totalDueAmount - double.parse(element.get("amount").toString());
       });
     });
-    await Future.delayed(const Duration(seconds: 10));
+
+      membersDocument.docs.forEach((member) async {
+        List<String> dues = [];
+        for (int i = 0; i <= DateTime.now().difference(DateTime.now().subtract(Duration(days: 365))).inDays; i++) {
+          if(!dues.contains(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))))) {
+            dues.add(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))));
+          }
+        }
+        var membershipDoc = await FirebaseFirestore.instance.collection('Members').doc(member.id).collection('Membership').get();
+        membershipDoc.docs.forEach((membership) {
+          if(dues.contains(membership.get("month"))){
+            dues.remove(membership.get("month"));
+          }
+        });
+        if(dues.isEmpty){
+          dueMembers.remove(member.id);
+        }
+      });
+
+
+    await Future.delayed(const Duration(seconds: 30));
     MembershipDetailModel details = MembershipDetailModel(
       dueMembers: dueMembers,
       totalDueAmount: totalDueAmount,
@@ -631,8 +1019,8 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
 
 class MembershipDetailModel{
   MembershipDetailModel({required this.dueMembers, required this.totalMembers, required this.totalDueAmount});
-  List<DocumentSnapshot> dueMembers;
-  List<DocumentSnapshot> totalMembers;
+  List<String> dueMembers;
+  List<String> totalMembers;
   double totalDueAmount;
 }
 
