@@ -18,12 +18,9 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
 
   List<MembersWithDetails> membersList = [];
 
-  TextEditingController memberNameController =
-      TextEditingController();
-  TextEditingController memberIdController =
-      TextEditingController();
-  TextEditingController memberFamilyNameController =
-      TextEditingController();
+  TextEditingController memberNameController = TextEditingController();
+  TextEditingController memberIdController = TextEditingController();
+  TextEditingController memberFamilyNameController = TextEditingController();
   TextEditingController paytype = TextEditingController();
   TextEditingController amount = TextEditingController();
   TextEditingController methodController = TextEditingController();
@@ -50,8 +47,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
             ),
           ),
           StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection('Members').snapshots(),
+            stream: FirebaseFirestore.instance.collection('Members').snapshots(),
             builder: (ctx, snap) {
               if (snap.hasData) {
                 membersList.clear();
@@ -132,26 +128,18 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                     value: item.memberId,
                                                     child: Text(
                                                       item.memberId,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              fontSize: 15),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      style: GoogleFonts.poppins(fontSize: 15),
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
-                                                  ))
-                                              .toList(),
+                                                  )).toList(),
                                           value: memberIdController.text,
                                           onChanged: (String? value) {
                                             membersList.forEach((element) {
                                               if (element.memberId == value) {
                                                 setState(() {
-                                                  memberIdController.text =
-                                                      element.memberId;
-                                                  memberFamilyNameController
-                                                          .text =
-                                                      element.familyName;
-                                                  memberNameController.text =
-                                                      element.name;
+                                                  memberIdController.text = element.memberId;
+                                                  memberFamilyNameController.text = element.familyName;
+                                                  memberNameController.text = element.name;
                                                 });
                                               }
                                             });

@@ -387,7 +387,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
           ),
           SizedBox(height: 10),
           StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('MembershipReports').orderBy('timestamp').snapshots(),
+            stream: FirebaseFirestore.instance.collection('MembershipReports').orderBy('timestamp',descending: true).snapshots(),
             builder: (ctx, snap){
               if(snap.hasData){
                 return Expanded(
