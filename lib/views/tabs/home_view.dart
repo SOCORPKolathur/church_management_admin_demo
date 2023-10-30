@@ -617,10 +617,16 @@ class _HomeViewState extends State<HomeView> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            const Icon(
+                                            Constants.churchLogo != ""
+                                                ? Image.asset(
+                                              Constants.churchLogo,
+                                              height: 72,
+                                              width: 72,
+                                            )
+                                                : const Icon(
                                               Icons.church,
-                                              size: 52,
                                               color: Colors.white,
+                                              size: 52,
                                             ),
                                             SizedBox(
                                               width: double.infinity,

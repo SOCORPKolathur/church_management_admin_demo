@@ -1161,8 +1161,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
   Future<bool> addToNotificationCollection(String title,String body,UserModel user) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
-      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
       time: DateFormat('hh:mm a').format(DateTime.now()),
+      timestamp: DateTime.now().millisecondsSinceEpoch,
       content: body,
       to: user.phone,
       subject: title,
@@ -1179,8 +1180,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
   Future<bool> addToUserNotificationCollection(String title,String body,UserModel user) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
-      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
       time: DateFormat('hh:mm a').format(DateTime.now()),
+      timestamp: DateTime.now().millisecondsSinceEpoch,
       content: body,
       to: user.phone,
       subject: title,

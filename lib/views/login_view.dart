@@ -73,7 +73,13 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
+                      Constants.churchLogo != ""
+                          ? Image.asset(
+                        Constants.churchLogo,
+                        height: 110,
+                        width: 110,
+                      )
+                          : const Icon(
                         Icons.church,
                         size: 80,
                       ),
@@ -107,7 +113,13 @@ class _LoginViewState extends State<LoginView> {
                         Center(
                           child: Column(
                             children: [
-                              const Icon(
+                              Constants.churchLogo != ""
+                                  ? Image.asset(
+                                  Constants.churchLogo,
+                                height: 70,
+                                width: 70,
+                              )
+                                  : const Icon(
                                 Icons.church,
                                 size: 50,
                               ),

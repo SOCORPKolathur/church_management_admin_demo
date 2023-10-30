@@ -28,10 +28,27 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
   TabController? _tabController;
   int currentTabIndex = 0;
 
+  int messageCount = 0;
+  int requestCount = 0;
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    setBadgeCount();
     super.initState();
+  }
+
+  setBadgeCount() async {
+    var messages = await FirebaseFirestore.instance.collection('Messages').get();
+    var requests = await FirebaseFirestore.instance.collection('ProfileEditRequest').get();
+    messages.docs.forEach((element) {
+      if(element.get("isViewed") == false){
+        messageCount++;
+      }
+    });
+    setState(() {
+      requestCount += requests.docs.length;
+    });
   }
 
   @override
@@ -120,15 +137,36 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                             child: Padding(
                               padding:
                               const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                "Messages",
-                                style: GoogleFonts.openSans(
-                                  color: currentTabIndex == 0
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: width/97.57142857142857,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Messages",
+                                    style: GoogleFonts.openSans(
+                                      color: currentTabIndex == 0
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: width/97.57142857142857,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Visibility(
+                                    visible: messageCount != 0,
+                                    child: CircleAvatar(
+                                      radius: 10,
+                                      backgroundColor: Colors.white,
+                                      child: Center(
+                                        child: Text(
+                                          messageCount.toString(),
+                                          style: TextStyle(
+                                            color: Constants().primaryAppColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -136,15 +174,36 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                             child: Padding(
                               padding:
                               const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                "Requests",
-                                style: GoogleFonts.openSans(
-                                  color: currentTabIndex == 1
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: width/97.57142857142857,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Edit Requests",
+                                    style: GoogleFonts.openSans(
+                                      color: currentTabIndex == 1
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: width/97.57142857142857,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Visibility(
+                                    visible: requestCount != 0,
+                                    child: CircleAvatar(
+                                      radius: 10,
+                                      backgroundColor: Colors.white,
+                                      child: Center(
+                                        child: Text(
+                                          requestCount.toString(),
+                                          style: TextStyle(
+                                            color: Constants().primaryAppColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -1080,8 +1139,9 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
       ),
     );
     NotificationModel notificationModel = NotificationModel(
-        date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
         time: DateFormat('hh:mm a').format(DateTime.now()),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
         content: body,
         to: phone,
         subject: title,
@@ -1143,8 +1203,9 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
       ),
     );
     NotificationModel notificationModel = NotificationModel(
-        date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
         time: DateFormat('hh:mm a').format(DateTime.now()),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
         content: body,
         to: phone,
         subject: title,

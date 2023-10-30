@@ -59,7 +59,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     child:  const Text('Tamil'),
                     onTap: () {
                       changeLocale(context, 'ta');
-                      changeHomeViewLanguage();
                     },
                   ),
                   PopupMenuItem<String>(
@@ -68,7 +67,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'hi');
-                        changeHomeViewLanguage();
                       });
                     },
                   ),
@@ -77,7 +75,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     child:  const Text('Telugu'),
                     onTap: () {
                       changeLocale(context, 'te');
-                      changeHomeViewLanguage();
                     },
                   ),
                   PopupMenuItem<String>(
@@ -86,7 +83,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'ml');
-                        changeHomeViewLanguage();
                       });
                     },
                   ),
@@ -96,7 +92,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'kn');
-                        changeHomeViewLanguage();
                       });
                     },
                   ),
@@ -106,7 +101,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'mr');
-                        changeHomeViewLanguage();
                       });
                     },
                   ),
@@ -116,7 +110,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'gu');
-                        changeHomeViewLanguage();
                       });
                     },
                   ),
@@ -126,7 +119,15 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     onTap: () {
                       setState(() {
                         changeLocale(context, 'or');
-                        changeHomeViewLanguage();
+                      });
+                    },
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'bn',
+                    child:  const Text('Bengali'),
+                    onTap: () {
+                      setState(() {
+                        changeLocale(context, 'bn');
                       });
                     },
                   ),
@@ -140,7 +141,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                     width: width/45.53,
                   ),
                    SizedBox(width: width/136.6),
-                   const Text("South India"),
+                   const Text("India"),
                 ],
               ),
             ),
@@ -160,27 +161,27 @@ class _DashBoardTabState extends State<DashBoardTab> {
             ),
             onTap: () {
               changeLocale(context, 'en_US');
-              changeHomeViewLanguage();
+              //changeHomeViewLanguage();
             },
           ),
-          PopupMenuItem<String>(
-            value: 'bn',
-            child: Row(
-              children: [
-                CountryFlag.fromCountryCode(
-                  "BD",
-                  height: height/16.275,
-                  width: width/45.53,
-                ),
-                 SizedBox(width: width/136.6),
-                 const Text('Bengali'),
-              ],
-            ),
-            onTap: () {
-              changeLocale(context, 'bn');
-              changeHomeViewLanguage();
-            },
-          ),
+          // PopupMenuItem<String>(
+          //   value: 'bn',
+          //   child: Row(
+          //     children: [
+          //       CountryFlag.fromCountryCode(
+          //         "BD",
+          //         height: height/16.275,
+          //         width: width/45.53,
+          //       ),
+          //        SizedBox(width: width/136.6),
+          //        const Text('Bengali'),
+          //     ],
+          //   ),
+          //   onTap: () {
+          //     changeLocale(context, 'bn');
+          //     changeHomeViewLanguage();
+          //   },
+          // ),
           PopupMenuItem<String>(
             value: 'es',
             child: Row(
@@ -197,7 +198,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'es');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -217,7 +218,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'pt');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -237,7 +238,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'fr');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -257,7 +258,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'nl');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -277,7 +278,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'de');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -297,7 +298,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'it');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -317,7 +318,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
             onTap: () {
               setState(() {
                 changeLocale(context, 'sv');
-                changeHomeViewLanguage();
+                //changeHomeViewLanguage();
               });
             },
           ),
@@ -331,9 +332,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
   int randomNumFromDate = 1;
    ///////
 
-  changeHomeViewLanguage() {
-    setState(() {});
-  }
+  // changeHomeViewLanguage() {
+  //   setState(() {});
+  // }
 
   setRoles(ManageRoleModel roles){
     rolesList.clear();
@@ -367,7 +368,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
   }
 
   fetchDashboardValues() async {
+    var profileRequestDoc = await FirebaseFirestore.instance.collection('ProfileEditRequest').get();
     setState(() {
+      count += profileRequestDoc.docs.length;
       isFetched = true;
     });
     var dashDocument = await DashboardFireCrud.fetchDashBoard();
@@ -378,6 +381,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
       isFetched = false;
     });
   }
+
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -464,7 +469,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               stream: FirebaseFirestore.instance.collection('Messages').snapshots(),
                               builder: (ctx,snap){
                                 if(snap.hasData){
-                                  int count = 0;
                                   snap.data!.docs.forEach((element) {
                                     if(element.get("isViewed") == false){
                                       count++;
@@ -476,7 +480,9 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (ctx) =>
-                                                  MessagesTab()));
+                                                  MessagesTab(),
+                                          ),
+                                      );
                                     },
                                     child: count != 0 ? Badge(
                                         label: Text(count.toString()),
