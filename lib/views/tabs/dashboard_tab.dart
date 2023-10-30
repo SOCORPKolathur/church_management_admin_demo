@@ -329,6 +329,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
 
 
   int randomNumFromDate = 1;
+   ///////
 
   changeHomeViewLanguage() {
     setState(() {});
