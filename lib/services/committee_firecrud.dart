@@ -61,6 +61,22 @@ class CommitteeFireCrud {
     return response;
   }
 
+  static Future<Response> editCommitteeName({required String id,required String name}) async {
+    Response response = Response();
+    DocumentReference documentReferencer = CommitteeCollection.doc(id);
+    var result = await documentReferencer.update(
+      {
+        "committeeName" : name
+      }).whenComplete(() {
+      response.code = 200;
+      response.message = "Sucessfully edit to the database";
+    }).catchError((e) {
+      response.code = 500;
+      response.message = e;
+    });
+    return response;
+  }
+
   static Future<Response> deleteCommitteeRecord({required String docId}) async {
     Response res = Response();
     DocumentReference documentReferencer = CommitteeCollection.doc(docId);

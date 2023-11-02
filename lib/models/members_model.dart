@@ -24,8 +24,8 @@ class MembersModel {
   String? nationality;
   String? imgUrl;
   String? pincode;
-
-
+  String? landMark;
+  String? previousChurch;
   String? qualification;
   String? maritalStatus;
   String? relationToFamily;
@@ -36,6 +36,8 @@ class MembersModel {
   MembersModel(
       {this.id,
         this.firstName,
+        this.landMark,
+        this.previousChurch,
         this.maritalStatus,
         this.relationToFamily,
         this.attendingTime,
@@ -90,18 +92,19 @@ class MembersModel {
     dob = json['dob'];
     nationality = json['nationality'];
     imgUrl = json['imgUrl'];
-
     qualification = json['qualification'];
     maritalStatus = json['maritalStatus'];
-    relationToFamily = json['maritalStatus'];
+    relationToFamily = json['relationToFamily'];
     attendingTime = json['attendingTime'];
+    previousChurch = json['previousChurch'];
+    landMark = json['landMark'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     
     data['qualification'] = this.qualification;
-    data['maritalStatus'] = this.maritalStatus;
+    data['relationToFamily'] = this.relationToFamily;
     data['maritalStatus'] = this.maritalStatus;
     data['attendingTime'] = this.attendingTime;
     data['id'] = this.id;
@@ -129,6 +132,8 @@ class MembersModel {
     data['dob'] = this.dob;
     data['nationality'] = this.nationality;
     data['imgUrl'] = this.imgUrl;
+    data['landMark'] = this.landMark;
+    data['previousChurch'] = this.previousChurch;
     return data;
   }
 

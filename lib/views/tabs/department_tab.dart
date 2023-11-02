@@ -2175,9 +2175,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       leadernameController.text != "" &&
                                       locationController.text != "" &&
                                       numberController.text.length == 10 &&
-                                      descriptionController.text != "" &&
                                       numberController.text != "" &&
-                                      cityController.text != "" &&
                                       addressController.text != "" &&
                                       countryController.text != "" &&
                                       zoneController.text != "") {

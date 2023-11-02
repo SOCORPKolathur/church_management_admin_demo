@@ -1569,9 +1569,61 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                                width:width/4.878,
+                                                width:width/2.878,
                                                 child: Row(
                                                   children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          committeeNameController.text = committies[i].committeeName!;
+                                                        });
+                                                        editCommitteeNamePopUp(committies[i]);
+                                                      },
+                                                      child: Container(
+                                                        height: height/26.04,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: Colors.redAccent,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black26,
+                                                              offset:
+                                                              Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:width/227.66),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                              children: [
+                                                                KText(
+                                                                  text: "Edit Committee Name",
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:width/136.6,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: width/273.2),
                                                     InkWell(
                                                       onTap: () {
                                                         addCommitteeMembers(committies[i].id!);
@@ -3458,6 +3510,229 @@ class _CommitteeTabState extends State<CommitteeTab> {
                 ),
               );
             }
+        );
+      },
+    );
+  }
+
+  editCommitteeNamePopUp(CommitteeModel committee){
+    Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Container(
+            height: size.height * 0.35,
+            width: size.width * 0.4,
+            margin:   EdgeInsets.symmetric(
+                vertical: height/32.55,
+                horizontal: width/68.3
+            ),
+            decoration: BoxDecoration(
+              color: Constants().primaryAppColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(1, 2),
+                  blurRadius: 3,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  height: size.height * 0.1,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width/68.3, vertical: height/81.375),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        KText(
+                          text: "Edit Committee",
+                          style: GoogleFonts.openSans(
+                            fontSize: width/68.3,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                if (committeeNameController.text != "") {
+                                  Response response =
+                                  await CommitteeFireCrud.editCommitteeName(
+                                    id: committee.id!,
+                                      name: committeeNameController.text
+                                  );
+                                  if (response.code == 200) {
+                                    await CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text: "Committee Updated successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
+                                    setState(() {
+                                      committeeNameController.text = "";
+                                    });
+                                    Navigator.pop(context);
+                                  } else {
+                                    await CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text: "Failed to create committee!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
+                                    Navigator.pop(context);
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              },
+                              child: Container(
+                                height:height/16.275,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal:width/227.66),
+                                  child: Center(
+                                    child: KText(
+                                      text: "Update",
+                                      style: GoogleFonts.openSans(
+                                        fontSize:width/85.375,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width:width/136.6),
+                            InkWell(
+                              onTap: () async {
+                                setState(() {
+                                  committeeNameController.text = "";
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height:height/16.275,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal:width/227.66),
+                                  child: Center(
+                                    child: KText(
+                                      text: "CANCEL",
+                                      style: GoogleFonts.openSans(
+                                        fontSize:width/85.375,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xffF7FAFC),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                    padding:   EdgeInsets.symmetric(
+                        vertical: height/32.55,
+                        horizontal: width/68.3
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            KText(
+                              text: "Committee Name *",
+                              style: GoogleFonts.openSans(
+                                fontSize:width/97.571,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Material(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                              elevation: 10,
+                              child: SizedBox(
+                                height: 50,
+                                width: 250,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: height/81.375,
+                                      horizontal: width/170.75
+                                  ),
+                                  child: TextFormField(
+                                    controller: committeeNameController,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 5),
+                                      border: InputBorder.none,
+                                      hintStyle: GoogleFonts.openSans(
+                                        fontSize:width/97.571,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

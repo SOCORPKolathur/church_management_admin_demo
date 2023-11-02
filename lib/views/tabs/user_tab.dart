@@ -3349,8 +3349,7 @@ class _UserTabState extends State<UserTab> {
                                         firstNameController.text != "" &&
                                         lastNameController.text != "" &&
                                         localityController.text != "" &&
-                                        phoneController.text != "" &&
-                                        pincodeController.text != "") {
+                                        phoneController.text != "") {
                                       Response response = await UserFireCrud.updateRecord(userDocID, UserModel(
                                         id: user.id,
                                         isPrivacyEnabled: user.isPrivacyEnabled,

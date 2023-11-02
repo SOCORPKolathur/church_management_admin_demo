@@ -2226,16 +2226,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                       if (
                                           firstNameController.text != "" &&
                                           lastNameController.text != "" &&
-                                         // positionController.text != "" &&
                                           speechController.text != ""
-                                         // facebookController.text != "" &&
-                                         // twitterController.text != "" &&
-                                         // googleplusController.text != "" &&
-                                         // linkedinController.text != "" &&
-                                         // pinterestController.text != "" &&
-                                         // youtubeController.text != "" &&
-                                         // instagramController.text != "" &&
-                                         // whatsappController.text != ""
                                       ) {
                                         Response response =
                                         await SpeechFireCrud.updateRecord(

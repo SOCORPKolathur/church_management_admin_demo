@@ -38,6 +38,7 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
     super.initState();
   }
 
+
   setBadgeCount() async {
     var messages = await FirebaseFirestore.instance.collection('Messages').get();
     var requests = await FirebaseFirestore.instance.collection('ProfileEditRequest').get();
@@ -727,7 +728,16 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
     );
   }
 
-  viewPopup(DocumentSnapshot user) {
+  bool isDifferent(val1,val2){
+    bool isDifferent = false;
+    if(val1 != val2){
+      isDifferent = true;
+    }
+    return isDifferent;
+  }
+
+  viewPopup(DocumentSnapshot user)  async {
+    var extUser = await FirebaseFirestore.instance.collection('Users').doc(user.get("userDocId")).get();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     Size size = MediaQuery.of(context).size;
@@ -764,7 +774,7 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          user.get("firstName")+" "+user.get("lastName"),
+                          extUser.get("firstName")+" "+extUser.get("lastName"),
                           style: GoogleFonts.openSans(
                             fontSize: width / 68.3,
                             fontWeight: FontWeight.bold,
@@ -853,6 +863,17 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                         text:
                                         "${user.get("firstName")} ${user.get("lastName")}",
                                         style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("firstName"),user.get("firstName")) || isDifferent(extUser.get("lastName"),user.get("lastName")),
+                                        child: Text(
+                                            "Edited",
+                                          style: TextStyle(
+                                            color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -873,6 +894,17 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                       KText(
                                         text: user.get("phone"),
                                         style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("phone"),user.get("phone")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -893,6 +925,17 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                       KText(
                                         text: user.get("email"),
                                         style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("email"),user.get("email")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -913,6 +956,79 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                       KText(
                                         text: user.get("profession"),
                                         style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("profession"),user.get("profession")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Marital Status",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.get("maritalStatus"),
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("maritialStatus"),user.get("maritalStatus")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Anniversary Date",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.get("anniversaryDate"),
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("anniversaryDate"),user.get("anniversaryDate")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -936,6 +1052,17 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                         text: user.get("locality"),
                                         style: TextStyle(fontSize: width/97.571),
                                       ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("locality"),user.get("locality")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   SizedBox(height: height / 32.55),
@@ -955,12 +1082,23 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                       Text(":"),
                                       SizedBox(width: width / 68.3),
                                       SizedBox(
-                                        width: size.width*0.3,
+                                        width: size.width*0.25,
                                         child: Text(
                                           user.get("about"),
                                           style: TextStyle(fontSize: width/97.571),
                                         ),
                                       ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("about"),user.get("about")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   SizedBox(height: height / 32.55),
@@ -980,12 +1118,23 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                       Text(":"),
                                       SizedBox(width: width / 68.3),
                                       SizedBox(
-                                        width: size.width * 0.3,
+                                        width: size.width * 0.25,
                                         child: Text(
                                           user.get("address"),
                                           style: TextStyle(fontSize: width/97.571),
                                         ),
                                       ),
+                                      SizedBox(width: width / 68.3),
+                                      Visibility(
+                                        visible: isDifferent(extUser.get("address"),user.get("address")),
+                                        child: Text(
+                                          "Edited",
+                                          style: TextStyle(
+                                              color: Constants().primaryAppColor,
+                                              fontSize: width/97.571
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   SizedBox(height: height / 32.55),

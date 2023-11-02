@@ -36,7 +36,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
   }
 
   setDate() {
-    date = "${DateTime.now().day}/${DateTime.now().month}";
+    date = "${DateTime.now().day}-${DateTime.now().month}";
   }
 
   List<UserModel> selectedbirthUsers = [];

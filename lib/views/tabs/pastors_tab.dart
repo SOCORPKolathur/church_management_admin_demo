@@ -2823,7 +2823,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                 firstDate: DateTime(1900),
                                                 lastDate: DateTime.now());
                                             if (pickedDate != null) {
-                                              setState(() {
+                                              setStat(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
                                               });
                                             }
@@ -2848,7 +2848,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marital status *",
+                                          text: "Marital status",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: size.width / 105.076,
@@ -2872,7 +2872,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             );
                                           }).toList(),
                                           onChanged: (newValue) {
-                                            setState(() {
+                                            setStat(() {
                                               marriedController = newValue!;
                                             });
                                           },
@@ -2895,7 +2895,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender *",
+                                          text: "Gender",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
@@ -2958,7 +2958,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                   firstDate: DateTime(1900),
                                                   lastDate: DateTime.now());
                                               if (pickedDate != null) {
-                                                setState(() {
+                                                setStat(() {
                                                   marriageDateController.text = formatter.format(pickedDate);
                                                 });
                                               }
@@ -3245,7 +3245,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                 firstDate: DateTime(1900),
                                                 lastDate: DateTime.now());
                                             if (pickedDate != null) {
-                                              setState(() {
+                                              setStat(() {
                                                 dobController.text = formatter.format(pickedDate);
                                               });
                                             }
@@ -3414,23 +3414,13 @@ class _PastorsTabState extends State<PastorsTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (
-                                          baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
-                                          departmentController.text != "" &&
-                                          dobController.text != "" &&
-                                          emailController.text != "" &&
-                                          addressController.text != "" &&
-                                          genderController.text != "" &&
-                                          familyController.text != "" &&
-                                          firstNameController.text != "" &&
-                                          jobController.text != "" &&
+                                      if (firstNameController.text != "" &&
                                           lastNameController.text != "" &&
-                                          nationalityController.text != "" &&
                                           phoneController.text != "" &&
-                                          pincodeController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
+                                          familyController.text != "" &&
+                                          bloodGroupController.text != "Select Blood Group" &&
+                                          dobController.text != "" &&
+                                          pincodeController.text != "") {
                                         Response response =
                                         await PastorsFireCrud.updateRecord(
                                           PastorsModel(

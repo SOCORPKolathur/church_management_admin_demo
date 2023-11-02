@@ -1,13 +1,16 @@
+import 'dart:html';
 import 'package:church_management_admin/constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import 'package:show_up_animation/show_up_animation.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/kText.dart';
+import '../prints/print_membership_payment.dart';
 
 class MembershipRegisterTab extends StatefulWidget {
   const MembershipRegisterTab({super.key});
@@ -29,6 +32,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
   SuggestionsBoxController suggestionBoxController = SuggestionsBoxController();
 
   TextEditingController _typeAheadControllerfees = TextEditingController();
+  TextEditingController _typeAheadControllerPaymentMode = TextEditingController();
 
   static final List<String> regno = [];
   static final List<String> student = [];
@@ -54,6 +58,20 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
     return matches;
   }
 
+  List<String> paymentModes = [
+    "Card",
+    "Cash",
+    "UPI"
+  ];
+
+  List<String> getSuggestionsPaymentMode(String query) {
+    List<String> matches = <String>[];
+    matches.addAll(paymentModes);
+
+    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+    return matches;
+  }
+
 
   static final List<String> months = [];
 
@@ -62,7 +80,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
       months.clear();
     });
     List<String> payedMonths = [];
-    var memberDoc = await FirebaseFirestore.instance.collection('Members').doc(memberId).collection('Membership').get();
+    var memberDoc = await cf.FirebaseFirestore.instance.collection('Members').doc(memberId).collection('Membership').get();
     memberDoc.docs.forEach((element) {
       payedMonths.add(element.id);
     });
@@ -78,7 +96,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
   getMemberById() async {
     print("fdgggggggggg");
     print(memberIdController.text);
-    var document = await FirebaseFirestore.instance.collection("Members").get();
+    var document = await cf.FirebaseFirestore.instance.collection("Members").get();
     for(int i=0;i<document.docs.length;i++){
       if(memberIdController.text == document.docs[i]["memberId"]){
         setState(() {
@@ -91,18 +109,19 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
     print("fdgggggggggg");
   }
 
-  updatefees({required String month,required String family,required String memberid,required String name}){
-    FirebaseFirestore.instance.collection("Members").doc(memberId).collection("Membership").doc(month).set({
+  updatefees({required String month,required String family,required String memberid,required String name,required String paymentMode}){
+    cf.FirebaseFirestore.instance.collection("Members").doc(memberId).collection("Membership").doc(month).set({
       "date": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
       "payOn": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
       "payment" : true,
-      "mode" : "Accounts",
+      "method" : "Accounts",
+      "paymentMode" : paymentMode,
       "month" : month,
       "amount" : Constants.MembershipAmount,
       "time": DateFormat("hh:mm aa").format(DateTime.now()),
       "timestamp": DateTime.now().millisecondsSinceEpoch,
     });
-    FirebaseFirestore.instance.collection("MembershipReports").doc().set({
+    cf.FirebaseFirestore.instance.collection("MembershipReports").doc().set({
       "amount" : Constants.MembershipAmount,
       "date": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
       "payOn": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
@@ -110,6 +129,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
       "family" : family,
       "memberId" : memberid,
       "method" : "Accounts",
+      "paymentMode" : paymentMode,
       "name" : name,
       "month" : month,
       "timestamp": DateTime.now().millisecondsSinceEpoch,
@@ -122,8 +142,8 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
       regno.clear();
       student.clear();
     });
-    var document = await  FirebaseFirestore.instance.collection("Members").orderBy("timestamp").get();
-    var document2 = await  FirebaseFirestore.instance.collection("Members").orderBy("firstName").get();
+    var document = await  cf.FirebaseFirestore.instance.collection("Members").orderBy("timestamp").get();
+    var document2 = await  cf.FirebaseFirestore.instance.collection("Members").orderBy("firstName").get();
     for(int i=0;i<document.docs.length;i++) {
       setState(() {
         regno.add(document.docs[i]["memberId"]);
@@ -136,9 +156,25 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
     }
   }
 
+  String churchName = '';
+  String churchAddress = '';
+  String churchLogo = '';
+  String churchPhone = '';
+
+  getadmin() async {
+    var document = await cf.FirebaseFirestore.instance.collection("ChurchDetails").get();
+    setState(() {
+      churchName = document.docs[0]["name"];
+      churchAddress = "${document.docs[0]["area"]} ${document.docs[0]["city"]} ${document.docs[0]["pincode"]}";
+      churchLogo = Constants.networkChurchLogo;
+      churchPhone = document.docs[0]["phone"];
+    });
+  }
+
   @override
   void initState() {
     adddropdownvalue();
+    getadmin();
     super.initState();
   }
 
@@ -348,7 +384,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                         delayStart: Duration(milliseconds: 200),
                         child:
                         FutureBuilder<dynamic>(
-                          future: FirebaseFirestore.instance.collection('Members').doc(memberId).get(),
+                          future: cf.FirebaseFirestore.instance.collection('Members').doc(memberId).get(),
                           builder: (context, snapshot) {
                             if(snapshot.hasData==null)
                             {
@@ -625,6 +661,74 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                           children: [
                                                             Container(
                                                               width:130,
+                                                              child: Row(
+                                                                children: [
+                                                                  Text('Payement Mode',style: GoogleFonts.montserrat(
+                                                                      fontWeight:FontWeight.bold,color: Colors.black,
+                                                                      fontSize:width/101.13
+                                                                  ),),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 50.0,right: 25),
+                                                              child: Container(width: width/4.83,
+                                                                height: height/16.42,
+                                                                //color: Color(0xffDDDEEE),
+                                                                decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),
+                                                                child:
+                                                                TypeAheadFormField(
+                                                                  suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                                                                      color: Color(0xffDDDEEE),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        bottomLeft: Radius.circular(5),
+                                                                        bottomRight: Radius.circular(5),
+                                                                      )
+                                                                  ),
+
+                                                                  textFieldConfiguration: TextFieldConfiguration(
+                                                                    style:  GoogleFonts.poppins(
+                                                                        fontSize: 15
+                                                                    ),
+                                                                    decoration: const InputDecoration(
+                                                                      contentPadding: EdgeInsets.only(left: 10,bottom: 8),
+                                                                      border: InputBorder.none,
+                                                                    ),
+                                                                    controller: this._typeAheadControllerPaymentMode,
+                                                                  ),
+                                                                  suggestionsCallback: (pattern) {
+                                                                    return getSuggestionsPaymentMode(pattern);
+                                                                  },
+                                                                  itemBuilder: (context, String suggestion) {
+                                                                    return ListTile(
+                                                                      title: Text(suggestion),
+                                                                    );
+                                                                  },
+
+                                                                  transitionBuilder: (context, suggestionsBox, controller) {
+                                                                    return suggestionsBox;
+                                                                  },
+                                                                  onSuggestionSelected: (String suggestion) {
+                                                                    setState(() {
+                                                                      this._typeAheadControllerPaymentMode.text = suggestion;
+                                                                    });
+
+                                                                  },
+                                                                  suggestionsBoxController: suggestionBoxController,
+                                                                  validator: (value) =>
+                                                                  value!.isEmpty ? 'Please select a fees': null,
+                                                                ),
+
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height:height/37,),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: [
+                                                            Container(
+                                                              width:130,
                                                               child: Text('Amount',style: GoogleFonts.montserrat(
                                                                   fontWeight:FontWeight.bold,color: Colors.black,fontSize:width/81.13
                                                               ),),
@@ -649,67 +753,94 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                         ),
                                                         SizedBox(height:height/25),
                                                         Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
                                                             GestureDetector(
-                                                              onTap: (){
-                                                                updatefees(name: value["firstName"]+" "+value["lastName"],family: value["family"],memberid: value["memberId"],month: selectedMonth);
-                                                                CoolAlert.show(
+                                                              onTap: () async {
+                                                                await updatefees(
+                                                                  paymentMode: _typeAheadControllerPaymentMode.text,
+                                                                    name: value["firstName"]+" "+value["lastName"],family: value["family"],memberid: value["memberId"],month: selectedMonth
+                                                                );
+                                                                await CoolAlert.show(
                                                                     context: context,
                                                                     type: CoolAlertType.success,
                                                                     text: "Payment completed successfully!",
                                                                     width: size.width * 0.4,
+                                                                    onConfirmBtnTap: () async {
+                                                                      MembershipPaymentPdfModel paymentDetails = MembershipPaymentPdfModel(
+                                                                        date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                                                                        time: DateFormat('hh:mm aa').format(DateTime.now()),
+                                                                        amount: Constants.MembershipAmount,
+                                                                        month: selectedMonth,
+                                                                        churchAddress: churchAddress,
+                                                                        churchName: churchName,
+                                                                        churchLogo: churchLogo,
+                                                                        churchPhone: churchPhone,
+                                                                        memberAddress: value["address"],
+                                                                        memberName: value["firstName"]+" "+value["lastName"],
+                                                                        paymentMode: _typeAheadControllerPaymentMode.text,
+                                                                      );
+                                                                      var data = await generateMembershipPaymentPdf(PdfPageFormat.a4, paymentDetails);
+                                                                      savePdfToFile(data);
+                                                                    },
                                                                     backgroundColor: Constants()
                                                                         .primaryAppColor
-                                                                        .withOpacity(0.8));
+                                                                        .withOpacity(0.8),
+                                                                );
                                                                 setState(() {
                                                                   selectedMonth = '';
                                                                   _typeAheadControllerfees.clear();
+                                                                  _typeAheadControllerPaymentMode.clear();
                                                                 });
                                                               },
                                                               child: Padding(
                                                                 padding: const EdgeInsets.all(8.0),
-                                                                child: Container(child: Center(child: Text("Payment Received",style: GoogleFonts.poppins(color:Colors.white,fontWeight: FontWeight.w600),)),
-                                                                  width: width/5.464,
+                                                                child: Container(
                                                                   height: height/16.425,
                                                                   // color:Color(0xff00A0E3),
                                                                   decoration: BoxDecoration(color: Constants().primaryAppColor,borderRadius: BorderRadius.circular(5)),
+                                                                  child: Center(
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                                        child: Text("Payment Received & Print Receipt",style: GoogleFonts.poppins(color:Colors.white,fontWeight: FontWeight.w600),),
+                                                                      )),
 
                                                                 ),
                                                               ),
                                                             ),
-                                                            SizedBox(width:20),
-                                                            GestureDetector(
-                                                              onTap: () async {
-                                                                // StudentFeesPdfModel feesDetails = StudentFeesPdfModel(
-                                                                //   date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
-                                                                //   time: DateFormat('hh:mm aa').format(DateTime.now()),
-                                                                //   amount: value2["amount"].toString(),
-                                                                //   feesName: value2["feesname"].toString(),
-                                                                //   schoolAdderss: schooladdress,
-                                                                //   schoolName: schoolname,
-                                                                //   schoolLogo: schoollogo,
-                                                                //   schoolPhone: schoolphone,
-                                                                //   studentAddress: value['address'].toString(),
-                                                                //   studentName: value['stname'].toString(),
-                                                                // );
-                                                                // setState(() {
-                                                                //   isloading = true;
-                                                                // });
-                                                                // await generateInvoice(PdfPageFormat.a4,feesDetails);
-                                                                // setState(() {
-                                                                //   isloading = false;
-                                                                // });
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.all(8.0),
-                                                                child: Container(child: Center(child: Text("Print Receipt",style: GoogleFonts.poppins(color:Colors.white,fontWeight: FontWeight.w600),)),
-                                                                  width: width/5.464,
-                                                                  height: height/16.425,
-                                                                  // color:Color(0xff00A0E3),
-                                                                  decoration: BoxDecoration(color: Constants().primaryAppColor,borderRadius: BorderRadius.circular(5)),
-                                                                ),
-                                                              ),
-                                                            ),
+                                                            // SizedBox(width:20),
+                                                            // GestureDetector(
+                                                            //   onTap: () async {
+                                                            //     // StudentFeesPdfModel feesDetails = StudentFeesPdfModel(
+                                                            //     //   date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                                                            //     //   time: DateFormat('hh:mm aa').format(DateTime.now()),
+                                                            //     //   amount: value2["amount"].toString(),
+                                                            //     //   feesName: value2["feesname"].toString(),
+                                                            //     //   schoolAdderss: schooladdress,
+                                                            //     //   schoolName: schoolname,
+                                                            //     //   schoolLogo: schoollogo,
+                                                            //     //   schoolPhone: schoolphone,
+                                                            //     //   studentAddress: value['address'].toString(),
+                                                            //     //   studentName: value['stname'].toString(),
+                                                            //     // );
+                                                            //     // setState(() {
+                                                            //     //   isloading = true;
+                                                            //     // });
+                                                            //     // await generateInvoice(PdfPageFormat.a4,feesDetails);
+                                                            //     // setState(() {
+                                                            //     //   isloading = false;
+                                                            //     // });
+                                                            //   },
+                                                            //   child: Padding(
+                                                            //     padding: const EdgeInsets.all(8.0),
+                                                            //     child: Container(child: Center(child: Text("",style: GoogleFonts.poppins(color:Colors.white,fontWeight: FontWeight.w600),)),
+                                                            //       width: width/5.464,
+                                                            //       height: height/16.425,
+                                                            //       // color:Color(0xff00A0E3),
+                                                            //       decoration: BoxDecoration(color: Constants().primaryAppColor,borderRadius: BorderRadius.circular(5)),
+                                                            //     ),
+                                                            //   ),
+                                                            // ),
                                                           ],
                                                         ),
                                                       ],) : Container(),
@@ -764,7 +895,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                       child: Divider(),
                                                     ),
                                                     StreamBuilder(
-                                                        stream: FirebaseFirestore.instance.collection("Members").doc(memberId).collection("Membership").orderBy("timestamp").snapshots(),
+                                                        stream: cf.FirebaseFirestore.instance.collection("Members").doc(memberId).collection("Membership").orderBy("timestamp").snapshots(),
                                                         builder: (context,snapshot){
                                                           return ListView.builder(
                                                               shrinkWrap: true,
@@ -846,6 +977,16 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
       ),
     );
   }
+
+  void savePdfToFile(data) async {
+    final blob = Blob([data],'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute("download", "Membership_Payment.pdf")
+      ..click();
+    Url.revokeObjectUrl(url);
+  }
+
 }
 
 class MembersWithDetails {
@@ -856,4 +997,34 @@ class MembersWithDetails {
   String memberId;
   String familyName;
   String docId;
+}
+
+class MembershipPaymentPdfModel {
+  MembershipPaymentPdfModel(
+      {
+        required this.churchName,
+        required this.churchAddress,
+        required this.churchPhone,
+        required this.memberName,
+        required this.churchLogo,
+        required this.memberAddress,
+        required this.month,
+        required this.amount,
+        required this.date,
+        required this.time,
+        required this.paymentMode
+      }
+      );
+
+  String churchName;
+  String churchAddress;
+  String churchPhone;
+  String memberName;
+  String churchLogo;
+  String memberAddress;
+  String month;
+  String amount;
+  String date;
+  String time;
+  String paymentMode;
 }

@@ -2708,7 +2708,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Firstname *",
+                                          text: "Firstname ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2736,7 +2736,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Lastname *",
+                                          text: "Lastname ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2773,7 +2773,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender *",
+                                          text: "Gender ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2809,7 +2809,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: 'Parent / Guardian *',
+                                          text: 'Parent / Guardian ',
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2837,7 +2837,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Parent / Guardian Phone *",
+                                          text: "Parent / Guardian Phone ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2940,7 +2940,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Class",
+                                          text: "Class *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -2985,7 +2985,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Family Name *",
+                                          text: "Family Name ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -3037,7 +3037,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Family ID *",
+                                          text: "Family ID ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -3131,7 +3131,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Blood Group *",
+                                          text: "Blood Group ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,

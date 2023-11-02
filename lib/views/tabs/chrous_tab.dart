@@ -2702,7 +2702,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender *",
+                                          text: "Gender",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
@@ -2788,12 +2788,6 @@ class _ChorusTabState extends State<ChorusTab> {
                                               return 'Please enter a valid email.';
                                             }
                                             return null;
-                                          },
-                                          onEditingComplete: (){
-                                            _key.currentState!.validate();
-                                          },
-                                          onChanged: (val){
-                                            _key.currentState!.validate();
                                           },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
@@ -3218,21 +3212,15 @@ class _ChorusTabState extends State<ChorusTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (
-                                          baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
+                                      if (firstNameController.text != "" &&
+                                          lastNameController.text != "" &&
+                                          phoneController.text != "" &&
+                                          familyController.text != "" &&
                                           departmentController.text != "" &&
                                           dobController.text != "" &&
-                                          emailController.text != "" &&
-                                          pincodeController.text != "" &&
-                                          familyController.text != "" &&
-                                          firstNameController.text != "" &&
-                                          jobController.text != "" &&
-                                          lastNameController.text != "" &&
                                           nationalityController.text != "" &&
-                                          phoneController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
+                                          pincodeController.text != "" &&
+                                          bloodGroupController.text != "Select Blood Group") {
                                         Response response =
                                         await ChorusFireCrud.updateRecord(
                                             ChorusModel(

@@ -835,7 +835,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                   SizedBox(
                                     width: 200,
                                     child: Text(
-                                      "Method",
+                                      "Payment Mode",
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 17,
@@ -931,7 +931,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                           SizedBox(
                                             width: 200,
                                             child: Text(
-                                              data.get("method"),
+                                              data.get("paymentMode"),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 color: Colors.black,

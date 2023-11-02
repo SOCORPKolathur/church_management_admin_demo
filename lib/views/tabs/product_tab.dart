@@ -2248,9 +2248,7 @@ class _ProductTabState extends State<ProductTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (titleController.text != "" &&
-                                          priceController.text != "" &&
-                                          categoriesController.text != "") {
+                                      if (true) {
                                         Response response =
                                         await ProductsFireCrud.updateRecord(
                                           ProductModel(

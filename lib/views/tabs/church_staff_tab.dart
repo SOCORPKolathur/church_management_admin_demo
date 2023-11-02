@@ -3093,7 +3093,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender *",
+                                          text: "Gender",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -3384,7 +3384,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marital status *",
+                                          text: "Marital status",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: size.width / 105.076,
@@ -3823,24 +3823,15 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
-                                          departmentController.text != "" &&
-                                          dobController.text != "" &&
-                                          emailController.text != "" &&
-                                          familyController.text != "" &&
-                                          pincodeController.text != "" &&
-                                          firstNameController.text != "" &&
-                                          phoneController.text.length == 10 &&
-                                          aadharNoController.text.length == 12 &&
-                                          jobController.text != "" &&
-                                          addressController.text != "" &&
-                                          dateofjoiningController.text != "" &&
+                                      if (firstNameController.text != "" &&
                                           lastNameController.text != "" &&
+                                          phoneController.text.length == 10 &&
+                                          dateofjoiningController.text != "" &&
+                                          bloodGroupController.text != "Select Blood Group" &&
+                                          dobController.text != "" &&
                                           nationalityController.text != "" &&
-                                          phoneController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
+                                          pincodeController.text != "" &&
+                                          familyController.text != "") {
                                         Response response =
                                         await ChurchStaffFireCrud.updateRecord(
                                           ChurchStaffModel(

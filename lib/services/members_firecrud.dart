@@ -7,8 +7,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../models/response.dart';
 import 'package:intl/intl.dart';
 
+import '../models/user_model.dart';
+
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference MemberCollection = firestore.collection('Members');
+final CollectionReference UsersCollection = firestore.collection('Users');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class MembersFireCrud {
@@ -64,6 +67,8 @@ class MembersFireCrud {
       required String attendingTime,
       required String maritalStatus,
       required String position,
+      required String landMark,
+      required String previousChurch,
       required String socialStatus}) async {
     String downloadUrl = '';
     if(image != null){
@@ -74,7 +79,10 @@ class MembersFireCrud {
       downloadUrl1 = await uploadImageToStorage(document);
     }
     Response response = Response();
+    Response response1 = Response();
     DocumentReference documentReferencer = MemberCollection.doc();
+    DocumentReference documentReferencer1 = UsersCollection.doc();
+
     MembersModel member = MembersModel(
         id: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -96,6 +104,8 @@ class MembersFireCrud {
         family: family,
         familyid: familyid,
         email: email,
+        landMark: landMark,
+        previousChurch: previousChurch,
         dob: dob,
         department: department,
         bloodGroup: bloodGroup,
@@ -107,11 +117,34 @@ class MembersFireCrud {
         relationToFamily: relationToFamily,
     );
     member.id = documentReferencer.id;
-    var json = member.toJson();
-    var result = await documentReferencer.set(json).whenComplete(() {
+    var memberJson = member.toJson();
+
+    UserModel user = UserModel(
+        id: "",
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        profession: position.toUpperCase(),
+        phone: phone,
+        locality: country,
+        lastName: lastName,
+        fcmToken: "",
+        firstName: firstName,
+        maritialStatus: maritalStatus,
+        gender: gender,
+        email: email,
+        aadharNo: aadharNo,
+        isPrivacyEnabled: false,
+        dob: dob,
+        about: '',
+        address: address,
+        bloodGroup: bloodGroup,
+        baptizeDate: baptizeDate,
+        pincode: pincode,
+        anniversaryDate: marriageDate,
+        imgUrl: downloadUrl);
+    var userJson = user.toJson();
+    var result = await documentReferencer.set(memberJson).whenComplete(() {
       response.code = 200;
       response.message = "Sucessfully added to the database";
-
       FirebaseFirestore.instance.collection('Members').doc(documentReferencer.id).collection('Membership').doc(DateFormat('MMM yyyy').format(DateTime.now()).toString()).set({
         "payment" : false,
         "timestamp" : DateTime.now().millisecondsSinceEpoch,
@@ -122,6 +155,13 @@ class MembersFireCrud {
     }).catchError((e) {
       response.code = 500;
       response.message = e;
+    });
+    var result1 = await documentReferencer1.set(userJson).whenComplete(() {
+      response1.code = 200;
+      response1.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      response1.code = 500;
+      response1.message = e;
     });
     return response;
   }
@@ -210,6 +250,8 @@ class MembersFireCrud {
         attendingTime: row[i][22].toString(),
         qualification: row[i][23].toString(),
         relationToFamily: row[i][24].toString(),
+        previousChurch: row[i][25].toString(),
+        landMark: row[i][26].toString(),
         timestamp: DateTime.now().millisecondsSinceEpoch,
         imgUrl: "",
         country: "",

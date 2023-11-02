@@ -14,9 +14,9 @@ import 'package:church_management_admin/views/tabs/dashboard_tab.dart';
 import 'package:church_management_admin/views/tabs/department_tab.dart';
 import 'package:church_management_admin/views/tabs/email_communication_tab.dart';
 import 'package:church_management_admin/views/tabs/family_tab.dart';
+import 'package:church_management_admin/views/tabs/login_reports_tab.dart';
 import 'package:church_management_admin/views/tabs/manager_role_tab.dart';
 import 'package:church_management_admin/views/tabs/members_tab.dart';
-import 'package:church_management_admin/views/tabs/membership_master_tab.dart';
 import 'package:church_management_admin/views/tabs/membership_register_tab.dart';
 import 'package:church_management_admin/views/tabs/membership_reports_tab.dart';
 import 'package:church_management_admin/views/tabs/notice_tab.dart';
@@ -173,12 +173,19 @@ class _HomeViewState extends State<HomeView> {
           icon: Icons.add,
           page: const MembershipRegisterTab(),
         ),
-        DrawerChildren(
-          name: 'Membership Master',
-          page: const MembershipMasterTab(),
-          icon: Icons.add,
-        )
+        // DrawerChildren(
+        //   name: 'Membership Master',
+        //   page: const MembershipMasterTab(),
+        //   icon: Icons.add,
+        // )
       ],
+    ),
+    DrawerModel(
+      name: "Login Reports",
+      icon: Icons.login,
+      page: const LoginReportsTab(),
+      isExpanded: false,
+      children: [],
     ),
     DrawerModel(
       name: "Gallery",

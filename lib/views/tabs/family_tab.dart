@@ -2193,15 +2193,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (familynameController.text != "" &&
-                                          familyleadernameController.text != "" &&
-                                          familyIdController.text != "" &&
-                                          familynumberController.text != "" &&
-                                          cityController.text != "" &&
-                                          addressController.text != "" &&
-                                          emailController.text != "" &&
-                                          countryController.text != "" &&
-                                          zoneController.text != "") {
+                                      if (true) {
                                         Response response =  await FamilyFireCrud.updateRecord(
                                             FamilyModel(
                                               id: family.id,

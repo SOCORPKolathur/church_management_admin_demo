@@ -53,10 +53,11 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController pincodeController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
-
+  TextEditingController landMarkController = TextEditingController();
+  TextEditingController previousChurchController = TextEditingController();
   TextEditingController attendingTimeController = TextEditingController();
   TextEditingController qualificationController = TextEditingController();
-  TextEditingController relationToFamilyController = TextEditingController();
+  TextEditingController relationToFamilyController = TextEditingController(text: "Select Relation");
   TextEditingController marriedController = TextEditingController(text: 'Select Status');
   String searchString = "";
   File? profileImage;
@@ -143,11 +144,12 @@ class _MembersTabState extends State<MembersTab> {
     sheet.getRangeByName("S1").setText("Address");
     sheet.getRangeByName("T1").setText("Pincode");
     sheet.getRangeByName("U1").setText("Aadhaar Number");
-
     sheet.getRangeByName("V1").setText("Marital Status");
     sheet.getRangeByName("W1").setText("Attending Time");
     sheet.getRangeByName("X1").setText("Qualification");
     sheet.getRangeByName("Y1").setText("Relationship to Family");
+    sheet.getRangeByName("Z1").setText("Previous Church");
+    sheet.getRangeByName("AA1").setText("Landmark");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -169,6 +171,8 @@ class _MembersTabState extends State<MembersTab> {
       familyController.text = "Select";
       familyIDController.text = "Select";
       departmentController.text = "";
+      landMarkController.text = "";
+      previousChurchController.text = "";
       docname = "";
       documentForUpload = null;
       dobController.text = "";
@@ -337,7 +341,7 @@ class _MembersTabState extends State<MembersTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: profileImageValidator ? size.height * 2.3 : size.height * 2.3,
+              height: profileImageValidator ? size.height * 2.45 : size.height * 2.45,
               width: width/1.241,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,
@@ -1131,14 +1135,32 @@ class _MembersTabState extends State<MembersTab> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        TextFormField(
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
-                                          maxLength: 100,
-                                          style:  TextStyle(fontSize: width/113.83),
-                                          controller: relationToFamilyController,
-                                        )
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: relationToFamilyController.text,
+                                          icon:  const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Relation",
+                                            "Father",
+                                            "Mother",
+                                            "Son",
+                                            "Daughter",
+                                            "Grand Father",
+                                            "Grand Mother",
+                                            "Grand Son",
+                                            "Grand Daughter",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              relationToFamilyController.text = newValue!;
+                                            });
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1230,6 +1252,63 @@ class _MembersTabState extends State<MembersTab> {
                                    ),
                                  ],
                                ),
+                              SizedBox(height: height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Previous Church",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
+                                          controller: previousChurchController,
+                                        )
+                                      ],
+                                    ),
+                                  ),SizedBox(width: width/68.3),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Landmark",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: width/97.571,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: height/43.4),
+                                      SizedBox(
+                                        height: height/16.275,
+                                        width: width/4.553,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                          child: TextFormField(
+                                            controller: landMarkController,
+                                            decoration: InputDecoration(
+                                              hintStyle: GoogleFonts.openSans(
+                                                fontSize: width/97.571,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
@@ -1567,6 +1646,8 @@ class _MembersTabState extends State<MembersTab> {
                                             qualification: qualificationController.text,
                                             maritalStatus: marriedController.text,
                                             attendingTime: attendingTimeController.text,
+                                            previousChurch: previousChurchController.text,
+                                            landMark: landMarkController.text,
                                           );
                                           if (response.code == 200) {
                                             CoolAlert.show(
@@ -2235,11 +2316,12 @@ class _MembersTabState extends State<MembersTab> {
                                                           pincodeController.text = members[i].pincode!;
                                                           memberIdController.text = members[i].memberId!;
                                                           aadharNoController.text = members[i].aadharNo!;
-
                                                           marriedController.text = members[i].maritalStatus!;
                                                           attendingTimeController.text = members[i].attendingTime!;
                                                           qualificationController.text = members[i].qualification!;
                                                           relationToFamilyController.text = members[i].relationToFamily!;
+                                                          landMarkController.text = members[i].landMark!;
+                                                          previousChurchController.text = members[i].previousChurch!;
                                                         });
                                                         editPopUp(members[i], size);
                                                       },
@@ -2718,6 +2800,54 @@ class _MembersTabState extends State<MembersTab> {
                                        SizedBox(width: width/68.3),
                                       KText(
                                         text: member.department!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Landmark",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.landMark!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Previuos Church",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.previousChurch!,
                                         style:  TextStyle(
                                             fontSize: width/97.57
                                         ),
@@ -3329,7 +3459,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Member ID",
+                                          text: "Member ID *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3351,7 +3481,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Firstname",
+                                          text: "Firstname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3379,7 +3509,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Lastname",
+                                          text: "Lastname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3411,7 +3541,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Phone",
+                                          text: "Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3440,7 +3570,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Email",
+                                          text: "Email ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3454,12 +3584,6 @@ class _MembersTabState extends State<MembersTab> {
                                               return 'Please enter a valid email.';
                                             }
                                             return null;
-                                          },
-                                          onEditingComplete: (){
-                                            _key.currentState!.validate();
-                                          },
-                                          onChanged: (val){
-                                            _key.currentState!.validate();
                                           },
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: emailController,
@@ -3482,7 +3606,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender",
+                                          text: "Gender *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3625,7 +3749,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marital status *",
+                                          text: "Marital status",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width / 105.076,
@@ -3832,17 +3956,32 @@ class _MembersTabState extends State<MembersTab> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        TextFormField(
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
-                                          maxLength: 100,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                          ],
-                                          style:  TextStyle(fontSize: width/113.83),
-                                          controller: relationToFamilyController,
-                                        )
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: relationToFamilyController.text,
+                                          icon:  const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Relation",
+                                            "Father",
+                                            "Mother",
+                                            "Son",
+                                            "Daughter",
+                                            "Grand Father",
+                                            "Grand Mother",
+                                            "Grand Son",
+                                            "Grand Daughter",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setStat(() {
+                                              relationToFamilyController.text = newValue!;
+                                            });
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -3939,12 +4078,69 @@ class _MembersTabState extends State<MembersTab> {
                               Row(
                                 children: [
                                   SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Previous Church",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
+                                          controller: previousChurchController,
+                                        )
+                                      ],
+                                    ),
+                                  ),SizedBox(width: width/68.3),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Landmark",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: width/97.571,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: height/43.4),
+                                      SizedBox(
+                                        height: height/16.275,
+                                        width: width/4.553,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                          child: TextFormField(
+                                            controller: landMarkController,
+                                            decoration: InputDecoration(
+                                              hintStyle: GoogleFonts.openSans(
+                                                fontSize: width/97.571,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                               SizedBox(height: height/21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
                                     width: width / 4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Blood Group *",
+                                          text: "Blood Group",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width / 105.076,
@@ -4201,24 +4397,12 @@ class _MembersTabState extends State<MembersTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (
-                                          baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
-                                          departmentController.text != "" &&
-                                          dobController.text != "" &&
-                                          emailController.text != "" &&
-                                          familyController.text != "" &&
-                                          memberIdController.text != "" &&
-                                          pincodeController.text != "" &&
-                                          addressController.text != "" &&
-                                          genderController.text != "Select Gender" &&
-                                          firstNameController.text != "" &&
-                                          jobController.text != "" &&
+                                      if (firstNameController.text != "" &&
                                           lastNameController.text != "" &&
-                                          nationalityController.text != "" &&
+                                          memberIdController.text != "" &&
                                           phoneController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
+                                          genderController.text != "Select Gender" &&
+                                          familyController.text != "") {
                                         Response response =
                                         await MembersFireCrud.updateRecord(
                                           MembersModel(
@@ -4251,6 +4435,8 @@ class _MembersTabState extends State<MembersTab> {
                                             maritalStatus: marriedController.text,
                                             qualification: qualificationController.text,
                                             relationToFamily: relationToFamilyController.text,
+                                            landMark: landMarkController.text,
+                                            previousChurch: previousChurchController.text,
                                           ),
                                             profileImage,
                                             member.imgUrl ?? ""

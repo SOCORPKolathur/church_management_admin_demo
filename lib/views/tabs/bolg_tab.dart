@@ -1514,8 +1514,7 @@ class _BlogTabState extends State<BlogTab> {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  if (titleController.text != "" &&
-                                      descriptionController.text != "") {
+                                  if (titleController.text != "") {
                                     Response response =
                                         await BlogFireCrud.updateRecord(
                                             BlogModel(
