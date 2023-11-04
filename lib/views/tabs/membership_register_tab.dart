@@ -94,19 +94,27 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
   }
 
   getMemberById() async {
-    print("fdgggggggggg");
-    print(memberIdController.text);
     var document = await cf.FirebaseFirestore.instance.collection("Members").get();
     for(int i=0;i<document.docs.length;i++){
-      if(memberIdController.text == document.docs[i]["memberId"]){
-        setState(() {
-          memberNameController.text = document.docs[i]["firstName"]+document.docs[i]["lastName"];
-          memberId = document.docs[i].id;
+        if(memberIdController.text == document.docs[i]["memberId"]){
+          setState(() {
+            memberNameController.text = document.docs[i]["firstName"]+document.docs[i]["lastName"];
+            memberId = document.docs[i].id;
+          }
+          );
         }
-        );
-      }
     }
-    print("fdgggggggggg");
+  }
+  getMemberByName() async {
+    var document = await cf.FirebaseFirestore.instance.collection("Members").get();
+    for(int i=0;i<document.docs.length;i++){
+        if(memberNameController.text == document.docs[i]["firstName"]+document.docs[i]["lastName"]){
+          setState(() {
+            memberIdController.text = document.docs[i]["memberId"];
+            memberId = document.docs[i].id;
+          });
+        }
+    }
   }
 
   updatefees({required String month,required String family,required String memberid,required String name,required String paymentMode}){
@@ -217,7 +225,10 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 0.0,right: 25),
-                              child: Container(child:
+                              child: Container(width: width/3.902,
+                                height: height/16.425,
+                                //color: Color(0xffDDDEEE),
+                                decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),child:
                               TypeAheadFormField(
                                 suggestionsBoxDecoration: const SuggestionsBoxDecoration(
                                     color: Color(0xffDDDEEE),
@@ -257,10 +268,6 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                 validator: (value) =>
                                 value!.isEmpty ? 'Please select a class' : null,
                               ),
-                                width: width/3.902,
-                                height: height/16.425,
-                                //color: Color(0xffDDDEEE),
-                                decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),
 
                               ),
                             ),
@@ -321,6 +328,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                     setState(() {
                                       memberNameController.text = suggestion;
                                     });
+                                    getMemberByName();
                                   },
                                   suggestionsBoxController: suggestionBoxController,
                                   validator: (value) =>
@@ -335,8 +343,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                         ),
                         InkWell(
                           onTap: (){
-                            // getstaffbyid();
-                            // feesdrop();
+                            getMemberByName();
                           },
                           child: Container(
                             child: Center(child: Text("Search",style: GoogleFonts.poppins(color:Colors.white),)),
@@ -780,8 +787,8 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                                         memberName: value["firstName"]+" "+value["lastName"],
                                                                         paymentMode: _typeAheadControllerPaymentMode.text,
                                                                       );
-                                                                      var data = await generateMembershipPaymentPdf(PdfPageFormat.a4, paymentDetails);
-                                                                      savePdfToFile(data);
+                                                                      await generateMembershipPaymentPdf(PdfPageFormat.a4, paymentDetails);
+                                                                      //savePdfToFile(data);
                                                                     },
                                                                     backgroundColor: Constants()
                                                                         .primaryAppColor
@@ -978,14 +985,14 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
     );
   }
 
-  void savePdfToFile(data) async {
-    final blob = Blob([data],'application/pdf');
-    final url = Url.createObjectUrlFromBlob(blob);
-    final anchor = AnchorElement(href: url)
-      ..setAttribute("download", "Membership_Payment.pdf")
-      ..click();
-    Url.revokeObjectUrl(url);
-  }
+  // void savePdfToFile(data) async {
+  //   final blob = Blob([data],'application/pdf');
+  //   final url = Url.createObjectUrlFromBlob(blob);
+  //   final anchor = AnchorElement(href: url)
+  //     ..setAttribute("download", "Membership_Payment.pdf")
+  //     ..click();
+  //   Url.revokeObjectUrl(url);
+  // }
 
 }
 

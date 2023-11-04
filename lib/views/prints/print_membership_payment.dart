@@ -26,7 +26,7 @@ Future<Uint8List> generateMembershipPaymentPdf(PdfPageFormat pageFormat, Members
     schoolPhone: data.churchPhone,
     paymentInfo: 'Payment Mode: ${data.paymentMode} \n${data.date}\nTime: ${data.time}',
     tax: .15,
-    baseColor: PdfColor.fromHex('00A0E3'),
+    baseColor: PdfColor.fromHex('E7B41F'),
     accentColor: PdfColors.blueGrey900,
   );
 
@@ -105,11 +105,10 @@ class Invoice {
         ],
       ),
     );
-    // Printing.layoutPdf(
-    //
-    //   onLayout: (PdfPageFormat format) async => doc.save(),
-    // );
-    // Return the PDF file content
+    Printing.layoutPdf(
+
+      onLayout: (PdfPageFormat format) async => doc.save(),
+    );
     return doc.save();
 
 

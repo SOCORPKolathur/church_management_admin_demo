@@ -977,32 +977,47 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
 
     var membersDocument = await FirebaseFirestore.instance.collection('Members').orderBy('timestamp',descending: true).get();
     totalDueAmount = totalDueAmount * membersDocument.docs.length;
-    membersDocument.docs.forEach((member) async {
+
+    Future.forEach(membersDocument.docs, (member) async {
       totalMembers.add(member.id);
       dueMembers.add(member.id);
       var membershipDoc = await FirebaseFirestore.instance.collection('Members').doc(member.id).collection('Membership').get();
-      membershipDoc.docs.forEach((element) {
-          totalDueAmount = totalDueAmount - double.parse(element.get("amount").toString());
+      Future.forEach(membershipDoc.docs, (element) {
+        totalDueAmount = totalDueAmount - double.parse(element.get("amount").toString());
       });
+      // membershipDoc.docs.forEach((element) {
+      //
+      // });
     });
 
-      membersDocument.docs.forEach((member) async {
-        List<String> dues = [];
-        for (int i = 0; i <= DateTime.now().difference(DateTime.now().subtract(Duration(days: 365))).inDays; i++) {
-          if(!dues.contains(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))))) {
-            dues.add(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))));
-          }
+    // membersDocument.docs.forEach((member) async {
+    //
+    // });
+
+    Future.forEach(membersDocument.docs, (member) async {
+      List<String> dues = [];
+      for (int i = 0; i <= DateTime.now().difference(DateTime.now().subtract(Duration(days: 365))).inDays; i++) {
+        if(!dues.contains(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))))) {
+          dues.add(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))));
         }
-        var membershipDoc = await FirebaseFirestore.instance.collection('Members').doc(member.id).collection('Membership').get();
-        membershipDoc.docs.forEach((membership) {
-          if(dues.contains(membership.get("month"))){
-            dues.remove(membership.get("month"));
-          }
-        });
-        if(dues.isEmpty){
-          dueMembers.remove(member.id);
+      }
+      var membershipDoc = await FirebaseFirestore.instance.collection('Members').doc(member.id).collection('Membership').get();
+      Future.forEach(membershipDoc.docs, (membership) {
+        if(dues.contains(membership.get("month"))){
+          dues.remove(membership.get("month"));
         }
       });
+      // membershipDoc.docs.forEach((membership) {
+      //
+      // });
+      if(dues.isEmpty){
+        dueMembers.remove(member.id);
+      }
+    });
+
+      // membersDocument.docs.forEach((member) async {
+      //
+      // });
 
 
     await Future.delayed(const Duration(seconds: 30));

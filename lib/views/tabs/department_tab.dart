@@ -2229,8 +2229,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       Navigator.pop(context);
                                     }
                                   } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.warning,
+                                        text: "Please fill the required fields",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
                                   }
                                 },
                                 child: Container(

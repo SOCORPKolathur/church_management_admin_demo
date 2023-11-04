@@ -1278,34 +1278,31 @@ class _MembersTabState extends State<MembersTab> {
                                         )
                                       ],
                                     ),
-                                  ),SizedBox(width: width/68.3),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Landmark",
-                                        style: GoogleFonts.openSans(
-                                          fontSize: width/97.571,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: height/43.4),
-                                      SizedBox(
-                                        height: height/16.275,
-                                        width: width/4.553,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                          child: TextFormField(
-                                            controller: landMarkController,
-                                            decoration: InputDecoration(
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                              ),
-                                            ),
+                                  ),
+                                  SizedBox(width: width/68.3),
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Landmark",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
+                                          controller: landMarkController,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -4100,34 +4097,31 @@ class _MembersTabState extends State<MembersTab> {
                                         )
                                       ],
                                     ),
-                                  ),SizedBox(width: width/68.3),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Landmark",
-                                        style: GoogleFonts.openSans(
-                                          fontSize: width/97.571,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: height/43.4),
-                                      SizedBox(
-                                        height: height/16.275,
-                                        width: width/4.553,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                          child: TextFormField(
-                                            controller: landMarkController,
-                                            decoration: InputDecoration(
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                              ),
-                                            ),
+                                  ),
+                                  SizedBox(width: width/68.3),
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Landmark",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
+                                          controller: landMarkController,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -4489,8 +4483,14 @@ class _MembersTabState extends State<MembersTab> {
                                           Navigator.pop(context);
                                         }
                                       } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.warning,
+                                            text: "Please fill the required fields",
+                                            width: size.width * 0.4,
+                                            backgroundColor: Constants()
+                                                .primaryAppColor
+                                                .withOpacity(0.8));
                                       }
                                     },
                                     child: Container(
