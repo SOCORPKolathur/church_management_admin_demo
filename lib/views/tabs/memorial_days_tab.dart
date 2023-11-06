@@ -8,6 +8,7 @@ import 'package:church_management_admin/services/chorus_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -27,7 +28,7 @@ class RememberDaysTab extends StatefulWidget {
   State<RememberDaysTab> createState() => _RememberDaysTabState();
 }
 
-class _RememberDaysTabState extends State<RememberDaysTab> {
+class _RememberDaysTabState extends State<RememberDaysTab> with SingleTickerProviderStateMixin {
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController nameController = TextEditingController();
@@ -38,6 +39,8 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
 
+  TabController? _tabController;
+  int currentTabIndex = 0;
   bool isLoading = false;
   bool isAltreadyMember = false;
   String currentTab = 'View';
@@ -122,6 +125,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
 
   @override
   void initState() {
+    _tabController = TabController(length: 2, vsync: this);
     adddropdownvalue();
     super.initState();
   }
@@ -146,7 +150,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
-                    text: "Remeber Days",
+                    text: "Memorial Days",
                     style: GoogleFonts.openSans(
                         fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
@@ -183,7 +187,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                           EdgeInsets.symmetric( horizontal:width/227.66),
                           child: Center(
                             child: KText(
-                              text: currentTab.toUpperCase() == "VIEW" ? "Add Remember day" : "View Remember days",
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Memorial day" : "View Memorial days",
                               style: GoogleFonts.openSans(
                                 fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
@@ -228,7 +232,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               KText(
-                                text: "Add Remember Day",
+                                text: "Add Memorial Day",
                                 style: GoogleFonts.openSans(
                                   fontSize: width/68.3,
                                   fontWeight: FontWeight.bold,
@@ -799,6 +803,12 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
+                  List<cf.DocumentSnapshot> todayDays = [];
+                  snapshot.data!.docs.forEach((element) {
+                    if(element.get("dod") == DateFormat('dd-MM-yyyy').format(DateTime.now())){
+                      todayDays.add(element);
+                    }
+                  });
                   return Container(
                     width: width/1.241,
                     margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
@@ -826,7 +836,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Remember Days (${snapshot.data!.docs.length})",
+                                  text: "Remember Days (${snapshot.data!.docs.length})",
                                   style: GoogleFonts.openSans(
                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
@@ -868,6 +878,63 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                           ),
                         ),
                         Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          height: height/10.85,
+                          width: double.infinity,
+                          child: TabBar(
+                            onTap: (int index) {
+                              setState(() {
+                                currentTabIndex = index;
+                              });
+                            },
+                            labelPadding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                            splashBorderRadius: BorderRadius.circular(30),
+                            automaticIndicatorColorAdjustment: true,
+                            dividerColor: Colors.transparent,
+                            controller: _tabController,
+                            indicator: BoxDecoration(
+                              color: Constants().primaryAppColor,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            labelColor: Colors.black,
+                            tabs: [
+                              Tab(
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    "All Memorial Days",
+                                    style: GoogleFonts.openSans(
+                                      color: currentTabIndex == 0
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: width/97.57142857142857,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    "Today Memorial Days",
+                                    style: GoogleFonts.openSans(
+                                      color: currentTabIndex == 1
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: width/97.57142857142857,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
                           height: size.height * 0.7,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -877,179 +944,17 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                                 bottomRight: Radius.circular(10),
                               )),
                           padding: EdgeInsets.symmetric(
-                              //horizontal: width/68.3,
+                            //horizontal: width/68.3,
                               vertical: height/32.55
                           ),
-                          child: Column(
+                          child: currentTabIndex == 0 ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Row(
-                              //   children: [
-                              //     InkWell(
-                              //       onTap: () {
-                              //         generateChorusPdf(PdfPageFormat.letter,choruses,false);
-                              //       },
-                              //       child: Container(
-                              //         height:height/18.6,
-                              //         decoration: BoxDecoration(
-                              //           color: Color(0xfffe5722),
-                              //           boxShadow: [
-                              //             BoxShadow(
-                              //               color: Colors.black26,
-                              //               offset: Offset(1, 2),
-                              //               blurRadius: 3,
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         child: Padding(
-                              //           padding: EdgeInsets.symmetric(
-                              //               horizontal:width/227.66),
-                              //           child: Center(
-                              //             child: Row(
-                              //               children: [
-                              //                 Icon(Icons.print,
-                              //                     color: Colors.white),
-                              //                 KText(
-                              //                   text: "PRINT",
-                              //                   style: GoogleFonts.openSans(
-                              //                     color: Colors.white,
-                              //                     fontSize:width/105.07,
-                              //                     fontWeight: FontWeight.bold,
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     SizedBox(width:width/136.6),
-                              //     InkWell(
-                              //       onTap: () {
-                              //         copyToClipBoard(choruses);
-                              //       },
-                              //       child: Container(
-                              //         height:height/18.6,
-                              //         decoration: BoxDecoration(
-                              //           color: Color(0xffff9700),
-                              //           boxShadow: [
-                              //             BoxShadow(
-                              //               color: Colors.black26,
-                              //               offset: Offset(1, 2),
-                              //               blurRadius: 3,
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         child: Padding(
-                              //           padding: EdgeInsets.symmetric(
-                              //               horizontal:width/227.66),
-                              //           child: Center(
-                              //             child: Row(
-                              //               children: [
-                              //                 Icon(Icons.copy,
-                              //                     color: Colors.white),
-                              //                 KText(
-                              //                   text: "COPY",
-                              //                   style: GoogleFonts.openSans(
-                              //                     color: Colors.white,
-                              //                     fontSize:width/105.07,
-                              //                     fontWeight: FontWeight.bold,
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     SizedBox(width:width/136.6),
-                              //     InkWell(
-                              //       onTap: () async {
-                              //         var data = await generateChorusPdf(PdfPageFormat.letter,choruses,true);
-                              //         savePdfToFile(data);
-                              //       },
-                              //       child: Container(
-                              //         height:height/18.6,
-                              //         decoration: BoxDecoration(
-                              //           color: Color(0xff9b28b0),
-                              //           boxShadow: [
-                              //             BoxShadow(
-                              //               color: Colors.black26,
-                              //               offset: Offset(1, 2),
-                              //               blurRadius: 3,
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         child: Padding(
-                              //           padding: EdgeInsets.symmetric(
-                              //               horizontal:width/227.66),
-                              //           child: Center(
-                              //             child: Row(
-                              //               children: [
-                              //                 Icon(Icons.picture_as_pdf,
-                              //                     color: Colors.white),
-                              //                 KText(
-                              //                   text: "PDF",
-                              //                   style: GoogleFonts.openSans(
-                              //                     color: Colors.white,
-                              //                     fontSize:width/105.07,
-                              //                     fontWeight: FontWeight.bold,
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     SizedBox(width:width/136.6),
-                              //     InkWell(
-                              //       onTap: () {
-                              //         convertToCsv(choruses);
-                              //       },
-                              //       child: Container(
-                              //         height:height/18.6,
-                              //         decoration: BoxDecoration(
-                              //           color: Color(0xff019688),
-                              //           boxShadow: [
-                              //             BoxShadow(
-                              //               color: Colors.black26,
-                              //               offset: Offset(1, 2),
-                              //               blurRadius: 3,
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         child: Padding(
-                              //           padding: EdgeInsets.symmetric(
-                              //               horizontal:width/227.66),
-                              //           child: Center(
-                              //             child: Row(
-                              //               children: [
-                              //                 Icon(
-                              //                     Icons.file_copy_rounded,
-                              //                     color: Colors.white),
-                              //                 KText(
-                              //                   text: "CSV",
-                              //                   style: GoogleFonts.openSans(
-                              //                     color: Colors.white,
-                              //                     fontSize:width/105.07,
-                              //                     fontWeight: FontWeight.bold,
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              //SizedBox(height:height/21.7),
                               SizedBox(
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                      vertical: height/217,
-                                      //horizontal: width/455.33
+                                    vertical: height/217,
+                                    //horizontal: width/455.33
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
@@ -1172,6 +1077,141 @@ class _RememberDaysTabState extends State<RememberDaysTab> {
                                           ],
                                         ),
                                       ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ) : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: height/217,
+                                    //horizontal: width/455.33
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width:width/17.075,
+                                        child: KText(
+                                          text: "No.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:width/ 8.035,
+                                        child: KText(
+                                          text: "Name",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/9.106,
+                                        child: KText(
+                                          text: "Description",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:width/ 8.035,
+                                        child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: todayDays.length,
+                                  itemBuilder: (ctx, i) {
+                                    var data = todayDays[i];
+                                    return Container(
+                                          height: height/10.85,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border(
+                                              top: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
+                                              ),
+                                              bottom: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
+                                              ),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: width/273.2,
+                                                vertical: height/130.2
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                SizedBox(
+                                                  width:width/17.075,
+                                                  child: KText(
+                                                    text: (i + 1).toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width:width/ 8.035,
+                                                  child: KText(
+                                                    text: data.get("name"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: data.get("description"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width:width/ 8.035,
+                                                  child: KText(
+                                                    text: data.get("dod"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                     );
                                   },
                                 ),

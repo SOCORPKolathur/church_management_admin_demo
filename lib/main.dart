@@ -1,5 +1,3 @@
-
-
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/views/tabs/messages_tab.dart';
@@ -19,7 +17,7 @@ void main() async {
   var delegate = await LocalizationDelegate.create(
     basePath: 'assets/i18n/',
       fallbackLocale: 'en_US',
-      supportedLocales: ['ta','te','ml','kn','en_US','bn','hi','es','pt','fr','nl','de','it','sv','mr','gu','or']);
+      supportedLocales: ['ta','te','ml','kn','en_US','bn','hi','es','pt','fr','nl','de','it','sv','mr','gu','or','ltz']);
   runApp(LocalizedApp(delegate, const MyApp()));
 }
 

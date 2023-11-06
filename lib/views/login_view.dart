@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/widgets/custom_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -303,7 +306,7 @@ class _LoginViewState extends State<LoginView> {
     bool isAuthenticated = await _signInWithEmailAndPassword();
     if(isAuthenticated){
       if(church.roles!.isNotEmpty){
-        church.roles!.forEach((element) {
+        church.roles!.forEach((element) async {
           if(emailController.text == element.roleName! && passwordController.text == element.rolePassword!){
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
@@ -322,6 +325,13 @@ class _LoginViewState extends State<LoginView> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     })).user;
     if (user != null) {
+      FirebaseFirestore.instance.collection('LoginReports').doc().set({
+        "deviceId": '',
+        "deviceOs": "Windows",
+        "ip": '',
+        "location": '',
+        "timestamp": DateTime.now().millisecondsSinceEpoch,
+      });
       setState(() {
         _success = true;
         result = true;

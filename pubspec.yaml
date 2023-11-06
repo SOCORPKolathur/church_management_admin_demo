@@ -74,6 +74,8 @@ dependencies:
   dropdown_button2: any
   flutter_typeahead: ^4.6.2
   show_up_animation: ^2.0.0
+  syncfusion_flutter_calendar: any
+  bouncing_draggable_dialog: ^1.0.2
 
 
 

@@ -614,9 +614,19 @@ class _BlogTabState extends State<BlogTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width/8.035294117647059,
+                                        width: width/13.66,
                                         child: KText(
-                                          text: "Time",
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/27.32,
+                                        child: KText(
+                                          text: "Likes",
                                           style: GoogleFonts.poppins(
                                             fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
@@ -701,9 +711,19 @@ class _BlogTabState extends State<BlogTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: width/8.035294117647059,
+                                            width: width/11.38333333333333,
                                             child: KText(
                                               text: blogs[i].time!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.0769230769231,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width/45.53333333333333,
+                                            child: KText(
+                                              text: blogs[i].likes!.length.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,
@@ -1013,9 +1033,19 @@ class _BlogTabState extends State<BlogTab> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width/8.035294117647059,
+                                        width: width/13.66,
                                         child: KText(
-                                          text: "Time",
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/27.32,
+                                        child: KText(
+                                          text: "Likes",
                                           style: GoogleFonts.poppins(
                                             fontSize: width/105.0769230769231,
                                             fontWeight: FontWeight.w600,
@@ -1100,9 +1130,19 @@ class _BlogTabState extends State<BlogTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: width/8.035294117647059,
+                                            width: width/11.38333333333333,
                                             child: KText(
                                               text: blogs[i].time!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.0769230769231,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width/45.53333333333333,
+                                            child: KText(
+                                              text: blogs[i].likes!.length.toString(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: width/105.0769230769231,
                                                 fontWeight: FontWeight.w600,

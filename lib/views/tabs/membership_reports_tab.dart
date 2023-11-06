@@ -37,7 +37,6 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                   color: Colors.black),
             ),
           ),
-
           FutureBuilder<MembershipDetailModel>(
             future: getMembershipDetails(),
             builder: (ctx, snap){
@@ -50,7 +49,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                     children: [
                       Container(
                         height: height/4.06875,
-                        width: width/4.06875,
+                        width: 250,
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -71,7 +70,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                   text: "Total Members",
                                   style: GoogleFonts.inter(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: width/56.916,
+                                    fontSize: width/57.916,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -161,7 +160,118 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                       SizedBox(width: 20),
                       Container(
                         height: height/4.06875,
-                        width: width/4.06875,
+                        width: 250,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(1, 2),
+                                blurRadius: 3),
+                          ],
+                          borderRadius: BorderRadius.circular(10),
+                          color: Constants().primaryAppColor,
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: size.height * 0.06,
+                              width: size.width * 0.2,
+                              child: Center(
+                                child: KText(
+                                  text: "Total Collect Amount",
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: width/57.916,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                width: width/4.06875,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: width/105.076),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              KText(
+                                                text: snap.data!.totalCollectAmount.toString(),
+                                                style: GoogleFonts.inter(
+                                                  fontSize: width/41.393,
+                                                ),
+                                              ),
+                                              KText(
+                                                text: snap.data!.totalCollectAmount.toString(),
+                                                style: GoogleFonts.inter(
+                                                  fontSize: width/85.375,
+                                                  color:
+                                                  Color(0xff8A92A6),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(width: width/68.3),
+                                          Container(
+                                            height: height/16.275,
+                                            width: width/34.15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(8),
+                                              color: Colors.green.withOpacity(0.3),
+                                            ),
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.arrow_upward_outlined,
+                                                color: Colors.green,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height/54.25,
+                                          horizontal: width/113.833
+                                      ),
+                                      child: LinearProgressIndicator(
+                                        backgroundColor:
+                                        Colors.green.withOpacity(0.3),
+                                        color: Colors.green,
+                                        value: 10,
+                                        semanticsLabel:
+                                        'Linear progress indicator',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Container(
+                        height: height/4.06875,
+                        width: 250,
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -182,7 +292,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                   text: "Due Members",
                                   style: GoogleFonts.inter(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: width/56.916,
+                                    fontSize: width/57.916,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -272,7 +382,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                       SizedBox(width: 20),
                       Container(
                         height: height/4.06875,
-                        width: width/4.06875,
+                        width: 250,
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -293,7 +403,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
                                   text: "Total Due Amount",
                                   style: GoogleFonts.inter(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: width/56.916,
+                                    fontSize: width/57.916,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -964,6 +1074,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
     List<String> totalMembers = [];
     List<String> dueMembers = [];
     double totalDueAmount = 0.0;
+    double totalCollectAmount = 0.0;
 
     for (int i = 0; i <= DateTime.now().add(Duration(days: 365)).difference(DateTime.now().subtract(Duration(days: 365))).inDays; i++) {
       if(!totalMonths.contains(DateFormat('MMM yyyy').format(DateTime.now().subtract(Duration(days: 365)).add(Duration(days: i))))) {
@@ -984,6 +1095,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
       var membershipDoc = await FirebaseFirestore.instance.collection('Members').doc(member.id).collection('Membership').get();
       Future.forEach(membershipDoc.docs, (element) {
         totalDueAmount = totalDueAmount - double.parse(element.get("amount").toString());
+        totalCollectAmount += double.parse(element.get("amount").toString());
       });
       // membershipDoc.docs.forEach((element) {
       //
@@ -1024,6 +1136,7 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
     MembershipDetailModel details = MembershipDetailModel(
       dueMembers: dueMembers,
       totalDueAmount: totalDueAmount,
+      totalCollectAmount: totalCollectAmount,
       totalMembers: totalMembers
     );
     return details;
@@ -1033,10 +1146,11 @@ class _MembershipReportsTabState extends State<MembershipReportsTab> {
 }
 
 class MembershipDetailModel{
-  MembershipDetailModel({required this.dueMembers, required this.totalMembers, required this.totalDueAmount});
+  MembershipDetailModel({required this.dueMembers, required this.totalMembers, required this.totalDueAmount,required this.totalCollectAmount});
   List<String> dueMembers;
   List<String> totalMembers;
   double totalDueAmount;
+  double totalCollectAmount;
 }
 
 class MemberForMembership {

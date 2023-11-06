@@ -201,7 +201,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
             decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.only(left: 38.0,top: 30),
-              child: Text("Mmebership Register",style: GoogleFonts.poppins(fontSize: 18,fontWeight: FontWeight.bold),),
+              child: Text("Membership Register",style: GoogleFonts.poppins(fontSize: 18,fontWeight: FontWeight.bold),),
             ),
           ),
           Padding(
@@ -534,7 +534,6 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                     SizedBox(width:width/62.2,),
                                     Column(
                                       children: [
-
                                         Material(
                                           elevation: 15,
                                           borderRadius: BorderRadius.circular(15 ),
@@ -904,60 +903,103 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                     StreamBuilder(
                                                         stream: cf.FirebaseFirestore.instance.collection("Members").doc(memberId).collection("Membership").orderBy("timestamp").snapshots(),
                                                         builder: (context,snapshot){
-                                                          return ListView.builder(
-                                                              shrinkWrap: true,
-                                                              physics: NeverScrollableScrollPhysics(),
-                                                              itemCount: snapshot.data!.docs.length,
-                                                              itemBuilder: (context,index){
-                                                                return snapshot.data!.docs[index]["payment"]==true?
-                                                                  Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                    children: [
-                                                                      Container(
-                                                                        width:130,
-                                                                        child: Text(
-                                                                          snapshot.data!.docs[index].id.toString(),//snapshot.data!.docs[index]["feesname"],
-                                                                          style: GoogleFonts.montserrat(
-                                                                            fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
-                                                                        ),),
+                                                          double totalAmount = 0.0;
+                                                          snapshot.data!.docs.forEach((element) {
+                                                            if(element.get("payment") == true){
+                                                              totalAmount += double.parse(element.get("amount").toString());
+                                                            }
+                                                          });
+                                                          return Column(
+                                                            children: [
+                                                              ListView.builder(
+                                                                  shrinkWrap: true,
+                                                                  physics: NeverScrollableScrollPhysics(),
+                                                                  itemCount: snapshot.data!.docs.length,
+                                                                  itemBuilder: (context,index){
+                                                                    return snapshot.data!.docs[index]["payment"]==true?
+                                                                      Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                        children: [
+                                                                          Container(
+                                                                            width:130,
+                                                                            child: Text(
+                                                                              snapshot.data!.docs[index].id.toString(),//snapshot.data!.docs[index]["feesname"],
+                                                                              style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
+                                                                            ),),
+                                                                          ),
+                                                                          Container(
+                                                                            width:130,
+                                                                            child: Text(
+                                                                              snapshot.data!.docs[index]["amount"].toString(),
+                                                                              style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
+                                                                            ),),
+                                                                          ),
+                                                                          Container(
+                                                                            width:130,
+                                                                            child: Text(
+                                                                     snapshot.data!.docs[index]["payment"]==true?"Paid": "Unpaid",
+                                                                     style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.bold,color:snapshot.data!.docs[index]["payment"]==true? Color(0xff53B175):Colors.red,fontSize:width/91.13
+                                                                            ),),
+                                                                          ),
+                                                                          Container(
+                                                                            width:130,
+                                                                            child: Text(
+                                                                              snapshot.data!.docs[index]["date"],
+                                                                              style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
+                                                                            ),),
+                                                                          ),
+                                                                          Container(
+                                                                            width:130,
+                                                                            child: Text(
+                                                                              snapshot.data!.docs[index]["time"],
+                                                                              style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
+                                                                            ),),
+                                                                          ),
+                                                                        ],
+                                                                      )  : Container();
+                                                                  }),
+                                                              Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Material(
+                                                                  elevation: 4,
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                  child: Container(
+                                                                    height: 50,
+                                                                    width: double.infinity,
+                                                                    decoration: BoxDecoration(
+                                                                      color: Colors.white,
+                                                                      borderRadius:   BorderRadius.circular(10),
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                                        children: [
+                                                                          Text(
+                                                                            "Total : ",//snapshot.data!.docs[index]["feesname"],
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
+                                                                            ),),
+                                                                          Text(
+                                                                            "$totalAmount",//snapshot.data!.docs[index]["feesname"],
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
+                                                                            ),),
+                                                                        ],
                                                                       ),
-                                                                      Container(
-                                                                        width:130,
-                                                                        child: Text(
-                                                                          snapshot.data!.docs[index]["amount"].toString(),
-                                                                          style: GoogleFonts.montserrat(
-                                                                            fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
-                                                                        ),),
-                                                                      ),
-                                                                      Container(
-                                                                        width:130,
-                                                                        child: Text(
-                                                                 snapshot.data!.docs[index]["payment"]==true?"Paid": "Unpaid",
-                                                                 style: GoogleFonts.montserrat(
-                                                                            fontWeight:FontWeight.bold,color:snapshot.data!.docs[index]["payment"]==true? Color(0xff53B175):Colors.red,fontSize:width/91.13
-                                                                        ),),
-                                                                      ),
-                                                                      Container(
-                                                                        width:130,
-                                                                        child: Text(
-                                                                          snapshot.data!.docs[index]["date"],
-                                                                          style: GoogleFonts.montserrat(
-                                                                            fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
-                                                                        ),),
-                                                                      ),
-                                                                      Container(
-                                                                        width:130,
-                                                                        child: Text(
-                                                                          snapshot.data!.docs[index]["time"],
-                                                                          style: GoogleFonts.montserrat(
-                                                                            fontWeight:FontWeight.w600,color: Colors.black,fontSize:width/91.13
-                                                                        ),),
-                                                                      ),
-                                                                    ],
-                                                                  )  : Container();
-                                                              });
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          );
 
-                                                        })
+                                                        }),
 
 
 
@@ -966,7 +1008,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                               ),
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],)
                                   ],),
                               );
@@ -974,7 +1016,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
 

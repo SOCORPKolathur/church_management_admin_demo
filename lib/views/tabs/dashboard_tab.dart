@@ -322,6 +322,26 @@ class _DashBoardTabState extends State<DashBoardTab> {
               });
             },
           ),
+          PopupMenuItem<String>(
+            value: 'ltz',
+            child: Row(
+              children: [
+                CountryFlag.fromCountryCode(
+                  "LU",
+                  height: height/16.275,
+                  width: width/45.53,
+                ),
+                SizedBox(width: width/136.6),
+                const Text('Luxembourish'),
+              ],
+            ),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'ltz');
+                //changeHomeViewLanguage();
+              });
+            },
+          ),
         ],
         elevation: 8.0,
         useRootNavigator: true);
@@ -358,7 +378,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
       rolesList = [];
       dashboardItemsList = [];
     }
-    isFetched = true;
+    isFetched = false;
   }
 
   @override

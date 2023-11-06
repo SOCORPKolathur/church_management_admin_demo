@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:typed_data';
 import 'package:church_management_admin/models/event_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -798,11 +799,9 @@ class _EventsTabState extends State<EventsTab>
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: width/455.33,vertical: height/217),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                     width:width/17.075,
+                                      width:width/18.075,
                                       child: KText(
                                         text: "No.",
                                         style: GoogleFonts.poppins(
@@ -822,7 +821,7 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     SizedBox(
-                                      width:width/8.035,
+                                      width: width/13.66,
                                       child: KText(
                                         text: "Date",
                                         style: GoogleFonts.poppins(
@@ -832,9 +831,19 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width/9.106,
+                                      width: width/27.32,
                                       child: KText(
                                         text: "Views",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "Registered Users",
                                         style: GoogleFonts.poppins(
                                           fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
@@ -896,14 +905,11 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
-                                      child:
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: 0),
+                                      child: Row(
                                         children: [
                                           SizedBox(
-                                           width:width/17.075,
+                                            width:width/18.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
@@ -916,7 +922,7 @@ class _EventsTabState extends State<EventsTab>
                                             width: width/13.66,
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                               children: [
                                                 CircleAvatar(
                                                   backgroundImage: NetworkImage(
@@ -926,7 +932,7 @@ class _EventsTabState extends State<EventsTab>
                                             ),
                                           ),
                                           SizedBox(
-                                            width:width/8.035,
+                                            width: width/13.66,
                                             child: KText(
                                               text: events[i].date!,
                                               style: GoogleFonts.poppins(
@@ -936,7 +942,7 @@ class _EventsTabState extends State<EventsTab>
                                             ),
                                           ),
                                           SizedBox(
-                                            width: width/9.106,
+                                            width: width/27.32,
                                             child: KText(
                                               text: events[i].views!.length.toString(),
                                               style: GoogleFonts.poppins(
@@ -944,6 +950,30 @@ class _EventsTabState extends State<EventsTab>
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
+                                          ),
+                                          SizedBox(
+                                              width: width/9.106,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: events[i].registeredUsers!.length.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  InkWell(
+                                                    onTap: (){
+                                                      viewRegisteredUsers(events[i].registeredUsers!);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.remove_red_eye,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
                                           ),
                                           SizedBox(
                                             width:width/10.507,
@@ -976,29 +1006,29 @@ class _EventsTabState extends State<EventsTab>
                                                     child: Container(
                                                       height:height/26.04,
                                                       decoration:
-                                                          BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
-                                                            Color(0xff2baae4),
+                                                        Color(0xff2baae4),
                                                         boxShadow: [
                                                           BoxShadow(
                                                             color:
-                                                                Colors.black26,
+                                                            Colors.black26,
                                                             offset:
-                                                                Offset(1, 2),
+                                                            Offset(1, 2),
                                                             blurRadius: 3,
                                                           ),
                                                         ],
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal:width/227.66),
+                                                        EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
+                                                            MainAxisAlignment
+                                                                .spaceAround,
                                                             children: [
                                                               Icon(
                                                                 Icons
@@ -1015,8 +1045,8 @@ class _EventsTabState extends State<EventsTab>
                                                                       .white,
                                                                   fontSize:width/136.6,
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                                 ),
                                                               ),
                                                             ],
@@ -1030,18 +1060,18 @@ class _EventsTabState extends State<EventsTab>
                                                     onTap: () {
                                                       setState(() {
                                                         dateController.text =
-                                                            events[i].date!;
-                                                        timeController.text =
-                                                            events[i].time!;
+                                                        events[i].date!;
                                                         titleController.text =
                                                         events[i].title!;
+                                                        timeController.text =
+                                                        events[i].time!;
                                                         locationController
-                                                                .text =
-                                                            events[i].location!;
+                                                            .text =
+                                                        events[i].location!;
                                                         descriptionController
-                                                                .text =
-                                                            events[i]
-                                                                .description!;
+                                                            .text =
+                                                        events[i]
+                                                            .description!;
                                                         selectedImg =
                                                             events[i].imgUrl;
                                                       });
@@ -1050,29 +1080,29 @@ class _EventsTabState extends State<EventsTab>
                                                     child: Container(
                                                       height:height/26.04,
                                                       decoration:
-                                                          BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
-                                                            Color(0xffff9700),
+                                                        Color(0xffff9700),
                                                         boxShadow: [
                                                           BoxShadow(
                                                             color:
-                                                                Colors.black26,
+                                                            Colors.black26,
                                                             offset:
-                                                                Offset(1, 2),
+                                                            Offset(1, 2),
                                                             blurRadius: 3,
                                                           ),
                                                         ],
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal:width/227.66),
+                                                        EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
+                                                            MainAxisAlignment
+                                                                .spaceAround,
                                                             children: [
                                                               Icon(
                                                                 Icons.add,
@@ -1088,8 +1118,8 @@ class _EventsTabState extends State<EventsTab>
                                                                       .white,
                                                                   fontSize:width/136.6,
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                                 ),
                                                               ),
                                                             ],
@@ -1106,54 +1136,54 @@ class _EventsTabState extends State<EventsTab>
                                                           type: CoolAlertType
                                                               .info,
                                                           text:
-                                                              "${events[i].description} will be deleted",
+                                                          "${events[i].description} will be deleted",
                                                           title:
-                                                              "Delete this Record?",
+                                                          "Delete this Record?",
                                                           width: size.width *
                                                               0.4,
                                                           backgroundColor:
-                                                              Constants()
-                                                                  .primaryAppColor
-                                                                  .withOpacity(
-                                                                      0.8),
+                                                          Constants()
+                                                              .primaryAppColor
+                                                              .withOpacity(
+                                                              0.8),
                                                           showCancelBtn: true,
                                                           cancelBtnText: 'Cancel',
                                                           cancelBtnTextStyle: TextStyle(color: Colors.black),
                                                           onConfirmBtnTap:
                                                               () async {
                                                             Response res =
-                                                                await EventsFireCrud
-                                                                    .deleteRecord(
-                                                                        id: events[i]
-                                                                            .id!);
+                                                            await EventsFireCrud
+                                                                .deleteRecord(
+                                                                id: events[i]
+                                                                    .id!);
                                                           });
                                                     },
                                                     child: Container(
                                                       height:height/26.04,
                                                       decoration:
-                                                          BoxDecoration(
+                                                      BoxDecoration(
                                                         color:
-                                                            Color(0xfff44236),
+                                                        Color(0xfff44236),
                                                         boxShadow: [
                                                           BoxShadow(
                                                             color:
-                                                                Colors.black26,
+                                                            Colors.black26,
                                                             offset:
-                                                                Offset(1, 2),
+                                                            Offset(1, 2),
                                                             blurRadius: 3,
                                                           ),
                                                         ],
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal:width/227.66),
+                                                        EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:width/227.66),
                                                         child: Center(
                                                           child: Row(
                                                             mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
+                                                            MainAxisAlignment
+                                                                .spaceAround,
                                                             children: [
                                                               Icon(
                                                                 Icons
@@ -1170,8 +1200,8 @@ class _EventsTabState extends State<EventsTab>
                                                                       .white,
                                                                   fontSize:width/136.6,
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                                 ),
                                                               ),
                                                             ],
@@ -1459,11 +1489,9 @@ class _EventsTabState extends State<EventsTab>
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: width/455.33,vertical: height/217),
                                 child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SizedBox(
-                                     width:width/17.075,
+                                     width:width/18.075,
                                       child: KText(
                                         text: "No.",
                                         style: GoogleFonts.poppins(
@@ -1483,7 +1511,7 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     SizedBox(
-                                      width:width/8.035,
+                                      width: width/13.66,
                                       child: KText(
                                         text: "Date",
                                         style: GoogleFonts.poppins(
@@ -1493,9 +1521,19 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width/9.106,
+                                      width: width/27.32,
                                       child: KText(
                                         text: "Views",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106,
+                                      child: KText(
+                                        text: "Registered Users",
                                         style: GoogleFonts.poppins(
                                           fontSize:width/105.07,
                                           fontWeight: FontWeight.w600,
@@ -1557,13 +1595,11 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: width/273.2),
+                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: 10),
                                       child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
-                                           width:width/17.075,
+                                           width:width/18.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
@@ -1586,7 +1622,7 @@ class _EventsTabState extends State<EventsTab>
                                             ),
                                           ),
                                           SizedBox(
-                                            width:width/8.035,
+                                            width: width/13.66,
                                             child: KText(
                                               text: events[i].date!,
                                               style: GoogleFonts.poppins(
@@ -1596,7 +1632,7 @@ class _EventsTabState extends State<EventsTab>
                                             ),
                                           ),
                                           SizedBox(
-                                            width: width/9.106,
+                                            width: width/27.32,
                                             child: KText(
                                               text: events[i].views!.length.toString(),
                                               style: GoogleFonts.poppins(
@@ -1604,6 +1640,30 @@ class _EventsTabState extends State<EventsTab>
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
+                                          ),
+                                          SizedBox(
+                                            width: width/9.106,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                KText(
+                                                  text: events[i].registeredUsers!.length.toString(),
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize:width/105.07,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                InkWell(
+                                                  onTap: (){
+                                                    viewRegisteredUsers(events[i].registeredUsers!);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.remove_red_eye,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ),
                                           SizedBox(
                                             width:width/10.507,
@@ -2076,6 +2136,137 @@ class _EventsTabState extends State<EventsTab>
                   ),
                 ),
               ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  viewRegisteredUsers(List<String> regUsers) async {
+    Size size = MediaQuery.of(context).size;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    List<cf.DocumentSnapshot> users = [];
+    var usersDoc = await cf.FirebaseFirestore.instance.collection('Users').get();
+    for(int i = 0; i < regUsers.length; i++){
+      for(int j = 0; j < usersDoc.docs.length; j++){
+        if(regUsers[i] == usersDoc.docs[j].id){
+          users.add(usersDoc.docs[j]);
+        }
+      }
+    }
+    return showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Container(
+            width: size.width * 0.5,
+            margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
+            decoration: BoxDecoration(
+              color: Constants().primaryAppColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(1, 2),
+                  blurRadius: 3,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              height: height*0.6,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: height*0.08,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Constants().primaryAppColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        topLeft: Radius.circular(10),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        KText(
+                          text: "Registered Users",
+                          style: GoogleFonts.openSans(
+                              fontSize: width/56.538,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black),
+                        ),
+                        IconButton(
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.cancel,
+                              color: Colors.black,
+                            ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                      ),
+                      child: ListView.builder(
+                        itemCount: users.length,
+                        itemBuilder: (ctx, i){
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: height/13.02,
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 80,
+                                    child: Center(
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                        NetworkImage(users[i].get("imgUrl")),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    child: Text(
+                                      users[i].get("firstName") + " " + users[i].get("lastName")
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 250,
+                                    child: Text(
+                                        users[i].get("phone")
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
