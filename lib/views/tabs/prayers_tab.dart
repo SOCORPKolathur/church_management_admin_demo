@@ -1790,568 +1790,562 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                 child: TabBarView(
                                   controller: _tabController,
                                   children: [
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: pendingPrayers.length,
-                                        itemBuilder: (ctx, i) {
-                                          return Container(
-                                            height: height/10.85,
-                                            width: double.infinity,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
-                                                ),
-                                                bottom: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
-                                                ),
+                                    ListView.builder(
+                                      itemCount: pendingPrayers.length,
+                                      itemBuilder: (ctx, i) {
+                                        return Container(
+                                          height: height/10.85,
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border(
+                                              top: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
+                                              ),
+                                              bottom: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
                                               ),
                                             ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width: width/13.66,
-                                                    child: KText(
-                                                      text: (i + 1).toString(),
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: width/13.66,
+                                                  child: KText(
+                                                    text: (i + 1).toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: width/6.83,
-                                                    child: KText(
-                                                      text: pendingPrayers[i].title!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: KText(
+                                                    text: pendingPrayers[i].title!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: width/6.83,
-                                                    child: KText(
-                                                      text: pendingPrayers[i].date!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: KText(
+                                                    text: pendingPrayers[i].date!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                ),
+                                                SizedBox(
+                                                  width: width/5.464,
+                                                  child: KText(
+                                                    text: pendingPrayers[i].description!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
                                                     width: width/5.464,
-                                                    child: KText(
-                                                      text: pendingPrayers[i].description!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                      width: width/5.464,
-                                                      child: Row(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
-                                                                "status" : "Approved"
-                                                              });
-                                                              CoolAlert.show(
-                                                                  context: context,
-                                                                  type: CoolAlertType.success,
-                                                                  title: "Prayer Approved Successfully",
-                                                                  width: size.width * 0.4,
-                                                                  backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              );
-                                                              // setState(() {
-                                                              //   titleController.text = pendingPrayers[i].title!;
-                                                              //   descriptionController.text = pendingPrayers[i].description!;
-                                                              // });
-                                                              // editPopUp(pendingPrayers[i],size);
-                                                            },
-                                                            child: Container(
-                                                              height: height/26.04,
-                                                              decoration: const BoxDecoration(
-                                                                color: Color(0xffff9700),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                                child: Center(
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons.done,
-                                                                        color: Colors.white,
-                                                                        size: width/91.06666666666667,
-                                                                      ),
-                                                                      KText(
-                                                                        text: "Approve",
-                                                                        style: GoogleFonts.openSans(
-                                                                          color: Colors.white,
-                                                                          fontSize: width/136.6,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: width/273.2),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
-                                                                "status" : "Denied"
-                                                              });
-                                                              CoolAlert.show(
+                                                    child: Row(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
+                                                              "status" : "Approved"
+                                                            });
+                                                            CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.success,
-                                                                title: "Prayer Denied Successfully",
+                                                                title: "Prayer Approved Successfully",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              );
-                                                              // CoolAlert.show(
-                                                              //     context: context,
-                                                              //     type: CoolAlertType.info,
-                                                              //     text: "${pendingPrayers[i].title} will be deleted",
-                                                              //     title: "Delete this Record?",
-                                                              //     width: size.width * 0.4,
-                                                              //     backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              //     showCancelBtn: true,
-                                                              //     cancelBtnText: 'Cancel',
-                                                              //     cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                              //     onConfirmBtnTap: () async {
-                                                              //       Response res = await PrayersFireCrud.deleteRecord(id: pendingPrayers[i].id!);
-                                                              //     }
-                                                              // );
-                                                            },
-                                                            child: Container(
-                                                              height: height/26.04,
-                                                              decoration: const BoxDecoration(
-                                                                color: Color(0xfff44236),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(
-                                                                    horizontal: 6),
-                                                                child: Center(
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons.cancel_outlined,
-                                                                        color: Colors.white,
-                                                                        size: width/91.06666666666667,
-                                                                      ),
-                                                                      KText(
-                                                                        text: "Deny",
-                                                                        style: GoogleFonts.openSans(
-                                                                          color: Colors.white,
-                                                                          fontSize: width/136.6,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                            );
+                                                            // setState(() {
+                                                            //   titleController.text = pendingPrayers[i].title!;
+                                                            //   descriptionController.text = pendingPrayers[i].description!;
+                                                            // });
+                                                            // editPopUp(pendingPrayers[i],size);
+                                                          },
+                                                          child: Container(
+                                                            height: height/26.04,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xffff9700),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
                                                                 ),
-                                                              ),
+                                                              ],
                                                             ),
-                                                          )
-                                                        ],
-                                                      )
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: approvedPrayers.length,
-                                        itemBuilder: (ctx, i) {
-                                          return Container(
-                                            height: height/10.85,
-                                            width: double.infinity,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
-                                                ),
-                                                bottom: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
-                                                ),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width: width/13.66,
-                                                    child: KText(
-                                                      text: (i + 1).toString(),
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width/6.83,
-                                                    child: KText(
-                                                      text: approvedPrayers[i].title!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width/6.83,
-                                                    child: KText(
-                                                      text: approvedPrayers[i].date!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width/5.464,
-                                                    child: KText(
-                                                      text: approvedPrayers[i].description!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                      width: width/5.464,
-                                                      child: Row(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                titleController.text = approvedPrayers[i].title!;
-                                                                descriptionController.text = approvedPrayers[i].description!;
-                                                              });
-                                                              editPopUp(approvedPrayers[i],size);
-                                                            },
-                                                            child: Container(
-                                                              height: height/26.04,
-                                                              decoration: const BoxDecoration(
-                                                                color: Color(0xffff9700),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                                child: Center(
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons.add,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons.done,
+                                                                      color: Colors.white,
+                                                                      size: width/91.06666666666667,
+                                                                    ),
+                                                                    KText(
+                                                                      text: "Approve",
+                                                                      style: GoogleFonts.openSans(
                                                                         color: Colors.white,
-                                                                        size: width/91.06666666666667,
+                                                                        fontSize: width/136.6,
+                                                                        fontWeight: FontWeight.bold,
                                                                       ),
-                                                                      KText(
-                                                                        text: "Edit",
-                                                                        style: GoogleFonts.openSans(
-                                                                          color: Colors.white,
-                                                                          fontSize: width/136.6,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                          SizedBox(width: width/273.2),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              CoolAlert.show(
-                                                                  context: context,
-                                                                  type: CoolAlertType.info,
-                                                                  text: "${approvedPrayers[i].title} will be deleted",
-                                                                  title: "Delete this Record?",
-                                                                  width: size.width * 0.4,
-                                                                  backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                                  showCancelBtn: true,
-                                                                  cancelBtnText: 'Cancel',
-                                                                  cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                                  onConfirmBtnTap: () async {
-                                                                    Response res = await PrayersFireCrud.deleteRecord(id: approvedPrayers[i].id!);
-                                                                  }
-                                                              );
-                                                            },
-                                                            child: Container(
-                                                              height: height/26.04,
-                                                              decoration: const BoxDecoration(
-                                                                color: Color(0xfff44236),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(
-                                                                    horizontal: 6),
-                                                                child: Center(
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons.cancel_outlined,
-                                                                        color: Colors.white,
-                                                                        size: width/91.06666666666667,
-                                                                      ),
-                                                                      KText(
-                                                                        text: "Delete",
-                                                                        style: GoogleFonts.openSans(
-                                                                          color: Colors.white,
-                                                                          fontSize: width/136.6,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                        ),
+                                                        SizedBox(width: width/273.2),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
+                                                              "status" : "Denied"
+                                                            });
+                                                            CoolAlert.show(
+                                                              context: context,
+                                                              type: CoolAlertType.success,
+                                                              title: "Prayer Denied Successfully",
+                                                              width: size.width * 0.4,
+                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                            );
+                                                            // CoolAlert.show(
+                                                            //     context: context,
+                                                            //     type: CoolAlertType.info,
+                                                            //     text: "${pendingPrayers[i].title} will be deleted",
+                                                            //     title: "Delete this Record?",
+                                                            //     width: size.width * 0.4,
+                                                            //     backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                            //     showCancelBtn: true,
+                                                            //     cancelBtnText: 'Cancel',
+                                                            //     cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                            //     onConfirmBtnTap: () async {
+                                                            //       Response res = await PrayersFireCrud.deleteRecord(id: pendingPrayers[i].id!);
+                                                            //     }
+                                                            // );
+                                                          },
+                                                          child: Container(
+                                                            height: height/26.04,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xfff44236),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
                                                                 ),
-                                                              ),
+                                                              ],
                                                             ),
-                                                          )
-                                                        ],
-                                                      )
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: deniedPrayers.length,
-                                        itemBuilder: (ctx, i) {
-                                          return Container(
-                                            height: height/10.85,
-                                            width: double.infinity,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
-                                                ),
-                                                bottom: BorderSide(
-                                                  color: Color(0xfff1f1f1),
-                                                  width: 0.5,
-                                                ),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width: width/13.66,
-                                                    child: KText(
-                                                      text: (i + 1).toString(),
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width/6.83,
-                                                    child: KText(
-                                                      text: deniedPrayers[i].title!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width/6.83,
-                                                    child: KText(
-                                                      text: deniedPrayers[i].date!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width/5.464,
-                                                    child: KText(
-                                                      text: deniedPrayers[i].description!,
-                                                      style: GoogleFonts.poppins(
-                                                        fontSize: width/105.0769230769231,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                      width: width/5.464,
-                                                      child: Row(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                titleController.text = deniedPrayers[i].title!;
-                                                                descriptionController.text = deniedPrayers[i].description!;
-                                                              });
-                                                              editPopUp(deniedPrayers[i],size);
-                                                            },
-                                                            child: Container(
-                                                              height: height/26.04,
-                                                              decoration: const BoxDecoration(
-                                                                color: Color(0xffff9700),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                                child: Center(
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons.add,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  horizontal: 6),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons.cancel_outlined,
+                                                                      color: Colors.white,
+                                                                      size: width/91.06666666666667,
+                                                                    ),
+                                                                    KText(
+                                                                      text: "Deny",
+                                                                      style: GoogleFonts.openSans(
                                                                         color: Colors.white,
-                                                                        size: width/91.06666666666667,
+                                                                        fontSize: width/136.6,
+                                                                        fontWeight: FontWeight.bold,
                                                                       ),
-                                                                      KText(
-                                                                        text: "Edit",
-                                                                        style: GoogleFonts.openSans(
-                                                                          color: Colors.white,
-                                                                          fontSize: width/136.6,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                          SizedBox(width: width/273.2),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              CoolAlert.show(
-                                                                  context: context,
-                                                                  type: CoolAlertType.info,
-                                                                  text: "${deniedPrayers[i].title} will be deleted",
-                                                                  title: "Delete this Record?",
-                                                                  width: size.width * 0.4,
-                                                                  backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                                  showCancelBtn: true,
-                                                                  cancelBtnText: 'Cancel',
-                                                                  cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                                  onConfirmBtnTap: () async {
-                                                                    Response res = await PrayersFireCrud.deleteRecord(id: deniedPrayers[i].id!);
-                                                                  }
-                                                              );
-                                                            },
-                                                            child: Container(
-                                                              height: height/26.04,
-                                                              decoration: const BoxDecoration(
-                                                                color: Color(0xfff44236),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(
-                                                                    horizontal: 6),
-                                                                child: Center(
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons.cancel_outlined,
+                                                        )
+                                                      ],
+                                                    )
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    ListView.builder(
+                                      itemCount: approvedPrayers.length,
+                                      itemBuilder: (ctx, i) {
+                                        return Container(
+                                          height: height/10.85,
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border(
+                                              top: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
+                                              ),
+                                              bottom: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
+                                              ),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: width/13.66,
+                                                  child: KText(
+                                                    text: (i + 1).toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: KText(
+                                                    text: approvedPrayers[i].title!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: KText(
+                                                    text: approvedPrayers[i].date!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/5.464,
+                                                  child: KText(
+                                                    text: approvedPrayers[i].description!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    width: width/5.464,
+                                                    child: Row(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              titleController.text = approvedPrayers[i].title!;
+                                                              descriptionController.text = approvedPrayers[i].description!;
+                                                            });
+                                                            editPopUp(approvedPrayers[i],size);
+                                                          },
+                                                          child: Container(
+                                                            height: height/26.04,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xffff9700),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons.add,
+                                                                      color: Colors.white,
+                                                                      size: width/91.06666666666667,
+                                                                    ),
+                                                                    KText(
+                                                                      text: "Edit",
+                                                                      style: GoogleFonts.openSans(
                                                                         color: Colors.white,
-                                                                        size: width/91.06666666666667,
+                                                                        fontSize: width/136.6,
+                                                                        fontWeight: FontWeight.bold,
                                                                       ),
-                                                                      KText(
-                                                                        text: "Delete",
-                                                                        style: GoogleFonts.openSans(
-                                                                          color: Colors.white,
-                                                                          fontSize: width/136.6,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ),
-                                                          )
-                                                        ],
-                                                      )
-                                                  ),
-                                                ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: width/273.2),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            CoolAlert.show(
+                                                                context: context,
+                                                                type: CoolAlertType.info,
+                                                                text: "${approvedPrayers[i].title} will be deleted",
+                                                                title: "Delete this Record?",
+                                                                width: size.width * 0.4,
+                                                                backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                showCancelBtn: true,
+                                                                cancelBtnText: 'Cancel',
+                                                                cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                                onConfirmBtnTap: () async {
+                                                                  Response res = await PrayersFireCrud.deleteRecord(id: approvedPrayers[i].id!);
+                                                                }
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                            height: height/26.04,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xfff44236),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  horizontal: 6),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons.cancel_outlined,
+                                                                      color: Colors.white,
+                                                                      size: width/91.06666666666667,
+                                                                    ),
+                                                                    KText(
+                                                                      text: "Delete",
+                                                                      style: GoogleFonts.openSans(
+                                                                        color: Colors.white,
+                                                                        fontSize: width/136.6,
+                                                                        fontWeight: FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    ListView.builder(
+                                      itemCount: deniedPrayers.length,
+                                      itemBuilder: (ctx, i) {
+                                        return Container(
+                                          height: height/10.85,
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border(
+                                              top: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
+                                              ),
+                                              bottom: BorderSide(
+                                                color: Color(0xfff1f1f1),
+                                                width: 0.5,
                                               ),
                                             ),
-                                          );
-                                        },
-                                      ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: width/13.66,
+                                                  child: KText(
+                                                    text: (i + 1).toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: KText(
+                                                    text: deniedPrayers[i].title!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: KText(
+                                                    text: deniedPrayers[i].date!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/5.464,
+                                                  child: KText(
+                                                    text: deniedPrayers[i].description!,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/105.0769230769231,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    width: width/5.464,
+                                                    child: Row(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              titleController.text = deniedPrayers[i].title!;
+                                                              descriptionController.text = deniedPrayers[i].description!;
+                                                            });
+                                                            editPopUp(deniedPrayers[i],size);
+                                                          },
+                                                          child: Container(
+                                                            height: height/26.04,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xffff9700),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons.add,
+                                                                      color: Colors.white,
+                                                                      size: width/91.06666666666667,
+                                                                    ),
+                                                                    KText(
+                                                                      text: "Edit",
+                                                                      style: GoogleFonts.openSans(
+                                                                        color: Colors.white,
+                                                                        fontSize: width/136.6,
+                                                                        fontWeight: FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: width/273.2),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            CoolAlert.show(
+                                                                context: context,
+                                                                type: CoolAlertType.info,
+                                                                text: "${deniedPrayers[i].title} will be deleted",
+                                                                title: "Delete this Record?",
+                                                                width: size.width * 0.4,
+                                                                backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                showCancelBtn: true,
+                                                                cancelBtnText: 'Cancel',
+                                                                cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                                onConfirmBtnTap: () async {
+                                                                  Response res = await PrayersFireCrud.deleteRecord(id: deniedPrayers[i].id!);
+                                                                }
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                            height: height/26.04,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xfff44236),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.black26,
+                                                                  offset: Offset(1, 2),
+                                                                  blurRadius: 3,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  horizontal: 6),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons.cancel_outlined,
+                                                                      color: Colors.white,
+                                                                      size: width/91.06666666666667,
+                                                                    ),
+                                                                    KText(
+                                                                      text: "Delete",
+                                                                      style: GoogleFonts.openSans(
+                                                                        color: Colors.white,
+                                                                        fontSize: width/136.6,
+                                                                        fontWeight: FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),

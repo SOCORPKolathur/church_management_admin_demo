@@ -98,7 +98,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
     for(int i=0;i<document.docs.length;i++){
         if(memberIdController.text == document.docs[i]["memberId"]){
           setState(() {
-            memberNameController.text = document.docs[i]["firstName"]+document.docs[i]["lastName"];
+            memberNameController.text = document.docs[i]["firstName"]+" "+document.docs[i]["lastName"];
             memberId = document.docs[i].id;
           }
           );
@@ -108,7 +108,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
   getMemberByName() async {
     var document = await cf.FirebaseFirestore.instance.collection("Members").get();
     for(int i=0;i<document.docs.length;i++){
-        if(memberNameController.text == document.docs[i]["firstName"]+document.docs[i]["lastName"]){
+        if(memberNameController.text == document.docs[i]["firstName"]+" "+document.docs[i]["lastName"]){
           setState(() {
             memberIdController.text = document.docs[i]["memberId"];
             memberId = document.docs[i].id;
@@ -772,6 +772,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                                     type: CoolAlertType.success,
                                                                     text: "Payment completed successfully!",
                                                                     width: size.width * 0.4,
+                                                                    confirmBtnText: 'Ok & Print',
                                                                     onConfirmBtnTap: () async {
                                                                       MembershipPaymentPdfModel paymentDetails = MembershipPaymentPdfModel(
                                                                         date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
