@@ -1480,6 +1480,9 @@ class _PrayersTabState extends State<PrayersTab> {
                                       timestamp: prayer.timestamp,
                                       title: titleController.text,
                                       description: descriptionController.text,
+                                        phone: prayer.phone,
+                                        requestedBy: prayer.requestedBy,
+                                        status: prayer.status,
                                     )
                                   );
                                   if (response.code == 200) {

@@ -8,7 +8,7 @@ final CollectionReference PrayerCollection = firestore.collection('Prayers');
 
 class PrayersFireCrud {
 
-  static Stream<List<PrayersModel>> fetchPrayers() => PrayerCollection.orderBy("timestamp",descending: false)
+  static Stream<List<PrayersModel>> fetchPrayers() => PrayerCollection.orderBy("timestamp",descending: true)
       .snapshots()
       .map((snapshot) =>
       snapshot.docs.map((doc) =>
@@ -17,7 +17,7 @@ class PrayersFireCrud {
 
   static Stream<List<PrayersModel>> fetchPrayersWithFilter(DateTime start, DateTime end) =>
       PrayerCollection
-          .orderBy("timestamp", descending: false)
+          .orderBy("timestamp", descending: true)
           .snapshots()
           .map((snapshot) => snapshot.docs
           .where((element) => element['timestamp'] < end.add(const Duration(days: 1)).millisecondsSinceEpoch && element['timestamp'] >= start.millisecondsSinceEpoch)
@@ -39,7 +39,10 @@ class PrayersFireCrud {
       date: date,
       time: time,
       description: description,
-      timestamp : tempDate.millisecondsSinceEpoch
+      timestamp : tempDate.millisecondsSinceEpoch,
+      phone: '',
+      requestedBy: 'Church',
+      status: 'Pending',
     );
     prayer.id = documentReferencer.id;
     var json = prayer.toJson();

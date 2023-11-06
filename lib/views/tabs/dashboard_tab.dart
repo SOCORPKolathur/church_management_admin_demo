@@ -429,8 +429,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          KText(
-                            text: 'WELCOME TO IKIA',
+                          Text(
+                            'WELCOME TO IKIA',
                             style: GoogleFonts.openSans(
                               fontSize: width/42.687,
                               fontWeight: FontWeight.w900,
@@ -1504,3 +1504,4 @@ class _DashBoardTabState extends State<DashBoardTab> {
     );
   }
 }
+

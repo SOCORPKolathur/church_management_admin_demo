@@ -1167,6 +1167,14 @@ class _GreetingsTabState extends State<GreetingsTab> {
       content: body,
       to: user.phone,
       subject: title,
+      isViewed: false,
+      viewsCount: [],
+      // date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+      // time: DateFormat('hh:mm a').format(DateTime.now()),
+      // timestamp: DateTime.now().millisecondsSinceEpoch,
+      // content: body,
+      // to: user.phone,
+      // subject: title,
     );
     var json = notificationModel.toJson();
     await FirebaseFirestore.instance.collection('Notifications').add(json).whenComplete(() {
@@ -1180,12 +1188,20 @@ class _GreetingsTabState extends State<GreetingsTab> {
   Future<bool> addToUserNotificationCollection(String title,String body,UserModel user) async {
     bool isAdded = false;
     NotificationModel notificationModel = NotificationModel(
-      date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
-      time: DateFormat('hh:mm a').format(DateTime.now()),
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      content: body,
-      to: user.phone,
-      subject: title,
+        date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        time: DateFormat('hh:mm a').format(DateTime.now()),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        content: body,
+        to: user.phone,
+        subject: title,
+        isViewed: false,
+        viewsCount: [],
+      // date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+      // time: DateFormat('hh:mm a').format(DateTime.now()),
+      // timestamp: DateTime.now().millisecondsSinceEpoch,
+      // content: body,
+      // to: user.phone,
+      // subject: title,
     );
     var json = notificationModel.toJson();
     var userDocument = await FirebaseFirestore.instance.collection('Users').get();

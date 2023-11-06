@@ -51,6 +51,7 @@ class EventsFireCrud {
       description: description,
       date: date,
       views: [],
+      registeredUsers: [],
     );
     event.id = documentReferencer.id;
     var json = event.toJson();

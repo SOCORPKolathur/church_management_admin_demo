@@ -2146,6 +2146,7 @@ class _EventsTabState extends State<EventsTab>
                                                 location: locationController.text,
                                                 description: descriptionController.text,
                                                 date: dateController.text,
+                                                registeredUsers: event.registeredUsers,
                                               ),
                                               profileImage,
                                               event.imgUrl ?? "");

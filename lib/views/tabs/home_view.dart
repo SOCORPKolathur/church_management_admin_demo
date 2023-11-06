@@ -24,6 +24,7 @@ import 'package:church_management_admin/views/tabs/orders_tab.dart';
 import 'package:church_management_admin/views/tabs/pastors_tab.dart';
 import 'package:church_management_admin/views/tabs/prayers_tab.dart';
 import 'package:church_management_admin/views/tabs/product_tab.dart';
+import 'package:church_management_admin/views/tabs/remember_days_tab.dart';
 import 'package:church_management_admin/views/tabs/sms_communication_tab.dart';
 import 'package:church_management_admin/views/tabs/speech_tab.dart';
 import 'package:church_management_admin/views/tabs/student_tab.dart';
@@ -185,6 +186,13 @@ class _HomeViewState extends State<HomeView> {
       name: "Login Reports",
       icon: Icons.login,
       page: const LoginReportsTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Remeber Days",
+      icon: Icons.date_range,
+      page: const RememberDaysTab(),
       isExpanded: false,
       children: [],
     ),

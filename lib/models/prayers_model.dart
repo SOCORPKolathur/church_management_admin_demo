@@ -5,8 +5,11 @@ class PrayersModel {
   String? time;
   String? description;
   num? timestamp;
+  String? phone;
+  String? status;
+  String? requestedBy;
 
-  PrayersModel({this.title, this.description, this.id,this.timestamp,this.date,this.time});
+  PrayersModel({this.title,this.phone,this.status,this.requestedBy, this.description, this.id,this.timestamp,this.date,this.time});
 
   PrayersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -15,6 +18,9 @@ class PrayersModel {
     title = json['title'];
     description = json['description'];
     timestamp = json['timestamp'];
+    phone = json['phone'];
+    status = json['status'];
+    requestedBy = json['requestedBy'];
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +31,9 @@ class PrayersModel {
     data['title'] = this.title;
     data['description'] = this.description;
     data['timestamp'] = this.timestamp;
+    data['phone'] = this.phone;
+    data['status'] = this.status;
+    data['requestedBy'] = this.requestedBy;
     return data;
   }
 
