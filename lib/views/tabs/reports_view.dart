@@ -1,4 +1,5 @@
 import 'package:church_management_admin/constants.dart';
+import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
 import 'package:bouncing_draggable_dialog/bouncing_draggable_dialog.dart';
@@ -161,75 +162,81 @@ class _ReportsTabState extends State<ReportsTab> {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: selectedEvents.isNotEmpty,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top:8.0,right: 12),
-                            child: an.ShowUpAnimation(
-                              curve: Curves.fastOutSlowIn,
-                              direction: an.Direction.horizontal,
-                              delayStart: Duration(milliseconds: 200),
-                              child: Material(
-                                elevation: 7,
-                                borderRadius: BorderRadius.circular(12),
-                                shadowColor:  Constants().primaryAppColor.withOpacity(0.20),
-                                child: Container(
-                                    width: 515,
-                                    height: 420,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        border:Border.all(color: Constants().primaryAppColor.withOpacity(0.20))
-                                    ),
-                                    child:  Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top:20.0,left: 15),
-                                          child: Text("Events For ${selectedDateController.text}",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
-                                        ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                            itemCount: selectedEvents.length,
-                                            itemBuilder: (ctx, i){
-                                              return Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  height: 60,
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey.shade100,
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          selectedEvents[i].eventName,
-                                                          style: GoogleFonts.poppins(
-                                                            fontWeight: FontWeight.w700,
-                                                            fontSize: 17
-                                                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(top:8.0,right: 12),
+                          child: an.ShowUpAnimation(
+                            curve: Curves.fastOutSlowIn,
+                            direction: an.Direction.horizontal,
+                            delayStart: Duration(milliseconds: 200),
+                            child: Material(
+                              elevation: 7,
+                              borderRadius: BorderRadius.circular(12),
+                              shadowColor:  Constants().primaryAppColor.withOpacity(0.20),
+                              child: Container(
+                                  width: 515,
+                                  height: 420,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border:Border.all(color: Constants().primaryAppColor.withOpacity(0.20))
+                                  ),
+                                  child:  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:20.0,left: 15),
+                                        child: Text("Events For ${selectedDateController.text}",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
+                                      ),
+                                      Expanded(
+                                        child: selectedEvents.isEmpty
+                                            ? Center(
+                                              child: Container(
+                                                child: Lottie.asset(
+                                                  height: 200,
+                                                    "assets/no_event.json",
+                                                ),
+                                              ),
+                                            )
+                                            : ListView.builder(
+                                          itemCount: selectedEvents.length,
+                                          itemBuilder: (ctx, i){
+                                            return Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: 60,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey.shade100,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        selectedEvents[i].eventName,
+                                                        style: GoogleFonts.poppins(
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 15
                                                         ),
-                                                        Text(
-                                                          "${DateFormat('hh:mm aa').format(selectedEvents[i].from)} - ${DateFormat('hh:mm aa').format(selectedEvents[i].to)}",
-                                                          style: GoogleFonts.poppins(
-                                                            fontWeight: FontWeight.normal,
-                                                            color: Colors.grey,
-                                                          ),
+                                                      ),
+                                                      Text(
+                                                        "${DateFormat('hh:mm aa').format(selectedEvents[i].from)} - ${DateFormat('hh:mm aa').format(selectedEvents[i].to)}",
+                                                        style: GoogleFonts.poppins(
+                                                          fontWeight: FontWeight.normal,
+                                                          color: Colors.grey,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                          ),
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      ],
-                                    )
-                                ),
+                                      ),
+                                    ],
+                                  )
                               ),
                             ),
                           ),
