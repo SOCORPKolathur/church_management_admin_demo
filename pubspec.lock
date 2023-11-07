@@ -425,6 +425,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.6"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: c1e26c7e48496be85104c16c040950b0436674cdf0737f3f6e95511b2529b592
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.63.0"
   flare_flutter:
     dependency: transitive
     description:
@@ -933,6 +941,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.10.4"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      sha256: c37099ad833a883c9d71782321cb65c3a848c21b6939b6185f0ff6640d05814c
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.3"
   petitparser:
     dependency: transitive
     description:
@@ -1167,6 +1183,14 @@ packages:
     description:
       name: syncfusion_flutter_calendar
       sha256: "26524caedc21fabc26297da4a32bf20089029fabcdbe609eacdbf11559ba0fbd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "23.1.36"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: b1c706cea163059ecfe89132ca078f83d31e54cc99ecd1fabe4810e1b1dacc95
       url: "https://pub.dev"
     source: hosted
     version: "23.1.36"
