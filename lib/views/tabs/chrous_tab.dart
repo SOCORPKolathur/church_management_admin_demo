@@ -167,6 +167,16 @@ class _ChorusTabState extends State<ChorusTab> {
     });
   }
 
+  final firstNameFocusNode = FocusNode();
+  final lastNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final positionFocusNode = FocusNode();
+  final jobFocusNode = FocusNode();
+  final departmentFocusNode = FocusNode();
+  final nationalityFocusNode = FocusNode();
+  final pincodeFocusNode = FocusNode();
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -402,6 +412,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: firstNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
                                           key: _keyFirstname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -441,6 +459,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: lastNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
                                           key: _keyLastname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -531,6 +557,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: phoneFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(emailFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(emailFocusNode);
+                                          },
                                           key: _keyPhone,
                                           validator: (val){
                                             if(val!.isEmpty) {
@@ -573,15 +607,21 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: emailFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(positionFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(positionFocusNode);
+                                          },
                                           key: _key,
                                           validator: (value) {
                                             if (!isEmail(value!)) {
                                               return 'Please enter a valid email.';
                                             }
                                             return null;
-                                          },
-                                          onEditingComplete: (){
-                                            _key.currentState!.validate();
                                           },
                                           onChanged: (val){
                                             _key.currentState!.validate();
@@ -655,6 +695,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: positionFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(jobFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(jobFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -811,6 +859,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: jobFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(departmentFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(departmentFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -977,6 +1033,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: departmentFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1052,6 +1116,14 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: nationalityFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                          },
                                           key: _keyNationality,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -1091,6 +1163,8 @@ class _ChorusTabState extends State<ChorusTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: pincodeFocusNode,
+                                          autofocus: true,
                                           key: _keyPincode,
                                           validator: (val){
                                             if(val!.length != 6){

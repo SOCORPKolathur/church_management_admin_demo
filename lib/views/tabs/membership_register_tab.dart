@@ -750,9 +750,9 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                                     padding: const EdgeInsets.all(8.0),
                                                                     child: Text(Constants.MembershipAmount,style: GoogleFonts.montserrat(
                                                                         fontWeight:FontWeight.w600,color: Colors.red,fontSize:width/85.13
-                                                                    ),),
+                                                                    ),
+                                                                    ),
                                                                   )
-
                                                               ),
                                                             ),
                                                           ],

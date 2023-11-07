@@ -55,6 +55,9 @@ class _NoticesTabState extends State<NoticesTab> {
     });
   }
 
+  final titleFocusNode = FocusNode();
+  final descriptionFocusNode = FocusNode();
+
   @override
   void initState() {
     setDateTime();
@@ -356,6 +359,14 @@ class _NoticesTabState extends State<NoticesTab> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                   child: TextFormField(
+                                    focusNode: titleFocusNode,
+                                    autofocus: true,
+                                    onEditingComplete: (){
+                                      FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                    },
+                                    onFieldSubmitted: (val){
+                                      FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                    },
                                     controller: titleController,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: height/217),
@@ -395,6 +406,8 @@ class _NoticesTabState extends State<NoticesTab> {
                                       padding: EdgeInsets.symmetric(vertical: height/81.375,
                                           horizontal: width/170.75),
                                       child: TextFormField(
+                                        focusNode: descriptionFocusNode,
+                                        autofocus: true,
                                         keyboardType: TextInputType.multiline,
                                         minLines: 1,
                                         maxLines: 5,

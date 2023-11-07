@@ -171,6 +171,18 @@ class _PastorsTabState extends State<PastorsTab> {
   bool isLoading = false;
   bool isCropped = false;
 
+  final firstNameFocusNode = FocusNode();
+  final lastNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final positionFocusNode = FocusNode();
+  final jobFocusNode = FocusNode();
+  final departmentFocusNode = FocusNode();
+  final nationalityFocusNode = FocusNode();
+  final pincodeFocusNode = FocusNode();
+  final aadhaarFocusNode = FocusNode();
+  final addressFocusNode = FocusNode();
+
   @override
   void initState() {
     familydatafetchfunc();
@@ -415,6 +427,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: firstNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
                                           key: _keyFirstname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -454,6 +474,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: lastNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
                                           key: _keyLastname,
                                           onChanged: (val){
                                             _keyLastname.currentState!.validate();
@@ -493,6 +521,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: phoneFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(emailFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(emailFocusNode);
+                                          },
                                           key: _keyPhone,
                                           validator: (val){
                                             if(val!.isEmpty) {
@@ -539,15 +575,21 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: emailFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(positionFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(positionFocusNode);
+                                          },
                                           key: _key,
                                           validator: (value) {
                                             if (!isEmail(value!)) {
                                               return 'Please enter a valid email.';
                                             }
                                             return null;
-                                          },
-                                          onEditingComplete: (){
-                                            _key.currentState!.validate();
                                           },
                                           onChanged: (val){
                                             _key.currentState!.validate();
@@ -573,6 +615,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: positionFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(jobFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(jobFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -827,6 +878,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: jobFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(departmentFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(departmentFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -946,6 +1006,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: departmentFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1068,6 +1137,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: nationalityFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1100,6 +1178,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: pincodeFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
                                           key: _keyPincode,
                                           validator: (val){
                                             if(val!.length != 6){
@@ -1140,6 +1227,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: aadhaarFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
                                           key: _keyAadhar,
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1211,6 +1307,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                focusNode: addressFocusNode,
+                                                autofocus: true,
                                                 maxLength: 40,
                                                 style: TextStyle(
                                                     fontSize:width/113.83),

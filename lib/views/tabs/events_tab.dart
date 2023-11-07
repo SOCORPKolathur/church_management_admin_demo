@@ -802,81 +802,97 @@ class _EventsTabState extends State<EventsTab>
                                   children: [
                                     SizedBox(
                                       width:width/18.075,
-                                      child: KText(
-                                        text: "No.",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "No.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/13.66,
-                                      child: KText(
-                                        text: "Event",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Event",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/13.66,
-                                      child: KText(
-                                        text: "Date",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/27.32,
-                                      child: KText(
-                                        text: "Views",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Views",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/9.106,
-                                      child: KText(
-                                        text: "Registered Users",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Registered Users",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width:width/10.507,
-                                      child: KText(
-                                        text: "Location",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Location",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width:width/7.189,
-                                      child: KText(
-                                        text: "Description",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Description",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width:width/7.588,
-                                      child: KText(
-                                        text: "Actions",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Actions",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -910,44 +926,48 @@ class _EventsTabState extends State<EventsTab>
                                         children: [
                                           SizedBox(
                                             width:width/18.075,
-                                            child: KText(
-                                              text: (i + 1).toString(),
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: (i + 1).toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
                                             width: width/13.66,
                                             child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                      events[i].imgUrl!),
+                                                  backgroundImage: NetworkImage(events[i].imgUrl!),
                                                 ),
                                               ],
                                             ),
                                           ),
                                           SizedBox(
                                             width: width/13.66,
-                                            child: KText(
-                                              text: events[i].date!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].date!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
                                             width: width/27.32,
-                                            child: KText(
-                                              text: events[i].views!.length.toString(),
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].views!.length.toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -977,21 +997,25 @@ class _EventsTabState extends State<EventsTab>
                                           ),
                                           SizedBox(
                                             width:width/10.507,
-                                            child: KText(
-                                              text: events[i].location!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].location!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
                                             width:width/7.189,
-                                            child: KText(
-                                              text: events[i].description!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].description!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -1257,8 +1281,7 @@ class _EventsTabState extends State<EventsTab>
                         height: size.height * 0.1,
                         width: double.infinity,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: width/68.3, vertical: height/81.375),
+                          padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -1492,81 +1515,97 @@ class _EventsTabState extends State<EventsTab>
                                   children: [
                                     SizedBox(
                                      width:width/18.075,
-                                      child: KText(
-                                        text: "No.",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "No.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/13.66,
-                                      child: KText(
-                                        text: "Event",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Event",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/13.66,
-                                      child: KText(
-                                        text: "Date",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Date",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/27.32,
-                                      child: KText(
-                                        text: "Views",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Views",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: width/9.106,
-                                      child: KText(
-                                        text: "Registered Users",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Registered Users",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width:width/10.507,
-                                      child: KText(
-                                        text: "Location",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Location",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width:width/7.189,
-                                      child: KText(
-                                        text: "Description",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Description",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(
                                       width:width/7.588,
-                                      child: KText(
-                                        text: "Actions",
-                                        style: GoogleFonts.poppins(
-                                          fontSize:width/105.07,
-                                          fontWeight: FontWeight.w600,
+                                      child: Center(
+                                        child: KText(
+                                          text: "Actions",
+                                          style: GoogleFonts.poppins(
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1595,49 +1634,53 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: 10),
+                                      padding: EdgeInsets.symmetric(vertical: height/130.2, horizontal: 0),
                                       child: Row(
                                         children: [
                                           SizedBox(
                                            width:width/18.075,
-                                            child: KText(
-                                              text: (i + 1).toString(),
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: (i + 1).toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
                                             width: width/13.66,
                                             child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                      events[i].imgUrl!),
+                                                  backgroundImage: NetworkImage(events[i].imgUrl!),
                                                 ),
                                               ],
                                             ),
                                           ),
                                           SizedBox(
                                             width: width/13.66,
-                                            child: KText(
-                                              text: events[i].date!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].date!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
                                             width: width/27.32,
-                                            child: KText(
-                                              text: events[i].views!.length.toString(),
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].views!.length.toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -1667,21 +1710,25 @@ class _EventsTabState extends State<EventsTab>
                                           ),
                                           SizedBox(
                                             width:width/10.507,
-                                            child: KText(
-                                              text: events[i].location!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].location!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
                                             width:width/7.189,
-                                            child: KText(
-                                              text: events[i].description!,
-                                              style: GoogleFonts.poppins(
-                                                fontSize:width/105.07,
-                                                fontWeight: FontWeight.w600,
+                                            child: Center(
+                                              child: KText(
+                                                text: events[i].description!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ),

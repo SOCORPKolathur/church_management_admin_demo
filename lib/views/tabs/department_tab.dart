@@ -46,6 +46,16 @@ class _DepartmentTabState extends State<DepartmentTab> {
   final _keyDeptArea = GlobalKey<FormFieldState>();
   final _keyzone = GlobalKey<FormFieldState>();
 
+  final nameFocusNode = FocusNode();
+  final leaderNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final areaFocusNode = FocusNode();
+  final descriptionFocusNode = FocusNode();
+  final addressFocusNode = FocusNode();
+  final cityFocusNode = FocusNode();
+  final countryFocusNode = FocusNode();
+  final postFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -258,6 +268,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: nameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(leaderNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(leaderNameFocusNode);
+                                          },
                                           key: _keyDeptName,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -298,6 +316,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: leaderNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
                                           key: _keyDeptLeadName,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -342,6 +368,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: phoneFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(areaFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(areaFocusNode);
+                                          },
                                           key: _keyPhone,
                                           validator: (val){
                                             if(val!.isEmpty) {
@@ -384,6 +418,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: areaFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                          },
                                           key: _keyDeptArea,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -455,6 +497,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                focusNode: descriptionFocusNode,
+                                                autofocus: true,
+                                                onEditingComplete: (){
+                                                  FocusScope.of(context).requestFocus(addressFocusNode);
+                                                },
+                                                onFieldSubmitted: (val){
+                                                  FocusScope.of(context).requestFocus(addressFocusNode);
+                                                },
                                                 maxLength: 255,
                                                 style: TextStyle(
                                                     fontSize:width/113.83),
@@ -517,6 +567,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                focusNode: addressFocusNode,
+                                                autofocus: true,
+                                                onEditingComplete: (){
+                                                  FocusScope.of(context).requestFocus(cityFocusNode);
+                                                },
+                                                onFieldSubmitted: (val){
+                                                  FocusScope.of(context).requestFocus(cityFocusNode);
+                                                },
                                                 maxLength: 40,
                                                 style: TextStyle(
                                                     fontSize:width/113.83),
@@ -552,6 +610,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: cityFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(countryFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(countryFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -581,6 +647,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: countryFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(postFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(postFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -610,6 +684,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: postFocusNode,
+                                          autofocus: true,
                                           key: _keyzone,
                                           validator: (val){
                                             if(val!.length != 6){

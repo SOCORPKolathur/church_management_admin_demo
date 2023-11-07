@@ -1,6 +1,7 @@
+
 import 'dart:convert';
 import 'dart:html';
-import 'dart:typed_data';
+
 import 'package:church_management_admin/models/family_model.dart';
 import 'package:church_management_admin/services/family_firecrud.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -108,6 +109,16 @@ class _FamilyTabState extends State<FamilyTab> {
       isLoading = false;
     });
   }
+
+
+  final nameFocusNode = FocusNode();
+  final leaderNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final addressFocusNode = FocusNode();
+  final cityFocusNode = FocusNode();
+  final countryFocusNode = FocusNode();
+  final postFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -372,6 +383,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: nameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(leaderNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(leaderNameFocusNode);
+                                          },
                                           key: _keyFamilyname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -411,6 +430,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: leaderNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
                                           key: _keyFamilyLeadername,
                                           onChanged: (val){
                                             _keyFamilyLeadername.currentState!.validate();
@@ -545,6 +572,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: phoneFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(emailFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(emailFocusNode);
+                                          },
                                           key: _keyPhone,
                                           validator: (val){
                                             if(val!.isEmpty) {
@@ -587,15 +622,21 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: emailFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
                                           key: _key,
                                           validator: (value) {
                                             if (!isEmail(value!)) {
                                               return 'Please enter a valid email.';
                                             }
                                             return null;
-                                          },
-                                          onEditingComplete: (){
-                                            _key.currentState!.validate();
                                           },
                                           onChanged: (val){
                                             _key.currentState!.validate();
@@ -651,6 +692,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                               color: Colors.white,
                                             ),
                                             child: TextFormField(
+                                              focusNode: addressFocusNode,
+                                              autofocus: true,
+                                              onEditingComplete: (){
+                                                FocusScope.of(context).requestFocus(cityFocusNode);
+                                              },
+                                              onFieldSubmitted: (val){
+                                                FocusScope.of(context).requestFocus(cityFocusNode);
+                                              },
                                               key: _keyAddress,
                                               validator: (val){
                                                 if(val!.isEmpty){
@@ -696,6 +745,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: cityFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(countryFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(countryFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -724,6 +781,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: countryFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(postFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(postFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -752,6 +817,8 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: postFocusNode,
+                                          autofocus: true,
                                           key: _keyZone,
                                           validator: (val){
                                             if(val!.length != 6){

@@ -1,15 +1,19 @@
 import 'dart:io';
-
+import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart' as gc;
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/widgets/custom_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:location/location.dart';
 import '../models/church_details_model.dart';
+import '../services/location_api.dart';
 import '../widgets/kText.dart';
 
 class LoginView extends StatefulWidget {
@@ -31,6 +35,19 @@ class _LoginViewState extends State<LoginView> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  String ip = '';
+  String deviceLocation = '';
+  String deviceOs = 'Windows';
+  String deviceId = '';
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+
+  @override
+  void initState() {
+    getDeviceInfo();
+    getUserLocation();
+    super.initState();
+  }
 
   String? validateEmail(String? value) {
     const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
@@ -316,6 +333,11 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
+  getDeviceInfo() async {
+    WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
+    deviceId = androidInfo.productSub!;
+  }
+
   Future<bool> _signInWithEmailAndPassword() async {
     bool result = false;
     final User? user = (await auth.signInWithEmailAndPassword(
@@ -326,10 +348,10 @@ class _LoginViewState extends State<LoginView> {
     })).user;
     if (user != null) {
       FirebaseFirestore.instance.collection('LoginReports').doc().set({
-        "deviceId": '',
-        "deviceOs": "Windows",
-        "ip": '',
-        "location": '',
+        "deviceId": deviceId,
+        "deviceOs": deviceOs,
+        "ip": ip,
+        "location": deviceLocation,
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       });
       setState(() {
@@ -346,6 +368,12 @@ class _LoginViewState extends State<LoginView> {
     return result;
   }
 
+  getUserLocation() async {//call this async method from whereever you need
+    String location = await LocationAPI().fetchData();
+    String ipv4 = await LocationAPI().fetchData1();
+    deviceLocation = location;
+    ip = ipv4;
+  }
   void _register() async {
     final User? user = (await
     auth.createUserWithEmailAndPassword(

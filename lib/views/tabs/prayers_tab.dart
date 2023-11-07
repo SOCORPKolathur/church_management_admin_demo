@@ -62,6 +62,9 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
     });
   }
 
+  final titleFocusNode = FocusNode();
+  final descriptionFocusNode = FocusNode();
+
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
@@ -359,6 +362,14 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                 child: Padding(
                                   padding: EdgeInsets.all(width/170.75),
                                   child: TextFormField(
+                                    focusNode: titleFocusNode,
+                                    autofocus: true,
+                                    onEditingComplete: (){
+                                      FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                    },
+                                    onFieldSubmitted: (val){
+                                      FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                    },
                                     controller: titleController,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: height/130.2),
@@ -397,6 +408,8 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                     child: Padding(
                                       padding: EdgeInsets.all(width/170.75),
                                       child: TextFormField(
+                                        focusNode: descriptionFocusNode,
+                                        autofocus: true,
                                         keyboardType: TextInputType.multiline,
                                         minLines: 1,
                                         maxLines: 5,

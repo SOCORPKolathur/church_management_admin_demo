@@ -77,6 +77,12 @@ class _ProductTabState extends State<ProductTab> {
   bool isLoading = false;
   bool profileImageValidator = false;
 
+  final nameFocusNode = FocusNode();
+  final priceFocusNode = FocusNode();
+  final categoryFocusNode = FocusNode();
+  final tagFocusNode = FocusNode();
+  final descriptionFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -306,6 +312,14 @@ class _ProductTabState extends State<ProductTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: nameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(priceFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(priceFocusNode);
+                                          },
                                           key: _keyProductName,
                                           style: TextStyle(fontSize: width/113.8333333333333),
                                           validator: (val){
@@ -342,6 +356,14 @@ class _ProductTabState extends State<ProductTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: priceFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(descriptionFocusNode);
+                                          },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
                                           ],
@@ -760,6 +782,8 @@ class _ProductTabState extends State<ProductTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                focusNode: descriptionFocusNode,
+                                                autofocus: true,
                                                 style:
                                                 TextStyle(fontSize: width/113.8333333333333),
                                                 controller: descriptionController,

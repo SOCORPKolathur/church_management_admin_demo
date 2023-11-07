@@ -216,6 +216,13 @@ class _StudentTabState extends State<StudentTab> {
     ageController.text = duration.years.toString();
   }
 
+  final firstNameFocusNode = FocusNode();
+  final lastNameFocusNode = FocusNode();
+  final parentFocusNode = FocusNode();
+  final parentPhoneFocusNode = FocusNode();
+  final aadhaarFocusNode = FocusNode();
+  final nationalityFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -553,6 +560,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: firstNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
                                           key: _keyFirstname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -592,6 +607,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: lastNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(parentFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(parentFocusNode);
+                                          },
                                           key: _keyLastname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -676,6 +699,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: parentFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(parentPhoneFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(parentPhoneFocusNode);
+                                          },
                                           key: _keyParentname,
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -715,6 +746,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: parentPhoneFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
                                           key: _keyPhone,
                                           validator: (val){
                                             if(val!.isEmpty) {
@@ -977,6 +1016,14 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: aadhaarFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
                                           key: _keyAadhar,
                                           validator: (val){
                                             if(val!.length != 12){
@@ -1124,6 +1171,8 @@ class _StudentTabState extends State<StudentTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: nationalityFocusNode,
+                                          autofocus: true,
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),

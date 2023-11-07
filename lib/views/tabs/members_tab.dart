@@ -264,6 +264,22 @@ class _MembersTabState extends State<MembersTab> {
 
   bool isLoading = false;
 
+  final firstNameFocusNode = FocusNode();
+  final lastNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final emailNameFocusNode = FocusNode();
+  final positionFocusNode = FocusNode();
+  final aadhaarFocusNode = FocusNode();
+  final jobFocusNode = FocusNode();
+  final departmentFocusNode = FocusNode();
+  final qualificationFocusNode = FocusNode();
+  final prevChurchFocusNode = FocusNode();
+  final landmarkFocusNode = FocusNode();
+  final nationalityFocusNode = FocusNode();
+  final pincodeFocusNode = FocusNode();
+  final addressFocusNode = FocusNode();
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -619,6 +635,14 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyFirstname,
+                                          focusNode: firstNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                          },
                                           validator: (val){
                                             if(val!.isEmpty){
                                               return 'Field is required';
@@ -658,6 +682,14 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyLastname,
+                                          focusNode: lastNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(phoneFocusNode);
+                                          },
                                           onChanged: (val){
                                             _keyLastname.currentState!.validate();
                                           },
@@ -701,6 +733,14 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyPhone,
+                                          focusNode: phoneFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(emailNameFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(emailNameFocusNode);
+                                          },
                                           validator: (val){
                                             if(val!.isEmpty) {
                                               return 'Field is required';
@@ -743,14 +783,20 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _key,
+                                          focusNode: emailNameFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            _key.currentState!.validate();
+                                            FocusScope.of(context).requestFocus(positionFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(positionFocusNode);
+                                          },
                                           validator: (value) {
                                             if (!isEmail(value!)) {
                                               return 'Please enter a valid email.';
                                             }
                                             return null;
-                                          },
-                                          onEditingComplete: (){
-                                            _key.currentState!.validate();
                                           },
                                           onChanged: (val){
                                             _key.currentState!.validate();
@@ -827,6 +873,14 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: positionFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -891,6 +945,14 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyAadhar,
+                                          focusNode: aadhaarFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(jobFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(jobFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1016,6 +1078,14 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: jobFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(departmentFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(departmentFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1183,6 +1253,14 @@ class _MembersTabState extends State<MembersTab> {
                                            ),
                                          ),
                                          TextFormField(
+                                           focusNode: departmentFocusNode,
+                                           autofocus: true,
+                                           onEditingComplete: (){
+                                             FocusScope.of(context).requestFocus(qualificationFocusNode);
+                                           },
+                                           onFieldSubmitted: (val){
+                                             FocusScope.of(context).requestFocus(qualificationFocusNode);
+                                           },
                                            decoration: InputDecoration(
                                              counterText: "",
                                            ),
@@ -1208,6 +1286,14 @@ class _MembersTabState extends State<MembersTab> {
                                            ),
                                          ),
                                          TextFormField(
+                                           focusNode: qualificationFocusNode,
+                                           autofocus: true,
+                                           onEditingComplete: (){
+                                             FocusScope.of(context).requestFocus(prevChurchFocusNode);
+                                           },
+                                           onFieldSubmitted: (val){
+                                             FocusScope.of(context).requestFocus(prevChurchFocusNode);
+                                           },
                                            decoration: InputDecoration(
                                              counterText: "",
                                            ),
@@ -1269,6 +1355,14 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: prevChurchFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(landmarkFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(landmarkFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1294,6 +1388,14 @@ class _MembersTabState extends State<MembersTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          focusNode: landmarkFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(nationalityFocusNode);
+                                          },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -1406,6 +1508,14 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                           key: _keyNationality,
+                                          focusNode: nationalityFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                          },
                                           onChanged: (val){
                                             _keyNationality.currentState!.validate();
                                           },
@@ -1501,6 +1611,14 @@ class _MembersTabState extends State<MembersTab> {
                                         ),
                                         TextFormField(
                                             key:_keyPincode,
+                                          focusNode: pincodeFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
                                           validator: (val){
                                             if(val!.length != 6){
                                               return 'Must be 6 digits';
@@ -1571,6 +1689,8 @@ class _MembersTabState extends State<MembersTab> {
                                                 color: Colors.white,
                                               ),
                                               child: TextFormField(
+                                                focusNode: addressFocusNode,
+                                                autofocus: true,
                                                 maxLength: 255,
                                                 style:  TextStyle(
                                                     fontSize: width/113.83),
