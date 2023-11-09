@@ -1,3 +1,4 @@
+import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/services.dart';
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:r_get_ip/r_get_ip.dart';
+import 'package:ip_country_lookup/ip_country_lookup.dart';
+import 'package:ip_country_lookup/models/ip_country_data_model.dart';
 import '../models/church_details_model.dart';
 import '../services/location_api.dart';
 import '../widgets/kText.dart';
@@ -43,13 +45,9 @@ class _LoginViewState extends State<LoginView> {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
 
-
-
-
   @override
   void initState() {
-    getDeviceInfo();
-    getUserLocation();
+    //getUserLocation();
     super.initState();
   }
 
@@ -337,13 +335,6 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  getDeviceInfo() async {
-    WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
-    setState(() {
-      deviceId = androidInfo.productSub!;
-    });
-  }
-
   Future<bool> _signInWithEmailAndPassword() async {
     bool result = false;
     final User? user = (await auth.signInWithEmailAndPassword(
@@ -353,6 +344,17 @@ class _LoginViewState extends State<LoginView> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     })).user;
     if (user != null) {
+      IpCountryData? countryData = await IpCountryLookup().getIpLocationData();
+      WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
+      String? ipv4 = countryData.ip.toString();//await Ipify.ipv4();
+      print(ipv4);
+      String location = await LocationAPI().fetchData(ipv4);
+      print(location);
+      setState(() {
+        deviceId = androidInfo.productSub!;
+        deviceLocation = location;
+        ip = ipv4.toString();
+      });
       FirebaseFirestore.instance.collection('LoginReports').doc().set({
         "deviceId": deviceId,
         "deviceOs": deviceOs,
@@ -376,15 +378,21 @@ class _LoginViewState extends State<LoginView> {
     return result;
   }
 
-  getUserLocation() async {//call this async method from whereever you need
-    // String location = await LocationAPI().fetchData("192.168.1.8");
-    String? ipv4 = await RGetIp.externalIP;
-    String location = await LocationAPI().fetchData(ipv4!);
+  Future<String> getUserLocation() async {
+    IpCountryData? countryData = await IpCountryLookup().getIpLocationData();
+    WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
+    String? ipv4 = countryData.ip.toString();//await Ipify.ipv4();
+    print(ipv4);
+    String location = await LocationAPI().fetchData(ipv4);
+    print(location);
     setState(() {
+      deviceId = androidInfo.productSub!;
       deviceLocation = location;
       ip = ipv4.toString();
     });
+    return "";
   }
+
   void _register() async {
     final User? user = (await
     auth.createUserWithEmailAndPassword(

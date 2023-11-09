@@ -15,6 +15,16 @@ class LocationAPI {
     return _city;
   }
 
+  Future<String> fetchIp() async {
+    var _ip = '';
+    final resp = await http.get(Uri.parse('https://api.myip.com'));
+    if (resp.statusCode == 200) {
+      final _ipd = IPModel.fromJson(json.decode(resp.body));
+      _ip = _ipd.ip;
+    }
+    return _ip;
+  }
+
 }
 
 LocationModel locationModelFromJson(String str) =>
@@ -63,5 +73,21 @@ class LocationModel {
     'longitude': longitude,
     'IPv4': iPv4,
     'state': state,
+  };
+}
+
+class IPModel {
+  IPModel({
+    required this.ip,
+  });
+
+  factory IPModel.fromJson(Map<String, dynamic> json) => IPModel(
+    ip: json['ip'],
+  );
+
+  String ip;
+
+  Map<String, dynamic> toJson() => {
+    'ip': ip,
   };
 }

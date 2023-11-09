@@ -28,7 +28,7 @@ class _DonationsTabState extends State<DonationsTab> {
   TextEditingController sourceController = TextEditingController();
   TextEditingController verifierController = TextEditingController();
   TextEditingController dateController = TextEditingController();
-  TextEditingController bankController = TextEditingController();
+  TextEditingController bankController = TextEditingController(text: "Select Type");
   TextEditingController amountController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -305,17 +305,39 @@ class _DonationsTabState extends State<DonationsTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Cheque/Bank/UPI ",
+                                      text: "Payment Method",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize:width/105.07,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    TextFormField(
+                                    DropdownButton(
                                       style: TextStyle(fontSize: width/113.83),
-                                      controller: bankController,
-                                    )
+                                      isExpanded: true,
+                                      value: bankController.text,
+                                      icon: Icon(Icons.keyboard_arrow_down),
+                                      items: [
+                                        "Select Type",
+                                        "UPI",
+                                        "BANK",
+                                        "CHEQUE"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          bankController.text = newValue!;
+                                        });
+                                      },
+                                    ),
+                                    // TextFormField(
+                                    //   style: TextStyle(fontSize: width/113.83),
+                                    //   controller: bankController,
+                                    // )
                                   ],
                                 ),
                               ),
@@ -448,20 +470,20 @@ class _DonationsTabState extends State<DonationsTab> {
                                             await generateDonationPdf(
                                               PdfPageFormat.a4, paymentDetails
                                             );
+                                            setState(() {
+                                              currentTab = 'View';
+                                              verifierController.text != "";
+                                              bankController.text = "Select Type";
+                                              descriptionController.text = "";
+                                              sourceController.text = "";
+                                              dateController.text = "";
+                                            });
                                           },
                                           confirmBtnText: 'Ok & Print',
                                           width: size.width * 0.4,
                                           backgroundColor: Constants()
                                               .primaryAppColor
                                               .withOpacity(0.8));
-                                      setState(() {
-                                        currentTab = 'View';
-                                        verifierController.text != "";
-                                        bankController.text = "";
-                                        descriptionController.text = "";
-                                        sourceController.text = "";
-                                        dateController.text = "";
-                                      });
                                     } else {
                                       CoolAlert.show(
                                           context: context,
@@ -1393,297 +1415,55 @@ class _DonationsTabState extends State<DonationsTab> {
     return showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Container(
-            height: size.height * 0.78,
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
-              ),
-            decoration: BoxDecoration(
-              color: Constants().primaryAppColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(1, 2),
-                  blurRadius: 3,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: double.infinity,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
-                    child: Row(
-                      children: [
-                        Icon(Icons.account_tree),
-                        SizedBox(width: width/136.6),
-                        KText(
-                          text: "EDIT DONATION",
-                          style: GoogleFonts.openSans(
-                            fontSize: width/68.3,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              amountController.text = "";
-                              verifierController.text = "";
-                              bankController.text = "";
-                              descriptionController.text = "";
-                              sourceController.text = "";
-                              viaController.text = "";
-                              dateController.text = formatter.format(DateTime.now());
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.cancel_outlined),
-                        ),
-                      ],
-                    ),
+        return StatefulBuilder(
+          builder: (context,setStat) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Container(
+                height: size.height * 0.78,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(
+                      horizontal: width/68.3,
+                      vertical: height/32.55
                   ),
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )),
-                    padding: EdgeInsets.symmetric(
-                  horizontal: width/68.3,
-                  vertical: height/32.55
-              ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/81.375),
+                        child: Row(
                           children: [
-                            SizedBox(
-                              width: width/4.553,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Date",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize:width/105.07,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    readOnly: true,
-                                    style: TextStyle(fontSize: width/113.83),
-                                    controller: dateController,
-                                    onTap: () async {
-                                      DateTime? pickedDate =
-                                      await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(1900),
-                                          lastDate: DateTime(3000));
-                                      if (pickedDate != null) {
-                                        setState(() {
-                                          dateController.text = formatter.format(pickedDate);
-                                        });
-                                      }
-                                    },
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: width/68.3),
-                            SizedBox(
-                              width: width/4.553,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Amount",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize:width/105.07,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.83),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
-                                    ],
-                                    controller: amountController,
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: width/68.3),
-                            SizedBox(
-                              width: width/4.553,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Source",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize:width/105.07,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.83),
-                                    controller: sourceController,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height:height/21.7),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: width/4.553,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Through/By/Via",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize:width/105.07,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.83),
-                                    controller: viaController,
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: width/68.3),
-                            SizedBox(
-                              width: width/4.553,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Cheque/Bank/UPI",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize:width/105.07,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.83),
-                                    controller: bankController,
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: width/68.3),
-                            SizedBox(
-                              width: width/4.553,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Verifier",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.black,
-                                      fontSize:width/105.07,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(fontSize: width/113.83),
-                                    controller: verifierController,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height:height/21.7),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                            Icon(Icons.account_tree),
+                            SizedBox(width: width/136.6),
                             KText(
-                              text: "Note/Description",
+                              text: "EDIT DONATION",
                               style: GoogleFonts.openSans(
-                                color: Colors.black,
-                                fontSize:width/105.07,
+                                fontSize: width/68.3,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height:height/130.2),
-                            Container(
-                              height: size.height * 0.16,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Constants().primaryAppColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    offset: Offset(1, 2),
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SizedBox(
-                                    height:height/32.55,
-                                    width: double.infinity,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                        ),
-                                        child: TextFormField(
-                                          maxLines: null,
-                                          style: TextStyle(fontSize: width/113.83),
-                                          controller: descriptionController,
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              contentPadding: EdgeInsets.only(
-                                                  left:width/91.06, top:height/162.75, bottom:height/162.75)),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height:height/21.7),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
+                            Expanded(child: Container()),
                             InkWell(
                               onTap: () {
-                                setState(() {
+                                setStat(() {
                                   amountController.text = "";
                                   verifierController.text = "";
-                                  bankController.text = "";
+                                  bankController.text = "Select Type";
                                   descriptionController.text = "";
                                   sourceController.text = "";
                                   viaController.text = "";
@@ -1691,131 +1471,399 @@ class _DonationsTabState extends State<DonationsTab> {
                                 });
                                 Navigator.pop(context);
                               },
-                              child: Container(
-                                height:height/18.6,
-                                decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal:width/227.66),
-                                  child: Center(
-                                    child: KText(
-                                      text: "Cancel",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.white,
-                                        fontSize:width/136.6,
-                                        fontWeight: FontWeight.bold,
+                              child: Icon(Icons.cancel_outlined),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            )),
+                        padding: EdgeInsets.symmetric(
+                      horizontal: width/68.3,
+                      vertical: height/32.55
+                  ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Date",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
+                                      TextFormField(
+                                        readOnly: true,
+                                        style: TextStyle(fontSize: width/113.83),
+                                        controller: dateController,
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(3000));
+                                          if (pickedDate != null) {
+                                            setStat(() {
+                                              dateController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
+                                      )
+                                    ],
                                   ),
                                 ),
-                              ),
+                                SizedBox(width: width/68.3),
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Amount",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width/113.83),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
+                                        ],
+                                        controller: amountController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width/68.3),
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Source",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width/113.83),
+                                        controller: sourceController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: width/68.3),
-                            InkWell(
-                              onTap: () async {
-                                if (amountController.text != "" &&
-                                    verifierController.text != "" &&
-                                    bankController.text != "" &&
-                                    descriptionController.text != "" &&
-                                    viaController.text != "" &&
-                                    dateController.text != "" &&
-                                    sourceController.text != "") {
-                                  Response response =
-                                      await DonationFireCrud.updateRecord(
-                                          DonationModel(
-                                    id: donation.id,
-                                    timestamp: donation.timestamp,
-                                    description: descriptionController.text,
-                                    date: dateController.text,
-                                    amount: amountController.text,
-                                    bank: bankController.text,
-                                    source: sourceController.text,
-                                    verifier: verifierController.text,
-                                    via: viaController.text,
-                                  ));
-                                  if (response.code == 200) {
-                                    Navigator.pop(ctx);
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.success,
-                                        text: "Donation Updated successfully!",
-                                        width: size.width * 0.4,
-                                        backgroundColor: Constants()
-                                            .primaryAppColor
-                                            .withOpacity(0.8));
-                                    setState(() {
+                            SizedBox(height:height/21.7),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Through/By/Via",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width/113.83),
+                                        controller: viaController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width/68.3),
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Payment Method",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      DropdownButton(
+                                        style: TextStyle(fontSize: width/113.83),
+                                        isExpanded: true,
+                                        value: bankController.text,
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        items: [
+                                          "Select Status",
+                                          "UPI",
+                                          "BANK",
+                                          "CHEQUE"
+                                        ].map((items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setStat(() {
+                                            bankController.text = newValue!;
+                                          });
+                                        },
+                                      ),
+                                      // TextFormField(
+                                      //   style: TextStyle(fontSize: width/113.83),
+                                      //   controller: bankController,
+                                      // )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width/68.3),
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Verifier",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize:width/105.07,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width/113.83),
+                                        controller: verifierController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height:height/21.7),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                KText(
+                                  text: "Note/Description",
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.black,
+                                    fontSize:width/105.07,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height:height/130.2),
+                                Container(
+                                  height: size.height * 0.16,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Constants().primaryAppColor,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(1, 2),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        height:height/32.55,
+                                        width: double.infinity,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            child: TextFormField(
+                                              maxLines: null,
+                                              style: TextStyle(fontSize: width/113.83),
+                                              controller: descriptionController,
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  contentPadding: EdgeInsets.only(
+                                                      left:width/91.06, top:height/162.75, bottom:height/162.75)),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height:height/21.7),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setStat(() {
                                       amountController.text = "";
-                                      verifierController.text != "";
+                                      verifierController.text = "";
                                       bankController.text = "";
                                       descriptionController.text = "";
                                       sourceController.text = "";
                                       viaController.text = "";
                                       dateController.text = formatter.format(DateTime.now());
                                     });
-                                  } else {
-                                    Navigator.pop(ctx);
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.error,
-                                        text: "Failed to Update Donation!",
-                                        width: size.width * 0.4,
-                                        backgroundColor: Constants()
-                                            .primaryAppColor
-                                            .withOpacity(0.8));
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              },
-                              child: Container(
-                                height:height/18.6,
-                                decoration: BoxDecoration(
-                                  color: Constants().primaryAppColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal:width/227.66),
-                                  child: Center(
-                                    child: KText(
-                                      text: "UPDATE",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.white,
-                                        fontSize:width/136.6,
-                                        fontWeight: FontWeight.bold,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal:width/227.66),
+                                      child: Center(
+                                        child: KText(
+                                          text: "Cancel",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.white,
+                                            fontSize:width/136.6,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
+                                SizedBox(width: width/68.3),
+                                InkWell(
+                                  onTap: () async {
+                                    if (amountController.text != "" &&
+                                        verifierController.text != "" &&
+                                        bankController.text != "Select Type" &&
+                                        descriptionController.text != "" &&
+                                        viaController.text != "" &&
+                                        dateController.text != "" &&
+                                        sourceController.text != "") {
+                                      Response response =
+                                          await DonationFireCrud.updateRecord(
+                                              DonationModel(
+                                        id: donation.id,
+                                        timestamp: donation.timestamp,
+                                        description: descriptionController.text,
+                                        date: dateController.text,
+                                        amount: amountController.text,
+                                        bank: bankController.text,
+                                        source: sourceController.text,
+                                        verifier: verifierController.text,
+                                        via: viaController.text,
+                                      ));
+                                      if (response.code == 200) {
+                                        Navigator.pop(ctx);
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.success,
+                                            text: "Donation Updated successfully!",
+                                            width: size.width * 0.4,
+                                            backgroundColor: Constants()
+                                                .primaryAppColor
+                                                .withOpacity(0.8));
+                                        setState(() {
+                                          amountController.text = "";
+                                          verifierController.text != "";
+                                          bankController.text = "Select Type";
+                                          descriptionController.text = "";
+                                          sourceController.text = "";
+                                          viaController.text = "";
+                                          dateController.text = formatter.format(DateTime.now());
+                                        });
+                                      } else {
+                                        Navigator.pop(ctx);
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.error,
+                                            text: "Failed to Update Donation!",
+                                            width: size.width * 0.4,
+                                            backgroundColor: Constants()
+                                                .primaryAppColor
+                                                .withOpacity(0.8));
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
+                                  },
+                                  child: Container(
+                                    height:height/18.6,
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal:width/227.66),
+                                      child: Center(
+                                        child: KText(
+                                          text: "UPDATE",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.white,
+                                            fontSize:width/136.6,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     );

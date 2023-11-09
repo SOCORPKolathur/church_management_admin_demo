@@ -167,76 +167,83 @@ class _AboutUsTabState extends State<AboutUsTab> {
                 children: [
                   SizedBox(width: width/34.15),
                   Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(12),
                     child: Container(
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Help Desk :",
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border:Border.all(color: Constants().primaryAppColor,)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Help Desk :",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: height/65.1),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: height/9.3,
-                                width: width/19.51428571428571,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/help_desk.png"
-                                        )
-                                    )
+                            SizedBox(height: height/65.1),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: height/9.3,
+                                  width: width/19.51428571428571,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/help_desk.png"
+                                          )
+                                      )
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: width/136.6),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.phone,color: Constants().primaryAppColor,),
-                                      SizedBox(width: width/136.6),
-                                      Card("1234567890")
-                                    ],
-                                  ),
-                                  SizedBox(height: height/65.1),
-                                  Row(
-                                    children: [
-                                      Icon(CupertinoIcons.globe,color: Constants().primaryAppColor,),
-                                      SizedBox(width: width/136.6),
-                                      InkWell(
-                                          onTap: () async {
-                                            final Uri toLaunch =
-                                            Uri.parse("http://ardigitalsolutions.co/");
-                                            if (!await launchUrl(toLaunch,
-                                              mode: LaunchMode.externalApplication,
-                                            )) {
-                                              throw Exception('Could not launch $toLaunch');
-                                            }
-                                          },
-                                          child: Card("http://ardigitalsolutions.co/")
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height/65.1),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.alternate_email,color: Constants().primaryAppColor,),
-                                      SizedBox(width: width/136.6),
-                                     Card("churchmanagementsocorp@gmail.com"),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                SizedBox(width: width/136.6),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.phone,color: Constants().primaryAppColor,),
+                                        SizedBox(width: width/136.6),
+                                        Card("+919884890121")
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(CupertinoIcons.globe,color: Constants().primaryAppColor,),
+                                        SizedBox(width: width/136.6),
+                                        InkWell(
+                                            onTap: () async {
+                                              final Uri toLaunch =
+                                              Uri.parse("http://ardigitalsolutions.co/");
+                                              if (!await launchUrl(toLaunch,
+                                                mode: LaunchMode.externalApplication,
+                                              )) {
+                                                throw Exception('Could not launch $toLaunch');
+                                              }
+                                            },
+                                            child: Card("http://ardigitalsolutions.co/")
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.alternate_email,color: Constants().primaryAppColor,),
+                                        SizedBox(width: width/136.6),
+                                       Card("satishkumar@ardigitalsolutions.co"),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -247,7 +254,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                 child: Column(
                   children: [
                     Text(
-                      "--License--\n@ 2023 by AR Digital Solutions",
+                      "--Developed By--\n@ 2023 by AR Digital Solutions",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w700,
@@ -267,13 +274,13 @@ class _AboutUsTabState extends State<AboutUsTab> {
   Widget Card(String value){
     double width = MediaQuery.of(context).size.width;
     return Material(
-      elevation: 5,
+      elevation: 0,
       borderRadius: BorderRadius.only(
         topRight: Radius.circular(30),
         bottomRight: Radius.circular(30),
       ),
       child: Container(
-        width: 400,
+        width: 300,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

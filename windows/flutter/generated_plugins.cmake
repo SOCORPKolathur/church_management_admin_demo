@@ -8,7 +8,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_localization
   geolocator_windows
   printing
-  r_get_ip
   rive_common
   share_plus
   url_launcher_windows
