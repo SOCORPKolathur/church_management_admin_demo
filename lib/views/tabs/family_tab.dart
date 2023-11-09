@@ -1129,7 +1129,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                     SizedBox(
                                       width:width/8.035,
                                       child: KText(
-                                        text: "Family Quantity",
+                                        text: "Family Count",
                                         style: GoogleFonts.poppins(
                                           fontSize:width/105.076,
                                           fontWeight: FontWeight.w600,

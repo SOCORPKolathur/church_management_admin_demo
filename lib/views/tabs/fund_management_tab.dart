@@ -238,15 +238,13 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 KText(
-                                                  text: totalFunds.totalCollect!
-                                                      .toString(),
+                                                  text: totalFunds.totalCollect!.toStringAsFixed(2),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
-                                                  text: totalFunds.totalCollect!
-                                                      .toString(),
+                                                  text: totalFunds.totalCollect!.toStringAsFixed(2),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/85.375,
                                                     color:
@@ -350,15 +348,13 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 KText(
-                                                  text: totalFunds.totalSpend!
-                                                      .toString(),
+                                                  text: totalFunds.totalSpend!.toStringAsFixed(2),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
-                                                  text: totalFunds.totalSpend!
-                                                      .toString(),
+                                                  text: totalFunds.totalSpend!.toStringAsFixed(2),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/85.375,
                                                     color:
@@ -462,16 +458,14 @@ class _FundManagementTabState extends State<FundManagementTab>
                                               children: [
                                                 KText(
                                                   text: totalFunds
-                                                      .currentBalance!
-                                                      .toString(),
+                                                      .currentBalance!.toStringAsFixed(2),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
                                                   text: totalFunds
-                                                      .currentBalance!
-                                                      .toString(),
+                                                      .currentBalance!.toStringAsFixed(2),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/85.375,
                                                     color:

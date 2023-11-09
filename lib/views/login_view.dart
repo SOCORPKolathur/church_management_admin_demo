@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart' as gc;
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
@@ -9,15 +7,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:location/location.dart';
+import 'package:r_get_ip/r_get_ip.dart';
 import '../models/church_details_model.dart';
 import '../services/location_api.dart';
 import '../widgets/kText.dart';
+import 'package:intl/intl.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
+
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -40,6 +41,9 @@ class _LoginViewState extends State<LoginView> {
   String deviceOs = 'Windows';
   String deviceId = '';
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+
+
 
 
   @override
@@ -335,7 +339,9 @@ class _LoginViewState extends State<LoginView> {
 
   getDeviceInfo() async {
     WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
-    deviceId = androidInfo.productSub!;
+    setState(() {
+      deviceId = androidInfo.productSub!;
+    });
   }
 
   Future<bool> _signInWithEmailAndPassword() async {
@@ -352,6 +358,8 @@ class _LoginViewState extends State<LoginView> {
         "deviceOs": deviceOs,
         "ip": ip,
         "location": deviceLocation,
+        "date" : DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        "time" : DateFormat('hh:mm aa').format(DateTime.now()),
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       });
       setState(() {
@@ -369,10 +377,13 @@ class _LoginViewState extends State<LoginView> {
   }
 
   getUserLocation() async {//call this async method from whereever you need
-    String location = await LocationAPI().fetchData();
-    String ipv4 = await LocationAPI().fetchData1();
-    deviceLocation = location;
-    ip = ipv4;
+    // String location = await LocationAPI().fetchData("192.168.1.8");
+    String? ipv4 = await RGetIp.externalIP;
+    String location = await LocationAPI().fetchData(ipv4!);
+    setState(() {
+      deviceLocation = location;
+      ip = ipv4.toString();
+    });
   }
   void _register() async {
     final User? user = (await

@@ -1,4 +1,5 @@
 import 'package:church_management_admin/views/login_view.dart';
+import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/views/tabs/messages_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
@@ -17,7 +18,7 @@ void main() async {
   var delegate = await LocalizationDelegate.create(
     basePath: 'assets/i18n/',
       fallbackLocale: 'en_US',
-      supportedLocales: ['ta','te','ml','kn','en_US','bn','hi','es','pt','fr','nl','de','it','sv','mr','gu','or','ltz']);
+      supportedLocales: ['ta','te','ml','kn','en_US','bn','hi','es','pt','fr','nl','de','it','sv','mr','gu','or',]);
   runApp(LocalizedApp(delegate, const MyApp()));
 }
 
@@ -38,13 +39,13 @@ class _MyAppState extends State<MyApp> {
     return LocalizationProvider(
       state: LocalizationProvider.of(context).state,
       child: MaterialApp(
-          title: 'Church Management Admin',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-            useMaterial3: true,
-          ),
-          home: user != null ? HomeView(currentRole: user!.email!) : const LoginView(),
+        title: 'Church Management Admin',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+          useMaterial3: true,
+        ),
+        home: user != null ? HomeView(currentRole: user!.email!) : const LoginView(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

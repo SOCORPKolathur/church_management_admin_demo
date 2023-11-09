@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -348,7 +349,6 @@ class _DashBoardTabState extends State<DashBoardTab> {
   }
 
 
-
   int randomNumFromDate = 1;
    ///////
 
@@ -522,39 +522,162 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 );
                               },
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (ctx) => SettingsTab()));
-                              },
-                              child:  Icon(Icons.settings, size: width/50.59),
+                            StatefulBuilder(
+                              builder: (context,setStat) {
+                                return PopupMenuButton(
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem<String>(
+                                      value: 'Settings',
+                                      child: const Text('Settings'),
+                                      onTap: () async {
+                                        final navigator = Navigator.of(context);
+                                        await Future.delayed(Duration.zero);
+                                        navigator.push(
+                                          MaterialPageRoute(builder: (_) => SettingsTab()),
+                                        );
+                                      },
+                                    ),
+                                    PopupMenuItem<String>(
+                                      value: 'About Us',
+                                      child: const Text('About Us'),
+                                      onTap: () async {
+                                        final navigator = Navigator.of(context);
+                                        await Future.delayed(Duration.zero);
+                                        navigator.push(
+                                          MaterialPageRoute(builder: (_) => AboutUsTab()),
+                                        );
+                                      },
+                                    ),
+                                    PopupMenuItem<String>(
+                                      value: 'Log Out',
+                                      child: const Text('Log Out'),
+                                      onTap: () async {
+                                        final navigator = Navigator.of(context);
+                                        await Future.delayed(Duration.zero);
+                                        await CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.info,
+                                            text: "Are you sure want to logout",
+                                            confirmBtnText: 'Log Out',
+                                            onConfirmBtnTap: () async {
+                                              await FirebaseAuth.instance.signOut();
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (ctx) =>
+                                                      const LoginView()));
+                                            },
+                                            cancelBtnText: 'Cancel',
+                                            showCancelBtn: true,
+                                            width: width * 0.4,
+                                            backgroundColor: Constants()
+                                                .primaryAppColor
+                                                .withOpacity(0.8));
+                                      },
+                                    ),
+                                  ],
+                                  position: PopupMenuPosition.over,
+                                  offset: const Offset(0, 30),
+                                  color: const Color(0xffFFFFFF),
+                                  elevation: 2,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                    ),
+                                    child: const Icon(Icons.arrow_drop_down_circle_outlined,
+                                        size: 28, color: Colors.black,
+                                    )
+                                );
+                              }
                             ),
-                            InkWell(
-                              onTap: () async {
-                                await CoolAlert.show(
-                                    context: context,
-                                    type: CoolAlertType.info,
-                                    text: "Are you sure want to logout",
-                                    confirmBtnText: 'Log Out',
-                                    onConfirmBtnTap: () async {
-                                      await FirebaseAuth.instance.signOut();
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (ctx) =>
-                                              const LoginView()));
-                                    },
-                                    cancelBtnText: 'Cancel',
-                                    showCancelBtn: true,
-                                    width: size.width * 0.4,
-                                    backgroundColor: Constants()
-                                        .primaryAppColor
-                                        .withOpacity(0.8));
-                              },
-                              child:  Icon(Icons.logout, size: width/50.59),
-                            ),
+                            // InkWell(
+                            //   onTap: () async {
+                            //     await showMenu(
+                            //     context: context,
+                            //     color: Colors.white,
+                            //     position:  const RelativeRect.fromLTRB(300, 100, 50, 500),
+                            //     items: [
+                            //       PopupMenuItem<String>(
+                            //         value: 'Settings',
+                            //         child: const Text('Settings'),
+                            //         onTap: () {
+                            //           Navigator.push(context, MaterialPageRoute(
+                            //               builder: (context) => SettingsTab()));
+                            //         },
+                            //       ),
+                            //       PopupMenuItem<String>(
+                            //         value: 'About Us',
+                            //         child: const Text('About Us'),
+                            //         onTap: () {
+                            //           Navigator.push(context, MaterialPageRoute(builder: (ctx) => AboutUsTab()));
+                            //         },
+                            //       ),
+                            //       PopupMenuItem<String>(
+                            //         value: 'Log Out',
+                            //         child: const Text('Log Out'),
+                            //         onTap: () async {
+                            //           await CoolAlert.show(
+                            //               context: context,
+                            //               type: CoolAlertType.info,
+                            //               text: "Are you sure want to logout",
+                            //               confirmBtnText: 'Log Out',
+                            //               onConfirmBtnTap: () async {
+                            //                 await FirebaseAuth.instance.signOut();
+                            //                 Navigator.pushReplacement(
+                            //                     context,
+                            //                     MaterialPageRoute(
+                            //                         builder: (ctx) =>
+                            //                         const LoginView()));
+                            //               },
+                            //               cancelBtnText: 'Cancel',
+                            //               showCancelBtn: true,
+                            //               width: width * 0.4,
+                            //               backgroundColor: Constants()
+                            //                   .primaryAppColor
+                            //                   .withOpacity(0.8));
+                            //         },
+                            //       ),
+                            //     ],
+                            //     elevation: 8.0,
+                            //     useRootNavigator: true,
+                            //     );
+                            //   },
+                            //   child:  Icon(Icons.arrow_drop_down_circle_outlined, size: width/50.59),
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (ctx) => SettingsTab()));
+                            //   },
+                            //   child:  Icon(Icons.settings, size: width/50.59),
+                            // ),
+                            // InkWell(
+                            //   onTap: () async {
+                            //     await CoolAlert.show(
+                            //         context: context,
+                            //         type: CoolAlertType.info,
+                            //         text: "Are you sure want to logout",
+                            //         confirmBtnText: 'Log Out',
+                            //         onConfirmBtnTap: () async {
+                            //           await FirebaseAuth.instance.signOut();
+                            //           Navigator.pushReplacement(
+                            //               context,
+                            //               MaterialPageRoute(
+                            //                   builder: (ctx) =>
+                            //                   const LoginView()));
+                            //         },
+                            //         cancelBtnText: 'Cancel',
+                            //         showCancelBtn: true,
+                            //         width: size.width * 0.4,
+                            //         backgroundColor: Constants()
+                            //             .primaryAppColor
+                            //             .withOpacity(0.8));
+                            //   },
+                            //   child:  Icon(Icons.logout, size: width/50.59),
+                            // ),
                           ],
                         ),
                       ),

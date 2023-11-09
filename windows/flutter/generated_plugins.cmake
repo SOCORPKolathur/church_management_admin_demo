@@ -6,7 +6,9 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   firebase_core
   flutter_localization
+  geolocator_windows
   printing
+  r_get_ip
   rive_common
   share_plus
   url_launcher_windows

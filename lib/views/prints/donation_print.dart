@@ -7,10 +7,10 @@ import 'package:printing/printing.dart';
 import 'package:intl/intl.dart';
 import '../tabs/membership_register_tab.dart';
 
-Future<Uint8List> generateMembershipPaymentPdf(PdfPageFormat pageFormat, MembershipPaymentPdfModel data) async {
+Future<Uint8List> generateDonationPdf(PdfPageFormat pageFormat, MembershipPaymentPdfModel data) async {
 
   List<Product> products = <Product>[
-    Product('01', data.month, double.parse(data.amount), 1),
+    Product('01', data.month, double.parse(data.amount.toString())),
   ];
 
   final schoolLogoImg = await flutterImageProvider(NetworkImage(data.churchLogo));
@@ -127,7 +127,7 @@ class Invoice {
                 height: 100,
                 /////////////////////////////////////////////////////////
                 child: pw.Image(
-                    schoolLogo,
+                  schoolLogo,
                   height: 65,
                   width: 65,
                 )
@@ -246,18 +246,18 @@ class Invoice {
         pw.Expanded(
           child: pw.Row(
             children: [
-              pw.Container(
-                margin: const pw.EdgeInsets.only(left: 10, right: 10),
-                height: 70,
-                child: pw.Text(
-                  'Invoice to:',
-                  style: pw.TextStyle(
-                    color: _darkColor,
-                    fontWeight: pw.FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
+              // pw.Container(
+              //   margin: const pw.EdgeInsets.only(left: 10, right: 10),
+              //   height: 70,
+              //   child: pw.Text(
+              //     'Invoice to:',
+              //     style: pw.TextStyle(
+              //       color: _darkColor,
+              //       fontWeight: pw.FontWeight.bold,
+              //       fontSize: 12,
+              //     ),
+              //   ),
+              // ),
               pw.Expanded(
                 child: pw.Container(
                   height: 70,
@@ -372,9 +372,8 @@ class Invoice {
   pw.Widget _contentTable(pw.Context context) {
     const tableHeaders = [
       'Si.NO',
-      'Month',
+      'Description',
       'Amount',
-      'No.of Months',
       'Total'
     ];
 
@@ -445,14 +444,12 @@ class Product {
       this.sku,
       this.productName,
       this.price,
-      this.quantity,
       );
 
   final String sku;
   final String productName;
   final double price;
-  final int quantity;
-  double get total => price * quantity;
+  double get total => price;
 
   String getIndex(int index) {
     switch (index) {
@@ -463,8 +460,6 @@ class Product {
       case 2:
         return _formatCurrency(price);
       case 3:
-        return quantity.toString();
-      case 4:
         return _formatCurrency(total);
     }
     return '';

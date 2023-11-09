@@ -5,24 +5,16 @@ import 'package:http/http.dart' as http;
 class LocationAPI {
   LocationAPI();
 
-  Future<String> fetchData() async {
+  Future<String> fetchData(String ip) async {
     var _city = '';
-    final resp = await http.get(Uri.parse('https://geolocation-db.com/json/'));
+    final resp = await http.get(Uri.parse('http://ip-api.com/json/$ip'));
     if (resp.statusCode == 200) {
       final _data = LocationModel.fromJson(json.decode(resp.body));
       _city = _data.city + ","+_data.state + ","+_data.countryName+ ","+_data.postal;
     }
     return _city;
   }
-  Future<String> fetchData1() async {
-    var _city = '';
-    final resp = await http.get(Uri.parse('https://geolocation-db.com/json/'));
-    if (resp.statusCode == 200) {
-      final _data = LocationModel.fromJson(json.decode(resp.body));
-      _city = _data.iPv4;
-  }
-    return _city;
-  }
+
 }
 
 LocationModel locationModelFromJson(String str) =>
@@ -43,20 +35,20 @@ class LocationModel {
   });
 
   factory LocationModel.fromJson(Map<String, dynamic> json) => LocationModel(
-    countryCode: json['country_code'],
-    countryName: json['country_name'],
+    countryCode: json['countryCode'],
+    countryName: json['country'],
     city: json['city'],
-    postal: json['postal'],
-    latitude: json['latitude'].toDouble(),
-    longitude: json['longitude'].toDouble(),
-    iPv4: json['IPv4'],
-    state: json['state'],
+    postal: json['zip'],
+    latitude: json['lat'].toDouble(),
+    longitude: json['lon'].toDouble(),
+    iPv4: json['query'],
+    state: json['regionName'],
   );
 
   String countryCode;
   String countryName;
   String city;
-  dynamic postal;
+  String postal;
   double latitude;
   double longitude;
   String iPv4;

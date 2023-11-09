@@ -6,10 +6,14 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import 'package:intl/intl.dart';
+
+import '../prints/donation_print.dart';
+import 'membership_register_tab.dart';
 
 class DonationsTab extends StatefulWidget {
   DonationsTab({super.key});
@@ -43,7 +47,23 @@ class _DonationsTabState extends State<DonationsTab> {
   @override
   void initState() {
     setDateTime();
+    getadmin();
     super.initState();
+  }
+
+  String churchName = '';
+  String churchAddress = '';
+  String churchLogo = '';
+  String churchPhone = '';
+
+  getadmin() async {
+    var document = await FirebaseFirestore.instance.collection("ChurchDetails").get();
+    setState(() {
+      churchName = document.docs[0]["name"];
+      churchAddress = "${document.docs[0]["area"]} ${document.docs[0]["city"]} ${document.docs[0]["pincode"]}";
+      churchLogo = Constants.networkChurchLogo;
+      churchPhone = document.docs[0]["phone"];
+    });
   }
 
   @override
@@ -410,20 +430,36 @@ class _DonationsTabState extends State<DonationsTab> {
                                       CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.success,
-                                          text:
-                                              "Donation created successfully!",
+                                          text: "Donation created successfully!",
+                                          onConfirmBtnTap: () async {
+                                            MembershipPaymentPdfModel paymentDetails = MembershipPaymentPdfModel(
+                                              date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                                              time: DateFormat('hh:mm aa').format(DateTime.now()),
+                                              amount: amountController.text,
+                                              month: "Donation",
+                                              churchAddress: churchAddress,
+                                              churchName: churchName,
+                                              churchLogo: churchLogo,
+                                              churchPhone: churchPhone,
+                                              memberAddress: "",
+                                              memberName: "",
+                                              paymentMode: viaController.text,
+                                            );
+                                            await generateDonationPdf(
+                                              PdfPageFormat.a4, paymentDetails
+                                            );
+                                          },
+                                          confirmBtnText: 'Ok & Print',
                                           width: size.width * 0.4,
                                           backgroundColor: Constants()
                                               .primaryAppColor
                                               .withOpacity(0.8));
                                       setState(() {
                                         currentTab = 'View';
-                                        amountController.text = "";
                                         verifierController.text != "";
                                         bankController.text = "";
                                         descriptionController.text = "";
                                         sourceController.text = "";
-                                        viaController.text = "";
                                         dateController.text = "";
                                       });
                                     } else {
@@ -469,7 +505,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           )
                         ],

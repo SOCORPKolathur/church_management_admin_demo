@@ -16,6 +16,7 @@ import 'package:church_management_admin/views/tabs/email_communication_tab.dart'
 import 'package:church_management_admin/views/tabs/family_tab.dart';
 import 'package:church_management_admin/views/tabs/login_reports_tab.dart';
 import 'package:church_management_admin/views/tabs/manager_role_tab.dart';
+import 'package:church_management_admin/views/tabs/meeting_tab.dart';
 import 'package:church_management_admin/views/tabs/members_tab.dart';
 import 'package:church_management_admin/views/tabs/membership_register_tab.dart';
 import 'package:church_management_admin/views/tabs/membership_reports_tab.dart';
@@ -181,6 +182,13 @@ class _HomeViewState extends State<HomeView> {
         //   icon: Icons.add,
         // )
       ],
+    ),
+    DrawerModel(
+      name: "Meetings",
+      icon: Icons.date_range,
+      page: const MeetingsTab(),
+      isExpanded: false,
+      children: [],
     ),
     DrawerModel(
       name: "Reports",

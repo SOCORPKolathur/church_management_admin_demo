@@ -1044,7 +1044,7 @@ class _UserTabState extends State<UserTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Locality *",
+                                          text: "Landmark *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width / 105.076,
@@ -2484,7 +2484,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Locality",
+                                          text: "Landmark",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375),
@@ -3276,7 +3276,7 @@ class _UserTabState extends State<UserTab> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Locality *",
+                                        text: "Landmark *",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
                                           fontSize: width / 105.076,
@@ -3611,7 +3611,7 @@ class _UserTabState extends State<UserTab> {
     row.add("Marital Status");
     row.add("Blood Group");
     row.add("Date of birth");
-    row.add("Locality");
+    row.add("Landmark");
     row.add("Pin Code");
     row.add("Address");
     row.add("About");
@@ -3666,7 +3666,7 @@ class _UserTabState extends State<UserTab> {
     row.add("    ");
     row.add("Phone");
     row.add("    ");
-    row.add("Locality");
+    row.add("Landmark");
     rows.add(row);
     for (int i = 0; i < users.length; i++) {
       List<dynamic> row = [];
