@@ -364,6 +364,7 @@ class _LoginViewState extends State<LoginView> {
         "time" : DateFormat('hh:mm aa').format(DateTime.now()),
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       });
+
       setState(() {
         _success = true;
         result = true;
