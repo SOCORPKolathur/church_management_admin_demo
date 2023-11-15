@@ -91,6 +91,7 @@ class AttendanceModelforPdf{
         fontSize: 10,
         fontWeight: pw.FontWeight.bold,
       ),
+      ////
       cellStyle: const pw.TextStyle(
         fontSize: 10,
       ),
