@@ -93,6 +93,7 @@ class AttendanceModelforPdf{
       ),
       cellStyle: const pw.TextStyle(
         fontSize: 10,
+
       ),
       rowDecoration: pw.BoxDecoration(
         border: pw.Border(
