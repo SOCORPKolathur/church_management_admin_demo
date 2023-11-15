@@ -47,7 +47,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-    //getUserLocation();
+    getUserLocation();
     super.initState();
   }
 
@@ -379,10 +379,21 @@ class _LoginViewState extends State<LoginView> {
     return result;
   }
 
+  String adnroidInfo1 = '';
+  String countryData1 = '';
+  String countryDataError = '';
+
   Future<String> getUserLocation() async {
-    IpCountryData? countryData = await IpCountryLookup().getIpLocationData();
+    IpCountryData? countryData;
+    try{
+      countryData = await IpCountryLookup().getIpLocationData();
+    }catch (e){
+      countryDataError = e.toString();
+    }
     WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
-    String? ipv4 = countryData.ip.toString();//await Ipify.ipv4();
+    adnroidInfo1 = androidInfo.toString();
+    countryData1 = countryData.toString();
+    String? ipv4 = countryData!.ip.toString();//await Ipify.ipv4();
     print(ipv4);
     String location = await LocationAPI().fetchData(ipv4);
     print(location);
