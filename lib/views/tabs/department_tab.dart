@@ -882,6 +882,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                     if(searchString != ""){
                       if(element.name!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.leaderName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.zone!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.contactNumber!.toLowerCase().startsWith(searchString.toLowerCase())){
                         departments.add(element);
                       }
@@ -932,7 +933,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   elevation: 10,
                                   child: SizedBox(
                                     height: height / 18.6,
-                                    width: width / 5.106,
+                                    width: width / 4.106,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height / 81.375,
@@ -946,7 +947,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search by Name,Leadername,Phone",
+                                          "Search by Name,Leadername,Phone,Pincode",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,

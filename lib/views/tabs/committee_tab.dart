@@ -1708,12 +1708,6 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                               MainAxisAlignment
                                                                   .spaceAround,
                                                               children: [
-                                                                Icon(
-                                                                  Icons.add,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size:width/91.06,
-                                                                ),
                                                                 KText(
                                                                   text: "View Members",
                                                                   style: GoogleFonts
@@ -1828,7 +1822,22 @@ class _CommitteeTabState extends State<CommitteeTab> {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<CommitteeMemberModel> committies = snapshot.data!;
+                  List<CommitteeMemberModel> committies1 = snapshot.data!;
+                  List<CommitteeMemberModel> committies = [];
+                    committies1.forEach((element) {
+                      if(searchString != ""){
+                        if(
+                        //element.get("profession")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                            element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                            (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                            element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())){
+                            //element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
+                          committies.add(element);
+                        }else{
+                          committies.add(element);
+                        }
+                      }
+                    });
                   return Container(
                     width: width/1.241,
                     margin: EdgeInsets.symmetric(
@@ -1865,14 +1874,9 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      currentTab = 'View';
-                                      currentCommitteeId = '';
-                                    });
-                                  },
-                                  child: Container(
+                                Row(
+                                  children: [
+                                    Container(
                                       height:height/18.6,
                                       width: width/9.106,
                                       decoration: BoxDecoration(
@@ -1880,10 +1884,45 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                         borderRadius:
                                         BorderRadius.circular(10),
                                       ),
-                                      child: Center(
-                                        child: Text("View Committies"),
-                                      )
-                                  ),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Search by Name',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                          contentPadding:  EdgeInsets.only(
+                                              left: width/136.6, bottom: height/65.1),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width:10),
+                                    InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          currentTab = 'View';
+                                          currentCommitteeId = '';
+                                        });
+                                      },
+                                      child: Container(
+                                          height:height/18.6,
+                                          width: width/9.106,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text("View Committies"),
+                                          )
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

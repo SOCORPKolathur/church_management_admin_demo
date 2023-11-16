@@ -117,7 +117,7 @@ class _ClansTabState extends State<ClansTab> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
-                    text: "CLANS",
+                    text: "FLOCKS",
                     style: GoogleFonts.openSans(
                         fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
@@ -145,7 +145,7 @@ class _ClansTabState extends State<ClansTab> {
                           EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
-                              text: "Add Clan",
+                              text: "Add Flock",
                               style: GoogleFonts.openSans(
                                    fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
@@ -190,7 +190,7 @@ class _ClansTabState extends State<ClansTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
-                            text: "ADD CLAN MEMBER",
+                            text: "ADD FLOCK MEMBER",
                             style: GoogleFonts.openSans(
                                 fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
@@ -842,7 +842,7 @@ class _ClansTabState extends State<ClansTab> {
                                       CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.success,
-                                          text: "Clan created successfully!",
+                                          text: "Flock created successfully!",
                                           width: size.width * 0.4,
                                           backgroundColor: Constants()
                                               .primaryAppColor
@@ -980,7 +980,7 @@ class _ClansTabState extends State<ClansTab> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             KText(
-                                              text: "All Clans (${clans.length})",
+                                              text: "All Flocks (${clans.length})",
                                               style: GoogleFonts.openSans(
                                                   fontSize: width/68.3,
                                                 fontWeight: FontWeight.bold,
@@ -1213,12 +1213,6 @@ class _ClansTabState extends State<ClansTab> {
                                                                           MainAxisAlignment
                                                                               .spaceAround,
                                                                           children: [
-                                                                            Icon(
-                                                                              Icons.add,
-                                                                              color: Colors
-                                                                                  .white,
-                                                                              size:width/91.06,
-                                                                            ),
                                                                             KText(
                                                                               text: "View Members",
                                                                               style: GoogleFonts
@@ -1333,7 +1327,23 @@ class _ClansTabState extends State<ClansTab> {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<ClanMemberModel> clansMembers = snapshot.data!;
+                  //List<ClanMemberModel> clansMembers = snapshot.data!;
+                  List<ClanMemberModel> clansMembers1 = snapshot.data!;
+                  List<ClanMemberModel> clansMembers = [];
+                  clansMembers1.forEach((element) {
+                    if(searchString != ""){
+                      if(
+                      //element.get("profession")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                      element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        //element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        clansMembers.add(element);
+                      }else{
+                        clansMembers.add(element);
+                      }
+                    }
+                  });
                   return Container(
                     width: width/1.241,
                     margin:   EdgeInsets.symmetric(
@@ -1364,31 +1374,61 @@ class _ClansTabState extends State<ClansTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Clans Members (${clansMembers.length})",
+                                  text: "All Flock Members (${clansMembers.length})",
                                   style: GoogleFonts.openSans(
                                       fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      currentTab = 'View';
-                                      currentClanId = '';
-                                    });
-                                  },
-                                  child: Container(
-                                    height:height/18.6,
-                                        width: width/9.106,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                      BorderRadius.circular(10),
+                                Row(
+                                  children: [
+                                    Container(
+                                      height:height/18.6,
+                                      width: width/9.106,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                      ),
+                                      child: TextField(
+                                        onChanged: (val) {
+                                          setState(() {
+                                            searchString = val;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Search by Name',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                          contentPadding:  EdgeInsets.only(
+                                              left: width/136.6, bottom: height/65.1),
+                                        ),
+                                      ),
                                     ),
-                                    child: Center(
-                                        child: Text("View Clans"),
-                                    )
-                                  ),
+                                    SizedBox(width: 10),
+                                    InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          currentTab = 'View';
+                                          currentClanId = '';
+                                        });
+                                      },
+                                      child: Container(
+                                        height:height/18.6,
+                                            width: width/9.106,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                        child: Center(
+                                            child: Text("View Flocks"),
+                                        )
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -2489,7 +2529,7 @@ class _ClansTabState extends State<ClansTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "ADD CLAN MEMBER",
+                                  text: "ADD FLOCK MEMBER",
                                   style: GoogleFonts.openSans(
                                       fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
@@ -3358,7 +3398,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 CoolAlert.show(
                                                     context: context,
                                                     type: CoolAlertType.success,
-                                                    text: "Clan member created successfully!",
+                                                    text: "Flock member created successfully!",
                                                     width: size.width * 0.4,
                                                     backgroundColor: Constants()
                                                         .primaryAppColor
@@ -3391,7 +3431,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 CoolAlert.show(
                                                     context: context,
                                                     type: CoolAlertType.error,
-                                                    text: "Failed to create Clan member!",
+                                                    text: "Failed to create Flock member!",
                                                     width: size.width * 0.4,
                                                     backgroundColor: Constants()
                                                         .primaryAppColor
@@ -3539,7 +3579,7 @@ class _ClansTabState extends State<ClansTab> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             KText(
-                              text: "EDIT CLAN MEMBER",
+                              text: "EDIT FLOCK MEMBER",
                               style: GoogleFonts.openSans(
                                   fontSize: width/68.3,
                                 fontWeight: FontWeight.bold,
@@ -4187,7 +4227,7 @@ class _ClansTabState extends State<ClansTab> {
                                           CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
-                                              text: "Clan member updated successfully!",
+                                              text: "Flock member updated successfully!",
                                               width: size.width * 0.4,
                                               backgroundColor: Constants()
                                                   .primaryAppColor
@@ -4219,7 +4259,7 @@ class _ClansTabState extends State<ClansTab> {
                                           CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
-                                              text: "Failed to update Clan member!",
+                                              text: "Failed to update Flock member!",
                                               width: size.width * 0.4,
                                               backgroundColor: Constants()
                                                   .primaryAppColor
@@ -4332,7 +4372,7 @@ class _ClansTabState extends State<ClansTab> {
     final blob = Blob([data],'application/pdf');
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
-      ..setAttribute("download", "clans.pdf")
+      ..setAttribute("download", "flocks.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }
@@ -4407,7 +4447,7 @@ class _ClansTabState extends State<ClansTab> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
-                          text: "Add Clan",
+                          text: "Add Flock",
                           style: GoogleFonts.openSans(
                               fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
@@ -4426,7 +4466,7 @@ class _ClansTabState extends State<ClansTab> {
                                     await CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.success,
-                                        text: "Clan created successfully!",
+                                        text: "Flock created successfully!",
                                         width: size.width * 0.4,
                                         backgroundColor: Constants()
                                             .primaryAppColor
@@ -4439,7 +4479,7 @@ class _ClansTabState extends State<ClansTab> {
                                     await CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.error,
-                                        text: "Failed to create clan!",
+                                        text: "Failed to create flock!",
                                         width: size.width * 0.4,
                                         backgroundColor: Constants()
                                             .primaryAppColor
@@ -4543,7 +4583,7 @@ class _ClansTabState extends State<ClansTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             KText(
-                              text: "Clan Name *",
+                              text: "Flock Name *",
                               style: GoogleFonts.openSans(
                                 fontSize:width/97.571,
                                 fontWeight: FontWeight.bold,

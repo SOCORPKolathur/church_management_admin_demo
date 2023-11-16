@@ -33,6 +33,7 @@ class GreetingFireCrud {
                 content: doc.get("content"),
                 selected: doc.get("selected"),
                 id: doc.get("id"),
+                withName: doc.get("withName")
               ))
           .toList());
 
@@ -44,6 +45,7 @@ class GreetingFireCrud {
                     content: doc.get("content"),
                     selected: doc.get("selected"),
                     id: doc.get("id"),
+                    withName: doc.get("withName")
                   ))
               .toList());
 

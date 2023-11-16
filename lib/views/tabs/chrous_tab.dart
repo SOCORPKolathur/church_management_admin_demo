@@ -1387,6 +1387,7 @@ class _ChorusTabState extends State<ChorusTab> {
                           element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
                           (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
                           element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.pincode!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
                         choruses.add(element);
                       }
@@ -1434,7 +1435,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                   elevation: 10,
                                   child: SizedBox(
                                     height: height / 18.6,
-                                    width: width / 5.106,
+                                    width: width / 4.106,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height / 81.375,
@@ -1448,7 +1449,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search by Name,Position,Phone",
+                                          "Search by Name,Position,Phone,Pincode",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,
@@ -2493,6 +2494,30 @@ class _ChorusTabState extends State<ChorusTab> {
                                         text: chorus.nationality!,
                                         style: TextStyle(
                                              fontSize:width/97.571
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Pincode",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: chorus.pincode!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],

@@ -51,6 +51,7 @@ class ChurchStaffFireCrud {
         required String nationality,
         required String phone,
         required String position,
+        required String landMark,
         required String socialStatus})
   async {
     String downloadUrl = '';
@@ -69,6 +70,7 @@ class ChurchStaffFireCrud {
         socialStatus: socialStatus,
         address: address,
         dateOfJoining: dateOfJoining,
+        landMark:landMark,
         document: downloadUrl1,
         position: position,
         phone: phone,

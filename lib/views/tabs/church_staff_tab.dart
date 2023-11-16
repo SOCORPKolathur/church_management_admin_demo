@@ -49,6 +49,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController landMarkController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
   TextEditingController dateofjoiningController = TextEditingController();
@@ -175,6 +176,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
       lastNameController.text = "";
       marriageDateController.text = "";
       nationalityController.text = "";
+      landMarkController.text = "";
       phoneController.text = "";
       positionController.text = "";
       socialStatusController.text = "";
@@ -957,6 +959,35 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Landmark",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          onEditingComplete: (){
+                                          },
+                                          onFieldSubmitted: (val){
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: landMarkController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               SizedBox(height:height/21.7),
@@ -1480,6 +1511,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             email: emailController.text,
                                             family: familyController.text,
                                             firstName: firstNameController.text,
+                                            landMark: landMarkController.text,
                                             job: jobController.text,
                                             pincode: pincodeController.text,
                                             lastName: lastNameController.text,
@@ -1620,6 +1652,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                           element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
                           (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
                           element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.pincode!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
                         churchStaffs.add(element);
                       }
@@ -1670,7 +1703,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                   elevation: 10,
                                   child: SizedBox(
                                     height: height / 18.6,
-                                    width: width / 5.106,
+                                    width: width / 4.106,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height / 81.375,
@@ -1684,7 +1717,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search by Name,Position,Phone",
+                                          "Search by Name,Position,Phone,Pincode",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,
@@ -2141,6 +2174,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                           pincodeController.text = churchStaffs[i].pincode!;
                                                           aadharNoController.text = churchStaffs[i].aadharNo!;
                                                           dateofjoiningController.text = churchStaffs[i].dateOfJoining!;
+                                                          landMarkController.text = churchStaffs[i].landMark!;
                                                         });
                                                         editPopUp(churchStaffs[i], size);
                                                       },
@@ -2823,6 +2857,30 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
+                                          text: "Landmark",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: churchStaff.landMark!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
                                           text: "Nationality",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -2863,6 +2921,30 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           style: TextStyle(
                                               fontSize:width/97.571
                                           ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Pincode",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: churchStaff.pincode!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],
@@ -3508,6 +3590,35 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Landmark",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          onEditingComplete: (){
+                                          },
+                                          onFieldSubmitted: (val){
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style: TextStyle(fontSize:width/113.83),
+                                          controller: landMarkController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               SizedBox(height:height/21.7),
@@ -3940,6 +4051,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               familyId: familyIDController.text,
                                               maritalStatus: marriedController,
                                               imgUrl: churchStaff.imgUrl,
+                                              landMark: landMarkController.text,
                                               document: churchStaff.document,
                                               lastName: lastNameController.text,
                                               pincode: pincodeController.text,
@@ -3985,6 +4097,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             lastNameController.text = "";
                                             marriageDateController.text = "";
                                             nationalityController.text = "";
+                                            landMarkController.text = "";
                                             phoneController.text = "";
                                             positionController.text = "";
                                             socialStatusController.text = "";

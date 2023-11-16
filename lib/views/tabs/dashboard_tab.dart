@@ -1087,7 +1087,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                               MainAxisAlignment.center,
                                               children: [
                                                 KText(
-                                                  text: "Total Clans",
+                                                  text: "Total Flocks",
                                                   style: GoogleFonts.poppins(
                                                     fontSize: width/75.888,
                                                     color:  const Color(0xff121843),

@@ -47,7 +47,7 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController departmentController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController(text: "Select Blood Group");
   TextEditingController dobController = TextEditingController();
-  TextEditingController nationalityController = TextEditingController();
+  TextEditingController nationalityController = TextEditingController(text: 'Indian');
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
@@ -113,10 +113,12 @@ class _MembersTabState extends State<MembersTab> {
 
   setMemberId() async {
     var document = await cf.FirebaseFirestore.instance.collection('Members').get();
+    var churchDetails = await cf.FirebaseFirestore.instance.collection('ChurchDetails').get();
+    String memberIdPrefix = churchDetails.docs.first.get("memberIdPrefix");
     int lastId = document.docs.length + 1;
     String studentId = lastId.toString().padLeft(6,'0');
     setState((){
-      memberIdController.text = studentId;
+      memberIdController.text = memberIdPrefix+studentId;
     });
   }
 
@@ -184,7 +186,7 @@ class _MembersTabState extends State<MembersTab> {
       jobController.text = "";
       lastNameController.text = "";
       marriageDateController.text = "";
-      nationalityController.text = "";
+      nationalityController.text = 'Indian';
       phoneController.text = "";
       positionController.text = "";
       socialStatusController.text = "";
@@ -1890,6 +1892,7 @@ class _MembersTabState extends State<MembersTab> {
                     if(searchString != ""){
                       if(element.position!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.pincode!.toLowerCase().startsWith(searchString.toLowerCase())||
                           (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
                           element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
@@ -1941,7 +1944,7 @@ class _MembersTabState extends State<MembersTab> {
                                   elevation: 10,
                                   child: SizedBox(
                                     height: height / 18.6,
-                                    width: width / 5.106,
+                                    width: width / 4.106,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height / 81.375,
@@ -1955,7 +1958,7 @@ class _MembersTabState extends State<MembersTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search by Name,Profession,Phone",
+                                          "Search by Name,Profession,Phone,Pincode",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,

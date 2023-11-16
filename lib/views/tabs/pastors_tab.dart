@@ -1518,6 +1518,7 @@ class _PastorsTabState extends State<PastorsTab> {
                           element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
                           (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
                           element.lastName!.startsWith(searchString.toLowerCase())||
+                          element.pincode!.startsWith(searchString.toLowerCase())||
                           element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
                         pastors.add(element);
                       }
@@ -1568,7 +1569,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                   elevation: 10,
                                   child: SizedBox(
                                     height: height / 18.6,
-                                    width: width / 5.106,
+                                    width: width / 4.106,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: height / 81.375,
@@ -1582,7 +1583,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search by Name,Position,Phone",
+                                          "Search by Name,Position,Phone,Pincode",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,
@@ -2530,6 +2531,30 @@ class _PastorsTabState extends State<PastorsTab> {
                                           style: TextStyle(
                                               fontSize:width/97.571
                                           ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Pincode",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: pastor.pincode!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
                                         ),
                                       ),
                                     ],

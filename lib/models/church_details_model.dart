@@ -9,6 +9,8 @@ class ChurchDetailsModel {
   String? state;
   String? pincode;
   String? website;
+  String? memberIdPrefix;
+  String? familyIdPrefix;
   List<RoleUserModel>? roles;
   List<AboutChurchModel>? aboutChurch;
 
@@ -25,6 +27,8 @@ class ChurchDetailsModel {
         this.website,
         this.roles,
         this.aboutChurch,
+        this.memberIdPrefix,
+        this.familyIdPrefix,
       });
 
   ChurchDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -33,6 +37,8 @@ class ChurchDetailsModel {
     phone = json['phone'];
     buildingNo = json['buildingNo'];
     streetName = json['streetName'];
+    memberIdPrefix = json['memberIdPrefix'];
+    familyIdPrefix = json['familyIdPrefix'];
     area = json['area'];
     city = json['city'];
     state = json['state'];
@@ -59,6 +65,8 @@ class ChurchDetailsModel {
     data['phone'] = this.phone;
     data['buildingNo'] = this.buildingNo;
     data['streetName'] = this.streetName;
+    data['familyIdPrefix'] = this.familyIdPrefix;
+    data['memberIdPrefix'] = this.memberIdPrefix;
     data['area'] = this.area;
     data['city'] = this.city;
     data['state'] = this.state;

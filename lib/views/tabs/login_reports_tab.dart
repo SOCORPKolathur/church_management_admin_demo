@@ -84,7 +84,7 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width/6.83,
+                                      width: width/9.106666667,
                                       child: Text(
                                         "Device OS",
                                         style: GoogleFonts.poppins(
@@ -117,9 +117,31 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width/6.83,
+                                      width: width/7.588888889,
                                       child: Text(
                                         "Location",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: width/80.35294117647059,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: width/9.106666667,
+                                      child: Text(
+                                        "Date",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: width/80.35294117647059,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: width/17.075,
+                                      child: Text(
+                                        "Time",
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w700,
                                           fontSize: width/80.35294117647059,
@@ -163,7 +185,7 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: width/6.83,
+                                              width: width/9.106666667,
                                               child: Text(
                                                 data.get("deviceOs"),
                                                 style: GoogleFonts.poppins(
@@ -193,9 +215,29 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: width/6.83,
+                                              width: width/7.588888889,
                                               child: Text(
                                                 data.get("location").toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width/85.375,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/9.106666667,
+                                              child: Text(
+                                                data.get("date").toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width/85.375,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/17.075,
+                                              child: Text(
+                                                data.get("time").toString(),
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/85.375,
                                                   color: Colors.black,

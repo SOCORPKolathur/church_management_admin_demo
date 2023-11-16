@@ -1439,6 +1439,7 @@ class _UserTabState extends State<UserTab> {
                           if(filterText != ""){
                             if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
                                 element.get("firstName")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                element.get("pincode")!.toLowerCase().startsWith(filterText.toLowerCase())||
                                 (element.get("firstName")!+element.get("lastName")!).toString().trim().toLowerCase().startsWith(filterText.toLowerCase()) ||
                                 element.get("lastName")!.toLowerCase().startsWith(filterText.toLowerCase())||
                                 element.get("phone")!.toLowerCase().startsWith(filterText.toLowerCase())){
@@ -1491,7 +1492,7 @@ class _UserTabState extends State<UserTab> {
                                             elevation: 10,
                                             child: SizedBox(
                                               height: height / 18.6,
-                                              width: width / 5.106,
+                                              width: width / 4.106,
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: height / 81.375,
@@ -1506,7 +1507,7 @@ class _UserTabState extends State<UserTab> {
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
                                                     hintText:
-                                                        "Search by Name,Profession,Phone",
+                                                        "Search by Name,Profession,Phone,Pincode",
                                                     hintStyle:
                                                         GoogleFonts.openSans(
                                                       fontSize: width/97.571,

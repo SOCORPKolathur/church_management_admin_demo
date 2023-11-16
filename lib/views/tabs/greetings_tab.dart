@@ -689,7 +689,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  WishesTemplate template = WishesTemplate(title: templateTitleController.text, content: templateContentController.text, selected: false, id: "");
+                                  WishesTemplate template = WishesTemplate(
+                                      title: templateTitleController.text, content: templateContentController.text, selected: false, id: "",withName:false,
+                                  );
                                   Response response = await GreetingFireCrud.addWishTemplate(template: template, isBirthday: isBirthday);
                                   if (response.code == 200) {
                                     CoolAlert.show(
@@ -886,8 +888,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                               birthdayTemplateList1 =
                                               snapshot.data!;
                                           if (birthdayTemplateList.length != birthdayTemplateList1.length) {
-                                            birthdayTemplateList =
-                                                birthdayTemplateList1;
+                                            birthdayTemplateList = birthdayTemplateList1;
                                           }
                                           return Container(
                                             height: size.height * 0.47,
@@ -934,8 +935,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                         },
                                                       ),
                                                       title: Text(
-                                                        birthdayTemplateList[i]
-                                                            .title!,
+                                                        birthdayTemplateList[i].withName == true ?  "${birthdayTemplateList[i].title!} {Name}" : birthdayTemplateList[i].title!,
                                                       ),
                                                       subtitle: Text(
                                                         birthdayTemplateList[i]
@@ -1010,14 +1010,10 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                         },
                                                       ),
                                                       title: Text(
-                                                        anniversaryTemplateList[
-                                                                i]
-                                                            .title!,
+                                                        anniversaryTemplateList[i].withName == true ? "${anniversaryTemplateList[i].title!} {Name}" : anniversaryTemplateList[i].title! ,
                                                       ),
                                                       subtitle: Text(
-                                                        anniversaryTemplateList[
-                                                                i]
-                                                            .content!,
+                                                        anniversaryTemplateList[i].content!,
                                                       ),
                                                     ),
                                                   ),
@@ -1120,7 +1116,19 @@ class _GreetingsTabState extends State<GreetingsTab> {
           setState(() {
             templates[i].selected = false;
           });
-          wishes.add(templates[i]);
+          if(templates[i].withName == true){
+            wishes.add(
+              WishesTemplate(
+                content: templates[i].content,
+                id: templates[i].id,
+                selected: false,
+                title: "${templates[i].title} ${users[i].firstName + users[i].lastName}",
+                withName: false,
+              )
+            );
+          }else{
+           wishes.add(templates[i]);
+          }
         }
       }
     }

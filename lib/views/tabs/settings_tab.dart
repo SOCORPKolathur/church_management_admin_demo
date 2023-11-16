@@ -36,6 +36,8 @@ class _SettingsTabState extends State<SettingsTab> {
   TextEditingController committeePasswordController = TextEditingController();
   TextEditingController staffEmailController = TextEditingController();
   TextEditingController staffPasswordController = TextEditingController();
+  TextEditingController memberIDPrefixController = TextEditingController();
+  TextEditingController familyIDPrefixController = TextEditingController();
 
   TextEditingController verseController = TextEditingController();
   TextEditingController textController = TextEditingController();
@@ -55,6 +57,8 @@ class _SettingsTabState extends State<SettingsTab> {
     stateController.text = church.state ?? "";
     pincodeController.text = church.pincode ?? "";
     websiteController.text = church.website ?? "";
+    memberIDPrefixController.text = church.memberIdPrefix ?? "";
+    familyIDPrefixController.text = church.familyIdPrefix ?? "";
     roleCredentialsList.clear();
     church.roles!.forEach((element) {
       roleCredentialsList.add(RoleCredentialsModel(
@@ -170,7 +174,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     setData(church1);
                     return Center(
                       child: Container(
-                        height: size.height * 0.78 ,
+                        height: size.height * 0.88 ,
                         width: size.width * 0.95,
                         decoration: BoxDecoration(
                           color: Constants().primaryAppColor,
@@ -516,6 +520,74 @@ class _SettingsTabState extends State<SettingsTab> {
                                               ),
                                             ],
                                           ),
+                                          SizedBox(height: height/21.7),
+                                          Row(
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "MemberID prefix",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: width/97.571,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width:width/5.464,
+                                                    child: TextFormField(
+                                                      controller:
+                                                      memberIDPrefixController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                      InputDecoration(
+                                                        hintStyle:
+                                                        GoogleFonts
+                                                            .openSans(
+                                                          fontSize: width/97.571,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(width: width/27.32),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "FamilyID Prefix",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: width/97.571,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width:width/5.464,
+                                                    child: TextFormField(
+                                                      controller:
+                                                      familyIDPrefixController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                      InputDecoration(
+                                                        hintStyle:
+                                                        GoogleFonts
+                                                            .openSans(
+                                                          fontSize: width/97.571,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                           SizedBox(height: height/11.7),
 
                                           Row(
@@ -562,6 +634,8 @@ class _SettingsTabState extends State<SettingsTab> {
                                                         website:
                                                             websiteController
                                                                 .text,
+                                                        memberIdPrefix: memberIDPrefixController.text,
+                                                        familyIdPrefix: familyIDPrefixController.text,
                                                         roles: roles1),
                                                   );
                                                   if (response.code == 200) {

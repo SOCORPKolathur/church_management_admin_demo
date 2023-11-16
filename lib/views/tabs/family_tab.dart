@@ -43,6 +43,8 @@ class _FamilyTabState extends State<FamilyTab> {
 
   setFamilyId() async {
     var document = await cf.FirebaseFirestore.instance.collection('Families').get();
+    var churchDetails = await cf.FirebaseFirestore.instance.collection('ChurchDetails').get();
+    String familyIdPrefix = churchDetails.docs.first.get("familyIdPrefix");
     int lastId = document.docs.length + 1;
     String familyId = lastId.toString();
     for(int i = 0; i < 5; i++) {
@@ -51,7 +53,7 @@ class _FamilyTabState extends State<FamilyTab> {
       }
     }
     setState((){
-      familyIdController.text = familyId;
+      familyIdController.text = familyIdPrefix+familyId;
     });
   }
 
@@ -1066,7 +1068,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText:
-                                          "Search by Name,Phone",
+                                          "Search by Name,Phone,Pincode",
                                           hintStyle:
                                           GoogleFonts.openSans(
                                             fontSize: width/97.571,

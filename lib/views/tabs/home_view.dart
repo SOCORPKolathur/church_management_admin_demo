@@ -133,7 +133,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Clans",
+      name: "Flocks",
       page:  ClansTab(),
       icon: Icons.class_,
       isExpanded: false,

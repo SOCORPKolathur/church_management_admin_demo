@@ -406,7 +406,8 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _register() async {
-    final User? user = (await
+    final User? user = (
+        await
     auth.createUserWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,

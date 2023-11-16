@@ -24,6 +24,7 @@ class ChurchStaffModel {
   String? dob;
   String? pincode;
   String? nationality;
+  String? landMark;
   String? imgUrl;
 
   ChurchStaffModel(
@@ -41,6 +42,7 @@ class ChurchStaffModel {
         this.country,
         this.gender,
         this.position,
+        this.landMark,
         this.baptizeDate,
         this.marriageDate,
         this.socialStatus,
@@ -58,6 +60,7 @@ class ChurchStaffModel {
     id = json['id'];
     timestamp = json['timestamp'];
     address = json['address'];
+    landMark = json['landMark'];
     aadharNo = json['aadharNo'];
     dateOfJoining = json['dateOfJoining'];
     document = json['document'];
@@ -89,6 +92,7 @@ class ChurchStaffModel {
     data['timestamp'] = this.timestamp;
     data['address'] = this.address;
     data['aadharNo'] = this.aadharNo;
+    data['landMark'] = this.landMark;
     data['dateOfJoining'] = this.dateOfJoining;
     data['document'] = this.document;
     data['firstName'] = this.firstName;
