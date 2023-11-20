@@ -11,7 +11,9 @@ class MembersModel {
   String? baptizeDate;
   String? marriageDate;
   String? gender;
-  String? address;
+  String? permanentAddress;
+  String? resistentialAddress;
+  String? houseType;
   String? baptizemCertificate;
   String? socialStatus;
   String? job;
@@ -48,7 +50,9 @@ class MembersModel {
         this.phone,
         this.gender,
         this.baptizemCertificate,
-        this.address,
+        this.permanentAddress,
+        this.resistentialAddress,
+        this.houseType,
         this.email,
         this.qualification,
         this.country,
@@ -72,7 +76,9 @@ class MembersModel {
     timestamp = json['timestamp'];
     gender = json['gender'];
     aadharNo = json['aadharNo'];
-    address = json['address'];
+    permanentAddress = json['permanentAddress'];
+    resistentialAddress = json['resistentialAddress'];
+    houseType = json['houseType'];
     baptizemCertificate = json['baptizemCertificate'];
     firstName = json['firstName'];
     lastName = json['lastName'];
@@ -113,7 +119,9 @@ class MembersModel {
     data['aadharNo'] = this.aadharNo;
     data['baptizemCertificate'] = this.baptizemCertificate;
     data['gender'] = this.gender;
-    data['address'] = this.address;
+    data['houseType'] = this.houseType;
+    data['permanentAddress'] = this.permanentAddress;
+    data['resistentialAddress'] = this.resistentialAddress;
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;

@@ -324,13 +324,15 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                                   width: width / 5.464,
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
+                                                        const EdgeInsets.only(
+                                                            top:8.0,left:8,right: 4),
                                                     child: TextFormField(
+
                                                       controller:
                                                           roleNameController,
                                                       decoration:
                                                           InputDecoration(
+                                                            isDense: true,
                                                         border:
                                                             InputBorder.none,
                                                         hintStyle: GoogleFonts
@@ -369,13 +371,14 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
                                                   width: width / 5.464,
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
+                                                    const EdgeInsets.only(
+                                                        top:8.0,left:8,right: 4),
                                                     child: TextFormField(
                                                       controller:
                                                           rolePasswordController,
                                                       decoration:
                                                           InputDecoration(
+                                                            isDense: true,
                                                         border:
                                                             InputBorder.none,
                                                         hintStyle: GoogleFonts
@@ -1851,14 +1854,14 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
       List roles = [];
       var document = await FirebaseFirestore.instance
           .collection('ChurchDetails')
-          .doc("NQ2hhPLdQT8RTHP9ndMk")
+          .doc("Zp84YboeFvPFlpV3")
           .get();
       Map<String, dynamic>? values = document.data();
       roles = values!["roles"];
       roles.add(json);
       FirebaseFirestore.instance
           .collection('ChurchDetails')
-          .doc("NQ2hhPLdQT8RTHP9ndMk")
+          .doc("Zp84YboeFvPFlpV3")
           .update({"roles": roles});
       setState(() {
         isAddRole = false;

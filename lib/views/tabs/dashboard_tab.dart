@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:bouncing_draggable_dialog/bouncing_draggable_dialog.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
+import 'package:church_management_admin/views/tabs/reports_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -11,6 +13,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:translator/translator.dart';
 import 'package:intl/intl.dart';
 import '../../constants.dart';
@@ -18,9 +22,12 @@ import '../../models/dashboard_model.dart';
 import '../../models/manage_role_model.dart';
 import '../../services/dashboard_firecrud.dart';
 import '../../services/role_permission_firecrud.dart';
+import '../../widgets/event_calender.dart';
 import '../../widgets/kText.dart';
 import '../login_view.dart';
 import 'messages_tab.dart';
+import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
+import 'package:show_up_animation/show_up_animation.dart' as an;
 
 class DashBoardTab extends StatefulWidget {
    DashBoardTab({super.key, required this.currentRole});
@@ -383,6 +390,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
 
   @override
   void initState() {
+    _tooltipBehavior = sfc.TooltipBehavior(enable: true);
     fetchDashboardValues();
     super.initState();
   }
@@ -403,6 +411,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
   }
 
   int count = 0;
+
+  TextEditingController selectedDateController = TextEditingController(text: '12-09-2000');
 
   @override
   Widget build(BuildContext context) {
@@ -1609,6 +1619,189 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       );
                     }return Container();
                   },
+                ),
+                SizedBox(height: size.height * 0.04),
+                Row(
+                  children: [
+                    FutureBuilder<MembershipReportModel>(
+                      future: getMemebershipReports(),
+                      builder: (ctx, snapshot){
+                        if(snapshot.hasData){
+                          return Material(
+                            elevation: 7,
+                            borderRadius: BorderRadius.circular(12),
+                            shadowColor:  Constants().primaryAppColor.withOpacity(0.20),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 20,),
+                                Text("Memebership Reports",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
+                                Container(
+                                  height: 370,
+                                    width: 450,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 40),
+                                      child: Container(
+                                        height: 170,
+                                        width: 850,
+                                        child: sfc.SfCartesianChart(
+                                            primaryXAxis: sfc.CategoryAxis(),
+                                            title: sfc.ChartTitle(
+                                                text: '',
+                                                textStyle: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black,
+                                                ),
+                                                alignment: sfc.ChartAlignment.near
+                                            ),
+                                            legend: sfc.Legend(isVisible: true),
+                                            tooltipBehavior: _tooltipBehavior,
+                                            series: <sfc.LineSeries<SalesData, String>>[
+                                              sfc.LineSeries<SalesData, String>(
+                                                name: "",
+                                                dataSource: snapshot.data!.data,
+                                                xValueMapper: (SalesData sales, _) => sales.year,
+                                                yValueMapper: (SalesData sales, _) => sales.sales,
+                                                // Enable data label
+                                                dataLabelSettings: sfc.DataLabelSettings(isVisible: true),
+                                                color: Constants().primaryAppColor,
+                                                width: 5,
+                                                animationDuration: 2000,
+                                              )
+                                            ]
+                                        ),
+                                      ),
+                                    )
+                                ),
+                              ],
+                            ),
+                          );
+                        }return Row(
+                          children: [
+                            SizedBox(width: 20,),
+                            Container(
+                                width: 450,
+                                child: Container(
+                                  height: 420,
+                                  width: 850,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      sfc.SfCartesianChart(
+                                          primaryXAxis: sfc.CategoryAxis(),
+                                          title: sfc.ChartTitle(
+                                              text: '   Membership Reports',
+                                              textStyle: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                              ),
+                                              alignment: sfc.ChartAlignment.near,
+                                          ),
+                                          legend: sfc.Legend(isVisible: true),
+                                          tooltipBehavior: _tooltipBehavior,
+                                          series: <sfc.LineSeries<SalesData, String>>[
+                                            sfc.LineSeries<SalesData, String>(
+                                              name: "",
+                                              dataSource: [],
+                                              xValueMapper: (SalesData sales, _) => sales.year,
+                                              yValueMapper: (SalesData sales, _) => sales.sales,
+                                              // Enable data label
+                                              dataLabelSettings: sfc.DataLabelSettings(isVisible: true),
+                                              color: Constants().primaryAppColor,
+                                              width: 5,
+                                              animationDuration: 2000,
+                                            )
+                                          ]
+                                      ),
+                                      CircularProgressIndicator()
+                                    ],
+                                  ),
+                                )
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection("EventsCalender").snapshots(),
+                      builder: (ctx, snap){
+                        if(snap.hasData){
+                          List<Meeting> events = [];
+                          List<Meeting> selectedEvents = [];
+                          snap.data!.docs.forEach((element) {
+                            events.add(Meeting(element.get("name"), DateFormat("dd-MM-yyyy").parse( element.get("ondate")), DateFormat("dd-MM-yyyy").parse( element.get("ondate")), Constants().primaryAppColor, false));
+                          });
+                          events.forEach((event) {
+                            if(event.from == DateFormat('dd-MM-yyyy').parse(selectedDateController.text)){
+                              selectedEvents.add(event);
+                            }
+                          });
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top:8.0,right: 12),
+                                  child: Material(
+                                    elevation: 7,
+                                    borderRadius: BorderRadius.circular(12),
+                                    shadowColor:  Constants().primaryAppColor.withOpacity(0.20),
+                                    child: Container(
+                                        width: 515,
+                                        height: 420,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12),
+                                            border:Border.all(color: Constants().primaryAppColor.withOpacity(0.20))
+                                        ),
+                                        child:  Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:20.0,left: 15),
+                                              child: Text("Events Calendar",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
+                                            ),
+                                            Container(
+                                              width: 500,
+                                              height: 370,
+                                              child: SfCalendar(
+                                                onTap: (val){
+                                                  setState(() {
+                                                    selectedDateController.text = DateFormat('dd-MM-yyyy').format(val.date!);
+                                                  });
+                                                },
+                                                // onLongPress: (val){
+                                                //   setState(() {
+                                                //     selectedDateController.text = DateFormat('dd-MM-yyyy').format(val.date!);
+                                                //   });
+                                                //   showDialog(
+                                                //       context: context,
+                                                //       builder: (BuildContext context) {
+                                                //         return BouncingDraggableDialog(
+                                                //           width: 600,
+                                                //           height: 350,
+                                                //           content: eventspop(val.date),
+                                                //         );
+                                                //       });
+                                                // },
+                                                view: CalendarView.month,
+                                                allowDragAndDrop: true,
+                                                //dataSource: MeetingDataSource(events),
+                                                monthViewSettings: MonthViewSettings(showAgenda: true),
+                                              ),
+                                            )
+
+                                          ],
+                                        )
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }return Container();
+                      },
+                    ),
+                  ],
                 )
               ],
             )
@@ -1646,5 +1839,91 @@ class _DashBoardTabState extends State<DashBoardTab> {
       ],
     );
   }
+
+  late sfc.TooltipBehavior _tooltipBehavior;
+  int membersCount = 0;
+
+  Future<MembershipReportModel> getMemebershipReports() async {
+
+    List<SalesData> regularList = [];
+    List<SalesData> regularList1 = [];
+
+    var membershipDoc = await FirebaseFirestore.instance.collection('MembershipReports').get();
+
+    for(int m = 0; m < membershipDoc.docs.length; m++){
+      int presentCount = 0;
+      presentCount++;
+      DateTime startDate = DateFormat('dd/M/yyyy').parse(membershipDoc.docs[m].get("date"));
+      String month = await getMonthForData(startDate.month);
+      SalesData sale = SalesData(month, presentCount.toDouble(),'','');
+      regularList1.add(sale);
+    }
+
+    regularList.add(SalesData('Jan',regularList1.where((element) => element.year == 'Jan').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Feb',regularList1.where((element) => element.year == 'Feb').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Mar',regularList1.where((element) => element.year == 'Mar').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Apr',regularList1.where((element) => element.year == 'Apr').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('June',regularList1.where((element) => element.year == 'June').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('July',regularList1.where((element) => element.year == 'July').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Aug',regularList1.where((element) => element.year == 'Aug').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Sep',regularList1.where((element) => element.year == 'Sep').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Oct',regularList1.where((element) => element.year == 'Oct').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Nov',regularList1.where((element) => element.year == 'Nov').length.toDouble() * 1000,'',''));
+    regularList.add(SalesData('Dec',regularList1.where((element) => element.year == 'Dec').length.toDouble() * 1000,'',''));
+
+
+    MembershipReportModel membership = MembershipReportModel(
+      regular: ((regularList.length * 1000) /(membersCount * 12000)),
+      irRegular: ((membersCount * 12000) - (regularList.length * 1000)) / (membersCount * 12000),
+      data: regularList,
+    );
+    return membership;
+  }
+
+  getMonthForData(int month){
+    String result = '';
+    switch(month){
+      case 1:
+        result = 'Jan';
+        break;
+      case 2:
+        result = 'Feb';
+        break;
+      case 3:
+        result = 'Mar';
+        break;
+      case 4:
+        result = 'Apr';
+        break;
+      case 5:
+        result = 'May';
+        break;
+      case 6:
+        result = 'June';
+        break;
+      case 7:
+        result = 'July';
+        break;
+      case 8:
+        result = 'Aug';
+        break;
+      case 9:
+        result = 'Sep';
+        break;
+      case 10:
+        result = 'Oct';
+        break;
+      case 11:
+        result = 'Nov';
+        break;
+      case 12:
+        result = 'Dec';
+        break;
+
+    }
+    return result;
+  }
+
+
 }
 

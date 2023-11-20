@@ -306,7 +306,7 @@ class _ReportsTabState extends State<ReportsTab> {
                                         radius: 50.0,
                                         lineWidth: 10.0,
                                         percent:  snapshot.data!.regular,
-                                        center:  Text("${(snapshot.data!.regular*100).toStringAsFixed(2)} %",style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500)),
+                                        center: Text("${(snapshot.data!.regular*100).toStringAsFixed(2)} %",style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500)),
                                         progressColor: Colors.green,
                                       ),
                                       Padding(
@@ -350,12 +350,8 @@ class _ReportsTabState extends State<ReportsTab> {
                                       Padding(
                                         padding: const EdgeInsets.all( 8.0),
                                         child: ChoiceChip(
-
                                           label: const Text("  Ir-regular  ",style: TextStyle(color: Colors.white),),
-
-
                                           onSelected: (bool selected) {
-
                                             setState(() {
 
                                             });
@@ -375,7 +371,6 @@ class _ReportsTabState extends State<ReportsTab> {
                               ],
                             ),
                             SizedBox(height: height/32.85),
-
                           ],
                         ),
                         SizedBox(width: 20,),
@@ -1227,8 +1222,8 @@ class _ReportsTabState extends State<ReportsTab> {
 
 
     MembershipReportModel membership = MembershipReportModel(
-        regular: ((regularList.length * 1000) /(membersCount * 12000)),
-        irRegular: ((membersCount * 12000) - (regularList.length * 1000)) / (membersCount * 12000),
+        regular: regularList.isNotEmpty ? ((regularList.length * 1000) /(membersCount * 12000)) : 0.0,
+        irRegular: (regularList.isNotEmpty && membersCount != 0) ? ((membersCount * 12000) - (regularList.length * 1000)) / (membersCount * 12000) : 0.0,
         data: regularList,
     );
     return membership;

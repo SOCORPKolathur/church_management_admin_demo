@@ -123,18 +123,7 @@ class _manager_rol_tab_pageState extends State<manager_rol_tab_page> {
                                     )),
                                 child: Row(
                                   children: [
-                                    SizedBox(
-                                      width: size.width * 0.2,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: size.height * 0.1),
-                                          Icon(
-                                            Icons.church,
-                                            size: width/7.588,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+
                                     Container(
                                       width: size.width * 0.75,
                                       padding: EdgeInsets.symmetric(

@@ -58,6 +58,12 @@ class EventsFireCrud {
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;
       response.message = "Sucessfully added to the database";
+      FirebaseFirestore.instance.collection("EventsCalender").doc(documentReferencer.id).set({
+        "name": title,
+        "ondate" : date,
+        "type" : '',
+        "date": date,
+      });
     }).catchError((e) {
       response.code = 500;
       response.message = e;
@@ -89,6 +95,12 @@ class EventsFireCrud {
         await documentReferencer.update(event.toJson()).whenComplete(() {
       res.code = 200;
       res.message = "Sucessfully Updated from database";
+      FirebaseFirestore.instance.collection("EventsCalender").doc(documentReferencer.id).update({
+        "name": event.title,
+        "ondate" : event.date,
+        "type" : '',
+        "date": event.date,
+      });
     }).catchError((e) {
       res.code = 500;
       res.message = e;

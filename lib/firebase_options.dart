@@ -21,20 +21,11 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -53,12 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD280NISrkOI_EWvvSMfxHqvUGLCMpCnGk',
-    appId: '1:804008888688:web:403c87e94bdc086f7a67b5',
-    messagingSenderId: '804008888688',
-    projectId: 'church-management-cbf7d',
-    authDomain: 'church-management-cbf7d.firebaseapp.com',
-    storageBucket: 'church-management-cbf7d.appspot.com',
-    measurementId: 'G-HKLTM8TCCC',
+    apiKey: 'AIzaSyCjozPPO0j8Ph2wZBu_KVCU9QAKT8r_0tM',
+    appId: '1:593479066939:web:a2a7447116a7f45652031e',
+    messagingSenderId: '593479066939',
+    projectId: 'bcag-a6ac7',
+    authDomain: 'bcag-a6ac7.firebaseapp.com',
+    storageBucket: 'bcag-a6ac7.appspot.com',
+    measurementId: 'G-EG67ZNBJ4C',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyACuu6hH4Xd195AHOPMIEfhjJMpc_PrZPc',
+    appId: '1:593479066939:android:5afdb6bd698fb21c52031e',
+    messagingSenderId: '593479066939',
+    projectId: 'bcag-a6ac7',
+    storageBucket: 'bcag-a6ac7.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyC4RBZQWxrF4IRWak77H-bniWabzEwfJng',
+    appId: '1:593479066939:ios:24c90bc52d81a07d52031e',
+    messagingSenderId: '593479066939',
+    projectId: 'bcag-a6ac7',
+    storageBucket: 'bcag-a6ac7.appspot.com',
+    iosBundleId: 'com.example.churchManagementAdmin',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyC4RBZQWxrF4IRWak77H-bniWabzEwfJng',
+    appId: '1:593479066939:ios:86ed39472405150f52031e',
+    messagingSenderId: '593479066939',
+    projectId: 'bcag-a6ac7',
+    storageBucket: 'bcag-a6ac7.appspot.com',
+    iosBundleId: 'com.example.churchManagementAdmin.RunnerTests',
   );
 }

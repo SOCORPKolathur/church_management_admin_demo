@@ -32,6 +32,7 @@ import 'package:church_management_admin/views/tabs/speech_tab.dart';
 import 'package:church_management_admin/views/tabs/student_tab.dart';
 import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:church_management_admin/views/tabs/website_socialmedia_tab.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -333,10 +334,19 @@ class _HomeViewState extends State<HomeView> {
     )
   ];
 
+  String churchLogo = '';
+  getChurchDetails() async {
+    var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+    churchLogo = church.docs.first.get("logo");
+  }
+
   setDrawerItems(List<ManageRoleModel> roles) {
+    print("S2");
     if (drawerItems.isEmpty) {
+      print(roles.length);
       for (int i = 0; i < roles.length; i++) {
         if (widget.currentRole.toUpperCase() == 'ADMIN@GMAIL.COM') {
+          print("S5");
           drawerItems = drawerItems1;
         }else  if (roles[i].role!.toLowerCase() == widget.currentRole.toLowerCase()) {
           for (int j = 0; j < roles[i].permissions!.length; j++) {
@@ -608,6 +618,12 @@ class _HomeViewState extends State<HomeView> {
   }
 
   @override
+  void initState() {
+    getChurchDetails();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -648,12 +664,24 @@ class _HomeViewState extends State<HomeView> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Constants.churchLogo != ""
-                                                ? Image.asset(
-                                              Constants.churchLogo,
+                                            churchLogo != ""
+                                                ? Container(
                                               height: 72,
                                               width: 72,
-                                            )
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(50),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Image.network(
+                                              churchLogo,
+                                              height: 60,
+                                              width: 60,fit: BoxFit.contain,
+                                            ),
+                                                    ),
+                                                  ),
+                                                )
                                                 : const Icon(
                                               Icons.church,
                                               color: Colors.white,
@@ -670,14 +698,14 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                               ),
                                             ),
-                                            Text(
-                                              "MANAGEMENT ADMIN",
-                                              style: GoogleFonts.openSans(
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 15,
-                                                color: Colors.white
-                                              ),
-                                            ),
+                                            // Text(
+                                            //   "MANAGEMENT ADMIN",
+                                            //   style: GoogleFonts.openSans(
+                                            //     fontWeight: FontWeight.w900,
+                                            //     fontSize: 15,
+                                            //     color: Colors.white
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       ),

@@ -409,7 +409,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                           ],
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: familynameController,
@@ -456,7 +456,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: familyleadernameController,
@@ -1910,7 +1910,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                           ],
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: familynameController,
@@ -1938,7 +1938,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           ),
                                           maxLength: 40,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: familyleadernameController,

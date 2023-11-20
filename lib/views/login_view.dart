@@ -1,3 +1,4 @@
+import 'package:country_ip/country_ip.dart';
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/services.dart';
 import 'package:church_management_admin/constants.dart';
@@ -47,9 +48,12 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
+    getChurchDetails();
     getUserLocation();
     super.initState();
   }
+
+
 
   String? validateEmail(String? value) {
     const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
@@ -64,6 +68,12 @@ class _LoginViewState extends State<LoginView> {
     return value!.isNotEmpty && !regex.hasMatch(value)
         ? 'Enter a valid email address'
         : null;
+  }
+
+  String churchLogo = '';
+  getChurchDetails() async {
+    var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+    churchLogo = church.docs.first.get("logo");
   }
 
   @override
@@ -95,21 +105,38 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Constants.churchLogo != ""
-                          ? Image.asset(
-                        Constants.churchLogo,
+                      churchLogo != ""
+                          ? Container(
                         height: 110,
                         width: 110,
-                      )
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(200),
+                              color:Colors.white
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(200),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.network(
+                        churchLogo,
+                        height: 110,
+                        width: 110,
+                      ),
+                              ),
+                            ),
+                          )
                           : const Icon(
                         Icons.church,
                         size: 80,
                       ),
-                      Text(
-                        church.name!,
-                        style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w800,
-                          fontSize: size.height * 0.07,
+                      Container(
+                        width: size.width/2.8,
+                        child: Text(
+                          church.name!,
+                          style: GoogleFonts.openSans(
+                            fontWeight: FontWeight.w800,
+                            fontSize: size.height * 0.07,
+                          ),
                         ),
                       ),
                       Text(
@@ -135,9 +162,9 @@ class _LoginViewState extends State<LoginView> {
                         Center(
                           child: Column(
                             children: [
-                              Constants.churchLogo != ""
-                                  ? Image.asset(
-                                  Constants.churchLogo,
+                              churchLogo != ""
+                                  ? Image.network(
+                                churchLogo,
                                 height: 70,
                                 width: 70,
                               )
@@ -214,6 +241,10 @@ class _LoginViewState extends State<LoginView> {
                               SizedBox(height: size.height*0.03,),
                               InkWell(
                                 onTap: (){
+                                  setState(() {
+                                    test.add("S1");
+                                  });
+
                                   authenticate(church);
                                 },
                                 child: Container(
@@ -234,6 +265,7 @@ class _LoginViewState extends State<LoginView> {
                                   ),
                                 ),
                               ),
+
                               SizedBox(height: size.height*0.02),
                               SizedBox(
                                 height: size.height * 0.08,
@@ -321,12 +353,28 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
+
+  List test = [];
+
   Future<void> authenticate(ChurchDetailsModel church) async {
+
+    setState((){
+      test.add("S2");
+    });
     bool isAuthenticated = await _signInWithEmailAndPassword();
     if(isAuthenticated){
+        setState((){
+      test.add("S9");
+    });
       if(church.roles!.isNotEmpty){
         church.roles!.forEach((element) async {
+            setState((){
+      test.add("S10");
+    });
           if(emailController.text == element.roleName! && passwordController.text == element.rolePassword!){
+              setState((){
+      test.add("S11");
+    });
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
           }
@@ -336,6 +384,9 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<bool> _signInWithEmailAndPassword() async {
+      setState((){
+      test.add("S3");
+    });
     bool result = false;
     final User? user = (await auth.signInWithEmailAndPassword(
       email: emailController.text,
@@ -343,18 +394,42 @@ class _LoginViewState extends State<LoginView> {
     ).catchError((e){
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     })).user;
+      setState((){
+      test.add("S4");
+    });
     if (user != null) {
-      IpCountryData? countryData = await IpCountryLookup().getIpLocationData();
-      WebBrowserInfo androidInfo = await deviceInfo.webBrowserInfo;
-      String? ipv4 = countryData.ip.toString();//await Ipify.ipv4();
+        setState((){
+      test.add("S5");
+    });
+      //IpCountryData? countryData = await IpCountryLookup().getIpLocationData();
+        final countryIpResponse = await CountryIp.find();
+        setState(() {
+          test.add("New1");
+        });
+        setState(() {
+          test.add("New2");
+        });
+      //String? ipv4 = countryData.ip.toString();//await Ipify.ipv4();
+      String? ipv4 = countryIpResponse!.ip.toString();//await Ipify.ipv4();
+        setState(() {
+          test.add(ipv4);
+          test.add("1R");
+          test.add("2R");
+        });
       print(ipv4);
-      String location = await LocationAPI().fetchData(ipv4);
-      print(location);
+
+
       setState(() {
-        deviceId = androidInfo.productSub!;
-        deviceLocation = location;
+
+        test.add(countryIpResponse!.country);
+        test.add("Location");
+        deviceId = "Browser";
+        deviceLocation = countryIpResponse!.country;
         ip = ipv4.toString();
       });
+        setState((){
+      test.add("S6");
+    });
       FirebaseFirestore.instance.collection('LoginReports').doc().set({
         "deviceId": deviceId,
         "deviceOs": deviceOs,
@@ -364,7 +439,9 @@ class _LoginViewState extends State<LoginView> {
         "time" : DateFormat('hh:mm aa').format(DateTime.now()),
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       });
-
+        setState((){
+      test.add("S7");
+    });
       setState(() {
         _success = true;
         result = true;
@@ -376,6 +453,9 @@ class _LoginViewState extends State<LoginView> {
         result = false;
       });
     }
+      setState((){
+      test.add("S8");
+    });
     return result;
   }
 

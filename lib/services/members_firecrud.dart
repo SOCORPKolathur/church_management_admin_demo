@@ -43,7 +43,9 @@ class MembersFireCrud {
   static Future<Response> addMember(
       {required File? image,
         required File? document,
-      required String address,
+      required String residentialAddress,
+      required String permanentAddress,
+      required String houseType,
       required String gender,
       required String membersId,
       required String baptizeDate,
@@ -91,7 +93,9 @@ class MembersFireCrud {
         memberId: membersId,
         phone: phone,
         gender: gender,
-        address: address,
+        permanentAddress: permanentAddress,
+        resistentialAddress: residentialAddress,
+        houseType: houseType,
         baptizemCertificate: document != null ? downloadUrl1 : "",
         nationality: nationality,
         marriageDate: marriageDate,
@@ -120,7 +124,7 @@ class MembersFireCrud {
     var memberJson = member.toJson();
 
     UserModel user = UserModel(
-        id: "",
+        id: documentReferencer1.id,
         timestamp: DateTime.now().millisecondsSinceEpoch,
         profession: position.toUpperCase(),
         phone: phone,
@@ -134,8 +138,10 @@ class MembersFireCrud {
         aadharNo: aadharNo,
         isPrivacyEnabled: false,
         dob: dob,
-        about: '',
-        address: address,
+        nationality: nationality,
+        houseType: houseType,
+        about: permanentAddress,
+        address: residentialAddress,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
         pincode: pincode,
@@ -243,7 +249,7 @@ class MembersFireCrud {
         bloodGroup: row[i][15].toString(),
         dob: row[i][16].toString(),
         nationality: row[i][17].toString(),
-        address: row[i][18].toString(),
+        resistentialAddress: row[i][18].toString(),
         pincode: row[i][19].toString(),
         aadharNo: row[i][20].toString(),
         maritalStatus: row[i][21].toString(),
@@ -256,6 +262,8 @@ class MembersFireCrud {
         imgUrl: "",
         country: "",
         baptizemCertificate: "",
+        permanentAddress: "",
+        houseType: "",
       );
       var json = member.toJson();
       await MemberCollection.doc(documentID).set(
@@ -266,6 +274,97 @@ class MembersFireCrud {
         res.code = 500;
         res.message = e;
       });
+    }
+    return res;
+  }
+
+
+
+  static Future<Response> bulkUploadMemberss(Excel excel) async {
+    var members = await FirebaseFirestore.instance.collection("Members").get();
+    var churchDetails = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+    Response res = Response();
+    final row = excel.tables[excel.tables.keys.first]!.rows.map((e) => e.map((e) => e!.value).toList()).toList();
+    for (int i = 1; i < row.length; i++) {
+      String memberIdPrefix = churchDetails.docs.first.get("memberIdPrefix");
+      int lastId = members.docs.length + i;
+      String memberId = lastId.toString().padLeft(6,'0');
+      String documentID = generateRandomString(20);
+      String documentID1 = generateRandomString(20);
+
+      MembersModel member = MembersModel(
+        id: documentID,
+        memberId: memberIdPrefix+memberId,
+        firstName: row[i][19].toString().toLowerCase() != 'null' ? row[i][19].toString() : "",
+        lastName: row[i][21].toString().toLowerCase() != 'null' ? row[i][21].toString() : "",
+        phone: row[i][13].toString(),
+        email: row[i][32].toString(),
+        gender: row[i][22].toString().toString().toLowerCase() == 'm' ? 'Male' : 'Female',
+        position: row[i][29].toString(),
+        baptizeDate: "Null",
+        marriageDate: row[i][25].toString(),
+        socialStatus: "Null",
+        job: row[i][29].toString(),
+        familyid: "Null",
+        family: "Null",
+        department: "Null",
+        bloodGroup: "Null",
+        dob: row[i][23].toString(),
+        nationality: row[i][11].toString(),
+        resistentialAddress: "${row[i][4]},${row[i][5]},${row[i][6]},${row[i][7]},${row[i][8]},${row[i][9]},${row[i][10]},${row[i][11]}",
+        permanentAddress: "${row[i][4]},${row[i][5]},${row[i][6]},${row[i][7]},${row[i][8]},${row[i][9]},${row[i][10]},${row[i][11]}",
+        pincode: row[i][9].toString(),
+        aadharNo: row[i][34].toString(),
+        maritalStatus: row[i][24].toString().toLowerCase() == "yes" ? 'Married' : 'Single',
+        attendingTime: row[i][2].toString(),
+        qualification: row[i][3].toString(),
+        relationToFamily: row[i][26].toString(),
+        previousChurch: row[i][35].toString(),
+        landMark: row[i][12].toString(),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        imgUrl: "",
+        country: "Null",
+        baptizemCertificate: "Null",
+        houseType: "Null",
+      );
+
+      UserModel user = UserModel(
+        id: documentID1,
+        about: "${row[i][4]},${row[i][5]},${row[i][6]},${row[i][7]},${row[i][8]},${row[i][9]},${row[i][10]},${row[i][11]}",
+        address: "${row[i][4]},${row[i][5]},${row[i][6]},${row[i][7]},${row[i][8]},${row[i][9]},${row[i][10]},${row[i][11]}",
+        anniversaryDate: row[i][25].toString(),
+        fcmToken: "",
+        isPrivacyEnabled: false,
+        locality: row[i][11].toString(),
+        maritialStatus: row[i][24].toString().toLowerCase() == "yes" ? 'Married' : 'Single',
+        profession: row[i][29].toString(),
+        firstName: row[i][19].toString(),
+        lastName: row[i][21].toString(),
+        phone: row[i][13].toString(),
+        email: row[i][32].toString(),
+        gender: row[i][22].toString().toString().toLowerCase() == 'm' ? 'Male' : 'Female',
+        baptizeDate: "Null",
+        bloodGroup: "Null",
+        dob: row[i][23].toString(),
+        nationality: row[i][11].toString(),
+        pincode: row[i][9].toString(),
+        aadharNo: row[i][34].toString(),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        imgUrl: "",
+        houseType: "Null",
+      );
+
+      var json = member.toJson();
+      var userJson = user.toJson();
+      await MemberCollection.doc(documentID).set(json).whenComplete(() {
+        res.code = 200;
+        res.message = "Sucessfully Updated from database";
+        FirebaseFirestore.instance.collection("Users").doc(documentID1).set(userJson);
+      }).catchError((e) {
+        res.code = 500;
+        res.message = e;
+      });
+      print(i);
     }
     return res;
   }

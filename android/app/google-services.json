@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "593479066939",
+    "project_id": "bcag-a6ac7",
+    "storage_bucket": "bcag-a6ac7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593479066939:android:5afdb6bd698fb21c52031e",
+        "android_client_info": {
+          "package_name": "com.example.church_management_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACuu6hH4Xd195AHOPMIEfhjJMpc_PrZPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

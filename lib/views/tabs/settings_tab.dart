@@ -1,9 +1,12 @@
+import 'dart:html';
+
 import 'package:church_management_admin/models/church_details_model.dart';
 import 'package:church_management_admin/models/verses_model.dart';
 import 'package:church_management_admin/services/attendance_record_firecrud.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
@@ -47,7 +50,10 @@ class _SettingsTabState extends State<SettingsTab> {
   bool isCommitteePasswordVisible = true;
   bool isStaffPasswordVisible = true;
 
+  String churchLogo = '';
+
   setData(ChurchDetailsModel church) {
+    churchLogo = church.logo ?? '';
     nameController.text = church.name ?? "";
     phoneController.text = church.phone ?? "";
     buildingnoController.text = church.buildingNo ?? "";
@@ -71,6 +77,41 @@ class _SettingsTabState extends State<SettingsTab> {
   List<RoleCredentialsModel> roleCredentialsList = [];
 
   List<bool> selectVersesList = [];
+
+  File? profileImage;
+  var uploadedImage;
+  String? selectedImg;
+
+  selectImage() async {
+    InputElement input = FileUploadInputElement() as InputElement
+      ..accept = 'image/*';
+    input.click();
+    input.onChange.listen((event) async {
+      final file = input.files!.first;
+      FileReader reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        setState(() {
+          profileImage = file;
+        });
+        setState(() {
+          uploadedImage = reader.result;
+          selectedImg = null;
+        });
+      });
+      setState(() {});
+    });
+
+
+    String downloadUrl =  await uploadImageToStorage(profileImage);
+
+    var doc = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+
+    FirebaseFirestore.instance.collection('ChurchDetails').doc(doc.docs.first.id).update({
+      "logo" : downloadUrl,
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,9 +247,43 @@ class _SettingsTabState extends State<SettingsTab> {
                                       child: Column(
                                         children: [
                                           SizedBox(height: size.height * 0.1),
-                                          Icon(
+                                          churchLogo != ""
+                                              ? Image.network(
+                                            churchLogo,
+                                            height: 72,
+                                            width: 72,
+                                          )
+                                              : const Icon(
                                             Icons.church,
-                                            size: width/7.588,
+                                            color: Colors.white,
+                                            size: 52,
+                                          ),
+                                          // Icon(
+                                          //   Icons.church,
+                                          //   size: width/7.588,
+                                          // ),
+                                          SizedBox(height: 10),
+                                          InkWell(
+                                            onTap: selectImage,
+                                            child: Container(
+                                              height: height / 18.6,
+                                              width: size.width * 0.1,
+                                              decoration: BoxDecoration(
+                                                color: Constants().primaryAppColor,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  const Icon(Icons.add_a_photo, color: Colors.white),
+                                                  SizedBox(width: width / 136.6),
+                                                  const KText(
+                                                    text: 'Change Logo',
+                                                    style: TextStyle(color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -611,6 +686,7 @@ class _SettingsTabState extends State<SettingsTab> {
                                                       await ChurchDetailsFireCrud
                                                           .updateRecord(
                                                     ChurchDetailsModel(
+                                                      logo: church1.logo,
                                                         phone: phoneController
                                                             .text,
                                                         id: church1.id,
@@ -1269,6 +1345,16 @@ class _SettingsTabState extends State<SettingsTab> {
           backgroundColor: Constants().primaryAppColor.withOpacity(0.8));
     }
     return response;
+  }
+
+  static Future<String> uploadImageToStorage(file) async {
+    var snapshot = await FirebaseStorage.instance
+        .ref()
+        .child('dailyupdates')
+        .child("${file.name}")
+        .putBlob(file);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 }
 

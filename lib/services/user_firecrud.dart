@@ -60,6 +60,8 @@ class UserFireCrud {
         required String profession,
         required String about,
         required String address,
+        required String nationality,
+        required String houseType,
       }) async {
     String downloadUrl = '';
     if(image != null){
@@ -82,6 +84,8 @@ class UserFireCrud {
         email: email,
         aadharNo: aadharNo,
         isPrivacyEnabled: false,
+        nationality: nationality,
+        houseType: houseType,
         dob: dob,
         about: about,
         address: address,
@@ -172,6 +176,8 @@ class UserFireCrud {
           aadharNo: row[i][15].toString(),
           fcmToken: "",
           locality: "",
+        nationality: "",
+        houseType: "",
         isPrivacyEnabled: false,
       );
       var json = user.toJson();

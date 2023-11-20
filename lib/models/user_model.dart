@@ -18,12 +18,16 @@ class UserModel {
   late String about;
   late String address;
   late String imgUrl;
+  late String nationality;
+  late String houseType;
   late String pincode;
   late bool isPrivacyEnabled;
 
   UserModel(
       {required this.id,
         required this.timestamp,
+        required this.houseType,
+        required this.nationality,
         required this.firstName,
         required this.lastName,
         required this.aadharNo,
@@ -49,6 +53,8 @@ class UserModel {
     id = json['id'];
     timestamp = json['timestamp'];
     pincode = json['pincode'];
+    houseType = json['houseType'];
+    nationality = json['nationality'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     fcmToken = json['fcmToken'];
@@ -74,6 +80,8 @@ class UserModel {
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
     data['firstName'] = this.firstName;
+    data['nationality'] = this.nationality;
+    data['houseType'] = this.houseType;
     data['fcmToken'] = this.fcmToken;
     data['lastName'] = this.lastName;
     data['aadharNo'] = this.aadharNo;

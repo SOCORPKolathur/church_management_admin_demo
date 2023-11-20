@@ -49,7 +49,9 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController(text: 'Indian');
   TextEditingController countryController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController residentialAddressController = TextEditingController();
+  TextEditingController permanentAddressController = TextEditingController();
+  TextEditingController houseTypeCon = TextEditingController(text: 'Select Type');
   TextEditingController pincodeController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
@@ -132,7 +134,7 @@ class _MembersTabState extends State<MembersTab> {
     sheet.getRangeByName("E1").setText("Phone");
     sheet.getRangeByName("F1").setText("Email");
     sheet.getRangeByName("G1").setText("Gender");
-    sheet.getRangeByName("H1").setText("Position");
+    sheet.getRangeByName("H1").setText("Profession");
     sheet.getRangeByName("I1").setText("Baptize Date");
     sheet.getRangeByName("J1").setText("Marriage Date");
     sheet.getRangeByName("K1").setText("Social Status");
@@ -169,7 +171,9 @@ class _MembersTabState extends State<MembersTab> {
       baptizeDateController.text = "";
       bloodGroupController.text = "Select Blood Group";
       genderController.text = "Select Gender";
-      addressController.text = "";
+      permanentAddressController.text = "";
+      residentialAddressController.text = "";
+      houseTypeCon.text = "Select Type";
       familyController.text = "Select";
       familyIDController.text = "Select";
       departmentController.text = "";
@@ -359,7 +363,7 @@ class _MembersTabState extends State<MembersTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: profileImageValidator ? size.height * 2.45 : size.height * 2.45,
+              height: profileImageValidator ? size.height * 2.7 : size.height * 2.7,
               width: width/1.241,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,
@@ -421,7 +425,7 @@ class _MembersTabState extends State<MembersTab> {
                                       );
                                       var bytes = pickedFile!.files.single.bytes;
                                       var excel = ex.Excel.decodeBytes(bytes!);
-                                      Response response = await MembersFireCrud.bulkUploadMember(excel);
+                                      Response response = await MembersFireCrud.bulkUploadMemberss(excel);
                                       if(response.code == 200){
                                         CoolAlert.show(
                                             context: context,
@@ -867,7 +871,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Position",
+                                          text: "Profession",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -1344,6 +1348,46 @@ class _MembersTabState extends State<MembersTab> {
                               Row(
                                 children: [
                                   SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "House Type",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: height / 50.076),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: houseTypeCon.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Type",
+                                            "Own House",
+                                            "Rented House",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Type") {
+                                              setState(() {
+                                                houseTypeCon.text = newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
+                                  SizedBox(
                                     width: width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1652,7 +1696,7 @@ class _MembersTabState extends State<MembersTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: width/105.076,
@@ -1696,7 +1740,7 @@ class _MembersTabState extends State<MembersTab> {
                                                 maxLength: 255,
                                                 style:  TextStyle(
                                                     fontSize: width/113.83),
-                                                controller: addressController,
+                                                controller: residentialAddressController,
                                                 decoration:  InputDecoration(
                                                     counterText: '',
                                                     border: InputBorder.none,
@@ -1713,6 +1757,69 @@ class _MembersTabState extends State<MembersTab> {
                                 ],
                               ),
                                SizedBox(height: height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width/105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin:  EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration:  const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 255,
+                                                style:  TextStyle(
+                                                    fontSize: width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration:  InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,
+                                                        top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -1742,7 +1849,9 @@ class _MembersTabState extends State<MembersTab> {
                                             membersId: memberIdController.text,
                                             image: profileImage,
                                             document: documentForUpload,
-                                            address: addressController.text,
+                                            residentialAddress: residentialAddressController.text,
+                                            permanentAddress: permanentAddressController.text,
+                                            houseType: houseTypeCon.text,
                                             gender: genderController.text,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,
@@ -2200,7 +2309,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: width/9.6,
                                         child: KText(
-                                          text: "Position",
+                                          text: "Profession",
                                           style: GoogleFonts.poppins(
                                             fontSize: width/105.076,
                                             fontWeight: FontWeight.w600,
@@ -2274,8 +2383,9 @@ class _MembersTabState extends State<MembersTab> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            SizedBox(
-                                              width: width/17.075,
+                                            Container(
+                                              color: Colors.blue,
+                                              width: width/30.075,
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
@@ -2284,13 +2394,16 @@ class _MembersTabState extends State<MembersTab> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: width/13.66,
-                                              child: KText(
-                                                text: members[i].memberId!,
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/105.076,
-                                                  fontWeight: FontWeight.w600,
+                                            Container(
+                                              color: Colors.red,
+                                              width: width/9.66,
+                                              child: Center(
+                                                child: KText(
+                                                  text: members[i].memberId!,
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: width/105.076,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -2301,9 +2414,13 @@ class _MembersTabState extends State<MembersTab> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   CircleAvatar(
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                            members[i].imgUrl!),
+                                                    backgroundImage: NetworkImage(members[i].imgUrl!),
+                                                    child: Visibility(
+                                                      visible: members[i].imgUrl == "",
+                                                      child: Icon(
+                                                        Icons.person,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -2414,7 +2531,9 @@ class _MembersTabState extends State<MembersTab> {
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
-                                                          addressController.text = members[i].address!;
+                                                          residentialAddressController.text = members[i].resistentialAddress!;
+                                                          permanentAddressController.text = members[i].permanentAddress!;
+                                                          houseTypeCon.text = members[i].houseType!;
                                                           genderController.text = members[i].gender!;
                                                           baptizeDateController.text = members[i].baptizeDate!;
                                                           bloodGroupController.text = members[i].bloodGroup!;
@@ -2885,7 +3004,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child:  KText(
-                                          text: "Position",
+                                          text: "Profession",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: width/85.375
@@ -3319,7 +3438,34 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child:  KText(
-                                          text: "Address",
+                                          text: "House Type",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      SizedBox(
+                                        width: size.width * 0.3,
+                                        child: KText(
+                                          text: member.houseType!,
+                                          style:  TextStyle(
+                                              fontSize: width/97.57
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Residential Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: width/85.375
@@ -3331,7 +3477,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.3,
                                         child: KText(
-                                          text: member.address!,
+                                          text: member.resistentialAddress!,
                                           style:  TextStyle(
                                               fontSize: width/97.57
                                           ),
@@ -3340,6 +3486,33 @@ class _MembersTabState extends State<MembersTab> {
                                     ],
                                   ),
                                    SizedBox(height: height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Permanent Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      SizedBox(
+                                        width: size.width * 0.3,
+                                        child: KText(
+                                          text: member.permanentAddress!,
+                                          style:  TextStyle(
+                                              fontSize: width/97.57
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -3769,7 +3942,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Position",
+                                          text: "Profession",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -4198,6 +4371,46 @@ class _MembersTabState extends State<MembersTab> {
                               Row(
                                 children: [
                                   SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "House Type",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: height / 50.076),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: houseTypeCon.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Type",
+                                            "Own House",
+                                            "Rented House",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Type") {
+                                              setStat(() {
+                                                houseTypeCon.text = newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
+                                  SizedBox(
                                     width: width/4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -4450,7 +4663,7 @@ class _MembersTabState extends State<MembersTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: width/105.076,
@@ -4492,7 +4705,7 @@ class _MembersTabState extends State<MembersTab> {
                                                 maxLength: 255,
                                                 style:  TextStyle(
                                                     fontSize: width/113.83),
-                                                controller: addressController,
+                                                controller: residentialAddressController,
                                                 decoration:  InputDecoration(
                                                   counterText: '',
                                                     border: InputBorder.none,
@@ -4509,6 +4722,69 @@ class _MembersTabState extends State<MembersTab> {
                                 ],
                               ),
                                SizedBox(height: height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width/105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin:  EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration:  const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 255,
+                                                style:  TextStyle(
+                                                    fontSize: width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration:  InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,
+                                                        top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -4525,7 +4801,9 @@ class _MembersTabState extends State<MembersTab> {
                                           MembersModel(
                                             imgUrl: member.imgUrl,
                                             baptizemCertificate: member.baptizemCertificate,
-                                            address: addressController.text,
+                                            resistentialAddress: residentialAddressController.text,
+                                            permanentAddress: permanentAddressController.text,
+                                            houseType: houseTypeCon.text,
                                             gender: genderController.text,
                                             id: member.id,
                                             timestamp: member.timestamp,
@@ -4592,6 +4870,9 @@ class _MembersTabState extends State<MembersTab> {
                                             positionController.text = "";
                                             socialStatusController.text = "";
                                             countryController.text = "";
+                                            residentialAddressController.text = "";
+                                            permanentAddressController.text = "";
+                                            houseTypeCon.text = "Select Type";
                                           });
                                           Navigator.pop(context);
                                         } else {
@@ -4671,7 +4952,7 @@ class _MembersTabState extends State<MembersTab> {
     row.add("Phone");
     row.add("Email");
     row.add("Gender");
-    row.add("Position");
+    row.add("Profession");
     row.add("Baptize Date");
     row.add("Marital Status");
     row.add("Marriage Date");
@@ -4685,7 +4966,7 @@ class _MembersTabState extends State<MembersTab> {
     row.add("Blood Group");
     row.add("Date of Birth");
     row.add("Nationality");
-    row.add("Address");
+    row.add("Residential Address");
     row.add("Pin Code");
     rows.add(row);
     for (int i = 0; i < members.length; i++) {
@@ -4710,7 +4991,7 @@ class _MembersTabState extends State<MembersTab> {
       row.add(members[i].bloodGroup);
       row.add(members[i].dob);
       row.add(members[i].nationality);
-      row.add(members[i].address);
+      row.add(members[i].resistentialAddress);
       row.add(members[i].pincode);
       rows.add(row);
     }
@@ -4743,7 +5024,7 @@ class _MembersTabState extends State<MembersTab> {
     row.add("    ");
     row.add("Name");
     row.add("    ");
-    row.add("Position");
+    row.add("Profession");
     row.add("    ");
     row.add("Phone");
     row.add("    ");

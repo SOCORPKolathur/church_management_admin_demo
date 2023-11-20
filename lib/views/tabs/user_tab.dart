@@ -46,6 +46,8 @@ class _UserTabState extends State<UserTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController();
   TextEditingController aadharController = TextEditingController();
+  TextEditingController nationalityCon = TextEditingController(text: 'Indian');
+  TextEditingController houseTypeCon = TextEditingController(text: 'Select Type');
   TextEditingController filterTextController = TextEditingController();
   String filterText = "";
   String marriedController = "Select Status";
@@ -128,6 +130,8 @@ class _UserTabState extends State<UserTab> {
       filterText = "";
       marriedController = "Select Status";
       GenderController = "Select Gender";
+      houseTypeCon.text = "Select Type";
+      nationalityCon.text = "Indian";
       profileImage = null;
       uploadedImage = null;
       selectedImg = null;
@@ -233,8 +237,8 @@ class _UserTabState extends State<UserTab> {
                   children: [
                     Container(
               height: marriedController.toUpperCase() == "MARRIED"
-                      ? size.height * 2.2
-                      : size.height * 2,
+                      ? size.height * 2.4
+                      : size.height * 2.2,
               width: width / 1.2418,
               margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
               decoration: BoxDecoration(
@@ -1075,11 +1079,90 @@ class _UserTabState extends State<UserTab> {
                                               return '';
                                             }
                                           },
+                                          // inputFormatters: [
+                                          //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          // ],
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          controller: localityController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height / 21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "House Type",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: height / 50.076),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: houseTypeCon.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Type",
+                                            "Own House",
+                                            "Rented House",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Type") {
+                                              setState(() {
+                                                houseTypeCon.text = newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Nationality",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return '';
+                                            }
+                                          },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
                                           style: TextStyle(fontSize: width / 113.83),
-                                          controller: localityController,
+                                          controller: nationalityCon,
                                         )
                                       ],
                                     ),
@@ -1091,7 +1174,7 @@ class _UserTabState extends State<UserTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: width / 105.076,
@@ -1162,7 +1245,7 @@ class _UserTabState extends State<UserTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "About",
+                                    text: "Permanent Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: width / 105.076,
@@ -1267,6 +1350,8 @@ class _UserTabState extends State<UserTab> {
                                             gender: GenderController,
                                             image: profileImage,
                                             baptizeDate: baptizeDateController.text,
+                                            nationality: nationalityCon.text,
+                                            houseType: houseTypeCon.text,
                                             anniversaryDate: anniversaryDateController.text,
                                             aadharNo: aadharController.text,
                                             bloodGroup: bloodGroupController.text,
@@ -1844,9 +1929,13 @@ class _UserTabState extends State<UserTab> {
                                                               .start,
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundImage:
-                                                              NetworkImage(
-                                                                  users[i].user.imgUrl!),
+                                                          backgroundImage: NetworkImage(users[i].user.imgUrl!),
+                                                          child: Visibility(
+                                                            visible: users[i].user.imgUrl == "",
+                                                            child: Icon(
+                                                              Icons.person,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -1995,6 +2084,8 @@ class _UserTabState extends State<UserTab> {
                                                                 marriedController = users[i].user.maritialStatus;
                                                                 aadharController.text = users[i].user.aadharNo;
                                                                 anniversaryDateController.text = users[i].user.anniversaryDate;
+                                                                houseTypeCon.text = users[i].user.houseType;
+                                                                nationalityCon.text = users[i].user.nationality;
                                                               });
                                                               editPopUp(users[i].user,users[i].userDocId, size);
                                                             },
@@ -2502,12 +2593,56 @@ class _UserTabState extends State<UserTab> {
                                   SizedBox(height: height / 32.55),
                                   Row(
                                     crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "House Type",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.houseType!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Nationality",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.nationality!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "About",
+                                          text: "Permanent Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375),
@@ -2532,7 +2667,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Address",
+                                          text: "Residential Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375),
@@ -3298,11 +3433,90 @@ class _UserTabState extends State<UserTab> {
                               ],
                             ),
                             SizedBox(height: height / 21.7),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "House Type",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: height / 50.076),
+                                      DropdownButton(
+                                        isExpanded: true,
+                                        value: houseTypeCon.text,
+                                        icon: const Icon(Icons.keyboard_arrow_down),
+                                        items: [
+                                          "Select Type",
+                                          "Own House",
+                                          "Rented House",
+                                        ].map((items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          if (newValue != "Select Type") {
+                                            setStat(() {
+                                              houseTypeCon.text = newValue!;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width / 68.3),
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Nationality",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        maxLength: 40,
+                                        validator: (val){
+                                          if(val!.isEmpty){
+                                            return 'Field is required';
+                                          }else{
+                                            return '';
+                                          }
+                                        },
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                        ],
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: nationalityCon,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height / 21.7),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: "Address",
+                                  text: "Residential Address",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
                                     fontSize: width / 105.076,
@@ -3365,7 +3579,7 @@ class _UserTabState extends State<UserTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 KText(
-                                  text: "About",
+                                  text: "Permanent Address",
                                   style: GoogleFonts.openSans(
                                     color: Colors.black,
                                     fontSize: width / 105.076,
@@ -3450,6 +3664,8 @@ class _UserTabState extends State<UserTab> {
                                         fcmToken: user.fcmToken,
                                         gender: GenderController.isNotEmpty ? GenderController : user.gender,
                                         imgUrl: user.imgUrl,
+                                        houseType: houseTypeCon.text.isNotEmpty ? houseTypeCon.text : user.houseType,
+                                        nationality: nationalityCon.text.isNotEmpty ? nationalityCon.text : user.nationality,
                                         anniversaryDate: marriedController
                                             .toUpperCase() ==
                                             "MARRIED"
