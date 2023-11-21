@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:typed_data';
-import 'package:church_management_admin/services/prayers_firecrud.dart';
-import 'package:church_management_admin/views/prints/prayer_print.dart';
+import 'package:church_management_admin/services/testimonial_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
@@ -12,18 +11,20 @@ import 'package:pdf/pdf.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
-import '../../models/prayers_model.dart';
 import '../../models/response.dart';
+import '../../models/testimonial_model.dart';
 import '../../widgets/kText.dart';
+import '../prints/testimonial_print.dart';
 
-class PrayersTab extends StatefulWidget {
-  const PrayersTab({super.key});
+class TestimonialsTab extends StatefulWidget {
+  const TestimonialsTab({super.key});
 
   @override
-  State<PrayersTab> createState() => _PrayersTabState();
+  State<TestimonialsTab> createState() => _TestimonialsTabState();
 }
 
-class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateMixin {
+class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProviderStateMixin {
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -90,11 +91,11 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
-                    text: "PRAYERS",
+                    text: "TESTIMONIALS",
                     style: GoogleFonts.openSans(
-                        fontSize: size.width/52.53846153846154,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
+                      fontSize: size.width/52.53846153846154,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
                     ),
                   ),
                   InkWell(
@@ -126,7 +127,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                           padding: EdgeInsets.symmetric(horizontal: width/227.6666666666667),
                           child: Center(
                             child: KText(
-                              text: currentTab.toUpperCase() == "VIEW" ? "Add Prayer" : "View Prayers",
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Testimonial" : "View Testimonial",
                               style: GoogleFonts.openSans(
                                 fontSize: width/105.0769230769231,
                                 fontWeight: FontWeight.bold,
@@ -176,9 +177,9 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                             onTap: () async {
                               if (timeController.text != "" && dateController.text != "" && titleController.text != "") {
                                 Response response =
-                                    await PrayersFireCrud.addPrayer(
-                                      date: dateController.text,
-                                      time: timeController.text,
+                                await TestimonialFireCrud.addTestimonial(
+                                  date: dateController.text,
+                                  time: timeController.text,
                                   title: titleController.text,
                                   description: descriptionController.text,
                                 );
@@ -186,7 +187,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   CoolAlert.show(
                                       context: context,
                                       type: CoolAlertType.success,
-                                      text: "Prayer created successfully!",
+                                      text: "Testimonial created successfully!",
                                       width: size.width * 0.4,
                                       backgroundColor: Constants()
                                           .primaryAppColor
@@ -200,7 +201,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   CoolAlert.show(
                                       context: context,
                                       type: CoolAlertType.error,
-                                      text: "Failed to Create Prayer!",
+                                      text: "Failed to Create Testimonial!",
                                       width: size.width * 0.4,
                                       backgroundColor: Constants()
                                           .primaryAppColor
@@ -436,21 +437,21 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
               ),
             )
                 : currentTab.toUpperCase() == "VIEW" ? dateRangeStart != null ? StreamBuilder(
-              stream: PrayersFireCrud.fetchPrayersWithFilter(dateRangeStart!,dateRangeEnd!),
+              stream: TestimonialFireCrud.fetchTestimonialsWithFilter(dateRangeStart!,dateRangeEnd!),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<PrayersModel> pendingPrayers = [];
-                  List<PrayersModel> approvedPrayers = [];
-                  List<PrayersModel> deniedPrayers = [];
+                  List<TestimonialsModel> pendingTestimonials = [];
+                  List<TestimonialsModel> verifiedTestimonials = [];
+                  List<TestimonialsModel> unverifiedTestimonials = [];
                   snapshot.data!.forEach((element) {
-                    if(element.status!.toLowerCase() == 'approved'){
-                      approvedPrayers.add(element);
-                    }else if(element.status!.toLowerCase() == 'denied'){
-                      deniedPrayers.add(element);
+                    if(element.status!.toLowerCase() == 'verified'){
+                      verifiedTestimonials.add(element);
+                    }else if(element.status!.toLowerCase() == 'unverified'){
+                      unverifiedTestimonials.add(element);
                     }else{
-                      pendingPrayers.add(element);
+                      pendingTestimonials.add(element);
                     }
                   });
                   return Container(
@@ -479,7 +480,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Requests (${approvedPrayers.length+pendingPrayers.length+deniedPrayers.length})",
+                                  text: "All Testimonials (${verifiedTestimonials.length+pendingTestimonials.length+unverifiedTestimonials.length})",
                                   style: GoogleFonts.openSans(
                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
@@ -541,7 +542,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generatePrayerPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers,false);
+                                      generateTestimonialPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials,false);
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -579,7 +580,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
-                                      copyToClipBoard(currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers);
+                                      copyToClipBoard(currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials);
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -618,7 +619,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: ()  async {
-                                      var data = await generatePrayerPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers,true);
+                                      var data = await generateTestimonialPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
@@ -658,7 +659,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
-                                      convertToCsv(currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers);
+                                      convertToCsv(currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials);
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -722,7 +723,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          "Pending Requests",
+                                          "Pending Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 0
                                                 ? Colors.white
@@ -737,7 +738,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          "Approved Requests",
+                                          "Verified Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 1
                                                 ? Colors.white
@@ -752,7 +753,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          "Denied Requests",
+                                          "Denied Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 2
                                                 ? Colors.white
@@ -833,7 +834,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   children: [
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: pendingPrayers.length,
+                                        itemCount: pendingTestimonials.length,
                                         itemBuilder: (ctx, i) {
                                           return Container(
                                             height: height/10.85,
@@ -870,7 +871,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/6.83,
                                                     child: KText(
-                                                      text: pendingPrayers[i].title!,
+                                                      text: pendingTestimonials[i].title!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -880,7 +881,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/6.83,
                                                     child: KText(
-                                                      text: pendingPrayers[i].date!,
+                                                      text: pendingTestimonials[i].date!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -890,7 +891,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/5.464,
                                                     child: KText(
-                                                      text: pendingPrayers[i].description!,
+                                                      text: pendingTestimonials[i].description!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -903,13 +904,13 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
-                                                                "status" : "Approved"
+                                                              cf.FirebaseFirestore.instance.collection('Testimonials').doc(pendingTestimonials[i].id).update({
+                                                                "status" : "verified"
                                                               });
                                                               CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.success,
-                                                                title: "Prayer Approved Successfully",
+                                                                title: "Testimonial verified Successfully",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                               );
@@ -943,7 +944,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                         size: width/91.06666666666667,
                                                                       ),
                                                                       KText(
-                                                                        text: "Approve",
+                                                                        text: "Verify",
                                                                         style: GoogleFonts.openSans(
                                                                           color: Colors.white,
                                                                           fontSize: width/136.6,
@@ -959,13 +960,13 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                           SizedBox(width: width/273.2),
                                                           InkWell(
                                                             onTap: () {
-                                                              cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
-                                                                "status" : "Denied"
+                                                              cf.FirebaseFirestore.instance.collection('Testimonials').doc(pendingTestimonials[i].id).update({
+                                                                "status" : "unverified"
                                                               });
                                                               CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.success,
-                                                                title: "Prayer Denied Successfully",
+                                                                title: "Testimonials Unverified Successfully",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                               );
@@ -1009,7 +1010,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                         size: width/91.06666666666667,
                                                                       ),
                                                                       KText(
-                                                                        text: "Deny",
+                                                                        text: "Unverifiy",
                                                                         style: GoogleFonts.openSans(
                                                                           color: Colors.white,
                                                                           fontSize: width/136.6,
@@ -1034,7 +1035,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                     ),
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: approvedPrayers.length,
+                                        itemCount: verifiedTestimonials.length,
                                         itemBuilder: (ctx, i) {
                                           return Container(
                                             height: height/10.85,
@@ -1071,7 +1072,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/6.83,
                                                     child: KText(
-                                                      text: approvedPrayers[i].title!,
+                                                      text: verifiedTestimonials[i].title!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -1081,7 +1082,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/6.83,
                                                     child: KText(
-                                                      text: approvedPrayers[i].date!,
+                                                      text: verifiedTestimonials[i].date!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -1091,7 +1092,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/5.464,
                                                     child: KText(
-                                                      text: approvedPrayers[i].description!,
+                                                      text: verifiedTestimonials[i].description!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -1105,10 +1106,10 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                           InkWell(
                                                             onTap: () {
                                                               setState(() {
-                                                                titleController.text = approvedPrayers[i].title!;
-                                                                descriptionController.text = approvedPrayers[i].description!;
+                                                                titleController.text = verifiedTestimonials[i].title!;
+                                                                descriptionController.text = verifiedTestimonials[i].description!;
                                                               });
-                                                              editPopUp(approvedPrayers[i],size);
+                                                              editPopUp(verifiedTestimonials[i],size);
                                                             },
                                                             child: Container(
                                                               height: height/26.04,
@@ -1153,7 +1154,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                               CoolAlert.show(
                                                                   context: context,
                                                                   type: CoolAlertType.info,
-                                                                  text: "${approvedPrayers[i].title} will be deleted",
+                                                                  text: "${verifiedTestimonials[i].title} will be deleted",
                                                                   title: "Delete this Record?",
                                                                   width: size.width * 0.4,
                                                                   backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -1161,7 +1162,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                   cancelBtnText: 'Cancel',
                                                                   cancelBtnTextStyle: const TextStyle(color: Colors.black),
                                                                   onConfirmBtnTap: () async {
-                                                                    Response res = await PrayersFireCrud.deleteRecord(id: approvedPrayers[i].id!);
+                                                                    Response res = await TestimonialFireCrud.deleteRecord(id: verifiedTestimonials[i].id!);
                                                                   }
                                                               );
                                                             },
@@ -1215,7 +1216,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                     ),
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: deniedPrayers.length,
+                                        itemCount: unverifiedTestimonials.length,
                                         itemBuilder: (ctx, i) {
                                           return Container(
                                             height: height/10.85,
@@ -1252,7 +1253,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/6.83,
                                                     child: KText(
-                                                      text: deniedPrayers[i].title!,
+                                                      text: unverifiedTestimonials[i].title!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -1262,7 +1263,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/6.83,
                                                     child: KText(
-                                                      text: deniedPrayers[i].date!,
+                                                      text: unverifiedTestimonials[i].date!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -1272,7 +1273,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                   SizedBox(
                                                     width: width/5.464,
                                                     child: KText(
-                                                      text: deniedPrayers[i].description!,
+                                                      text: unverifiedTestimonials[i].description!,
                                                       style: GoogleFonts.poppins(
                                                         fontSize: width/105.0769230769231,
                                                         fontWeight: FontWeight.w600,
@@ -1286,10 +1287,10 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                           InkWell(
                                                             onTap: () {
                                                               setState(() {
-                                                                titleController.text = deniedPrayers[i].title!;
-                                                                descriptionController.text = deniedPrayers[i].description!;
+                                                                titleController.text = unverifiedTestimonials[i].title!;
+                                                                descriptionController.text = unverifiedTestimonials[i].description!;
                                                               });
-                                                              editPopUp(deniedPrayers[i],size);
+                                                              editPopUp(unverifiedTestimonials[i],size);
                                                             },
                                                             child: Container(
                                                               height: height/26.04,
@@ -1334,7 +1335,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                               CoolAlert.show(
                                                                   context: context,
                                                                   type: CoolAlertType.info,
-                                                                  text: "${deniedPrayers[i].title} will be deleted",
+                                                                  text: "${unverifiedTestimonials[i].title} will be deleted",
                                                                   title: "Delete this Record?",
                                                                   width: size.width * 0.4,
                                                                   backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -1342,7 +1343,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                   cancelBtnText: 'Cancel',
                                                                   cancelBtnTextStyle: const TextStyle(color: Colors.black),
                                                                   onConfirmBtnTap: () async {
-                                                                    Response res = await PrayersFireCrud.deleteRecord(id: deniedPrayers[i].id!);
+                                                                    Response res = await TestimonialFireCrud.deleteRecord(id: unverifiedTestimonials[i].id!);
                                                                   }
                                                               );
                                                             },
@@ -1407,21 +1408,21 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                 return Container();
               },
             ) : StreamBuilder(
-              stream: PrayersFireCrud.fetchPrayers(),
+              stream: TestimonialFireCrud.fetchTestimonials(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<PrayersModel> pendingPrayers = [];
-                  List<PrayersModel> approvedPrayers = [];
-                  List<PrayersModel> deniedPrayers = [];
+                  List<TestimonialsModel> pendingTestimonials = [];
+                  List<TestimonialsModel> verifiedTestimonials = [];
+                  List<TestimonialsModel> unverifiedTestimonials = [];
                   snapshot.data!.forEach((element) {
-                    if(element.status!.toLowerCase() == 'approved'){
-                      approvedPrayers.add(element);
-                    }else if(element.status!.toLowerCase() == 'denied'){
-                      deniedPrayers.add(element);
+                    if(element.status!.toLowerCase() == 'verified'){
+                      verifiedTestimonials.add(element);
+                    }else if(element.status!.toLowerCase() == 'unverified'){
+                      unverifiedTestimonials.add(element);
                     }else{
-                      pendingPrayers.add(element);
+                      pendingTestimonials.add(element);
                     }
                   });
                   return Container(
@@ -1450,7 +1451,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Requests (${approvedPrayers.length+pendingPrayers.length+deniedPrayers.length})",
+                                  text: "All Testimonials (${verifiedTestimonials.length+pendingTestimonials.length+unverifiedTestimonials.length})",
                                   style: GoogleFonts.openSans(
                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
@@ -1514,7 +1515,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generatePrayerPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers,false);
+                                      generateTestimonialPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials,false);
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -1552,7 +1553,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
-                                      copyToClipBoard(currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers);
+                                      copyToClipBoard(currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials);
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -1591,7 +1592,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: ()  async {
-                                      var data = await generatePrayerPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers,true);
+                                      var data = await generateTestimonialPdf(PdfPageFormat.letter, currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials,true);
                                       savePdfToFile(data);
                                     },
                                     child: Container(
@@ -1631,7 +1632,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
-                                      convertToCsv(currentTabIndex == 0 ? pendingPrayers : currentTabIndex == 1 ? approvedPrayers : deniedPrayers);
+                                      convertToCsv(currentTabIndex == 0 ? pendingTestimonials : currentTabIndex == 1 ? verifiedTestimonials : unverifiedTestimonials);
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -1695,7 +1696,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          "Pending Requests",
+                                          "Pending Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 0
                                                 ? Colors.white
@@ -1710,7 +1711,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          "Approved Requests",
+                                          "Verified Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 1
                                                 ? Colors.white
@@ -1725,7 +1726,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          "Denied Requests",
+                                          "Unverified Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 2
                                                 ? Colors.white
@@ -1805,7 +1806,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                   controller: _tabController,
                                   children: [
                                     ListView.builder(
-                                      itemCount: pendingPrayers.length,
+                                      itemCount: pendingTestimonials.length,
                                       itemBuilder: (ctx, i) {
                                         return Container(
                                           height: height/10.85,
@@ -1842,7 +1843,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: KText(
-                                                    text: pendingPrayers[i].title!,
+                                                    text: pendingTestimonials[i].title!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -1852,7 +1853,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: KText(
-                                                    text: pendingPrayers[i].date!,
+                                                    text: pendingTestimonials[i].date!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -1862,7 +1863,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/5.464,
                                                   child: KText(
-                                                    text: pendingPrayers[i].description!,
+                                                    text: pendingTestimonials[i].description!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -1875,15 +1876,15 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
-                                                            cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
-                                                              "status" : "Approved"
+                                                            cf.FirebaseFirestore.instance.collection('Testimonials').doc(pendingTestimonials[i].id).update({
+                                                              "status" : "verified"
                                                             });
                                                             CoolAlert.show(
-                                                                context: context,
-                                                                type: CoolAlertType.success,
-                                                                title: "Prayer Approved Successfully",
-                                                                width: size.width * 0.4,
-                                                                backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                              context: context,
+                                                              type: CoolAlertType.success,
+                                                              title: "Testimonial verified Successfully",
+                                                              width: size.width * 0.4,
+                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                             );
                                                             // setState(() {
                                                             //   titleController.text = pendingPrayers[i].title!;
@@ -1915,7 +1916,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                       size: width/91.06666666666667,
                                                                     ),
                                                                     KText(
-                                                                      text: "Approve",
+                                                                      text: "Verify",
                                                                       style: GoogleFonts.openSans(
                                                                         color: Colors.white,
                                                                         fontSize: width/136.6,
@@ -1931,13 +1932,13 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                         SizedBox(width: width/273.2),
                                                         InkWell(
                                                           onTap: () {
-                                                            cf.FirebaseFirestore.instance.collection('Prayers').doc(pendingPrayers[i].id).update({
-                                                              "status" : "Denied"
+                                                            cf.FirebaseFirestore.instance.collection('Testimonials').doc(pendingTestimonials[i].id).update({
+                                                              "status" : "unverified"
                                                             });
                                                             CoolAlert.show(
                                                               context: context,
                                                               type: CoolAlertType.success,
-                                                              title: "Prayer Denied Successfully",
+                                                              title: "Testimonial unverified Successfully",
                                                               width: size.width * 0.4,
                                                               backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
                                                             );
@@ -1981,7 +1982,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                       size: width/91.06666666666667,
                                                                     ),
                                                                     KText(
-                                                                      text: "Deny",
+                                                                      text: "Unverify",
                                                                       style: GoogleFonts.openSans(
                                                                         color: Colors.white,
                                                                         fontSize: width/136.6,
@@ -2004,7 +2005,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       },
                                     ),
                                     ListView.builder(
-                                      itemCount: approvedPrayers.length,
+                                      itemCount: verifiedTestimonials.length,
                                       itemBuilder: (ctx, i) {
                                         return Container(
                                           height: height/10.85,
@@ -2041,7 +2042,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: KText(
-                                                    text: approvedPrayers[i].title!,
+                                                    text: verifiedTestimonials[i].title!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -2051,7 +2052,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: KText(
-                                                    text: approvedPrayers[i].date!,
+                                                    text: verifiedTestimonials[i].date!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -2061,7 +2062,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/5.464,
                                                   child: KText(
-                                                    text: approvedPrayers[i].description!,
+                                                    text: verifiedTestimonials[i].description!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -2075,10 +2076,10 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                         InkWell(
                                                           onTap: () {
                                                             setState(() {
-                                                              titleController.text = approvedPrayers[i].title!;
-                                                              descriptionController.text = approvedPrayers[i].description!;
+                                                              titleController.text = verifiedTestimonials[i].title!;
+                                                              descriptionController.text = verifiedTestimonials[i].description!;
                                                             });
-                                                            editPopUp(approvedPrayers[i],size);
+                                                            editPopUp(verifiedTestimonials[i],size);
                                                           },
                                                           child: Container(
                                                             height: height/26.04,
@@ -2123,7 +2124,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                             CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.info,
-                                                                text: "${approvedPrayers[i].title} will be deleted",
+                                                                text: "${verifiedTestimonials[i].title} will be deleted",
                                                                 title: "Delete this Record?",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -2131,7 +2132,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                 cancelBtnText: 'Cancel',
                                                                 cancelBtnTextStyle: const TextStyle(color: Colors.black),
                                                                 onConfirmBtnTap: () async {
-                                                                  Response res = await PrayersFireCrud.deleteRecord(id: approvedPrayers[i].id!);
+                                                                  Response res = await TestimonialFireCrud.deleteRecord(id: verifiedTestimonials[i].id!);
                                                                 }
                                                             );
                                                           },
@@ -2183,7 +2184,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                       },
                                     ),
                                     ListView.builder(
-                                      itemCount: deniedPrayers.length,
+                                      itemCount: unverifiedTestimonials.length,
                                       itemBuilder: (ctx, i) {
                                         return Container(
                                           height: height/10.85,
@@ -2220,7 +2221,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: KText(
-                                                    text: deniedPrayers[i].title!,
+                                                    text: unverifiedTestimonials[i].title!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -2230,7 +2231,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/6.83,
                                                   child: KText(
-                                                    text: deniedPrayers[i].date!,
+                                                    text: unverifiedTestimonials[i].date!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -2240,7 +2241,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                 SizedBox(
                                                   width: width/5.464,
                                                   child: KText(
-                                                    text: deniedPrayers[i].description!,
+                                                    text: unverifiedTestimonials[i].description!,
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight: FontWeight.w600,
@@ -2254,10 +2255,10 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                         InkWell(
                                                           onTap: () {
                                                             setState(() {
-                                                              titleController.text = deniedPrayers[i].title!;
-                                                              descriptionController.text = deniedPrayers[i].description!;
+                                                              titleController.text = unverifiedTestimonials[i].title!;
+                                                              descriptionController.text = unverifiedTestimonials[i].description!;
                                                             });
-                                                            editPopUp(deniedPrayers[i],size);
+                                                            editPopUp(unverifiedTestimonials[i],size);
                                                           },
                                                           child: Container(
                                                             height: height/26.04,
@@ -2302,7 +2303,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                             CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.info,
-                                                                text: "${deniedPrayers[i].title} will be deleted",
+                                                                text: "${unverifiedTestimonials[i].title} will be deleted",
                                                                 title: "Delete this Record?",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -2310,7 +2311,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                                                 cancelBtnText: 'Cancel',
                                                                 cancelBtnTextStyle: const TextStyle(color: Colors.black),
                                                                 onConfirmBtnTap: () async {
-                                                                  Response res = await PrayersFireCrud.deleteRecord(id: deniedPrayers[i].id!);
+                                                                  Response res = await TestimonialFireCrud.deleteRecord(id: unverifiedTestimonials[i].id!);
                                                                 }
                                                             );
                                                           },
@@ -2436,7 +2437,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
 
 
 
-  editPopUp(PrayersModel prayer, Size size) {
+  editPopUp(TestimonialsModel prayer, Size size) {
     double width = size.width;
     double height = size.height;
     return showDialog(
@@ -2472,7 +2473,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
-                          text: "EDIT PRAYER",
+                          text: "EDIT TESTIMONIAL",
                           style: GoogleFonts.openSans(
                             fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
@@ -2484,24 +2485,24 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                               onTap: () async {
                                 if (titleController.text != "") {
                                   Response response =
-                                  await PrayersFireCrud.updateRecord(
-                                    PrayersModel(
-                                      id: prayer.id,
-                                      date: prayer.date,
-                                      time: prayer.time,
-                                      timestamp: prayer.timestamp,
-                                      title: titleController.text,
-                                      description: descriptionController.text,
+                                  await TestimonialFireCrud.updateRecord(
+                                      TestimonialsModel(
+                                        id: prayer.id,
+                                        date: prayer.date,
+                                        time: prayer.time,
+                                        timestamp: prayer.timestamp,
+                                        title: titleController.text,
+                                        description: descriptionController.text,
                                         phone: prayer.phone,
                                         requestedBy: prayer.requestedBy,
                                         status: prayer.status,
-                                    )
+                                      )
                                   );
                                   if (response.code == 200) {
                                     CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.success,
-                                        text: "Prayer updated successfully!",
+                                        text: "Testimonial updated successfully!",
                                         width: size.width * 0.4,
                                         backgroundColor: Constants()
                                             .primaryAppColor
@@ -2516,7 +2517,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                     CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.error,
-                                        text: "Failed to update Prayer!",
+                                        text: "Failed to update Testimonial!",
                                         width: size.width * 0.4,
                                         backgroundColor: Constants()
                                             .primaryAppColor
@@ -2565,11 +2566,11 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                             SizedBox(width: width/136.6),
                             InkWell(
                               onTap: () async {
-                                 setState(() {
-                                      titleController.text = "";
-                                      descriptionController.text = "";
-                                    });
-                                 Navigator.pop(context);
+                                setState(() {
+                                  titleController.text = "";
+                                  descriptionController.text = "";
+                                });
+                                Navigator.pop(context);
                               },
                               child: Container(
                                 height: height/16.275,
@@ -2609,11 +2610,11 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                   child: Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
-                        color: Color(0xffF7FAFC),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
+                      color: Color(0xffF7FAFC),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
                     ),
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -2708,7 +2709,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
     );
   }
 
-  convertToCsv(List<PrayersModel> prayers) async {
+  convertToCsv(List<TestimonialsModel> prayers) async {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");
@@ -2743,12 +2744,12 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
     final blob = Blob([data],'application/pdf');
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
-      ..setAttribute("download", "prayers.pdf")
+      ..setAttribute("download", "testimonial.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }
 
-  copyToClipBoard(List<PrayersModel> prayers) async  {
+  copyToClipBoard(List<TestimonialsModel> prayers) async  {
     List<List<dynamic>> rows = [];
     List<dynamic> row = [];
     row.add("No.");

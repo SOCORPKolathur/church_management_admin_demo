@@ -8,6 +8,8 @@ class StudentModel {
   String? gender;
   String? aadharNo;
   String? clasS;
+  String? degree;
+  String? instituteName;
   String? age;
   String? guardian;
   String? guardianPhone;
@@ -37,6 +39,8 @@ class StudentModel {
         this.aadharNo,
         this.country,
         this.clasS,
+        this.degree,
+        this.instituteName,
         this.age,
         this.guardian,
         this.guardianPhone,
@@ -58,6 +62,8 @@ class StudentModel {
     id = json['id'];
     timestamp = json['timestamp'];
     clasS = json['clasS'];
+    degree = json['degree'];
+    instituteName = json['instituteName'];
     studentId = json['studentId'];
     age = json['age'];
     aadharNo = json['aadharNo'];
@@ -88,6 +94,8 @@ class StudentModel {
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
     data['clasS'] = this.clasS;
+    data['degree'] = this.degree;
+    data['instituteName'] = this.instituteName;
     data['studentId'] = this.studentId;
     data['age'] = this.age;
     data['guardian'] = this.guardian;

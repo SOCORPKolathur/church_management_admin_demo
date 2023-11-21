@@ -45,6 +45,7 @@ class DepartmentFireCrud {
     required String name,
     required String leaderName,
     required String address,
+    required String permanentAddress,
     required String city,
     required String contactNumber,
     required String country,
@@ -62,6 +63,7 @@ class DepartmentFireCrud {
       location: location,
       description: description,
       city: city,
+      permanentAddress:permanentAddress,
       address: address,
       leaderName: leaderName,
       name: name,
@@ -117,6 +119,7 @@ class DepartmentFireCrud {
           id: documentID,
           name: row[i][1].toString(),
           address: row[i][6].toString(),
+          permanentAddress: row[i][6].toString(),
           timestamp: DateTime
               .now()
               .millisecondsSinceEpoch,

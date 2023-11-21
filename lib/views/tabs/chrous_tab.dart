@@ -723,7 +723,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
@@ -2337,7 +2337,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                                fontSize:width/85.375
@@ -2933,7 +2933,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
@@ -3458,7 +3458,7 @@ class _ChorusTabState extends State<ChorusTab> {
     row.add("Phone");
     row.add("Email");
     row.add("Position");
-    row.add("Baptize Date");
+    row.add("Baptism Date");
     row.add("Marriage Date");
     row.add("Social Status");
     row.add("Job");

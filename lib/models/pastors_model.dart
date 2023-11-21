@@ -6,6 +6,7 @@ class PastorsModel {
   String? phone;
   String? email;
   String? address;
+  String? permanentAddress;
   String? gender;
   String? aadharNo;
   String? position;
@@ -30,6 +31,7 @@ class PastorsModel {
         this.lastName,
         this.timestamp,
         this.address,
+        this.permanentAddress,
         this.gender,
         this.aadharNo,
         this.phone,
@@ -60,6 +62,7 @@ class PastorsModel {
     phone = json['phone'];
     pincode = json['pincode'];
     address = json['address'];
+    permanentAddress = json['permanentAddress'];
     gender = json['gender'];
     email = json['email'];
     position = json['position'];
@@ -85,6 +88,7 @@ class PastorsModel {
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
     data['address'] = this.address;
+    data['permanentAddress'] = this.permanentAddress;
     data['aadharNo'] = this.aadharNo;
     data['gender'] = this.gender;
     data['email'] = this.email;

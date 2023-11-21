@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -29,6 +30,7 @@ class _FamilyTabState extends State<FamilyTab> {
   TextEditingController familyleadernameController = TextEditingController();
   TextEditingController familynumberController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController permanentAddressController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -203,7 +205,7 @@ class _FamilyTabState extends State<FamilyTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 1.5,
+              height: size.height * 1.7,
               width: double.infinity,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,vertical: height/32.55
@@ -656,7 +658,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address *",
+                                    text: "Residential Address *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.076,
@@ -722,6 +724,73 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                               ),
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address *",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin:  EdgeInsets.symmetric(
+                                        vertical: height/32.55,
+                                        horizontal: width/68.3
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration:  BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                validator: (val){
+                                                  if(val!.isEmpty){
+                                                    return 'Field is required';
+                                                  }else{
+                                                    return '';
+                                                  }
+                                                },
+                                                maxLength: 255,
+                                                maxLines: null,
+                                                style:  TextStyle(fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration:  InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
+                                                ),
                                               )
                                           ),
                                         ),
@@ -872,6 +941,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             addressController.text != "" &&
                                             zoneController.text != "") {
                                           Response response =  await FamilyFireCrud.addFamily(
+                                            permanentAddress: permanentAddressController.text,
                                               image: profileImage,
                                               familyId: familyIdController.text,
                                               name: familynameController.text,
@@ -1083,7 +1153,7 @@ class _FamilyTabState extends State<FamilyTab> {
                           ),
                         ),
                         Container(
-                          height: height/10.85 + families.length * height/7.233,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration:  BoxDecoration(
                               color: Colors.white,
@@ -1295,6 +1365,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         countryController.text = families[i].country!;
                                                         zoneController.text = families[i].zone!;
                                                         familyIdController.text = families[i].familyId!;
+                                                        permanentAddressController.text = families[i].permanentAddress!;
                                                       });
                                                       editPopUp(families[i],size);
                                                     },
@@ -1411,7 +1482,61 @@ class _FamilyTabState extends State<FamilyTab> {
                 }
                 return Container();
               },
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),
@@ -1673,7 +1798,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   SizedBox(
                                     width: size.width * 0.15,
                                     child:  KText(
-                                      text: "Address",
+                                      text: "Residential Address",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize:width/85.375
@@ -1686,6 +1811,33 @@ class _FamilyTabState extends State<FamilyTab> {
                                     width: size.width * 0.3,
                                     child: KText(
                                       text: family.address!,
+                                      style:  TextStyle(
+                                          fontSize:width/97.57
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child:  KText(
+                                      text: "Permanent Address",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize:width/85.375
+                                      ),
+                                    ),
+                                  ),
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: size.width * 0.3,
+                                    child: KText(
+                                      text: family.permanentAddress!,
                                       style:  TextStyle(
                                           fontSize:width/97.57
                                       ),
@@ -2200,7 +2352,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.076,
@@ -2257,6 +2409,73 @@ class _FamilyTabState extends State<FamilyTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin:  EdgeInsets.symmetric(
+                                        vertical: height/32.55,
+                                        horizontal: width/68.3
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration:  BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                validator: (val){
+                                                  if(val!.isEmpty){
+                                                    return 'Field is required';
+                                                  }else{
+                                                    return '';
+                                                  }
+                                                },
+                                                maxLength: 255,
+                                                maxLines: null,
+                                                style:  TextStyle(fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration:  InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
+                                                ),
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -2275,6 +2494,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 email: emailController.text,
                                                 zone: zoneController.text,
                                                 address: addressController.text,
+                                                permanentAddress: permanentAddressController.text,
                                                 country: countryController.text,
                                                 quantity: family.quantity,
                                             ),

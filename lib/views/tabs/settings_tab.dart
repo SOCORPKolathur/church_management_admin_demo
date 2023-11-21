@@ -24,6 +24,8 @@ class SettingsTab extends StatefulWidget {
 class _SettingsTabState extends State<SettingsTab> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController altPhoneController = TextEditingController();
   TextEditingController buildingnoController = TextEditingController();
   TextEditingController streetController = TextEditingController();
   TextEditingController areaController = TextEditingController();
@@ -56,6 +58,8 @@ class _SettingsTabState extends State<SettingsTab> {
     churchLogo = church.logo ?? '';
     nameController.text = church.name ?? "";
     phoneController.text = church.phone ?? "";
+    emailController.text = church.email ?? "";
+    altPhoneController.text = church.altPhone ?? "";
     buildingnoController.text = church.buildingNo ?? "";
     streetController.text = church.streetName ?? "";
     areaController.text = church.area ?? "";
@@ -361,6 +365,38 @@ class _SettingsTabState extends State<SettingsTab> {
                                                   )
                                                 ],
                                               ),
+                                              SizedBox(width: width/45.53),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
+                                                    text: "Church Email",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: width/97.571,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width: width/4.553,
+                                                    child: TextFormField(
+                                                      controller:
+                                                      emailController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                      InputDecoration(
+                                                        hintStyle:
+                                                        GoogleFonts
+                                                            .openSans(
+                                                          fontSize: width/97.571,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ],
                                           ),
                                           SizedBox(height: height/21.7),
@@ -603,6 +639,38 @@ class _SettingsTabState extends State<SettingsTab> {
                                                 CrossAxisAlignment.start,
                                                 children: [
                                                   KText(
+                                                    text: "Alternate Phone",
+                                                    style: GoogleFonts.openSans(
+                                                      color: Colors.black,
+                                                      fontSize: width/97.571,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: height/108.5),
+                                                  SizedBox(
+                                                    height: height/16.275,
+                                                    width:width/5.464,
+                                                    child: TextFormField(
+                                                      controller:
+                                                      altPhoneController,
+                                                      onTap: () {},
+                                                      decoration:
+                                                      InputDecoration(
+                                                        hintStyle:
+                                                        GoogleFonts
+                                                            .openSans(
+                                                          fontSize: width/97.571,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(width: width/27.32),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  KText(
                                                     text: "MemberID prefix",
                                                     style: GoogleFonts.openSans(
                                                       color: Colors.black,
@@ -687,32 +755,22 @@ class _SettingsTabState extends State<SettingsTab> {
                                                           .updateRecord(
                                                     ChurchDetailsModel(
                                                       logo: church1.logo,
-                                                        phone: phoneController
-                                                            .text,
+                                                        altPhone: altPhoneController.text,
+                                                        email: emailController.text,
+                                                        phone: phoneController.text,
                                                         id: church1.id,
-                                                        name:
-                                                            nameController.text,
-                                                        city:
-                                                            cityController.text,
-                                                        area:
-                                                            areaController.text,
-                                                        buildingNo:
-                                                            buildingnoController
-                                                                .text,
-                                                        pincode:
-                                                            pincodeController
-                                                                .text,
-                                                        state: stateController
-                                                            .text,
-                                                        streetName:
-                                                            streetController
-                                                                .text,
-                                                        website:
-                                                            websiteController
-                                                                .text,
+                                                        name: nameController.text,
+                                                        city: cityController.text,
+                                                        area: areaController.text,
+                                                        buildingNo: buildingnoController.text,
+                                                        pincode: pincodeController.text,
+                                                        state: stateController.text,
+                                                        streetName: streetController.text,
+                                                        website: websiteController.text,
                                                         memberIdPrefix: memberIDPrefixController.text,
                                                         familyIdPrefix: familyIDPrefixController.text,
-                                                        roles: roles1),
+                                                        roles: roles1,
+                                                    ),
                                                   );
                                                   if (response.code == 200) {
                                                     CoolAlert.show(

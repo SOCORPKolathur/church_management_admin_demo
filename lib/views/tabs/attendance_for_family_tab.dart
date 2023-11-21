@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../services/attendance_record_firecrud.dart';
@@ -231,7 +232,7 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -595,7 +596,7 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                           ),
                         ),
                         attendances.isEmpty ? Container(
-                          height: height/5.007692307692308,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -604,8 +605,9 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                                 bottomRight: Radius.circular(10),
                               )),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              SizedBox(height: 10),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
@@ -793,10 +795,7 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                             ],
                           ),
                         ) : Container(
-                          height: size.height * 0.7 >
-                              height/4.06875 + attendances.length * 60
-                              ? height/4.06875 + attendances.length * 60
-                              : size.height * 0.7,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -1122,7 +1121,61 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                 }
                 return Container();
               },
-            )
+            ),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),

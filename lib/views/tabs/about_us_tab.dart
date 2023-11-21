@@ -1,18 +1,26 @@
+
+import 'dart:io';
+
 import 'package:church_management_admin/models/church_details_model.dart';
 import 'package:church_management_admin/models/verses_model.dart';
 import 'package:church_management_admin/services/attendance_record_firecrud.dart';
 import 'package:church_management_admin/services/church_details_firecrud.dart';
+import 'package:church_management_admin/views/tabs/terms_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
 import 'package:intl/intl.dart';
+
+import 'demo.dart';
 
 class AboutUsTab extends StatefulWidget {
   AboutUsTab({super.key});
@@ -23,6 +31,8 @@ class AboutUsTab extends StatefulWidget {
 
 class _AboutUsTabState extends State<AboutUsTab> {
 
+  bool isViewTerms = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,7 +40,8 @@ class _AboutUsTabState extends State<AboutUsTab> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
+      body: !isViewTerms
+          ? Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 170.75, vertical: height / 81.375),
         child: SingleChildScrollView(
           child: Column(
@@ -120,8 +131,8 @@ class _AboutUsTabState extends State<AboutUsTab> {
                           ),
                         ),
                         SizedBox(height: height/32.55),
-                        Container(
-                          height: height/2.17,
+                        SizedBox(
+                          height: height/3.17,
                           width: size.width / 2.5,
                           child: Column(
                             children: [
@@ -162,6 +173,67 @@ class _AboutUsTabState extends State<AboutUsTab> {
                   ],
                 ),
               ),
+              //SizedBox(height: height/65.1),
+              Row(
+                children: [
+                  SizedBox(width: width/34.15),
+                  InkWell(
+                    onTap: () async {
+                      // setState(() {
+                      //   isViewTerms = true;
+                      // });
+                      Navigator.push(context, MaterialPageRoute(builder: (ctx) => const TermsPage()));
+                    },
+                    child: Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 300,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border:Border.all(color: Constants().primaryAppColor,)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/tandc.png"
+                                            )
+                                        )
+                                    ),
+                                  ),
+                                  SizedBox(width: width/136.6),
+                                  Text(
+                                    "Terms & Conditions",
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black45,
+                                      fontSize: width /97.57142857142857,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: height/65.1),
+              SizedBox(height: height/65.1),
               SizedBox(height: height/65.1),
               Row(
                 children: [
@@ -267,6 +339,9 @@ class _AboutUsTabState extends State<AboutUsTab> {
             ],
           ),
         ),
+      )
+          : Container(
+        child: SimplePage(),
       ),
     );
   }
@@ -309,4 +384,3 @@ class _AboutUsTabState extends State<AboutUsTab> {
 
 
 }
-

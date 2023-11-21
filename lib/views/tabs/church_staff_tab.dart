@@ -49,6 +49,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController permanentAddressController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController aadharNoController = TextEditingController();
@@ -162,6 +163,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
       baptizeDateController.text = "";
       dateofjoiningController.text = "";
       addressController.text = "";
+      permanentAddressController.text = "";
       pincodeController.text = "";
       bloodGroupController.text = 'Select Blood Group';
       aadharNoController.text = "";
@@ -299,7 +301,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 2.2,
+              height: size.height * 2.4,
                width: width/1.241,
              margin: EdgeInsets.symmetric(
                       horizontal: width/68.3,
@@ -793,7 +795,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -1396,7 +1398,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                          fontSize:width/105.07,
@@ -1456,6 +1458,68 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 255,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration: InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
                               // Visibility(
                               //   visible: profileImageValidator,
                               //   child: const Text(
@@ -1500,6 +1564,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             nationalityController.text != "") {
                                           Response response =
                                           await ChurchStaffFireCrud.addChurchStaff(
+                                            permanentAddress: permanentAddressController.text,
                                             familyId: familyIDController.text,
                                             maritalStatus: marriedController,
                                             aadharNo: aadharNoController.text,
@@ -1732,9 +1797,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 130 + churchStaffs.length * 60
-                              ? 130 + churchStaffs.length * 60
-                              : size.height * 0.7,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -2175,6 +2238,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                                           aadharNoController.text = churchStaffs[i].aadharNo!;
                                                           dateofjoiningController.text = churchStaffs[i].dateOfJoining!;
                                                           landMarkController.text = churchStaffs[i].landMark!;
+                                                          permanentAddressController.text = churchStaffs[i].permanentAddress!;
                                                         });
                                                         editPopUp(churchStaffs[i], size);
                                                       },
@@ -2322,7 +2386,61 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                 }
                 return Container();
               },
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),
@@ -2713,7 +2831,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2905,7 +3023,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Address",
+                                          text: "Residential Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2918,6 +3036,33 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         width:size.width * 0.3,
                                         child: KText(
                                           text: churchStaff.address!,
+                                          style: TextStyle(
+                                              fontSize:width/97.571
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Permanent Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      SizedBox(
+                                        width:size.width * 0.3,
+                                        child: KText(
+                                          text: churchStaff.permanentAddress!,
                                           style: TextStyle(
                                               fontSize:width/97.571
                                           ),
@@ -3434,7 +3579,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -3963,7 +4108,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                          fontSize:width/105.07,
@@ -4021,6 +4166,68 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 255,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration: InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left:width/91.06,top:height/162.75,bottom:height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -4056,6 +4263,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                               lastName: lastNameController.text,
                                               pincode: pincodeController.text,
                                               address: addressController.text,
+                                              permanentAddress: permanentAddressController.text,
                                               dateOfJoining: dateofjoiningController.text,
                                               marriageDate: marriageDateController.text,
                                               nationality: nationalityController.text,
@@ -4084,6 +4292,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             bloodGroupController.text = 'Select Blood Group';
                                             departmentController.text = "";
                                             addressController.text = "";
+                                            permanentAddressController.text = "";
                                             dateofjoiningController.text = "";
                                             dobController.text = "";
                                             aadharNoController.text = "";
@@ -4195,7 +4404,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
     row.add("Phone");
     row.add("Email");
     row.add("Position");
-    row.add("Baptize Date");
+    row.add("Baptism Date");
     row.add("Marriage Date");
     row.add("Date of Joining");
     row.add("Social Status");

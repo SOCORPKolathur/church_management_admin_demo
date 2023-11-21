@@ -9,6 +9,7 @@ class FamilyModel {
   int? quantity;
   String? contactNumber;
   String? address;
+  String? permanentAddress;
   String? city;
   String? country;
   String? zone;
@@ -24,6 +25,7 @@ class FamilyModel {
         this.quantity,
         this.contactNumber,
         this.address,
+        this.permanentAddress,
         this.city,
         this.country,
         this.zone});
@@ -39,6 +41,7 @@ class FamilyModel {
     quantity = json['quantity'];
     contactNumber = json['contactNumber'];
     address = json['address'];
+    permanentAddress = json['permanentAddress'];
     city = json['city'];
     country = json['country'];
     zone = json['zone'];
@@ -56,6 +59,7 @@ class FamilyModel {
     data['quantity'] = this.quantity;
     data['contactNumber'] = this.contactNumber;
     data['address'] = this.address;
+    data['permanentAddress'] = this.permanentAddress;
     data['city'] = this.city;
     data['country'] = this.country;
     data['zone'] = this.zone;

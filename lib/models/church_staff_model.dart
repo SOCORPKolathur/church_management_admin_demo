@@ -7,6 +7,7 @@ class ChurchStaffModel {
   String? gender;
   String? email;
   String? address;
+  String? permanentAddress;
   String? aadharNo;
   String? document;
   String? dateOfJoining;
@@ -31,6 +32,7 @@ class ChurchStaffModel {
       {this.id,
         this.firstName,
         this.address,
+        this.permanentAddress,
         this.dateOfJoining,
         this.document,
         this.aadharNo,
@@ -60,6 +62,7 @@ class ChurchStaffModel {
     id = json['id'];
     timestamp = json['timestamp'];
     address = json['address'];
+    permanentAddress = json['permanentAddress'];
     landMark = json['landMark'];
     aadharNo = json['aadharNo'];
     dateOfJoining = json['dateOfJoining'];
@@ -91,6 +94,7 @@ class ChurchStaffModel {
     data['id'] = this.id;
     data['timestamp'] = this.timestamp;
     data['address'] = this.address;
+    data['permanentAddress'] = this.permanentAddress;
     data['aadharNo'] = this.aadharNo;
     data['landMark'] = this.landMark;
     data['dateOfJoining'] = this.dateOfJoining;

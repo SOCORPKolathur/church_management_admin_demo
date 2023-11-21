@@ -17,6 +17,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:translator/translator.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/dashboard_model.dart';
 import '../../models/manage_role_model.dart';
@@ -396,12 +397,15 @@ class _DashBoardTabState extends State<DashBoardTab> {
   }
 
   String churchName = '';
+  String churchLogo = '';
 
   fetchDashboardValues() async {
     var profileRequestDoc = await FirebaseFirestore.instance.collection('ProfileEditRequest').get();
     var churchDetails = await FirebaseFirestore.instance.collection('ChurchDetails').get();
     setState(() {
       churchName = churchDetails.docs.first.get("name");
+      churchLogo = churchDetails.docs.first.get("logo");
+      Constants.churchLogo = churchLogo;
       count += profileRequestDoc.docs.length;
       isFetched = true;
     });
@@ -450,7 +454,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
               ])),
         ),
         Padding(
-          padding:  EdgeInsets.symmetric(vertical: height/21.7,horizontal: width/45.53),
+          padding:  EdgeInsets.only(top: height/21.7,left: width/45.53,right: width/45.53),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1806,7 +1810,61 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       },
                     ),
                   ],
-                )
+                ),
+                SizedBox(height: size.height * 0.04),
+                InkWell(
+                  onTap: () async {
+                    final Uri toLaunch =
+                    Uri.parse("http://ardigitalsolutions.co/");
+                    if (!await launchUrl(toLaunch,
+                      mode: LaunchMode.externalApplication,
+                    )) {
+                      throw Exception('Could not launch $toLaunch');
+                    }
+                  },
+                  child: Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border:Border.all(color: Constants().primaryAppColor,)
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.network(
+                                    churchLogo,
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                              "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.01),
               ],
             )
           ),

@@ -30,6 +30,7 @@ import 'package:church_management_admin/views/tabs/reports_view.dart';
 import 'package:church_management_admin/views/tabs/sms_communication_tab.dart';
 import 'package:church_management_admin/views/tabs/speech_tab.dart';
 import 'package:church_management_admin/views/tabs/student_tab.dart';
+import 'package:church_management_admin/views/tabs/testimonials_tab.dart';
 import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:church_management_admin/views/tabs/website_socialmedia_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -273,6 +274,13 @@ class _HomeViewState extends State<HomeView> {
       name: "Prayers",
       icon: Icons.person_rounded,
       page: const PrayersTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Testimonials",
+      icon: Icons.person_rounded,
+      page: const TestimonialsTab(),
       isExpanded: false,
       children: [],
     ),

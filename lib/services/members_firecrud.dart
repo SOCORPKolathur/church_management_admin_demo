@@ -71,6 +71,7 @@ class MembersFireCrud {
       required String position,
       required String landMark,
       required String previousChurch,
+      required String serviceLanguage,
       required String socialStatus}) async {
     String downloadUrl = '';
     if(image != null){
@@ -98,6 +99,7 @@ class MembersFireCrud {
         houseType: houseType,
         baptizemCertificate: document != null ? downloadUrl1 : "",
         nationality: nationality,
+      serviceLanguage:serviceLanguage,
         marriageDate: marriageDate,
         aadharNo: aadharNo,
         lastName: lastName,

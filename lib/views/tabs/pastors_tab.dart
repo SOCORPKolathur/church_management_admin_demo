@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -44,6 +45,7 @@ class _PastorsTabState extends State<PastorsTab> {
   String marriedController = "Select Status";
   TextEditingController departmentController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController permanentAddressController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
@@ -138,6 +140,7 @@ class _PastorsTabState extends State<PastorsTab> {
       dobController.text = "";
       emailController.text = "";
       addressController.text = "";
+      permanentAddressController.text = "";
       aadharNoController.text = "";
       genderController.text = "Select Gender";
       familyController.text = "Select";
@@ -268,7 +271,7 @@ class _PastorsTabState extends State<PastorsTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 2.15,
+              height: size.height * 2.35,
               width: width/1.241,
               margin: EdgeInsets.symmetric(
                     horizontal: width/68.3,
@@ -644,7 +647,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
@@ -1268,7 +1271,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.07,
@@ -1328,6 +1331,68 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 40,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration: InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left:width/91.066,top:height/162.75,bottom:height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
                               // Visibility(
                               //   visible: profileImageValidator,
                               //   child: const Text(
@@ -1371,6 +1436,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           await PastorsFireCrud.addPastor(
                                             image: profileImage,
                                             address: addressController.text,
+                                            permanentAddress: permanentAddressController.text,
                                             familyId: familyIDController.text,
                                             maritalStatus: marriedController,
                                             gender: genderController.text,
@@ -1892,6 +1958,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                                   socialStatusController.text = pastors[i].socialStatus!;
                                                                   countryController.text = pastors[i].country!;
                                                                   addressController.text = pastors[i].address!;
+                                                                  permanentAddressController.text = pastors[i].permanentAddress!;
                                                                   genderController.text = pastors[i].gender!;
                                                                   selectedImg = pastors[i].imgUrl;
                                                                   pincodeController.text = pastors[i].pincode!;
@@ -2034,7 +2101,61 @@ class _PastorsTabState extends State<PastorsTab> {
                 }
                 return Container();
               },
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),
@@ -2347,7 +2468,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2515,7 +2636,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Address",
+                                          text: "Residential Address",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2528,6 +2649,33 @@ class _PastorsTabState extends State<PastorsTab> {
                                         width: size.width * 0.3,
                                         child: KText(
                                           text: pastor.address!,
+                                          style: TextStyle(
+                                              fontSize:width/97.571
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Permanent Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      SizedBox(
+                                        width: size.width * 0.3,
+                                        child: KText(
+                                          text: pastor.permanentAddress!,
                                           style: TextStyle(
                                               fontSize:width/97.571
                                           ),
@@ -2928,7 +3076,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/105.07,
@@ -3474,7 +3622,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.07,
@@ -3532,6 +3680,68 @@ class _PastorsTabState extends State<PastorsTab> {
                                 ],
                               ),
                               SizedBox(height:height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 40,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration: InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left:width/91.066,top:height/162.75,bottom:height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -3558,6 +3768,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             familyId: familyIDController.text,
                                             imgUrl: pastor.imgUrl,
                                             address: addressController.text,
+                                            permanentAddress: permanentAddressController.text,
                                             aadharNo: aadharNoController.text,
                                             email: emailController.text,
                                             family: familyController.text,
@@ -3593,6 +3804,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             dobController.text = "";
                                             emailController.text = "";
                                             addressController.text = "";
+                                            permanentAddressController.text = "";
                                             aadharNoController.text = "";
                                             pincodeController.text = "";
                                             genderController.text = "Select Gender";
@@ -3700,7 +3912,7 @@ class _PastorsTabState extends State<PastorsTab> {
     row.add("Phone");
     row.add("Email");
     row.add("Position");
-    row.add("Baptize Date");
+    row.add("Baptism Date");
     row.add("Marriage Date");
     row.add("Social Status");
     row.add("Job");

@@ -7,6 +7,7 @@ class DepartmentModel {
   String? location;
   String? description;
   String? address;
+  String? permanentAddress;
   String? city;
   String? country;
   String? zone;
@@ -20,6 +21,7 @@ class DepartmentModel {
         this.location,
         this.description,
         this.address,
+        this.permanentAddress,
         this.city,
         this.country,
         this.zone});
@@ -33,6 +35,7 @@ class DepartmentModel {
     location = json['location'];
     description = json['description'];
     address = json['address'];
+    permanentAddress = json['permanentAddress'];
     city = json['city'];
     country = json['country'];
     zone = json['zone'];
@@ -48,6 +51,7 @@ class DepartmentModel {
     data['location'] = this.location;
     data['description'] = this.description;
     data['address'] = this.address;
+    data['permanentAddress'] = this.permanentAddress;
     data['city'] = this.city;
     data['country'] = this.country;
     data['zone'] = this.zone;

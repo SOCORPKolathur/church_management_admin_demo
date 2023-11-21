@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -41,6 +42,7 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController baptizeDateController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController classController = TextEditingController(text: "Select Class");
+  TextEditingController degreeController = TextEditingController();
   //TextEditingController marriageDateController = TextEditingController();
   //TextEditingController socialStatusController = TextEditingController();
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
@@ -54,6 +56,7 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController instituteNameController = TextEditingController();
 
   File? profileImage;
   var uploadedImage;
@@ -126,7 +129,7 @@ class _StudentTabState extends State<StudentTab> {
     sheet.getRangeByName("E1").setText("Gender");
     sheet.getRangeByName("F1").setText("Parent/Guardian");
     sheet.getRangeByName("G1").setText("Parent/Guardian Phone");
-    sheet.getRangeByName("H1").setText("Baptize Date");
+    sheet.getRangeByName("H1").setText("Baptism Date");
     sheet.getRangeByName("I1").setText("Age");
     sheet.getRangeByName("J1").setText("Class");
     sheet.getRangeByName("K1").setText("Family ID");
@@ -186,8 +189,10 @@ class _StudentTabState extends State<StudentTab> {
       baptizeDateController.text = "";
       bloodGroupController.text = 'Select Blood Group';
       aadharNoController.text = "";
+      degreeController.text = "";
       //departmentController.text = "";
       dobController.text = "";
+      instituteNameController.text = "";
       familyController.text = "";
       firstNameController.text = "";
       //jobController.text = "";
@@ -301,7 +306,7 @@ class _StudentTabState extends State<StudentTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 1.61,
+              height: size.height * 1.81,
               width: size.width/1.241818182,
               margin:  EdgeInsets.symmetric(horizontal: width/68.3,vertical: height/32.55),
               decoration: BoxDecoration(
@@ -860,48 +865,111 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                   ),
                                    SizedBox(width:width/68.3),
-                                  Container(
-                                    width:width/4.553,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(width: 1.5,color: Colors.grey)
-                                        )
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Class *",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize:width/91.066,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        DropdownButton(
-                                          value: classController.text,
-                                          underline: Container(),
-                                           isExpanded: true,
-                                          icon:
-                                          Icon(Icons.keyboard_arrow_down),
-                                          items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
-                                              .map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              classController.text = newValue!;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+
                                 ],
                               ),
+                               SizedBox(height:height/21.7),
+                               Row(
+                                 children: [
+                                   Container(
+                                     width:width/4.553,
+                                     decoration: BoxDecoration(
+                                         border: Border(
+                                             bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                         )
+                                     ),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         KText(
+                                           text: "Class *",
+                                           style: GoogleFonts.openSans(
+                                             color: Colors.black,
+                                             fontSize:width/91.066,
+                                             fontWeight: FontWeight.bold,
+                                           ),
+                                         ),
+                                         DropdownButton(
+                                           value: classController.text,
+                                           underline: Container(),
+                                           isExpanded: true,
+                                           icon:
+                                           Icon(Icons.keyboard_arrow_down),
+                                           items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG",'Professional Degree']
+                                               .map((items) {
+                                             return DropdownMenuItem(
+                                               value: items,
+                                               child: Text(items),
+                                             );
+                                           }).toList(),
+                                           onChanged: (newValue) {
+                                             setState(() {
+                                               classController.text = newValue!;
+                                             });
+                                           },
+                                         ),
+                                       ],
+                                     ),
+                                   ),
+                                   SizedBox(width:width/68.3),
+                                   Visibility(
+                                     visible: classController.text == 'UG' || classController.text == 'PG' || classController.text == 'Professional Degree',
+                                     child: Row(
+                                       children: [
+                                         SizedBox(
+                                           width:width/4.553,
+                                           child: Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               KText(
+                                                 text: 'Degree',
+                                                 style: GoogleFonts.openSans(
+                                                   color: Colors.black,
+                                                   fontSize:width/91.066,
+                                                   fontWeight: FontWeight.bold,
+                                                 ),
+                                               ),
+                                               TextFormField(
+                                                 decoration: InputDecoration(
+                                                   counterText: "",
+                                                 ),
+                                                 maxLength: 40,
+                                                 style:  TextStyle(fontSize:width/113.83),
+                                                 controller: degreeController,
+                                               )
+                                             ],
+                                           ),
+                                         ),
+                                         SizedBox(width:width/68.3),
+                                       ],
+                                     ),
+                                   ),
+                                   SizedBox(
+                                     width:width/4.553,
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         KText(
+                                           text: 'School/College Name',
+                                           style: GoogleFonts.openSans(
+                                             color: Colors.black,
+                                             fontSize:width/91.066,
+                                             fontWeight: FontWeight.bold,
+                                           ),
+                                         ),
+                                         TextFormField(
+                                           decoration: InputDecoration(
+                                             counterText: "",
+                                           ),
+                                           maxLength: 40,
+                                           style:  TextStyle(fontSize:width/113.83),
+                                           controller: instituteNameController,
+                                         )
+                                       ],
+                                     ),
+                                   ),
+                                 ],
+                               ),
                                SizedBox(height:height/21.7),
                               Row(
                                 children: [
@@ -1128,7 +1196,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -1231,12 +1299,14 @@ class _StudentTabState extends State<StudentTab> {
                                         ) {
                                           Response response =
                                           await StudentFireCrud.addStudent(
+                                            degree: degreeController.text,
                                             aadharNo: aadharNoController.text,
                                             studentId: studentIdController.text,
                                             image: profileImage,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,
                                             clasS: classController.text,
+                                            instituteName: instituteNameController.text,
                                             age: ageController.text,
                                             guardian: guardianController.text,
                                             guardianPhone:
@@ -1453,7 +1523,7 @@ class _StudentTabState extends State<StudentTab> {
                                       underline: Container(),
                                       icon:
                                       Icon(Icons.keyboard_arrow_down),
-                                      items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
+                                      items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG",'Professional Degree']
                                           .map((items) {
                                         return DropdownMenuItem(
                                           value: items,
@@ -1473,9 +1543,7 @@ class _StudentTabState extends State<StudentTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 130 + students.length * 60
-                              ? 130 + students.length * 60
-                              : size.height * 0.7,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -1914,6 +1982,9 @@ class _StudentTabState extends State<StudentTab> {
                                                           genderController.text = students[i].gender!;
                                                           studentIdController.text = students[i].studentId!;
                                                           selectedImg = students[i].imgUrl;
+                                                          degreeController.text = students[i].degree!;
+                                                          aadharNoController.text = students[i].aadharNo!;
+                                                          instituteNameController.text = students[i].instituteName!;
                                                         });
                                                          editPopUp(students[i], size);
                                                       },
@@ -2058,7 +2129,61 @@ class _StudentTabState extends State<StudentTab> {
                 }
                 return Container();
               },
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),
@@ -2244,6 +2369,59 @@ class _StudentTabState extends State<StudentTab> {
                                     ],
                                   ),
                                    SizedBox(height:height/32.55),
+                                  Visibility(
+                                    visible: student.clasS!.toLowerCase() == 'ug' || student.clasS!.toLowerCase() == 'pg',
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: size.width * 0.15,
+                                              child:  KText(
+                                                text: "Degree",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w800,
+                                                    fontSize:width/85.375
+                                                ),
+                                              ),
+                                            ),
+                                            Text(":"),
+                                            SizedBox(width:width/68.3),
+                                            KText(
+                                              text: student.degree!,
+                                              style:  TextStyle(
+                                                  fontSize:width/97.571
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height:height/32.55),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "School/College Name",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: student.instituteName!,
+                                        style:  TextStyle(
+                                            fontSize:width/97.571
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
                                   Row(
                                     children: [
                                       SizedBox(
@@ -2365,7 +2543,7 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375
@@ -2578,6 +2756,7 @@ class _StudentTabState extends State<StudentTab> {
                                   aadharNoController.text = "";
                                   //departmentController.text = "";
                                   dobController.text = "";
+                                  degreeController.text = "";
                                   familyController.text = "";
                                   firstNameController.text = "";
                                   //jobController.text = "";
@@ -2978,6 +3157,51 @@ class _StudentTabState extends State<StudentTab> {
                                     ),
                                   ),
                                   SizedBox(width:width/68.3),
+                                  // Container(
+                                  //   width:width/4.553,
+                                  //   decoration: BoxDecoration(
+                                  //       border: Border(
+                                  //           bottom: BorderSide(width: 1.5,color: Colors.grey)
+                                  //       )
+                                  //   ),
+                                  //   child: Column(
+                                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       KText(
+                                  //         text: "Class *",
+                                  //         style: GoogleFonts.openSans(
+                                  //           color: Colors.black,
+                                  //           fontSize:width/91.066,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //       DropdownButton(
+                                  //         value: classController.text,
+                                  //         underline: Container(),
+                                  //         isExpanded: true,
+                                  //         icon:
+                                  //         Icon(Icons.keyboard_arrow_down),
+                                  //         items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
+                                  //             .map((items) {
+                                  //           return DropdownMenuItem(
+                                  //             value: items,
+                                  //             child: Text(items),
+                                  //           );
+                                  //         }).toList(),
+                                  //         onChanged: (newValue) {
+                                  //           setState(() {
+                                  //             classController.text = newValue!;
+                                  //           });
+                                  //         },
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                              SizedBox(height:height/21.7),
+                              Row(
+                                children: [
                                   Container(
                                     width:width/4.553,
                                     decoration: BoxDecoration(
@@ -3002,7 +3226,7 @@ class _StudentTabState extends State<StudentTab> {
                                           isExpanded: true,
                                           icon:
                                           Icon(Icons.keyboard_arrow_down),
-                                          items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG"]
+                                          items:  ["Select Class","LKG","UKG","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","UG","PG",'Professional Degree']
                                               .map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -3010,11 +3234,68 @@ class _StudentTabState extends State<StudentTab> {
                                             );
                                           }).toList(),
                                           onChanged: (newValue) {
-                                            setState(() {
+                                            setStat(() {
                                               classController.text = newValue!;
                                             });
                                           },
                                         ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width:width/68.3),
+                                  Visibility(
+                                    visible: classController.text == 'UG' || classController.text == 'PG' || classController.text == 'Professional Degree',
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width:width/4.553,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              KText(
+                                                text: 'Degree',
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.black,
+                                                  fontSize:width/91.066,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  counterText: "",
+                                                ),
+                                                maxLength: 40,
+                                                style:  TextStyle(fontSize:width/113.83),
+                                                controller: degreeController,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(width:width/68.3),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width:width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: 'School/College Name',
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/91.066,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          style:  TextStyle(fontSize:width/113.83),
+                                          controller: instituteNameController,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -3227,7 +3508,7 @@ class _StudentTabState extends State<StudentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize:width/91.066,
@@ -3303,7 +3584,9 @@ class _StudentTabState extends State<StudentTab> {
                                             //department: departmentController.text,
                                             clasS: classController.text,
                                             age: ageController.text,
+                                            degree: degreeController.text,
                                             imgUrl: student.imgUrl,
+                                            instituteName: instituteNameController.text,
                                             familyid: familyIDController.text,
                                             timestamp: student.timestamp,
                                             guardian: guardianController.text,
@@ -3345,11 +3628,13 @@ class _StudentTabState extends State<StudentTab> {
                                             guardianPhoneController.text = "";
                                             baptizeDateController.text = "";
                                             aadharNoController.text = "";
+                                            degreeController.text = "";
                                             bloodGroupController.text = 'Select Blood Group';
                                             //departmentController.text = "";
                                             dobController.text = "";
                                             familyController.text = "";
                                             firstNameController.text = "";
+                                            instituteNameController.text = "";
                                             //jobController.text = "";
                                             lastNameController.text = "";
                                             //marriageDateController.text = "";
@@ -3437,7 +3722,7 @@ class _StudentTabState extends State<StudentTab> {
     row.add("Gender");
     row.add("Guardian");
     row.add("Phone");
-    row.add("Baptize Date");
+    row.add("Baptism Date");
     row.add("Age");
     row.add("Class");
     row.add("Family");

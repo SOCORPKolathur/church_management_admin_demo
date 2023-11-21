@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/kText.dart';
@@ -29,6 +30,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
   TextEditingController leadernameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController permanentAddressController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController zoneController = TextEditingController();
@@ -134,7 +136,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 1.4,
+              height: size.height * 1.6,
               width: double.infinity,
               margin: EdgeInsets.symmetric(
                       horizontal: width/68.3,
@@ -528,7 +530,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                      fontSize:width/105.07,
@@ -582,6 +584,68 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                                 decoration: InputDecoration(
                                                   counterText: '',
                                                   border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/65.1),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize:width/105.07,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height:height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 40,
+                                                style: TextStyle(
+                                                    fontSize:width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration: InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
                                                     contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                                 ),
                                                 maxLines: null,
@@ -741,6 +805,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               city: cityController.text,
                                               zone: zoneController.text,
                                               address: addressController.text,
+                                              permanentAddress: permanentAddressController.text,
                                               country: countryController.text,
                                               description: descriptionController.text,
                                               location: locationController.text
@@ -763,6 +828,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               descriptionController.text = "";
                                               cityController.text = "";
                                               addressController.text = "";
+                                              permanentAddressController.text = "";
                                               countryController.text = "";
                                               zoneController.text = "";
                                               isLoading = false;
@@ -963,9 +1029,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                           ),
                         ),
                         Container(
-                          height: size.height * 0.7 > 110 + departments.length * 80
-                              ? 100 + departments.length * 80
-                              : size.height * 0.7,
+                          height: size.height * 0.73,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -1347,6 +1411,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                                         locationController.text = departments[i].location!;
                                                         descriptionController.text = departments[i].description!;
                                                         addressController.text = departments[i].address!;
+                                                        permanentAddressController.text = departments[i].permanentAddress!;
                                                         cityController.text = departments[i].city!;
                                                         countryController.text = departments[i].country!;
                                                         zoneController.text = departments[i].zone!;
@@ -1484,7 +1549,61 @@ class _DepartmentTabState extends State<DepartmentTab> {
                 }
                 return Container();
               },
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),
@@ -1693,7 +1812,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                 SizedBox(
                                   width: size.width * 0.15,
                                   child: KText(
-                                    text: "Address",
+                                    text: "Residential Address",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         fontSize: width/85.375
@@ -1708,6 +1827,33 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                     text: department.address!,
                                     style: TextStyle(
                                        fontSize: width/97.571
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(height:height/32.55),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: size.width * 0.15,
+                                  child: KText(
+                                    text: "Permanent Address",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: width/85.375
+                                    ),
+                                  ),
+                                ),
+                                Text(":"),
+                                SizedBox(width:width/68.3),
+                                SizedBox(
+                                  width: size.width * 0.3,
+                                  child: KText(
+                                    text: department.permanentAddress!,
+                                    style: TextStyle(
+                                        fontSize: width/97.571
                                     ),
                                   ),
                                 )
@@ -1882,6 +2028,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                               descriptionController.text = "";
                               cityController.text = "";
                               addressController.text = "";
+                              permanentAddressController.text = "";
                               countryController.text = "";
                               zoneController.text = "";
                             });
@@ -2097,7 +2244,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               KText(
-                                text: "Address *",
+                                text: "Residential Address ",
                                 style: GoogleFonts.openSans(
                                   color: Colors.black,
                                  fontSize:width/105.07,
@@ -2142,6 +2289,68 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                             controller: addressController,
                                             decoration: InputDecoration(
                                               counterText: '',
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
+                                            ),
+                                            maxLines: null,
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: height/65.1),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Permanent Address",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize:width/105.07,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: width/68.3,
+                                    vertical: height/32.55
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      height:height/32.55,
+                                      width: double.infinity,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            maxLength: 40,
+                                            style: TextStyle(
+                                                fontSize:width/113.83),
+                                            controller: permanentAddressController,
+                                            decoration: InputDecoration(
+                                                counterText: '',
                                                 border: InputBorder.none,
                                                 contentPadding: EdgeInsets.only(left: width/91.06,top: height/162.75,bottom: height/162.75)
                                             ),
@@ -2268,6 +2477,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           city: cityController.text,
                                           zone: zoneController.text,
                                           address: addressController.text,
+                                          permanentAddress: permanentAddressController.text,
                                           country: countryController.text,
                                           description: descriptionController.text,
                                           location: locationController.text
@@ -2290,6 +2500,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         descriptionController.text = "";
                                         cityController.text = "";
                                         addressController.text = "";
+                                        permanentAddressController.text = "";
                                         countryController.text = "";
                                         zoneController.text = "";
                                       });

@@ -1096,10 +1096,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       ),
                                     ),
                                     Container(
-                                      height: size.height * 0.7 >
-                                          70 + funds.length * 60
-                                          ? 70 + funds.length * 60
-                                          : size.height * 0.7,
+                                      height: size.height * 0.73,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -1460,10 +1457,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                       ),
                                     ),
                                     Container(
-                                      height: size.height * 0.7 >
-                                              70 + funds.length * 60
-                                          ? 70 + funds.length * 60
-                                          : size.height * 0.7,
+                                      height: size.height * 0.73,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -1735,7 +1729,61 @@ class _FundManagementTabState extends State<FundManagementTab>
                             }
                             return Container();
                           },
-                        ) : Container()
+                        ) : Container(),
+                  SizedBox(height: size.height * 0.04),
+                  InkWell(
+                    onTap: () async {
+                      final Uri toLaunch =
+                      Uri.parse("http://ardigitalsolutions.co/");
+                      if (!await launchUrl(toLaunch,
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception('Could not launch $toLaunch');
+                      }
+                    },
+                    child: Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border:Border.all(color: Constants().primaryAppColor,)
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.network(
+                                      Constants.churchLogo,
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              Text(
+                                "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.01),
                 ],
               );
             }

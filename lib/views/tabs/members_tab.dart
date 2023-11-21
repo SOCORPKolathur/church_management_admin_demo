@@ -10,6 +10,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:flutter/services.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
@@ -44,6 +46,7 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController jobController = TextEditingController();
   TextEditingController familyController = TextEditingController(text: "Select");
   TextEditingController familyIDController = TextEditingController(text: "Select");
+  TextEditingController serviceLanguageController = TextEditingController(text: "Select");
   TextEditingController departmentController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController(text: "Select Blood Group");
   TextEditingController dobController = TextEditingController();
@@ -57,7 +60,7 @@ class _MembersTabState extends State<MembersTab> {
   TextEditingController genderController = TextEditingController(text: 'Select Gender');
   TextEditingController landMarkController = TextEditingController();
   TextEditingController previousChurchController = TextEditingController();
-  TextEditingController attendingTimeController = TextEditingController();
+  TextEditingController attendingTimeController = TextEditingController(text: 'Select Time');
   TextEditingController qualificationController = TextEditingController();
   TextEditingController relationToFamilyController = TextEditingController(text: "Select Relation");
   TextEditingController marriedController = TextEditingController(text: 'Select Status');
@@ -135,7 +138,7 @@ class _MembersTabState extends State<MembersTab> {
     sheet.getRangeByName("F1").setText("Email");
     sheet.getRangeByName("G1").setText("Gender");
     sheet.getRangeByName("H1").setText("Profession");
-    sheet.getRangeByName("I1").setText("Baptize Date");
+    sheet.getRangeByName("I1").setText("Baptism Date");
     sheet.getRangeByName("J1").setText("Marriage Date");
     sheet.getRangeByName("K1").setText("Social Status");
     sheet.getRangeByName("L1").setText("Job");
@@ -193,9 +196,10 @@ class _MembersTabState extends State<MembersTab> {
       nationalityController.text = 'Indian';
       phoneController.text = "";
       positionController.text = "";
+      serviceLanguageController.text = "Select";
       socialStatusController.text = "";
       countryController.text = "";
-      attendingTimeController.text = "";
+      attendingTimeController.text = 'Select Time';
       qualificationController.text = "";
       relationToFamilyController.text = "";
       marriedController.text = 'Select Status';
@@ -592,7 +596,7 @@ class _MembersTabState extends State<MembersTab> {
                                               color: Colors.white),
                                            SizedBox(width: width/136.6),
                                           KText(
-                                            text: docname == "" ? 'Select Baptizem Certificate' : docname,
+                                            text: docname == "" ? 'Select Baptism Certificate' : docname,
                                             style:  TextStyle(color: Colors.white),
                                           ),
                                         ],
@@ -907,7 +911,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -920,11 +924,20 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await DatePicker.showSimpleDatePicker(
+                                              context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime.now(),
+                                              dateFormat: "dd-MM-yyyy",
+                                              locale: DateTimePickerLocale.en_us,
+                                              looping: true,
+                                            );
+                                            // await showDatePicker(
+                                            //     context: context,
+                                            //     initialDate: DateTime.now(),
+                                            //     firstDate: DateTime(1900),
+                                            //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -1054,11 +1067,20 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: marriageDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await DatePicker.showSimpleDatePicker(
+                                              context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime.now(),
+                                              dateFormat: "dd-MM-yyyy",
+                                              locale: DateTimePickerLocale.en_us,
+                                              looping: true,
+                                            );
+                                            // await showDatePicker(
+                                            //     context: context,
+                                            //     initialDate: DateTime.now(),
+                                            //     firstDate: DateTime(1900),
+                                            //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 marriageDateController.text = formatter.format(pickedDate);
@@ -1221,10 +1243,19 @@ class _MembersTabState extends State<MembersTab> {
                                             "Mother",
                                             "Son",
                                             "Daughter",
+                                            "Husband",
+                                            "Wife",
+                                            "Brother",
+                                            "Sister",
                                             "Grand Father",
                                             "Grand Mother",
                                             "Grand Son",
                                             "Grand Daughter",
+                                            "Uncle",
+                                            "Aunt",
+                                            "Nephew",
+                                            "Niece",
+                                            "Cousins",
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -1309,7 +1340,8 @@ class _MembersTabState extends State<MembersTab> {
                                          )
                                        ],
                                      ),
-                                   ),SizedBox(width: width/68.3),
+                                   ),
+                                   SizedBox(width: width/68.3),
                                    Column(
                                      crossAxisAlignment: CrossAxisAlignment.start,
                                      children: [
@@ -1324,22 +1356,50 @@ class _MembersTabState extends State<MembersTab> {
                                        SizedBox(
                                          height: height/16.275,
                                          width: width/9.106,
-                                         child: Padding(
-                                           padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                           child: TextFormField(
-                                             readOnly: true,
-                                             onTap: (){
-                                               _selectTime(context);
-                                             },
-                                             controller: attendingTimeController,
-                                             decoration: InputDecoration(
-                                               hintStyle: GoogleFonts.openSans(
-                                                 fontSize: width/97.571,
-                                               ),
-                                             ),
-                                           ),
+                                         child: DropdownButton(
+                                           //underline: Container(),
+                                           isExpanded: true,
+                                           value: attendingTimeController.text,
+                                           icon:  const Icon(Icons.keyboard_arrow_down),
+                                           items: [
+                                             "Select Time",
+                                             "6:00 AM",
+                                             "8:00 AM",
+                                             "10:30 AM",
+                                             "7:00 PM",
+                                           ].map((items) {
+                                             return DropdownMenuItem(
+                                               value: items,
+                                               child: Text(items),
+                                             );
+                                           }).toList(),
+                                           onChanged: (newValue) {
+                                             setState(() {
+                                               attendingTimeController.text = newValue!;
+                                             });
+                                           },
                                          ),
-                                       )
+                                       ),
+
+                                       // SizedBox(
+                                       //   height: height/16.275,
+                                       //   width: width/9.106,
+                                       //   child: Padding(
+                                       //     padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                       //     child: TextFormField(
+                                       //       readOnly: true,
+                                       //       onTap: (){
+                                       //         _selectTime(context);
+                                       //       },
+                                       //       controller: attendingTimeController,
+                                       //       decoration: InputDecoration(
+                                       //         hintStyle: GoogleFonts.openSans(
+                                       //           fontSize: width/97.571,
+                                       //         ),
+                                       //       ),
+                                       //     ),
+                                       //   ),
+                                       // )
                                      ],
                                    ),
                                  ],
@@ -1523,11 +1583,20 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await DatePicker.showSimpleDatePicker(
+                                              context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime.now(),
+                                              dateFormat: "dd-MM-yyyy",
+                                              locale: DateTimePickerLocale.en_us,
+                                              looping: true,
+                                            );
+                                            // await showDatePicker(
+                                            //     context: context,
+                                            //     initialDate: DateTime.now(),
+                                            //     firstDate: DateTime(1900),
+                                            //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -1592,6 +1661,71 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
+                                  Container(
+                                    width: width/4.553,
+                                    decoration:  BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Service Language",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: serviceLanguageController.text,
+                                          icon:  Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select",
+                                            "Tamil",
+                                            "English",
+                                            "Hindi",
+                                            "Telugu",
+                                            "Malayalam",
+                                            "Kannada",
+                                            "Marathi",
+                                            "Gujarathi",
+                                            "Odia",
+                                            "Bengali",
+                                            "Spanish",
+                                            "Portuguese",
+                                            "French",
+                                            "Dutch",
+                                            "German",
+                                            "Italian",
+                                            "Swedish",
+                                            "Luxembourish",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              serviceLanguageController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+
+                                        // TextFormField(
+                                        //   style:  TextStyle(fontSize: width/113.83),
+                                        //   controller: socialStatusController,
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                   Container(
                                     width: width/4.553,
                                     decoration:  BoxDecoration(
@@ -1847,6 +1981,7 @@ class _MembersTabState extends State<MembersTab> {
                                           Response response = await MembersFireCrud.addMember(
                                             aadharNo: aadharNoController.text,
                                             membersId: memberIdController.text,
+                                            serviceLanguage: serviceLanguageController.text,
                                             image: profileImage,
                                             document: documentForUpload,
                                             residentialAddress: residentialAddressController.text,
@@ -2415,8 +2550,13 @@ class _MembersTabState extends State<MembersTab> {
                                                     backgroundImage: NetworkImage(members[i].imgUrl!),
                                                     child: Visibility(
                                                       visible: members[i].imgUrl == "",
+                                                      // child: Image.asset(
+                                                      //   members[i].gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                      //   height: 40,
+                                                      //   width: 40,
+                                                      // )
                                                       child: Icon(
-                                                        Icons.person,
+                                                          Icons.person
                                                       ),
                                                     ),
                                                   ),
@@ -2427,7 +2567,7 @@ class _MembersTabState extends State<MembersTab> {
                                               width: width/8.035,
                                               child: KText(
                                                 text:
-                                                    "${members[i].firstName!} ${members[i].lastName!}",
+                                                "${members[i].firstName!} ${members[i].lastName!}",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -2559,6 +2699,7 @@ class _MembersTabState extends State<MembersTab> {
                                                           relationToFamilyController.text = members[i].relationToFamily!;
                                                           landMarkController.text = members[i].landMark!;
                                                           previousChurchController.text = members[i].previousChurch!;
+                                                          serviceLanguageController.text = members[i].serviceLanguage!;
                                                         });
                                                         editPopUp(members[i], size);
                                                       },
@@ -2707,7 +2848,61 @@ class _MembersTabState extends State<MembersTab> {
                 }
                 return Container();
               },
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: size.height * 0.04),
+            InkWell(
+              onTap: () async {
+                final Uri toLaunch =
+                Uri.parse("http://ardigitalsolutions.co/");
+                if (!await launchUrl(toLaunch,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  throw Exception('Could not launch $toLaunch');
+                }
+              },
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border:Border.all(color: Constants().primaryAppColor,)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                Constants.churchLogo,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
           ],
         ),
       ),
@@ -2855,7 +3050,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child:  KText(
-                                          text: "Baptizem Certificate",
+                                          text: "Baptism Certificate",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: width/85.375
@@ -3013,6 +3208,29 @@ class _MembersTabState extends State<MembersTab> {
                                        SizedBox(width: width/68.3),
                                       KText(
                                         text: member.position!,
+                                        style:  TextStyle(
+                                            fontSize: width/97.57
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: height/32.55),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child:  KText(
+                                          text: "Service Language",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width/68.3),
+                                      KText(
+                                        text: member.serviceLanguage!,
                                         style:  TextStyle(
                                             fontSize: width/97.57
                                         ),
@@ -3220,7 +3438,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child:  KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: width/85.375
@@ -3968,7 +4186,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Baptize Date",
+                                          text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width/105.076,
@@ -3980,11 +4198,20 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await DatePicker.showSimpleDatePicker(
+                                              context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime.now(),
+                                              dateFormat: "dd-MM-yyyy",
+                                              locale: DateTimePickerLocale.en_us,
+                                              looping: true,
+                                            );
+                                            // await showDatePicker(
+                                            //     context: context,
+                                            //     initialDate: DateTime.now(),
+                                            //     firstDate: DateTime(1900),
+                                            //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -4094,11 +4321,20 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: marriageDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await DatePicker.showSimpleDatePicker(
+                                              context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime.now(),
+                                              dateFormat: "dd-MM-yyyy",
+                                              locale: DateTimePickerLocale.en_us,
+                                              looping: true,
+                                            );
+                                            // await showDatePicker(
+                                            //     context: context,
+                                            //     initialDate: DateTime.now(),
+                                            //     firstDate: DateTime(1900),
+                                            //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 marriageDateController.text = formatter.format(pickedDate);
@@ -4257,10 +4493,19 @@ class _MembersTabState extends State<MembersTab> {
                                             "Mother",
                                             "Son",
                                             "Daughter",
+                                            "Husband",
+                                            "Wife",
+                                            "Brother",
+                                            "Sister",
                                             "Grand Father",
                                             "Grand Mother",
                                             "Grand Son",
                                             "Grand Daughter",
+                                            "Uncle",
+                                            "Aunt",
+                                            "Nephew",
+                                            "Niece",
+                                            "Cousins",
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -4345,24 +4590,84 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         height: height/16.275,
                                         width: width/9.106,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                          child: TextFormField(
-                                            readOnly: true,
-                                            onTap: (){
-                                              _selectTime(context);
-                                            },
-                                            controller: attendingTimeController,
-                                            decoration: InputDecoration(
-                                              hintStyle: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                              ),
-                                            ),
-                                          ),
+                                        child: DropdownButton(
+                                          //underline: Container(),
+                                          isExpanded: true,
+                                          value: attendingTimeController.text,
+                                          icon:  const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Time",
+                                            "6:00 AM",
+                                            "8:00 AM",
+                                            "10:30 AM",
+                                            "7:00 PM",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              attendingTimeController.text = newValue!;
+                                            });
+                                          },
                                         ),
-                                      )
+                                      ),
+
+                                      // SizedBox(
+                                      //   height: height/16.275,
+                                      //   width: width/9.106,
+                                      //   child: Padding(
+                                      //     padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                      //     child: TextFormField(
+                                      //       readOnly: true,
+                                      //       onTap: (){
+                                      //         _selectTime(context);
+                                      //       },
+                                      //       controller: attendingTimeController,
+                                      //       decoration: InputDecoration(
+                                      //         hintStyle: GoogleFonts.openSans(
+                                      //           fontSize: width/97.571,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // )
                                     ],
                                   ),
+                                  // Column(
+                                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                                  //   children: [
+                                  //     KText(
+                                  //       text: "Attending Time",
+                                  //       style: GoogleFonts.openSans(
+                                  //         fontSize: width/97.571,
+                                  //         fontWeight: FontWeight.bold,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(height: height/43.4),
+                                  //     SizedBox(
+                                  //       height: height/16.275,
+                                  //       width: width/9.106,
+                                  //       child: Padding(
+                                  //         padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                  //         child: TextFormField(
+                                  //           readOnly: true,
+                                  //           onTap: (){
+                                  //             _selectTime(context);
+                                  //           },
+                                  //           controller: attendingTimeController,
+                                  //           decoration: InputDecoration(
+                                  //             hintStyle: GoogleFonts.openSans(
+                                  //               fontSize: width/97.571,
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     )
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                                SizedBox(height: height/21.7),
@@ -4527,11 +4832,20 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await DatePicker.showSimpleDatePicker(
+                                              context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime.now(),
+                                              dateFormat: "dd-MM-yyyy",
+                                              locale: DateTimePickerLocale.en_us,
+                                              looping: true,
+                                            );
+                                            // await showDatePicker(
+                                            //     context: context,
+                                            //     initialDate: DateTime.now(),
+                                            //     firstDate: DateTime(1900),
+                                            //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -4575,6 +4889,71 @@ class _MembersTabState extends State<MembersTab> {
                                SizedBox(height: height/21.7),
                               Row(
                                 children: [
+                                  Container(
+                                    width: width/4.553,
+                                    decoration:  BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Service Language",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: serviceLanguageController.text,
+                                          icon:  Icon(Icons.keyboard_arrow_down),
+                                          underline: Container(),
+                                          items: [
+                                            "Select",
+                                            "Tamil",
+                                            "English",
+                                            "Hindi",
+                                            "Telugu",
+                                            "Malayalam",
+                                            "Kannada",
+                                            "Marathi",
+                                            "Gujarathi",
+                                            "Odia",
+                                            "Bengali",
+                                            "Spanish",
+                                            "Portuguese",
+                                            "French",
+                                            "Dutch",
+                                            "German",
+                                            "Italian",
+                                            "Swedish",
+                                            "Luxembourish",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              serviceLanguageController.text = newValue!;
+                                            });
+                                          },
+                                        ),
+
+                                        // TextFormField(
+                                        //   style:  TextStyle(fontSize: width/113.83),
+                                        //   controller: socialStatusController,
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                   Container(
                                     width: width/4.553,
                                     decoration: BoxDecoration(
@@ -4804,6 +5183,7 @@ class _MembersTabState extends State<MembersTab> {
                                             houseType: houseTypeCon.text,
                                             gender: genderController.text,
                                             id: member.id,
+                                            serviceLanguage: serviceLanguageController.text,
                                             timestamp: member.timestamp,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,
@@ -4855,6 +5235,7 @@ class _MembersTabState extends State<MembersTab> {
                                             familyController.text = "Select";
                                             familyIDController.text = "Select";
                                             socialStatusController.text = "Select";
+                                            serviceLanguageController.text = "Select";
                                             genderController.text = "Select Gender";
                                             emailController.text = "";
                                             familyController.text = "";
@@ -4951,7 +5332,7 @@ class _MembersTabState extends State<MembersTab> {
     row.add("Email");
     row.add("Gender");
     row.add("Profession");
-    row.add("Baptize Date");
+    row.add("Baptism Date");
     row.add("Marital Status");
     row.add("Marriage Date");
     row.add("Social Status");

@@ -2,6 +2,8 @@ class ChurchDetailsModel {
   String? id;
   String? name;
   String? phone;
+  String? email;
+  String? altPhone;
   String? buildingNo;
   String? streetName;
   String? area;
@@ -20,6 +22,8 @@ class ChurchDetailsModel {
       {this.id,
         this.name,
         this.phone,
+        this.email,
+        this.altPhone,
         this.buildingNo,
         this.streetName,
         this.area,
@@ -39,6 +43,8 @@ class ChurchDetailsModel {
     id = json['id'];
     name = json['name'];
     phone = json['phone'];
+    email = json['email'];
+    altPhone = json['altPhone'];
     logo = json['logo'];
     buildingNo = json['buildingNo'];
     streetName = json['streetName'];
@@ -69,6 +75,8 @@ class ChurchDetailsModel {
     data['id'] = this.id;
     data['name'] = this.name;
     data['phone'] = this.phone;
+    data['email'] = this.email;
+    data['altPhone'] = this.altPhone;
     data['logo'] = this.logo;
     data['buildingNo'] = this.buildingNo;
     data['streetName'] = this.streetName;

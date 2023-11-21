@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
+import 'package:church_management_admin/views/tabs/demo.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
 import 'package:church_management_admin/views/tabs/messages_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
+import 'package:church_management_admin/views/tabs/terms_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -149,6 +151,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home: user != null ? HomeView(currentRole: user!.email!) : const LoginView(),
+        //home: TermsPage(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
