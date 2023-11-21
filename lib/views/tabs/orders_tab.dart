@@ -917,6 +917,25 @@ class _OrdersTabState extends State<OrdersTab>
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      KText(
+                                        text:"Shipping Address :  ",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      KText(
+                                        text: order.address!,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: width/105.0769230769231,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
                                   )
                                 ],
                               ),

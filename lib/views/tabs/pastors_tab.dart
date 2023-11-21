@@ -1816,14 +1816,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                                           fontSize: width/75.888,
                                                         ),
                                                       ),
-                                                      KText(
-                                                        text:
-                                                        data.socialStatus!,
-                                                        style: TextStyle(
-                                                          color: Colors.black54,
-                                                          fontSize:width/105.07,
-                                                        ),
-                                                      ),
+                                                      // KText(
+                                                      //   text:
+                                                      //   data.socialStatus!,
+                                                      //   style: TextStyle(
+                                                      //     color: Colors.black54,
+                                                      //     fontSize:width/105.07,
+                                                      //   ),
+                                                      // ),
                                                       Center(
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,

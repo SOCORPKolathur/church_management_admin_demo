@@ -153,7 +153,7 @@ class _ReportsTabState extends State<ReportsTab> {
                                         },
                                         view: CalendarView.month,
                                         allowDragAndDrop: true,
-                                        //dataSource: MeetingDataSource(events),
+                                        dataSource: MeetingDataSource(events),
                                         monthViewSettings: MonthViewSettings(showAgenda: true),
                                       ),
                                     )

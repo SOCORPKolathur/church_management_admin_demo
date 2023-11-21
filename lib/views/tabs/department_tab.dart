@@ -260,7 +260,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Name/Title *",
+                                          text: "Department Name/Title",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -284,9 +284,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
-                                          onChanged: (val){
-                                            _keyDeptName.currentState!.validate();
-                                          },
+                                          // onChanged: (val){
+                                          //   _keyDeptName.currentState!.validate();
+                                          // },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -308,7 +308,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Leader Name *",
+                                          text: "Department Leader Name",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -332,9 +332,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
-                                          onChanged: (val){
-                                            _keyDeptLeadName.currentState!.validate();
-                                          },
+                                          // onChanged: (val){
+                                          //   _keyDeptLeadName.currentState!.validate();
+                                          // },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -360,7 +360,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Contact *",
+                                          text: "Department Contact",
                                           style: GoogleFonts.openSans(
                                             color:Colors.black,
                                            fontSize:width/105.07,
@@ -386,9 +386,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
-                                          onChanged: (val){
-                                            _keyPhone.currentState!.validate();
-                                          },
+                                          // onChanged: (val){
+                                          //   _keyPhone.currentState!.validate();
+                                          // },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -410,7 +410,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Area/Zone/Location *",
+                                          text: "Department Area/Zone/Location",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -434,9 +434,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
-                                          onChanged: (val){
-                                            _keyDeptArea.currentState!.validate();
-                                          },
+                                          // onChanged: (val){
+                                          //   _keyDeptArea.currentState!.validate();
+                                          // },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -676,7 +676,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Postal/Zone *",
+                                          text: "Postal/Zone",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -694,9 +694,9 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               return '';
                                             }
                                           },
-                                          onChanged: (val){
-                                            _keyzone.currentState!.validate();
-                                          },
+                                          // onChanged: (val){
+                                          //   _keyzone.currentState!.validate();
+                                          // },
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
@@ -723,17 +723,17 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         setState((){
                                           isLoading = true;
                                         });
-                                        _keyDeptName.currentState!.validate();
-                                        _keyDeptLeadName.currentState!.validate();
-                                        _keyPhone.currentState!.validate();
-                                        _keyDeptArea.currentState!.validate();
-                                        _keyzone.currentState!.validate();
+                                        // _keyDeptName.currentState!.validate();
+                                        // _keyDeptLeadName.currentState!.validate();
+                                        // _keyPhone.currentState!.validate();
+                                        // _keyDeptArea.currentState!.validate();
+                                        // _keyzone.currentState!.validate();
 
-                                        if (nameController.text != "" &&
-                                            leadernameController.text != "" &&
-                                            zoneController.text != "" &&
-                                            locationController.text != "" &&
-                                            numberController.text != "") {
+                                        // if (nameController.text != "" &&
+                                        //     leadernameController.text != "" &&
+                                        //     zoneController.text != "" &&
+                                        //     locationController.text != "" &&
+                                        //     numberController.text != "") {
                                           Response response = await DepartmentFireCrud.addDepartment(
                                               name: nameController.text,
                                               leaderName: leadernameController.text,
@@ -780,13 +780,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               isLoading = false;
                                             });
                                           }
-                                        } else {
-                                          setState((){
-                                            isLoading = false;
-                                          });
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        }
+                                      //   }
+                                      // else {
+                                      //     setState((){
+                                      //       isLoading = false;
+                                      //     });
+                                      //     ScaffoldMessenger.of(context)
+                                      //         .showSnackBar(snackBar);
+                                      //   }
                                       }
                                     },
                                     child: Container(

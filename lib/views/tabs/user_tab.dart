@@ -796,8 +796,11 @@ class _UserTabState extends State<UserTab> {
                                           underline: Container(),
                                           items: [
                                             "Select Status",
-                                            "Married",
                                             "Single",
+                                            "Engaged",
+                                            "Married",
+                                            "Seperated",
+                                            "Divorced",
                                             "Widow"
                                           ].map((items) {
                                             return DropdownMenuItem(
@@ -3188,8 +3191,11 @@ class _UserTabState extends State<UserTab> {
                                         underline: Container(),
                                         items: [
                                           "Select Status",
-                                          "Married",
                                           "Single",
+                                          "Engaged",
+                                          "Married",
+                                          "Seperated",
+                                          "Divorced",
                                           "Widow"
                                         ].map((items) {
                                           return DropdownMenuItem(

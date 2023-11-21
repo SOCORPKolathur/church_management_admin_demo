@@ -395,9 +395,13 @@ class _DashBoardTabState extends State<DashBoardTab> {
     super.initState();
   }
 
+  String churchName = '';
+
   fetchDashboardValues() async {
     var profileRequestDoc = await FirebaseFirestore.instance.collection('ProfileEditRequest').get();
+    var churchDetails = await FirebaseFirestore.instance.collection('ChurchDetails').get();
     setState(() {
+      churchName = churchDetails.docs.first.get("name");
       count += profileRequestDoc.docs.length;
       isFetched = true;
     });
@@ -460,7 +464,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'WELCOME TO IKIA',
+                            'WELCOME TO $churchName - IKIA',
                             style: GoogleFonts.openSans(
                               fontSize: width/42.687,
                               fontWeight: FontWeight.w900,
@@ -1785,7 +1789,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                 // },
                                                 view: CalendarView.month,
                                                 allowDragAndDrop: true,
-                                                //dataSource: MeetingDataSource(events),
+                                                dataSource: MeetingDataSource(events),
                                                 monthViewSettings: MonthViewSettings(showAgenda: true),
                                               ),
                                             )

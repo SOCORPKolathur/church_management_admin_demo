@@ -2384,7 +2384,6 @@ class _MembersTabState extends State<MembersTab> {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
-                                              color: Colors.blue,
                                               width: width/30.075,
                                               child: KText(
                                                 text: (i + 1).toString(),
@@ -2395,7 +2394,6 @@ class _MembersTabState extends State<MembersTab> {
                                               ),
                                             ),
                                             Container(
-                                              color: Colors.red,
                                               width: width/9.66,
                                               child: Center(
                                                 child: KText(

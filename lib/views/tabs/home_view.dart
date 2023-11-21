@@ -112,13 +112,13 @@ class _HomeViewState extends State<HomeView> {
       isExpanded: false,
       children: [],
     ),
-    DrawerModel(
-      name: "Choir",
-      page:  ChorusTab(),
-      icon: Icons.music_video,
-      isExpanded: false,
-      children: [],
-    ),
+    // DrawerModel(
+    //   name: "Choir",
+    //   page:  ChorusTab(),
+    //   icon: Icons.music_video,
+    //   isExpanded: false,
+    //   children: [],
+    // ),
     DrawerModel(
       name: "Department",
       icon: Icons.account_tree,
@@ -134,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Flocks",
+      name: "Little Flocks",
       page:  ClansTab(),
       icon: Icons.class_,
       isExpanded: false,
