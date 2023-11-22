@@ -19,6 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/members_model.dart';
 import '../../models/response.dart';
+import '../../widgets/developer_card_widget.dart';
 import '../../widgets/kText.dart';
 import '../prints/member_print.dart';
 import 'package:excel/excel.dart' as ex;
@@ -368,7 +369,7 @@ class _MembersTabState extends State<MembersTab> {
                   children: [
                     Container(
               height: profileImageValidator ? size.height * 2.7 : size.height * 2.7,
-              width: width/1.241,
+              width: width,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,
                     vertical: height/32.55
@@ -924,15 +925,7 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await DatePicker.showSimpleDatePicker(
-                                              context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime.now(),
-                                              dateFormat: "dd-MM-yyyy",
-                                              locale: DateTimePickerLocale.en_us,
-                                              looping: true,
-                                            );
+                                            await Constants().datePicker(context);
                                             // await showDatePicker(
                                             //     context: context,
                                             //     initialDate: DateTime.now(),
@@ -1067,15 +1060,7 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: marriageDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await DatePicker.showSimpleDatePicker(
-                                              context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime.now(),
-                                              dateFormat: "dd-MM-yyyy",
-                                              locale: DateTimePickerLocale.en_us,
-                                              looping: true,
-                                            );
+                                            await Constants().datePicker(context);
                                             // await showDatePicker(
                                             //     context: context,
                                             //     initialDate: DateTime.now(),
@@ -1583,15 +1568,7 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await DatePicker.showSimpleDatePicker(
-                                              context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime.now(),
-                                              dateFormat: "dd-MM-yyyy",
-                                              locale: DateTimePickerLocale.en_us,
-                                              looping: true,
-                                            );
+                                            await Constants().datePicker(context);
                                             // await showDatePicker(
                                             //     context: context,
                                             //     initialDate: DateTime.now(),
@@ -2147,7 +2124,7 @@ class _MembersTabState extends State<MembersTab> {
                     }
                   });
                   return Container(
-                    width: width/1.241,
+                    width: width,
                     margin:  EdgeInsets.symmetric(
                             horizontal: width/68.3,
                         vertical: height/32.55
@@ -2850,58 +2827,7 @@ class _MembersTabState extends State<MembersTab> {
               },
             ) : Container(),
             SizedBox(height: size.height * 0.04),
-            InkWell(
-              onTap: () async {
-                final Uri toLaunch =
-                Uri.parse("http://ardigitalsolutions.co/");
-                if (!await launchUrl(toLaunch,
-                  mode: LaunchMode.externalApplication,
-                )) {
-                  throw Exception('Could not launch $toLaunch');
-                }
-              },
-              child: Material(
-                elevation: 3,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border:Border.all(color: Constants().primaryAppColor,)
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.network(
-                                Constants.churchLogo,
-                                height: 40,
-                                width: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        Text(
-                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const DeveloperCardWidget(),
             SizedBox(height: size.height * 0.01),
           ],
         ),
@@ -4198,15 +4124,7 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await DatePicker.showSimpleDatePicker(
-                                              context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime.now(),
-                                              dateFormat: "dd-MM-yyyy",
-                                              locale: DateTimePickerLocale.en_us,
-                                              looping: true,
-                                            );
+                                            await Constants().datePicker(context);
                                             // await showDatePicker(
                                             //     context: context,
                                             //     initialDate: DateTime.now(),
@@ -4321,15 +4239,7 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: marriageDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await DatePicker.showSimpleDatePicker(
-                                              context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime.now(),
-                                              dateFormat: "dd-MM-yyyy",
-                                              locale: DateTimePickerLocale.en_us,
-                                              looping: true,
-                                            );
+                                            await Constants().datePicker(context);
                                             // await showDatePicker(
                                             //     context: context,
                                             //     initialDate: DateTime.now(),
@@ -4832,15 +4742,7 @@ class _MembersTabState extends State<MembersTab> {
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await DatePicker.showSimpleDatePicker(
-                                              context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime.now(),
-                                              dateFormat: "dd-MM-yyyy",
-                                              locale: DateTimePickerLocale.en_us,
-                                              looping: true,
-                                            );
+                                            await Constants().datePicker(context);
                                             // await showDatePicker(
                                             //     context: context,
                                             //     initialDate: DateTime.now(),

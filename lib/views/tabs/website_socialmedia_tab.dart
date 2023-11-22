@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webviewx/webviewx.dart';
 import 'dart:ui' as ui;
 import '../../constants.dart';
+import '../../widgets/developer_card_widget.dart';
 import '../../widgets/kText.dart';
 
 class WebsiteAndSocialMediaTab extends StatefulWidget {
@@ -20,12 +21,14 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
 
    late WebViewXController webviewControllerfacebook;
    late WebViewXController webviewControllerinsta;
+   late WebViewXController webviewControllerchurch;
 
   String facebookUrl = 'https://www.facebook.com/bcagchennai';
   String instaUrl = 'https://www.instagram.com/bcagchennai';
 
   bool isView = false;
   bool isFacebook = false;
+  bool isInsta = false;
 
   final initialContent = '<h4> The Page is being loaded Please wait... <h2>';
 
@@ -39,6 +42,7 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
    void dispose() {
      webviewControllerinsta.dispose();
      webviewControllerfacebook.dispose();
+     webviewControllerchurch.dispose();
      super.dispose();
    }
 
@@ -52,6 +56,13 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
       churchWebsite = churchDetails.docs.first.get("website");
     });
   }
+
+   Future<void> launch(String url, {bool isNewTab = false}) async {
+     await launchUrl(
+       Uri.parse(url),
+       webOnlyWindowName: isNewTab ? '_blank' : '_self',
+     );
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -109,16 +120,18 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
                       children: [
                         InkWell(
                           onTap:() async {
-                            setState(() {
-                              isView = true;
-                              isFacebook = true;
-                            });
-                            await Future.delayed(Duration(seconds: 2)).then((value){
-                              webviewControllerfacebook.loadContent(
-                                facebookUrl,
-                                SourceType.url,
-                              );
-                            });
+                            // setState(() {
+                            //   isView = true;
+                            //   isFacebook = true;
+                            //   isInsta = false;
+                            // });
+                            // await Future.delayed(Duration(seconds: 2)).then((value){
+                            //   webviewControllerfacebook.loadContent(
+                            //     facebookUrl,
+                            //     SourceType.url,
+                            //   );
+                            // });
+                            launch(facebookUrl);
                           },
                           child: Material(
                             elevation: 4,
@@ -160,16 +173,18 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
                         SizedBox(width: 20),
                         InkWell(
                           onTap:() async {
-                            setState(() {
-                              isView = true;
-                              isFacebook = false;
-                            });
-                            await Future.delayed(Duration(seconds: 2)).then((value){
-                              webviewControllerinsta.loadContent(
-                                instaUrl,
-                                SourceType.url,
-                              );
-                            });
+                            // setState(() {
+                            //   isView = true;
+                            //   isFacebook = false;
+                            //   isInsta = true;
+                            // });
+                            // await Future.delayed(Duration(seconds: 2)).then((value){
+                            //   webviewControllerinsta.loadContent(
+                            //     instaUrl,
+                            //     SourceType.url,
+                            //   );
+                            // });
+                            launch(instaUrl);
                           },
                           child: Material(
                             elevation: 4,
@@ -312,16 +327,18 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
                         SizedBox(width: 20),
                         InkWell(
                           onTap:() async {
-                            setState(() {
-                              isView = true;
-                              isFacebook = false;
-                            });
-                            await Future.delayed(Duration(seconds: 2)).then((value){
-                              webviewControllerinsta.loadContent(
-                                churchWebsite,
-                                SourceType.url,
-                              );
-                            });
+                            // setState(() {
+                            //   isView = true;
+                            //   isFacebook = false;
+                            //   isInsta = false;
+                            // });
+                            // await Future.delayed(Duration(seconds: 2)).then((value){
+                            //   webviewControllerchurch.loadContent(
+                            //     churchWebsite,
+                            //     SourceType.url,
+                            //   );
+                            // });
+                            launch(churchWebsite);
                           },
                           child: Material(
                             elevation: 4,
@@ -368,58 +385,7 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
                     ),
                     Expanded(child: Container()),
                     SizedBox(height: size.height * 0.04),
-                    InkWell(
-                      onTap: () async {
-                        final Uri toLaunch =
-                        Uri.parse("http://ardigitalsolutions.co/");
-                        if (!await launchUrl(toLaunch,
-                          mode: LaunchMode.externalApplication,
-                        )) {
-                          throw Exception('Could not launch $toLaunch');
-                        }
-                      },
-                      child: Material(
-                        elevation: 3,
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border:Border.all(color: Constants().primaryAppColor,)
-                          ),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Center(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image.network(
-                                        Constants.churchLogo,
-                                        height: 40,
-                                        width: 40,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 20),
-                                Text(
-                                  "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const DeveloperCardWidget(),
                     SizedBox(height: size.height * 0.01),
                   ],
               ),
@@ -428,7 +394,7 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
                 : Container(
               height: 550,
               width: double.infinity,
-              child: isFacebook ? _buildWebViewXFacebook() : _buildWebViewXInsta(),
+              child: isFacebook ? _buildWebViewXFacebook() : isInsta ? _buildWebViewXInsta() : _buildWebViewXChurch(),
             ),
           ],
         ),
@@ -515,6 +481,49 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
       },
     );
   }
+
+   Widget _buildWebViewXChurch() {
+     return WebViewX(
+       key: const ValueKey('webviewx'),
+       initialContent: initialContent,
+       initialSourceType: SourceType.html,
+       height: MediaQuery
+           .of(context)
+           .size
+           .height,
+       width: MediaQuery
+           .of(context)
+           .size
+           .width,
+       onWebViewCreated: (controller) => webviewControllerchurch = controller,
+       onPageStarted: (src) =>
+           debugPrint('A new page has started loading: $src\n'),
+       onPageFinished: (src) =>
+           debugPrint('The page has finished loading: $src\n'),
+       jsContent: const {
+         EmbeddedJsContent(
+           js: "function testPlatformIndependentMethod() { console.log('Hi from JS') }",
+         ),
+         EmbeddedJsContent(
+           webJs:
+           "function testPlatformSpecificMethod(msg) { TestDartCallback('Web callback says: ' + msg) }",
+           mobileJs:
+           "function testPlatformSpecificMethod(msg) { TestDartCallback.postMessage('Mobile callback says: ' + msg) }",
+         ),
+       },
+
+       webSpecificParams: const WebSpecificParams(
+         printDebugInfo: true,
+       ),
+       mobileSpecificParams: const MobileSpecificParams(
+         androidEnableHybridComposition: true,
+       ),
+       navigationDelegate: (navigation) {
+         debugPrint(navigation.content.sourceType.toString());
+         return NavigationDecision.navigate;
+       },
+     );
+   }
 
 
 }

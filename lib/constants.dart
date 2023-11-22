@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 
 class Constants {
 
@@ -11,5 +13,45 @@ class Constants {
   static String MembershipAmount = '1000';
 
   static String apiKeyForNotification = 'AAAAii4b5Ts:APA91bEvfFnHM14KwgEWmOEr3JB6BqdoTDuAnFvJLD0HccAoc6H7Ej4kL-VSTv1ce3frKTdFGl9N2tlQNMGV7LXJqNAEDMqM38TDAMfEQDFR6BTJThYUieJ8ebTW5gwuJE4HZCnHkmRe';
+
+
+  datePicker(context) async {
+    DateTime? pickedDate = await DatePicker.showSimpleDatePicker(
+      context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(3000),
+      dateFormat: "dd-MM-yyyy",
+      locale: DateTimePickerLocale.en_us,
+      looping: true,
+    );
+    return pickedDate;
+  }
+
+  datePicker1(context) async {
+    DateTime? pickedDate = await DatePicker.showSimpleDatePicker(
+      context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(3000),
+      dateFormat: "dd-MM-yyyy",
+      locale: DateTimePickerLocale.en_us,
+      looping: true,
+    );
+    return pickedDate;
+  }
+
+  futureDatePicker(context) async {
+    DateTime? pickedDate = await DatePicker.showSimpleDatePicker(
+      context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(3000),
+      dateFormat: "dd-MM-yyyy",
+      locale: DateTimePickerLocale.en_us,
+      looping: true,
+    );
+    return pickedDate;
+  }
 
 }

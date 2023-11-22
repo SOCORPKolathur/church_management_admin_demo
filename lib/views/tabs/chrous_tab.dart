@@ -736,11 +736,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await Constants().datePicker(context);
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -773,11 +769,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                             controller: marriageDateController,
                                             onTap: () async {
                                               DateTime? pickedDate =
-                                              await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(1900),
-                                                  lastDate: DateTime.now());
+                                              await Constants().datePicker(context);
                                               if (pickedDate != null) {
                                                 setState(() {
                                                   marriageDateController.text = formatter.format(pickedDate);
@@ -1086,11 +1078,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await Constants().datePicker(context);
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);
@@ -2945,11 +2933,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           controller: baptizeDateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await Constants().datePicker(context);
                                             if (pickedDate != null) {
                                               setState(() {
                                                 baptizeDateController.text = formatter.format(pickedDate);
@@ -3232,11 +3216,7 @@ class _ChorusTabState extends State<ChorusTab> {
                                           controller: dobController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime.now());
+                                            await Constants().datePicker(context);
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dobController.text = formatter.format(pickedDate);

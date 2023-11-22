@@ -631,10 +631,19 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
+  double containerWidth = 0.0;
+  bool drawerExpaned = true;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    if(drawerExpaned){
+      containerWidth = size.width * 0.82;
+    }else{
+      containerWidth = size.width * 0.97;
+    }
     return Scaffold(
+      backgroundColor: Colors.white,
         body: StreamBuilder(
       stream: ChurchDetailsFireCrud.fetchChurchDetails1(),
       builder: (ctx, snapshot) {
@@ -654,273 +663,338 @@ class _HomeViewState extends State<HomeView> {
                         height: size.height,
                         width: size.width,
                         decoration: BoxDecoration(
-                           color: Constants().primaryAppColor
+                            //color: Constants().primaryAppColor,
+                            color: Colors.white,
                         ),
                         child: Row(
                           children: [
                             Stack(
                               children: [
-                                SizedBox(
-                                  height: size.height,
-                                  width: size.width * 0.18,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            churchLogo != ""
-                                                ? Container(
-                                              height: 72,
-                                              width: 72,
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(50),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Image.network(
-                                              churchLogo,
-                                              height: 60,
-                                              width: 60,fit: BoxFit.contain,
-                                            ),
-                                                    ),
+                               AnimatedContainer(
+                                 duration: const Duration(milliseconds: 500),
+                                  height:size.height,
+                                  width: drawerExpaned ? size.width * 0.18 : 40,
+                                  child: drawerExpaned ? Container(
+                                    color: Constants().primaryAppColor,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  churchLogo != ""
+                                                      ? Container(
+                                                    height: 72,
+                                                    width: 72,
+                                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
+                                                        color: Colors.white),
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.circular(50),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Image.network(
+                                                    churchLogo,
+                                                    height: 60,
+                                                    width: 60,fit: BoxFit.contain,
                                                   ),
-                                                )
-                                                : const Icon(
-                                              Icons.church,
-                                              color: Colors.white,
-                                              size: 52,
-                                            ),
-                                            SizedBox(
-                                              width: double.infinity,
-                                              child: Text(
-                                                churchHome.name ?? "",
-                                                style: GoogleFonts.openSans(
-                                                  fontWeight: FontWeight.w900,
-                                                  fontSize: 20,
-                                                  color: Colors.white
-                                                ),
-                                              ),
-                                            ),
-                                            // Text(
-                                            //   "MANAGEMENT ADMIN",
-                                            //   style: GoogleFonts.openSans(
-                                            //     fontWeight: FontWeight.w900,
-                                            //     fontSize: 15,
-                                            //     color: Colors.white
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Stack(
-                                          children: [
-                                            SizedBox(
-                                                width: double.infinity,
-                                                child: ListView.builder(
-                                                  itemCount: drawerItems.length,
-                                                  itemBuilder: (ctx, i) {
-                                                    return InkWell(
-                                                      onTap: () {
+                                                          ),
+                                                        ),
+                                                      )
+                                                      : const Icon(
+                                                    Icons.church,
+                                                    color: Colors.white,
+                                                    size: 52,
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: (){
                                                         setState(() {
-                                                          currentIndex = i;
-                                                          selectedIndex = 0;
-                                                          drawerItems[i]
-                                                                  .isExpanded =
-                                                              !drawerItems[i]
-                                                                  .isExpanded!;
+                                                          if(drawerExpaned){
+                                                            drawerExpaned = false;
+                                                          }
                                                         });
                                                       },
-                                                      child: Column(
-                                                        children: [
-                                                          Container(
-                                                            height: expandedIndex ==
-                                                                    i
-                                                                ? drawerItems[i]
-                                                                        .children!
-                                                                        .length *
-                                                                    60
-                                                                : 50,
-                                                            width:
-                                                                double.infinity,
-                                                            color: currentIndex ==
-                                                                    i
-                                                                ? Colors.white
-                                                                : Colors
-                                                                    .transparent,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 20,
-                                                                      right:
-                                                                          10),
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Row(
-                                                                    children: [
-                                                                      Icon(
-                                                                        drawerItems[i]
-                                                                            .icon,
-                                                                        color: currentIndex ==
-                                                                                i
-                                                                            ? Constants().primaryAppColor
-                                                                            : Colors.white,
-                                                                      ),
-                                                                      const SizedBox(
-                                                                          width:
-                                                                              20),
-                                                                      KText(
-                                                                        text: drawerItems[i]
-                                                                            .name!,
-                                                                        style: currentIndex ==
-                                                                                i
-                                                                            ? GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w900,
-                                                                                fontSize: 15,
-                                                                                color: Constants().primaryAppColor,
-                                                                              )
-                                                                            : GoogleFonts.poppins(
-                                                                                fontSize: 13,
-                                                                                color: Colors.white
-                                                                                //color: const Color(0xff1B1616),
-                                                                              ),
-                                                                      ),
-                                                                      const Expanded(
+                                                      icon: Icon(
+                                                        drawerExpaned ? Icons.chevron_left_outlined : Icons.chevron_right_outlined,
+                                                        color: Colors.white,
+                                                      ),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: double.infinity,
+                                                child: Text(
+                                                  churchHome.name ?? "",
+                                                  style: GoogleFonts.openSans(
+                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 20,
+                                                    color: Colors.white
+                                                  ),
+                                                ),
+                                              ),
+                                              // Text(
+                                              //   "MANAGEMENT ADMIN",
+                                              //   style: GoogleFonts.openSans(
+                                              //     fontWeight: FontWeight.w900,
+                                              //     fontSize: 15,
+                                              //     color: Colors.white
+                                              //   ),
+                                              // ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Stack(
+                                            children: [
+                                              SizedBox(
+                                                  width: double.infinity,
+                                                  child: ListView.builder(
+                                                    itemCount: drawerItems.length,
+                                                    itemBuilder: (ctx, i) {
+                                                      return InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            currentIndex = i;
+                                                            selectedIndex = 0;
+                                                            drawerItems[i]
+                                                                    .isExpanded =
+                                                                !drawerItems[i]
+                                                                    .isExpanded!;
+                                                          });
+                                                        },
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              height: expandedIndex ==
+                                                                      i
+                                                                  ? drawerItems[i]
+                                                                          .children!
+                                                                          .length *
+                                                                      60
+                                                                  : 50,
+                                                              width:
+                                                                  double.infinity,
+                                                              color: currentIndex ==
+                                                                      i
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .transparent,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left: 20,
+                                                                        right:
+                                                                            10),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          drawerItems[i]
+                                                                              .icon,
+                                                                          color: currentIndex ==
+                                                                                  i
+                                                                              ? Constants().primaryAppColor
+                                                                              : Colors.white,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                20),
+                                                                        KText(
+                                                                          text: drawerItems[i]
+                                                                              .name!,
+                                                                          style: currentIndex ==
+                                                                                  i
+                                                                              ? GoogleFonts.poppins(
+                                                                                  fontWeight: FontWeight.w900,
+                                                                                  fontSize: 15,
+                                                                                  color: Constants().primaryAppColor,
+                                                                                )
+                                                                              : GoogleFonts.poppins(
+                                                                                  fontSize: 13,
+                                                                                  color: Colors.white
+                                                                                  //color: const Color(0xff1B1616),
+                                                                                ),
+                                                                        ),
+                                                                        const Expanded(
+                                                                            child:
+                                                                                SizedBox()),
+                                                                        Visibility(
+                                                                          visible: drawerItems[i]
+                                                                              .children!
+                                                                              .isNotEmpty,
                                                                           child:
-                                                                              SizedBox()),
-                                                                      Visibility(
-                                                                        visible: drawerItems[i]
-                                                                            .children!
-                                                                            .isNotEmpty,
-                                                                        child:
-                                                                            InkWell(
-                                                                          onTap:
-                                                                              () {
-                                                                            setState(() {
-                                                                              drawerItems[i].isExpanded = !drawerItems[i].isExpanded!;
-                                                                            });
-                                                                          },
-                                                                          child: drawerItems[i].isExpanded!
-                                                                              ? RotatedBox(
-                                                                                  quarterTurns: 2,
-                                                                                  child: Icon(
+                                                                              InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              setState(() {
+                                                                                drawerItems[i].isExpanded = !drawerItems[i].isExpanded!;
+                                                                              });
+                                                                            },
+                                                                            child: drawerItems[i].isExpanded!
+                                                                                ? RotatedBox(
+                                                                                    quarterTurns: 2,
+                                                                                    child: Icon(
+                                                                                      Icons.expand_circle_down_outlined,
+                                                                                      color: currentIndex == i ? Constants().primaryAppColor : Colors.black,
+                                                                                    ))
+                                                                                : Icon(
                                                                                     Icons.expand_circle_down_outlined,
                                                                                     color: currentIndex == i ? Constants().primaryAppColor : Colors.black,
-                                                                                  ))
-                                                                              : Icon(
-                                                                                  Icons.expand_circle_down_outlined,
-                                                                                  color: currentIndex == i ? Constants().primaryAppColor : Colors.black,
-                                                                                ),
+                                                                                  ),
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                    ],
-                                                                  )
-                                                                ],
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Visibility(
-                                                            visible: (drawerItems[
-                                                                        i]
-                                                                    .children!
-                                                                    .isNotEmpty &&
-                                                                drawerItems[i]
-                                                                    .isExpanded!),
-                                                            child: SizedBox(
-                                                              height: drawerItems[
+                                                            Visibility(
+                                                              visible: (drawerItems[
                                                                           i]
                                                                       .children!
-                                                                      .length *
-                                                                  50,
-                                                              width: double
-                                                                  .infinity,
-                                                              child: ListView
-                                                                  .builder(
-                                                                itemCount:
-                                                                    drawerItems[
+                                                                      .isNotEmpty &&
+                                                                  drawerItems[i]
+                                                                      .isExpanded!),
+                                                              child: SizedBox(
+                                                                height: drawerItems[
                                                                             i]
                                                                         .children!
-                                                                        .length,
-                                                                itemBuilder:
-                                                                    (ctx, j) {
-                                                                  return InkWell(
-                                                                    onTap: () {
-                                                                      setState(
-                                                                          () {
-                                                                        currentIndex =
-                                                                            i;
-                                                                        selectedIndex =
-                                                                            j;
-                                                                      });
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          50,
-                                                                      width: double
-                                                                          .infinity,
-                                                                      color: Colors
-                                                                          .transparent,
+                                                                        .length *
+                                                                    50,
+                                                                width: double
+                                                                    .infinity,
+                                                                child: ListView
+                                                                    .builder(
+                                                                  itemCount:
+                                                                      drawerItems[
+                                                                              i]
+                                                                          .children!
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (ctx, j) {
+                                                                    return InkWell(
+                                                                      onTap: () {
+                                                                        setState(
+                                                                            () {
+                                                                          currentIndex =
+                                                                              i;
+                                                                          selectedIndex =
+                                                                              j;
+                                                                        });
+                                                                      },
                                                                       child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left:
-                                                                                20,
-                                                                            right:
-                                                                                10),
+                                                                          Container(
+                                                                        height:
+                                                                            50,
+                                                                        width: double
+                                                                            .infinity,
+                                                                        color: Colors
+                                                                            .transparent,
                                                                         child:
-                                                                            Column(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          children: [
-                                                                            Row(
-                                                                              children: [
-                                                                                const SizedBox(width: 10),
-                                                                                Icon(
-                                                                                  drawerItems[i].children![j].icon,
-                                                                                  color: (currentIndex == i && selectedIndex == j) ? Colors.white : Colors.black,
-                                                                                ),
-                                                                                const SizedBox(width: 20),
-                                                                                KText(
-                                                                                  text: drawerItems[i].children![j].name!,
-                                                                                  style: (currentIndex == i && selectedIndex == j) ? GoogleFonts.poppins(fontWeight: FontWeight.w900, fontSize: 13, color: Colors.white) : GoogleFonts.poppins(fontSize: 12, color: const Color(0xff1B1616)),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
+                                                                            Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left:
+                                                                                  20,
+                                                                              right:
+                                                                                  10),
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Row(
+                                                                                children: [
+                                                                                  const SizedBox(width: 10),
+                                                                                  Icon(
+                                                                                    drawerItems[i].children![j].icon,
+                                                                                    color: (currentIndex == i && selectedIndex == j) ? Colors.white : Colors.black,
+                                                                                  ),
+                                                                                  const SizedBox(width: 20),
+                                                                                  KText(
+                                                                                    text: drawerItems[i].children![j].name!,
+                                                                                    style: (currentIndex == i && selectedIndex == j) ? GoogleFonts.poppins(fontWeight: FontWeight.w900, fontSize: 13, color: Colors.white) : GoogleFonts.poppins(fontSize: 12, color: const Color(0xff1B1616)),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ],
+                                                                          ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  );
-                                                                },
+                                                                    );
+                                                                  },
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                )),
-                                          ],
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ) :  Container(
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                    ),
+                                    height: size.height,
+                                    width: drawerExpaned ? size.width * 0.18 : 40,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 36),
+                                        IconButton(
+                                          onPressed: (){
+                                            setState(() {
+                                              containerWidth = size.width;
+                                              drawerExpaned = !drawerExpaned;
+                                            });
+                                          },
+                                          icon: Icon(
+                                            drawerExpaned ? Icons.chevron_left_outlined : Icons.chevron_right_outlined,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 )
+                               //     : Container(
+                               //   height: 40,
+                               //   width: 40,
+                               //   child: Center(
+                               //     child: IconButton(
+                               //       onPressed: (){
+                               //         setState(() {
+                               //           containerWidth = size.width;
+                               //           drawerExpaned = !drawerExpaned;
+                               //         });
+                               //       },
+                               //       icon: Icon(
+                               //         drawerExpaned ? Icons.chevron_left_outlined : Icons.chevron_right_outlined,
+                               //       ),
+                               //     ),
+                               //   ),
+                               // )
                               ],
                             ),
                             Container(
                               height: size.height,
-                              width: size.width * 0.82,
+                              //width: size.width * 0.82,
+                              width: containerWidth,
                               color: Colors.white,
                               child: drawerItems[currentIndex].children!.isNotEmpty
                                       ? drawerItems[currentIndex]

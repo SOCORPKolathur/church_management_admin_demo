@@ -40,8 +40,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: !isViewTerms
-          ? Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 170.75, vertical: height / 81.375),
         child: SingleChildScrollView(
           child: Column(
@@ -340,9 +339,6 @@ class _AboutUsTabState extends State<AboutUsTab> {
           ),
         ),
       )
-          : Container(
-        child: SimplePage(),
-      ),
     );
   }
 

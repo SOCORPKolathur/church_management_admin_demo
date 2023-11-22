@@ -1,142 +1,82 @@
-import 'package:church_management_admin/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pdfx/pdfx.dart';
 
-class SimplePage extends StatefulWidget {
-  const SimplePage({Key? key}) : super(key: key);
+
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
+
+
+class WebViewExample extends StatefulWidget {
+  const WebViewExample();
 
   @override
-  State<SimplePage> createState() => _SimplePageState();
+  _WebViewExampleState createState() => _WebViewExampleState();
 }
 
-class _SimplePageState extends State<SimplePage> {
-  static const int _initialPage = 0;
-  bool _isSampleDoc = true;
-  late PdfController _pdfController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pdfController = PdfController(
-      document: PdfDocument.openAsset('assets/termsandconditions.pdf'),
-      initialPage: _initialPage,
-    );
-  }
-
-  @override
-  void dispose() {
-    _pdfController.dispose();
-    super.dispose();
-  }
+class _WebViewExampleState extends State<WebViewExample> {
+  final PlatformWebViewController _controller = PlatformWebViewController(
+    const PlatformWebViewControllerCreationParams(),
+  )..loadRequest(
+    LoadRequestParams(
+      uri: Uri.parse('https://www.facebook.com/bcagchennai'),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Constants().primaryAppColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back,color: Colors.white),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Terms And Conditions',
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-          ),
-        ),
+        title: const Text('Flutter WebView example'),
         actions: <Widget>[
-          // IconButton(
-          //   icon: const Icon(Icons.navigate_before),
-          //   onPressed: () {
-          //     _pdfController.previousPage(
-          //       curve: Curves.ease,
-          //       duration: const Duration(milliseconds: 100),
-          //     );
-          //   },
-          // ),
-          // PdfPageNumber(
-          //   controller: _pdfController,
-          //   builder: (_, loadingState, page, pagesCount) => Container(
-          //     alignment: Alignment.center,
-          //     child: Text(
-          //       '$page/${pagesCount ?? 0}',
-          //       style: const TextStyle(fontSize: 22),
-          //     ),
-          //   ),
-          // ),
-          // IconButton(
-          //   icon: const Icon(Icons.navigate_next),
-          //   onPressed: () {
-          //     _pdfController.nextPage(
-          //       curve: Curves.ease,
-          //       duration: const Duration(milliseconds: 100),
-          //     );
-          //   },
-          // ),
-          // IconButton(
-          //   icon: const Icon(Icons.refresh),
-          //   onPressed: () {
-          //     if (_isSampleDoc) {
-          //       _pdfController.loadDocument(
-          //           PdfDocument.openAsset('termsandconditions.pdf'));
-          //     } else {
-          //       _pdfController
-          //           .loadDocument(PdfDocument.openAsset('termsandconditions.pdf'));
-          //     }
-          //     _isSampleDoc = !_isSampleDoc;
-          //   },
-          // ),
+          _SampleMenu(_controller),
         ],
       ),
-      body: SafeArea(
-        child: PdfView(
-          builders: PdfViewBuilders<DefaultBuilderOptions>(
-            options: const DefaultBuilderOptions(),
-            documentLoaderBuilder: (_) =>
-            const Center(child: CircularProgressIndicator()),
-            pageLoaderBuilder: (_) =>
-            const Center(child: CircularProgressIndicator()),
-            pageBuilder: _pageBuilder,
-          ),
-          controller: _pdfController,
-          scrollDirection: Axis.vertical,
+      body: PlatformWebViewWidget(
+        PlatformWebViewWidgetCreationParams(controller: _controller),
+      ).build(context),
+    );
+  }
+}
+
+enum _MenuOptions {
+  doPostRequest,
+}
+
+class _SampleMenu extends StatelessWidget {
+  const _SampleMenu(this.controller);
+
+  final PlatformWebViewController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<_MenuOptions>(
+      onSelected: (_MenuOptions value) {
+        switch (value) {
+          case _MenuOptions.doPostRequest:
+            _onDoPostRequest(controller);
+            break;
+        }
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.doPostRequest,
+          child: Text('Post Request'),
         ),
-      ),
-      // body: ListView.builder(
-      //   itemCount: _pdfController.pagesCount,
-      //   itemBuilder: (ctx, i){
-      //     return Container(
-      //
-      //     );
-      //   },
-      // ),
+      ],
     );
   }
 
-  PhotoViewGalleryPageOptions _pageBuilder(
-      BuildContext context,
-      Future<PdfPageImage> pageImage,
-      int index,
-      PdfDocument document,
-      ) {
-    return PhotoViewGalleryPageOptions(
-      imageProvider: PdfPageImageProvider(
-        pageImage,
-        index,
-        document.id,
-      ),
-      scaleStateController: PhotoViewScaleStateController(),
-      filterQuality: FilterQuality.high,
-      basePosition: Alignment.centerLeft,
-      // minScale: PhotoViewComputedScale.contained * 1.3,
-      // maxScale: PhotoViewComputedScale.contained * 2,
-      initialScale: PhotoViewComputedScale.contained * 1.2,
-      tightMode: true,
-      heroAttributes: PhotoViewHeroAttributes(tag: '${document.id}-$index'),
+  Future<void> _onDoPostRequest(PlatformWebViewController controller) async {
+    final LoadRequestParams params = LoadRequestParams(
+      uri: Uri.parse('https://httpbin.org/post'),
+      method: LoadRequestMethod.post,
+      headers: const <String, String>{
+        'foo': 'bar',
+        'Content-Type': 'text/plain'
+      },
+      body: Uint8List.fromList('Test Body'.codeUnits),
     );
+    await controller.loadRequest(params);
   }
 }

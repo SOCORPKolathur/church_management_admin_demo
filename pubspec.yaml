@@ -90,6 +90,8 @@ dependencies:
   webviewx: ^0.2.2
   flutter_holo_date_picker: ^1.1.3
   pdfx: any
+  webview_flutter_web: ^0.2.2+2
+
 
 
 

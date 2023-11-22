@@ -23,6 +23,7 @@ import '../../models/dashboard_model.dart';
 import '../../models/manage_role_model.dart';
 import '../../services/dashboard_firecrud.dart';
 import '../../services/role_permission_firecrud.dart';
+import '../../widgets/developer_card_widget.dart';
 import '../../widgets/event_calender.dart';
 import '../../widgets/kText.dart';
 import '../login_view.dart';
@@ -468,7 +469,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'WELCOME TO $churchName - IKIA',
+                            'WELCOME TO $churchName',
                             style: GoogleFonts.openSans(
                               fontSize: width/42.687,
                               fontWeight: FontWeight.w900,
@@ -886,7 +887,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                       });
                       setRoles(managerRole);
                       return SizedBox(
-                        width: size.width * 0.8,
+                        width: size.width,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -896,7 +897,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               (dashboardItemsList.contains("Pastors") || dashboardItemsList.contains("Users") || dashboardItemsList.contains("Committee")),
                               child: Container(
                                 height: size.height * 0.15,
-                                width: width/1.393,
+                                width: width,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -1068,7 +1069,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Clans") || dashboardItemsList.contains("Chorus") || dashboardItemsList.contains("Staff")),
                               child: Container(
                                 height: size.height * 0.15,
-                                width: width/1.393,
+                                width: width,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -1236,7 +1237,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Member") || dashboardItemsList.contains("Families") || dashboardItemsList.contains("Student")),
                               child: Container(
                                 height: size.height * 0.15,
-                                width: width/1.393,
+                                width: width,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -1403,7 +1404,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Birthday") || dashboardItemsList.contains("Anniversary")),
                               child: Container(
                                 height: size.height * 0.15,
-                                width: width/1.393,
+                                width: width,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -1515,7 +1516,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                               visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("MemberPresent") || dashboardItemsList.contains("Event Count")),
                               child: Container(
                                 height: size.height * 0.15,
-                                width: width/1.393,
+                                width: width,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -1630,6 +1631,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                 ),
                 SizedBox(height: size.height * 0.04),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FutureBuilder<MembershipReportModel>(
                       future: getMemebershipReports(),
@@ -1645,7 +1647,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 Text("Memebership Reports",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
                                 Container(
                                   height: 370,
-                                    width: 450,
+                                    width: width * 0.38,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 40),
                                       child: Container(
@@ -1687,7 +1689,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                           children: [
                             SizedBox(width: 20,),
                             Container(
-                                width: 450,
+                                width: width/2.7,
                                 child: Container(
                                   height: 420,
                                   width: 850,
@@ -1755,7 +1757,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     borderRadius: BorderRadius.circular(12),
                                     shadowColor:  Constants().primaryAppColor.withOpacity(0.20),
                                     child: Container(
-                                        width: 515,
+                                        width: width * 0.38,
                                         height: 420,
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(12),
@@ -1812,58 +1814,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                   ],
                 ),
                 SizedBox(height: size.height * 0.04),
-                InkWell(
-                  onTap: () async {
-                    final Uri toLaunch =
-                    Uri.parse("http://ardigitalsolutions.co/");
-                    if (!await launchUrl(toLaunch,
-                      mode: LaunchMode.externalApplication,
-                    )) {
-                      throw Exception('Could not launch $toLaunch');
-                    }
-                  },
-                  child: Material(
-                    elevation: 3,
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border:Border.all(color: Constants().primaryAppColor,)
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.network(
-                                    churchLogo,
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 20),
-                            Text(
-                              "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                const DeveloperCardWidget(),
                 SizedBox(height: size.height * 0.01),
               ],
             )

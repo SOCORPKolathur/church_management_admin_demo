@@ -13,12 +13,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'firebase_options.dart';
 import 'models/church_details_model.dart';
 import 'models/verses_model.dart';
 
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WebViewPlatform.instance = WebWebViewPlatform();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   var delegate = await LocalizationDelegate.create(
     basePath: 'assets/i18n/',
@@ -151,7 +156,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home: user != null ? HomeView(currentRole: user!.email!) : const LoginView(),
-        //home: TermsPage(),
+        //home: WebViewExample(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

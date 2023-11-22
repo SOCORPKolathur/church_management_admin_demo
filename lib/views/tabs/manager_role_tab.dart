@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,7 @@ import '../../models/manage_role_model.dart';
 import '../../models/response.dart';
 import '../../services/church_details_firecrud.dart';
 import '../../services/role_permission_firecrud.dart';
+import '../../widgets/developer_card_widget.dart';
 import '../../widgets/kText.dart';
 import 'manager_rol_tab_page.dart';
 
@@ -1839,58 +1842,7 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
               },
             ),
             SizedBox(height: size.height * 0.04),
-            InkWell(
-              onTap: () async {
-                final Uri toLaunch =
-                Uri.parse("http://ardigitalsolutions.co/");
-                if (!await launchUrl(toLaunch,
-                  mode: LaunchMode.externalApplication,
-                )) {
-                  throw Exception('Could not launch $toLaunch');
-                }
-              },
-              child: Material(
-                elevation: 3,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border:Border.all(color: Constants().primaryAppColor,)
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.network(
-                                Constants.churchLogo,
-                                height: 40,
-                                width: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        Text(
-                          "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const DeveloperCardWidget(),
             SizedBox(height: size.height * 0.01),
           ],
         ),
@@ -1907,21 +1859,31 @@ class _ManagerRoleTabState extends State<ManagerRoleTab> {
       );
       var json = role.toJson();
       List roles = [];
-      var document = await FirebaseFirestore.instance
-          .collection('ChurchDetails')
-          .doc("Zp84YboeFvPFlpV3")
-          .get();
+      var document = await FirebaseFirestore.instance.collection('ChurchDetails').doc("Zp84YboeFvPFlpV3").get();
       Map<String, dynamic>? values = document.data();
       roles = values!["roles"];
       roles.add(json);
-      FirebaseFirestore.instance
-          .collection('ChurchDetails')
-          .doc("Zp84YboeFvPFlpV3")
-          .update({"roles": roles});
+      FirebaseFirestore.instance.collection('ChurchDetails').doc("Zp84YboeFvPFlpV3").update({"roles": roles});
+      String docId = generateRandomString(16);
+      ManageRoleModel roleModel = ManageRoleModel(
+        id: docId,
+        dashboardItems: [],
+        permissions: [],
+        role: roleNameController.text,
+      );
+      var roleJson = roleModel.toJson();
+      FirebaseFirestore.instance.collection('RolePermissions').doc(docId).set(roleJson);
       setState(() {
         isAddRole = false;
       });
     }
+  }
+
+  static String generateRandomString(int len) {
+    var r = Random();
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
   }
 
   Future<bool> _register() async {
