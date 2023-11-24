@@ -55,26 +55,29 @@ class _SettingsTabState extends State<SettingsTab> {
   String churchLogo = '';
 
   setData(ChurchDetailsModel church) {
-    churchLogo = church.logo ?? '';
-    nameController.text = church.name ?? "";
-    phoneController.text = church.phone ?? "";
-    emailController.text = church.email ?? "";
-    altPhoneController.text = church.altPhone ?? "";
-    buildingnoController.text = church.buildingNo ?? "";
-    streetController.text = church.streetName ?? "";
-    areaController.text = church.area ?? "";
-    cityController.text = church.city ?? "";
-    stateController.text = church.state ?? "";
-    pincodeController.text = church.pincode ?? "";
-    websiteController.text = church.website ?? "";
-    memberIDPrefixController.text = church.memberIdPrefix ?? "";
-    familyIDPrefixController.text = church.familyIdPrefix ?? "";
-    roleCredentialsList.clear();
-    church.roles!.forEach((element) {
-      roleCredentialsList.add(RoleCredentialsModel(
-          roleEmail: TextEditingController(text: element.roleName),
-          rolePassword: TextEditingController(text: element.rolePassword),
-          isObsecure: true));
+    setState(() {
+      churchId = church.id ?? "";
+      churchLogo = church.logo ?? '';
+      nameController.text = church.name ?? "";
+      phoneController.text = church.phone ?? "";
+      emailController.text = church.email ?? "";
+      altPhoneController.text = church.altPhone ?? "";
+      buildingnoController.text = church.buildingNo ?? "";
+      streetController.text = church.streetName ?? "";
+      areaController.text = church.area ?? "";
+      cityController.text = church.city ?? "";
+      stateController.text = church.state ?? "";
+      pincodeController.text = church.pincode ?? "";
+      websiteController.text = church.website ?? "";
+      memberIDPrefixController.text = church.memberIdPrefix ?? "";
+      familyIDPrefixController.text = church.familyIdPrefix ?? "";
+      roleCredentialsList.clear();
+      church.roles!.forEach((element) {
+        roleCredentialsList.add(RoleCredentialsModel(
+            roleEmail: TextEditingController(text: element.roleName),
+            rolePassword: TextEditingController(text: element.rolePassword),
+            isObsecure: true));
+      });
     });
   }
 
@@ -85,6 +88,7 @@ class _SettingsTabState extends State<SettingsTab> {
   File? profileImage;
   var uploadedImage;
   String? selectedImg;
+  String? churchId = '';
 
   selectImage() async {
     InputElement input = FileUploadInputElement() as InputElement
@@ -115,6 +119,17 @@ class _SettingsTabState extends State<SettingsTab> {
       "logo" : downloadUrl,
     });
 
+  }
+  
+  @override
+  void initState() {
+    setDatas();
+    super.initState();
+  }
+  
+  setDatas() async {
+    var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+    setData(ChurchDetailsModel.fromJson(church.docs.first.data()));
   }
 
   @override
@@ -211,647 +226,1276 @@ class _SettingsTabState extends State<SettingsTab> {
                 ],
               ),
               SizedBox(height: size.height * 0.03),
-              StreamBuilder(
-                stream: ChurchDetailsFireCrud.fetchChurchDetails2(),
-                builder: (ctx, snapshot) {
-                  if (snapshot.hasData) {
-                    ChurchDetailsModel church1 = snapshot.data!.first;
-                    setData(church1);
-                    return Center(
+              Container(
+                height: size.height * 0.88 ,
+                width: size.width * 0.95,
+                decoration: BoxDecoration(
+                  color: Constants().primaryAppColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Container(height: size.height * 0.09),
+                    Expanded(
                       child: Container(
-                        height: size.height * 0.88 ,
-                        width: size.width * 0.95,
-                        decoration: BoxDecoration(
-                          color: Constants().primaryAppColor,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(1, 2),
-                              blurRadius: 3,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            )),
+                        child: Row(
                           children: [
-                            Container(height: size.height * 0.09),
-                            Expanded(
-                              child: Container(
-                                width: double.infinity,
-                                decoration: const BoxDecoration(
+                            SizedBox(
+                              width: size.width * 0.2,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: size.height * 0.1),
+                                  churchLogo != ""
+                                      ? Image.network(
+                                    churchLogo,
+                                    height: 72,
+                                    width: 72,
+                                  )
+                                      : const Icon(
+                                    Icons.church,
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
-                                    )),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: size.width * 0.2,
-                                      child: Column(
+                                    size: 52,
+                                  ),
+                                  // Icon(
+                                  //   Icons.church,
+                                  //   size: width/7.588,
+                                  // ),
+                                  SizedBox(height: 10),
+                                  InkWell(
+                                    onTap: selectImage,
+                                    child: Container(
+                                      height: height / 18.6,
+                                      width: size.width * 0.1,
+                                      decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          SizedBox(height: size.height * 0.1),
-                                          churchLogo != ""
-                                              ? Image.network(
-                                            churchLogo,
-                                            height: 72,
-                                            width: 72,
-                                          )
-                                              : const Icon(
-                                            Icons.church,
-                                            color: Colors.white,
-                                            size: 52,
-                                          ),
-                                          // Icon(
-                                          //   Icons.church,
-                                          //   size: width/7.588,
-                                          // ),
-                                          SizedBox(height: 10),
-                                          InkWell(
-                                            onTap: selectImage,
-                                            child: Container(
-                                              height: height / 18.6,
-                                              width: size.width * 0.1,
-                                              decoration: BoxDecoration(
-                                                color: Constants().primaryAppColor,
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  const Icon(Icons.add_a_photo, color: Colors.white),
-                                                  SizedBox(width: width / 136.6),
-                                                  const KText(
-                                                    text: 'Change Logo',
-                                                    style: TextStyle(color: Colors.white),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                          const Icon(Icons.add_a_photo, color: Colors.white),
+                                          SizedBox(width: width / 136.6),
+                                          const KText(
+                                            text: 'Change Logo',
+                                            style: TextStyle(color: Colors.white),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      width: size.width * 0.75,
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: height/32.55,
-                                        horizontal: width/68.3
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Church Name",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/4.553,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          nameController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/45.53),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Church Phone Number",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/4.553,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          phoneController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/45.53),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Church Email",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/4.553,
-                                                    child: TextFormField(
-                                                      controller:
-                                                      emailController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                      InputDecoration(
-                                                        hintStyle:
-                                                        GoogleFonts
-                                                            .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: height/21.7),
-                                          Row(
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Building No",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/6.83,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          buildingnoController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/45.53),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Street Name",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/6.83,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          streetController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/45.53),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Area",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/6.83,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          areaController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/45.53),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "City / District",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width: width/6.83,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          cityController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: height/21.7),
-                                          Row(
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "State",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width:width/5.464,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          stateController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/27.32),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Pincode",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width:width/5.464,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          pincodeController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width:width/27.32),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Website",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width:width/5.464,
-                                                    child: TextFormField(
-                                                      controller:
-                                                          websiteController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintStyle:
-                                                            GoogleFonts
-                                                                .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: height/21.7),
-                                          Row(
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "Alternate Phone",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width:width/5.464,
-                                                    child: TextFormField(
-                                                      controller:
-                                                      altPhoneController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                      InputDecoration(
-                                                        hintStyle:
-                                                        GoogleFonts
-                                                            .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/27.32),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "MemberID prefix",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width:width/5.464,
-                                                    child: TextFormField(
-                                                      controller:
-                                                      memberIDPrefixController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                      InputDecoration(
-                                                        hintStyle:
-                                                        GoogleFonts
-                                                            .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(width: width/27.32),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  KText(
-                                                    text: "FamilyID Prefix",
-                                                    style: GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width/97.571,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: height/108.5),
-                                                  SizedBox(
-                                                    height: height/16.275,
-                                                    width:width/5.464,
-                                                    child: TextFormField(
-                                                      controller:
-                                                      familyIDPrefixController,
-                                                      onTap: () {},
-                                                      decoration:
-                                                      InputDecoration(
-                                                        hintStyle:
-                                                        GoogleFonts
-                                                            .openSans(
-                                                          fontSize: width/97.571,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: height/11.7),
-
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              InkWell(
-                                                onTap: () async {
-                                                  List<RoleUserModel> roles1 =
-                                                      [];
-                                                  roleCredentialsList
-                                                      .forEach((element) {
-                                                    roles1.add(RoleUserModel(
-                                                        roleName: element
-                                                            .roleEmail!.text,
-                                                        rolePassword: element
-                                                            .rolePassword!
-                                                            .text));
-                                                  });
-                                                  Response response =
-                                                      await ChurchDetailsFireCrud
-                                                          .updateRecord(
-                                                    ChurchDetailsModel(
-                                                      logo: church1.logo,
-                                                        altPhone: altPhoneController.text,
-                                                        email: emailController.text,
-                                                        phone: phoneController.text,
-                                                        id: church1.id,
-                                                        name: nameController.text,
-                                                        city: cityController.text,
-                                                        area: areaController.text,
-                                                        buildingNo: buildingnoController.text,
-                                                        pincode: pincodeController.text,
-                                                        state: stateController.text,
-                                                        streetName: streetController.text,
-                                                        website: websiteController.text,
-                                                        memberIdPrefix: memberIDPrefixController.text,
-                                                        familyIdPrefix: familyIDPrefixController.text,
-                                                        roles: roles1,
-                                                    ),
-                                                  );
-                                                  if (response.code == 200) {
-                                                    CoolAlert.show(
-                                                        context: context,
-                                                        type: CoolAlertType
-                                                            .success,
-                                                        text:
-                                                            "Updated successfully!",
-                                                        width: size.width * 0.4,
-                                                        backgroundColor:
-                                                            Constants()
-                                                                .primaryAppColor
-                                                                .withOpacity(
-                                                                    0.8));
-                                                  }
-                                                  else {
-                                                    CoolAlert.show(
-                                                        context: context,
-                                                        type:
-                                                            CoolAlertType.error,
-                                                        text:
-                                                            "Failed to Update",
-                                                        width: size.width * 0.4,
-                                                        backgroundColor:
-                                                            Constants()
-                                                                .primaryAppColor
-                                                                .withOpacity(
-                                                                    0.8));
-                                                  }
-                                                },
-                                                child: Container(
-                                                  height:height/18.6,
-                                                  decoration: BoxDecoration(
-                                                    color: Constants()
-                                                        .primaryAppColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.black26,
-                                                        offset: Offset(1, 2),
-                                                        blurRadius: 3,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 6),
-                                                    child: Center(
-                                                      child: KText(
-                                                        text: "Update",
-                                                        style: GoogleFonts
-                                                            .openSans(
-                                                          fontSize: width/105.07,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
+                            Container(
+                              width: size.width * 0.75,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: height/32.55,
+                                  horizontal: width/68.3
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Church Name",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/4.553,
+                                            child: TextFormField(
+                                              controller:
+                                              nameController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/45.53),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Church Phone Number",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/4.553,
+                                            child: TextFormField(
+                                              controller:
+                                              phoneController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/45.53),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Church Email",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/4.553,
+                                            child: TextFormField(
+                                              controller:
+                                              emailController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/21.7),
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Building No",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/6.83,
+                                            child: TextFormField(
+                                              controller:
+                                              buildingnoController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/45.53),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Street Name",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/6.83,
+                                            child: TextFormField(
+                                              controller:
+                                              streetController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/45.53),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Area",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/6.83,
+                                            child: TextFormField(
+                                              controller:
+                                              areaController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/45.53),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "City / District",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width: width/6.83,
+                                            child: TextFormField(
+                                              controller:
+                                              cityController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/21.7),
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "State",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width:width/5.464,
+                                            child: TextFormField(
+                                              controller:
+                                              stateController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/27.32),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Pincode",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width:width/5.464,
+                                            child: TextFormField(
+                                              controller:
+                                              pincodeController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width:width/27.32),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Website",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width:width/5.464,
+                                            child: TextFormField(
+                                              controller:
+                                              websiteController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/21.7),
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Alternate Phone",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width:width/5.464,
+                                            child: TextFormField(
+                                              controller:
+                                              altPhoneController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/27.32),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "MemberID prefix",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width:width/5.464,
+                                            child: TextFormField(
+                                              controller:
+                                              memberIDPrefixController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: width/27.32),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "FamilyID Prefix",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                          SizedBox(height: height/108.5),
+                                          SizedBox(
+                                            height: height/16.275,
+                                            width:width/5.464,
+                                            child: TextFormField(
+                                              controller:
+                                              familyIDPrefixController,
+                                              onTap: () {},
+                                              decoration:
+                                              InputDecoration(
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/97.571,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height/11.7),
+
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          List<RoleUserModel> roles1 =
+                                          [];
+                                          roleCredentialsList
+                                              .forEach((element) {
+                                            roles1.add(RoleUserModel(
+                                                roleName: element
+                                                    .roleEmail!.text,
+                                                rolePassword: element
+                                                    .rolePassword!
+                                                    .text));
+                                          });
+                                          Response response =
+                                          await ChurchDetailsFireCrud
+                                              .updateRecord(
+                                            ChurchDetailsModel(
+                                              logo: churchLogo,
+                                              altPhone: altPhoneController.text,
+                                              email: emailController.text,
+                                              phone: phoneController.text,
+                                              id: churchId,
+                                              name: nameController.text,
+                                              city: cityController.text,
+                                              area: areaController.text,
+                                              buildingNo: buildingnoController.text,
+                                              pincode: pincodeController.text,
+                                              state: stateController.text,
+                                              streetName: streetController.text,
+                                              website: websiteController.text,
+                                              memberIdPrefix: memberIDPrefixController.text,
+                                              familyIdPrefix: familyIDPrefixController.text,
+                                              roles: roles1,
+                                            ),
+                                          );
+                                          if (response.code == 200) {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type: CoolAlertType
+                                                    .success,
+                                                text:
+                                                "Updated successfully!",
+                                                width: size.width * 0.4,
+                                                backgroundColor:
+                                                Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(
+                                                    0.8));
+                                          }
+                                          else {
+                                            CoolAlert.show(
+                                                context: context,
+                                                type:
+                                                CoolAlertType.error,
+                                                text:
+                                                "Failed to Update",
+                                                width: size.width * 0.4,
+                                                backgroundColor:
+                                                Constants()
+                                                    .primaryAppColor
+                                                    .withOpacity(
+                                                    0.8));
+                                          }
+                                        },
+                                        child: Container(
+                                          height:height/18.6,
+                                          decoration: BoxDecoration(
+                                            color: Constants()
+                                                .primaryAppColor,
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                8),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: Offset(1, 2),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.symmetric(
+                                                horizontal: 6),
+                                            child: Center(
+                                              child: KText(
+                                                text: "Update",
+                                                style: GoogleFonts
+                                                    .openSans(
+                                                  fontSize: width/105.07,
+                                                  fontWeight:
+                                                  FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
-                    );
-                  }
-                  return Container();
-                },
+                    ),
+                  ],
+                ),
               ),
+              // StreamBuilder(
+              //   stream: ChurchDetailsFireCrud.fetchChurchDetails2(),
+              //   builder: (ctx, snapshot) {
+              //     if (snapshot.hasData) {
+              //       ChurchDetailsModel church1 = snapshot.data!.first;
+              //       setData(church1);
+              //       return Center(
+              //         child: Container(
+              //           height: size.height * 0.88 ,
+              //           width: size.width * 0.95,
+              //           decoration: BoxDecoration(
+              //             color: Constants().primaryAppColor,
+              //             boxShadow: const [
+              //               BoxShadow(
+              //                 color: Colors.black26,
+              //                 offset: Offset(1, 2),
+              //                 blurRadius: 3,
+              //               ),
+              //             ],
+              //             borderRadius: BorderRadius.circular(10),
+              //           ),
+              //           child: Column(
+              //             children: [
+              //               Container(height: size.height * 0.09),
+              //               Expanded(
+              //                 child: Container(
+              //                   width: double.infinity,
+              //                   decoration: const BoxDecoration(
+              //                       color: Colors.white,
+              //                       borderRadius: BorderRadius.only(
+              //                         bottomRight: Radius.circular(10),
+              //                         bottomLeft: Radius.circular(10),
+              //                       )),
+              //                   child: Row(
+              //                     children: [
+              //                       SizedBox(
+              //                         width: size.width * 0.2,
+              //                         child: Column(
+              //                           children: [
+              //                             SizedBox(height: size.height * 0.1),
+              //                             churchLogo != ""
+              //                                 ? Image.network(
+              //                               churchLogo,
+              //                               height: 72,
+              //                               width: 72,
+              //                             )
+              //                                 : const Icon(
+              //                               Icons.church,
+              //                               color: Colors.white,
+              //                               size: 52,
+              //                             ),
+              //                             // Icon(
+              //                             //   Icons.church,
+              //                             //   size: width/7.588,
+              //                             // ),
+              //                             SizedBox(height: 10),
+              //                             InkWell(
+              //                               onTap: selectImage,
+              //                               child: Container(
+              //                                 height: height / 18.6,
+              //                                 width: size.width * 0.1,
+              //                                 decoration: BoxDecoration(
+              //                                   color: Constants().primaryAppColor,
+              //                                   borderRadius: BorderRadius.circular(10),
+              //                                 ),
+              //                                 child: Row(
+              //                                   mainAxisAlignment: MainAxisAlignment.center,
+              //                                   children: [
+              //                                     const Icon(Icons.add_a_photo, color: Colors.white),
+              //                                     SizedBox(width: width / 136.6),
+              //                                     const KText(
+              //                                       text: 'Change Logo',
+              //                                       style: TextStyle(color: Colors.white),
+              //                                     ),
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                       Container(
+              //                         width: size.width * 0.75,
+              //                         padding: EdgeInsets.symmetric(
+              //                           vertical: height/32.55,
+              //                           horizontal: width/68.3
+              //                         ),
+              //                         child: Column(
+              //                           children: [
+              //                             Row(
+              //                               children: [
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Church Name",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/4.553,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             nameController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/45.53),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Church Phone Number",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/4.553,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             phoneController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/45.53),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                   CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Church Email",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/4.553,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                         emailController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                         InputDecoration(
+              //                                           hintStyle:
+              //                                           GoogleFonts
+              //                                               .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                             SizedBox(height: height/21.7),
+              //                             Row(
+              //                               children: [
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Building No",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/6.83,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             buildingnoController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/45.53),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Street Name",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/6.83,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             streetController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/45.53),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Area",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/6.83,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             areaController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/45.53),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "City / District",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width: width/6.83,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             cityController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                             SizedBox(height: height/21.7),
+              //                             Row(
+              //                               children: [
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "State",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width:width/5.464,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             stateController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/27.32),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Pincode",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width:width/5.464,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             pincodeController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width:width/27.32),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Website",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width:width/5.464,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                             websiteController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                             InputDecoration(
+              //                                           hintStyle:
+              //                                               GoogleFonts
+              //                                                   .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                             SizedBox(height: height/21.7),
+              //                             Row(
+              //                               children: [
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                   CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "Alternate Phone",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width:width/5.464,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                         altPhoneController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                         InputDecoration(
+              //                                           hintStyle:
+              //                                           GoogleFonts
+              //                                               .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/27.32),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                   CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "MemberID prefix",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width:width/5.464,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                         memberIDPrefixController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                         InputDecoration(
+              //                                           hintStyle:
+              //                                           GoogleFonts
+              //                                               .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(width: width/27.32),
+              //                                 Column(
+              //                                   crossAxisAlignment:
+              //                                   CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     KText(
+              //                                       text: "FamilyID Prefix",
+              //                                       style: GoogleFonts.openSans(
+              //                                         color: Colors.black,
+              //                                         fontSize: width/97.571,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(height: height/108.5),
+              //                                     SizedBox(
+              //                                       height: height/16.275,
+              //                                       width:width/5.464,
+              //                                       child: TextFormField(
+              //                                         controller:
+              //                                         familyIDPrefixController,
+              //                                         onTap: () {},
+              //                                         decoration:
+              //                                         InputDecoration(
+              //                                           hintStyle:
+              //                                           GoogleFonts
+              //                                               .openSans(
+              //                                             fontSize: width/97.571,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                             SizedBox(height: height/11.7),
+              //
+              //                             Row(
+              //                               mainAxisAlignment:
+              //                                   MainAxisAlignment.end,
+              //                               children: [
+              //                                 InkWell(
+              //                                   onTap: () async {
+              //                                     List<RoleUserModel> roles1 =
+              //                                         [];
+              //                                     roleCredentialsList
+              //                                         .forEach((element) {
+              //                                       roles1.add(RoleUserModel(
+              //                                           roleName: element
+              //                                               .roleEmail!.text,
+              //                                           rolePassword: element
+              //                                               .rolePassword!
+              //                                               .text));
+              //                                     });
+              //                                     Response response =
+              //                                         await ChurchDetailsFireCrud
+              //                                             .updateRecord(
+              //                                       ChurchDetailsModel(
+              //                                         logo: church1.logo,
+              //                                           altPhone: altPhoneController.text,
+              //                                           email: emailController.text,
+              //                                           phone: phoneController.text,
+              //                                           id: church1.id,
+              //                                           name: nameController.text,
+              //                                           city: cityController.text,
+              //                                           area: areaController.text,
+              //                                           buildingNo: buildingnoController.text,
+              //                                           pincode: pincodeController.text,
+              //                                           state: stateController.text,
+              //                                           streetName: streetController.text,
+              //                                           website: websiteController.text,
+              //                                           memberIdPrefix: memberIDPrefixController.text,
+              //                                           familyIdPrefix: familyIDPrefixController.text,
+              //                                           roles: roles1,
+              //                                       ),
+              //                                     );
+              //                                     if (response.code == 200) {
+              //                                       CoolAlert.show(
+              //                                           context: context,
+              //                                           type: CoolAlertType
+              //                                               .success,
+              //                                           text:
+              //                                               "Updated successfully!",
+              //                                           width: size.width * 0.4,
+              //                                           backgroundColor:
+              //                                               Constants()
+              //                                                   .primaryAppColor
+              //                                                   .withOpacity(
+              //                                                       0.8));
+              //                                     }
+              //                                     else {
+              //                                       CoolAlert.show(
+              //                                           context: context,
+              //                                           type:
+              //                                               CoolAlertType.error,
+              //                                           text:
+              //                                               "Failed to Update",
+              //                                           width: size.width * 0.4,
+              //                                           backgroundColor:
+              //                                               Constants()
+              //                                                   .primaryAppColor
+              //                                                   .withOpacity(
+              //                                                       0.8));
+              //                                     }
+              //                                   },
+              //                                   child: Container(
+              //                                     height:height/18.6,
+              //                                     decoration: BoxDecoration(
+              //                                       color: Constants()
+              //                                           .primaryAppColor,
+              //                                       borderRadius:
+              //                                           BorderRadius.circular(
+              //                                               8),
+              //                                       boxShadow: [
+              //                                         BoxShadow(
+              //                                           color: Colors.black26,
+              //                                           offset: Offset(1, 2),
+              //                                           blurRadius: 3,
+              //                                         ),
+              //                                       ],
+              //                                     ),
+              //                                     child: Padding(
+              //                                       padding:
+              //                                           EdgeInsets.symmetric(
+              //                                               horizontal: 6),
+              //                                       child: Center(
+              //                                         child: KText(
+              //                                           text: "Update",
+              //                                           style: GoogleFonts
+              //                                               .openSans(
+              //                                             fontSize: width/105.07,
+              //                                             fontWeight:
+              //                                                 FontWeight.bold,
+              //                                           ),
+              //                                         ),
+              //                                       ),
+              //                                     ),
+              //                                   ),
+              //                                 )
+              //                               ],
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       )
+              //                     ],
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       );
+              //     }
+              //     return Container();
+              //   },
+              // ),
               SizedBox(height: size.height * 0.03),
             ],
           ),

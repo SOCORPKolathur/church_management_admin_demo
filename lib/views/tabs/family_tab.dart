@@ -1366,7 +1366,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         countryController.text = families[i].country!;
                                                         zoneController.text = families[i].zone!;
                                                         familyIdController.text = families[i].familyId!;
-                                                        permanentAddressController.text = families[i].permanentAddress!;
+                                                        //permanentAddressController.text = families[i].permanentAddress!;
                                                       });
                                                       editPopUp(families[i],size);
                                                     },
@@ -1784,15 +1784,15 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                   Text(":"),
                                   SizedBox(width:width/68.3),
-                                  SizedBox(
+                                  /*SizedBox(
                                     width: size.width * 0.3,
                                     child: KText(
-                                      text: family.permanentAddress!,
+                                      //text: family.permanentAddress!,
                                       style:  TextStyle(
                                           fontSize:width/97.57
                                       ),
                                     ),
-                                  )
+                                  )*/
                                 ],
                               ),
                                SizedBox(height:height/32.55),
@@ -2444,7 +2444,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 email: emailController.text,
                                                 zone: zoneController.text,
                                                 address: addressController.text,
-                                                permanentAddress: permanentAddressController.text,
+                                                //permanentAddress: permanentAddressController.text,
                                                 country: countryController.text,
                                                 quantity: family.quantity,
                                             ),

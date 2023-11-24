@@ -16,7 +16,8 @@ class MembersModel {
   String? houseType;
   String? baptizemCertificate;
   String? socialStatus;
-  String? serviceLanguage;
+  bool? status;
+  //String? serviceLanguage;
   String? job;
   String? country;
   String? family;
@@ -58,10 +59,11 @@ class MembersModel {
         this.qualification,
         this.country,
         this.position,
+        this.status,
         this.baptizeDate,
         this.marriageDate,
         this.socialStatus,
-        this.serviceLanguage,
+       // this.serviceLanguage,
         this.job,
         this.family,
         this.familyid,
@@ -84,6 +86,7 @@ class MembersModel {
     baptizemCertificate = json['baptizemCertificate'];
     firstName = json['firstName'];
     lastName = json['lastName'];
+    status = json['status'];
     country = json['country'];
     pincode = json['pincode'];
     phone = json['phone'];
@@ -92,7 +95,7 @@ class MembersModel {
     baptizeDate = json['baptizeDate'];
     marriageDate = json['marriageDate'];
     socialStatus = json['socialStatus'];
-    serviceLanguage = json['serviceLanguage'];
+    //serviceLanguage = json['serviceLanguage'];
     job = json['job'];
     family = json['family'];
     familyid = json['familyid'];
@@ -120,6 +123,7 @@ class MembersModel {
     data['memberId'] = this.memberId;
     data['timestamp'] = this.timestamp;
     data['aadharNo'] = this.aadharNo;
+    data['status'] = this.status;
     data['baptizemCertificate'] = this.baptizemCertificate;
     data['gender'] = this.gender;
     data['houseType'] = this.houseType;
@@ -135,7 +139,7 @@ class MembersModel {
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;
     data['socialStatus'] = this.socialStatus;
-    data['serviceLanguage'] = this.serviceLanguage;
+   // data['serviceLanguage'] = this.serviceLanguage;
     data['job'] = this.job;
     data['family'] = this.family;
     data['familyid'] = this.familyid;

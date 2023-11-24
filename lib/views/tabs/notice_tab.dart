@@ -83,7 +83,7 @@ class _NoticesTabState extends State<NoticesTab> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   KText(
-                    text: "NOTICES",
+                    text: "Announcements",
                     style: GoogleFonts.openSans(
                         fontSize: width/52.538,
                         fontWeight: FontWeight.w900,
@@ -121,7 +121,7 @@ class _NoticesTabState extends State<NoticesTab> {
                           EdgeInsets.symmetric(horizontal:width/227.66),
                           child: Center(
                             child: KText(
-                              text: currentTab.toUpperCase() == "VIEW" ? "Add Notice" : "View Notices",
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Announcement" : "View Announcements",
                               style: GoogleFonts.openSans(
                                    fontSize:width/105.07,
                                 fontWeight: FontWeight.bold,
@@ -162,7 +162,7 @@ class _NoticesTabState extends State<NoticesTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           KText(
-                            text: "ADD NOTICE",
+                            text: "ADD ANNOUNCEMENT",
                             style: GoogleFonts.openSans(
                                fontSize: width/68.3,
                               fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                   CoolAlert.show(
                                       context: context,
                                       type: CoolAlertType.success,
-                                      text: "Notice created successfully!",
+                                      text: "Announcement created successfully!",
                                       width: size.width * 0.4,
                                       backgroundColor: Constants()
                                           .primaryAppColor
@@ -196,7 +196,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                   CoolAlert.show(
                                       context: context,
                                       type: CoolAlertType.error,
-                                      text: "Failed to Create Notice!",
+                                      text: "Failed to Create Announcement!",
                                       width: size.width * 0.4,
                                       backgroundColor: Constants()
                                           .primaryAppColor
@@ -464,7 +464,7 @@ class _NoticesTabState extends State<NoticesTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Notices (${notices.length})",
+                                  text: "All Announcements (${notices.length})",
                                   style: GoogleFonts.openSans(
                                      fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
@@ -932,7 +932,7 @@ class _NoticesTabState extends State<NoticesTab> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KText(
-                          text: "EDIT NOTICE",
+                          text: "Edit Announcement",
                           style: GoogleFonts.openSans(
                              fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
@@ -959,7 +959,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                     CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.success,
-                                        text: "Notice updated successfully!",
+                                        text: "Announcement updated successfully!",
                                         width: size.width * 0.4,
                                         backgroundColor: Constants()
                                             .primaryAppColor
@@ -974,7 +974,7 @@ class _NoticesTabState extends State<NoticesTab> {
                                     CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.error,
-                                        text: "Failed to update Notice!",
+                                        text: "Failed to update Announcement!",
                                         width: size.width * 0.4,
                                         backgroundColor: Constants()
                                             .primaryAppColor
@@ -1201,7 +1201,7 @@ class _NoticesTabState extends State<NoticesTab> {
     final blob = Blob([data],'application/pdf');
     final url = Url.createObjectUrlFromBlob(blob);
     final anchor = AnchorElement(href: url)
-      ..setAttribute("download", "notices.pdf")
+      ..setAttribute("download", "Announcements.pdf")
       ..click();
     Url.revokeObjectUrl(url);
   }

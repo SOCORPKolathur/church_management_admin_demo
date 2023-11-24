@@ -1947,7 +1947,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                                   socialStatusController.text = pastors[i].socialStatus!;
                                                                   countryController.text = pastors[i].country!;
                                                                   addressController.text = pastors[i].address!;
-                                                                  permanentAddressController.text = pastors[i].permanentAddress!;
+                                                                //  permanentAddressController.text = pastors[i].permanentAddress!;
                                                                   genderController.text = pastors[i].gender!;
                                                                   selectedImg = pastors[i].imgUrl;
                                                                   pincodeController.text = pastors[i].pincode!;
@@ -2610,7 +2610,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       Text(":"),
                                       SizedBox(width:width/68.3),
-                                      SizedBox(
+                                      /*SizedBox(
                                         width: size.width * 0.3,
                                         child: KText(
                                           text: pastor.permanentAddress!,
@@ -2618,7 +2618,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                               fontSize:width/97.571
                                           ),
                                         ),
-                                      ),
+                                      ),*/
                                     ],
                                   ),
                                   SizedBox(height:height/32.55),
@@ -3694,7 +3694,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             familyId: familyIDController.text,
                                             imgUrl: pastor.imgUrl,
                                             address: addressController.text,
-                                            permanentAddress: permanentAddressController.text,
+                                            //permanentAddress: permanentAddressController.text,
                                             aadharNo: aadharNoController.text,
                                             email: emailController.text,
                                             family: familyController.text,

@@ -228,7 +228,7 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Notices",
+      name: "Announcements",
       icon: CupertinoIcons.square_list_fill,
       page:  NoticesTab(),
       isExpanded: false,
@@ -341,13 +341,11 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     )
   ];
-
   String churchLogo = '';
   getChurchDetails() async {
     var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
     churchLogo = church.docs.first.get("logo");
   }
-
   setDrawerItems(List<ManageRoleModel> roles) {
     print("S2");
     if (drawerItems.isEmpty) {
@@ -429,7 +427,7 @@ class _HomeViewState extends State<HomeView> {
                 break;
               case "NOTICES":
                 drawerItems.add(DrawerModel(
-                  name: "Notices",
+                  name: "Announcements",
                   icon: CupertinoIcons.square_list_fill,
                   page:  NoticesTab(),
                   isExpanded: false,

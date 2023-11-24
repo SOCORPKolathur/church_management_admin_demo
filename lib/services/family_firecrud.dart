@@ -56,7 +56,7 @@ class FamilyFireCrud {
       contactNumber: contactNumber,
       city: city,
       address: address,
-      permanentAddress: permanentAddress,
+      //permanentAddress: permanentAddress,
       leaderName: leaderName,
       name: name,
       zone: zone,

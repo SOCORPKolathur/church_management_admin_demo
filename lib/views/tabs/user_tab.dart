@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:io' as io;
 import 'dart:typed_data';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:church_management_admin/models/user_model.dart';
 import 'package:church_management_admin/services/user_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
@@ -165,6 +166,28 @@ class _UserTabState extends State<UserTab> {
   final localityFocusNode = FocusNode();
   final aboutFocusNode = FocusNode();
   final addressFocusNode = FocusNode();
+
+  List totalUsersList = [];
+
+  int documentlength =0 ;
+  int pagecount =0 ;
+  int temp =1;
+  List list = new List<int>.generate(10000, (i) => i + 1);
+
+  List<cf.DocumentSnapshot> documentList = [];
+
+  @override
+  void initState() {
+    getTotalUsers();
+    super.initState();
+  }
+
+  getTotalUsers() async {
+    var userDoc = await cf.FirebaseFirestore.instance.collection('Users').get();
+    //setState(() {
+      pagecount = (userDoc.docs.length / 10).toInt();
+    //});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1536,28 +1559,38 @@ class _UserTabState extends State<UserTab> {
                 )
                 : currentTab.toUpperCase() == "VIEW" ?
              StreamBuilder(
-                    stream: cf.FirebaseFirestore.instance.collection('Users').snapshots(),
+                    stream: filterText != ""
+                        ? cf.FirebaseFirestore.instance.collection('Users').where("firstName", isEqualTo: filterText).limit(10).snapshots()
+                        : documentList.isNotEmpty
+                        ? cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
+                        : cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).limit(10).snapshots(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
                         return Container();
                       } else if (snapshot.hasData) {
                         List<UserModelWithDocId> users = [];
+                        //documentList.clear();
+                        print("object");
+                        documentList.addAll(snapshot.data!.docs);
                         for (var element in snapshot.data!.docs) {
-                          if(filterText != ""){
-                            if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
-                                element.get("firstName")!.toLowerCase().startsWith(filterText.toLowerCase())||
-                                element.get("pincode")!.toLowerCase().startsWith(filterText.toLowerCase())||
-                                (element.get("firstName")!+element.get("lastName")!).toString().trim().toLowerCase().startsWith(filterText.toLowerCase()) ||
-                                element.get("lastName")!.toLowerCase().startsWith(filterText.toLowerCase())||
-                                element.get("phone")!.toLowerCase().startsWith(filterText.toLowerCase())){
-                              users.add(
-                                UserModelWithDocId(element.id, UserModel.fromJson(element.data()))
-                              );
-                            }
-                          }else{
-                            users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
-                          }
+                          users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
                         }
+                        // for (var element in snapshot.data!.docs) {
+                        //   if(filterText != ""){
+                        //     if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                        //         element.get("firstName")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                        //         element.get("pincode")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                        //         (element.get("firstName")!+element.get("lastName")!).toString().trim().toLowerCase().startsWith(filterText.toLowerCase()) ||
+                        //         element.get("lastName")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                        //         element.get("phone")!.toLowerCase().startsWith(filterText.toLowerCase())){
+                        //       users.add(
+                        //         UserModelWithDocId(element.id, UserModel.fromJson(element.data()))
+                        //       );
+                        //     }
+                        //   }else{
+                        //     users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
+                        //   }
+                        // }
                         return Container(
                           width: width,
                           margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
@@ -1970,7 +2003,7 @@ class _UserTabState extends State<UserTab> {
                                                     width: width / 8.035,
                                                     child: KText(
                                                       text:
-                                                          "${users[i].user.firstName!} ${users[i].user.lastName!}",
+                                                          "${users[i].user.firstName.toLowerCase() != 'null' ? users[i].user.firstName : ''} ${users[i].user.lastName.toLowerCase() != 'null' ? users[i].user.lastName : ''}",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -2275,6 +2308,61 @@ class _UserTabState extends State<UserTab> {
                                           );
                                         },
                                       ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      //alignment: Alignment.centerRight,
+                                      children: [
+                                        Container(
+                                          width: width * 0.4,
+                                          height: 50,
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: 10,
+                                              itemBuilder: (context,index){
+                                                return TextButton(
+                                                    onPressed: (){
+                                                      // setState(() {
+                                                      //   temp= list[index];
+                                                      // });
+                                                    },
+                                                    child: Text((list[index]).toString(),
+                                                      style: TextStyle(
+                                                        color: temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.black,
+                                                      ),
+                                                    ),
+                                                );
+                                              }
+                                              ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          "..." + pagecount.toString(),
+                                          style: TextStyle(
+                                            color: Colors.black
+                                          ),
+                                        ),
+                                        SizedBox(width: 20),
+                                        temp > 1 ?
+                                        ElevatedButton(
+                                            onPressed: (){
+                                          setState(() {
+                                            temp= temp-1;
+                                            documentList.removeRange(documentList.length - 20, documentList.length);
+                                            print(documentList);
+                                          });
+                                        }, child: Text("Previous Page"))  : Container(),
+                                        SizedBox(width: 20),
+                                        Container(
+                                          child: temp < pagecount ?
+                                          ElevatedButton(onPressed: (){
+                                            setState(() {
+                                              temp= temp+1;
+                                            });
+                                          }, child: Text("Next Page"))  : Container(),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),

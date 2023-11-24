@@ -136,22 +136,22 @@ class _AboutUsTabState extends State<AboutUsTab> {
                           child: Column(
                             children: [
                               Text(
-                                  "We are System Integrators who aim to increase the capabilities of people and the performance of the organizations we serve.",
+                                  "We are System Integrators who aim to increase the capabilities of people and the performance of the organizations we serve.\nWe aim to travel with our customers throughout their journey helping them to evolve their business and inspiring them to redefine their current business mode",
                                 style: GoogleFonts.poppins(
                                   color: Constants().primaryAppColor,
                                   fontWeight: FontWeight.w500,
                                   fontSize: width/68.3,
                                 ),
                               ),
-                              SizedBox(height: height/32.55),
+                             /* SizedBox(height: height/32.55),
                               Text(
-                                "We aim to travel with our customers throughout their journey helping them to evolve their business and inspiring them to redefine their current business mode",
+                                "",
                                 style: GoogleFonts.poppins(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
                                   fontSize: width/75.88888888888889,
                                 ),
-                              )
+                              )*/
                             ],
                           ),
                         )
@@ -324,11 +324,28 @@ class _AboutUsTabState extends State<AboutUsTab> {
               Center(
                 child: Column(
                   children: [
-                    Text(
-                      "--Developed By--\n@ 2023 by AR Digital Solutions",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700,
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        height: 80,
+                        width: width / 1.75,
+                        decoration: BoxDecoration(
+                          //color: Colors.white,
+                            color: Color(0xfffafae8),
+                            borderRadius: BorderRadius.circular(12),
+                            border:Border.all(color: Constants().primaryAppColor,)
+                        ),
+                        child: Center(
+                          child: Text(
+                            "IKIA\nDeveloped By\nAR Digital Solutions @ 2023",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              color: Color(0xffb80d38),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

@@ -477,7 +477,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                             ),
                           ),
                           KText(
-                            text: 'TO DO THE PREACHING OF JESUS',
+                            //text: 'TO DO THE PREACHING OF JESUS',
+                            text: 'DILIGENTLY UNDERSTAND THE CONDITION OF YOUR SHEEP',
                             style: GoogleFonts.openSans(
                                 fontSize: width/68.3,
                                 fontWeight: FontWeight.w900,

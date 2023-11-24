@@ -23,12 +23,31 @@ class MembersFireCrud {
         .join();
   }
 
-  static Stream<List<MembersModel>> fetchMembers() => MemberCollection
-          .orderBy("timestamp", descending: false)
+  static Stream<List<MembersModel>> fetchMembers() => MemberCollection.orderBy("timestamp", descending: true)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .map((doc) => MembersModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
+  static Stream<List<MembersModel>> fetchMemberss(searchString) => MemberCollection.where("firstName", isEqualTo: searchString).limit(10)
           .snapshots()
       .map((snapshot) => snapshot.docs
           .map((doc) => MembersModel.fromJson(doc.data() as Map<String,dynamic>))
           .toList());
+
+  static Stream<List<MembersModel>> fetchMembers1(documentList) => MemberCollection
+      .orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .map((doc) => MembersModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
+
+  static Stream<List<MembersModel>> fetchMembers2() => MemberCollection
+      .orderBy("timestamp", descending: true).limit(10)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .map((doc) => MembersModel.fromJson(doc.data() as Map<String,dynamic>))
+      .toList());
 
   static Stream<List<MembersModel>> fetchMembersWithSearch(String text) => MemberCollection
       .orderBy("timestamp", descending: false)
@@ -99,11 +118,12 @@ class MembersFireCrud {
         houseType: houseType,
         baptizemCertificate: document != null ? downloadUrl1 : "",
         nationality: nationality,
-      serviceLanguage:serviceLanguage,
+      //serviceLanguage:serviceLanguage,
         marriageDate: marriageDate,
         aadharNo: aadharNo,
         lastName: lastName,
         pincode: pincode,
+        status: true,
         country: country,
         job: job,
         firstName: firstName,
@@ -266,6 +286,7 @@ class MembersFireCrud {
         baptizemCertificate: "",
         permanentAddress: "",
         houseType: "",
+        status: true,
       );
       var json = member.toJson();
       await MemberCollection.doc(documentID).set(
@@ -328,6 +349,7 @@ class MembersFireCrud {
         country: "Null",
         baptizemCertificate: "Null",
         houseType: "Null",
+        status: true,
       );
 
       UserModel user = UserModel(

@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
@@ -21,6 +22,7 @@ import '../../models/members_model.dart';
 import '../../models/response.dart';
 import '../../widgets/developer_card_widget.dart';
 import '../../widgets/kText.dart';
+import '../../widgets/switch_button.dart';
 import '../prints/member_print.dart';
 import 'package:excel/excel.dart' as ex;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
@@ -212,6 +214,7 @@ class _MembersTabState extends State<MembersTab> {
   void initState() {
     familydatafetchfunc();
     setMemberId();
+    getTotalMembers();
     super.initState();
   }
 
@@ -291,6 +294,21 @@ class _MembersTabState extends State<MembersTab> {
   final addressFocusNode = FocusNode();
 
 
+  int documentlength =0 ;
+  int pagecount =0 ;
+  int temp =1;
+  List list = new List<int>.generate(10000, (i) => i + 1);
+
+  List<cf.DocumentSnapshot> documentList = [];
+
+
+  getTotalMembers() async {
+    var memberDoc = await cf.FirebaseFirestore.instance.collection('Members').get();
+    setState(() {
+      pagecount = (memberDoc.docs.length / 10).toInt();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -314,12 +332,23 @@ class _MembersTabState extends State<MembersTab> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  KText(
-                    text: "MEMBERS",
-                    style: GoogleFonts.openSans(
-                        fontSize: width/52.538,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black),
+                  InkWell(
+                    onTap:() async {
+                      var memberss = await cf.FirebaseFirestore.instance.collection('Members').get();
+                      for(int y = 0; y < memberss.docs.length; y++){
+                        cf.FirebaseFirestore.instance.collection('Members').doc(memberss.docs[y].id).update({
+                          "status" : true,
+                        });
+                        print(y);
+                      }
+                    },
+                    child: KText(
+                      text: "MEMBERS",
+                      style: GoogleFonts.openSans(
+                          fontSize: width/52.538,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black),
+                    ),
                   ),
                   InkWell(
                       onTap:(){
@@ -1240,7 +1269,13 @@ class _MembersTabState extends State<MembersTab> {
                                             "Aunt",
                                             "Nephew",
                                             "Niece",
-                                            "Cousins",
+                                            "Cousin",
+                                            "Father-in-law",
+                                            "Mother-in-law",
+                                            "Daughter-in-law",
+                                            "Son-in-law",
+                                            "Brother-in-law",
+                                            "Sister-in-law",
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -2102,25 +2137,31 @@ class _MembersTabState extends State<MembersTab> {
                 )
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
-              stream: MembersFireCrud.fetchMembers(),
+              //stream: MembersFireCrud.fetchMembers(),
+              stream: searchString != ""
+                  ? cf.FirebaseFirestore.instance.collection('Members').where("firstName", isEqualTo: searchString).limit(10).snapshots()
+                  : documentList.isNotEmpty
+                  ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
+                  : cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).limit(10).snapshots(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<MembersModel> members1 = snapshot.data!;
+                  List<cf.DocumentSnapshot> members1 = snapshot.data!.docs;
                   List<MembersModel> members = [];
                   members1.forEach((element) {
                     if(searchString != ""){
-                      if(element.position!.toLowerCase().startsWith(searchString.toLowerCase())||
-                          element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
-                          element.pincode!.toLowerCase().startsWith(searchString.toLowerCase())||
-                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
-                          element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())||
-                          element.phone!.toLowerCase().startsWith(searchString.toLowerCase())){
-                        members.add(element);
+                      if(element.get("position")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.get("firstName")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.get("pincode")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          (element.get("firstName")!+element.get("lastName")!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.get("lastName")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                          element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
+                        members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                       }
                     }else{
-                      members.add(element);
+                      documentList.add(element);
+                      members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                     }
                   });
                   return Container(
@@ -2421,7 +2462,7 @@ class _MembersTabState extends State<MembersTab> {
                                       SizedBox(
                                         width: width/9.6,
                                         child: KText(
-                                          text: "Profession",
+                                          text: "Status",
                                           style: GoogleFonts.poppins(
                                             fontSize: width/105.076,
                                             fontWeight: FontWeight.w600,
@@ -2544,7 +2585,7 @@ class _MembersTabState extends State<MembersTab> {
                                               width: width/8.035,
                                               child: KText(
                                                 text:
-                                                "${members[i].firstName!} ${members[i].lastName!}",
+                                                "${members[i].firstName!.toLowerCase() != 'null' ? members[i].firstName : ''} ${members[i].lastName!.toLowerCase() != 'null' ? members[i].lastName : ''}",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -2553,12 +2594,72 @@ class _MembersTabState extends State<MembersTab> {
                                             ),
                                             SizedBox(
                                               width: width/9.757,
-                                              child: KText(
-                                                text: members[i].position!,
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/105.076,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                              child: Row(
+                                                children: [
+                                                  FlutterSwitch(
+                                                    width: 65,
+                                                    height: 32,
+                                                    valueFontSize: 11,
+                                                    toggleSize: 0,
+                                                    value: members[i].status!,
+                                                    borderRadius: 30,
+                                                    padding: 8.0,
+                                                    showOnOff: true,
+                                                    activeColor: Colors.green,
+                                                    activeText: "Active",
+                                                    inactiveColor: Colors.red,
+                                                    inactiveText: "Inactive",
+                                                    activeToggleColor: Colors.green,
+                                                    inactiveToggleColor: Colors.red,
+                                                    onToggle: (val) {
+                                                      String statsu = !val ? "Inactive" : "Active";
+                                                          CoolAlert.show(
+                                                              context: context,
+                                                              type: CoolAlertType.info,
+                                                              text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                              title: "Update this Record?",
+                                                              width: size.width * 0.4,
+                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                              showCancelBtn: true,
+                                                              cancelBtnText: 'Cancel',
+                                                              cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                              onConfirmBtnTap: () async {
+                                                                await updateMemberStatus(members[i].id!, val);
+                                                              }
+                                                          );
+                                                    },
+                                                  ),
+                                                  // Row(
+                                                  //   children: [
+                                                  //     Text(
+                                                  //        !members[i].status! == true ? "Inactive" : "Active",
+                                                  //     ),
+                                                  //
+                                                  //   ],
+                                                  // ),
+                                                  // Switch(
+                                                  //   value: members[i].status!,
+                                                  //   onChanged: (val) {
+                                                  //     String statsu = !val ? "Inactive" : "Active";
+                                                  //     CoolAlert.show(
+                                                  //         context: context,
+                                                  //         type: CoolAlertType.info,
+                                                  //         text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                  //         title: "Delete this Record?",
+                                                  //         width: size.width * 0.4,
+                                                  //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                  //         showCancelBtn: true,
+                                                  //         cancelBtnText: 'Cancel',
+                                                  //         cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                  //         onConfirmBtnTap: () async {
+                                                  //           await updateMemberStatus(members[i].id!, val);
+                                                  //         }
+                                                  //     );
+                                                  //   },
+                                                  //   activeColor: Colors.green,
+                                                  //   inactiveTrackColor: Colors.grey,
+                                                  // ),
+                                                ],
                                               ),
                                             ),
                                             SizedBox(
@@ -2676,7 +2777,7 @@ class _MembersTabState extends State<MembersTab> {
                                                           relationToFamilyController.text = members[i].relationToFamily!;
                                                           landMarkController.text = members[i].landMark!;
                                                           previousChurchController.text = members[i].previousChurch!;
-                                                          serviceLanguageController.text = members[i].serviceLanguage!;
+                                                         // serviceLanguageController.text = members[i].serviceLanguage!;
                                                         });
                                                         editPopUp(members[i], size);
                                                       },
@@ -2816,6 +2917,60 @@ class _MembersTabState extends State<MembersTab> {
                                   },
                                 ),
                               ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                //alignment: Alignment.centerRight,
+                                children: [
+                                  Container(
+                                    width: width * 0.4,
+                                    height: 50,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: 10,
+                                        itemBuilder: (context,index){
+                                          return TextButton(
+                                            onPressed: (){
+                                              setState(() {
+                                                temp= list[index];
+                                              });
+                                              print(temp);
+                                            },
+                                            child: Text((list[index]).toString(),
+                                              style: TextStyle(
+                                                color: temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.black,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    "..." + pagecount.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  temp > 1 ?
+                                  ElevatedButton(
+                                      onPressed: (){
+                                        setState(() {
+                                          temp= temp-1;
+                                        });
+                                      }, child: Text("Previous Page"))  : Container(),
+                                  SizedBox(width: 20),
+                                  Container(
+                                    child: temp < pagecount ?
+                                    ElevatedButton(onPressed: (){
+                                      setState(() {
+                                        temp= temp+1;
+                                      });
+                                    }, child: Text("Next Page"))  : Container(),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -2835,7 +2990,15 @@ class _MembersTabState extends State<MembersTab> {
     );
   }
 
+  updateMemberStatus(String docId,bool status) async {
+    cf.FirebaseFirestore.instance.collection('Members').doc(docId).update({
+    "status" : status,
+    });
+  }
+
   viewPopup(MembersModel member) {
+    print(member);
+    print("Print");
     Size size = MediaQuery.of(context).size;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -3155,12 +3318,12 @@ class _MembersTabState extends State<MembersTab> {
                                       ),
                                       Text(":"),
                                       SizedBox(width: width/68.3),
-                                      KText(
+                                    /*  KText(
                                         text: member.serviceLanguage!,
                                         style:  TextStyle(
                                             fontSize: width/97.57
                                         ),
-                                      )
+                                      )*/
                                     ],
                                   ),
                                    SizedBox(height: height/32.55),
@@ -4415,7 +4578,13 @@ class _MembersTabState extends State<MembersTab> {
                                             "Aunt",
                                             "Nephew",
                                             "Niece",
-                                            "Cousins",
+                                            "Cousin",
+                                            "Father-in-law",
+                                            "Mother-in-law",
+                                            "Daughter-in-law",
+                                            "Son-in-law",
+                                            "Brother-in-law",
+                                            "Sister-in-law",
                                           ].map((items) {
                                             return DropdownMenuItem(
                                               value: items,
@@ -5085,7 +5254,7 @@ class _MembersTabState extends State<MembersTab> {
                                             houseType: houseTypeCon.text,
                                             gender: genderController.text,
                                             id: member.id,
-                                            serviceLanguage: serviceLanguageController.text,
+                                            //serviceLanguage: serviceLanguageController.text,
                                             timestamp: member.timestamp,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,
