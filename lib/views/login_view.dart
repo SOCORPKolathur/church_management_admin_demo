@@ -71,6 +71,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   String churchLogo = '';
+  String churchName = '';
   getChurchDetails() async {
     var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
     churchLogo = church.docs.first.get("logo");
@@ -156,192 +157,196 @@ class _LoginViewState extends State<LoginView> {
                     height: size.height,
                     width: size.width / 2,
                     color: Colors.white,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Column(
-                            children: [
-                              churchLogo != ""
-                                  ? Image.network(
-                                churchLogo,
-                                height: 70,
-                                width: 70,
-                              )
-                                  : const Icon(
-                                Icons.church,
-                                size: 50,
-                              ),
-                              KText(
-                                text: "Welcome back",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: size.height * 0.04,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: size.height/8,),
+                          Center(
+                            child: Column(
+                              children: [
+                                churchLogo != ""
+                                    ? Image.network(
+                                  churchLogo,
+                                  height: 70,
+                                  width: 70,
+                                )
+                                    : const Icon(
+                                  Icons.church,
+                                  size: 50,
                                 ),
-                              ),
-                              KText(
-                                text: "To do the work of jesus",
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xff878484),
-                                  fontSize: 15,
-                                ),
-                              ),
-                              SizedBox(height: size.height*0.03,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text: "Email address",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  CustomTextField(
-                                    hint: "Email",
-                                    passType: false,
-                                    controller: emailController,
-                                    validator: validateEmail,
-                                    onSubmitted: (val){
-
-                                    },
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: size.height*0.03,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  KText(
-                                    text:"Password",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  CustomTextField(
-                                    hint: "Password",
-                                    passType: true,
-                                    controller: passwordController,
-                                    validator: validateEmail,
-                                    onSubmitted: (val){
-                                      authenticate(church);
-                                    },
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const KText(
-                                    text:"Forgot password?",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        decoration: TextDecoration.underline
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: size.height*0.03,),
-                              InkWell(
-                                onTap: (){
-                                  setState(() {
-                                    test.add("S1");
-                                  });
-
-                                  authenticate(church);
-                                },
-                                child: Container(
-                                  height: size.height * 0.08,
-                                  width: size.width * 0.35,
-                                  decoration: BoxDecoration(
-                                      color: Constants().primaryAppColor,
-                                      borderRadius: BorderRadius.circular(30)
-                                  ),
-                                  child: Center(
-                                    child: KText(
-                                      text: "Log In",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          color: Colors.white
-                                      ),
-                                    ),
+                                KText(
+                                  text: "Welcome to",
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: size.height * 0.04,
                                   ),
                                 ),
-                              ),
-
-                              SizedBox(height: size.height*0.02),
-                              SizedBox(
-                                height: size.height * 0.08,
-                                width: size.width * 0.35,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                KText(
+                                  text: church.name!,
+                                  style: GoogleFonts.poppins(
+                                    color: const Color(0xff878484),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                SizedBox(height: size.height*0.03,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      height: 2,
-                                      width: size.width * 0.14,
-                                      color: const Color(0xff000000),
-                                    ),
                                     KText(
-                                      text: "Or",
+                                      text: "Email address",
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
+                                        fontSize: 14,
                                       ),
                                     ),
-                                    Container(
-                                      height: 2,
-                                      width: size.width * 0.14,
-                                      color: const Color(0xff000000),
-                                    ),
+                                    const SizedBox(height: 5),
+                                    CustomTextField(
+                                      hint: "Email",
+                                      passType: false,
+                                      controller: emailController,
+                                      validator: validateEmail,
+                                      onSubmitted: (val){
+
+                                      },
+                                    )
                                   ],
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Material(
-                                      color: Colors.white,
-                                      child: Container(
-                                        height: 40,
-                                        width: 40,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Colors.black12,
-                                                offset: Offset(1,2),
-                                                blurRadius: 2,
-                                              )
-                                            ]
+                                SizedBox(height: size.height*0.03,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text:"Password",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    CustomTextField(
+                                      hint: "Password",
+                                      passType: true,
+                                      controller: passwordController,
+                                      validator: validateEmail,
+                                      onSubmitted: (val){
+                                        authenticate(church);
+                                      },
+                                    ),
+                                    const SizedBox(height: 8),
+                                    /*const KText(
+                                      text:"Forgot password?",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          decoration: TextDecoration.underline
+                                      ),
+                                    )*/
+                                  ],
+                                ),
+                                SizedBox(height: size.height*0.03,),
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      test.add("S1");
+                                    });
+
+                                    authenticate(church);
+                                  },
+                                  child: Container(
+                                    height: size.height * 0.08,
+                                    width: size.width * 0.35,
+                                    decoration: BoxDecoration(
+                                        color: Constants().primaryAppColor,
+                                        borderRadius: BorderRadius.circular(30)
+                                    ),
+                                    child: Center(
+                                      child: KText(
+                                        text: "Log In",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 18,
+                                            color: Colors.white
                                         ),
-                                        child: SvgPicture.asset("assets/flat-color-icons_google@3x.svg"),
-                                      )
+                                      ),
+                                    ),
                                   ),
-                                  SizedBox(width: size.width * 0.035),
-                                  Material(
-                                      color: Colors.white,
-                                      child: Container(
-                                        height: 40,
-                                        width: 40,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Colors.black12,
-                                                offset: Offset(1,2),
-                                                blurRadius: 2,
-                                              )
-                                            ]
+                                ),
+
+                                SizedBox(height: size.height*0.02),
+                              /*  SizedBox(
+                                  height: size.height * 0.08,
+                                  width: size.width * 0.35,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        height: 2,
+                                        width: size.width * 0.14,
+                                        color: const Color(0xff000000),
+                                      ),
+                                      KText(
+                                        text: "Or",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 15,
                                         ),
-                                        child: SvgPicture.asset("assets/Group.svg"),
-                                      )
-                                  )
-                                ],
-                              )
-                            ],
+                                      ),
+                                      Container(
+                                        height: 2,
+                                        width: size.width * 0.14,
+                                        color: const Color(0xff000000),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Material(
+                                        color: Colors.white,
+                                        child: Container(
+                                          height: 40,
+                                          width: 40,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(8),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Colors.black12,
+                                                  offset: Offset(1,2),
+                                                  blurRadius: 2,
+                                                )
+                                              ]
+                                          ),
+                                          child: SvgPicture.asset("assets/flat-color-icons_google@3x.svg"),
+                                        )
+                                    ),
+                                    SizedBox(width: size.width * 0.035),
+                                    Material(
+                                        color: Colors.white,
+                                        child: Container(
+                                          height: 40,
+                                          width: 40,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(8),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Colors.black12,
+                                                  offset: Offset(1,2),
+                                                  blurRadius: 2,
+                                                )
+                                              ]
+                                          ),
+                                          child: SvgPicture.asset("assets/Group.svg"),
+                                        )
+                                    )
+                                  ],
+                                )*/
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

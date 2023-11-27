@@ -58,7 +58,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: KText(
-                text: "Greetings",
+                text: "Wishes",
                 style: GoogleFonts.openSans(
                     fontSize: width/52.53846153846154,
                     fontWeight: FontWeight.w900,
@@ -264,6 +264,17 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                             NetworkImage(
                                                                 users[i]
                                                                     .imgUrl!),
+                                                        child: Visibility(
+                                                          visible: users[i].imgUrl == "",
+                                                          // child: Image.asset(
+                                                          //   users[i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                          //   height: 40,
+                                                          //   width: 40,
+                                                          // )
+                                                          child: Icon(
+                                                              Icons.person
+                                                          ),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -272,7 +283,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   width: width/8.035294117647059,
                                                   child: KText(
                                                     text:
-                                                        "${users[i].firstName!} ${users[i].lastName!}",
+                                                    "${users[i].firstName!} ${users[i].lastName!="Null"? users[i].lastName! : ""}",
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight:
@@ -504,6 +515,18 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                             NetworkImage(
                                                                 users[i]
                                                                     .imgUrl!),
+
+                                                        child: Visibility(
+                                                          visible: users[i].imgUrl == "",
+                                                          // child: Image.asset(
+                                                          //   users[i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                          //   height: 40,
+                                                          //   width: 40,
+                                                          // )
+                                                          child: Icon(
+                                                              Icons.person
+                                                          ),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -512,7 +535,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                                   width: width/8.035294117647059,
                                                   child: KText(
                                                     text:
-                                                        "${users[i].firstName!} ${users[i].lastName!}",
+                                                    "${users[i].firstName!} ${users[i].lastName!="Null"? users[i].lastName! : ""}",
                                                     style: GoogleFonts.poppins(
                                                       fontSize: width/105.0769230769231,
                                                       fontWeight:
@@ -1122,7 +1145,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                 content: templates[i].content,
                 id: templates[i].id,
                 selected: false,
-                title: "${templates[i].title} ${users[i].firstName + users[i].lastName}",
+                title: "${templates[i].title} ${users[i].firstName + users[i].lastName !="Null"?users[i].lastName : ""}",
                 withName: false,
               )
             );

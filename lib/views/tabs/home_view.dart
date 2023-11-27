@@ -33,6 +33,9 @@ import 'package:church_management_admin/views/tabs/student_tab.dart';
 import 'package:church_management_admin/views/tabs/testimonials_tab.dart';
 import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:church_management_admin/views/tabs/website_socialmedia_tab.dart';
+import 'package:church_management_admin/views/tabs/zone_areas.dart';
+import 'package:church_management_admin/views/tabs/zone_reports_view.dart';
+import 'package:church_management_admin/views/tabs/zones_list_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -93,9 +96,23 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
+      name: "Little Flocks",
+      page:  ClansTab(),
+      icon: Icons.class_,
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
       name: "Student",
       page:  StudentTab(),
       icon: Icons.person,
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Committee",
+      icon: Icons.groups,
+      page:  CommitteeTab(),
       isExpanded: false,
       children: [],
     ),
@@ -127,19 +144,28 @@ class _HomeViewState extends State<HomeView> {
       isExpanded: false,
       children: [],
     ),
+
     DrawerModel(
-      name: "Committee",
-      icon: Icons.groups,
-      page:  CommitteeTab(),
+      name: "Membership",
+      icon: Icons.card_membership,
       isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Little Flocks",
-      page:  ClansTab(),
-      icon: Icons.class_,
-      isExpanded: false,
-      children: [],
+      children: [
+        DrawerChildren(
+          name: 'Membership Reports',
+          icon: Icons.add,
+          page: const MembershipReportsTab(),
+        ),
+        DrawerChildren(
+          name: 'Membership Register',
+          icon: Icons.add,
+          page: const MembershipRegisterTab(),
+        ),
+        // DrawerChildren(
+        //   name: 'Membership Master',
+        //   page: const MembershipMasterTab(),
+        //   icon: Icons.add,
+        // )
+      ],
     ),
     DrawerModel(
       name: "Finance",
@@ -164,45 +190,9 @@ class _HomeViewState extends State<HomeView> {
       ],
     ),
     DrawerModel(
-      name: "Membership",
-      icon: Icons.card_membership,
-      isExpanded: false,
-      children: [
-        DrawerChildren(
-            name: 'Membership Reports',
-            icon: Icons.add,
-            page: const MembershipReportsTab(),
-        ),
-        DrawerChildren(
-          name: 'Membership Register',
-          icon: Icons.add,
-          page: const MembershipRegisterTab(),
-        ),
-        // DrawerChildren(
-        //   name: 'Membership Master',
-        //   page: const MembershipMasterTab(),
-        //   icon: Icons.add,
-        // )
-      ],
-    ),
-    DrawerModel(
-      name: "Meetings",
-      icon: Icons.date_range,
-      page: const MeetingsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Reports",
-      icon: Icons.bar_chart,
-      page: const ReportsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Login Reports",
-      icon: Icons.login,
-      page: const LoginReportsTab(),
+      name: "Wishes",
+      icon: Icons.cake,
+      page: const GreetingsTab(),
       isExpanded: false,
       children: [],
     ),
@@ -214,6 +204,27 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
+      name: "Speech",
+      icon: CupertinoIcons.speaker_2_fill,
+      page:  SpeechTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Testimonials",
+      icon: Icons.person_rounded,
+      page: const TestimonialsTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Prayers",
+      icon: Icons.person_rounded,
+      page: const PrayersTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
       name: "Gallery",
       icon: CupertinoIcons.photo,
       page:  GalleryTab(),
@@ -221,9 +232,16 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Speech",
-      icon: CupertinoIcons.speaker_2_fill,
-      page:  SpeechTab(),
+      name: "Meetings",
+      icon: Icons.date_range,
+      page: const MeetingsTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Event Management",
+      icon: Icons.notifications_on_sharp,
+      page:  EventsTab(),
       isExpanded: false,
       children: [],
     ),
@@ -257,41 +275,6 @@ class _HomeViewState extends State<HomeView> {
       ],
     ),
     DrawerModel(
-      name: "Event Management",
-      icon: Icons.notifications_on_sharp,
-      page:  EventsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Blood Requirement",
-      icon: Icons.bloodtype,
-      page:  BloodRequirementTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Prayers",
-      icon: Icons.person_rounded,
-      page: const PrayersTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Testimonials",
-      icon: Icons.person_rounded,
-      page: const TestimonialsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Greeting",
-      icon: Icons.cake,
-      page: const GreetingsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
       name: "Blog",
       page: const BlogTab(),
       icon: Icons.web,
@@ -301,7 +284,7 @@ class _HomeViewState extends State<HomeView> {
     DrawerModel(
       name: "Social Media",
       page: const WebsiteAndSocialMediaTab(),
-      icon: Icons.facebook,
+      icon: Icons.web_rounded,
       isExpanded: false,
       children: [],
     ),
@@ -313,6 +296,13 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
+      name: "Member Attendance",
+      page: const AttendanceFamilyTab(),
+      icon: Icons.insert_drive_file_sharp,
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
       name: "Student Attendance",
       page: const AttendanceRecordTab(),
       icon: Icons.insert_drive_file_sharp,
@@ -320,9 +310,45 @@ class _HomeViewState extends State<HomeView> {
       children: [],
     ),
     DrawerModel(
-      name: "Member Attendance",
-      page: const AttendanceFamilyTab(),
-      icon: Icons.insert_drive_file_sharp,
+      name: "Blood Requirement",
+      icon: Icons.bloodtype,
+      page:  BloodRequirementTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Zone Activities",
+      icon: Icons.public,
+      isExpanded: false,
+      children: [
+        DrawerChildren(
+          name: 'Zone Areas',
+         page: const Zone_Areas(),
+          icon: Icons.people,
+        ),
+        DrawerChildren(
+          name: 'Zone List',
+          page: const ZonesListView(),
+          icon: Icons.list,
+        ),
+        DrawerChildren(
+          name: 'Zone Reports',
+          page: const ZoneReportsView(),
+          icon: Icons.bar_chart,
+        ),
+      ],
+    ),
+    DrawerModel(
+      name: "Reports",
+      icon: Icons.bar_chart,
+      page: const ReportsTab(),
+      isExpanded: false,
+      children: [],
+    ),
+    DrawerModel(
+      name: "Login Reports",
+      icon: Icons.login,
+      page: const LoginReportsTab(),
       isExpanded: false,
       children: [],
     ),
@@ -727,7 +753,7 @@ class _HomeViewState extends State<HomeView> {
                                               SizedBox(
                                                 width: double.infinity,
                                                 child: Text(
-                                                  churchHome.name ?? "",
+                                                  "WELCOME TO ${churchHome.name}" ?? "",
                                                   style: GoogleFonts.openSans(
                                                     fontWeight: FontWeight.w900,
                                                     fontSize: 20,

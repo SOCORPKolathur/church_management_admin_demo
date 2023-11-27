@@ -15,14 +15,14 @@ final CollectionReference AnniversaryWishTemplateCollection =
 class GreetingFireCrud {
   static Stream<List<UserModel>> fetchBirthydays(String date) =>
       UserCollection.snapshots().map((snapshot) =>
-          snapshot.docs.where((element) => element.get("dob").toString().contains(DateFormat('dd-MM-yyyy').format(DateTime.now())))
+          snapshot.docs.where((element) => element.get("dob").toString().contains(DateFormat('d/M/').format(DateTime.now())))
               .map((doc) => UserModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 
   static Stream<List<UserModel>> fetchAnniversaries(String date) =>
       UserCollection.snapshots().map(
           (snapshot) => snapshot.docs
-              .where((element) => element.get("anniversaryDate").toString().contains(DateFormat('dd-MM-yyyy').format(DateTime.now())))
+              .where((element) => element.get("anniversaryDate").toString().contains(DateFormat('d/M/').format(DateTime.now())))
               .map((doc) => UserModel.fromJson(doc.data() as Map<String,dynamic>))
               .toList());
 

@@ -27,6 +27,8 @@ class StudentModel {
   String? dob;
   String? nationality;
   String? imgUrl;
+  String? permanentAddress;
+  String? resistentialAddress;
 
   StudentModel(
       {this.id,
@@ -56,7 +58,10 @@ class StudentModel {
         this.bloodGroup,
         this.dob,
         this.nationality,
-        this.imgUrl});
+        this.imgUrl,
+        this.resistentialAddress,
+        this.permanentAddress
+      });
 
   StudentModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -87,6 +92,8 @@ class StudentModel {
     dob = json['dob'];
     nationality = json['nationality'];
     imgUrl = json['imgUrl'];
+    resistentialAddress  = json['resistentialAddress'];
+    permanentAddress  = json['permanentAddress'];
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +126,8 @@ class StudentModel {
     data['dob'] = this.dob;
     data['nationality'] = this.nationality;
     data['imgUrl'] = this.imgUrl;
+    data['resistentialAddress'] = this.resistentialAddress;
+    data['permanentAddress'] = this.permanentAddress;
     return data;
   }
 

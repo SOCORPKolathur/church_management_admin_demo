@@ -25,6 +25,7 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
 
   String facebookUrl = 'https://www.facebook.com/bcagchennai';
   String instaUrl = 'https://www.instagram.com/bcagchennai';
+  String youtubeUrl = 'https://youtube.com/@BlessingCentreAGChurch?si=5zcTr5WpvC9cbMYQ';
 
   bool isView = false;
   bool isFacebook = false;
@@ -370,6 +371,56 @@ class _WebsiteAndSocialMediaTabState extends State<WebsiteAndSocialMediaTab> {
                                     ),
                                     KText(
                                       text: "Church Website",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        InkWell(
+                          onTap:() async {
+                            // setState(() {
+                            //   isView = true;
+                            //   isFacebook = false;
+                            //   isInsta = false;
+                            // });
+                            // await Future.delayed(Duration(seconds: 2)).then((value){
+                            //   webviewControllerchurch.loadContent(
+                            //     churchWebsite,
+                            //     SourceType.url,
+                            //   );
+                            // });
+                            launch(youtubeUrl);
+                          },
+                          child: Material(
+                            elevation: 4,
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              height: 80,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: Color(0xffFF0000),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      child: Center(
+                                        child: Icon(Icons.play_arrow,color: Colors.white,)
+                                      ),
+                                    ),
+                                    KText(
+                                      text: "YouTube",
                                       style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,

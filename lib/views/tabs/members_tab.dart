@@ -297,6 +297,7 @@ class _MembersTabState extends State<MembersTab> {
   int documentlength =0 ;
   int pagecount =0 ;
   int temp =1;
+  int shift =0;
   List list = new List<int>.generate(10000, (i) => i + 1);
 
   List<cf.DocumentSnapshot> documentList = [];
@@ -2139,7 +2140,7 @@ class _MembersTabState extends State<MembersTab> {
             StreamBuilder(
               //stream: MembersFireCrud.fetchMembers(),
               stream: searchString != ""
-                  ? cf.FirebaseFirestore.instance.collection('Members').where("firstName", isEqualTo: searchString).limit(10).snapshots()
+                  ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).snapshots()
                   : documentList.isNotEmpty
                   ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
                   : cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).limit(10).snapshots(),
@@ -2154,7 +2155,7 @@ class _MembersTabState extends State<MembersTab> {
                       if(element.get("position")!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.get("firstName")!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.get("pincode")!.toLowerCase().startsWith(searchString.toLowerCase())||
-                          (element.get("firstName")!+element.get("lastName")!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                          element.get("firstName").toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
                           element.get("lastName")!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
                         members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
@@ -2539,7 +2540,7 @@ class _MembersTabState extends State<MembersTab> {
                                             Container(
                                               width: width/30.075,
                                               child: KText(
-                                                text: (i + 1).toString(),
+                                                text: ((i + 1)+((temp-1)*10)).toString(),
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -2665,7 +2666,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: width/11.38,
                                               child: KText(
-                                                text: members[i].phone!,
+                                                text:  members[i].phone.toString().toLowerCase() != 'null' ? members[i].phone! : "",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -2923,22 +2924,39 @@ class _MembersTabState extends State<MembersTab> {
                                 children: [
                                   Container(
                                     width: width * 0.4,
-                                    height: 50,
+                                    height: 46,
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: 10,
+                                        itemCount: 10 + shift,
                                         itemBuilder: (context,index){
-                                          return TextButton(
-                                            onPressed: (){
-                                              setState(() {
-                                                temp= list[index];
-                                              });
-                                              print(temp);
-                                            },
-                                            child: Text((list[index]).toString(),
-                                              style: TextStyle(
-                                                color: temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.black,
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: InkWell(
+                                              onTap: (){
+                                                setState(() {
+                                                  temp= list[index + shift];
+                                                  shift= index;
+                                                });
+                                                print(temp);
+                                                print("temp");
+                                                print(shift);
+                                              },
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: temp.toString() == list[index + shift].toString() ?  Constants().primaryAppColor : Colors.transparent,
+                                                  borderRadius: BorderRadius.circular(30),
+                                                  border: Border.all(color: Constants().primaryAppColor)
+                                                ),
+                                                child: Center(
+                                                  child: Text((list[index + (shift)]).toString(),
+                                                    style: TextStyle(
+                                                      color: temp.toString() == list[index + shift].toString() ? Colors.white : Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           );
@@ -2947,9 +2965,28 @@ class _MembersTabState extends State<MembersTab> {
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    "..." + pagecount.toString(),
+                                    " .... ",
                                     style: TextStyle(
                                         color: Colors.black
+                                    ),
+                                  ),
+
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                          color:  Colors.transparent,
+                                          borderRadius: BorderRadius.circular(30),
+                                          border: Border.all(color: Constants().primaryAppColor)
+                                      ),
+                                    child: Center(
+                                      child: Text(
+                                        pagecount.toString(),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                          fontSize: 12
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(width: 20),
@@ -2958,6 +2995,7 @@ class _MembersTabState extends State<MembersTab> {
                                       onPressed: (){
                                         setState(() {
                                           temp= temp-1;
+                                          shift= shift-1;
                                         });
                                       }, child: Text("Previous Page"))  : Container(),
                                   SizedBox(width: 20),
@@ -2966,6 +3004,7 @@ class _MembersTabState extends State<MembersTab> {
                                     ElevatedButton(onPressed: (){
                                       setState(() {
                                         temp= temp+1;
+                                        shift= shift+1;
                                       });
                                     }, child: Text("Next Page"))  : Container(),
                                   )

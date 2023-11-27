@@ -33,8 +33,8 @@ class DashboardFireCrud {
             todayEventsCount++;
       }
     });
-    int birthdayCount = document.docs.where((element) => element.get('dob').toString().startsWith("${DateTime.now().day}-${DateTime.now().month}")).length;
-    int annivasaryCount = document.docs.where((element) => element.get('anniversaryDate').toString().startsWith("${DateTime.now().day}-${DateTime.now().month}")).length;
+    int birthdayCount = document.docs.where((element) => element.get('dob').toString().contains(DateFormat('d/M/').format(DateTime.now()))).length;
+    int annivasaryCount = document.docs.where((element) => element.get('anniversaryDate').toString().contains(DateFormat('d/M/').format(DateTime.now()))).length;
 
     var totalUsers = await firestore.collection('Users').get();
     var totalCommittee = await firestore.collection('Committee').get();

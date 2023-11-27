@@ -326,7 +326,7 @@ class _EventsTabState extends State<EventsTab>
                                           controller: dateController,
                                           onTap: () async {
                                             DateTime? pickedDate =
-                                            await Constants().datePicker(context);
+                                            await Constants().futureDatePicker(context);
                                             if (pickedDate != null) {
                                               setState(() {
                                                 dateController.text = formatter.format(pickedDate);
@@ -2548,7 +2548,7 @@ class _EventsTabState extends State<EventsTab>
                                                 controller: dateController,
                                                 onTap: () async {
                                                   DateTime? pickedDate =
-                                                  await Constants().datePicker(context);
+                                                  await Constants().futureDatePicker(context);
                                                   if (pickedDate != null) {
                                                     setState(() {
                                                       dateController.text = formatter.format(pickedDate);
@@ -2953,7 +2953,7 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                       onTap: () async {
                                         DateTime? pickedDate =
-                                        await Constants().datePicker(context);
+                                        await Constants().futureDatePicker(context);
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateRangeStart = pickedDate;
@@ -3000,7 +3000,7 @@ class _EventsTabState extends State<EventsTab>
                                       ),
                                       onTap: () async {
                                         DateTime? pickedDate =
-                                        await Constants().datePicker(context);
+                                        await Constants().futureDatePicker(context);
                                         if (pickedDate != null) {
                                           setState(() {
                                             dateRangeEnd = pickedDate;

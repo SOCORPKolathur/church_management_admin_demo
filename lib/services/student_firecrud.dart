@@ -60,6 +60,8 @@ class StudentFireCrud {
       required String nationality,
       required String phone,
       required String position,
+      required String resistentialAddress,
+      required String permanentAddress,
       //required String socialStatus
       }) async {
     String downloadUrl = "";
@@ -96,7 +98,11 @@ class StudentFireCrud {
         //department: department,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
-        imgUrl: downloadUrl);
+        imgUrl: downloadUrl,
+        resistentialAddress: resistentialAddress,
+        permanentAddress:permanentAddress
+
+    );
     student.id = documentReferencer.id;
     var json = student.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
@@ -176,6 +182,8 @@ class StudentFireCrud {
         nationality: row[i][14].toString(),
         aadharNo: row[i][15].toString(),
         position: row[i][16].toString(),
+        resistentialAddress:"",
+        permanentAddress:"",
         country: "",
         email: "",
         phone: "",

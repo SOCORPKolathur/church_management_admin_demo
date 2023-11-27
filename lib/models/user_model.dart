@@ -21,6 +21,7 @@ class UserModel {
   late String nationality;
   late String houseType;
   late String pincode;
+  late bool status;
   late bool isPrivacyEnabled;
 
   UserModel(

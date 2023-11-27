@@ -35,9 +35,11 @@ class _TermsPageState extends State<TermsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Content('''Thank you for choosing AR DIGITAL SOLUTIONS. As used in this Terms of Services, “AR DIGITAL SOLUTIONS”, “us” and “we” refers to  AR DIGITAL SOLUTIONS Please read AR DIGITAL SOLUTIONS’ terms of services carefully as they contain important information regarding your legal rights and obligations as a customer. These include various limitations and exclusions and a binding arbitration agreement and class action waiver. The following terms govern your use of all AR DIGITAL SOLUTIONS services irrespective of the format. Please ensure to check regularly for updates to these terms of services. Your use of AR DIGITAL SOLUTIONS services indicate that you agree to the terms outlined in this legal document. Your continued use of our services also mean you are agreeing to any updates that might be made to these terms of services. If you do not agree with any of these terms, please do not use any of the AR DIGITAL SOLUTIONS services.'''),
+              Content('''Thank you for choosing AR DIGITAL SOLUTIONS. As used in this Terms of Services, “AR DIGITAL SOLUTIONS”, “us” and “we” refers to  AR DIGITAL SOLUTIONS Please read AR DIGITAL SOLUTIONS’ terms of services carefully as they contain important information regarding your legal rights and obligations as a customer. These include various limitations and exclusions and a binding arbitration agreement and class action waiver.
+The following terms govern your use of all AR DIGITAL SOLUTIONS services irrespective of the format. Please ensure to check regularly for updates to these terms of services. Your use of AR DIGITAL SOLUTIONS services indicate that you agree to the terms outlined in this legal document. Your continued use of our services also mean you are agreeing to any updates that might be made to these terms of services. If you do not agree with any of these terms, please do not use any of the AR DIGITAL SOLUTIONS services Except if we specifically agree in writing.
+'''),
               Heading('''Overview'''),
-              Content('''This Software is developed and being run by AR DIGITAL SOLUTIONS. Therefore, this agreement is between you (“you” or “User” or “Client”) and AR DIGITAL SOLUTIONS. We provide access to this website, containing all services, information, and tools available to users, conditioned upon the acceptance of all terms and conditions stated below.
+              Content('''This Software is developed and being run by AR DIGITAL SOLUTIONS. Therefore, this agreement is between you (“you” or “User” or “Client”) and AR DIGITAL SOLUTIONS. We provide access to this website/Mobile Application, containing all services, information, and tools available to users, conditioned upon the acceptance of all terms and conditions stated below.
 By signing up to use the AR DIGITAL SOLUTIONS( IKIA) app or services, you assent that you have read, are entitled, on behalf of yourself or your organization, to concur on, and do hereby accept on, the terms presented below.
 '''           ),
               Heading('''Intellectual Property Right'''),
@@ -59,14 +61,14 @@ By using our services, you agree that you will not submit, upload or write any c
 4.	infringes or violates any right of a third party including right of privacy (specifically, you must not distribute another person’s personal information of any kind without their permission) or publicity or any confidentiality obligation;
 5.	contains a virus or other harmful component, or otherwise tampers with, impairs or damages the services or any connected network, or otherwise interferes with any person or entity’s use;
 6.	is not related to the use of our services, and by using our services you send unsolicited or spam messages.
-By uploading content, you warrant that the content and your communication thereof conform to the requirements of these terms and that you own or have the necessary rights, licenses, consents and permissions, without the need for any permission from or payment to any other person or entity, to exploit such content in all manners considered by these terms of services.
+By uploading content, you warrant that the content and your communication thereof confirm to the requirements of these terms and that you own or have the necessary rights, licenses, consents and permissions, without the need for any permission from or payment to any other person or entity, to exploit such content in all manners considered by these terms of services.
 We reserve the right, but disclaim any obligation or responsibility, to refuse to post or remove any content from the services that violates these terms of services when we facilitate compliance with laws, including, for example, compliance with a court order, or help to protect the safety or security of any person or property, including our services. Moreover, we retain all rights to remove content at any time for any reason or no reason whatsoever.
 We cannot and do not assure that other users are or will be complying with all or any of the provisions of these terms of services.
 ''',
               ),
               Heading('''Access Levels and Fees'''),
-              Content('''The current annual or monthly fees for the AR DIGITAL SOLUTIONS paid plans are listed on the current pricing schedule. Full details of all subscription fees are available on the AR DIGITAL SOLUTIONS website. We reserve the right to change these fees from time to time, at which time we will notify users through the AR DIGITAL SOLUTIONS website, app or newsletter. Your subscription to our services will be renewed automatically based on the specified payment schedule per calendar month.
-We offer all prospective users a free plan. There will be no charges for the use of free plan as long as this plan exists as an option on the AR DIGITAL SOLUTIONS platform. However, your free account on the system will be terminated after 6 months of inactivity (usage). We will also delete all data related to the inactive accounts.
+              Content('''The current annual or monthly fees for the AR DIGITAL SOLUTIONS paid plans are listed on the pricings schedule Full details of all subscription fees are available on the AR DIGITAL SOLUTIONS website. We reserve the right to change these fees from time to time, at which time we will notify users through the AR DIGITAL SOLUTIONS website, app or newsletter. Your subscription to our services will be renewed automatically based on the specified payment schedule as mutually agreed.
+We offer certain prospective users a free plan. There will be no charges for the use of free plan as long as this plan exists as an option on the AR DIGITAL SOLUTIONS platform. However, your free account on the system will be terminated after 3 months of inactivity (usage). We will also delete all data related to the inactive accounts.
 AR DIGITAL SOLUTIONS has a mission to support churches so our free plans are free forever. We may cancel this in the future, but this will only apply to new accounts, not to old active accounts. Your Organization will be notified if this happens.
  The demo account is valid for thirty days after which it would no longer be accessible.
 ''',
@@ -80,12 +82,11 @@ We may suspend or terminate your account and your ability to use the services fo
               Heading('''Support and maintenance'''),
               Content('''AR DIGITAL SOLUTIONS shall, at its discretion, provide you with standard support and maintenance with respect to requests made via appropriate platforms including email, online chat and telephone only.'''),
               Heading('''Data Processing'''),
-              Content('''AR DIGITAL SOLUTIONS is processing user’s data in accordance with our Privacy Policy and data privacy and protection applicable laws. If your church or ministry is EU based or subject to GDPR, we have set out a legal framework under which AR DIGITAL SOLUTIONS processes Personal Data for your church or ministry to be GDPR compliant when transferring user’s data to us. We are providing the Data Processing Addendum (DPA) that covers all Services offered by AR DIGITAL SOLUTIONS, and it comes in addition to these Terms of Services. Please read our DPA; by continuing to use our services you are agreeing to our DPA on behalf of your church or your ministry.'''),
+              Content('''AR DIGITAL SOLUTIONS is processing user’s data in accordance with our Privacy Policy and data privacy and protection applicable laws. '''),
               Heading('''Security of Services'''),
               Content('''You acknowledge that AR DIGITAL SOLUTIONS website, app, services and software is run over the internet and that the internet is generally an insecure public network, which means that there are inherent risks thereof. However, we will take all possible steps that a responsible and competent provider of services such as AR DIGITAL SOLUTIONS would be expected to take to maintain the security and integrity of all users’ data. Specifically, we will:
 1.	take reasonable steps to ensure that AR DIGITAL SOLUTIONS is secure from unauthorized access by implementing administrative, physical and technical safeguards to protect your data in ways that are no less rigorous than accepted industry standards and security best practices;
-2.	meet GDPR obligations in relation to data protection impact assessments, security of Processing and notification of Personal Data breaches.
-3.	as soon as we become aware of any virus, malware, unauthorized access, or other harmful code that affects the services and software provided to you, immediately notify you and take all reasonable steps to tackle the problem, secure your content, remove the harmful code, as applicable, and take proactive steps to prevent future occurrences.
+2.	as soon as we become aware of any virus, malware, unauthorized access, or other harmful code that affects the services and software provided to you, immediately notify you and take all reasonable steps to tackle the problem, secure your content, remove the harmful code, as applicable, and take proactive steps to prevent future occurrences.
 '''),
               Heading('''Disclaimer'''),
               Content('''The services are provided “as is” and without warranties of any kind. To the fullest extent permissible pursuant to applicable law, we disclaim all warranties, express or implied, including accuracy, completeness, availability, security, compatibility and noninfringement. We do not warrant that the services will be error-free, that access thereto will be uninterrupted, that defects will be corrected, or that any service are free of viruses or other harmful components. You hereby irrevocably waive any claim against us with respect to any information you provide to third party websites (including credit card and other personal information).
@@ -102,43 +103,20 @@ We make no claim that website or services are appropriate or available for use i
 If any provision of these terms of use shall be unlawful, void or for any reason unenforceable, then that provision shall be deemed dissociated from these terms of services and shall not affect the validity and enforceability of any remaining provisions.
 '''),
               Heading('''Privacy'''),
-              Content('''At AR DIGITAL SOLUTIONS, we take your privacy very seriously and respect your data privacy and protection rights and recognize the importance of protecting the personal information we collect about you.
-Please refer to our Privacy Policy to find out more about how we collect, use, store and disclose your personal information and what your rights are.
-'''),
+              Content('''At AR DIGITAL SOLUTIONS, we take your privacy very seriously and respect your data privacy and protection rights and recognize the importance of protecting the personal information we collect about you'''),
               Heading('''Cookies'''),
               Content('''We use cookies to provide our services and our software. Our cookies help us provide customer service and support, protect and secure our clients and ourselves, create statistics to improve our services, and offer the user a pleasant experience when accessing our app, by allowing features such as language options, saving registration data, etc.
 These cookies are necessary for our services to work properly on our app; if you do not agree with the use of cookies on our app then do not use any of the AR DIGITAL SOLUTIONS services.
-We also use cookies on our website. The use of cookies does not involve personal data request and, in most cases, does not identify the users personally. For further information regarding the use of cookies on our website please read our Cookie Policy.
+We also use cookies on our website. The use of cookies does not involve personal data request and, in most cases, does not identify the users personally. For further information regarding the use of cookies on our website 
 '''),
               Heading('''Changes to Terms and Services'''),
               Content('''Users can always review the most current version of the Terms of Service posted on this page. We solely have the right, at our own discretion, to change, replace or update any part of these Terms of Services by posting updates and changes to our website, app or services. It is the responsibility of users to periodically check our terms for amendments. Your continued use of or access to our website, app or services after the posting of any changes to these Terms of Services means your acceptance of those changes. Any changes to this Terms of Services will apply starting with the date on which it was made available, except the changes where your consent is expressly needed, in which case the changes will apply from the date of your consent.'''),
               Heading('''Contact Information'''),
-              Content('''If you have any questions or suggestions regarding our Terms and Conditions, you can contact us free of charge here. We will respond to your request as soon as possible, but not later than 30 days.
+              Content('''If you have any questions or suggestions regarding our Terms and Conditions, you can contact us admin@ardigitalsolutions.co We will respond to your request as soon as possible, but not later than 10 days.
  
-Last modified on March 10, 2023.
- 
- 
- 
-FacebookTwitterYoutube
- 
- 
-RECENT POSTS
-•	Discover new ways to increase church giving
-•	How to manage your volunteers
-•	How to write and distribute church announcements
-•	Signs of bad church leadership to watch out for
-•	How to start a church a step-by-step guide
-HELP & SUPPORT
-•	Sign In
-•	Sign Up
-•	About us
-•	Support
-•	Contact Us
-•	Terms of Services
-•	Privacy Policy
-•	Cookie Policy
+Last modified on NOVEMBER , 2023.
 '''),
-              Heading('''PRIVACY POLICY regarding the processing of personal data'''),
+             /* Heading('''PRIVACY POLICY regarding the processing of personal data'''),
               Content('''Last update: DATE
 The purpose of this Privacy Policy is to explain how, when and why is your personal data processed by or through our website and app, as well as to inform you regarding the legal rights you have as a data subject related to the processing of your personal data.
 This Privacy Policy does not consider the processing activities performed by our partners. Please check our partner’s privacy notices for information on the way they process your personal data as controllers
@@ -309,7 +287,7 @@ HELP & SUPPORT
 •	Terms of Services
 •	Privacy Policy
 •	Cookie Policy
-'''),
+'''),*/
             ],
           ),
         ),

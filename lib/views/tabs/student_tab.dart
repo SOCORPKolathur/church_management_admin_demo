@@ -56,6 +56,8 @@ class _StudentTabState extends State<StudentTab> {
   TextEditingController aadharNoController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
+  TextEditingController residentialAddressController = TextEditingController();
+  TextEditingController permanentAddressController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController instituteNameController = TextEditingController();
 
@@ -228,6 +230,7 @@ class _StudentTabState extends State<StudentTab> {
   final parentPhoneFocusNode = FocusNode();
   final aadhaarFocusNode = FocusNode();
   final nationalityFocusNode = FocusNode();
+  final addressFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -307,7 +310,7 @@ class _StudentTabState extends State<StudentTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 1.81,
+              height: size.height * 2.2,
               width: size.width/1.241818182,
               margin:  EdgeInsets.symmetric(horizontal: width/68.3,vertical: height/32.55),
               decoration: BoxDecoration(
@@ -1237,6 +1240,12 @@ class _StudentTabState extends State<StudentTab> {
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
                                           maxLength: 40,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -1249,7 +1258,135 @@ class _StudentTabState extends State<StudentTab> {
                                   ),
                                 ],
                               ),
-                               SizedBox(height:height/21.7),
+                              SizedBox(height: height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Residential Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width/105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin:  EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration:  const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                focusNode: addressFocusNode,
+                                                autofocus: true,
+                                                maxLength: 255,
+                                                style:  TextStyle(
+                                                    fontSize: width/113.83),
+                                                controller: residentialAddressController,
+                                                decoration:  InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,
+                                                        top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Permanent Address",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width/105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.15,
+                                    width: double.infinity,
+                                    margin:  EdgeInsets.symmetric(
+                                        horizontal: width/68.3,
+                                        vertical: height/32.55
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Constants().primaryAppColor,
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(1, 2),
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: height/32.55,
+                                          width: double.infinity,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              width: double.infinity,
+                                              decoration:  const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: TextFormField(
+                                                maxLength: 255,
+                                                style:  TextStyle(
+                                                    fontSize: width/113.83),
+                                                controller: permanentAddressController,
+                                                decoration:  InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding: EdgeInsets.only(left: width/91.06,
+                                                        top: height/162.75,bottom: height/162.75)
+                                                ),
+                                                maxLines: null,
+                                              )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height/21.7),
                               Visibility(
                                 visible: profileImageValidator,
                                 child: const Text(
@@ -1319,6 +1456,9 @@ class _StudentTabState extends State<StudentTab> {
                                             position: "",
                                             phone: "",
                                             email: "",
+                                              resistentialAddress:residentialAddressController.text,
+                                              permanentAddress: permanentAddressController.text,
+
                                           );
                                           if (response.code == 200) {
                                             CoolAlert.show(
@@ -2616,6 +2756,54 @@ class _StudentTabState extends State<StudentTab> {
                                       SizedBox(width:width/68.3),
                                       KText(
                                         text: student.guardianPhone!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Resistential Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: student.resistentialAddress!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Permanent Address",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/68.3),
+                                      KText(
+                                        text: student.permanentAddress!,
                                         style: TextStyle(
                                             fontSize:width/97.571
                                         ),

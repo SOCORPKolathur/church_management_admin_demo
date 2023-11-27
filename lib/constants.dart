@@ -20,7 +20,7 @@ class Constants {
       context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
-      lastDate: DateTime(3000),
+      lastDate: DateTime.now(),
       dateFormat: "dd-MM-yyyy",
       locale: DateTimePickerLocale.en_us,
       looping: true,
@@ -28,18 +28,6 @@ class Constants {
     return pickedDate;
   }
 
-  datePicker1(context) async {
-    DateTime? pickedDate = await DatePicker.showSimpleDatePicker(
-      context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(3000),
-      dateFormat: "dd-MM-yyyy",
-      locale: DateTimePickerLocale.en_us,
-      looping: true,
-    );
-    return pickedDate;
-  }
 
   futureDatePicker(context) async {
     DateTime? pickedDate = await DatePicker.showSimpleDatePicker(

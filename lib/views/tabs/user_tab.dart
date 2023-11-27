@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:lottie/lottie.dart';
@@ -54,6 +55,7 @@ class _UserTabState extends State<UserTab> {
   TextEditingController nationalityCon = TextEditingController(text: 'Indian');
   TextEditingController houseTypeCon = TextEditingController(text: 'Select Type');
   TextEditingController filterTextController = TextEditingController();
+  TextEditingController qualificationController = TextEditingController();
   String filterText = "";
   String marriedController = "Select Status";
   String GenderController = "Select Gender";
@@ -172,6 +174,7 @@ class _UserTabState extends State<UserTab> {
   int documentlength =0 ;
   int pagecount =0 ;
   int temp =1;
+  int shift =0;
   List list = new List<int>.generate(10000, (i) => i + 1);
 
   List<cf.DocumentSnapshot> documentList = [];
@@ -1212,6 +1215,32 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(width: width/68.3),
+                                  SizedBox(
+                                    width: width/4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Qualification",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width/105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          style:  TextStyle(fontSize: width/113.83),
+                                          controller: qualificationController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width/68.3),
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
@@ -1893,7 +1922,7 @@ class _UserTabState extends State<UserTab> {
                                             SizedBox(
                                               width: width / 9.106,
                                               child: KText(
-                                                text: "Profession",
+                                                text: "Status",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width / 105.076,
                                                   fontWeight: FontWeight.w600,
@@ -1966,7 +1995,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 17.075,
                                                     child: KText(
-                                                      text: (i + 1).toString(),
+                                                      text: ((i + 1)+((temp-1)*10)).toString(),
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -2014,23 +2043,80 @@ class _UserTabState extends State<UserTab> {
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: width / 9.106,
-                                                    child: KText(
-                                                      text:
-                                                          users[i].user.profession!,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize:
-                                                            width / 105.076,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                    width: width/9.757,
+                                                    child: Row(
+                                                      children: [
+                                                        FlutterSwitch(
+                                                          width: 65,
+                                                          height: 32,
+                                                          valueFontSize: 11,
+                                                          toggleSize: 0,
+                                                          //value: users[i].user.status!,
+                                                          value: true,
+                                                          borderRadius: 30,
+                                                          padding: 8.0,
+                                                          showOnOff: true,
+                                                          activeColor: Colors.green,
+                                                          activeText: "Active",
+                                                          inactiveColor: Colors.red,
+                                                          inactiveText: "Inactive",
+                                                          activeToggleColor: Colors.green,
+                                                          inactiveToggleColor: Colors.red,
+                                                          onToggle: (val) {
+                                                            String statsu = !val ? "Inactive" : "Active";
+                                                            CoolAlert.show(
+                                                                context: context,
+                                                                type: CoolAlertType.info,
+                                                                text: "${users[i].user.firstName} ${users[i].user.lastName}'s status will be $statsu",
+                                                                title: "Update this Record?",
+                                                                width: size.width * 0.4,
+                                                                backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                showCancelBtn: true,
+                                                                cancelBtnText: 'Cancel',
+                                                                cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                                onConfirmBtnTap: () async {
+                                                                  //await updateMemberStatus(members[i].id!, val);
+                                                                }
+                                                            );
+                                                          },
+                                                        ),
+                                                        // Row(
+                                                        //   children: [
+                                                        //     Text(
+                                                        //        !members[i].status! == true ? "Inactive" : "Active",
+                                                        //     ),
+                                                        //
+                                                        //   ],
+                                                        // ),
+                                                        // Switch(
+                                                        //   value: members[i].status!,
+                                                        //   onChanged: (val) {
+                                                        //     String statsu = !val ? "Inactive" : "Active";
+                                                        //     CoolAlert.show(
+                                                        //         context: context,
+                                                        //         type: CoolAlertType.info,
+                                                        //         text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                        //         title: "Delete this Record?",
+                                                        //         width: size.width * 0.4,
+                                                        //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                        //         showCancelBtn: true,
+                                                        //         cancelBtnText: 'Cancel',
+                                                        //         cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                        //         onConfirmBtnTap: () async {
+                                                        //           await updateMemberStatus(members[i].id!, val);
+                                                        //         }
+                                                        //     );
+                                                        //   },
+                                                        //   activeColor: Colors.green,
+                                                        //   inactiveTrackColor: Colors.grey,
+                                                        // ),
+                                                      ],
                                                     ),
                                                   ),
                                                   SizedBox(
                                                     width: width / 8.035,
                                                     child: KText(
-                                                      text: users[i].user.phone!,
+                                                      text:  users[i].user.phone.toLowerCase() != 'null' ? users[i].user.phone! : "",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -2315,50 +2401,86 @@ class _UserTabState extends State<UserTab> {
                                       children: [
                                         Container(
                                           width: width * 0.4,
-                                          height: 50,
+                                          height: 46,
                                           child: ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: 10,
+                                              itemCount: 10 + shift,
                                               itemBuilder: (context,index){
-                                                return TextButton(
-                                                    onPressed: (){
-                                                      // setState(() {
-                                                      //   temp= list[index];
-                                                      // });
+                                                return Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: InkWell(
+                                                    onTap: (){
+                                                      setState(() {
+                                                        temp= list[index + shift];
+                                                        shift= index;
+                                                      });
+                                                      print(temp);
+                                                      print("temp");
                                                     },
-                                                    child: Text((list[index]).toString(),
-                                                      style: TextStyle(
-                                                        color: temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.black,
+                                                    child: Container(
+                                                      width: 30,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                          color: temp.toString() == list[index + shift].toString() ?  Constants().primaryAppColor : Colors.transparent,
+                                                          borderRadius: BorderRadius.circular(30),
+                                                          border: Border.all(color: Constants().primaryAppColor)
+                                                      ),
+                                                      child: Center(
+                                                        child: Text((list[index + (shift)]).toString(),
+                                                          style: TextStyle(
+                                                            color: temp.toString() == list[index + shift].toString() ? Colors.white : Colors.black,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
+                                                  ),
                                                 );
                                               }
-                                              ),
+                                          ),
                                         ),
                                         SizedBox(width: 5),
                                         Text(
-                                          "..." + pagecount.toString(),
+                                          " .... ",
                                           style: TextStyle(
-                                            color: Colors.black
+                                              color: Colors.black
+                                          ),
+                                        ),
+
+                                        Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              color:  Colors.transparent,
+                                              borderRadius: BorderRadius.circular(30),
+                                              border: Border.all(color: Constants().primaryAppColor)
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              pagecount.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         SizedBox(width: 20),
                                         temp > 1 ?
                                         ElevatedButton(
                                             onPressed: (){
-                                          setState(() {
-                                            temp= temp-1;
-                                            documentList.removeRange(documentList.length - 20, documentList.length);
-                                            print(documentList);
-                                          });
-                                        }, child: Text("Previous Page"))  : Container(),
+                                              setState(() {
+                                                temp= temp-1;
+                                                shift= shift-1;
+                                              });
+                                            }, child: Text("Previous Page"))  : Container(),
                                         SizedBox(width: 20),
                                         Container(
                                           child: temp < pagecount ?
                                           ElevatedButton(onPressed: (){
                                             setState(() {
                                               temp= temp+1;
+                                              shift= shift+1;
                                             });
                                           }, child: Text("Next Page"))  : Container(),
                                         )
@@ -2747,6 +2869,29 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.nationality!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Qualification",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        //text: user.nationality!,
+                                        text: "",
                                         style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
@@ -3632,6 +3777,32 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                 ),
+                                SizedBox(width: width/68.3),
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Qualification",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        maxLength: 100,
+                                        style:  TextStyle(fontSize: width/113.83),
+                                        controller: qualificationController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width/68.3),
                               ],
                             ),
                             SizedBox(height: height / 21.7),

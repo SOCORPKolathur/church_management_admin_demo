@@ -26,7 +26,7 @@ class DeveloperCardWidget extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
               //color: Colors.white,
-              color: Color(0xfffafae8),
+              color: Color(0xfffdff8c),
               borderRadius: BorderRadius.circular(12),
               border:Border.all(color: Constants().primaryAppColor,)
           ),
@@ -35,7 +35,7 @@ class DeveloperCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "IKIA",
+                  "IKIA - ",
                   style: GoogleFonts.poppins(
                     //color: Colors.black,
                     color: Color(0xffb80d38),
@@ -56,9 +56,8 @@ class DeveloperCardWidget extends StatelessWidget {
                 //     ),
                 //   ),
                 // ),
-                SizedBox(width: 20),
                 Text(
-                  "Version 1.0.0.1 @ 2023 by AR Digital Solutions. All Rights Reserved",
+                  "Version 1.0.0.1 Developed by AR Digital Solutions @ 2023. All Rights Reserved",
                   style: GoogleFonts.poppins(
                     color: Color(0xffb80d38),
                     fontWeight: FontWeight.w800,

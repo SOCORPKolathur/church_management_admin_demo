@@ -92,14 +92,15 @@ class _AboutUsTabState extends State<AboutUsTab> {
                             height: height/7.3,
                             width: width/5.464,
                             decoration: BoxDecoration(
+                              color:Color(0xfffdff8c),
                                 borderRadius: BorderRadius.circular(12),
-                                border:Border.all(color: Constants().primaryAppColor,)
+                                border:Border.all(color: Color(0xfffdff8c),)
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text("Version",style: GoogleFonts.poppins(
-                                  color: Colors.black,
+                                  color: Color(0xffb80d38),
                                   fontWeight: FontWeight.w600,
                                   fontSize: width/68.3,
                                 ),),
@@ -109,7 +110,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                                     setState(() {
                                     });
                                   },
-                                  selectedColor: Constants().primaryAppColor,
+                                  selectedColor: Color(0xffb80d38),
                                   shape: StadiumBorder(
                                       side: BorderSide(
                                         color: Constants().primaryAppColor,)),
@@ -122,11 +123,11 @@ class _AboutUsTabState extends State<AboutUsTab> {
                         ),
                         SizedBox(height: height/32.55),
                         KText(
-                          text: "AR Digital Solution",
+                          text: "AR Digital Solutions",
                           style: GoogleFonts.openSans(
                               fontSize: width/54.64,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black,
+                              color: Color(0xffb80d38),
                           ),
                         ),
                         SizedBox(height: height/32.55),
@@ -138,7 +139,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                               Text(
                                   "We are System Integrators who aim to increase the capabilities of people and the performance of the organizations we serve.\nWe aim to travel with our customers throughout their journey helping them to evolve their business and inspiring them to redefine their current business mode",
                                 style: GoogleFonts.poppins(
-                                  color: Constants().primaryAppColor,
+                                  color: Color(0xffb80d38),
                                   fontWeight: FontWeight.w500,
                                   fontSize: width/68.3,
                                 ),
@@ -189,7 +190,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                       child: Container(
                         width: 300,
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Color(0xfffdff8c),
                             borderRadius: BorderRadius.circular(12),
                             border:Border.all(color: Constants().primaryAppColor,)
                         ),
@@ -216,7 +217,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                                   Text(
                                     "Terms & Conditions",
                                     style: GoogleFonts.poppins(
-                                      color: Colors.black45,
+                                      color: Color(0xffb80d38),
                                       fontSize: width /97.57142857142857,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -242,7 +243,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Color(0xfffdff8c),
                           borderRadius: BorderRadius.circular(12),
                           border:Border.all(color: Constants().primaryAppColor,)
                       ),
@@ -254,6 +255,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                             Text(
                               "Help Desk :",
                               style: GoogleFonts.poppins(
+                                color: Color(0xffb80d38),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -279,14 +281,14 @@ class _AboutUsTabState extends State<AboutUsTab> {
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.phone,color: Constants().primaryAppColor,),
+                                        Icon(Icons.phone,color: Color(0xffb80d38),),
                                         SizedBox(width: width/136.6),
                                         Card("+919884890121")
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        Icon(CupertinoIcons.globe,color: Constants().primaryAppColor,),
+                                        Icon(CupertinoIcons.globe,color: Color(0xffb80d38),),
                                         SizedBox(width: width/136.6),
                                         InkWell(
                                             onTap: () async {
@@ -304,7 +306,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.alternate_email,color: Constants().primaryAppColor,),
+                                        Icon(Icons.alternate_email,color: Color(0xffb80d38),),
                                         SizedBox(width: width/136.6),
                                        Card("satishkumar@ardigitalsolutions.co"),
                                       ],
@@ -332,7 +334,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                         width: width / 1.75,
                         decoration: BoxDecoration(
                           //color: Colors.white,
-                            color: Color(0xfffafae8),
+                            color: Color(0xfffdff8c),
                             borderRadius: BorderRadius.circular(12),
                             border:Border.all(color: Constants().primaryAppColor,)
                         ),
@@ -351,7 +353,6 @@ class _AboutUsTabState extends State<AboutUsTab> {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -370,7 +371,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
       child: Container(
         width: 300,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xfffdff8c),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(10),
             bottomRight: Radius.circular(10),
@@ -383,7 +384,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
               Text(
                 value,
                 style: GoogleFonts.poppins(
-                  color: Colors.black45,
+                  color: Color(0xffb80d38),
                   fontSize: width /97.57142857142857,
                   fontWeight: FontWeight.w600,
                 ),

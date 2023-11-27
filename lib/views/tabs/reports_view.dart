@@ -60,8 +60,6 @@ class _ReportsTabState extends State<ReportsTab> {
   }
 
   int touchedIndex = 1;
-
-
   int totalUsersCount = 0;
   int usersCount = 0;
   int studentsCount = 0;
@@ -846,11 +844,11 @@ class _ReportsTabState extends State<ReportsTab> {
                       child: Container(
                           width: width/10.106,
                           height: height/16.42,
-
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Text("Event Type  :",style: GoogleFonts.poppins(fontSize: 15,)),
-                          )),
+                          ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 25.0),

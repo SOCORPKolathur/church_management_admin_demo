@@ -633,7 +633,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                           maxLength: 100,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: positionController,
@@ -2999,7 +2999,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           ),
                                           maxLength: 100,
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                           ],
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: positionController,

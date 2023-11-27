@@ -3,6 +3,7 @@ import 'package:bouncing_draggable_dialog/bouncing_draggable_dialog.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/reports_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
+import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:country_flags/country_flags.dart';
@@ -27,9 +28,21 @@ import '../../widgets/developer_card_widget.dart';
 import '../../widgets/event_calender.dart';
 import '../../widgets/kText.dart';
 import '../login_view.dart';
+import 'attendance_for_family_tab.dart';
+import 'chrous_tab.dart';
+import 'church_staff_tab.dart';
+import 'clans_tab.dart';
+import 'committee_tab.dart';
+import 'events_tab.dart';
+import 'family_tab.dart';
+import 'greetings_tab.dart';
+import 'members_tab.dart';
 import 'messages_tab.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
 import 'package:show_up_animation/show_up_animation.dart' as an;
+
+import 'pastors_tab.dart';
+import 'student_tab.dart';
 
 class DashBoardTab extends StatefulWidget {
    DashBoardTab({super.key, required this.currentRole});
@@ -423,6 +436,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
 
   TextEditingController selectedDateController = TextEditingController(text: '12-09-2000');
 
+  String page ="Dashboard";
+
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
@@ -433,7 +448,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
     randomNumFromDate = currentDate * rand;
     Size size = MediaQuery.of(context).size;
     var localizationDelegate = LocalizedApp.of(context).delegate;
-    return Stack(
+    return page == "Dashboard" ?Stack(
       alignment: Alignment.center,
       children: [
         Container(
@@ -910,154 +925,175 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Users"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                              const Color(0xffE1F1FF),
-                                              radius: 35,
-                                              child: SvgPicture.asset(
-                                                  "assets/basil_user-solid.svg"),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Users",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Users";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                const Color(0xffE1F1FF),
+                                                radius: 35,
+                                                child: SvgPicture.asset(
+                                                    "assets/basil_user-solid.svg"),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Users",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalUsers ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalUsers ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Committee"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                                backgroundColor:
-                                                const Color(0xffD1F3E0),
-                                                radius: 35,
-                                                child: Icon(
-                                                  Icons.groups,
-                                                  size: width/27.32,
-                                                  color: Colors.green,
-                                                )),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Committee",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Committee";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                  backgroundColor:
+                                                  const Color(0xffD1F3E0),
+                                                  radius: 35,
+                                                  child: Icon(
+                                                    Icons.groups,
+                                                    size: width/27.32,
+                                                    color: Colors.green,
+                                                  )),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Committee",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalCommite ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalCommite ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Pastors"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                                backgroundColor:
-                                                const Color(0xffFFF2D8),
-                                                radius: 35,
-                                                child: Icon(
-                                                  Icons.person,
-                                                  size: width/27.32,
-                                                  color: Colors.amber,
-                                                )),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Pastors",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Pastors";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                  backgroundColor:
+                                                  const Color(0xffFFF2D8),
+                                                  radius: 35,
+                                                  child: Icon(
+                                                    Icons.person,
+                                                    size: width/27.32,
+                                                    color: Colors.amber,
+                                                  )),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Pastors",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalPastors ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalPastors ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     )
@@ -1082,150 +1118,171 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Clans"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                              const Color(0xffFFF1E1),
-                                              radius: 35,
-                                              child: SvgPicture.asset(
-                                                  "assets/ri_group-2-fill.svg"),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Flocks",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Clans";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                const Color(0xffFFF1E1),
+                                                radius: 35,
+                                                child: SvgPicture.asset(
+                                                    "assets/ri_group-2-fill.svg"),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Flocks",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalClans ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalClans ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Chorus"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                              const Color(0xffE6D1F3),
-                                              radius: 35,
-                                              child: SvgPicture.asset(
-                                                  "assets/typcn_group-outline.svg"),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Chorus",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Chorus";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                const Color(0xffE6D1F3),
+                                                radius: 35,
+                                                child: SvgPicture.asset(
+                                                    "assets/typcn_group-outline.svg"),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Chorus",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalChorus ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalChorus ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Staff"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                              const Color(0xffC5FFF8),
-                                              radius: 35,
-                                              child: SvgPicture.asset(
-                                                  "assets/medical-icon_i-care-staff-area.svg"),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Staffs",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Staffs";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                const Color(0xffC5FFF8),
+                                                radius: 35,
+                                                child: SvgPicture.asset(
+                                                    "assets/medical-icon_i-care-staff-area.svg"),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Staffs",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalStaffs ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalStaffs ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     )
@@ -1250,149 +1307,170 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Student"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                              const Color(0xffFFE1F7),
-                                              radius: 35,
-                                              child: SvgPicture.asset(
-                                                  "assets/ph_student-bold.svg"),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Students",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Students";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                const Color(0xffFFE1F7),
+                                                radius: 35,
+                                                child: SvgPicture.asset(
+                                                    "assets/ph_student-bold.svg"),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Students",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalStudents ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalStudents ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Member"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                              const Color(0xffFFF495),
-                                              radius: 35,
-                                              child: SvgPicture.asset(
-                                                  "assets/fluent_people-28-regular.svg"),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Members",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Members";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                const Color(0xffFFF495),
+                                                radius: 35,
+                                                child: SvgPicture.asset(
+                                                    "assets/fluent_people-28-regular.svg"),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Members",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalMembers ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalMembers ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Families"),
-                                      child: SizedBox(
-                                        width: width/4.553,
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                                backgroundColor: const Color(0xffE1F1FF),
-                                                radius: 35,
-                                                child: Icon(Icons.family_restroom,
-                                                    color: const Color(0xff3F7AFC),
-                                                    size: width/27.32)),
-                                            SizedBox(width: width/91.066),
-                                            Container(
-                                              height: size.height * 0.06,
-                                              width: width/1366,
-                                              color:  const Color(0xffE0A700),
-                                            ),
-                                            SizedBox(width: width/91.066),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                KText(
-                                                  text: "Total Families",
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/75.888,
-                                                    color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Families";
+                                          });
+                                        },
+                                        child: SizedBox(
+                                          width: width/4.553,
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                  backgroundColor: const Color(0xffE1F1FF),
+                                                  radius: 35,
+                                                  child: Icon(Icons.family_restroom,
+                                                      color: const Color(0xff3F7AFC),
+                                                      size: width/27.32)),
+                                              SizedBox(width: width/91.066),
+                                              Container(
+                                                height: size.height * 0.06,
+                                                width: width/1366,
+                                                color:  const Color(0xffE0A700),
+                                              ),
+                                              SizedBox(width: width/91.066),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  KText(
+                                                    text: "Total Families",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/75.888,
+                                                      color:  const Color(0xff121843),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: height/217),
-                                                KText(
-                                                  text: dashboard.totalFamilies ??
-                                                      0.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: width/68.3,
-                                                    color: Colors.black,
+                                                  SizedBox(height: height/217),
+                                                  KText(
+                                                    text: dashboard.totalFamilies ??
+                                                        0.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: width/68.3,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1403,112 +1481,119 @@ class _DashBoardTabState extends State<DashBoardTab> {
                             SizedBox(height: size.height * 0.02),
                             Visibility(
                               visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : (dashboardItemsList.contains("Birthday") || dashboardItemsList.contains("Anniversary")),
-                              child: Container(
-                                height: size.height * 0.15,
-                                width: width,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                  Border.all(color:  const Color(0xffE0E0E0)),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: width/91.066),
-                                    Visibility(
-                                      visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Birthday"),
-                                      child: Row(
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundColor:  const Color(0xffFFE1F7),
-                                              radius: 35,
-                                              child: Icon(
-                                                Icons.cake,
-                                                size: width/27.32,
-                                                color: Colors.pink,
-                                              )),
-                                          SizedBox(width: width/91.066),
-                                          Container(
-                                            height: size.height * 0.06,
-                                            width: width/1366,
-                                            color:  const Color(0xffE0A700),
-                                          ),
-                                          SizedBox(width: width/91.066),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              KText(
-                                                text: "Today's Birthday Count",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/75.888,
-                                                  color:  const Color(0xff121843),
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    page="Birthday";
+                                  });
+                                },
+                                child: Container(
+                                  height: size.height * 0.15,
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                    Border.all(color:  const Color(0xffE0E0E0)),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(width: width/91.066),
+                                      Visibility(
+                                        visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Birthday"),
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                                backgroundColor:  const Color(0xffFFE1F7),
+                                                radius: 35,
+                                                child: Icon(
+                                                  Icons.cake,
+                                                  size: width/27.32,
+                                                  color: Colors.pink,
+                                                )),
+                                            SizedBox(width: width/91.066),
+                                            Container(
+                                              height: size.height * 0.06,
+                                              width: width/1366,
+                                              color:  const Color(0xffE0A700),
+                                            ),
+                                            SizedBox(width: width/91.066),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                KText(
+                                                  text: "Today's Birthday Count",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: width/75.888,
+                                                    color:  const Color(0xff121843),
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: height/217),
-                                              KText(
-                                                text: dashboard.birthdayCount ??
-                                                    0.toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: width/68.3,
-                                                  color: Colors.black,
+                                                SizedBox(height: height/217),
+                                                KText(
+                                                  text: dashboard.birthdayCount ??
+                                                      0.toString(),
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: width/68.3,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: width/91.066),
-                                    Visibility(
-                                      visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Anniversary"),
-                                      child: Row(
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundColor:  const Color(0xffFFF495),
-                                              radius: 35,
-                                              child: Icon(
-                                                Icons.wallet_giftcard,
-                                                size: width/27.32,
-                                                color: Colors.amber,
-                                              )),
-                                          SizedBox(width: width/91.066),
-                                          Container(
-                                            height: size.height * 0.06,
-                                            width: width/1366,
-                                            color:  const Color(0xffE0A700),
-                                          ),
-                                          SizedBox(width: width/91.066),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              KText(
-                                                text: "Today's Anniversary Count",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/75.888,
-                                                  color:  const Color(0xff121843),
+                                      SizedBox(width: width/91.066),
+                                      Visibility(
+                                        visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Anniversary"),
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                                backgroundColor:  const Color(0xffFFF495),
+                                                radius: 35,
+                                                child: Icon(
+                                                  Icons.wallet_giftcard,
+                                                  size: width/27.32,
+                                                  color: Colors.amber,
+                                                )),
+                                            SizedBox(width: width/91.066),
+                                            Container(
+                                              height: size.height * 0.06,
+                                              width: width/1366,
+                                              color:  const Color(0xffE0A700),
+                                            ),
+                                            SizedBox(width: width/91.066),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                KText(
+                                                  text: "Today's Anniversary Count",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: width/75.888,
+                                                    color:  const Color(0xff121843),
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: height/217),
-                                              KText(
-                                                text: dashboard.annivarsaryCount ??
-                                                    0.toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: width/68.3,
-                                                  color: Colors.black,
+                                                SizedBox(height: height/217),
+                                                KText(
+                                                  text: dashboard.annivarsaryCount ??
+                                                      0.toString(),
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: width/68.3,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -1529,95 +1614,109 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("MemberPresent"),
-                                      child: Row(
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundColor: Colors.orange.withOpacity(0.2),
-                                              radius: 35,
-                                              child: Icon(
-                                                Icons.receipt_long_outlined,
-                                                size: width/27.32,
-                                                color: Colors.orange,
-                                              )),
-                                          SizedBox(width: width/91.066),
-                                          Container(
-                                            height: size.height * 0.06,
-                                            width: width/1366,
-                                            color:  const Color(0xffE0A700),
-                                          ),
-                                          SizedBox(width: width/91.066),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              KText(
-                                                text: "Members Present Today",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/75.888,
-                                                  color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Members Attendance";
+                                          });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                                backgroundColor: Colors.orange.withOpacity(0.2),
+                                                radius: 35,
+                                                child: Icon(
+                                                  Icons.receipt_long_outlined,
+                                                  size: width/27.32,
+                                                  color: Colors.orange,
+                                                )),
+                                            SizedBox(width: width/91.066),
+                                            Container(
+                                              height: size.height * 0.06,
+                                              width: width/1366,
+                                              color:  const Color(0xffE0A700),
+                                            ),
+                                            SizedBox(width: width/91.066),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                KText(
+                                                  text: "Members Present Today",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: width/75.888,
+                                                    color:  const Color(0xff121843),
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: height/217),
-                                              KText(
-                                                text: dashboard.todayPresentMembers ??
-                                                    0.toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: width/68.3,
-                                                  color: Colors.black,
+                                                SizedBox(height: height/217),
+                                                KText(
+                                                  text: dashboard.todayPresentMembers ??
+                                                      0.toString(),
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: width/68.3,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     SizedBox(width: width/91.066),
                                     Visibility(
                                       visible: widget.currentRole.toUpperCase() == "ADMIN@GMAIL.COM" ? true : dashboardItemsList.contains("Event Count"),
-                                      child: Row(
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundColor:  const Color(0xffD1F3E0),
-                                              radius: 35,
-                                              child: Icon(
-                                                Icons.notifications_on_sharp,
-                                                size: width/27.32,
-                                                color: Colors.green,
-                                              )),
-                                          SizedBox(width: width/91.066),
-                                          Container(
-                                            height: size.height * 0.06,
-                                            width: width/1366,
-                                            color:  const Color(0xffE0A700),
-                                          ),
-                                          SizedBox(width: width/91.066),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              KText(
-                                                text: "Today Events Count",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/75.888,
-                                                  color:  const Color(0xff121843),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            page="Events";
+                                          });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                                backgroundColor:  const Color(0xffD1F3E0),
+                                                radius: 35,
+                                                child: Icon(
+                                                  Icons.notifications_on_sharp,
+                                                  size: width/27.32,
+                                                  color: Colors.green,
+                                                )),
+                                            SizedBox(width: width/91.066),
+                                            Container(
+                                              height: size.height * 0.06,
+                                              width: width/1366,
+                                              color:  const Color(0xffE0A700),
+                                            ),
+                                            SizedBox(width: width/91.066),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                KText(
+                                                  text: "Today Events Count",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: width/75.888,
+                                                    color:  const Color(0xff121843),
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: height/217),
-                                              KText(
-                                                text: dashboard.todayEventsCount ??
-                                                    0.toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: width/68.3,
-                                                  color: Colors.black,
+                                                SizedBox(height: height/217),
+                                                KText(
+                                                  text: dashboard.todayEventsCount ??
+                                                      0.toString(),
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: width/68.3,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     )
                                   ],
@@ -1645,7 +1744,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                             child: Column(
                               children: [
                                 SizedBox(height: 20,),
-                                Text("Memebership Reports",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
+                                Text("Membership Reports",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 18),),
                                 Container(
                                   height: 370,
                                     width: width * 0.38,
@@ -1850,6 +1949,50 @@ class _DashBoardTabState extends State<DashBoardTab> {
             ),
           ),
         )
+      ],
+    ) : Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        page == "Users" ? UserTab():
+        page == "Committee" ? CommitteeTab():
+        page == "Pastors" ? PastorsTab():
+        page == "Clans" ? ClansTab():
+        page == "Chorus" ? ChorusTab():
+        page == "Staffs" ? ChurchStaffTab():
+        page == "Students" ? StudentTab():
+        page == "Members" ? MembersTab():
+        page == "Families" ? FamilyTab():
+        page == "Birthday" ? GreetingsTab():
+        page == "Members Attendance" ? AttendanceFamilyTab():
+        page == "Events" ? EventsTab():
+        UserTab(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: (){
+              setState(() {
+                page = "Dashboard";
+              });
+            },
+            child: Material(
+              elevation: 3,
+              shadowColor: Constants().primaryAppColor,
+              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                width:30,
+                height: 30,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color:Constants().primaryAppColor)
+                ),
+                child: Center(
+                  child: Icon(Icons.close,size: 15,),
+                ),
+              ),
+
+            ),
+          ),
+        ),
       ],
     );
   }
