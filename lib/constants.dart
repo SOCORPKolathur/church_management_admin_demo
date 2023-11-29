@@ -42,4 +42,31 @@ class Constants {
     return pickedDate;
   }
 
+
+  static List<Color> colorsList = [
+    Colors.purple,
+    Colors.pink,
+    Colors.grey,
+    Colors.blue,
+    Colors.red,
+    Colors.green,
+    Colors.lightGreen,
+    Colors.lightBlue,
+    Colors.brown,
+    Colors.lime,
+    Colors.deepOrange,
+    Colors.yellow,
+    Colors.orange,
+    Colors.indigo,
+    Colors.teal,
+    Colors.amber,
+    Colors.white,
+    Colors.black,
+    Colors.tealAccent,
+    Colors.cyanAccent,
+    Colors.deepOrangeAccent,
+    Colors.lightBlueAccent,
+    Colors.blueGrey,
+  ];
+
 }

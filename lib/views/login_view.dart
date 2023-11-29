@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:country_ip/country_ip.dart';
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/services.dart';
@@ -14,13 +16,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ip_country_lookup/ip_country_lookup.dart';
 import 'package:ip_country_lookup/models/ip_country_data_model.dart';
+import 'package:local_session_timeout/local_session_timeout.dart';
 import '../models/church_details_model.dart';
 import '../services/location_api.dart';
 import '../widgets/kText.dart';
 import 'package:intl/intl.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  const LoginView({super.key,required this.sessionStateStream});
+
+  final StreamController<SessionState> sessionStateStream;
 
 
   @override
@@ -381,7 +386,7 @@ class _LoginViewState extends State<LoginView> {
       test.add("S11");
     });
             Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (ctx) =>  HomeView(currentRole: element.roleName!)));
+                builder: (ctx) =>  HomeView(currentRole: element.roleName!,sessionStateStream: widget.sessionStateStream)));
           }
         });
       }

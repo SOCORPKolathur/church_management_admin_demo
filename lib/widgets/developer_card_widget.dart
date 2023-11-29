@@ -34,6 +34,14 @@ class DeveloperCardWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  height: 27,
+                  child: Image.asset(
+                      "assets/Untitled-2.png",
+
+                  ),
+                ),
+                SizedBox(width: 10),
                 Text(
                   "IKIA - ",
                   style: GoogleFonts.poppins(

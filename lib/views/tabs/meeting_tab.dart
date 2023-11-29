@@ -288,7 +288,7 @@ class _MeetingsTabState extends State<MeetingsTab> {
                                             controller: dateController,
                                             onTap: () async {
                                               DateTime? pickedDate =
-                                              await Constants().datePicker(context);
+                                              await Constants().futureDatePicker(context);
                                               if (pickedDate != null) {
                                                 setState(() {
                                                   dateController.text = formatter.format(pickedDate);
@@ -1376,7 +1376,7 @@ class _MeetingsTabState extends State<MeetingsTab> {
                                                 controller: dateController,
                                                 onTap: () async {
                                                   DateTime? pickedDate =
-                                                  await Constants().datePicker(context);
+                                                  await Constants().futureDatePicker(context);
                                                   if (pickedDate != null) {
                                                     setStat(() {
                                                       dateController.text = formatter.format(pickedDate);

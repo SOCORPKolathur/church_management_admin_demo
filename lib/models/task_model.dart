@@ -3,6 +3,7 @@ class TaskModel {
   String? zoneName;
   String? zoneId;
   String? leaderName;
+  String? leaderPhone;
   String? taskName;
   String? taskDescription;
   String? taskDueDate;
@@ -18,6 +19,7 @@ class TaskModel {
       {this.zoneName,
         this.zoneId,
         this.leaderName,
+        this.leaderPhone,
         this.taskName,
         this.taskDescription,
         this.taskDueDate,
@@ -35,6 +37,7 @@ class TaskModel {
     zoneName = json['zoneName'];
     zoneId = json['zoneId'];
     leaderName = json['leaderName'];
+    leaderPhone = json['leaderPhone'];
     submittedTime = json['submittedTime'];
     submittedDate = json['submittedDate'];
     taskName = json['taskName'];
@@ -52,6 +55,7 @@ class TaskModel {
     data['id'] = this.id;
     data['zoneName'] = this.zoneName;
     data['leaderName'] = this.leaderName;
+    data['leaderPhone'] = this.leaderPhone;
     data['submittedTime'] = this.submittedTime;
     data['submittedDate'] = this.submittedDate;
     data['zoneId'] = this.zoneId;

@@ -31,6 +31,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
   TextEditingController taskDescriptionController = TextEditingController();
   TextEditingController taskDueDateController = TextEditingController();
   TextEditingController leaderNameController = TextEditingController();
+  TextEditingController leaderPhoneController = TextEditingController();
   TextEditingController searchZoneIdController = TextEditingController();
   TextEditingController searchZoneNameController = TextEditingController(text: 'Select Zone');
 
@@ -41,13 +42,17 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
   String currentTab = 'View';
   List<ZoneModel> zonesList = [];
 
+  List leaderName = [];
+
   @override
   void initState() {
     getZones();
+    getZonesLeaders();
     _tabController = TabController(length: 2, vsync: this);
     _tooltipBehavior = sfc.TooltipBehavior(enable: true);
     super.initState();
   }
+
 
   getZones() async {
     zonesList.clear();
@@ -61,10 +66,20 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
         leaderName: '',
       )
     );
-    var zonesDoc = await FirebaseFirestore.instance.collection('Zones').get();
+    var zonesDoc = await FirebaseFirestore.instance.collection('Zones').orderBy("timestamp").get();
     for(int i=0; i< zonesDoc.docs.length; i++){
       setState(() {
         zonesList.add(ZoneModel.fromJson(zonesDoc.docs[i].data()));
+      });
+    }
+  }
+
+  getZonesLeaders() async {
+    leaderName.clear();
+    var zonesDoc = await FirebaseFirestore.instance.collection('Zones').orderBy("timestamp",descending: true).get();
+    for(int i=0; i< zonesDoc.docs.length; i++) {
+      setState(() {
+        leaderName.add(zonesDoc.docs[i]["leaderName"]);
       });
     }
   }
@@ -77,6 +92,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
        taskDescriptionController.text = "";
        taskDueDateController.text = "";
        leaderNameController.text = "";
+       leaderPhoneController.text = "";
        searchZoneIdController.text = "";
        searchZoneNameController.text = 'Select Zone';
     });
@@ -243,6 +259,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                                 if(zonesList[i].zoneName!.toLowerCase() == zoneNameController.text.toLowerCase()){
                                                   zoneIdController.text = zonesList[i].zoneId!;
                                                   leaderNameController.text = zonesList[i].leaderName!;
+                                                  leaderPhoneController.text = zonesList[i].leaderPhone!;
                                                 }
                                               }
                                             }
@@ -383,7 +400,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                             border: InputBorder.none
                                         ),
                                         onTap: () async {
-                                          DateTime? pickedDate = await Constants().datePicker(context);
+                                          DateTime? pickedDate = await Constants().futureDatePicker(context);
                                           if (pickedDate != null) {
                                             setState(() {
                                               taskDueDateController.text = DateFormat('dd-MM-yyyy').format(pickedDate);
@@ -414,6 +431,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                           zoneName: zoneNameController.text,
                                           id: '',
                                           leaderName: leaderNameController.text,
+                                          leaderPhone: leaderPhoneController.text,
                                           submittedDate: '',
                                           submittedTime: '',
                                           timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -532,65 +550,68 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                           ),
                                           sectionsSpace: 0,
                                           centerSpaceRadius: 50,
-                                          sections: showingSections(),
+                                          sections: showingSections(snapshot.data!.pieChartModelList),
                                         ),
                                       ),
                                     ),
                                     Container(
                                       width: 230,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Indicator(
-                                            color: Colors.blue,
-                                            text: 'Users',
-                                            isSquare: true,
-                                          ),
-                                          SizedBox(
-                                            height: 4,
-                                          ),
-                                          Indicator(
-                                            color: Colors.red,
-                                            text: 'Members',
-                                            isSquare: true,
-                                          ),
-                                          SizedBox(
-                                            height: 4,
-                                          ),
-                                          Indicator(
-                                            color: Colors.green,
-                                            text: 'Students',
-                                            isSquare: true,
-                                          ),
-                                          SizedBox(
-                                            height: 4,
-                                          ),
-                                          Indicator(
-                                            color: Colors.orange,
-                                            text: 'Pastors',
-                                            isSquare: true,
-                                          ),
-                                          SizedBox(
-                                            height: 4,
-                                          ),
-                                          Indicator(
-                                            color: Colors.pink,
-                                            text: 'Church Staffs',
-                                            isSquare: true,
-                                          ),
-                                          SizedBox(
-                                            height: 4,
-                                          ),
-                                          Indicator(
-                                            color: Colors.deepPurple,
-                                            text: 'Choir Members',
-                                            isSquare: true,
-                                          ),
-                                          SizedBox(
-                                            height: 18,
-                                          ),
-                                        ],
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: snapshot.data!.pieChartModelList.map((e) => Indicator(color: e.color,text: e.name,isSquare: true)).toList(),
+                                          // children: <Widget>[
+                                          //   Indicator(
+                                          //     color: Colors.blue,
+                                          //     text: 'Users',
+                                          //     isSquare: true,
+                                          //   ),
+                                          //   SizedBox(
+                                          //     height: 4,
+                                          //   ),
+                                          //   Indicator(
+                                          //     color: Colors.red,
+                                          //     text: 'Members',
+                                          //     isSquare: true,
+                                          //   ),
+                                          //   SizedBox(
+                                          //     height: 4,
+                                          //   ),
+                                          //   Indicator(
+                                          //     color: Colors.green,
+                                          //     text: 'Students',
+                                          //     isSquare: true,
+                                          //   ),
+                                          //   SizedBox(
+                                          //     height: 4,
+                                          //   ),
+                                          //   Indicator(
+                                          //     color: Colors.orange,
+                                          //     text: 'Pastors',
+                                          //     isSquare: true,
+                                          //   ),
+                                          //   SizedBox(
+                                          //     height: 4,
+                                          //   ),
+                                          //   Indicator(
+                                          //     color: Colors.pink,
+                                          //     text: 'Church Staffs',
+                                          //     isSquare: true,
+                                          //   ),
+                                          //   SizedBox(
+                                          //     height: 4,
+                                          //   ),
+                                          //   Indicator(
+                                          //     color: Colors.deepPurple,
+                                          //     text: 'Choir Members',
+                                          //     isSquare: true,
+                                          //   ),
+                                          //   SizedBox(
+                                          //     height: 18,
+                                          //   ),
+                                          // ],
+                                        ),
                                       ),
                                     ),
 
@@ -602,7 +623,6 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                   width: 450,
                                   child: Container(
                                     height: 250,
-                                    width: 850,
                                     child: sfc.SfCartesianChart(
                                         primaryXAxis: sfc.CategoryAxis(),
                                         title: sfc.ChartTitle(
@@ -618,14 +638,14 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                         series: <sfc.LineSeries<SalesData1, String>>[
                                           sfc.LineSeries<SalesData1, String>(
                                             name: "",
-                                            dataSource: [],
+                                            dataSource: snapshot.data!.graphModelList,
                                             xValueMapper: (SalesData1 sales, _) => sales.year,
                                             yValueMapper: (SalesData1 sales, _) => sales.sales,
                                             // Enable data label
                                             dataLabelSettings: sfc.DataLabelSettings(isVisible: true),
                                             color: Constants().primaryAppColor,
                                             width: 5,
-                                            animationDuration: 2000,
+                                            animationDuration: 3000,
                                           )
                                         ]
                                     ),
@@ -649,7 +669,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                     sfc.SfCartesianChart(
                                         primaryXAxis: sfc.CategoryAxis(),
                                         title: sfc.ChartTitle(
-                                            text: '   Membership Reports',
+                                            text: 'Graphical View',
                                             textStyle: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black,
@@ -698,11 +718,18 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                           ),
                           Expanded(
                             child: ListView.builder(
-                              itemCount: 3,
+                              itemCount: leaderName.length,
                               itemBuilder: (ctx, i){
                                 return Card(
                                   child: ListTile(
-                                    title: Text("$i"),
+                                    leading: Text("${i + 1}", style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),),
+                                    title: Text(leaderName[i], style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.w700,
+                                    ),),
                                   ),
                                 );
                               },
@@ -2064,6 +2091,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                               for(int i=0; i< zonesList.length; i++){
                                                 if(zonesList[i].zoneName!.toLowerCase() == zoneNameController.text.toLowerCase()){
                                                   zoneIdController.text = zonesList[i].zoneId!;
+                                                  leaderPhoneController.text = zonesList[i].leaderPhone!;
                                                   leaderNameController.text = zonesList[i].leaderName!;
                                                 }
                                               }
@@ -2236,6 +2264,7 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
                                             zoneName: zoneNameController.text,
                                             id: task.id,
                                             leaderName: leaderNameController.text,
+                                            leaderPhone: leaderPhoneController.text,
                                             submittedDate: '',
                                             submittedTime: '',
                                             timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -2322,118 +2351,82 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
   }
 
   Future<GraphModel> getGraphData() async {
+
+    List<PieChartModel> dataList = [];
+    List<SalesData1> dataList1 = [];
+
+
+    var zoneDoc = await FirebaseFirestore.instance.collection('Zones').orderBy("timestamp").get();
+
+    for(int z = 0; z < zoneDoc.docs.length; z++){
+      var taskDoc = await FirebaseFirestore.instance.collection('Tasks').where("zoneId", isEqualTo: zoneDoc.docs[z].get("zoneId")).get();
+      List<DocumentSnapshot> pendingTasks = [];
+      List<DocumentSnapshot> completedTasks = [];
+      PieChartModel piechart =  PieChartModel(
+        pendingTasks: pendingTasks,
+        completedTasks: completedTasks,
+        color: Constants.colorsList[z],
+        name: zoneDoc.docs[z].get("zoneName")
+      );
+      SalesData1 graph = SalesData1(zoneDoc.docs[z].get("zoneName"), 0.0);
+
+      for(int t = 0; t < taskDoc.docs.length; t++){
+        if(taskDoc.docs[t].get("status").toString().toLowerCase() == "pending"){
+          pendingTasks.add(taskDoc.docs[t]);
+        }
+        if(taskDoc.docs[t].get("status").toString().toLowerCase() == "completed"){
+          completedTasks.add(taskDoc.docs[t]);
+          graph.sales++;
+        }
+      }
+
+
+      dataList.add(piechart);
+      dataList1.add(graph);
+    }
+
     GraphModel graph = GraphModel(
-        pieChartModelList: [
-          PieChartModel(
-            name: 'Zone 1',
-            color: Colors.red,
-          ),
-          PieChartModel(
-            name: 'Zone 2',
-            color: Colors.blue,
-          )
-        ]
+      pieChartModelList: dataList,
+        graphModelList: dataList1,
+        // pieChartModelList: [
+        //   PieChartModel(
+        //     name: 'Zone 1',
+        //     color: Colors.red,
+        //     completedTasks: [],
+        //     pendingTasks: [],
+        //   ),
+        //   PieChartModel(
+        //     name: 'Zone 2',
+        //     color: Colors.blue,
+        //     completedTasks: [],
+        //     pendingTasks: [],
+        //   )
+        // ]
     );
     return graph;
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(List<PieChartModel> pieChartDatas) {
 
-    int totalUsersCount = 50;
-    int usersCount = 10;
-    int membersCount = 30;
-    int studentsCount = 2;
-    int pastorsCount = 2;
-    int churchStaffsCount = 2;
-    int choirsCount = 4;
+    int totalTasksCount = 0;
+    for(int d = 0; d < pieChartDatas.length; d++){
+      totalTasksCount += pieChartDatas[d].completedTasks.length;
+    }
 
-
-    return List.generate(6, (i) {
+    return List.generate(pieChartDatas.length, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 16.0 : 10.0;
       final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [
-        Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-
-        case 0:
-          return PieChartSectionData(
-            color: Colors.blue,
-            value: (usersCount / totalUsersCount *100),
-            title: '${(usersCount/totalUsersCount *100).toStringAsFixed(2)}%',
-            radius: radius,
-            titleStyle:  GoogleFonts.poppins(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-              //color: AppColors.mainTextColor1,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.red,
-            value: (membersCount / totalUsersCount *100),
-            title: '${(membersCount/totalUsersCount *100).toStringAsFixed(2)}%',
-            radius: radius,
-            titleStyle:  GoogleFonts.poppins(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-              //color: AppColors.mainTextColor1,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: Colors.green,
-            value: (studentsCount / totalUsersCount *100),
-            title: '${(studentsCount/totalUsersCount *100).toStringAsFixed(2)}%',
-            radius: radius,
-            titleStyle:  GoogleFonts.poppins(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-              //color: AppColors.mainTextColor1,
-
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: Colors.orange,
-            value: (pastorsCount / totalUsersCount *100),
-            title: '${(pastorsCount / totalUsersCount *100).toStringAsFixed(2)}%',
-            radius: radius,
-            titleStyle:  GoogleFonts.poppins(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-              //color: AppColors.mainTextColor1,
-
-            ),
-          );
-        case 4:
-          return PieChartSectionData(
-            color: Colors.pink,
-            value: (churchStaffsCount / totalUsersCount *100),
-            title: '${(churchStaffsCount / totalUsersCount *100).toStringAsFixed(2)}%',
-            radius: radius,
-            titleStyle:  GoogleFonts.poppins(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-              //color: AppColors.mainTextColor1,
-
-            ),
-          );
-        case 5:
-          return PieChartSectionData(
-            color: Colors.deepPurple,
-            value: (choirsCount / totalUsersCount *100),
-            title: '${(choirsCount / totalUsersCount *100).toStringAsFixed(2)}%',
-            radius: radius,
-            titleStyle:  GoogleFonts.poppins(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-              //color: AppColors.mainTextColor1,
-            ),
-          );
-        default:
-          throw Error();
-      }
+      return PieChartSectionData(
+                color: pieChartDatas[i].color,
+                value: (pieChartDatas[i].completedTasks.length / totalTasksCount *100),
+                title: '${(pieChartDatas[i].completedTasks.length/totalTasksCount *100).toStringAsFixed(2)}%',
+                radius: radius,
+                titleStyle:  GoogleFonts.poppins(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w700,
+                ),
+      );
     });
   }
 
@@ -2475,24 +2468,25 @@ class _ZoneReportsViewState extends State<ZoneReportsView> with SingleTickerProv
 
 
 class GraphModel{
-  GraphModel({required this.pieChartModelList});
+  GraphModel({required this.pieChartModelList, required this.graphModelList});
   List<PieChartModel> pieChartModelList;
+  List<SalesData1> graphModelList;
 
 }
 
 
 class PieChartModel{
-  PieChartModel({required this.color,required this.name});
+  PieChartModel({required this.color,required this.name, required this.completedTasks, required this.pendingTasks});
   Color color;
   String name;
+  List<DocumentSnapshot> completedTasks;
+  List<DocumentSnapshot> pendingTasks;
 }
 
 
 class SalesData1 {
-  SalesData1(this.year, this.sales,this.absentDay, this.presentDay);
+  SalesData1(this.year, this.sales);
 
   final String year;
   late double sales;
-  final String absentDay;
-  final String presentDay;
 }

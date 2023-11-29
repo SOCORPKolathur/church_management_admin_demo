@@ -5,6 +5,7 @@ import 'package:church_management_admin/models/zone_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../models/members_model.dart';
 import '../models/response.dart';
 import '../models/task_model.dart';
 
@@ -71,7 +72,9 @@ class ZonalActivitiesFireCrud {
         required String zoneName,
         required String zoneId,
         required String leaderName,
+        required String leaderPhone,
         required List<String> areas,
+        required List<MembersModel> supportersList,
       }) async {
     Response response = Response();
     DocumentReference documentReferencer = ZoneCollection.doc();
@@ -80,7 +83,9 @@ class ZonalActivitiesFireCrud {
       id: documentReferencer.id,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       areas: areas,
+      supporters: supportersList,
       leaderName: leaderName,
+      leaderPhone: leaderPhone,
       zoneId: zoneId,
       zoneName: zoneName,
     );
@@ -147,6 +152,7 @@ class ZonalActivitiesFireCrud {
       zoneName: task.zoneName,
       zoneId: task.zoneId,
       leaderName: task.leaderName,
+      leaderPhone: task.leaderPhone,
       submittedDate: task.submittedDate,
       submittedTime: task.submittedTime,
     );

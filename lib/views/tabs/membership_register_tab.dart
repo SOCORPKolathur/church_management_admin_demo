@@ -107,6 +107,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
         }
     }
   }
+
   getMemberByName() async {
     var document = await cf.FirebaseFirestore.instance.collection("Members").get();
     for(int i=0;i<document.docs.length;i++){

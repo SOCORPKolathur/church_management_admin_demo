@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
 import 'package:church_management_admin/models/response.dart';
 import 'package:church_management_admin/services/greeting_firecrud.dart';
@@ -22,7 +23,18 @@ class LoginReportsTab extends StatefulWidget {
   State<LoginReportsTab> createState() => _LoginReportsTabState();
 }
 
-class _LoginReportsTabState extends State<LoginReportsTab> {
+class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProviderStateMixin  {
+
+  TabController? _tabController;
+  int currentTabIndex = 0;
+  
+  List<DocumentSnapshot> todayReports = [];
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
 
 
   @override
@@ -53,6 +65,12 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                 stream: FirebaseFirestore.instance.collection('LoginReports').orderBy('timestamp',descending: true).snapshots(),
                 builder: (ctx, snap){
                   if(snap.hasData){
+                    todayReports.clear();
+                    snap.data!.docs.forEach((element) { 
+                      if(element.get("date") == DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()){
+                        todayReports.add(element);
+                      }
+                    });
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Material(
@@ -61,7 +79,8 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                         child: Column(
                           children: [
                             Container(
-                              height: height/13.02,
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              height: height/10.85,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Constants().primaryAppColor,
@@ -69,6 +88,69 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                                   topRight: Radius.circular(10),
                                   topLeft: Radius.circular(10),
                                 ),
+                              ),
+                              child: TabBar(
+                                onTap: (int index) {
+                                  setState(() {
+                                    currentTabIndex = index;
+                                  });
+                                },
+                                labelPadding:
+                                const EdgeInsets.symmetric(horizontal: 8),
+                                splashBorderRadius: BorderRadius.circular(30),
+                                automaticIndicatorColorAdjustment: true,
+                                dividerColor: Colors.transparent,
+                                controller: _tabController,
+                                indicator: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                labelColor: Colors.black,
+                                tabs: [
+                                  Tab(
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                      child: Text(
+                                        "Overall Reports",
+                                        style: GoogleFonts.openSans(
+                                          color: currentTabIndex == 0
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: width/97.57142857142857,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Tab(
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                      child: Text(
+                                        "Today Reports",
+                                        style: GoogleFonts.openSans(
+                                          color: currentTabIndex == 1
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: width/97.57142857142857,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: height/13.02,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Constants().primaryAppColor,
+                                // borderRadius: const BorderRadius.only(
+                                //   topRight: Radius.circular(10),
+                                //   topLeft: Radius.circular(10),
+                                // ),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
@@ -156,104 +238,215 @@ class _LoginReportsTabState extends State<LoginReportsTab> {
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                ),
-                                child: ListView.builder(
-                                  itemCount: snap.data!.docs.length,
-                                  itemBuilder: (ctx , i){
-                                    var data = snap.data!.docs[i];
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                      child: Container(
-                                        height: height/13.02,
-                                        width: double.infinity,
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: width/17.075,
-                                              child: Text(
-                                                (i+1).toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width/9.106666667,
-                                              child: Text(
-                                                data.get("deviceOs"),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width/6.83,
-                                              child: Text(
-                                                data.get("deviceId"),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width/6.83,
-                                              child: Text(
-                                                data.get("ip"),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width/7.588888889,
-                                              child: Text(
-                                                data.get("location").toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width/9.106666667,
-                                              child: Text(
-                                                data.get("date").toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width/17.075,
-                                              child: Text(
-                                                data.get("time").toString(),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: width/85.375,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                              child: TabBarView(
+                                dragStartBehavior: DragStartBehavior.down,
+                                physics: const NeverScrollableScrollPhysics(),
+                                controller: _tabController,
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                    child: ListView.builder(
+                                      itemCount: snap.data!.docs.length,
+                                      itemBuilder: (ctx , i){
+                                        var data = snap.data!.docs[i];
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          child: Container(
+                                            height: height/13.02,
+                                            width: double.infinity,
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: width/17.075,
+                                                  child: Text(
+                                                    (i+1).toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.normal,
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106666667,
+                                                  child: Text(
+                                                    data.get("deviceOs"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: Text(
+                                                    data.get("deviceId"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 12.0),
+                                                    child: Text(
+                                                      data.get("ip"),
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: width/85.375,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/7.588888889,
+                                                  child: Text(
+                                                    data.get("location").toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106666667,
+                                                  child: Text(
+                                                    data.get("date").toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/17.075,
+                                                  child: Text(
+                                                    data.get("time").toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: ListView.builder(
+                                      itemCount: todayReports.length,
+                                      itemBuilder: (ctx , i){
+                                        var data = todayReports[i];
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          child: Container(
+                                            height: height/13.02,
+                                            width: double.infinity,
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: width/17.075,
+                                                  child: Text(
+                                                    (i+1).toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.normal,
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106666667,
+                                                  child: Text(
+                                                    data.get("deviceOs"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: Text(
+                                                    data.get("deviceId"),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/6.83,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 12.0),
+                                                    child: Text(
+                                                      data.get("ip"),
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: width/85.375,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/7.588888889,
+                                                  child: Text(
+                                                    data.get("location").toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/9.106666667,
+                                                  child: Text(
+                                                    data.get("date").toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: width/17.075,
+                                                  child: Text(
+                                                    data.get("time").toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width/85.375,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
+                            ),
+
                           ],
                         ),
                       ),

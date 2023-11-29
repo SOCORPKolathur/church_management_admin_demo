@@ -1,60 +1,63 @@
-import 'package:church_management_admin/models/church_details_model.dart';
-import 'package:church_management_admin/models/manage_role_model.dart';
-import 'package:church_management_admin/services/church_details_firecrud.dart';
-import 'package:church_management_admin/services/role_permission_firecrud.dart';
-import 'package:church_management_admin/views/tabs/attendance_record_tab.dart';
-import 'package:church_management_admin/views/tabs/blood_requirement_tab.dart';
-import 'package:church_management_admin/views/tabs/bolg_tab.dart';
-import 'package:church_management_admin/views/tabs/chrous_tab.dart';
-import 'package:church_management_admin/views/tabs/church_staff_tab.dart';
-import 'package:church_management_admin/views/tabs/clans_tab.dart';
-import 'package:church_management_admin/views/tabs/com_notifications_tab.dart';
-import 'package:church_management_admin/views/tabs/committee_tab.dart';
-import 'package:church_management_admin/views/tabs/dashboard_tab.dart';
-import 'package:church_management_admin/views/tabs/department_tab.dart';
-import 'package:church_management_admin/views/tabs/email_communication_tab.dart';
-import 'package:church_management_admin/views/tabs/family_tab.dart';
-import 'package:church_management_admin/views/tabs/login_reports_tab.dart';
-import 'package:church_management_admin/views/tabs/manager_role_tab.dart';
-import 'package:church_management_admin/views/tabs/meeting_tab.dart';
-import 'package:church_management_admin/views/tabs/members_tab.dart';
-import 'package:church_management_admin/views/tabs/membership_register_tab.dart';
-import 'package:church_management_admin/views/tabs/membership_reports_tab.dart';
-import 'package:church_management_admin/views/tabs/notice_tab.dart';
-import 'package:church_management_admin/views/tabs/orders_tab.dart';
-import 'package:church_management_admin/views/tabs/pastors_tab.dart';
-import 'package:church_management_admin/views/tabs/prayers_tab.dart';
-import 'package:church_management_admin/views/tabs/product_tab.dart';
-import 'package:church_management_admin/views/tabs/memorial_days_tab.dart';
-import 'package:church_management_admin/views/tabs/reports_view.dart';
-import 'package:church_management_admin/views/tabs/sms_communication_tab.dart';
-import 'package:church_management_admin/views/tabs/speech_tab.dart';
-import 'package:church_management_admin/views/tabs/student_tab.dart';
-import 'package:church_management_admin/views/tabs/testimonials_tab.dart';
-import 'package:church_management_admin/views/tabs/user_tab.dart';
-import 'package:church_management_admin/views/tabs/website_socialmedia_tab.dart';
-import 'package:church_management_admin/views/tabs/zone_areas.dart';
-import 'package:church_management_admin/views/tabs/zone_reports_view.dart';
-import 'package:church_management_admin/views/tabs/zones_list_view.dart';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:local_session_timeout/local_session_timeout.dart';
 import '../../constants.dart';
+import '../../models/church_details_model.dart';
 import '../../models/drawer_model.dart';
+import '../../models/manage_role_model.dart';
+import '../../services/church_details_firecrud.dart';
+import '../../services/role_permission_firecrud.dart';
 import '../../widgets/kText.dart';
 import 'asset_management_tab.dart';
 import 'attendance_for_family_tab.dart';
+import 'attendance_record_tab.dart';
+import 'blood_requirement_tab.dart';
+import 'bolg_tab.dart';
+import 'chrous_tab.dart';
+import 'church_staff_tab.dart';
+import 'clans_tab.dart';
+import 'com_notifications_tab.dart';
+import 'committee_tab.dart';
+import 'dashboard_tab.dart';
+import 'department_tab.dart';
 import 'donations_tab.dart';
+import 'email_communication_tab.dart';
 import 'events_tab.dart';
+import 'family_tab.dart';
 import 'fund_management_tab.dart';
 import 'gallery_tab.dart';
 import 'greetings_tab.dart';
+import 'login_reports_tab.dart';
+import 'manager_role_tab.dart';
+import 'meeting_tab.dart';
+import 'members_tab.dart';
+import 'membership_register_tab.dart';
+import 'membership_reports_tab.dart';
+import 'memorial_days_tab.dart';
+import 'notice_tab.dart';
+import 'orders_tab.dart';
+import 'pastors_tab.dart';
+import 'prayers_tab.dart';
+import 'product_tab.dart';
+import 'reports_view.dart';
+import 'sms_communication_tab.dart';
+import 'speech_tab.dart';
+import 'student_tab.dart';
+import 'testimonials_tab.dart';
+import 'user_tab.dart';
+import 'website_socialmedia_tab.dart';
+import 'zone_areas.dart';
+import 'zone_reports_view.dart';
+import 'zones_list_view.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({super.key, required this.currentRole});
+  HomeView({super.key, required this.currentRole,required this.sessionStateStream,});
 
   String currentRole;
+  final StreamController<SessionState> sessionStateStream;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -66,307 +69,7 @@ class _HomeViewState extends State<HomeView> {
   int expandedIndex = 100;
   bool isFetched = false;
   List<DrawerModel> drawerItems = [];
-  List<DrawerModel> drawerItems1 = [
-    DrawerModel(
-        name: "Dashboard",
-        icon: Icons.dashboard,
-        page:  DashBoardTab(currentRole: 'Admin@gmail.com'),
-        isExpanded: false,
-        children: []
-    ),
-    DrawerModel(
-      name: "User",
-      page:  UserTab(),
-      icon: Icons.person_pin,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Members",
-      icon: Icons.family_restroom_sharp,
-      page:  MembersTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Families",
-      icon: Icons.group,
-      page:  FamilyTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Little Flocks",
-      page:  ClansTab(),
-      icon: Icons.class_,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Student",
-      page:  StudentTab(),
-      icon: Icons.person,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Committee",
-      icon: Icons.groups,
-      page:  CommitteeTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Pastors",
-      icon: Icons.person_pin_outlined,
-      isExpanded: false,
-      page:  PastorsTab(),
-      children: [],
-    ),
-    DrawerModel(
-      name: "Church Staff",
-      page:  ChurchStaffTab(),
-      icon: Icons.person_pin_outlined,
-      isExpanded: false,
-      children: [],
-    ),
-    // DrawerModel(
-    //   name: "Choir",
-    //   page:  ChorusTab(),
-    //   icon: Icons.music_video,
-    //   isExpanded: false,
-    //   children: [],
-    // ),
-    DrawerModel(
-      name: "Department",
-      icon: Icons.account_tree,
-      page:  DepartmentTab(),
-      isExpanded: false,
-      children: [],
-    ),
-
-    DrawerModel(
-      name: "Membership",
-      icon: Icons.card_membership,
-      isExpanded: false,
-      children: [
-        DrawerChildren(
-          name: 'Membership Reports',
-          icon: Icons.add,
-          page: const MembershipReportsTab(),
-        ),
-        DrawerChildren(
-          name: 'Membership Register',
-          icon: Icons.add,
-          page: const MembershipRegisterTab(),
-        ),
-        // DrawerChildren(
-        //   name: 'Membership Master',
-        //   page: const MembershipMasterTab(),
-        //   icon: Icons.add,
-        // )
-      ],
-    ),
-    DrawerModel(
-      name: "Finance",
-      icon: Icons.attach_money,
-      isExpanded: false,
-      children: [
-        DrawerChildren(
-            name: 'Fund Management',
-            icon: Icons.add,
-            page:  FundManagementTab(),
-        ),
-        DrawerChildren(
-          name: 'Donations',
-          icon: Icons.add,
-          page:  DonationsTab(),
-        ),
-        DrawerChildren(
-          name: 'Asset Management',
-          page:  AssetManagementTab(),
-          icon: Icons.add,
-        )
-      ],
-    ),
-    DrawerModel(
-      name: "Wishes",
-      icon: Icons.cake,
-      page: const GreetingsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Memorial  Days",
-      icon: Icons.date_range,
-      page: const RememberDaysTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Speech",
-      icon: CupertinoIcons.speaker_2_fill,
-      page:  SpeechTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Testimonials",
-      icon: Icons.person_rounded,
-      page: const TestimonialsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Prayers",
-      icon: Icons.person_rounded,
-      page: const PrayersTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Gallery",
-      icon: CupertinoIcons.photo,
-      page:  GalleryTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Meetings",
-      icon: Icons.date_range,
-      page: const MeetingsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Event Management",
-      icon: Icons.notifications_on_sharp,
-      page:  EventsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Announcements",
-      icon: CupertinoIcons.square_list_fill,
-      page:  NoticesTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Communication",
-      icon: Icons.message,
-      isExpanded: false,
-      children: [
-        DrawerChildren(
-          name: 'SMS Communication',
-          page:  SmsCommunicationTab(),
-          icon: Icons.add,
-        ),
-        DrawerChildren(
-          name: 'Email Communication',
-          page:  EmailCommunictionTab(),
-          icon: Icons.add,
-        ),
-        DrawerChildren(
-          name: 'Notifications',
-          page:  ComNotificationsTab(),
-          icon: Icons.add,
-        ),
-      ],
-    ),
-    DrawerModel(
-      name: "Blog",
-      page: const BlogTab(),
-      icon: Icons.web,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Social Media",
-      page: const WebsiteAndSocialMediaTab(),
-      icon: Icons.web_rounded,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Manage Role",
-      page: ManagerRoleTab(currentRole: 'Admin@gmail.com'),
-      icon: Icons.remove_from_queue,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Member Attendance",
-      page: const AttendanceFamilyTab(),
-      icon: Icons.insert_drive_file_sharp,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Student Attendance",
-      page: const AttendanceRecordTab(),
-      icon: Icons.insert_drive_file_sharp,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Blood Requirement",
-      icon: Icons.bloodtype,
-      page:  BloodRequirementTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Zone Activities",
-      icon: Icons.public,
-      isExpanded: false,
-      children: [
-        DrawerChildren(
-          name: 'Zone Areas',
-         page: const Zone_Areas(),
-          icon: Icons.people,
-        ),
-        DrawerChildren(
-          name: 'Zone List',
-          page: const ZonesListView(),
-          icon: Icons.list,
-        ),
-        DrawerChildren(
-          name: 'Zone Reports',
-          page: const ZoneReportsView(),
-          icon: Icons.bar_chart,
-        ),
-      ],
-    ),
-    DrawerModel(
-      name: "Reports",
-      icon: Icons.bar_chart,
-      page: const ReportsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Login Reports",
-      icon: Icons.login,
-      page: const LoginReportsTab(),
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Product",
-      page: const ProductTab(),
-      icon: Icons.shopping_bag,
-      isExpanded: false,
-      children: [],
-    ),
-    DrawerModel(
-      name: "Orders",
-      page: const OrdersTab(),
-      icon: Icons.shopping_cart_rounded,
-      isExpanded: false,
-      children: [],
-    )
-  ];
+  List<DrawerModel> drawerItems1 = [];
   String churchLogo = '';
   getChurchDetails() async {
     var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
@@ -384,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
                 drawerItems.add(DrawerModel(
                     name: "Dashboard",
                     icon: Icons.dashboard,
-                    page: DashBoardTab(currentRole: widget.currentRole),
+                    page: DashBoardTab(currentRole: widget.currentRole,sessionStateStream: widget.sessionStateStream),
                     isExpanded: false,
                     children: []));
                 break;
@@ -657,7 +360,309 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    widget.sessionStateStream.add(SessionState.startListening);
     var size = MediaQuery.of(context).size;
+    drawerItems1 = [
+      DrawerModel(
+          name: "Dashboard",
+          icon: Icons.dashboard,
+          page:  DashBoardTab(currentRole: 'Admin@gmail.com',sessionStateStream: widget.sessionStateStream),
+          isExpanded: false,
+          children: []
+      ),
+      DrawerModel(
+        name: "User",
+        page:  UserTab(),
+        icon: Icons.person_pin,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Members",
+        icon: Icons.family_restroom_sharp,
+        page:  MembersTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Families",
+        icon: Icons.group,
+        page:  FamilyTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Little Flocks",
+        page:  ClansTab(),
+        icon: Icons.class_,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Student",
+        page:  StudentTab(),
+        icon: Icons.person,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Committee",
+        icon: Icons.groups,
+        page:  CommitteeTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Pastors",
+        icon: Icons.person_pin_outlined,
+        isExpanded: false,
+        page:  PastorsTab(),
+        children: [],
+      ),
+      DrawerModel(
+        name: "Church Staff",
+        page:  ChurchStaffTab(),
+        icon: Icons.person_pin_outlined,
+        isExpanded: false,
+        children: [],
+      ),
+      // DrawerModel(
+      //   name: "Choir",
+      //   page:  ChorusTab(),
+      //   icon: Icons.music_video,
+      //   isExpanded: false,
+      //   children: [],
+      // ),
+      DrawerModel(
+        name: "Department",
+        icon: Icons.account_tree,
+        page:  DepartmentTab(),
+        isExpanded: false,
+        children: [],
+      ),
+
+      DrawerModel(
+        name: "Membership",
+        icon: Icons.card_membership,
+        isExpanded: false,
+        children: [
+          DrawerChildren(
+            name: 'Membership Reports',
+            icon: Icons.add,
+            page: const MembershipReportsTab(),
+          ),
+          DrawerChildren(
+            name: 'Membership Register',
+            icon: Icons.add,
+            page: const MembershipRegisterTab(),
+          ),
+          // DrawerChildren(
+          //   name: 'Membership Master',
+          //   page: const MembershipMasterTab(),
+          //   icon: Icons.add,
+          // )
+        ],
+      ),
+      DrawerModel(
+        name: "Finance",
+        icon: Icons.attach_money,
+        isExpanded: false,
+        children: [
+          DrawerChildren(
+            name: 'Fund Management',
+            icon: Icons.add,
+            page:  FundManagementTab(),
+          ),
+          DrawerChildren(
+            name: 'Donations',
+            icon: Icons.add,
+            page:  DonationsTab(),
+          ),
+          DrawerChildren(
+            name: 'Asset Management',
+            page:  AssetManagementTab(),
+            icon: Icons.add,
+          )
+        ],
+      ),
+      DrawerModel(
+        name: "Wishes",
+        icon: Icons.cake,
+        page: const GreetingsTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Memorial  Days",
+        icon: Icons.date_range,
+        page: const RememberDaysTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Speech",
+        icon: CupertinoIcons.speaker_2_fill,
+        page:  SpeechTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Testimonials",
+        icon: Icons.person_rounded,
+        page: const TestimonialsTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Prayers",
+        icon: Icons.person_rounded,
+        page: const PrayersTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Gallery",
+        icon: CupertinoIcons.photo,
+        page:  GalleryTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Meetings",
+        icon: Icons.date_range,
+        page: const MeetingsTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Event Management",
+        icon: Icons.notifications_on_sharp,
+        page:  EventsTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Announcements",
+        icon: CupertinoIcons.square_list_fill,
+        page:  NoticesTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Communication",
+        icon: Icons.message,
+        isExpanded: false,
+        children: [
+          DrawerChildren(
+            name: 'SMS Communication',
+            page:  SmsCommunicationTab(),
+            icon: Icons.add,
+          ),
+          DrawerChildren(
+            name: 'Email Communication',
+            page:  EmailCommunictionTab(),
+            icon: Icons.add,
+          ),
+          DrawerChildren(
+            name: 'Notifications',
+            page:  ComNotificationsTab(),
+            icon: Icons.add,
+          ),
+        ],
+      ),
+      DrawerModel(
+        name: "Blog",
+        page: const BlogTab(),
+        icon: Icons.web,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Social Media",
+        page: const WebsiteAndSocialMediaTab(),
+        icon: Icons.web_rounded,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Manage Role",
+        page: ManagerRoleTab(currentRole: 'Admin@gmail.com'),
+        icon: Icons.remove_from_queue,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Member Attendance",
+        page: const AttendanceFamilyTab(),
+        icon: Icons.insert_drive_file_sharp,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Student Attendance",
+        page: const AttendanceRecordTab(),
+        icon: Icons.insert_drive_file_sharp,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Blood Requirement",
+        icon: Icons.bloodtype,
+        page:  BloodRequirementTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Zone Activities",
+        icon: Icons.public,
+        isExpanded: false,
+        children: [
+          DrawerChildren(
+            name: 'Zone Areas',
+            page: const Zone_Areas(),
+            icon: Icons.people,
+          ),
+          DrawerChildren(
+            name: 'Zone List',
+            page: const ZonesListView(),
+            icon: Icons.list,
+          ),
+          DrawerChildren(
+            name: 'Zone Reports',
+            page: const ZoneReportsView(),
+            icon: Icons.bar_chart,
+          ),
+        ],
+      ),
+      DrawerModel(
+        name: "Reports",
+        icon: Icons.bar_chart,
+        page: const ReportsTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Login Reports",
+        icon: Icons.login,
+        page: const LoginReportsTab(),
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Product",
+        page: const ProductTab(),
+        icon: Icons.shopping_bag,
+        isExpanded: false,
+        children: [],
+      ),
+      DrawerModel(
+        name: "Orders",
+        page: const OrdersTab(),
+        icon: Icons.shopping_cart_rounded,
+        isExpanded: false,
+        children: [],
+      )
+    ];
     if(drawerExpaned){
       containerWidth = size.width * 0.82;
     }else{

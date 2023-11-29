@@ -54,7 +54,7 @@ class _AboutUsTabState extends State<AboutUsTab> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.arrow_back),
+                      child: Icon(Icons.arrow_back,color:Color(0xffb80d38)),
                     ),
                   ),
                   Padding(
@@ -67,7 +67,8 @@ class _AboutUsTabState extends State<AboutUsTab> {
                       style: GoogleFonts.openSans(
                           fontSize: width/37.94,
                           fontWeight: FontWeight.w900,
-                          color: Colors.black),
+                          color: Color(0xffb80d38),
+                      ),
                     ),
                   ),
                 ],
@@ -99,7 +100,10 @@ class _AboutUsTabState extends State<AboutUsTab> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Version",style: GoogleFonts.poppins(
+                                Text(
+                                  //"Version",
+                                  "IKIA",
+                                  style: GoogleFonts.poppins(
                                   color: Color(0xffb80d38),
                                   fontWeight: FontWeight.w600,
                                   fontSize: width/68.3,
@@ -163,9 +167,13 @@ class _AboutUsTabState extends State<AboutUsTab> {
                       width: size.width / 2.5,
                       child: Center(
                         child: Container(
-                          child: Lottie.asset(
-                            height: height/1.302,
-                            "assets/about_us.json",
+                          // child: Lottie.asset(
+                          //   height: height/1.302,
+                          //   "assets/about_us.json",
+                          // ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(1000),
+                            child: Image.asset("assets/Logo F.png"),
                           ),
                         ),
                       )
@@ -174,68 +182,11 @@ class _AboutUsTabState extends State<AboutUsTab> {
                 ),
               ),
               //SizedBox(height: height/65.1),
-              Row(
-                children: [
-                  SizedBox(width: width/34.15),
-                  InkWell(
-                    onTap: () async {
-                      // setState(() {
-                      //   isViewTerms = true;
-                      // });
-                      Navigator.push(context, MaterialPageRoute(builder: (ctx) => const TermsPage()));
-                    },
-                    child: Material(
-                      elevation: 3,
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        width: 300,
-                        decoration: BoxDecoration(
-                            color: Color(0xfffdff8c),
-                            borderRadius: BorderRadius.circular(12),
-                            border:Border.all(color: Constants().primaryAppColor,)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/tandc.png"
-                                            )
-                                        )
-                                    ),
-                                  ),
-                                  SizedBox(width: width/136.6),
-                                  Text(
-                                    "Terms & Conditions",
-                                    style: GoogleFonts.poppins(
-                                      color: Color(0xffb80d38),
-                                      fontSize: width /97.57142857142857,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(height: height/65.1),
               SizedBox(height: height/65.1),
               SizedBox(height: height/65.1),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: width/34.15),
                   Material(
@@ -320,6 +271,64 @@ class _AboutUsTabState extends State<AboutUsTab> {
                       ),
                     ),
                   ),
+                  Row(
+                    children: [
+                      SizedBox(width: width/34.15),
+                      InkWell(
+                        onTap: () async {
+                          // setState(() {
+                          //   isViewTerms = true;
+                          // });
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => const TermsPage()));
+                        },
+                        child: Material(
+                          elevation: 3,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            width: 300,
+                            decoration: BoxDecoration(
+                                color: Color(0xfffdff8c),
+                                borderRadius: BorderRadius.circular(12),
+                                border:Border.all(color: Constants().primaryAppColor,)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/tandc.png"
+                                                )
+                                            )
+                                        ),
+                                      ),
+                                      SizedBox(width: width/136.6),
+                                      Text(
+                                        "Terms & Conditions",
+                                        style: GoogleFonts.poppins(
+                                          color: Color(0xffb80d38),
+                                          fontSize: width /97.57142857142857,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               SizedBox(height: height/65.1),
@@ -338,15 +347,42 @@ class _AboutUsTabState extends State<AboutUsTab> {
                             borderRadius: BorderRadius.circular(12),
                             border:Border.all(color: Constants().primaryAppColor,)
                         ),
-                        child: Center(
-                          child: Text(
-                            "IKIA\nDeveloped By\nAR Digital Solutions @ 2023",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                              color: Color(0xffb80d38),
-                              fontWeight: FontWeight.w700,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 60,
+                              child: Image.asset(
+                                "assets/Untitled-2.png",
+                              ),
                             ),
-                          ),
+                            Center(
+                              child: Text(
+                                "IKIA\nDeveloped By\nAR Digital Solutions @ 2023",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xffb80d38),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "Terms & Conditions",
+                                    style: GoogleFonts.poppins(
+                                      color: Color(0xffb80d38),
+                                      fontSize: width /97.57142857142857,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),

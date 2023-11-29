@@ -1,9 +1,8 @@
+
+import 'dart:async';
 import 'dart:math';
-import 'package:bouncing_draggable_dialog/bouncing_draggable_dialog.dart';
-import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/reports_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
-import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:country_flags/country_flags.dart';
@@ -13,12 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:local_session_timeout/local_session_timeout.dart';
 import 'package:lottie/lottie.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
+import 'package:show_up_animation/show_up_animation.dart' as an;
 import 'package:translator/translator.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/dashboard_model.dart';
 import '../../models/manage_role_model.dart';
@@ -28,26 +27,16 @@ import '../../widgets/developer_card_widget.dart';
 import '../../widgets/event_calender.dart';
 import '../../widgets/kText.dart';
 import '../login_view.dart';
-import 'attendance_for_family_tab.dart';
-import 'chrous_tab.dart';
-import 'church_staff_tab.dart';
-import 'clans_tab.dart';
-import 'committee_tab.dart';
-import 'events_tab.dart';
-import 'family_tab.dart';
-import 'greetings_tab.dart';
-import 'members_tab.dart';
+import 'about_us_tab.dart';
 import 'messages_tab.dart';
-import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
-import 'package:show_up_animation/show_up_animation.dart' as an;
-
-import 'pastors_tab.dart';
-import 'student_tab.dart';
+import 'package:intl/intl.dart';
 
 class DashBoardTab extends StatefulWidget {
-   DashBoardTab({super.key, required this.currentRole});
+   DashBoardTab({super.key, required this.currentRole,required this.sessionStateStream});
 
   final String currentRole;
+   final StreamController<SessionState> sessionStateStream;
+
   @override
   State<DashBoardTab> createState() => _DashBoardTabState();
 }
@@ -440,6 +429,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
 
   @override
   Widget build(BuildContext context) {
+    widget.sessionStateStream.add(SessionState.startListening);
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
     int currentDate = DateTime.now().day;
@@ -600,7 +590,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (ctx) =>
-                                                      const LoginView()));
+                                                       LoginView(sessionStateStream: widget.sessionStateStream)));
                                             },
                                             cancelBtnText: 'Cancel',
                                             showCancelBtn: true,
@@ -1953,19 +1943,19 @@ class _DashBoardTabState extends State<DashBoardTab> {
     ) : Stack(
       alignment: Alignment.topCenter,
       children: [
-        page == "Users" ? UserTab():
-        page == "Committee" ? CommitteeTab():
-        page == "Pastors" ? PastorsTab():
-        page == "Clans" ? ClansTab():
-        page == "Chorus" ? ChorusTab():
-        page == "Staffs" ? ChurchStaffTab():
-        page == "Students" ? StudentTab():
-        page == "Members" ? MembersTab():
-        page == "Families" ? FamilyTab():
-        page == "Birthday" ? GreetingsTab():
-        page == "Members Attendance" ? AttendanceFamilyTab():
-        page == "Events" ? EventsTab():
-        UserTab(),
+        // page == "Users" ? UserTab():
+        // page == "Committee" ? CommitteeTab():
+        // page == "Pastors" ? PastorsTab():
+        // page == "Clans" ? ClansTab():
+        // page == "Chorus" ? ChorusTab():
+        // page == "Staffs" ? ChurchStaffTab():
+        // page == "Students" ? StudentTab():
+        // page == "Members" ? MembersTab():
+        // page == "Families" ? FamilyTab():
+        // page == "Birthday" ? GreetingsTab():
+        // page == "Members Attendance" ? AttendanceFamilyTab():
+        // page == "Events" ? EventsTab():
+        //UserTab(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
