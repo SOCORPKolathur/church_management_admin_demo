@@ -1274,3 +1274,6 @@ class MemberForMembership {
   bool payment;
   DocumentSnapshot member;
 }
+
+
+//////
