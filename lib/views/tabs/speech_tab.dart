@@ -120,9 +120,6 @@ class _SpeechTabState extends State<SpeechTab> {
         });
       }
     }
-    print("Username:$dropdownvalue_username ");
-    print("Userphone:$dropdownvalue_userphone ");
-    print("Userid:$dropdownvalue_userid ");
   }
 
 

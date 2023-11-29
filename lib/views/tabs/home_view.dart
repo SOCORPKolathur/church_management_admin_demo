@@ -373,12 +373,9 @@ class _HomeViewState extends State<HomeView> {
     churchLogo = church.docs.first.get("logo");
   }
   setDrawerItems(List<ManageRoleModel> roles) {
-    print("S2");
     if (drawerItems.isEmpty) {
-      print(roles.length);
       for (int i = 0; i < roles.length; i++) {
         if (widget.currentRole.toUpperCase() == 'ADMIN@GMAIL.COM') {
-          print("S5");
           drawerItems = drawerItems1;
         }else  if (roles[i].role!.toLowerCase() == widget.currentRole.toLowerCase()) {
           for (int j = 0; j < roles[i].permissions!.length; j++) {

@@ -15,6 +15,7 @@ import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:pdf/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
@@ -296,6 +297,8 @@ class _MembersTabState extends State<MembersTab> {
 
   int documentlength =0 ;
   int pagecount =0 ;
+  int totalMembersCount =0 ;
+  int memberRemainder =0 ;
   int temp =1;
   int shift =0;
   List list = new List<int>.generate(10000, (i) => i + 1);
@@ -306,7 +309,9 @@ class _MembersTabState extends State<MembersTab> {
   getTotalMembers() async {
     var memberDoc = await cf.FirebaseFirestore.instance.collection('Members').get();
     setState(() {
-      pagecount = (memberDoc.docs.length / 10).toInt();
+      pagecount = (memberDoc.docs.length + 10) ~/ 10;
+      totalMembersCount = memberDoc.docs.length;
+      memberRemainder = (memberDoc.docs.length) % 10;
     });
   }
 
@@ -340,7 +345,6 @@ class _MembersTabState extends State<MembersTab> {
                         cf.FirebaseFirestore.instance.collection('Members').doc(memberss.docs[y].id).update({
                           "status" : true,
                         });
-                        print(y);
                       }
                     },
                     child: KText(
@@ -2194,7 +2198,7 @@ class _MembersTabState extends State<MembersTab> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 KText(
-                                  text: "All Members (${members.length})",
+                                  text: "All Members ($totalMembersCount)",
                                   style: GoogleFonts.openSans(
                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
@@ -2510,7 +2514,7 @@ class _MembersTabState extends State<MembersTab> {
                               ),
                               Expanded(
                                 child: ListView.builder(
-                                  itemCount: members.length,
+                                  itemCount: temp == pagecount ? memberRemainder : members.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
                                       height: height/10.85,
@@ -2918,98 +2922,106 @@ class _MembersTabState extends State<MembersTab> {
                                   },
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                //alignment: Alignment.centerRight,
-                                children: [
-                                  Container(
-                                    width: width * 0.4,
-                                    height: 46,
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: 10 + shift,
-                                        itemBuilder: (context,index){
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: InkWell(
-                                              onTap: (){
-                                                setState(() {
-                                                  temp= list[index + shift];
-                                                  shift= index;
-                                                });
-                                                print(temp);
-                                                print("temp");
-                                                print(shift);
-                                              },
-                                              child: Container(
-                                                width: 30,
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                  color: temp.toString() == list[index + shift].toString() ?  Constants().primaryAppColor : Colors.transparent,
-                                                  borderRadius: BorderRadius.circular(30),
-                                                  border: Border.all(color: Constants().primaryAppColor)
-                                                ),
-                                                child: Center(
-                                                  child: Text((list[index + (shift)]).toString(),
-                                                    style: TextStyle(
-                                                      color: temp.toString() == list[index + shift].toString() ? Colors.white : Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    " .... ",
-                                    style: TextStyle(
-                                        color: Colors.black
-                                    ),
-                                  ),
-
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          color:  Colors.transparent,
-                                          borderRadius: BorderRadius.circular(30),
-                                          border: Border.all(color: Constants().primaryAppColor)
-                                      ),
-                                    child: Center(
-                                      child: Text(
-                                        pagecount.toString(),
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                          fontSize: 12
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 20),
-                                  temp > 1 ?
-                                  ElevatedButton(
-                                      onPressed: (){
-                                        setState(() {
-                                          temp= temp-1;
-                                          shift= shift-1;
-                                        });
-                                      }, child: Text("Previous Page"))  : Container(),
-                                  SizedBox(width: 20),
-                                  Container(
-                                    child: temp < pagecount ?
-                                    ElevatedButton(onPressed: (){
-                                      setState(() {
-                                        temp= temp+1;
-                                        shift= shift+1;
-                                      });
-                                    }, child: Text("Next Page"))  : Container(),
-                                  )
-                                ],
-                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   //alignment: Alignment.centerRight,
+                              //   children: [
+                              //     Container(
+                              //       width: width * 0.4,
+                              //       height: 46,
+                              //       child: ListView.builder(
+                              //           shrinkWrap: true,
+                              //           scrollDirection: Axis.horizontal,
+                              //           itemCount: 10 + shift,
+                              //           itemBuilder: (context,index){
+                              //             return Padding(
+                              //               padding: const EdgeInsets.all(8.0),
+                              //               child: InkWell(
+                              //                 onTap: (){
+                              //                   setState(() {
+                              //                     temp= list[index + shift];
+                              //                     shift= index;
+                              //                   });
+                              //                 },
+                              //                 child: Container(
+                              //                   width: 30,
+                              //                   height: 30,
+                              //                   decoration: BoxDecoration(
+                              //                     color: temp.toString() == list[index + shift].toString() ?  Constants().primaryAppColor : Colors.transparent,
+                              //                     borderRadius: BorderRadius.circular(30),
+                              //                     border: Border.all(color: Constants().primaryAppColor)
+                              //                   ),
+                              //                   child: Center(
+                              //                     child: Text((list[index + (shift)]).toString(),
+                              //                       style: TextStyle(
+                              //                         color: temp.toString() == list[index + shift].toString() ? Colors.white : Colors.black,
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             );
+                              //           }
+                              //       ),
+                              //     ),
+                              //     SizedBox(width: 5),
+                              //     Text(
+                              //       " .... ",
+                              //       style: TextStyle(
+                              //           color: Colors.black
+                              //       ),
+                              //     ),
+                              //
+                              //       Container(
+                              //         width: 30,
+                              //         height: 30,
+                              //         decoration: BoxDecoration(
+                              //             color:  Colors.transparent,
+                              //             borderRadius: BorderRadius.circular(30),
+                              //             border: Border.all(color: Constants().primaryAppColor)
+                              //         ),
+                              //       child: Center(
+                              //         child: Text(
+                              //           pagecount.toString(),
+                              //           style: TextStyle(
+                              //               color: Colors.black,
+                              //             fontSize: 12
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     SizedBox(width: 20),
+                              //     temp > 1 ?
+                              //     ElevatedButton(
+                              //         onPressed: (){
+                              //           setState(() {
+                              //             temp= temp-1;
+                              //             shift= shift-1;
+                              //           });
+                              //         }, child: Text("Previous Page"))  : Container(),
+                              //     SizedBox(width: 20),
+                              //     Container(
+                              //       child: temp < pagecount ?
+                              //       ElevatedButton(onPressed: (){
+                              //         setState(() {
+                              //           temp= temp+1;
+                              //           shift= shift+1;
+                              //         });
+                              //       }, child: Text("Next Page"))  : Container(),
+                              //     )
+                              //   ],
+                              // ),
+                              NumberPaginator(
+                                config: NumberPaginatorUIConfig(
+                                  buttonSelectedBackgroundColor: Constants().primaryAppColor,
+                                ),
+                                numberPages: pagecount,
+                                onPageChange: (int index) {
+                                  setState(() {
+                                    temp = index+1;
+                                  });
+                                },
+                              )
                             ],
                           ),
                         ),
@@ -3036,8 +3048,6 @@ class _MembersTabState extends State<MembersTab> {
   }
 
   viewPopup(MembersModel member) {
-    print(member);
-    print("Print");
     Size size = MediaQuery.of(context).size;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;

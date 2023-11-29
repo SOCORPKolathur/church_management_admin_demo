@@ -421,7 +421,6 @@ class _LoginViewState extends State<LoginView> {
           test.add("1R");
           test.add("2R");
         });
-      print(ipv4);
 
 
       setState(() {
@@ -479,9 +478,7 @@ class _LoginViewState extends State<LoginView> {
     adnroidInfo1 = androidInfo.toString();
     countryData1 = countryData.toString();
     String? ipv4 = countryData!.ip.toString();//await Ipify.ipv4();
-    print(ipv4);
     String location = await LocationAPI().fetchData(ipv4);
-    print(location);
     setState(() {
       deviceId = androidInfo.productSub!;
       deviceLocation = location;

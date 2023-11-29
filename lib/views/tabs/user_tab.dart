@@ -18,6 +18,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:lottie/lottie.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:pdf/pdf.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
 import 'package:url_launcher/url_launcher.dart';
@@ -173,6 +174,8 @@ class _UserTabState extends State<UserTab> {
 
   int documentlength =0 ;
   int pagecount =0 ;
+  int totalUsersCount =0 ;
+  int userRemainder =0 ;
   int temp =1;
   int shift =0;
   List list = new List<int>.generate(10000, (i) => i + 1);
@@ -188,7 +191,9 @@ class _UserTabState extends State<UserTab> {
   getTotalUsers() async {
     var userDoc = await cf.FirebaseFirestore.instance.collection('Users').get();
     //setState(() {
-      pagecount = (userDoc.docs.length / 10).toInt();
+    pagecount = (userDoc.docs.length + 10) ~/ 10;
+    totalUsersCount = userDoc.docs.length;
+    userRemainder = (userDoc.docs.length) % 10;
     //});
   }
 
@@ -1599,7 +1604,6 @@ class _UserTabState extends State<UserTab> {
                       } else if (snapshot.hasData) {
                         List<UserModelWithDocId> users = [];
                         //documentList.clear();
-                        print("object");
                         documentList.addAll(snapshot.data!.docs);
                         for (var element in snapshot.data!.docs) {
                           users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
@@ -1646,7 +1650,7 @@ class _UserTabState extends State<UserTab> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       KText(
-                                        text: "All Users (${users.length})",
+                                        text: "All Users ($totalUsersCount)",
                                         style: GoogleFonts.openSans(
                                           fontSize: width / 68.3,
                                           fontWeight: FontWeight.bold,
@@ -1965,7 +1969,7 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: users.length,
+                                        itemCount: temp == pagecount ? userRemainder : users.length,
                                         itemBuilder: (ctx, i) {
                                           return Container(
                                             height: height / 10.55,
@@ -2395,97 +2399,106 @@ class _UserTabState extends State<UserTab> {
                                         },
                                       ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      //alignment: Alignment.centerRight,
-                                      children: [
-                                        Container(
-                                          width: width * 0.4,
-                                          height: 46,
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: 10 + shift,
-                                              itemBuilder: (context,index){
-                                                return Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: InkWell(
-                                                    onTap: (){
-                                                      setState(() {
-                                                        temp= list[index + shift];
-                                                        shift= index;
-                                                      });
-                                                      print(temp);
-                                                      print("temp");
-                                                    },
-                                                    child: Container(
-                                                      width: 30,
-                                                      height: 30,
-                                                      decoration: BoxDecoration(
-                                                          color: temp.toString() == list[index + shift].toString() ?  Constants().primaryAppColor : Colors.transparent,
-                                                          borderRadius: BorderRadius.circular(30),
-                                                          border: Border.all(color: Constants().primaryAppColor)
-                                                      ),
-                                                      child: Center(
-                                                        child: Text((list[index + (shift)]).toString(),
-                                                          style: TextStyle(
-                                                            color: temp.toString() == list[index + shift].toString() ? Colors.white : Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          " .... ",
-                                          style: TextStyle(
-                                              color: Colors.black
-                                          ),
-                                        ),
-
-                                        Container(
-                                          width: 30,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                              color:  Colors.transparent,
-                                              borderRadius: BorderRadius.circular(30),
-                                              border: Border.all(color: Constants().primaryAppColor)
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              pagecount.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 20),
-                                        temp > 1 ?
-                                        ElevatedButton(
-                                            onPressed: (){
-                                              setState(() {
-                                                temp= temp-1;
-                                                shift= shift-1;
-                                              });
-                                            }, child: Text("Previous Page"))  : Container(),
-                                        SizedBox(width: 20),
-                                        Container(
-                                          child: temp < pagecount ?
-                                          ElevatedButton(onPressed: (){
-                                            setState(() {
-                                              temp= temp+1;
-                                              shift= shift+1;
-                                            });
-                                          }, child: Text("Next Page"))  : Container(),
-                                        )
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.center,
+                                    //   //alignment: Alignment.centerRight,
+                                    //   children: [
+                                    //     Container(
+                                    //       width: width * 0.4,
+                                    //       height: 46,
+                                    //       child: ListView.builder(
+                                    //           shrinkWrap: true,
+                                    //           scrollDirection: Axis.horizontal,
+                                    //           itemCount: 10 + shift,
+                                    //           itemBuilder: (context,index){
+                                    //             return Padding(
+                                    //               padding: const EdgeInsets.all(8.0),
+                                    //               child: InkWell(
+                                    //                 onTap: (){
+                                    //                   setState(() {
+                                    //                     temp= list[index + shift];
+                                    //                     shift= index;
+                                    //                   });
+                                    //                 },
+                                    //                 child: Container(
+                                    //                   width: 30,
+                                    //                   height: 30,
+                                    //                   decoration: BoxDecoration(
+                                    //                       color: temp.toString() == list[index + shift].toString() ?  Constants().primaryAppColor : Colors.transparent,
+                                    //                       borderRadius: BorderRadius.circular(30),
+                                    //                       border: Border.all(color: Constants().primaryAppColor)
+                                    //                   ),
+                                    //                   child: Center(
+                                    //                     child: Text((list[index + (shift)]).toString(),
+                                    //                       style: TextStyle(
+                                    //                         color: temp.toString() == list[index + shift].toString() ? Colors.white : Colors.black,
+                                    //                       ),
+                                    //                     ),
+                                    //                   ),
+                                    //                 ),
+                                    //               ),
+                                    //             );
+                                    //           }
+                                    //       ),
+                                    //     ),
+                                    //     SizedBox(width: 5),
+                                    //     Text(
+                                    //       " .... ",
+                                    //       style: TextStyle(
+                                    //           color: Colors.black
+                                    //       ),
+                                    //     ),
+                                    //
+                                    //     Container(
+                                    //       width: 30,
+                                    //       height: 30,
+                                    //       decoration: BoxDecoration(
+                                    //           color:  Colors.transparent,
+                                    //           borderRadius: BorderRadius.circular(30),
+                                    //           border: Border.all(color: Constants().primaryAppColor)
+                                    //       ),
+                                    //       child: Center(
+                                    //         child: Text(
+                                    //           pagecount.toString(),
+                                    //           style: TextStyle(
+                                    //               color: Colors.black,
+                                    //               fontSize: 12
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     SizedBox(width: 20),
+                                    //     temp > 1 ?
+                                    //     ElevatedButton(
+                                    //         onPressed: (){
+                                    //           setState(() {
+                                    //             temp= temp-1;
+                                    //             shift= shift-1;
+                                    //           });
+                                    //         }, child: Text("Previous Page"))  : Container(),
+                                    //     SizedBox(width: 20),
+                                    //     Container(
+                                    //       child: temp < pagecount ?
+                                    //       ElevatedButton(onPressed: (){
+                                    //         setState(() {
+                                    //           temp= temp+1;
+                                    //           shift= shift+1;
+                                    //         });
+                                    //       }, child: Text("Next Page"))  : Container(),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                    NumberPaginator(
+                                      config: NumberPaginatorUIConfig(
+                                        buttonSelectedBackgroundColor: Constants().primaryAppColor,
+                                      ),
+                                      numberPages: pagecount,
+                                      onPageChange: (int index) {
+                                        setState(() {
+                                          temp = index+1;
+                                        });
+                                      },
+                                    )
                                   ],
                                 ),
                               ),

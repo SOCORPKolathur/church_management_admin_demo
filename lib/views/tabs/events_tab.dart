@@ -635,7 +635,6 @@ class _EventsTabState extends State<EventsTab>
                                 InkWell(
                                   onTap: () async {
                                    var data = await generateEventPdf(PdfPageFormat.letter, events,false);
-                                   print(data);
                                   },
                                   child: Container(
                                     height:height/18.6,

@@ -75,7 +75,6 @@ class _GalleryTabState extends State<GalleryTab> with SingleTickerProviderStateM
       final reader = FileReader();
       reader.readAsDataUrl(file);
       reader.onLoadEnd.listen((event) async {
-        print(file.name);
         Response res = await GalleryFireCrud.addVideo(file);
         if (res.code == 200) {
           CoolAlert.show(

@@ -388,7 +388,6 @@ class MembersFireCrud {
         res.code = 500;
         res.message = e;
       });
-      print(i);
     }
     return res;
   }

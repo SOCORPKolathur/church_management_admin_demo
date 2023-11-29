@@ -428,7 +428,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                 SizedBox(height:height/30,),
                                                 GestureDetector(
                                                   onTap: (){
-                                                    print(width);
+
                                                   },
                                                   child: CircleAvatar(
                                                     radius: width/26.6666,
