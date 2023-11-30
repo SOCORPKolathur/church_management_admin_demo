@@ -258,9 +258,10 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                           child: Container(
-                                            height: height/13.02,
+                                            //height: height/13.02,
                                             width: double.infinity,
                                             child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
                                                   width: width/17.075,
@@ -358,9 +359,10 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                           child: Container(
-                                            height: height/13.02,
+                                            //height: height/13.02,
                                             width: double.infinity,
                                             child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
                                                   width: width/17.075,

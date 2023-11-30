@@ -3,6 +3,7 @@ class AssetManagementModel {
   int? timestamp;
   String? date;
   String? amcDate;
+  String? insuranceDate;
   String? assets;
   String? verifier;
   String? approxValue;
@@ -14,6 +15,7 @@ class AssetManagementModel {
       {this.id,
         this.timestamp,
         this.amcDate,
+        this.insuranceDate,
         this.date,
         this.imgUrl,
         this.document,
@@ -27,6 +29,7 @@ class AssetManagementModel {
     timestamp = json['timestamp'];
     date = json['date'];
     amcDate = json['amcDate'];
+    insuranceDate = json['insuranceDate'];
     imgUrl = json['imgUrl'];
     document = json['document'];
     assets = json['assets'];
@@ -43,6 +46,7 @@ class AssetManagementModel {
     data['document'] = this.document;
     data['date'] = this.date;
     data['amcDate'] = this.amcDate;
+    data['insuranceDate'] = this.insuranceDate;
     data['assets'] = this.assets;
     data['verifier'] = this.verifier;
     data['approxValue'] = this.approxValue;

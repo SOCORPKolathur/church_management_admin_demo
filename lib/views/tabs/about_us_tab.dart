@@ -271,64 +271,64 @@ class _AboutUsTabState extends State<AboutUsTab> {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      SizedBox(width: width/34.15),
-                      InkWell(
-                        onTap: () async {
-                          // setState(() {
-                          //   isViewTerms = true;
-                          // });
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => const TermsPage()));
-                        },
-                        child: Material(
-                          elevation: 3,
-                          borderRadius: BorderRadius.circular(12),
-                          child: Container(
-                            width: 300,
-                            decoration: BoxDecoration(
-                                color: Color(0xfffdff8c),
-                                borderRadius: BorderRadius.circular(12),
-                                border:Border.all(color: Constants().primaryAppColor,)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 30,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/tandc.png"
-                                                )
-                                            )
-                                        ),
-                                      ),
-                                      SizedBox(width: width/136.6),
-                                      Text(
-                                        "Terms & Conditions",
-                                        style: GoogleFonts.poppins(
-                                          color: Color(0xffb80d38),
-                                          fontSize: width /97.57142857142857,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     SizedBox(width: width/34.15),
+                  //     InkWell(
+                  //       onTap: () async {
+                  //         // setState(() {
+                  //         //   isViewTerms = true;
+                  //         // });
+                  //         Navigator.push(context, MaterialPageRoute(builder: (ctx) => const TermsPage()));
+                  //       },
+                  //       child: Material(
+                  //         elevation: 3,
+                  //         borderRadius: BorderRadius.circular(12),
+                  //         child: Container(
+                  //           width: 300,
+                  //           decoration: BoxDecoration(
+                  //               color: Color(0xfffdff8c),
+                  //               borderRadius: BorderRadius.circular(12),
+                  //               border:Border.all(color: Constants().primaryAppColor,)
+                  //           ),
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.all(4.0),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.start,
+                  //                   children: [
+                  //                     Container(
+                  //                       height: 30,
+                  //                       width: 30,
+                  //                       decoration: BoxDecoration(
+                  //                           image: DecorationImage(
+                  //                               image: AssetImage(
+                  //                                   "assets/tandc.png"
+                  //                               )
+                  //                           )
+                  //                       ),
+                  //                     ),
+                  //                     SizedBox(width: width/136.6),
+                  //                     Text(
+                  //                       "Terms & Conditions",
+                  //                       style: GoogleFonts.poppins(
+                  //                         color: Color(0xffb80d38),
+                  //                         fontSize: width /97.57142857142857,
+                  //                         fontWeight: FontWeight.w600,
+                  //                       ),
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
               SizedBox(height: height/65.1),
@@ -371,12 +371,29 @@ class _AboutUsTabState extends State<AboutUsTab> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    "Terms & Conditions",
-                                    style: GoogleFonts.poppins(
-                                      color: Color(0xffb80d38),
-                                      fontSize: width /97.57142857142857,
-                                      fontWeight: FontWeight.w600,
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/tandc.png"
+                                            )
+                                        )
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (ctx)=> const TermsPage()));
+                                    },
+                                    child: Text(
+                                      "Terms & Conditions",
+                                      style: GoogleFonts.poppins(
+                                        color: Color(0xffb80d38),
+                                        fontSize: width /97.57142857142857,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   )
                                 ],

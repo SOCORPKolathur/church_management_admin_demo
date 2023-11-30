@@ -1074,39 +1074,46 @@ class _MembersTabState extends State<MembersTab> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: width/68.3),
-                                  SizedBox(
-                                    width: width/4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                  Visibility(
+                                    visible: marriedController.text.toUpperCase() == "MARRIED",
+                                    child: Row(
                                       children: [
-                                        KText(
-                                          text: "Anniversary Date",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width/105.076,
-                                            fontWeight: FontWeight.bold,
+                                        SizedBox(width: width/68.3),
+                                        SizedBox(
+                                          width: width/4.553,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              KText(
+                                                text: "Anniversary Date",
+                                                style: GoogleFonts.openSans(
+                                                  color: Colors.black,
+                                                  fontSize: width/105.076,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              TextFormField(
+                                                readOnly: true,
+                                                style:  TextStyle(fontSize: width/113.83),
+                                                controller: marriageDateController,
+                                                onTap: () async {
+                                                  DateTime? pickedDate =
+                                                  await Constants().datePicker(context);
+                                                  // await showDatePicker(
+                                                  //     context: context,
+                                                  //     initialDate: DateTime.now(),
+                                                  //     firstDate: DateTime(1900),
+                                                  //     lastDate: DateTime.now());
+                                                  if (pickedDate != null) {
+                                                    setState(() {
+                                                      marriageDateController.text = formatter.format(pickedDate);
+                                                    });
+                                                  }
+                                                },
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        TextFormField(
-                                          readOnly: true,
-                                          style:  TextStyle(fontSize: width/113.83),
-                                          controller: marriageDateController,
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                            await Constants().datePicker(context);
-                                            // await showDatePicker(
-                                            //     context: context,
-                                            //     initialDate: DateTime.now(),
-                                            //     firstDate: DateTime(1900),
-                                            //     lastDate: DateTime.now());
-                                            if (pickedDate != null) {
-                                              setState(() {
-                                                marriageDateController.text = formatter.format(pickedDate);
-                                              });
-                                            }
-                                          },
-                                        )
                                       ],
                                     ),
                                   ),

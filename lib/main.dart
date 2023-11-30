@@ -2,14 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
-import 'package:church_management_admin/views/tabs/demo.dart';
+import 'package:church_management_admin/views/tabs/gallery_tab.dart';
 import 'package:church_management_admin/views/tabs/home_view.dart';
-import 'package:church_management_admin/views/tabs/messages_tab.dart';
-import 'package:church_management_admin/views/tabs/settings_tab.dart';
-import 'package:church_management_admin/views/tabs/terms_tab.dart';
-import 'package:church_management_admin/views/tabs/zone_areas.dart';
-import 'package:church_management_admin/views/tabs/zone_reports_view.dart';
-import 'package:church_management_admin/views/tabs/zones_list_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -189,8 +183,8 @@ class _MyAppState extends State<MyApp> {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
             useMaterial3: true,
           ),
-          home: user != null ? HomeView(currentRole: user!.email!, sessionStateStream: sessionStateStream) : LoginView(sessionStateStream: sessionStateStream),
-          //home: ZoneReportsView(),
+          //home: user != null ? HomeView(currentRole: user!.email!, sessionStateStream: sessionStateStream) : LoginView(sessionStateStream: sessionStateStream),
+          home: GalleryTab(),
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

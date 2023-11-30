@@ -158,1740 +158,910 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    KText(
-                      text: "Zone List",
-                      style: GoogleFonts.openSans(
-                        fontSize: width / 52.53846153846154,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                      ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  KText(
+                    text: "Zone List",
+                    style: GoogleFonts.openSans(
+                      fontSize: width / 52.53846153846154,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
                     ),
-                    InkWell(
-                        onTap:(){
-                          if(currentTab.toUpperCase() == "VIEW") {
-                            setState(() {
-                              currentTab = "Add";
-                              generateZoneID();
-                            });
-                          }else{
-                            setState(() {
-                              currentTab = 'View';
-                              clearTextControllers();
-                            });
-                          }
+                  ),
+                  InkWell(
+                      onTap:(){
+                        if(currentTab.toUpperCase() == "VIEW") {
+                          setState(() {
+                            currentTab = "Add";
+                            generateZoneID();
+                          });
+                        }else{
+                          setState(() {
+                            currentTab = 'View';
+                            clearTextControllers();
+                          });
+                        }
 
-                        },
-                        child: Container(
-                          height:height/18.6,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(1, 2),
-                                blurRadius: 3,
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal:width/227.66),
-                            child: Center(
-                              child: KText(
-                                text: currentTab.toUpperCase() == "VIEW" ? "Add Zone" : "View zones",
-                                style: GoogleFonts.openSans(
-                                  fontSize:width/105.07,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                    ),
-                  ],
-                ),
-              ),
-              currentTab.toUpperCase() == "ADD"
-                  ? Container(
-                      height: size.height * 1.7,
-                      width: width,
-                      margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
-                      decoration: BoxDecoration(
-                        color: Constants().primaryAppColor,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(1, 2),
-                            blurRadius: 3,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            height: size.height * 0.1,
-                            width: double.infinity,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width / 68.3, vertical: height / 81.375),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  KText(
-                                    text: "Add Zone",
-                                    style: GoogleFonts.openSans(
-                                      fontSize: width / 68.3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                ),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: height / 43.4, horizontal: width / 91.06),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Zone ID",
-                                        style: GoogleFonts.openSans(
-                                          fontSize: width/97.571,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: height/108.5),
-                                      Material(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white,
-                                        elevation: 10,
-                                        child: SizedBox(
-                                          height: height/13.02,
-                                          width: 200,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                            child: TextFormField(
-                                              controller: zoneIdController,
-                                              decoration: InputDecoration(
-                                                  border: InputBorder.none
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 21.7),
-                                  Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: "Zone Name",
-                                            style: GoogleFonts.openSans(
-                                              fontSize: width/97.571,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: height/108.5),
-                                          Material(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: Colors.white,
-                                            elevation: 10,
-                                            child: SizedBox(
-                                              height: height/13.02,
-                                              width: 250,
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                                child: TextFormField(
-                                                  controller: zoneNameController,
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    counterText: "",
-                                                  ),
-                                                  maxLength: 40,
-                                                  inputFormatters: [
-                                                    //FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(width: width/68.3),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: "Leader Name",
-                                            style: GoogleFonts.openSans(
-                                              fontSize: width/97.571,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: height/108.5),
-                                          Material(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: Colors.white,
-                                            elevation: 10,
-                                            child: SizedBox(
-                                              width: width/3.902,
-                                              height: height/16.425,
-                                              child: TypeAheadFormField(
-                                                suggestionsBoxDecoration: const SuggestionsBoxDecoration(
-                                                    color: Color(0xffDDDEEE),
-                                                    borderRadius: BorderRadius.only(
-                                                      bottomLeft: Radius.circular(5),
-                                                      bottomRight: Radius.circular(5),
-                                                    )
-                                                ),
-                                                textFieldConfiguration: TextFieldConfiguration(
-                                                  style:  GoogleFonts.poppins(
-                                                      fontSize: 15
-                                                  ),
-                                                  decoration: const InputDecoration(
-                                                    contentPadding: EdgeInsets.only(left: 10,bottom: 8),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  controller: leaderNameController,
-                                                ),
-                                                suggestionsCallback: (pattern) {
-                                                  return getSuggestionsstudent(pattern,membersList);
-                                                },
-                                                itemBuilder: (context, String suggestion) {
-                                                  return ListTile(
-                                                    title: Text(suggestion),
-                                                  );
-                                                },
-
-                                                transitionBuilder: (context, suggestionsBox, controller) {
-                                                  return suggestionsBox;
-                                                },
-                                                onSuggestionSelected: (String suggestion) {
-                                                  setState(() {
-                                                    leaderNameController.text = suggestion;
-                                                  });
-                                                  getLeaderByName();
-                                                },
-                                                suggestionsBoxController: suggestionBoxController,
-                                                validator: (value) =>
-                                                value!.isEmpty ? 'Please select a class' : null,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(width: width/68.3),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: "Leader Phone",
-                                            style: GoogleFonts.openSans(
-                                              fontSize: width/97.571,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: height/108.5),
-                                          Material(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: Colors.white,
-                                            elevation: 10,
-                                            child: SizedBox(
-                                              height: height/13.02,
-                                              width: 200,
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
-                                                child: TextFormField(
-                                                  controller: leaderPhoneController,
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    counterText: "",
-                                                  ),
-                                                  maxLength: 40,
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 21.7),
-                                  Container(
-                                    height: 300,
-                                    width: double.infinity,
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            KText(
-                                              text: "Area",
-                                              style: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(height: height/108.5),
-                                            Material(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.white,
-                                              elevation: 10,
-                                              child: SizedBox(
-                                                height: 270,
-                                                width: width * 0.35,
-                                                child: ListView.builder(
-                                                  itemCount: areasList.length,
-                                                  itemBuilder: (ctx ,i){
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          KText(
-                                                            text: areasList[i],
-                                                            style: GoogleFonts.openSans(
-                                                              fontSize: width/97.571,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          IconButton(
-                                                            onPressed: (){
-                                                              setState(() {
-                                                                if(!zoneAreasList.contains(areasList[i])){
-                                                                  zoneAreasList.add(areasList[i]);
-                                                                }
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.add_circle_outlined,
-                                                              color: Constants().primaryAppColor,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(width: width/68.3),
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            KText(
-                                              text: "Zone Area",
-                                              style: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(height: height/108.5),
-                                            Material(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.white,
-                                              elevation: 10,
-                                              child: SizedBox(
-                                                height: 270,
-                                                width: width * 0.35,
-                                                child: ListView.builder(
-                                                  itemCount: zoneAreasList.length,
-                                                  itemBuilder: (ctx ,i){
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          KText(
-                                                            text: zoneAreasList[i],
-                                                            style: GoogleFonts.openSans(
-                                                              fontSize: width/97.571,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          IconButton(
-                                                            onPressed: (){
-                                                              setState(() {
-                                                                zoneAreasList.removeAt(i);
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.remove_circle_outlined,
-                                                              color: Constants().primaryAppColor,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: height / 21.7),
-                                  Container(
-                                    height: 300,
-                                    width: double.infinity,
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            KText(
-                                              text: "Members",
-                                              style: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(height: height/108.5),
-                                            Material(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.white,
-                                              elevation: 10,
-                                              child: SizedBox(
-                                                height: 270,
-                                                width: width * 0.35,
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right:0.0),
-                                                          child: Text("Member Name",style: GoogleFonts.poppins(fontSize: 15,)),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left: 0.0,right: 25),
-                                                          child: Container(
-                                                            width: width/3.902,
-                                                            height: height/16.425,
-                                                            //color: Color(0xffDDDEEE),
-                                                            decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),
-
-                                                            child:
-                                                            TypeAheadFormField(
-
-
-                                                              suggestionsBoxDecoration: const SuggestionsBoxDecoration(
-                                                                  color: Color(0xffDDDEEE),
-                                                                  borderRadius: BorderRadius.only(
-                                                                    bottomLeft: Radius.circular(5),
-                                                                    bottomRight: Radius.circular(5),
-                                                                  )
-                                                              ),
-
-                                                              textFieldConfiguration: TextFieldConfiguration(
-                                                                style:  GoogleFonts.poppins(
-                                                                    fontSize: 15
-                                                                ),
-                                                                decoration: const InputDecoration(
-                                                                  contentPadding: EdgeInsets.only(left: 10,bottom: 8),
-                                                                  border: InputBorder.none,
-                                                                ),
-                                                                controller: memberNameController,
-                                                              ),
-                                                              suggestionsCallback: (pattern) {
-                                                                return getSuggestionsstudent(pattern,membersList);
-                                                              },
-                                                              itemBuilder: (context, String suggestion) {
-                                                                return ListTile(
-                                                                  title: Text(suggestion),
-                                                                );
-                                                              },
-
-                                                              transitionBuilder: (context, suggestionsBox, controller) {
-                                                                return suggestionsBox;
-                                                              },
-                                                              onSuggestionSelected: (String suggestion) {
-                                                                setState(() {
-                                                                  memberNameController.text = suggestion;
-                                                                });
-                                                                getMemberByName();
-                                                              },
-                                                              suggestionsBoxController: suggestionBoxController,
-                                                              validator: (value) =>
-                                                              value!.isEmpty ? 'Please select a class' : null,
-                                                            ),
-
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right:0.0),
-                                                          child: Text("Member ID",style: GoogleFonts.poppins(fontSize: 15,)),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left: 0.0,right: 25),
-                                                          child: Container(width: width/3.902,
-                                                            height: height/16.425,
-                                                            //color: Color(0xffDDDEEE),
-                                                            decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),child:
-                                                            TypeAheadFormField(
-                                                              suggestionsBoxDecoration: const SuggestionsBoxDecoration(
-                                                                  color: Color(0xffDDDEEE),
-                                                                  borderRadius: BorderRadius.only(
-                                                                    bottomLeft: Radius.circular(5),
-                                                                    bottomRight: Radius.circular(5),
-                                                                  )
-                                                              ),
-                                                              textFieldConfiguration: TextFieldConfiguration(
-                                                                style:  GoogleFonts.poppins(
-                                                                    fontSize: 15
-                                                                ),
-                                                                decoration: const InputDecoration(
-                                                                  contentPadding: EdgeInsets.only(left: 10,bottom: 8),
-                                                                  border: InputBorder.none,
-                                                                ),
-                                                                controller: memberIdController,
-                                                              ),
-                                                              suggestionsCallback: (pattern) {
-                                                                return getSuggestionsregno(pattern,membersList);
-                                                              },
-                                                              itemBuilder: (context, String suggestion) {
-                                                                return ListTile(
-                                                                  title: Text(suggestion),
-                                                                );
-                                                              },
-                                                              transitionBuilder: (context, suggestionsBox, controller) {
-                                                                return suggestionsBox;
-                                                              },
-                                                              onSuggestionSelected: (String suggestion) {
-                                                                setState(() {
-                                                                  memberIdController.text = suggestion;
-                                                                });
-                                                                getMemberById();
-                                                              },
-                                                              suggestionsBoxController: suggestionBoxController,
-                                                              validator: (value) =>
-                                                              value!.isEmpty ? 'Please select a class' : null,
-                                                            ),
-
-                                                          ),
-                                                        ),
-
-                                                      ],
-
-                                                    ),
-                                                    SizedBox(height: 20),
-                                                    InkWell(
-                                                      onTap: (){
-                                                        if(memberIdController.text != ""){
-                                                          setState(() {
-                                                            zoneHelpersList.add(getMember());
-                                                            memberIdController.clear();
-                                                            memberNameController.clear();
-                                                          });
-                                                        }else{
-                                                          CoolAlert.show(
-                                                              context: context,
-                                                              type: CoolAlertType.info,
-                                                              title: "Member Not Found",
-                                                              text: 'Please add member',
-                                                              width: MediaQuery.of(context).size.width * 0.4,
-                                                              backgroundColor: Constants()
-                                                                  .primaryAppColor
-                                                                  .withOpacity(0.8),
-                                                          );
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        width: width/10.507,
-                                                        height: height/16.425,
-                                                        decoration: BoxDecoration(
-                                                          color: Constants().primaryAppColor,
-                                                          borderRadius: BorderRadius.circular(5),
-                                                        ),
-                                                        child: Center(
-                                                            child: Text(
-                                                              "Add",
-                                                              style: GoogleFonts.poppins(
-                                                                  color:Colors.white,
-                                                              ),
-                                                            ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(width: width/68.3),
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            KText(
-                                              text: "Zone Leader Supporters",
-                                              style: GoogleFonts.openSans(
-                                                fontSize: width/97.571,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(height: height/108.5),
-                                            Material(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.white,
-                                              elevation: 10,
-                                              child: SizedBox(
-                                                height: 270,
-                                                width: width * 0.35,
-                                                child: ListView.builder(
-                                                  itemCount: zoneHelpersList.length,
-                                                  itemBuilder: (ctx ,i){
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          KText(
-                                                            text: "${zoneHelpersList[i].firstName!} ${zoneHelpersList[i].lastName!}",
-                                                            style: GoogleFonts.openSans(
-                                                              fontSize: width/97.571,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          IconButton(
-                                                            onPressed: (){
-                                                              setState(() {
-                                                                zoneHelpersList.removeAt(i);
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.remove_circle_outlined,
-                                                              color: Constants().primaryAppColor,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: height / 21.7),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          if(zoneIdController.text != "" &&
-                                          zoneNameController.text != "" &&
-                                          leaderNameController.text != ""
-                                          ){
-
-                                            Response response = await ZonalActivitiesFireCrud.addZone(
-                                              zoneName: zoneNameController.text,
-                                              zoneId: zoneIdController.text,
-                                              leaderName: leaderNameController.text,
-                                              leaderPhone: leaderPhoneController.text,
-                                              areas: zoneAreasList,
-                                              supportersList: zoneHelpersList,
-                                            );
-                                            if (response.code == 200) {
-                                              CoolAlert.show(
-                                                  context: context,
-                                                  type: CoolAlertType.success,
-                                                  text: "Zone created successfully!",
-                                                  width: size.width * 0.4,
-                                                  backgroundColor: Constants()
-                                                      .primaryAppColor
-                                                      .withOpacity(0.8));
-                                              clearTextControllers();
-                                              setState(() {
-                                                currentTab = 'View';
-                                              });
-                                            } else {
-                                              await CoolAlert.show(
-                                                  context: context,
-                                                  type: CoolAlertType.error,
-                                                  text: "Failed to Create Zone!",
-                                                  width: size.width * 0.4,
-                                                  backgroundColor: Constants()
-                                                      .primaryAppColor
-                                                      .withOpacity(0.8));
-
-                                            }
-
-                                          } else {
-                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                          }
-                                        },
-                                        child: Container(
-                                          height: height / 16.6,
-                                          width: width*0.1,
-                                          decoration: BoxDecoration(
-                                            color: Constants().primaryAppColor,
-                                            borderRadius: BorderRadius.circular(8),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black26,
-                                                offset: Offset(1, 2),
-                                                blurRadius: 3,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: width / 190.66),
-                                            child: Center(
-                                              child: KText(
-                                                text: "Submit",
-                                                style: GoogleFonts.openSans(
-                                                  color: Colors.white,
-                                                  fontSize:width/136.6,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-              )
-                  : currentTab.toUpperCase() == "VIEW"
-                  ? StreamBuilder(
-                stream: ZonalActivitiesFireCrud.fetchZones(),
-                builder: (ctx, snap){
-                  if(snap.hasData){
-                    List<ZoneModel> zones = snap.data!;
-                    return Container(
-                      width: width/1.241,
-                      margin:   EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
-                      ),
-                      decoration: BoxDecoration(
-                        color: Constants().primaryAppColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(1, 2),
-                            blurRadius: 3,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            height: size.height * 0.1,
-                            width: double.infinity,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width/68.3, vertical: height/81.375),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  KText(
-                                    text: "All Zones (${zones.length})",
-                                    style: GoogleFonts.openSans(
-                                      fontSize: width/68.3,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  // Container(
-                                  //   height:height/18.6,
-                                  //   width: width/9.106,
-                                  //   decoration: BoxDecoration(
-                                  //     color: Colors.white,
-                                  //     borderRadius:
-                                  //     BorderRadius.circular(10),
-                                  //   ),
-                                  //   child: TextField(
-                                  //     onChanged: (val) {
-                                  //       setState(() {
-                                  //         //searchString = val;
-                                  //       });
-                                  //     },
-                                  //     decoration: InputDecoration(
-                                  //       border: InputBorder.none,
-                                  //       hintText: 'Search',
-                                  //       hintStyle: TextStyle(
-                                  //         color: Colors.black,
-                                  //       ),
-                                  //       contentPadding:  EdgeInsets.only(
-                                  //           left: width/136.6, bottom: height/65.1),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: size.height * 0.73,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
-                            padding:   EdgeInsets.symmetric(
-                                vertical: height/32.55,
-                                horizontal: width/68.3
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: width/13.66,
-                                          child: KText(
-                                            text: "No.",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: width/105.0769230769231,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: width/6.83,
-                                          child: KText(
-                                            text: "Zone Name",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: width/105.0769230769231,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: width/6.83,
-                                          child: KText(
-                                            text: "Total Area",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: width/105.0769230769231,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: width/5.464,
-                                          child: KText(
-                                            text: "Zone Leader",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: width/105.0769230769231,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: width/5.464,
-                                          child: KText(
-                                            text: "Actions",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: width/105.0769230769231,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: zones.length,
-                                    itemBuilder: (ctx, i) {
-                                      return Container(
-                                        height: height/10.85,
-                                        width: double.infinity,
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border(
-                                            top: BorderSide(
-                                              color: Color(0xfff1f1f1),
-                                              width: 0.5,
-                                            ),
-                                            bottom: BorderSide(
-                                              color: Color(0xfff1f1f1),
-                                              width: 0.5,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: width/13.66,
-                                                child: KText(
-                                                  text: (i + 1).toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/105.0769230769231,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: width/6.83,
-                                                child: KText(
-                                                  text: zones[i].zoneName!,
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/105.0769230769231,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: width/6.83,
-                                                child: KText(
-                                                  text: zones[i].areas!.length.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/105.0769230769231,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: width/5.464,
-                                                child: KText(
-                                                  text: zones[i].leaderName!,
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: width/105.0769230769231,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                  width: width/5.464,
-                                                  child: Row(
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            zoneNameController.text = zones[i].zoneName!;
-                                                            zoneIdController.text = zones[i].zoneId!;
-                                                            leaderNameController.text = zones[i].leaderName!;
-                                                            zoneAreasList.add("All Areas");
-                                                            zones[i].areas!.forEach((element) {
-                                                              zoneAreasList.add(element);
-                                                            });
-                                                            zones[i].supporters!.forEach((element) {
-                                                              zoneHelpersList.add(element);
-                                                            });
-                                                            areaController.text = zoneAreasList.first;
-                                                            currentTab = "View Members";
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          height: height/26.04,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xff2baae4),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons.remove_red_eye,
-                                                                    color: Colors.white,
-                                                                    size: width/91.06666666666667,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "View",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: width/136.6,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: width/273.2),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            zoneAreasList.clear();
-                                                            zoneHelpersList.clear();
-                                                            zoneIdController.text = zones[i].zoneId!;
-                                                            zoneNameController.text = zones[i].zoneName!;
-                                                            leaderNameController.text = zones[i].leaderName!;
-                                                            leaderPhoneController.text = zones[i].leaderPhone!;
-                                                            zones[i].areas!.forEach((element) {
-                                                              zoneAreasList.add(element);
-                                                            });
-                                                            zones[i].supporters!.forEach((element) {
-                                                              zoneHelpersList.add(element);
-                                                            });
-                                                          });
-                                                          editPopUp(zones[i],size);
-                                                        },
-                                                        child: Container(
-                                                          height: height/26.04,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xffff9700),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons.add,
-                                                                    color: Colors.white,
-                                                                    size: width/91.06666666666667,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Edit",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: width/136.6,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: width/273.2),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          CoolAlert.show(
-                                                              context: context,
-                                                              type: CoolAlertType.info,
-                                                              text: "${zones[i].zoneName} will be deleted",
-                                                              title: "Delete this Record?",
-                                                              width: size.width * 0.4,
-                                                              backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              showCancelBtn: true,
-                                                              cancelBtnText: 'Cancel',
-                                                              cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                              onConfirmBtnTap: () async {
-                                                                FirebaseFirestore.instance.collection('Zones').doc(zones[i].id).delete();
-                                                              }
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          height: height/26.04,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xfff44236),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.black26,
-                                                                offset: Offset(1, 2),
-                                                                blurRadius: 3,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 6),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons.cancel_outlined,
-                                                                    color: Colors.white,
-                                                                    size: width/91.06666666666667,
-                                                                  ),
-                                                                  KText(
-                                                                    text: "Delete",
-                                                                    style: GoogleFonts.openSans(
-                                                                      color: Colors.white,
-                                                                      fontSize: width/136.6,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }return Container();
-                },
-              )
-                  : currentTab.toUpperCase() == "VIEW MEMBERS"
-                  ? Container(
-                width: width/1.241,
-                margin:   EdgeInsets.symmetric(
-                    vertical: height/32.55,
-                    horizontal: width/68.3
-                ),
-                decoration: BoxDecoration(
-                  color: Constants().primaryAppColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(1, 2),
-                      blurRadius: 3,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: size.height * 0.1,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width/68.3, vertical: height/81.375),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            KText(
-                              text: "View Members",
-                              style: GoogleFonts.openSans(
-                                fontSize: width/68.3,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      },
+                      child: Container(
+                        height:height/18.6,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3,
                             ),
                           ],
                         ),
+                        child: Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal:width/227.66),
+                          child: Center(
+                            child: KText(
+                              text: currentTab.toUpperCase() == "VIEW" ? "Add Zone" : "View zones",
+                              style: GoogleFonts.openSans(
+                                fontSize:width/105.07,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
+              ),
+            ),
+            currentTab.toUpperCase() == "ADD"
+                ? Container(
+              height: size.height * 1.7,
+              width: width,
+              margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
+              decoration: BoxDecoration(
+                color: Constants().primaryAppColor,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(1, 2),
+                    blurRadius: 3,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: size.height * 0.1,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width / 68.3, vertical: height / 81.375),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          KText(
+                            text: "Add Zone",
+                            style: GoogleFonts.openSans(
+                              fontSize: width / 68.3,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      height: size.height * 0.73,
+                  ),
+                  Expanded(
+                    child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )),
-                      padding:   EdgeInsets.symmetric(
-                          vertical: height/32.55,
-                          horizontal: width/68.3
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
                       ),
+                      padding: EdgeInsets.symmetric(vertical: height / 43.4, horizontal: width / 91.06),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Zone ID",
+                                style: GoogleFonts.openSans(
+                                  fontSize: width/97.571,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: height/108.5),
+                              Material(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                elevation: 10,
+                                child: SizedBox(
+                                  height: height/13.02,
+                                  width: 200,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                    child: TextFormField(
+                                      controller: zoneIdController,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: height / 21.7),
                           Row(
                             children: [
-                              SizedBox(
-                                width: width / 4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Zone ID",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width / 105.076,
-                                        fontWeight: FontWeight.bold,
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Zone Name",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/13.02,
+                                      width: 250,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                                          controller: zoneNameController,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            //FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    TextFormField(
-                                      readOnly: true,
-                                      style: TextStyle(fontSize: width / 113.83),
-                                      controller: zoneIdController,
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                              SizedBox(width: width / 68.3),
-                              SizedBox(
-                                width: width / 4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Zone Name",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width / 105.076,
-                                        fontWeight: FontWeight.bold,
+                              SizedBox(width: width/68.3),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Leader Name",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      width: width/3.902,
+                                      height: height/16.425,
+                                      child: TypeAheadFormField(
+                                        suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                                            color: Color(0xffDDDEEE),
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(5),
+                                              bottomRight: Radius.circular(5),
+                                            )
+                                        ),
+                                        textFieldConfiguration: TextFieldConfiguration(
+                                          style:  GoogleFonts.poppins(
+                                              fontSize: 15
+                                          ),
+                                          decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.only(left: 10,bottom: 8),
+                                            border: InputBorder.none,
+                                          ),
+                                          controller: leaderNameController,
+                                        ),
+                                        suggestionsCallback: (pattern) {
+                                          return getSuggestionsstudent(pattern,membersList);
+                                        },
+                                        itemBuilder: (context, String suggestion) {
+                                          return ListTile(
+                                            title: Text(suggestion),
+                                          );
+                                        },
+
+                                        transitionBuilder: (context, suggestionsBox, controller) {
+                                          return suggestionsBox;
+                                        },
+                                        onSuggestionSelected: (String suggestion) {
+                                          setState(() {
+                                            leaderNameController.text = suggestion;
+                                          });
+                                          getLeaderByName();
+                                        },
+                                        suggestionsBoxController: suggestionBoxController,
+                                        validator: (value) =>
+                                        value!.isEmpty ? 'Please select a class' : null,
                                       ),
                                     ),
-                                    TextFormField(
-                                      readOnly: true,
-                                      style: TextStyle(fontSize: width / 113.83),
-                                      controller: zoneNameController,
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                              SizedBox(width: width / 68.3),
-                              SizedBox(
-                                width: width / 4.553,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    KText(
-                                      text: "Leader Name",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.black,
-                                        fontSize: width / 105.076,
-                                        fontWeight: FontWeight.bold,
+                              SizedBox(width: width/68.3),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Leader Phone",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/13.02,
+                                      width: 200,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                                          controller: leaderPhoneController,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    TextFormField(
-                                      readOnly: true,
-                                      style: TextStyle(fontSize: width / 113.83),
-                                      controller: leaderNameController,
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
-                          SizedBox(height: height / 32.55),
+                          SizedBox(height: height / 21.7),
                           Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            height: 300,
+                            width: double.infinity,
+                            child: Row(
                               children: [
-                                KText(
-                                  text: "Areas",
-                                  style: GoogleFonts.openSans(
-                                    color: Colors.black,
-                                    fontSize: width / 105.076,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Container(
-                                  height: 40,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: zoneAreasList.length,
-                                    itemBuilder: (ctx,i){
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: InkWell(
-                                          onTap: (){
-                                            setState(() {
-                                              setState(() {
-                                                selectedTabIndex = i;
-                                                areaController.text = zoneAreasList[i];
-                                              });
-                                            });
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Area",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: width/97.571,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: height/108.5),
+                                    Material(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                      elevation: 10,
+                                      child: SizedBox(
+                                        height: 270,
+                                        width: width * 0.35,
+                                        child: ListView.builder(
+                                          itemCount: areasList.length,
+                                          itemBuilder: (ctx ,i){
+                                            return Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  KText(
+                                                    text: areasList[i],
+                                                    style: GoogleFonts.openSans(
+                                                      fontSize: width/97.571,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: (){
+                                                      setState(() {
+                                                        if(!zoneAreasList.contains(areasList[i])){
+                                                          zoneAreasList.add(areasList[i]);
+                                                        }
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.add_circle_outlined,
+                                                      color: Constants().primaryAppColor,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
                                           },
-                                          child: Container(
-                                            height: 55,
-                                            decoration: BoxDecoration(
-                                              color: selectedTabIndex == i ? Constants().primaryAppColor : Colors.white,
-                                              border: Border.all(color: selectedTabIndex == i ? Colors.white : Constants().primaryAppColor),
-                                              borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(width: width/68.3),
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Zone Area",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: width/97.571,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: height/108.5),
+                                    Material(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                      elevation: 10,
+                                      child: SizedBox(
+                                        height: 270,
+                                        width: width * 0.35,
+                                        child: ListView.builder(
+                                          itemCount: zoneAreasList.length,
+                                          itemBuilder: (ctx ,i){
+                                            return Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  KText(
+                                                    text: zoneAreasList[i],
+                                                    style: GoogleFonts.openSans(
+                                                      fontSize: width/97.571,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: (){
+                                                      setState(() {
+                                                        zoneAreasList.removeAt(i);
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.remove_circle_outlined,
+                                                      color: Constants().primaryAppColor,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: height / 21.7),
+                          Container(
+                            height: 300,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Members",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: width/97.571,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: height/108.5),
+                                    Material(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                      elevation: 10,
+                                      child: SizedBox(
+                                        height: 270,
+                                        width: width * 0.35,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:0.0),
+                                                  child: Text("Member Name",style: GoogleFonts.poppins(fontSize: 15,)),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0,right: 25),
+                                                  child: Container(
+                                                    width: width/3.902,
+                                                    height: height/16.425,
+                                                    //color: Color(0xffDDDEEE),
+                                                    decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),
+
+                                                    child:
+                                                    TypeAheadFormField(
+
+
+                                                      suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                                                          color: Color(0xffDDDEEE),
+                                                          borderRadius: BorderRadius.only(
+                                                            bottomLeft: Radius.circular(5),
+                                                            bottomRight: Radius.circular(5),
+                                                          )
+                                                      ),
+
+                                                      textFieldConfiguration: TextFieldConfiguration(
+                                                        style:  GoogleFonts.poppins(
+                                                            fontSize: 15
+                                                        ),
+                                                        decoration: const InputDecoration(
+                                                          contentPadding: EdgeInsets.only(left: 10,bottom: 8),
+                                                          border: InputBorder.none,
+                                                        ),
+                                                        controller: memberNameController,
+                                                      ),
+                                                      suggestionsCallback: (pattern) {
+                                                        return getSuggestionsstudent(pattern,membersList);
+                                                      },
+                                                      itemBuilder: (context, String suggestion) {
+                                                        return ListTile(
+                                                          title: Text(suggestion),
+                                                        );
+                                                      },
+
+                                                      transitionBuilder: (context, suggestionsBox, controller) {
+                                                        return suggestionsBox;
+                                                      },
+                                                      onSuggestionSelected: (String suggestion) {
+                                                        setState(() {
+                                                          memberNameController.text = suggestion;
+                                                        });
+                                                        getMemberByName();
+                                                      },
+                                                      suggestionsBoxController: suggestionBoxController,
+                                                      validator: (value) =>
+                                                      value!.isEmpty ? 'Please select a class' : null,
+                                                    ),
+
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                                              child: KText(
-                                                text: zoneAreasList[i],
-                                                style: GoogleFonts.openSans(
-                                                  color: selectedTabIndex == i ? Colors.white : Colors.black,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:0.0),
+                                                  child: Text("Member ID",style: GoogleFonts.poppins(fontSize: 15,)),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0,right: 25),
+                                                  child: Container(width: width/3.902,
+                                                    height: height/16.425,
+                                                    //color: Color(0xffDDDEEE),
+                                                    decoration: BoxDecoration(color: const Color(0xffDDDEEE),borderRadius: BorderRadius.circular(5)),child:
+                                                    TypeAheadFormField(
+                                                      suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                                                          color: Color(0xffDDDEEE),
+                                                          borderRadius: BorderRadius.only(
+                                                            bottomLeft: Radius.circular(5),
+                                                            bottomRight: Radius.circular(5),
+                                                          )
+                                                      ),
+                                                      textFieldConfiguration: TextFieldConfiguration(
+                                                        style:  GoogleFonts.poppins(
+                                                            fontSize: 15
+                                                        ),
+                                                        decoration: const InputDecoration(
+                                                          contentPadding: EdgeInsets.only(left: 10,bottom: 8),
+                                                          border: InputBorder.none,
+                                                        ),
+                                                        controller: memberIdController,
+                                                      ),
+                                                      suggestionsCallback: (pattern) {
+                                                        return getSuggestionsregno(pattern,membersList);
+                                                      },
+                                                      itemBuilder: (context, String suggestion) {
+                                                        return ListTile(
+                                                          title: Text(suggestion),
+                                                        );
+                                                      },
+                                                      transitionBuilder: (context, suggestionsBox, controller) {
+                                                        return suggestionsBox;
+                                                      },
+                                                      onSuggestionSelected: (String suggestion) {
+                                                        setState(() {
+                                                          memberIdController.text = suggestion;
+                                                        });
+                                                        getMemberById();
+                                                      },
+                                                      suggestionsBoxController: suggestionBoxController,
+                                                      validator: (value) =>
+                                                      value!.isEmpty ? 'Please select a class' : null,
+                                                    ),
+
+                                                  ),
+                                                ),
+
+                                              ],
+
+                                            ),
+                                            SizedBox(height: 20),
+                                            InkWell(
+                                              onTap: (){
+                                                if(memberIdController.text != ""){
+                                                  setState(() {
+                                                    zoneHelpersList.add(getMember());
+                                                    memberIdController.clear();
+                                                    memberNameController.clear();
+                                                  });
+                                                }else{
+                                                  CoolAlert.show(
+                                                    context: context,
+                                                    type: CoolAlertType.info,
+                                                    title: "Member Not Found",
+                                                    text: 'Please add member',
+                                                    width: MediaQuery.of(context).size.width * 0.4,
+                                                    backgroundColor: Constants()
+                                                        .primaryAppColor
+                                                        .withOpacity(0.8),
+                                                  );
+                                                }
+                                              },
+                                              child: Container(
+                                                width: width/10.507,
+                                                height: height/16.425,
+                                                decoration: BoxDecoration(
+                                                  color: Constants().primaryAppColor,
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Add",
+                                                    style: GoogleFonts.poppins(
+                                                      color:Colors.white,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      );
-                                    },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: width/68.3),
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    KText(
+                                      text: "Zone Leader Supporters",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: width/97.571,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: height/108.5),
+                                    Material(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                      elevation: 10,
+                                      child: SizedBox(
+                                        height: 270,
+                                        width: width * 0.35,
+                                        child: ListView.builder(
+                                          itemCount: zoneHelpersList.length,
+                                          itemBuilder: (ctx ,i){
+                                            return Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  KText(
+                                                    text: "${zoneHelpersList[i].firstName!} ${zoneHelpersList[i].lastName!}",
+                                                    style: GoogleFonts.openSans(
+                                                      fontSize: width/97.571,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: (){
+                                                      setState(() {
+                                                        zoneHelpersList.removeAt(i);
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.remove_circle_outlined,
+                                                      color: Constants().primaryAppColor,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: height / 21.7),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  if(zoneIdController.text != "" &&
+                                      zoneNameController.text != "" &&
+                                      leaderNameController.text != ""
+                                  ){
+
+                                    Response response = await ZonalActivitiesFireCrud.addZone(
+                                      zoneName: zoneNameController.text,
+                                      zoneId: zoneIdController.text,
+                                      leaderName: leaderNameController.text,
+                                      leaderPhone: leaderPhoneController.text,
+                                      areas: zoneAreasList,
+                                      supportersList: zoneHelpersList,
+                                    );
+                                    if (response.code == 200) {
+                                      CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.success,
+                                          text: "Zone created successfully!",
+                                          width: size.width * 0.4,
+                                          backgroundColor: Constants()
+                                              .primaryAppColor
+                                              .withOpacity(0.8));
+                                      clearTextControllers();
+                                      setState(() {
+                                        currentTab = 'View';
+                                      });
+                                    } else {
+                                      await CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.error,
+                                          text: "Failed to Create Zone!",
+                                          width: size.width * 0.4,
+                                          backgroundColor: Constants()
+                                              .primaryAppColor
+                                              .withOpacity(0.8));
+
+                                    }
+
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
+                                },
+                                child: Container(
+                                  height: height / 16.6,
+                                  width: width*0.1,
+                                  decoration: BoxDecoration(
+                                    color: Constants().primaryAppColor,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(1, 2),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
                                   ),
-                                )
-                                // DropdownButton(
-                                //   isExpanded: true,
-                                //   value: areaController.text,
-                                //   icon: Icon(Icons.keyboard_arrow_down),
-                                //   underline: Container(),
-                                //   items: zoneAreasList.map((items) {
-                                //     return DropdownMenuItem(
-                                //       value: items,
-                                //       child: Text(items),
-                                //     );
-                                //   }).toList(),
-                                //   onChanged: (newValue) {
-                                //     setState(() {
-                                //       areaController.text = newValue.toString();
-                                //     });
-                                //   },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: width / 190.66),
+                                    child: Center(
+                                      child: KText(
+                                        text: "Submit",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.white,
+                                          fontSize:width/136.6,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+                : currentTab.toUpperCase() == "VIEW"
+                ? StreamBuilder(
+              stream: ZonalActivitiesFireCrud.fetchZones(),
+              builder: (ctx, snap){
+                if(snap.hasData){
+                  List<ZoneModel> zones = snap.data!;
+                  return Container(
+                    width: width/1.241,
+                    margin:   EdgeInsets.symmetric(
+                        vertical: height/32.55,
+                        horizontal: width/68.3
+                    ),
+                    decoration: BoxDecoration(
+                      color: Constants().primaryAppColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(1, 2),
+                          blurRadius: 3,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.1,
+                          width: double.infinity,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width/68.3, vertical: height/81.375),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                KText(
+                                  text: "All Zones (${zones.length})",
+                                  style: GoogleFonts.openSans(
+                                    fontSize: width/68.3,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                // Container(
+                                //   height:height/18.6,
+                                //   width: width/9.106,
+                                //   decoration: BoxDecoration(
+                                //     color: Colors.white,
+                                //     borderRadius:
+                                //     BorderRadius.circular(10),
+                                //   ),
+                                //   child: TextField(
+                                //     onChanged: (val) {
+                                //       setState(() {
+                                //         //searchString = val;
+                                //       });
+                                //     },
+                                //     decoration: InputDecoration(
+                                //       border: InputBorder.none,
+                                //       hintText: 'Search',
+                                //       hintStyle: TextStyle(
+                                //         color: Colors.black,
+                                //       ),
+                                //       contentPadding:  EdgeInsets.only(
+                                //           left: width/136.6, bottom: height/65.1),
+                                //     ),
+                                //   ),
                                 // ),
                               ],
                             ),
                           ),
-                          SizedBox(height: height / 32.55),
-                          // KText(
-                          //   text: "$membersCount Members in Area",
-                          //   style: GoogleFonts.openSans(
-                          //     color: Colors.black,
-                          //     fontSize: width / 105.076,
-                          //     fontWeight: FontWeight.bold,
-                          //   ),
-                          // ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            height: height/10.85,
-                            width: double.infinity,
-                            color: Constants().primaryAppColor,
-                            child: TabBar(
-                              onTap: (int index) {
-                                setState(() {
-                                  currentTabIndex = index;
-                                });
-                              },
-                              labelPadding:
-                              const EdgeInsets.symmetric(horizontal: 8),
-                              splashBorderRadius: BorderRadius.circular(30),
-                              automaticIndicatorColorAdjustment: true,
-                              dividerColor: Colors.transparent,
-                              controller: _tabController,
-                              indicator: BoxDecoration(
-                                color: Constants().primaryAppColor,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              labelColor: Colors.black,
-                              tabs: [
-                                Tab(
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                    child: Text(
-                                      "Member in Area",
-                                      style: GoogleFonts.openSans(
-                                        color: currentTabIndex == 0
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontSize: width/97.57142857142857,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Tab(
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                    child: Text(
-                                      "Zone Leader Supporters",
-                                      style: GoogleFonts.openSans(
-                                        color: currentTabIndex == 1
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontSize: width/97.57142857142857,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        ),
+                        Container(
+                          height: size.height * 0.73,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              )),
+                          padding:   EdgeInsets.symmetric(
+                              vertical: height/32.55,
+                              horizontal: width/68.3
                           ),
-                          SizedBox(height: height / 32.55),
-                          SizedBox(
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: width/13.66,
-                                    child: KText(
-                                      text: "No.",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width/6.83,
-                                    child: KText(
-                                      text: "Name",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width/6.83,
-                                    child: KText(
-                                      text: "Phone",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width/5.464,
-                                    child: KText(
-                                      text: "Address",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: width/105.0769230769231,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  // SizedBox(
-                                  //   width: width/5.464,
-                                  //   child: KText(
-                                  //     text: "Actions",
-                                  //     style: GoogleFonts.poppins(
-                                  //       fontSize: width/105.0769230769231,
-                                  //       fontWeight: FontWeight.w600,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                              dragStartBehavior: DragStartBehavior.down,
-                              physics: const NeverScrollableScrollPhysics(),
-                              controller: _tabController,
-                              children: [
-                                FutureBuilder(
-                                    future: getMembersForArea(areaController.text,zoneAreasList),
-                                    //future: FirebaseFirestore.instance.collection('Users').where("address", isEqualTo: areaController.text).get(),
-                                    builder: (context,snap) {
-                                      if(snap.hasData){
-                                        var val = snap.data!;
-                                        return Expanded(
-                                          child: ListView.builder(
-                                            itemCount: val.length,
-                                            itemBuilder: (ctx, i) {
-                                              var data = val[i];
-                                              return Container(
-                                                height: height/10.85,
-                                                width: double.infinity,
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  border: Border(
-                                                    top: BorderSide(
-                                                      color: Color(0xfff1f1f1),
-                                                      width: 0.5,
-                                                    ),
-                                                    bottom: BorderSide(
-                                                      color: Color(0xfff1f1f1),
-                                                      width: 0.5,
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(5.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: width/13.66,
-                                                        child: KText(
-                                                          text: (i + 1).toString(),
-                                                          style: GoogleFonts.poppins(
-                                                            fontSize: width/105.0769230769231,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: width/6.83,
-                                                        child: KText(
-                                                          text: data.get("firstName") +" "+data.get("lastName"),
-                                                          style: GoogleFonts.poppins(
-                                                            fontSize: width/105.0769230769231,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: width/6.83,
-                                                        child: KText(
-                                                          text: data.get("phone"),
-                                                          style: GoogleFonts.poppins(
-                                                            fontSize: width/105.0769230769231,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: width/5.464,
-                                                        child: KText(
-                                                          text: data.get("resistentialAddress"),
-                                                          style: GoogleFonts.poppins(
-                                                            fontSize: width/105.0769230769231,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          width: width/5.464,
-                                                          child: Row(
-                                                            children: [
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  viewPopup(MembersModel.fromJson(data.data() as Map<String,dynamic>));
-                                                                },
-                                                                child: Container(
-                                                                  height: height/26.04,
-                                                                  decoration: const BoxDecoration(
-                                                                    color: Color(0xff2baae4),
-                                                                    boxShadow: [
-                                                                      BoxShadow(
-                                                                        color: Colors.black26,
-                                                                        offset: Offset(1, 2),
-                                                                        blurRadius: 3,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                                    child: Center(
-                                                                      child: Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.remove_red_eye,
-                                                                            color: Colors.white,
-                                                                            size: width/91.06666666666667,
-                                                                          ),
-                                                                          KText(
-                                                                            text: "View",
-                                                                            style: GoogleFonts.openSans(
-                                                                              color: Colors.white,
-                                                                              fontSize: width/136.6,
-                                                                              fontWeight: FontWeight.bold,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              // SizedBox(width: width/273.2),
-                                                              // InkWell(
-                                                              //   onTap: () {
-                                                              //     setState(() {
-                                                              //       zoneIdController.text = zones[i].zoneId!;
-                                                              //       zoneNameController.text = zones[i].zoneName!;
-                                                              //       leaderNameController.text = zones[i].leaderName!;
-                                                              //       zones[i].areas!.forEach((element) {
-                                                              //         zoneAreasList.add(element);
-                                                              //       });
-                                                              //     });
-                                                              //     editPopUp(zones[i],size);
-                                                              //   },
-                                                              //   child: Container(
-                                                              //     height: height/26.04,
-                                                              //     decoration: const BoxDecoration(
-                                                              //       color: Color(0xffff9700),
-                                                              //       boxShadow: [
-                                                              //         BoxShadow(
-                                                              //           color: Colors.black26,
-                                                              //           offset: Offset(1, 2),
-                                                              //           blurRadius: 3,
-                                                              //         ),
-                                                              //       ],
-                                                              //     ),
-                                                              //     child: Padding(
-                                                              //       padding: const EdgeInsets.symmetric(horizontal: 6),
-                                                              //       child: Center(
-                                                              //         child: Row(
-                                                              //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                              //           children: [
-                                                              //             Icon(
-                                                              //               Icons.add,
-                                                              //               color: Colors.white,
-                                                              //               size: width/91.06666666666667,
-                                                              //             ),
-                                                              //             KText(
-                                                              //               text: "Edit",
-                                                              //               style: GoogleFonts.openSans(
-                                                              //                 color: Colors.white,
-                                                              //                 fontSize: width/136.6,
-                                                              //                 fontWeight: FontWeight.bold,
-                                                              //               ),
-                                                              //             ),
-                                                              //           ],
-                                                              //         ),
-                                                              //       ),
-                                                              //     ),
-                                                              //   ),
-                                                              // ),
-                                                              // SizedBox(width: width/273.2),
-                                                              // InkWell(
-                                                              //   onTap: () {
-                                                              //     CoolAlert.show(
-                                                              //         context: context,
-                                                              //         type: CoolAlertType.info,
-                                                              //         text: "${zones[i].zoneName} will be deleted",
-                                                              //         title: "Delete this Record?",
-                                                              //         width: size.width * 0.4,
-                                                              //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
-                                                              //         showCancelBtn: true,
-                                                              //         cancelBtnText: 'Cancel',
-                                                              //         cancelBtnTextStyle: const TextStyle(color: Colors.black),
-                                                              //         onConfirmBtnTap: () async {
-                                                              //           FirebaseFirestore.instance.collection('Zones').doc(zones[i].id).delete();
-                                                              //         }
-                                                              //     );
-                                                              //   },
-                                                              //   child: Container(
-                                                              //     height: height/26.04,
-                                                              //     decoration: const BoxDecoration(
-                                                              //       color: Color(0xfff44236),
-                                                              //       boxShadow: [
-                                                              //         BoxShadow(
-                                                              //           color: Colors.black26,
-                                                              //           offset: Offset(1, 2),
-                                                              //           blurRadius: 3,
-                                                              //         ),
-                                                              //       ],
-                                                              //     ),
-                                                              //     child: Padding(
-                                                              //       padding: const EdgeInsets.symmetric(
-                                                              //           horizontal: 6),
-                                                              //       child: Center(
-                                                              //         child: Row(
-                                                              //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                              //           children: [
-                                                              //             Icon(
-                                                              //               Icons.cancel_outlined,
-                                                              //               color: Colors.white,
-                                                              //               size: width/91.06666666666667,
-                                                              //             ),
-                                                              //             KText(
-                                                              //               text: "Delete",
-                                                              //               style: GoogleFonts.openSans(
-                                                              //                 color: Colors.white,
-                                                              //                 fontSize: width/136.6,
-                                                              //                 fontWeight: FontWeight.bold,
-                                                              //               ),
-                                                              //             ),
-                                                              //           ],
-                                                              //         ),
-                                                              //       ),
-                                                              //     ),
-                                                              //   ),
-                                                              // )
-                                                            ],
-                                                          )
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: width/13.66,
+                                        child: KText(
+                                          text: "No.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                        );
-                                      }
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/6.83,
+                                        child: KText(
+                                          text: "Zone Name",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/6.83,
+                                        child: KText(
+                                          text: "Total Area",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/5.464,
+                                        child: KText(
+                                          text: "Zone Leader",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width/5.464,
+                                        child: KText(
+                                          text: "Actions",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: width/105.0769230769231,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                ListView.builder(
-                                  itemCount: zoneHelpersList.length,
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: zones.length,
                                   itemBuilder: (ctx, i) {
-                                    var data = zoneHelpersList[i];
                                     return Container(
                                       height: height/10.85,
                                       width: double.infinity,
@@ -1927,7 +1097,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                             SizedBox(
                                               width: width/6.83,
                                               child: KText(
-                                                text: data.firstName! +" "+data.lastName!,
+                                                text: zones[i].zoneName!,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
@@ -1937,7 +1107,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                             SizedBox(
                                               width: width/6.83,
                                               child: KText(
-                                                text: data.phone!,
+                                                text: zones[i].areas!.length.toString(),
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
@@ -1947,7 +1117,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                             SizedBox(
                                               width: width/5.464,
                                               child: KText(
-                                                text: data.resistentialAddress!,
+                                                text: zones[i].leaderName!,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.0769230769231,
                                                   fontWeight: FontWeight.w600,
@@ -1960,7 +1130,20 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                                   children: [
                                                     InkWell(
                                                       onTap: () {
-                                                        viewPopup(data);
+                                                        setState(() {
+                                                          zoneNameController.text = zones[i].zoneName!;
+                                                          zoneIdController.text = zones[i].zoneId!;
+                                                          leaderNameController.text = zones[i].leaderName!;
+                                                          zoneAreasList.add("All Areas");
+                                                          zones[i].areas!.forEach((element) {
+                                                            zoneAreasList.add(element);
+                                                          });
+                                                          zones[i].supporters!.forEach((element) {
+                                                            zoneHelpersList.add(element);
+                                                          });
+                                                          areaController.text = zoneAreasList.first;
+                                                          currentTab = "View Members";
+                                                        });
                                                       },
                                                       child: Container(
                                                         height: height/26.04,
@@ -1999,6 +1182,118 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                                         ),
                                                       ),
                                                     ),
+                                                    SizedBox(width: width/273.2),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          zoneAreasList.clear();
+                                                          zoneHelpersList.clear();
+                                                          zoneIdController.text = zones[i].zoneId!;
+                                                          zoneNameController.text = zones[i].zoneName!;
+                                                          leaderNameController.text = zones[i].leaderName!;
+                                                          leaderPhoneController.text = zones[i].leaderPhone!;
+                                                          zones[i].areas!.forEach((element) {
+                                                            zoneAreasList.add(element);
+                                                          });
+                                                          zones[i].supporters!.forEach((element) {
+                                                            zoneHelpersList.add(element);
+                                                          });
+                                                        });
+                                                        editPopUp(zones[i],size);
+                                                      },
+                                                      child: Container(
+                                                        height: height/26.04,
+                                                        decoration: const BoxDecoration(
+                                                          color: Color(0xffff9700),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.black26,
+                                                              offset: Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.add,
+                                                                  color: Colors.white,
+                                                                  size: width/91.06666666666667,
+                                                                ),
+                                                                KText(
+                                                                  text: "Edit",
+                                                                  style: GoogleFonts.openSans(
+                                                                    color: Colors.white,
+                                                                    fontSize: width/136.6,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: width/273.2),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        CoolAlert.show(
+                                                            context: context,
+                                                            type: CoolAlertType.info,
+                                                            text: "${zones[i].zoneName} will be deleted",
+                                                            title: "Delete this Record?",
+                                                            width: size.width * 0.4,
+                                                            backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                            showCancelBtn: true,
+                                                            cancelBtnText: 'Cancel',
+                                                            cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                            onConfirmBtnTap: () async {
+                                                              FirebaseFirestore.instance.collection('Zones').doc(zones[i].id).delete();
+                                                            }
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        height: height/26.04,
+                                                        decoration: const BoxDecoration(
+                                                          color: Color(0xfff44236),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.black26,
+                                                              offset: Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 6),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.cancel_outlined,
+                                                                  color: Colors.white,
+                                                                  size: width/91.06666666666667,
+                                                                ),
+                                                                KText(
+                                                                  text: "Delete",
+                                                                  style: GoogleFonts.openSans(
+                                                                    color: Colors.white,
+                                                                    fontSize: width/136.6,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
                                                   ],
                                                 )
                                             ),
@@ -2007,19 +1302,712 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                       ),
                                     );
                                   },
-                                )
-                              ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }return Container();
+              },
+            )
+                : currentTab.toUpperCase() == "VIEW MEMBERS"
+                ? Container(
+              width: width/1.241,
+              margin:   EdgeInsets.symmetric(
+                  vertical: height/32.55,
+                  horizontal: width/68.3
+              ),
+              decoration: BoxDecoration(
+                color: Constants().primaryAppColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(1, 2),
+                    blurRadius: 3,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: size.height * 0.1,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width/68.3, vertical: height/81.375),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          KText(
+                            text: "View Members",
+                            style: GoogleFonts.openSans(
+                              fontSize: width/68.3,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              )
-                  : Container()
-            ],
-          ),
+                  ),
+                  Container(
+                    height: size.height * 0.73,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        )),
+                    padding:   EdgeInsets.symmetric(
+                        vertical: height/32.55,
+                        horizontal: width/68.3
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width / 4.553,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Zone ID",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width / 105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    readOnly: true,
+                                    style: TextStyle(fontSize: width / 113.83),
+                                    controller: zoneIdController,
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: width / 68.3),
+                            SizedBox(
+                              width: width / 4.553,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Zone Name",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width / 105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    readOnly: true,
+                                    style: TextStyle(fontSize: width / 113.83),
+                                    controller: zoneNameController,
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: width / 68.3),
+                            SizedBox(
+                              width: width / 4.553,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Leader Name",
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.black,
+                                      fontSize: width / 105.076,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    readOnly: true,
+                                    style: TextStyle(fontSize: width / 113.83),
+                                    controller: leaderNameController,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height / 32.55),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              KText(
+                                text: "Areas",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: width / 105.076,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: 40,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: zoneAreasList.length,
+                                  itemBuilder: (ctx,i){
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            setState(() {
+                                              selectedTabIndex = i;
+                                              areaController.text = zoneAreasList[i];
+                                            });
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                            color: selectedTabIndex == i ? Constants().primaryAppColor : Colors.white,
+                                            border: Border.all(color: selectedTabIndex == i ? Colors.white : Constants().primaryAppColor),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            child: KText(
+                                              text: zoneAreasList[i],
+                                              style: GoogleFonts.openSans(
+                                                color: selectedTabIndex == i ? Colors.white : Colors.black,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                              // DropdownButton(
+                              //   isExpanded: true,
+                              //   value: areaController.text,
+                              //   icon: Icon(Icons.keyboard_arrow_down),
+                              //   underline: Container(),
+                              //   items: zoneAreasList.map((items) {
+                              //     return DropdownMenuItem(
+                              //       value: items,
+                              //       child: Text(items),
+                              //     );
+                              //   }).toList(),
+                              //   onChanged: (newValue) {
+                              //     setState(() {
+                              //       areaController.text = newValue.toString();
+                              //     });
+                              //   },
+                              // ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: height / 32.55),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          height: height/10.85,
+                          width: double.infinity,
+                          color: Constants().primaryAppColor,
+                          child: TabBar(
+                            onTap: (int index) {
+                              setState(() {
+                                currentTabIndex = index;
+                              });
+                            },
+                            labelPadding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                            splashBorderRadius: BorderRadius.circular(30),
+                            automaticIndicatorColorAdjustment: true,
+                            dividerColor: Colors.transparent,
+                            controller: _tabController,
+                            indicator: BoxDecoration(
+                              color: Constants().primaryAppColor,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            labelColor: Colors.black,
+                            tabs: [
+                              Tab(
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    "Member in Area",
+                                    style: GoogleFonts.openSans(
+                                      color: currentTabIndex == 0
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: width/97.57142857142857,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    "Zone Leader Supporters",
+                                    style: GoogleFonts.openSans(
+                                      color: currentTabIndex == 1
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: width/97.57142857142857,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: height / 32.55),
+                        SizedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: width/13.66,
+                                  child: KText(
+                                    text: "No.",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: width/105.0769230769231,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width/6.83,
+                                  child: KText(
+                                    text: "Name",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: width/105.0769230769231,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width/6.83,
+                                  child: KText(
+                                    text: "Phone",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: width/105.0769230769231,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width/5.464,
+                                  child: KText(
+                                    text: "Address",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: width/105.0769230769231,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                // SizedBox(
+                                //   width: width/5.464,
+                                //   child: KText(
+                                //     text: "Actions",
+                                //     style: GoogleFonts.poppins(
+                                //       fontSize: width/105.0769230769231,
+                                //       fontWeight: FontWeight.w600,
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            dragStartBehavior: DragStartBehavior.down,
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: _tabController,
+                            children: [
+                              FutureBuilder(
+                                  future: getMembersForArea(areaController.text,zoneAreasList),
+                                  //future: FirebaseFirestore.instance.collection('Users').where("address", isEqualTo: areaController.text).get(),
+                                  builder: (context,snap) {
+                                    if(snap.hasData){
+                                      var val = snap.data!;
+                                      return ListView.builder(
+                                        itemCount: val.length,
+                                        itemBuilder: (ctx, i) {
+                                          var data = val[i];
+                                          return Container(
+                                            height: height/10.85,
+                                            width: double.infinity,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border(
+                                                top: BorderSide(
+                                                  color: Color(0xfff1f1f1),
+                                                  width: 0.5,
+                                                ),
+                                                bottom: BorderSide(
+                                                  color: Color(0xfff1f1f1),
+                                                  width: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: width/13.66,
+                                                    child: KText(
+                                                      text: (i + 1).toString(),
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: width/105.0769230769231,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width/6.83,
+                                                    child: KText(
+                                                      text: data.get("firstName") +" "+data.get("lastName"),
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: width/105.0769230769231,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width/6.83,
+                                                    child: KText(
+                                                      text: data.get("phone"),
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: width/105.0769230769231,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width/5.464,
+                                                    child: KText(
+                                                      text: data.get("resistentialAddress"),
+                                                      style: GoogleFonts.poppins(
+                                                        fontSize: width/105.0769230769231,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      width: width/5.464,
+                                                      child: Row(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              viewPopup(MembersModel.fromJson(data.data() as Map<String,dynamic>));
+                                                            },
+                                                            child: Container(
+                                                              height: height/26.04,
+                                                              decoration: const BoxDecoration(
+                                                                color: Color(0xff2baae4),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.black26,
+                                                                    offset: Offset(1, 2),
+                                                                    blurRadius: 3,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                                child: Center(
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons.remove_red_eye,
+                                                                        color: Colors.white,
+                                                                        size: width/91.06666666666667,
+                                                                      ),
+                                                                      KText(
+                                                                        text: "View",
+                                                                        style: GoogleFonts.openSans(
+                                                                          color: Colors.white,
+                                                                          fontSize: width/136.6,
+                                                                          fontWeight: FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // SizedBox(width: width/273.2),
+                                                          // InkWell(
+                                                          //   onTap: () {
+                                                          //     setState(() {
+                                                          //       zoneIdController.text = zones[i].zoneId!;
+                                                          //       zoneNameController.text = zones[i].zoneName!;
+                                                          //       leaderNameController.text = zones[i].leaderName!;
+                                                          //       zones[i].areas!.forEach((element) {
+                                                          //         zoneAreasList.add(element);
+                                                          //       });
+                                                          //     });
+                                                          //     editPopUp(zones[i],size);
+                                                          //   },
+                                                          //   child: Container(
+                                                          //     height: height/26.04,
+                                                          //     decoration: const BoxDecoration(
+                                                          //       color: Color(0xffff9700),
+                                                          //       boxShadow: [
+                                                          //         BoxShadow(
+                                                          //           color: Colors.black26,
+                                                          //           offset: Offset(1, 2),
+                                                          //           blurRadius: 3,
+                                                          //         ),
+                                                          //       ],
+                                                          //     ),
+                                                          //     child: Padding(
+                                                          //       padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                          //       child: Center(
+                                                          //         child: Row(
+                                                          //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                          //           children: [
+                                                          //             Icon(
+                                                          //               Icons.add,
+                                                          //               color: Colors.white,
+                                                          //               size: width/91.06666666666667,
+                                                          //             ),
+                                                          //             KText(
+                                                          //               text: "Edit",
+                                                          //               style: GoogleFonts.openSans(
+                                                          //                 color: Colors.white,
+                                                          //                 fontSize: width/136.6,
+                                                          //                 fontWeight: FontWeight.bold,
+                                                          //               ),
+                                                          //             ),
+                                                          //           ],
+                                                          //         ),
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                          // SizedBox(width: width/273.2),
+                                                          // InkWell(
+                                                          //   onTap: () {
+                                                          //     CoolAlert.show(
+                                                          //         context: context,
+                                                          //         type: CoolAlertType.info,
+                                                          //         text: "${zones[i].zoneName} will be deleted",
+                                                          //         title: "Delete this Record?",
+                                                          //         width: size.width * 0.4,
+                                                          //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                          //         showCancelBtn: true,
+                                                          //         cancelBtnText: 'Cancel',
+                                                          //         cancelBtnTextStyle: const TextStyle(color: Colors.black),
+                                                          //         onConfirmBtnTap: () async {
+                                                          //           FirebaseFirestore.instance.collection('Zones').doc(zones[i].id).delete();
+                                                          //         }
+                                                          //     );
+                                                          //   },
+                                                          //   child: Container(
+                                                          //     height: height/26.04,
+                                                          //     decoration: const BoxDecoration(
+                                                          //       color: Color(0xfff44236),
+                                                          //       boxShadow: [
+                                                          //         BoxShadow(
+                                                          //           color: Colors.black26,
+                                                          //           offset: Offset(1, 2),
+                                                          //           blurRadius: 3,
+                                                          //         ),
+                                                          //       ],
+                                                          //     ),
+                                                          //     child: Padding(
+                                                          //       padding: const EdgeInsets.symmetric(
+                                                          //           horizontal: 6),
+                                                          //       child: Center(
+                                                          //         child: Row(
+                                                          //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                          //           children: [
+                                                          //             Icon(
+                                                          //               Icons.cancel_outlined,
+                                                          //               color: Colors.white,
+                                                          //               size: width/91.06666666666667,
+                                                          //             ),
+                                                          //             KText(
+                                                          //               text: "Delete",
+                                                          //               style: GoogleFonts.openSans(
+                                                          //                 color: Colors.white,
+                                                          //                 fontSize: width/136.6,
+                                                          //                 fontWeight: FontWeight.bold,
+                                                          //               ),
+                                                          //             ),
+                                                          //           ],
+                                                          //         ),
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // )
+                                                        ],
+                                                      )
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                              ),
+                              ListView.builder(
+                                itemCount: zoneHelpersList.length,
+                                itemBuilder: (ctx, i) {
+                                  var data = zoneHelpersList[i];
+                                  return Container(
+                                    height: height/10.85,
+                                    width: double.infinity,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: Color(0xfff1f1f1),
+                                          width: 0.5,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Color(0xfff1f1f1),
+                                          width: 0.5,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: width/13.66,
+                                            child: KText(
+                                              text: (i + 1).toString(),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.0769230769231,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width/6.83,
+                                            child: KText(
+                                              text: data.firstName! +" "+data.lastName!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.0769230769231,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width/6.83,
+                                            child: KText(
+                                              text: data.phone!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.0769230769231,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width/5.464,
+                                            child: KText(
+                                              text: data.resistentialAddress!,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: width/105.0769230769231,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              width: width/5.464,
+                                              child: Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      viewPopup(data);
+                                                    },
+                                                    child: Container(
+                                                      height: height/26.04,
+                                                      decoration: const BoxDecoration(
+                                                        color: Color(0xff2baae4),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.black26,
+                                                            offset: Offset(1, 2),
+                                                            blurRadius: 3,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                                                        child: Center(
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                            children: [
+                                                              Icon(
+                                                                Icons.remove_red_eye,
+                                                                color: Colors.white,
+                                                                size: width/91.06666666666667,
+                                                              ),
+                                                              KText(
+                                                                text: "View",
+                                                                style: GoogleFonts.openSans(
+                                                                  color: Colors.white,
+                                                                  fontSize: width/136.6,
+                                                                  fontWeight: FontWeight.bold,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+                : Container()
+          ],
         ),
       ),
     );

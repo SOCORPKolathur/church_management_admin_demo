@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:church_management_admin/models/gallery_image_model.dart';
 import 'package:church_management_admin/models/response.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,12 +49,15 @@ class GalleryFireCrud {
     return response;
   }
 
-  static Future<Response> addVideo(file) async {
+  static Future<Response> addVideo(String videoUrl,String thumbUrl) async {
     Response response = Response();
-    String downloadUrl = await uploadVideoToStorage(file);
     DocumentReference documentReferencer = VideoGalleryCollection.doc();
-    Map<String, dynamic> data = <String, dynamic>{"videoUrl": downloadUrl, "id" : documentReferencer.id};
-    var result = await documentReferencer.set(data).whenComplete(() {
+    Map<String, dynamic> data = <String, dynamic>{
+      "thumbUrl": thumbUrl,
+      "videoUrl": videoUrl,
+      "id" : documentReferencer.id,
+    };
+    var result = await documentReferencer.set(data).whenComplete(() async {
       response.code = 200;
       response.message = 'Success';
     }).catchError((e) {
@@ -62,6 +66,25 @@ class GalleryFireCrud {
     });
     return response;
   }
+
+  // static Future<Response> addVideo(file) async {
+  //   Response response = Response();
+  //   String downloadUrl = await uploadVideoToStorage(file);
+  //   DocumentReference documentReferencer = VideoGalleryCollection.doc();
+  //   Map<String, dynamic> data = <String, dynamic>{
+  //     "thumbUrl": "",
+  //     "videoUrl": downloadUrl,
+  //     "id" : documentReferencer.id,
+  //   };
+  //   var result = await documentReferencer.set(data).whenComplete(() async {
+  //     response.code = 200;
+  //     response.message = 'Success';
+  //   }).catchError((e) {
+  //     response.code = 500;
+  //     response.message = 'Failed';
+  //   });
+  //   return response;
+  // }
 
   static Future<Response> deleteImage(String id, String collection) async {
     Response response = Response();

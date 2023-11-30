@@ -26,6 +26,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController amcDateController = TextEditingController();
+  TextEditingController insuranceDateController = TextEditingController();
   TextEditingController approxValueController = TextEditingController();
   TextEditingController verifierController = TextEditingController();
   TextEditingController assetsController = TextEditingController();
@@ -456,6 +457,37 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width:width/5.939,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Insurance Date (if applicable)",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize:width/105.07,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          readOnly: true,
+                                          style: TextStyle(fontSize: width/113.83),
+                                          controller: insuranceDateController,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await Constants().datePicker(context);
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                insuranceDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               SizedBox(height:height/21.7),
@@ -530,6 +562,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                           Response response =
                                           await AssetManagementFireCrud.addAssetManagement(
                                             amcDate: amcDateController.text,
+                                            insuranceDate: insuranceDateController.text,
                                             document: documentForUpload,
                                             image: profileImage,
                                             description: descriptionController.text,
@@ -552,6 +585,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                               approxValueController.text = "";
                                               verifierController.text = "";
                                               assetsController.text = "";
+                                              insuranceDateController.text = "";
                                               descriptionController.text = "";
                                               uploadedImage = null;
                                               profileImage = null;
@@ -925,6 +959,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                                         assetsController.text = assets[i].assets!;
                                                         approxValueController.text = assets[i].approxValue!;
                                                         verifierController.text = assets[i].verifier!;
+                                                        insuranceDateController.text = assets[i].insuranceDate!;
                                                         descriptionController.text = assets[i].description!;
                                                       });
                                                       editPopUp(assets[i],size);
@@ -2198,6 +2233,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                   verifierController.text = "";
                                   assetsController.text = "";
                                   descriptionController.text = "";
+                                  insuranceDateController.clear();
                                   dateController.text = formatter.format(DateTime.now());
                                 });
                                 Navigator.pop(context);
@@ -2234,8 +2270,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                             SizedBox(width:width/6830),
                             InkWell(
                               onTap: () async {
-                                if (verifierController.text != "" &&
-                                    dateController.text != "") {
+                                if (verifierController.text != "" && dateController.text != "") {
                                   Response response =
                                   await AssetManagementFireCrud
                                       .updateRecord(
@@ -2245,6 +2280,7 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       description: descriptionController.text,
                                       imgUrl: asset.imgUrl,
                                       amcDate: asset.amcDate,
+                                      insuranceDate: asset.insuranceDate,
                                       document: asset.document,
                                       date: dateController.text,
                                       verifier: verifierController.text,
@@ -2583,6 +2619,29 @@ class _AssetManagementTabState extends State<AssetManagementTab> {
                                       SizedBox(width:width/6830),
                                       Text(
                                         asset.amcDate!,
+                                        style: TextStyle(
+                                            fontSize:width/97.571
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height:height/32.55),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Insurance Date",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: width/85.375
+                                          ),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width:width/6830),
+                                      Text(
+                                        asset.insuranceDate!,
                                         style: TextStyle(
                                             fontSize:width/97.571
                                         ),
