@@ -41,6 +41,7 @@ class UserModel {
         required this.anniversaryDate,
         required this.maritialStatus,
         required this.gender,
+        required this.status,
         required this.bloodGroup,
         required this.isPrivacyEnabled,
         required this.dob,
@@ -59,6 +60,7 @@ class UserModel {
     firstName = json['firstName'];
     lastName = json['lastName'];
     fcmToken = json['fcmToken'];
+    status = json['status'];
     phone = json['phone'];
     aadharNo = json['aadharNo'];
     email = json['email'];
@@ -86,6 +88,7 @@ class UserModel {
     data['fcmToken'] = this.fcmToken;
     data['lastName'] = this.lastName;
     data['aadharNo'] = this.aadharNo;
+    data['status'] = this.status;
     data['maritialStatus'] = this.maritialStatus;
     data['phone'] = this.phone;
     data['gender'] = this.gender;

@@ -821,6 +821,9 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                              ],
                                               controller: verifierController,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
@@ -857,6 +860,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
+
                                               controller: sourceController,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
@@ -894,7 +898,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                             padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
                                             child: TextFormField(
                                               inputFormatters: [
-                                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                                               ],
                                               maxLines: null,
                                               controller: remarksController,

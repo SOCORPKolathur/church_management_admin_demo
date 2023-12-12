@@ -12,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/developer_card_widget.dart';
@@ -1420,12 +1419,14 @@ class _PastorsTabState extends State<PastorsTab> {
                                             firstNameController.text != "" &&
                                             genderController.text != "Select Gender" &&
                                             lastNameController.text != "" &&
-                                            phoneController.text != "") {
+                                            phoneController.text != "" &&
+                                            phoneController.text.length == 10
+                                        ) {
                                           Response response =
                                           await PastorsFireCrud.addPastor(
                                             image: profileImage,
                                             address: addressController.text,
-                                            permanentAddress: permanentAddressController.text,
+                                            permanentAddress: addressController.text,
                                             familyId: familyIDController.text,
                                             maritalStatus: marriedController,
                                             gender: genderController.text,
@@ -2610,15 +2611,15 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                       Text(":"),
                                       SizedBox(width:width/68.3),
-                                      /*SizedBox(
+                                      SizedBox(
                                         width: size.width * 0.3,
                                         child: KText(
-                                          text: pastor.permanentAddress!,
+                                          text: pastor.address!,
                                           style: TextStyle(
                                               fontSize:width/97.571
                                           ),
                                         ),
-                                      ),*/
+                                      ),
                                     ],
                                   ),
                                   SizedBox(height:height/32.55),

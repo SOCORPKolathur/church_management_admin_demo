@@ -310,7 +310,7 @@ class _StudentTabState extends State<StudentTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 2.2,
+              height: size.height * 2.3,
               width: size.width/1.241818182,
               margin:  EdgeInsets.symmetric(horizontal: width/68.3,vertical: height/32.55),
               decoration: BoxDecoration(

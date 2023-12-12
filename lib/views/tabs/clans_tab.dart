@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:church_management_admin/models/clan_member_model.dart';
 import 'package:church_management_admin/services/clans_firecrud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:csv/csv.dart';
 import 'package:email_validator/email_validator.dart';
@@ -1173,8 +1174,8 @@ class _ClansTabState extends State<ClansTab> {
                                                                 InkWell(
                                                                   onTap: () {
                                                                     setState(() {
-                                                                      currentTab = 'View Members';
                                                                       currentClanId = clans[i].id!;
+                                                                      currentTab = 'View Members';
                                                                     });
                                                                   },
                                                                   child: Container(
@@ -1313,28 +1314,32 @@ class _ClansTabState extends State<ClansTab> {
                   },
                 ) : currentTab.toUpperCase() == "VIEW MEMBERS" ?
             StreamBuilder(
-              stream: ClansFireCrud.fetchClanMembers(currentClanId),// searchString != "" ? ClansFireCrud.fetchClansWithSearch(searchString) : ,
+              //stream: ClansFireCrud.fetchClanMembers(currentClanId),// searchString != "" ? ClansFireCrud.fetchClansWithSearch(searchString) : ,
+              stream: cf.FirebaseFirestore.instance.collection('Clans').doc(currentClanId).collection('ClansMembers').snapshots(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
                   //List<ClanMemberModel> clansMembers = snapshot.data!;
-                  List<ClanMemberModel> clansMembers1 = snapshot.data!;
+                  List<cf.DocumentSnapshot> clansMembers1 = snapshot.data!.docs;
                   List<ClanMemberModel> clansMembers = [];
-                  clansMembers1.forEach((element) {
-                    if(searchString != ""){
-                      if(
-                      //element.get("profession")!.toLowerCase().startsWith(searchString.toLowerCase())||
-                      element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
-                          (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
-                          element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())){
-                        //element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
-                        clansMembers.add(element);
-                      }else{
-                        clansMembers.add(element);
-                      }
-                    }
-                  });
+                  // clansMembers1.forEach((element) {
+                  //   if(searchString != ""){
+                  //     if(
+                  //     //element.get("profession")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                  //     element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                  //         (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                  //         element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())){
+                  //       //element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
+                  //       clansMembers.add(element);
+                  //     }else{
+                  //       clansMembers.add(element);
+                  //     }
+                  //   }
+                  // });
+                  for(int d = 0; d < clansMembers1.length; d++){
+                    clansMembers.add(ClanMemberModel.fromJson(clansMembers1[d].data() as Map<String,dynamic>));
+                  }
                   return Container(
                     width: width/1.241,
                     margin:   EdgeInsets.symmetric(
@@ -1402,8 +1407,8 @@ class _ClansTabState extends State<ClansTab> {
                                     InkWell(
                                       onTap: (){
                                         setState(() {
-                                          currentTab = 'View';
                                           currentClanId = '';
+                                          currentTab = 'View';
                                         });
                                       },
                                       child: Container(
@@ -3375,7 +3380,7 @@ class _ClansTabState extends State<ClansTab> {
                                                   gender : genderController.text
                                               );
                                               if (response.code == 200) {
-                                                CoolAlert.show(
+                                                await CoolAlert.show(
                                                     context: context,
                                                     type: CoolAlertType.success,
                                                     text: "Flock member created successfully!",
@@ -3406,9 +3411,8 @@ class _ClansTabState extends State<ClansTab> {
                                                   isLoading = false;
                                                 });
                                                 Navigator.pop(context);
-                                                Navigator.pop(context);
                                               } else {
-                                                CoolAlert.show(
+                                                await CoolAlert.show(
                                                     context: context,
                                                     type: CoolAlertType.error,
                                                     text: "Failed to create Flock member!",

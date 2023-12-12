@@ -525,7 +525,7 @@ class _UserTabState extends State<UserTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyFirstname.currentState!.validate();
+                                            //_keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -572,7 +572,7 @@ class _UserTabState extends State<UserTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyLastname.currentState!.validate();
+                                           // _keyLastname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -621,7 +621,7 @@ class _UserTabState extends State<UserTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPhone.currentState!.validate();
+                                            //_keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -673,7 +673,7 @@ class _UserTabState extends State<UserTab> {
                                             return null;
                                           },
                                           onChanged: (val){
-                                            _key.currentState!.validate();
+                                            //_key.currentState!.validate();
                                           },
                                           style: TextStyle(fontSize: width / 113.83),
                                           controller: emailController,
@@ -752,7 +752,7 @@ class _UserTabState extends State<UserTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyAadhar.currentState!.validate();
+                                            //_keyAadhar.currentState!.validate();
                                           },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
@@ -929,7 +929,7 @@ class _UserTabState extends State<UserTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPincode.currentState!.validate();
+                                            //_keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1122,7 +1122,7 @@ class _UserTabState extends State<UserTab> {
                                             counterText: "",
                                           ),
                                           onChanged: (val){
-                                            _keyLocality.currentState!.validate();
+                                            //_keyLocality.currentState!.validate();
                                           },
                                           maxLength: 40,
                                           validator: (val){
@@ -1235,13 +1235,16 @@ class _UserTabState extends State<UserTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          ],
                                           decoration: InputDecoration(
                                             counterText: "",
                                           ),
                                           maxLength: 100,
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: qualificationController,
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1419,6 +1422,8 @@ class _UserTabState extends State<UserTab> {
                                             lastNameController.text != "" &&
                                             localityController.text != "" &&
                                             dobController.text != "" &&
+                                            aadharController.text.length == 12 &&
+                                            phoneController.text.length == 10 &&
                                             phoneController.text != "" &&
                                             GenderController != "Select Gender" &&
                                             marriedController != "Select Status")
@@ -2056,7 +2061,7 @@ class _UserTabState extends State<UserTab> {
                                                           valueFontSize: 11,
                                                           toggleSize: 0,
                                                           //value: users[i].user.status!,
-                                                          value: true,
+                                                          value: users[i].user.status,
                                                           borderRadius: 30,
                                                           padding: 8.0,
                                                           showOnOff: true,
@@ -2079,7 +2084,7 @@ class _UserTabState extends State<UserTab> {
                                                                 cancelBtnText: 'Cancel',
                                                                 cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                                 onConfirmBtnTap: () async {
-                                                                  //await updateMemberStatus(members[i].id!, val);
+                                                                  await updateMemberStatus(users[i].user.id, val);
                                                                 }
                                                             );
                                                           },
@@ -3010,6 +3015,12 @@ class _UserTabState extends State<UserTab> {
       }
     }
     return result;
+  }
+
+  updateMemberStatus(String docId,bool status) async {
+    cf.FirebaseFirestore.instance.collection('Users').doc(docId).update({
+      "status" : status,
+    });
   }
 
   editPopUp(UserModel user,String userDocID, Size size) {
@@ -3958,6 +3969,7 @@ class _UserTabState extends State<UserTab> {
                                       Response response = await UserFireCrud.updateRecord(userDocID, UserModel(
                                         id: user.id,
                                         isPrivacyEnabled: user.isPrivacyEnabled,
+                                        status: user.status,
                                         pincode: pincodeController.text != "" ? pincodeController.text : user.pincode,
                                         timestamp: user.timestamp,
                                         baptizeDate: baptizeDateController.text != "" ? baptizeDateController.text : user.baptizeDate,

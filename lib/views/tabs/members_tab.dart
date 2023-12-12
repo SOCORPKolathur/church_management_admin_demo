@@ -696,7 +696,7 @@ class _MembersTabState extends State<MembersTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyFirstname.currentState!.validate();
+                                            //_keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -736,7 +736,7 @@ class _MembersTabState extends State<MembersTab> {
                                             FocusScope.of(context).requestFocus(phoneFocusNode);
                                           },
                                           onChanged: (val){
-                                            _keyLastname.currentState!.validate();
+                                            //_keyLastname.currentState!.validate();
                                           },
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -796,7 +796,7 @@ class _MembersTabState extends State<MembersTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPhone.currentState!.validate();
+                                           // _keyPhone.currentState!.validate();
                                           },
                                           decoration: const InputDecoration(
                                             counterText: "",
@@ -844,7 +844,7 @@ class _MembersTabState extends State<MembersTab> {
                                             return null;
                                           },
                                           onChanged: (val){
-                                            _key.currentState!.validate();
+                                            //_key.currentState!.validate();
                                           },
                                           style:  TextStyle(fontSize: width/113.83),
                                           controller: emailController,
@@ -1010,7 +1010,7 @@ class _MembersTabState extends State<MembersTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyAadhar.currentState!.validate();
+                                            //_keyAadhar.currentState!.validate();
                                           },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
@@ -1355,6 +1355,9 @@ class _MembersTabState extends State<MembersTab> {
                                            ),
                                          ),
                                          TextFormField(
+                                           inputFormatters: [
+                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                           ],
                                            focusNode: qualificationFocusNode,
                                            autofocus: true,
                                            onEditingComplete: (){
@@ -1656,7 +1659,7 @@ class _MembersTabState extends State<MembersTab> {
                                             FocusScope.of(context).requestFocus(pincodeFocusNode);
                                           },
                                           onChanged: (val){
-                                            _keyNationality.currentState!.validate();
+                                            //_keyNationality.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1831,7 +1834,7 @@ class _MembersTabState extends State<MembersTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPincode.currentState!.validate();
+                                           // _keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1996,6 +1999,8 @@ class _MembersTabState extends State<MembersTab> {
                                             familyController.text != "" &&
                                             familyIDController.text != "" &&
                                             pincodeController.text != "" &&
+                                            pincodeController.text.length == 6 &&
+                                            phoneController.text.length == 10 &&
                                             firstNameController.text != "" &&
                                             genderController.text != "Select Gender" &&
                                             lastNameController.text != "" &&

@@ -901,8 +901,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                               ),
                               isBirthday
                                   ? StreamBuilder(
-                                      stream: GreetingFireCrud
-                                          .fetchBirthdayWishesTemplates(),
+                                      stream: GreetingFireCrud.fetchBirthdayWishesTemplates(),
                                       builder: (ctx, snapshot) {
                                         if (snapshot.hasError) {
                                           return Container();
@@ -1054,34 +1053,34 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      Response response = await sendWishes(
-                                          users,
-                                          isBirthday
-                                              ? birthdayTemplateList
-                                              : anniversaryTemplateList);
-                                      if (response.code == 200) {
-                                        await CoolAlert.show(
-                                            context: context,
-                                            type: CoolAlertType.success,
-                                            text:
-                                                "Wish Sended to Users Successfully!",
-                                            width: size.width * 0.4,
-                                            backgroundColor: Constants()
-                                                .primaryAppColor
-                                                .withOpacity(0.8));
-                                        Navigator.pop(context);
-                                      } else {
-                                        await CoolAlert.show(
-                                            context: context,
-                                            type: CoolAlertType.error,
-                                            text:
-                                                "Failed to Send wishes Users!",
-                                            width: size.width * 0.4,
-                                            backgroundColor: Constants()
-                                                .primaryAppColor
-                                                .withOpacity(0.8));
-                                        Navigator.pop(context);
-                                      }
+
+                                        Response response = await sendWishes(
+                                            users,
+                                            isBirthday
+                                                ? birthdayTemplateList
+                                                : anniversaryTemplateList);
+                                        if (response.code == 200) {
+                                          await CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.success,
+                                              text:
+                                              "Wish Sended to Users Successfully!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          Navigator.pop(context);
+                                        } else {
+                                          await CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.error,
+                                              text: response.message,
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          Navigator.pop(context);
+                                        }
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -1155,14 +1154,19 @@ class _GreetingsTabState extends State<GreetingsTab> {
         }
       }
     }
-    users.forEach((element) async {
-      await sendEmail([element.email!], wishes[0].title!, wishes[0].content!);
-      await sendPushMessage(element.fcmToken!, wishes[0].title!, wishes[0].content!);
-      await addToNotificationCollection(wishes[0].title!,wishes[0].content!,element);
-      await addToUserNotificationCollection(wishes[0].title!,wishes[0].content!,element);
-    });
-    response.code = 200;
-    response.message = "Success";
+    if(wishes.isNotEmpty){
+      users.forEach((element) async {
+        await sendEmail([element.email!], wishes[0].title!, wishes[0].content!);
+        await sendPushMessage(element.fcmToken!, wishes[0].title!, wishes[0].content!);
+        await addToNotificationCollection(wishes[0].title!,wishes[0].content!,element);
+        await addToUserNotificationCollection(wishes[0].title!,wishes[0].content!,element);
+      });
+      response.code = 200;
+      response.message = "Wishes send Successfully";
+    }else{
+      response.code = 500;
+      response.message = "Please Select one Template";
+    }
     return response;
   }
 

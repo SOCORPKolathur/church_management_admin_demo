@@ -96,6 +96,8 @@ class ClansFireCrud {
     if(image != null){
       downloadUrl = await uploadImageToStorage(image);
     }
+    print(docId);
+    print(downloadUrl);
     Response response = Response();
     DocumentReference documentReferencer = ClansCollection.doc(docId).collection('ClansMembers').doc();
     ClanMemberModel clan = ClanMemberModel(

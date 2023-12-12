@@ -206,7 +206,7 @@ class _FamilyTabState extends State<FamilyTab> {
               alignment: Alignment.center,
                   children: [
                     Container(
-              height: size.height * 1.7,
+              height: size.height * 1.85,
               width: double.infinity,
               margin:  EdgeInsets.symmetric(
                     horizontal: width/68.3,vertical: height/32.55
@@ -405,7 +405,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyFamilyname.currentState!.validate();
+                                          //  _keyFamilyname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -445,7 +445,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           },
                                           key: _keyFamilyLeadername,
                                           onChanged: (val){
-                                            _keyFamilyLeadername.currentState!.validate();
+                                           // _keyFamilyLeadername.currentState!.validate();
                                           },
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -596,7 +596,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPhone.currentState!.validate();
+                                           // _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -630,7 +630,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                           focusNode: emailFocusNode,
                                           autofocus: true,
                                           onEditingComplete: (){
-                                            _key.currentState!.validate();
+                                           // _key.currentState!.validate();
                                             FocusScope.of(context).requestFocus(addressFocusNode);
                                           },
                                           onFieldSubmitted: (val){
@@ -714,7 +714,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 }
                                               },
                                               onChanged: (val){
-                                                _keyAddress.currentState!.validate();
+                                               // _keyAddress.currentState!.validate();
                                               },
                                               maxLength: 255,
                                               maxLines: null,
@@ -900,7 +900,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyZone.currentState!.validate();
+                                            //_keyZone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -937,12 +937,14 @@ class _FamilyTabState extends State<FamilyTab> {
                                             familynameController.text != "" &&
                                             familyleadernameController.text != "" &&
                                             familynumberController.text != "" &&
+                                            familynumberController.text.length == 10 &&
+                                            zoneController.text.length == 6 &&
                                             familyIdController.text != "" &&
                                             familyQuanity != 0 &&
                                             addressController.text != "" &&
                                             zoneController.text != "") {
                                           Response response =  await FamilyFireCrud.addFamily(
-                                            permanentAddress: permanentAddressController.text,
+                                              permanentAddress: permanentAddressController.text,
                                               image: profileImage,
                                               familyId: familyIdController.text,
                                               name: familynameController.text,
@@ -978,6 +980,9 @@ class _FamilyTabState extends State<FamilyTab> {
                                             });
                                           }
                                         } else {
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
                                         }
@@ -1235,7 +1240,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                SizedBox(height: height/65.1),
                               Expanded(
                                 child: ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
+                                 // physics: NeverScrollableScrollPhysics(),
                                   itemCount: families.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
@@ -1784,15 +1789,15 @@ class _FamilyTabState extends State<FamilyTab> {
                                   ),
                                   Text(":"),
                                   SizedBox(width:width/68.3),
-                                  /*SizedBox(
+                                  SizedBox(
                                     width: size.width * 0.3,
                                     child: KText(
-                                      //text: family.permanentAddress!,
+                                      text: family.address!,
                                       style:  TextStyle(
                                           fontSize:width/97.57
                                       ),
-                                    ),
-                                  )*/
+                                    )
+                                  ),
                                 ],
                               ),
                                SizedBox(height:height/32.55),

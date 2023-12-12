@@ -183,8 +183,8 @@ class _MyAppState extends State<MyApp> {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
             useMaterial3: true,
           ),
-          //home: user != null ? HomeView(currentRole: user!.email!, sessionStateStream: sessionStateStream) : LoginView(sessionStateStream: sessionStateStream),
-          home: GalleryTab(),
+          home: user != null ? HomeView(currentRole: user!.email!, sessionStateStream: sessionStateStream) : LoginView(sessionStateStream: sessionStateStream),
+          //home: GalleryTab(),
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

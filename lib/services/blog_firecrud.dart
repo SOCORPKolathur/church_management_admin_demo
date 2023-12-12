@@ -46,10 +46,12 @@ class BlogFireCrud {
         timestamp: tempDate.millisecondsSinceEpoch,
         description: description,
         author: author,
+        likes: [],
         title: title,
         time: time,
         views: [],
-        imgUrl: downloadUrl);
+        imgUrl: downloadUrl,
+    );
     blog.id = documentReferencer.id;
     var json = blog.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
