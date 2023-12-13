@@ -1805,27 +1805,33 @@ class _CommitteeTabState extends State<CommitteeTab> {
               },
             ) : currentTab.toUpperCase() == "VIEW MEMBERS" ?
             StreamBuilder(
-              stream: CommitteeFireCrud.fetchCommittiesMembers(currentCommitteeId), //searchString != "" ? CommitteeFireCrud.fetchCommittiesWithSearch(searchString) : CommitteeFireCrud.fetchCommitties(),
+              //stream: CommitteeFireCrud.fetchCommittiesMembers(currentCommitteeId), //searchString != "" ? CommitteeFireCrud.fetchCommittiesWithSearch(searchString) : CommitteeFireCrud.fetchCommitties(),
+              stream: cf.FirebaseFirestore.instance.collection('Committee').doc(currentCommitteeId).collection('CommitteeMembers')
+                  .orderBy("timestamp", descending: false)
+                  .snapshots(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List<CommitteeMemberModel> committies1 = snapshot.data!;
+                  List<cf.DocumentSnapshot> committies1 = snapshot.data!.docs;
                   List<CommitteeMemberModel> committies = [];
-                    committies1.forEach((element) {
-                      if(searchString != ""){
-                        if(
-                        //element.get("profession")!.toLowerCase().startsWith(searchString.toLowerCase())||
-                            element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
-                            (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
-                            element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())){
-                            //element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
-                          committies.add(element);
-                        }else{
-                          committies.add(element);
-                        }
-                      }
-                    });
+                    // committies1.forEach((element) {
+                    //   if(searchString != ""){
+                    //     if(
+                    //     //element.get("profession")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                    //         element.firstName!.toLowerCase().startsWith(searchString.toLowerCase())||
+                    //         (element.firstName!+element.lastName!).toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                    //         element.lastName!.toLowerCase().startsWith(searchString.toLowerCase())){
+                    //         //element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
+                    //       committies.add(element);
+                    //     }else{
+                    //       committies.add(element);
+                    //     }
+                    //   }
+                    // });
+                  for(int d = 0; d < committies1.length; d++){
+                    committies.add(CommitteeMemberModel.fromJson(committies1[d].data() as Map<String,dynamic>));
+                  }
                   return Container(
                     width: width/1.241,
                     margin: EdgeInsets.symmetric(
@@ -2576,7 +2582,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   }
                                                 },
                                                 onChanged: (val){
-                                                  _keyFirstname.currentState!.validate();
+                                                 // _keyFirstname.currentState!.validate();
                                                 },
                                                 decoration: InputDecoration(
                                                   counterText: "",
@@ -2615,7 +2621,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   }
                                                 },
                                                 onChanged: (val){
-                                                  _keyLastname.currentState!.validate();
+                                                  //_keyLastname.currentState!.validate();
                                                 },
                                                 decoration: InputDecoration(
                                                   counterText: "",
@@ -2707,7 +2713,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   }
                                                 },
                                                 onChanged: (val){
-                                                  _keyPhone.currentState!.validate();
+                                                  //_keyPhone.currentState!.validate();
                                                 },
                                                 decoration: InputDecoration(
                                                   counterText: "",
@@ -2749,7 +2755,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   _key.currentState!.validate();
                                                 },
                                                 onChanged: (val){
-                                                  _key.currentState!.validate();
+                                                  //_key.currentState!.validate();
                                                 },
                                                 style: TextStyle(fontSize:width/113.83),
                                                 controller: emailController,
@@ -3092,7 +3098,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   }
                                                 },
                                                 onChanged: (val){
-                                                  _keyDepartment.currentState!.validate();
+                                                 // _keyDepartment.currentState!.validate();
                                                 },
                                                 decoration: InputDecoration(
                                                   counterText: "",
@@ -3221,7 +3227,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   }
                                                 },
                                                 onChanged: (val){
-                                                  _keyNationality.currentState!.validate();
+                                                 // _keyNationality.currentState!.validate();
                                                 },
                                                 inputFormatters: [
                                                   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -3257,7 +3263,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   }
                                                 },
                                                 onChanged: (val){
-                                                  _keyPincode.currentState!.validate();
+                                                  //_keyPincode.currentState!.validate();
                                                 },
                                                 decoration: InputDecoration(
                                                   counterText: "",
@@ -3376,6 +3382,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                 departmentController.text != "" &&
                                                 dobController.text != "" &&
                                                 pincodeController.text != "" &&
+                                                phoneController.text.length == 10 &&
+                                                pincodeController.text.length == 6 &&
                                                 familyController.text != "" &&
                                                 firstNameController.text != "" &&
                                                 genderController.text != "Select Gender" &&

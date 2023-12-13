@@ -498,7 +498,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyFirstname.currentState!.validate();
+                                            //_keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -545,7 +545,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyLastname.currentState!.validate();
+                                            //_keyLastname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -645,7 +645,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPhone.currentState!.validate();
+                                           // _keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -693,7 +693,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             return null;
                                           },
                                           onChanged: (val){
-                                            _key.currentState!.validate();
+                                           // _key.currentState!.validate();
                                           },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
@@ -733,7 +733,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyAadhar.currentState!.validate();
+                                           // _keyAadhar.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1313,7 +1313,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyNationality.currentState!.validate();
+                                            //_keyNationality.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1360,7 +1360,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPincode.currentState!.validate();
+                                            //_keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1544,6 +1544,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             familyController.text != "Select" &&
                                             firstNameController.text != "" &&
                                             pincodeController.text != "" &&
+                                            pincodeController.text.length == 6 &&
+                                            phoneController.text.length == 10 &&
                                             lastNameController.text != "" &&
                                             dateofjoiningController.text != "" &&
                                             nationalityController.text != "") {

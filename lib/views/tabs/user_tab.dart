@@ -1599,7 +1599,7 @@ class _UserTabState extends State<UserTab> {
                 : currentTab.toUpperCase() == "VIEW" ?
              StreamBuilder(
                     stream: filterText != ""
-                        ? cf.FirebaseFirestore.instance.collection('Users').where("firstName", isEqualTo: filterText).limit(10).snapshots()
+                        ? cf.FirebaseFirestore.instance.collection('Users').where("firstName".toLowerCase(), isEqualTo: filterText.toLowerCase()).snapshots()
                         : documentList.isNotEmpty
                         ? cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
                         : cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).limit(10).snapshots(),
@@ -1895,8 +1895,7 @@ class _UserTabState extends State<UserTab> {
                                         padding: EdgeInsets.symmetric( horizontal: width / 273.2,
                                             vertical: height / 130.2),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
                                             SizedBox(
                                               width: width / 17.075,

@@ -34,6 +34,7 @@ class _FundManagementTabState extends State<FundManagementTab>
   TextEditingController recordTypeController = TextEditingController(text: "Select Type");
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
+  final formatCurrency = NumberFormat.simpleCurrency(name: "₹");
   DateTime? dateRangeStart;
   DateTime? dateRangeEnd;
   bool isFiltered = false;
@@ -239,13 +240,13 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 KText(
-                                                  text: totalFunds.totalCollect!.toStringAsFixed(2),
+                                                  text: formatCurrency.format(totalFunds.totalCollect!),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
-                                                  text: totalFunds.totalCollect!.toStringAsFixed(2),
+                                                  text: formatCurrency.format(totalFunds.totalCollect!),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/85.375,
                                                     color:
@@ -349,13 +350,13 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 KText(
-                                                  text: totalFunds.totalSpend!.toStringAsFixed(2),
+                                                  text: formatCurrency.format(totalFunds.totalSpend!),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
-                                                  text: totalFunds.totalSpend!.toStringAsFixed(2),
+                                                  text: formatCurrency.format(totalFunds.totalSpend!),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/85.375,
                                                     color:
@@ -458,15 +459,13 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 KText(
-                                                  text: totalFunds
-                                                      .currentBalance!.toStringAsFixed(2),
+                                                  text: formatCurrency.format(totalFunds.currentBalance!),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/41.393,
                                                   ),
                                                 ),
                                                 KText(
-                                                  text: totalFunds
-                                                      .currentBalance!.toStringAsFixed(2),
+                                                  text: formatCurrency.format(totalFunds.currentBalance!),
                                                   style: GoogleFonts.inter(
                                                     fontSize: width/85.375,
                                                     color:

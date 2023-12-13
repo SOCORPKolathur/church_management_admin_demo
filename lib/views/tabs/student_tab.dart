@@ -586,7 +586,7 @@ class _StudentTabState extends State<StudentTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyFirstname.currentState!.validate();
+                                            //_keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -633,7 +633,7 @@ class _StudentTabState extends State<StudentTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyLastname.currentState!.validate();
+                                            //_keyLastname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -725,7 +725,7 @@ class _StudentTabState extends State<StudentTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyParentname.currentState!.validate();
+                                            //_keyParentname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -774,7 +774,7 @@ class _StudentTabState extends State<StudentTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPhone.currentState!.validate();
+                                            //_keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1101,7 +1101,7 @@ class _StudentTabState extends State<StudentTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyAadhar.currentState!.validate();
+                                            //_keyAadhar.currentState!.validate();
                                           },
                                           decoration: const InputDecoration(
                                             counterText: "",
@@ -1421,6 +1421,7 @@ class _StudentTabState extends State<StudentTab> {
                                             classController.text != "Select Class" &&
                                             genderController.text != "" &&
                                             guardianPhoneController.text != "" &&
+                                            guardianPhoneController.text.length == 10 &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             dobController.text != "" &&
                                             familyController.text != "" &&

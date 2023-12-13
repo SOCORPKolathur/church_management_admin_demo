@@ -447,7 +447,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyFirstname.currentState!.validate();
+                                            //_keyFirstname.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -487,7 +487,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           },
                                           key: _keyLastname,
                                           onChanged: (val){
-                                            _keyLastname.currentState!.validate();
+                                            //_keyLastname.currentState!.validate();
                                           },
                                           validator: (val){
                                             if(val!.isEmpty){
@@ -543,7 +543,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPhone.currentState!.validate();
+                                            //_keyPhone.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -595,7 +595,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             return null;
                                           },
                                           onChanged: (val){
-                                            _key.currentState!.validate();
+                                            //_key.currentState!.validate();
                                           },
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: emailController,
@@ -1187,7 +1187,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyPincode.currentState!.validate();
+                                           // _keyPincode.currentState!.validate();
                                           },
                                           decoration: InputDecoration(
                                             counterText: "",
@@ -1239,7 +1239,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             }
                                           },
                                           onChanged: (val){
-                                            _keyAadhar.currentState!.validate();
+                                            //_keyAadhar.currentState!.validate();
                                           },
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
@@ -1416,6 +1416,9 @@ class _PastorsTabState extends State<PastorsTab> {
                                             dobController.text != "" &&
                                             familyController.text != "" &&
                                             pincodeController.text != "" &&
+                                            pincodeController.text.length == 6 &&
+                                            phoneController.text.length == 10 &&
+                                            aadharNoController.text.length == 12 &&
                                             firstNameController.text != "" &&
                                             genderController.text != "Select Gender" &&
                                             lastNameController.text != "" &&

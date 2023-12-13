@@ -2722,7 +2722,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 }
                                               },
                                               onChanged: (val){
-                                                _keyFirstname.currentState!.validate();
+                                                //_keyFirstname.currentState!.validate();
                                               },
                                               decoration: InputDecoration(
                                                 counterText: "",
@@ -2761,7 +2761,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 }
                                               },
                                               onChanged: (val){
-                                                _keyLastname.currentState!.validate();
+                                                //_keyLastname.currentState!.validate();
                                               },
                                               decoration: InputDecoration(
                                                 counterText: "",
@@ -2853,7 +2853,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 }
                                               },
                                               onChanged: (val){
-                                                _keyPhone.currentState!.validate();
+                                                //_keyPhone.currentState!.validate();
                                               },
                                               decoration: InputDecoration(
                                                 counterText: "",
@@ -2895,7 +2895,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 _key.currentState!.validate();
                                               },
                                               onChanged: (val){
-                                                _key.currentState!.validate();
+                                                //_key.currentState!.validate();
                                               },
                                               style: TextStyle(fontSize:width/113.83),
                                               controller: emailController,
@@ -3101,7 +3101,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 }
                                               },
                                               onChanged: (val){
-                                                _keyFamily.currentState!.validate();
+                                               // _keyFamily.currentState!.validate();
                                               },
                                               inputFormatters: [
                                                 FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -3136,7 +3136,7 @@ class _ClansTabState extends State<ClansTab> {
                                                 }
                                               },
                                               onChanged: (val){
-                                                _keyDepartment.currentState!.validate();
+                                                //_keyDepartment.currentState!.validate();
                                               },
                                               decoration: InputDecoration(
                                                 counterText: "",
@@ -3351,6 +3351,8 @@ class _ClansTabState extends State<ClansTab> {
                                                 bloodGroupController.text != "Select Blood Group" &&
                                                 departmentController.text != "" &&
                                                 pincodeController.text != "" &&
+                                                pincodeController.text.length == 6 &&
+                                                phoneController.text.length == 10 &&
                                                 dobController.text != "" &&
                                                 familyController.text != "" &&
                                                 firstNameController.text != "" &&

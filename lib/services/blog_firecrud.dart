@@ -10,6 +10,7 @@ final CollectionReference BlogCollection = firestore.collection('Blogs');
 final FirebaseStorage fs = FirebaseStorage.instance;
 
 class BlogFireCrud {
+
   static Stream<List<BlogModel>> fetchBlogs() =>
       BlogCollection.orderBy("timestamp", descending: false)
           .snapshots()

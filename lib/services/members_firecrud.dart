@@ -220,8 +220,6 @@ class MembersFireCrud {
     if(image != null) {
       String downloadUrl = await uploadImageToStorage(image);
       member.imgUrl = downloadUrl;
-    }else{
-      member.imgUrl = imgUrl;
     }
     DocumentReference documentReferencer = MemberCollection.doc(member.id);
     var result = await documentReferencer.update(member.toJson()).whenComplete(() {
