@@ -1456,8 +1456,8 @@ class _StudentTabState extends State<StudentTab> {
                                             position: "",
                                             phone: "",
                                             email: "",
-                                              resistentialAddress:residentialAddressController.text,
-                                              permanentAddress: permanentAddressController.text,
+                                            resistentialAddress:residentialAddressController.text,
+                                            permanentAddress: permanentAddressController.text,
 
                                           );
                                           if (response.code == 200) {

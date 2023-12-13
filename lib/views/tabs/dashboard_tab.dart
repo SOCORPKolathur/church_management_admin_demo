@@ -1,8 +1,11 @@
 
 import 'dart:async';
 import 'dart:math';
+import 'package:church_management_admin/views/tabs/pastors_tab.dart';
 import 'package:church_management_admin/views/tabs/reports_view.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
+import 'package:church_management_admin/views/tabs/student_tab.dart';
+import 'package:church_management_admin/views/tabs/user_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:country_flags/country_flags.dart';
@@ -28,6 +31,15 @@ import '../../widgets/event_calender.dart';
 import '../../widgets/kText.dart';
 import '../login_view.dart';
 import 'about_us_tab.dart';
+import 'attendance_for_family_tab.dart';
+import 'chrous_tab.dart';
+import 'church_staff_tab.dart';
+import 'clans_tab.dart';
+import 'committee_tab.dart';
+import 'events_tab.dart';
+import 'family_tab.dart';
+import 'greetings_tab.dart';
+import 'members_tab.dart';
 import 'messages_tab.dart';
 import 'package:intl/intl.dart';
 
@@ -1943,19 +1955,19 @@ class _DashBoardTabState extends State<DashBoardTab> {
     ) : Stack(
       alignment: Alignment.topCenter,
       children: [
-        // page == "Users" ? UserTab():
-        // page == "Committee" ? CommitteeTab():
-        // page == "Pastors" ? PastorsTab():
-        // page == "Clans" ? ClansTab():
-        // page == "Chorus" ? ChorusTab():
-        // page == "Staffs" ? ChurchStaffTab():
-        // page == "Students" ? StudentTab():
-        // page == "Members" ? MembersTab():
-        // page == "Families" ? FamilyTab():
-        // page == "Birthday" ? GreetingsTab():
-        // page == "Members Attendance" ? AttendanceFamilyTab():
-        // page == "Events" ? EventsTab():
-        //UserTab(),
+        page == "Users" ? UserTab():
+        page == "Committee" ? CommitteeTab():
+        page == "Pastors" ? PastorsTab():
+        page == "Clans" ? ClansTab():
+        page == "Chorus" ? ChorusTab():
+        page == "Staffs" ? ChurchStaffTab():
+        page == "Students" ? StudentTab():
+        page == "Members" ? MembersTab():
+        page == "Families" ? FamilyTab():
+        page == "Birthday" ? GreetingsTab():
+        page == "Members Attendance" ? AttendanceFamilyTab():
+        page == "Events" ? EventsTab():
+        UserTab(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
