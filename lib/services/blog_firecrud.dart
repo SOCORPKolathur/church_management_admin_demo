@@ -42,6 +42,7 @@ class BlogFireCrud {
     DocumentReference documentReferencer = BlogCollection.doc();
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse("${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}");
     BlogModel blog = BlogModel(
+
         id: "",
         timestamp: tempDate.millisecondsSinceEpoch,
         description: description,
