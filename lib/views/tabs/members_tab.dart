@@ -304,11 +304,14 @@ class _MembersTabState extends State<MembersTab> {
   List list = new List<int>.generate(10000, (i) => i + 1);
 
   List<cf.DocumentSnapshot> documentList = [];
+  List<MembersModel> membersListForPrint = [];
+  cf.QuerySnapshot? memberDocument;
 
 
   getTotalMembers() async {
     var memberDoc = await cf.FirebaseFirestore.instance.collection('Members').get();
     setState(() {
+      memberDocument = memberDoc;
       pagecount = (memberDoc.docs.length + 10) ~/ 10;
       totalMembersCount = memberDoc.docs.length;
       memberRemainder = (memberDoc.docs.length) % 10;
@@ -2155,9 +2158,7 @@ class _MembersTabState extends State<MembersTab> {
                 : currentTab.toUpperCase() == "VIEW" ?
             StreamBuilder(
               //stream: MembersFireCrud.fetchMembers(),
-              stream: searchString != ""
-                  ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).snapshots()
-                  : documentList.isNotEmpty
+              stream: documentList.isNotEmpty
                   ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
                   : cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).limit(10).snapshots(),
               builder: (ctx, snapshot) {
@@ -2166,8 +2167,11 @@ class _MembersTabState extends State<MembersTab> {
                 } else if (snapshot.hasData) {
                   List<cf.DocumentSnapshot> members1 = snapshot.data!.docs;
                   List<MembersModel> members = [];
-                  members1.forEach((element) {
-                    if(searchString != ""){
+
+                  documentList.addAll(snapshot.data!.docs);
+
+                  if(searchString != ""){
+                    for (var element in memberDocument!.docs) {
                       if(element.get("position")!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.get("firstName")!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.get("pincode")!.toLowerCase().startsWith(searchString.toLowerCase())||
@@ -2176,11 +2180,31 @@ class _MembersTabState extends State<MembersTab> {
                           element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
                         members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                       }
-                    }else{
-                      documentList.add(element);
+                    }
+                  }else{
+                    for (var element in memberDocument!.docs) {
+                      membersListForPrint.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                    }
+                    for (var element in snapshot.data!.docs) {
                       members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                     }
-                  });
+                  }
+
+                  // members1.forEach((element) {
+                  //   if(searchString != ""){
+                  //     if(element.get("position")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                  //         element.get("firstName")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                  //         element.get("pincode")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                  //         element.get("firstName").toString().trim().toLowerCase().startsWith(searchString.toLowerCase()) ||
+                  //         element.get("lastName")!.toLowerCase().startsWith(searchString.toLowerCase())||
+                  //         element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
+                  //       members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                  //     }
+                  //   }else{
+                  //     documentList.add(element);
+                  //     members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                  //   }
+                  // });
                   return Container(
                     width: width,
                     margin:  EdgeInsets.symmetric(
@@ -2271,7 +2295,11 @@ class _MembersTabState extends State<MembersTab> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      generateMemberPdf(PdfPageFormat.letter,members,false);
+                                      if(searchString != ""){
+                                        generateMemberPdf(PdfPageFormat.letter,members,false);
+                                      }else{
+                                        generateMemberPdf(PdfPageFormat.letter,membersListForPrint,false);
+                                      }
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -2309,7 +2337,11 @@ class _MembersTabState extends State<MembersTab> {
                                    SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
-                                      copyToClipBoard(members);
+                                      if(searchString != ""){
+                                        copyToClipBoard(members);
+                                      }else{
+                                        copyToClipBoard(membersListForPrint);
+                                      }
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -2348,8 +2380,13 @@ class _MembersTabState extends State<MembersTab> {
                                    SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () async {
-                                      var data = await generateMemberPdf(PdfPageFormat.letter,members,true);
-                                      savePdfToFile(data);
+                                      if(searchString != ""){
+                                        var data = await generateMemberPdf(PdfPageFormat.letter,members,true);
+                                        savePdfToFile(data);
+                                      }else{
+                                        var data = await generateMemberPdf(PdfPageFormat.letter,membersListForPrint,true);
+                                        savePdfToFile(data);
+                                      }
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -2388,7 +2425,11 @@ class _MembersTabState extends State<MembersTab> {
                                    SizedBox(width: width/136.6),
                                   InkWell(
                                     onTap: () {
-                                      convertToCsv(members);
+                                      if(searchString != ""){
+                                        convertToCsv(members);
+                                      }else{
+                                        convertToCsv(membersListForPrint);
+                                      }
                                     },
                                     child: Container(
                                       height: height/18.6,
@@ -2525,7 +2566,416 @@ class _MembersTabState extends State<MembersTab> {
                                 ),
                               ),
                               Expanded(
-                                child: ListView.builder(
+                                child: searchString != ""
+                                    ?  ListView.builder(
+                                  itemCount: members.length,
+                                  itemBuilder: (ctx, i) {
+                                    return Container(
+                                      height: height/10.85,
+                                      width: double.infinity,
+                                      decoration:  BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Color(0xfff1f1f1),
+                                            width: 0.5,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Color(0xfff1f1f1),
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding:  EdgeInsets.symmetric(
+                                            horizontal: width/273.2,
+                                            vertical: height/130.2
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              width: width/30.075,
+                                              child: KText(
+                                                text: ((i + 1)+((temp-1)*10)).toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width/105.076,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: width/9.66,
+                                              child: Center(
+                                                child: KText(
+                                                  text: members[i].memberId!,
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: width/105.076,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/15.177,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundImage: NetworkImage(members[i].imgUrl!),
+                                                    child: Visibility(
+                                                      visible: members[i].imgUrl == "",
+                                                      // child: Image.asset(
+                                                      //   members[i].gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                      //   height: 40,
+                                                      //   width: 40,
+                                                      // )
+                                                      child: Icon(
+                                                          Icons.person
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/8.035,
+                                              child: KText(
+                                                text:
+                                                "${members[i].firstName!.toLowerCase() != 'null' ? members[i].firstName : ''} ${members[i].lastName!.toLowerCase() != 'null' ? members[i].lastName : ''}",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width/105.076,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/9.757,
+                                              child: Row(
+                                                children: [
+                                                  FlutterSwitch(
+                                                    width: 65,
+                                                    height: 32,
+                                                    valueFontSize: 11,
+                                                    toggleSize: 0,
+                                                    value: members[i].status!,
+                                                    borderRadius: 30,
+                                                    padding: 8.0,
+                                                    showOnOff: true,
+                                                    activeColor: Colors.green,
+                                                    activeText: "Active",
+                                                    inactiveColor: Colors.red,
+                                                    inactiveText: "Inactive",
+                                                    activeToggleColor: Colors.green,
+                                                    inactiveToggleColor: Colors.red,
+                                                    onToggle: (val) {
+                                                      String statsu = !val ? "Inactive" : "Active";
+                                                      CoolAlert.show(
+                                                          context: context,
+                                                          type: CoolAlertType.info,
+                                                          text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                          title: "Update this Record?",
+                                                          width: size.width * 0.4,
+                                                          backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                          showCancelBtn: true,
+                                                          cancelBtnText: 'Cancel',
+                                                          cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                          onConfirmBtnTap: () async {
+                                                            await updateMemberStatus(members[i].id!, val);
+                                                          }
+                                                      );
+                                                    },
+                                                  ),
+                                                  // Row(
+                                                  //   children: [
+                                                  //     Text(
+                                                  //        !members[i].status! == true ? "Inactive" : "Active",
+                                                  //     ),
+                                                  //
+                                                  //   ],
+                                                  // ),
+                                                  // Switch(
+                                                  //   value: members[i].status!,
+                                                  //   onChanged: (val) {
+                                                  //     String statsu = !val ? "Inactive" : "Active";
+                                                  //     CoolAlert.show(
+                                                  //         context: context,
+                                                  //         type: CoolAlertType.info,
+                                                  //         text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                  //         title: "Delete this Record?",
+                                                  //         width: size.width * 0.4,
+                                                  //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                  //         showCancelBtn: true,
+                                                  //         cancelBtnText: 'Cancel',
+                                                  //         cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                  //         onConfirmBtnTap: () async {
+                                                  //           await updateMemberStatus(members[i].id!, val);
+                                                  //         }
+                                                  //     );
+                                                  //   },
+                                                  //   activeColor: Colors.green,
+                                                  //   inactiveTrackColor: Colors.grey,
+                                                  // ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/11.38,
+                                              child: KText(
+                                                text:  members[i].phone.toString().toLowerCase() != 'null' ? members[i].phone! : "",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width/105.076,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width/10.507,
+                                              child: KText(
+                                                text: members[i].pincode!,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: width/105.076,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width: width/7.588,
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        viewPopup(members[i]);
+                                                      },
+                                                      child: Container(
+                                                        height: height/26.04,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color:
+                                                          Color(0xff2baae4),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black26,
+                                                              offset:
+                                                              Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:
+                                                              6),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .remove_red_eye,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: width/91.06,
+                                                                ),
+                                                                KText(
+                                                                  text: "View",
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize: width/136.6,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: width/273.2),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          residentialAddressController.text = members[i].resistentialAddress!;
+                                                          permanentAddressController.text = members[i].permanentAddress!;
+                                                          houseTypeCon.text = members[i].houseType!;
+                                                          genderController.text = members[i].gender!;
+                                                          baptizeDateController.text = members[i].baptizeDate!;
+                                                          bloodGroupController.text = members[i].bloodGroup!;
+                                                          departmentController.text = members[i].department!;
+                                                          dobController.text = members[i].dob!;
+                                                          emailController.text = members[i].email!;
+                                                          familyController.text = members[i].family!;
+                                                          familyIDController.text = members[i].familyid!;
+                                                          firstNameController.text = members[i].firstName!;
+                                                          jobController.text = members[i].job!;
+                                                          lastNameController.text = members[i].lastName!;
+                                                          marriageDateController.text = members[i].marriageDate!;
+                                                          nationalityController.text = members[i].nationality!;
+                                                          phoneController.text = members[i].phone!;
+                                                          positionController.text = members[i].position!;
+                                                          socialStatusController.text = members[i].socialStatus!;
+                                                          countryController.text = members[i].country!;
+                                                          selectedImg = members[i].imgUrl;
+                                                          pincodeController.text = members[i].pincode!;
+                                                          memberIdController.text = members[i].memberId!;
+                                                          aadharNoController.text = members[i].aadharNo!;
+                                                          marriedController.text = members[i].maritalStatus!;
+                                                          attendingTimeController.text = members[i].attendingTime!;
+                                                          qualificationController.text = members[i].qualification!;
+                                                          relationToFamilyController.text = members[i].relationToFamily!;
+                                                          landMarkController.text = members[i].landMark!;
+                                                          previousChurchController.text = members[i].previousChurch!;
+                                                          // serviceLanguageController.text = members[i].serviceLanguage!;
+                                                        });
+                                                        editPopUp(members[i], size);
+                                                      },
+                                                      child: Container(
+                                                        height: height/26.04,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color:
+                                                          Color(0xffff9700),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black26,
+                                                              offset:
+                                                              Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:
+                                                              width/227.66),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.add,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: width/91.06,
+                                                                ),
+                                                                KText(
+                                                                  text: "Edit",
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                    width/136.6,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: width/273.2),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        CoolAlert.show(
+                                                            context: context,
+                                                            type: CoolAlertType.info,
+                                                            text: "${members[i].firstName} ${members[i].lastName} will be deleted",
+                                                            title: "Delete this Record?",
+                                                            width: size.width * 0.4,
+                                                            backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                            showCancelBtn: true,
+                                                            cancelBtnText: 'Cancel',
+                                                            cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                            onConfirmBtnTap: () async {
+                                                              Response res = await MembersFireCrud.deleteRecord(id: members[i].id!);
+                                                              setMemberId();
+                                                            }
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        height: height/26.04,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color:
+                                                          Color(0xfff44236),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black26,
+                                                              offset:
+                                                              Offset(1, 2),
+                                                              blurRadius: 3,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:
+                                                              width/227.66),
+                                                          child: Center(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .cancel_outlined,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: width/91.06,
+                                                                ),
+                                                                KText(
+                                                                  text:
+                                                                  "Delete",
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                    width/136.6,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                                    : ListView.builder(
                                   itemCount: temp == pagecount ? memberRemainder : members.length,
                                   itemBuilder: (ctx, i) {
                                     return Container(
@@ -3027,7 +3477,7 @@ class _MembersTabState extends State<MembersTab> {
                                 config: NumberPaginatorUIConfig(
                                   buttonSelectedBackgroundColor: Constants().primaryAppColor,
                                 ),
-                                numberPages: pagecount,
+                                numberPages: searchString != "" ? (members.length + 10) ~/ 10 : pagecount,// pagecount,
                                 onPageChange: (int index) {
                                   setState(() {
                                     temp = index+1;

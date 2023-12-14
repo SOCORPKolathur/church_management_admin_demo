@@ -13,6 +13,7 @@ class FamilyModel {
   String? city;
   String? country;
   String? zone;
+  bool? status;
 
   FamilyModel(
       {this.name,
@@ -28,6 +29,7 @@ class FamilyModel {
        // this.permanentAddress,
         this.city,
         this.country,
+        this.status,
         this.zone});
 
   FamilyModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class FamilyModel {
     quantity = json['quantity'];
     contactNumber = json['contactNumber'];
     address = json['address'];
+    status = json['status'];
     permanentAddress = json['permanentAddress'];
     city = json['city'];
     country = json['country'];
@@ -63,6 +66,7 @@ class FamilyModel {
     data['city'] = this.city;
     data['country'] = this.country;
     data['zone'] = this.zone;
+    data['status'] = this.status;
     return data;
   }
 }

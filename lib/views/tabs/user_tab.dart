@@ -181,6 +181,8 @@ class _UserTabState extends State<UserTab> {
   List list = new List<int>.generate(10000, (i) => i + 1);
 
   List<cf.DocumentSnapshot> documentList = [];
+  List<UserModelWithDocId> usersListForPrint = [];
+  cf.QuerySnapshot? userDocument;
 
   @override
   void initState() {
@@ -191,6 +193,7 @@ class _UserTabState extends State<UserTab> {
   getTotalUsers() async {
     var userDoc = await cf.FirebaseFirestore.instance.collection('Users').get();
     //setState(() {
+    userDocument = userDoc;
     pagecount = (userDoc.docs.length + 10) ~/ 10;
     totalUsersCount = userDoc.docs.length;
     userRemainder = (userDoc.docs.length) % 10;
@@ -1598,9 +1601,7 @@ class _UserTabState extends State<UserTab> {
                 )
                 : currentTab.toUpperCase() == "VIEW" ?
              StreamBuilder(
-                    stream: filterText != ""
-                        ? cf.FirebaseFirestore.instance.collection('Users').where("firstName".toLowerCase(), isEqualTo: filterText.toLowerCase()).snapshots()
-                        : documentList.isNotEmpty
+                    stream: documentList.isNotEmpty
                         ? cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
                         : cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).limit(10).snapshots(),
                     builder: (ctx, snapshot) {
@@ -1610,8 +1611,24 @@ class _UserTabState extends State<UserTab> {
                         List<UserModelWithDocId> users = [];
                         //documentList.clear();
                         documentList.addAll(snapshot.data!.docs);
-                        for (var element in snapshot.data!.docs) {
-                          users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
+                        if(filterText != ""){
+                          for (var element in userDocument!.docs) {
+                            if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                element.get("firstName")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                      element.get("pincode")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                  (element.get("firstName")!+element.get("lastName")!).toString().trim().toLowerCase().startsWith(filterText.toLowerCase()) ||
+                                  element.get("lastName")!.toLowerCase().startsWith(filterText.toLowerCase())||
+                                  element.get("phone")!.toLowerCase().startsWith(filterText.toLowerCase())){
+                              users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data() as Map<String, dynamic>)));
+                            }
+                          }
+                        }else{
+                          for (var element in userDocument!.docs) {
+                             usersListForPrint.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data() as Map<String, dynamic>)));
+                          }
+                          for (var element in snapshot.data!.docs) {
+                            users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
+                          }
                         }
                         // for (var element in snapshot.data!.docs) {
                         //   if(filterText != ""){
@@ -1720,7 +1737,11 @@ class _UserTabState extends State<UserTab> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            generateUserPdf(PdfPageFormat.standard, users, false);
+                                            if(filterText != ""){
+                                              generateUserPdf(PdfPageFormat.standard, users, false);
+                                            }else{
+                                              generateUserPdf(PdfPageFormat.standard, usersListForPrint, false);
+                                            }
                                           },
                                           child: Container(
                                             height: height / 18.6,
@@ -1762,7 +1783,11 @@ class _UserTabState extends State<UserTab> {
                                         SizedBox(width: width / 136.6),
                                         InkWell(
                                           onTap: () {
-                                            copyToClipBoard(users);
+                                            if(filterText != ""){
+                                              copyToClipBoard(users);
+                                            }else{
+                                              copyToClipBoard(usersListForPrint);
+                                            }
                                           },
                                           child: Container(
                                             height: height / 18.6,
@@ -1804,8 +1829,13 @@ class _UserTabState extends State<UserTab> {
                                         SizedBox(width: width / 136.6),
                                         InkWell(
                                           onTap: () async {
-                                            var data = await generateUserPdf(PdfPageFormat.letter, users, true);
-                                            savePdfToFile(data);
+                                            if(filterText != ""){
+                                              var data = await generateUserPdf(PdfPageFormat.letter, users, true);
+                                              savePdfToFile(data);
+                                            }else{
+                                              var data = await generateUserPdf(PdfPageFormat.letter, usersListForPrint, true);
+                                              savePdfToFile(data);
+                                            }
                                           },
                                           child: Container(
                                             height: height / 18.6,
@@ -1847,7 +1877,11 @@ class _UserTabState extends State<UserTab> {
                                         SizedBox(width: width / 136.6),
                                         InkWell(
                                           onTap: () {
-                                            convertToCsv(users);
+                                            if(filterText != ""){
+                                              convertToCsv(users);
+                                            }else{
+                                              convertToCsv(usersListForPrint);
+                                            }
                                           },
                                           child: Container(
                                             height: height / 18.6,
@@ -1972,7 +2006,438 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                     ),
                                     Expanded(
-                                      child: ListView.builder(
+                                      child: filterText != ""
+                                          ? ListView.builder(
+                                        itemCount: users.length,
+                                        itemBuilder: (ctx, i) {
+                                          return Container(
+                                            height: height / 10.55,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border(
+                                                top: BorderSide(
+                                                  color: Color(0xfff1f1f1),
+                                                  width: 0.5,
+                                                ),
+                                                bottom: BorderSide(
+                                                  color: Color(0xfff1f1f1),
+                                                  width: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: width / 273.2,
+                                                  vertical: height / 130.2),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceEvenly,
+                                                children: [
+                                                  SizedBox(
+                                                    width: width / 17.075,
+                                                    child: KText(
+                                                      text: ((i + 1)+((temp-1)*10)).toString(),
+                                                      style:
+                                                      GoogleFonts.poppins(
+                                                        fontSize:
+                                                        width / 105.076,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width / 13.660,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        CircleAvatar(
+                                                          backgroundImage: NetworkImage(users[i].user.imgUrl!),
+                                                          child: Visibility(
+                                                            visible: users[i].user.imgUrl == "",
+                                                            // child: Image.asset(
+                                                            //   users[i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                            //   height: 40,
+                                                            //   width: 40,
+                                                            // )
+                                                            child: Icon(
+                                                                Icons.person
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width / 8.035,
+                                                    child: KText(
+                                                      text:
+                                                      "${users[i].user.firstName.toLowerCase() != 'null' ? users[i].user.firstName : ''} ${users[i].user.lastName.toLowerCase() != 'null' ? users[i].user.lastName : ''}",
+                                                      style:
+                                                      GoogleFonts.poppins(
+                                                        fontSize:
+                                                        width / 105.076,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width/9.757,
+                                                    child: Row(
+                                                      children: [
+                                                        FlutterSwitch(
+                                                          width: 65,
+                                                          height: 32,
+                                                          valueFontSize: 11,
+                                                          toggleSize: 0,
+                                                          //value: users[i].user.status!,
+                                                          value: users[i].user.status,
+                                                          borderRadius: 30,
+                                                          padding: 8.0,
+                                                          showOnOff: true,
+                                                          activeColor: Colors.green,
+                                                          activeText: "Active",
+                                                          inactiveColor: Colors.red,
+                                                          inactiveText: "Inactive",
+                                                          activeToggleColor: Colors.green,
+                                                          inactiveToggleColor: Colors.red,
+                                                          onToggle: (val) {
+                                                            String statsu = !val ? "Inactive" : "Active";
+                                                            CoolAlert.show(
+                                                                context: context,
+                                                                type: CoolAlertType.info,
+                                                                text: "${users[i].user.firstName} ${users[i].user.lastName}'s status will be $statsu",
+                                                                title: "Update this Record?",
+                                                                width: size.width * 0.4,
+                                                                backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                                showCancelBtn: true,
+                                                                cancelBtnText: 'Cancel',
+                                                                cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                                onConfirmBtnTap: () async {
+                                                                  await updateMemberStatus(users[i].user.id, val);
+                                                                }
+                                                            );
+                                                          },
+                                                        ),
+                                                        // Row(
+                                                        //   children: [
+                                                        //     Text(
+                                                        //        !members[i].status! == true ? "Inactive" : "Active",
+                                                        //     ),
+                                                        //
+                                                        //   ],
+                                                        // ),
+                                                        // Switch(
+                                                        //   value: members[i].status!,
+                                                        //   onChanged: (val) {
+                                                        //     String statsu = !val ? "Inactive" : "Active";
+                                                        //     CoolAlert.show(
+                                                        //         context: context,
+                                                        //         type: CoolAlertType.info,
+                                                        //         text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                        //         title: "Delete this Record?",
+                                                        //         width: size.width * 0.4,
+                                                        //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                        //         showCancelBtn: true,
+                                                        //         cancelBtnText: 'Cancel',
+                                                        //         cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                        //         onConfirmBtnTap: () async {
+                                                        //           await updateMemberStatus(members[i].id!, val);
+                                                        //         }
+                                                        //     );
+                                                        //   },
+                                                        //   activeColor: Colors.green,
+                                                        //   inactiveTrackColor: Colors.grey,
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width / 8.035,
+                                                    child: KText(
+                                                      text:  users[i].user.phone.toLowerCase() != 'null' ? users[i].user.phone! : "",
+                                                      style:
+                                                      GoogleFonts.poppins(
+                                                        fontSize:
+                                                        width / 105.076,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: width / 9.106,
+                                                    child: KText(
+                                                      text: users[i].user.pincode!,
+                                                      style:
+                                                      GoogleFonts.poppins(
+                                                        fontSize:
+                                                        width / 105.076,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      width: width / 7.588,
+                                                      child: Row(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              viewPopup(users[i].user);
+                                                            },
+                                                            child: Container(
+                                                              height: height /
+                                                                  26.04,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                color: Color(
+                                                                    0xff2baae4),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black26,
+                                                                    offset:
+                                                                    Offset(
+                                                                        1,
+                                                                        2),
+                                                                    blurRadius:
+                                                                    3,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                    width /
+                                                                        227.66),
+                                                                child: Center(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                    children: [
+                                                                      Icon(
+                                                                          Icons
+                                                                              .remove_red_eye,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          size: width /
+                                                                              91.066),
+                                                                      KText(
+                                                                        text:
+                                                                        "View",
+                                                                        style: GoogleFonts
+                                                                            .openSans(
+                                                                          color:
+                                                                          Colors.white,
+                                                                          fontSize:
+                                                                          width / 136.6,
+                                                                          fontWeight:
+                                                                          FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                              width: width /
+                                                                  273.2),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                GenderController = users[i].user.gender;
+                                                                pincodeController.text = users[i].user.pincode;
+                                                                baptizeDateController.text = users[i].user.baptizeDate;
+                                                                bloodGroupController.text = users[i].user.bloodGroup;
+                                                                dobController.text = users[i].user.dob;
+                                                                emailController.text = users[i].user.email;
+                                                                firstNameController.text = users[i].user.firstName;
+                                                                aboutController.text = users[i].user.about;
+                                                                addressController.text = users[i].user.address;
+                                                                lastNameController.text = users[i].user.lastName;
+                                                                localityController.text = users[i].user.locality;
+                                                                phoneController.text = users[i].user.phone;
+                                                                professionController.text = users[i].user.profession;
+                                                                selectedImg = users[i].user.imgUrl;
+                                                                uploadedImage = users[i].user.imgUrl;
+                                                                marriedController = users[i].user.maritialStatus;
+                                                                aadharController.text = users[i].user.aadharNo;
+                                                                anniversaryDateController.text = users[i].user.anniversaryDate;
+                                                                houseTypeCon.text = users[i].user.houseType;
+                                                                nationalityCon.text = users[i].user.nationality;
+                                                              });
+                                                              editPopUp(users[i].user,users[i].userDocId, size);
+                                                            },
+                                                            child: Container(
+                                                              height: height /
+                                                                  26.04,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                color: Color(
+                                                                    0xffff9700),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black26,
+                                                                    offset:
+                                                                    Offset(
+                                                                        1,
+                                                                        2),
+                                                                    blurRadius:
+                                                                    3,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                    width /
+                                                                        227.66),
+                                                                child: Center(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                    children: [
+                                                                      Icon(
+                                                                          Icons
+                                                                              .add,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          size: width /
+                                                                              91.066),
+                                                                      KText(
+                                                                        text:
+                                                                        "Edit",
+                                                                        style: GoogleFonts
+                                                                            .openSans(
+                                                                          color:
+                                                                          Colors.white,
+                                                                          fontSize:
+                                                                          width / 136.6,
+                                                                          fontWeight:
+                                                                          FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                              width: width /
+                                                                  273.2),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              CoolAlert.show(
+                                                                  context:
+                                                                  context,
+                                                                  type:
+                                                                  CoolAlertType
+                                                                      .info,
+                                                                  text:
+                                                                  "${users[i].user.firstName} ${users[i].user.lastName} will be deleted",
+                                                                  title:
+                                                                  "Delete this Record?",
+                                                                  width: size
+                                                                      .width *
+                                                                      0.4,
+                                                                  backgroundColor: Constants()
+                                                                      .primaryAppColor
+                                                                      .withOpacity(
+                                                                      0.8),
+                                                                  showCancelBtn:
+                                                                  true,
+                                                                  cancelBtnText:
+                                                                  'Cancel',
+                                                                  cancelBtnTextStyle:
+                                                                  TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  onConfirmBtnTap:
+                                                                      () async {
+                                                                    Response
+                                                                    res = await UserFireCrud.deleteRecord(id: users[i].userDocId);
+                                                                  });
+                                                            },
+                                                            child: Container(
+                                                              height: height /
+                                                                  26.04,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                color: Color(
+                                                                    0xfff44236),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black26,
+                                                                    offset:
+                                                                    Offset(
+                                                                        1,
+                                                                        2),
+                                                                    blurRadius:
+                                                                    3,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                    width /
+                                                                        227.66),
+                                                                child: Center(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                    children: [
+                                                                      Icon(
+                                                                          Icons
+                                                                              .cancel_outlined,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          size: width /
+                                                                              91.066),
+                                                                      KText(
+                                                                        text:
+                                                                        "Delete",
+                                                                        style: GoogleFonts
+                                                                            .openSans(
+                                                                          color:
+                                                                          Colors.white,
+                                                                          fontSize:
+                                                                          width / 136.6,
+                                                                          fontWeight:
+                                                                          FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                          : ListView.builder(
                                         itemCount: temp == pagecount ? userRemainder : users.length,
                                         itemBuilder: (ctx, i) {
                                           return Container(
@@ -2496,7 +2961,7 @@ class _UserTabState extends State<UserTab> {
                                       config: NumberPaginatorUIConfig(
                                         buttonSelectedBackgroundColor: Constants().primaryAppColor,
                                       ),
-                                      numberPages: pagecount,
+                                      numberPages: filterText != "" ? (users.length + 10) ~/ 10 : pagecount,
                                       onPageChange: (int index) {
                                         setState(() {
                                           temp = index+1;

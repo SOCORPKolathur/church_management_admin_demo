@@ -9,6 +9,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:lottie/lottie.dart';
@@ -1175,7 +1176,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 child: Row(
                                   children: [
                                     SizedBox(
-                                   width:width/17.075,
+                                      width:width/17.075,
                                       child: KText(
                                         text: "No.",
                                         style: GoogleFonts.poppins(
@@ -1205,7 +1206,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width:width/8.035,
+                                      width:width/11.035,
                                       child: KText(
                                         text: "Family Count",
                                         style: GoogleFonts.poppins(
@@ -1215,9 +1216,19 @@ class _FamilyTabState extends State<FamilyTab> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width:width/6.830,
+                                      width:width/8.830,
                                       child: KText(
                                         text: "Contact Number",
+                                        style: GoogleFonts.poppins(
+                                          fontSize:width/105.076,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width:width/8.830,
+                                      child: KText(
+                                        text: "Status",
                                         style: GoogleFonts.poppins(
                                           fontSize:width/105.076,
                                           fontWeight: FontWeight.w600,
@@ -1262,7 +1273,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                         width:width/17.075,
+                                            width:width/17.075,
                                             child: KText(
                                               text: (i + 1).toString(),
                                               style: GoogleFonts.poppins(
@@ -1292,7 +1303,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width:width/8.035,
+                                            width:width/10.035,
                                             child: KText(
                                               text: families[i].quantity!.toString(),
                                               style: GoogleFonts.poppins(
@@ -1302,13 +1313,50 @@ class _FamilyTabState extends State<FamilyTab> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width:width/6.830,
+                                            width:width/12.830,
                                             child: KText(
                                               text: families[i].contactNumber!,
                                               style: GoogleFonts.poppins(
                                                 fontSize:width/105.076,
                                                 fontWeight: FontWeight.w600,
                                               ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width:width/10.830,
+                                            child: FlutterSwitch(
+                                              width: 65,
+                                              height: 32,
+                                              valueFontSize: 11,
+                                              toggleSize: 0,
+                                              //value: users[i].user.status!,
+                                              value: families[i].status!,
+                                              borderRadius: 30,
+                                              padding: 8.0,
+                                              showOnOff: true,
+                                              activeColor: Colors.green,
+                                              activeText: "Active",
+                                              inactiveColor: Colors.red,
+                                              inactiveText: "Inactive",
+                                              activeToggleColor: Colors.green,
+                                              inactiveToggleColor: Colors.red,
+                                              onToggle: (val) {
+                                                String statsu = !val ? "Inactive" : "Active";
+                                                CoolAlert.show(
+                                                    context: context,
+                                                    type: CoolAlertType.info,
+                                                    text: "${families[i].name!}'s status will be $statsu",
+                                                    title: "Update this Record?",
+                                                    width: size.width * 0.4,
+                                                    backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+                                                    showCancelBtn: true,
+                                                    cancelBtnText: 'Cancel',
+                                                    cancelBtnTextStyle:  TextStyle(color: Colors.black),
+                                                    onConfirmBtnTap: () async {
+                                                      await updateFamilyStatus(families[i].id!, val);
+                                                    }
+                                                );
+                                              },
                                             ),
                                           ),
                                           SizedBox(
@@ -1888,6 +1936,12 @@ class _FamilyTabState extends State<FamilyTab> {
     );
   }
 
+  updateFamilyStatus(String docId,bool status) async {
+    cf.FirebaseFirestore.instance.collection('Families').doc(docId).update({
+      "status" : status,
+    });
+  }
+
   editPopUp(FamilyModel family, Size size) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -2447,6 +2501,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 contactNumber: familynumberController.text,
                                                 city: cityController.text,
                                                 email: emailController.text,
+                                                status: family.status,
                                                 zone: zoneController.text,
                                                 address: addressController.text,
                                                 //permanentAddress: permanentAddressController.text,
