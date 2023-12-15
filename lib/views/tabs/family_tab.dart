@@ -660,7 +660,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Residential Address *",
+                                    text: "Residential Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.076,
@@ -739,7 +739,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Permanent Address *",
+                                    text: "Permanent Address",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize:width/105.076,
@@ -932,9 +932,10 @@ class _FamilyTabState extends State<FamilyTab> {
                                         _keyFamilyname.currentState!.validate();
                                         _keyFamilyLeadername.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        _keyAddress.currentState!.validate();
+                                        //_keyAddress.currentState!.validate();
                                         _keyZone.currentState!.validate();
                                         if (
+                                        profileImage != null &&
                                             familynameController.text != "" &&
                                             familyleadernameController.text != "" &&
                                             familynumberController.text != "" &&
@@ -942,7 +943,6 @@ class _FamilyTabState extends State<FamilyTab> {
                                             zoneController.text.length == 6 &&
                                             familyIdController.text != "" &&
                                             familyQuanity != 0 &&
-                                            addressController.text != "" &&
                                             zoneController.text != "") {
                                           Response response =  await FamilyFireCrud.addFamily(
                                               permanentAddress: permanentAddressController.text,
@@ -1419,7 +1419,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         countryController.text = families[i].country!;
                                                         zoneController.text = families[i].zone!;
                                                         familyIdController.text = families[i].familyId!;
-                                                        //permanentAddressController.text = families[i].permanentAddress!;
+                                                        permanentAddressController.text = families[i].address!;
                                                       });
                                                       editPopUp(families[i],size);
                                                     },
@@ -2512,7 +2512,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             family.leaderImgUrl ?? ""
                                         );
                                         if (response.code == 200) {
-                                          CoolAlert.show(
+                                         await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
                                               text: "Family updated successfully!",
@@ -2533,7 +2533,6 @@ class _FamilyTabState extends State<FamilyTab> {
                                             zoneController.text = "";
                                           });
                                           setFamilyId();
-                                          Navigator.pop(context);
                                           Navigator.pop(context);
                                         } else {
                                           CoolAlert.show(

@@ -1537,9 +1537,10 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         //   });
                                         // }
                                         if (
-                                        //profileImage != null &&
+                                            profileImage != null &&
                                             bloodGroupController.text != "Select Blood Group" &&
-                                            bloodGroupController.text != "Select Status" &&
+                                            marriedController != "Select Status" &&
+                                            genderController.text != "Select Gender" &&
                                             dobController.text != "" &&
                                             familyController.text != "Select" &&
                                             firstNameController.text != "" &&
@@ -3523,6 +3524,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -3553,6 +3555,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: dateofjoiningController,
                                           onTap: () async {
@@ -3713,6 +3716,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             ),
                                           ),
                                           TextFormField(
+                                            readOnly: true,
                                             style: TextStyle(fontSize:width/113.83),
                                             controller: marriageDateController,
                                             onTap: () async {
@@ -3949,6 +3953,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: dobController,
                                           onTap: () async {
@@ -4161,7 +4166,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           dobController.text != "" &&
                                           nationalityController.text != "" &&
                                           pincodeController.text != "" &&
-                                          familyController.text != "") {
+                                          pincodeController.text.length == 6 &&
+                                          familyController.text != "Select") {
                                         Response response =
                                         await ChurchStaffFireCrud.updateRecord(
                                           ChurchStaffModel(
@@ -4197,7 +4203,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             churchStaff.imgUrl ?? ""
                                         );
                                         if (response.code == 200) {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
                                               text: "Church Staff updated successfully!",
@@ -4234,9 +4240,8 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                             genderController.text = 'Select Gender';
                                           });
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
                                         } else {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
                                               text: "Failed to update Church Staff!",
@@ -4247,7 +4252,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           Navigator.pop(context);
                                         }
                                       } else {
-                                        CoolAlert.show(
+                                        await CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.warning,
                                             text: "Please fill the required fields",

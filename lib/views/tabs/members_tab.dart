@@ -299,7 +299,7 @@ class _MembersTabState extends State<MembersTab> {
   int pagecount =0 ;
   int totalMembersCount =0 ;
   int memberRemainder =0 ;
-  int temp =1;
+  int temp = 1;
   int shift =0;
   List list = new List<int>.generate(10000, (i) => i + 1);
 
@@ -1042,7 +1042,7 @@ class _MembersTabState extends State<MembersTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marital status *",
+                                          text: "Marital status",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width / 105.076,
@@ -1998,17 +1998,20 @@ class _MembersTabState extends State<MembersTab> {
                                         _keyNationality.currentState!.validate();
                                         _keyPincode.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        if (bloodGroupController.text != "Select Blood Group" &&
-                                            familyController.text != "" &&
-                                            familyIDController.text != "" &&
+                                        if (
+                                            profileImage != null &&
+                                                firstNameController.text != "" &&
+                                                lastNameController.text != "" &&
+                                                phoneController.text != "" &&
+                                                phoneController.text.length == 10 &&
+                                                genderController.text != "Select Gender" &&
+                                                bloodGroupController.text != "Select Blood Group" &&
+                                            familyController.text != "Select" &&
+                                            familyIDController.text != "Select" &&
                                             pincodeController.text != "" &&
                                             pincodeController.text.length == 6 &&
-                                            phoneController.text.length == 10 &&
-                                            firstNameController.text != "" &&
-                                            genderController.text != "Select Gender" &&
-                                            lastNameController.text != "" &&
-                                            nationalityController.text != "" &&
-                                            phoneController.text != "")
+                                            nationalityController.text != ""
+                                            )
                                         {
                                           Response response = await MembersFireCrud.addMember(
                                             aadharNo: aadharNoController.text,
@@ -2071,6 +2074,9 @@ class _MembersTabState extends State<MembersTab> {
                                           }
                                         }
                                         else {
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
                                         }
@@ -2182,11 +2188,11 @@ class _MembersTabState extends State<MembersTab> {
                       }
                     }
                   }else{
+                    for (var element in members1) {
+                      members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                    }
                     for (var element in memberDocument!.docs) {
                       membersListForPrint.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
-                    }
-                    for (var element in snapshot.data!.docs) {
-                      members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                     }
                   }
 
@@ -3244,7 +3250,7 @@ class _MembersTabState extends State<MembersTab> {
                                                           relationToFamilyController.text = members[i].relationToFamily!;
                                                           landMarkController.text = members[i].landMark!;
                                                           previousChurchController.text = members[i].previousChurch!;
-                                                         // serviceLanguageController.text = members[i].serviceLanguage!;
+                                                          serviceLanguageController.text = members[i].serviceLanguage!;
                                                         });
                                                         editPopUp(members[i], size);
                                                       },
@@ -5758,6 +5764,7 @@ class _MembersTabState extends State<MembersTab> {
                                         Response response =
                                         await MembersFireCrud.updateRecord(
                                           MembersModel(
+
                                             imgUrl: member.imgUrl,
                                             baptizemCertificate: member.baptizemCertificate,
                                             resistentialAddress: residentialAddressController.text,
@@ -5765,7 +5772,7 @@ class _MembersTabState extends State<MembersTab> {
                                             houseType: houseTypeCon.text,
                                             gender: genderController.text,
                                             id: member.id,
-                                            //serviceLanguage: serviceLanguageController.text,
+                                            serviceLanguage: serviceLanguageController.text,
                                             timestamp: member.timestamp,
                                             baptizeDate: baptizeDateController.text,
                                             bloodGroup: bloodGroupController.text,
@@ -5774,6 +5781,7 @@ class _MembersTabState extends State<MembersTab> {
                                             aadharNo: aadharNoController.text,
                                             familyid: member.familyid,
                                             email: emailController.text,
+                                            status: member.status,
                                             family: familyController.text,
                                             firstName: firstNameController.text,
                                             job: jobController.text,

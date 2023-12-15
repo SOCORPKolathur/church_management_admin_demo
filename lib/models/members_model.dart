@@ -17,7 +17,7 @@ class MembersModel {
   String? baptizemCertificate;
   String? socialStatus;
   bool? status;
-  //String? serviceLanguage;
+  String? serviceLanguage;
   String? job;
   String? country;
   String? family;
@@ -63,7 +63,7 @@ class MembersModel {
         this.baptizeDate,
         this.marriageDate,
         this.socialStatus,
-       // this.serviceLanguage,
+        this.serviceLanguage,
         this.job,
         this.family,
         this.familyid,
@@ -95,7 +95,7 @@ class MembersModel {
     baptizeDate = json['baptizeDate'];
     marriageDate = json['marriageDate'];
     socialStatus = json['socialStatus'];
-    //serviceLanguage = json['serviceLanguage'];
+    serviceLanguage = json['serviceLanguage'];
     job = json['job'];
     family = json['family'];
     familyid = json['familyid'];
@@ -139,7 +139,7 @@ class MembersModel {
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;
     data['socialStatus'] = this.socialStatus;
-   // data['serviceLanguage'] = this.serviceLanguage;
+    data['serviceLanguage'] = this.serviceLanguage;
     data['job'] = this.job;
     data['family'] = this.family;
     data['familyid'] = this.familyid;

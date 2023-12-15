@@ -1420,16 +1420,17 @@ class _UserTabState extends State<UserTab> {
                                         //     profileImageValidator = true;
                                         //   });
                                         // }
-                                        if (bloodGroupController.text != "Select Blood Group" &&
+                                        if (profileImage != null &&
+                                            bloodGroupController.text != "Select Blood Group" &&
                                             firstNameController.text != "" &&
                                             lastNameController.text != "" &&
                                             localityController.text != "" &&
                                             dobController.text != "" &&
-                                            aadharController.text.length == 12 &&
                                             phoneController.text.length == 10 &&
                                             phoneController.text != "" &&
                                             GenderController != "Select Gender" &&
-                                            marriedController != "Select Status")
+                                            marriedController != "Select Status"
+                                        )
                                         {
                                           Response response = await UserFireCrud.addUser(
                                             maritialStatus: marriedController,
@@ -1443,6 +1444,7 @@ class _UserTabState extends State<UserTab> {
                                             aadharNo: aadharController.text,
                                             bloodGroup: bloodGroupController.text,
                                             dob: dobController.text,
+                                            qualification: qualificationController.text,
                                             email: emailController.text,
                                             firstName: firstNameController.text,
                                             lastName: lastNameController.text,
@@ -2259,6 +2261,7 @@ class _UserTabState extends State<UserTab> {
                                                                 baptizeDateController.text = users[i].user.baptizeDate;
                                                                 bloodGroupController.text = users[i].user.bloodGroup;
                                                                 dobController.text = users[i].user.dob;
+                                                                qualificationController.text = users[i].user.qualification;
                                                                 emailController.text = users[i].user.email;
                                                                 firstNameController.text = users[i].user.firstName;
                                                                 aboutController.text = users[i].user.about;
@@ -2704,6 +2707,7 @@ class _UserTabState extends State<UserTab> {
                                                                 anniversaryDateController.text = users[i].user.anniversaryDate;
                                                                 houseTypeCon.text = users[i].user.houseType;
                                                                 nationalityCon.text = users[i].user.nationality;
+                                                                qualificationController.text = users[i].user.qualification;
                                                               });
                                                               editPopUp(users[i].user,users[i].userDocId, size);
                                                             },
@@ -3372,8 +3376,7 @@ class _UserTabState extends State<UserTab> {
                                       Text(":"),
                                       SizedBox(width: width / 68.3),
                                       KText(
-                                        //text: user.nationality!,
-                                        text: "",
+                                        text: user.qualification!,
                                         style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
@@ -4434,6 +4437,7 @@ class _UserTabState extends State<UserTab> {
                                         id: user.id,
                                         isPrivacyEnabled: user.isPrivacyEnabled,
                                         status: user.status,
+                                        qualification: qualificationController.text != "" ? qualificationController.text : user.qualification,
                                         pincode: pincodeController.text != "" ? pincodeController.text : user.pincode,
                                         timestamp: user.timestamp,
                                         baptizeDate: baptizeDateController.text != "" ? baptizeDateController.text : user.baptizeDate,
@@ -4462,7 +4466,7 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                           profileImage, user.imgUrl ?? "");
                                       if (response.code == 200) {
-                                        CoolAlert.show(
+                                        await CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.success,
                                             text: "User updated successfully!",
@@ -4491,9 +4495,8 @@ class _UserTabState extends State<UserTab> {
                                         });
                                         clearTextControllers();
                                         Navigator.pop(context);
-                                        Navigator.pop(context);
                                       } else {
-                                        CoolAlert.show(
+                                        await CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.error,
                                             text: "Failed to update User!",

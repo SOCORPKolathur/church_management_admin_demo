@@ -118,7 +118,7 @@ class MembersFireCrud {
         houseType: houseType,
         baptizemCertificate: document != null ? downloadUrl1 : "",
         nationality: nationality,
-      //serviceLanguage:serviceLanguage,
+        serviceLanguage:serviceLanguage,
         marriageDate: marriageDate,
         aadharNo: aadharNo,
         lastName: lastName,
@@ -153,6 +153,7 @@ class MembersFireCrud {
         locality: country,
         lastName: lastName,
         fcmToken: "",
+        qualification: qualification,
         firstName: firstName,
         status: true,
         maritialStatus: maritalStatus,
@@ -375,6 +376,7 @@ class MembersFireCrud {
         aadharNo: row[i][34].toString(),
         timestamp: DateTime.now().millisecondsSinceEpoch,
         imgUrl: "",
+        qualification: "",
         houseType: "Null",
       );
 

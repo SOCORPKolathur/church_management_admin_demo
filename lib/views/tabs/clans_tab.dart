@@ -3694,7 +3694,7 @@ class _ClansTabState extends State<ClansTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Gender *",
+                                          text: "Gender",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -3972,7 +3972,7 @@ class _ClansTabState extends State<ClansTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Family *",
+                                          text: "Family",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                                fontSize:width/105.07,
@@ -4156,20 +4156,18 @@ class _ClansTabState extends State<ClansTab> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
+                                      if (
+                                          bloodGroupController.text != "Select Blood Group" &&
                                           departmentController.text != "" &&
                                           pincodeController.text != "" &&
                                           dobController.text != "" &&
                                           emailController.text != "" &&
-                                          familyController.text != "" &&
                                           firstNameController.text != "" &&
-                                          jobController.text != "" &&
                                           lastNameController.text != "" &&
                                           nationalityController.text != "" &&
                                           phoneController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
+                                          phoneController.text.length == 10
+                                      ) {
                                         Response response =
                                         await ClansFireCrud.updateRecord(
                                             ClanMemberModel(
@@ -4198,7 +4196,7 @@ class _ClansTabState extends State<ClansTab> {
                                             docId
                                         );
                                         if (response.code == 200) {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
                                               text: "Flock member updated successfully!",
@@ -4228,9 +4226,8 @@ class _ClansTabState extends State<ClansTab> {
                                             genderController.text = "Select Gender";
                                           });
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
                                         } else {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
                                               text: "Failed to update Flock member!",

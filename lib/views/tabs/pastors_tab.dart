@@ -687,7 +687,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Marital status *",
+                                          text: "Marital status",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: size.width / 105.076,
@@ -1411,14 +1411,12 @@ class _PastorsTabState extends State<PastorsTab> {
                                         //   });
                                         // }
                                         if (
-                                        //profileImage != null &&
+                                            profileImage != null &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             dobController.text != "" &&
-                                            familyController.text != "" &&
+                                            familyController.text != "Select" &&
                                             pincodeController.text != "" &&
                                             pincodeController.text.length == 6 &&
-                                            phoneController.text.length == 10 &&
-                                            aadharNoController.text.length == 12 &&
                                             firstNameController.text != "" &&
                                             genderController.text != "Select Gender" &&
                                             lastNameController.text != "" &&
@@ -2451,29 +2449,36 @@ class _PastorsTabState extends State<PastorsTab> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height:height/32.55),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Marriage Date",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375
-                                          ),
+                                  Visibility(
+                                    visible: pastor.maritalStatus!.toLowerCase() == "married",
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height:height/32.55),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: size.width * 0.15,
+                                              child: KText(
+                                                text: "Marriage Date",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w800,
+                                                    fontSize:width/85.375
+                                                ),
+                                              ),
+                                            ),
+                                            Text(":"),
+                                            SizedBox(width:width/68.3),
+                                            KText(
+                                              text: pastor.marriageDate!,
+                                              style: TextStyle(
+                                                  fontSize:width/97.571
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width:width/68.3),
-                                      KText(
-                                        text: pastor.marriageDate!,
-                                        style: TextStyle(
-                                            fontSize:width/97.571
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height:height/32.55),
                                   Row(
@@ -3680,9 +3685,11 @@ class _PastorsTabState extends State<PastorsTab> {
                                       if (firstNameController.text != "" &&
                                           lastNameController.text != "" &&
                                           phoneController.text != "" &&
-                                          familyController.text != "" &&
+                                          phoneController.text.length == 10 &&
+                                          familyController.text != "Select" &&
                                           bloodGroupController.text != "Select Blood Group" &&
                                           dobController.text != "" &&
+                                          pincodeController.text.length == 6 &&
                                           pincodeController.text != "") {
                                         Response response =
                                         await PastorsFireCrud.updateRecord(
@@ -3717,7 +3724,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             pastor.imgUrl ?? ""
                                         );
                                         if (response.code == 200) {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
                                               text: "Pastor updated successfully!",
@@ -3752,9 +3759,8 @@ class _PastorsTabState extends State<PastorsTab> {
                                             countryController.text = "";
                                           });
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
                                         } else {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
                                               text: "Failed to update Pastor!",
@@ -3765,7 +3771,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           Navigator.pop(context);
                                         }
                                       } else {
-                                        CoolAlert.show(
+                                        await CoolAlert.show(
                                             context: context,
                                             type: CoolAlertType.warning,
                                             text: "Please fill the required fields",

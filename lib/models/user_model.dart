@@ -15,6 +15,7 @@ class UserModel {
   late String bloodGroup;
   late String dob;
   late String locality;
+  late String qualification;
   late String about;
   late String address;
   late String imgUrl;
@@ -38,6 +39,7 @@ class UserModel {
         //this.password,
         required this.profession,
         required this.baptizeDate,
+        required this.qualification,
         required this.anniversaryDate,
         required this.maritialStatus,
         required this.gender,
@@ -64,6 +66,7 @@ class UserModel {
     phone = json['phone'];
     aadharNo = json['aadharNo'];
     email = json['email'];
+    qualification = json['qualification'];
     maritialStatus = json['maritialStatus'];
     profession = json['profession'];
     baptizeDate = json['baptizeDate'];
@@ -100,6 +103,7 @@ class UserModel {
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;
     data['locality'] = this.locality;
+    data['qualification'] = this.qualification;
     data['pincode'] = this.pincode;
     data['about'] = this.about;
     data['address'] = this.address;

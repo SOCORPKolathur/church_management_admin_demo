@@ -1205,17 +1205,19 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                       //   });
                                       // }
                                       if (
-                                      //profileImage != null &&
+                                          profileImage != null &&
                                           bloodGroupController.text != "Select Blood Group" &&
                                           marriedController != "Select Status" &&
                                           departmentController.text != "" &&
                                           dobController.text != "" &&
                                           pincodeController.text != "" &&
-                                          familyController.text != "" &&
+                                          pincodeController.text.length == 6 &&
+                                          familyController.text != "Select" &&
                                           firstNameController.text != "" &&
                                           genderController.text != "Select Gender" &&
                                           lastNameController.text != "" &&
                                           nationalityController.text != "" &&
+                                          phoneController.text.length == 10 &&
                                           phoneController.text != "") {
                                         Response response =
                                         await CommitteeFireCrud.addCommitteeMember(
@@ -1243,7 +1245,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                           country: countryController.text,
                                         );
                                         if (response.code == 200) {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
                                               text: "Committee Member created successfully!",
@@ -1253,7 +1255,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                                   .withOpacity(0.8));
                                           clearTextEditingControllers();
                                         } else {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
                                               text: "Failed to Create Committee Member!",
@@ -5350,25 +5352,21 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                   InkWell(
                                     onTap: () async {
                                       if (
-                                          baptizeDateController.text != "" &&
-                                          bloodGroupController.text != "" &&
+                                          bloodGroupController.text != "Select Blood Group" &&
                                           departmentController.text != "" &&
                                           dobController.text != "" &&
-                                          addressController.text != "" &&
                                           pincodeController.text != "" &&
+                                          pincodeController.text.length == 6 &&
                                               phoneController.text.length == 10 &&
                                           genderController.text != "Select Gender" &&
-                                          emailController.text != "" &&
-                                          familyController.text != "" &&
+                                          familyController.text != "Select" &&
                                           firstNameController.text != "" &&
-                                          jobController.text != "" &&
                                           lastNameController.text != "" &&
                                           nationalityController.text != "" &&
-                                          phoneController.text != "" &&
-                                          positionController.text != "" &&
-                                          socialStatusController.text != "") {
+                                          phoneController.text != "") {
                                         Response response =
                                         await CommitteeFireCrud.updateRecord(
+                                          currentCommitteeId,
                                             CommitteeMemberModel(
                                             id: committee.id,timestamp: committee.timestamp,
                                             baptizeDate: baptizeDateController.text,
@@ -5397,7 +5395,7 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                             committee.imgUrl ?? ""
                                         );
                                         if (response.code == 200) {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.success,
                                               text: "Committee Member updated successfully!",
@@ -5429,9 +5427,8 @@ class _CommitteeTabState extends State<CommitteeTab> {
                                             countryController.text = "";
                                           });
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
                                         } else {
-                                          CoolAlert.show(
+                                          await CoolAlert.show(
                                               context: context,
                                               type: CoolAlertType.error,
                                               text: "Failed to update Committee Member!",

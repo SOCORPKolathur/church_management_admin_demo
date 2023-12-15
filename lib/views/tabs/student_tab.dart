@@ -294,7 +294,7 @@ class _StudentTabState extends State<StudentTab> {
                             child: KText(
                               text: currentTab.toUpperCase() == "VIEW" ? "Add Student" : "View Students",
                               style: GoogleFonts.openSans(
-                                fontSize:width/91.066,
+                                fontSize: width / 105.076,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -410,7 +410,7 @@ class _StudentTabState extends State<StudentTab> {
                                           child: KText(
                                             text: "Bulk Upload",
                                             style: GoogleFonts.openSans(
-                                              fontSize:width/91.066,
+                                              fontSize: width / 105.076,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -542,7 +542,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Student ID *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -564,7 +564,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Firstname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -611,7 +611,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Lastname *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -667,7 +667,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Gender *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -703,7 +703,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: 'Parent / Guardian *',
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -750,7 +750,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Parent / Guardian Phone *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -804,7 +804,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Date of Birth *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -844,7 +844,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Age",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -885,7 +885,7 @@ class _StudentTabState extends State<StudentTab> {
                                            text: "Class *",
                                            style: GoogleFonts.openSans(
                                              color: Colors.black,
-                                             fontSize:width/91.066,
+                                             fontSize: width / 105.076,
                                              fontWeight: FontWeight.bold,
                                            ),
                                          ),
@@ -925,7 +925,7 @@ class _StudentTabState extends State<StudentTab> {
                                                  text: 'Degree',
                                                  style: GoogleFonts.openSans(
                                                    color: Colors.black,
-                                                   fontSize:width/91.066,
+                                                   fontSize: width / 105.076,
                                                    fontWeight: FontWeight.bold,
                                                  ),
                                                ),
@@ -953,7 +953,7 @@ class _StudentTabState extends State<StudentTab> {
                                            text: 'School/College Name',
                                            style: GoogleFonts.openSans(
                                              color: Colors.black,
-                                             fontSize:width/91.066,
+                                             fontSize: width / 105.076,
                                              fontWeight: FontWeight.bold,
                                            ),
                                          ),
@@ -987,7 +987,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Family Name *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1039,7 +1039,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Family ID *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1079,7 +1079,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Aadhaar Number",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1127,7 +1127,7 @@ class _StudentTabState extends State<StudentTab> {
                                   //         text: "Department",
                                   //         style: GoogleFonts.openSans(
                                   //           color: Colors.black,
-                                  //           fontSize:width/91.066,
+                                  //           fontSize: width / 105.076,
                                   //           fontWeight: FontWeight.bold,
                                   //         ),
                                   //       ),
@@ -1152,7 +1152,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Blood Group *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1199,7 +1199,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1230,7 +1230,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Nationality",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1417,14 +1417,15 @@ class _StudentTabState extends State<StudentTab> {
                                         //   });
                                         // }
                                         if (
-                                        //profileImage != null &&
+                                            profileImage != null &&
                                             classController.text != "Select Class" &&
                                             genderController.text != "" &&
+                                            guardianController.text != "" &&
                                             guardianPhoneController.text != "" &&
                                             guardianPhoneController.text.length == 10 &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             dobController.text != "" &&
-                                            familyController.text != "" &&
+                                            familyController.text != "Select" &&
                                             firstNameController.text != "" &&
                                             lastNameController.text != ""
                                         ) {
@@ -1443,7 +1444,6 @@ class _StudentTabState extends State<StudentTab> {
                                             guardianPhone:
                                             guardianPhoneController.text,
                                             dob: dobController.text,
-
                                             family: familyController.text,
                                             familyid: familyIDController.text,
                                             firstName: firstNameController.text,
@@ -1722,7 +1722,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 text: "PRINT",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1761,7 +1761,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 text: "COPY",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1801,7 +1801,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 text: "PDF",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1841,7 +1841,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 text: "CSV",
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.white,
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1870,7 +1870,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "No.",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1880,7 +1880,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "Photo",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1890,7 +1890,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "Name",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1900,7 +1900,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "Class",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1910,7 +1910,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "Parent/Guardian",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1920,7 +1920,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "Country",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1930,7 +1930,7 @@ class _StudentTabState extends State<StudentTab> {
                                         child: KText(
                                           text: "Actions",
                                           style: GoogleFonts.poppins(
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -1973,7 +1973,7 @@ class _StudentTabState extends State<StudentTab> {
                                               child: KText(
                                                 text: (i + 1).toString(),
                                                 style: GoogleFonts.poppins(
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -1997,7 +1997,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 text:
                                                 "${students[i].firstName!} ${students[i].lastName!}",
                                                 style: GoogleFonts.poppins(
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -2007,7 +2007,7 @@ class _StudentTabState extends State<StudentTab> {
                                               child: KText(
                                                 text: students[i].clasS!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -2017,7 +2017,7 @@ class _StudentTabState extends State<StudentTab> {
                                               child: KText(
                                                 text: students[i].guardian!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -2027,7 +2027,7 @@ class _StudentTabState extends State<StudentTab> {
                                               child: KText(
                                                 text: students[i].nationality!,
                                                 style: GoogleFonts.poppins(
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
@@ -3048,7 +3048,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Student ID",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3070,7 +3070,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Firstname ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3098,7 +3098,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Lastname ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3135,7 +3135,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Gender ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3171,7 +3171,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: 'Parent / Guardian ',
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3199,7 +3199,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Parent / Guardian Phone ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3232,11 +3232,12 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Date of Birth",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: dobController,
                                           onTap: () async {
@@ -3263,7 +3264,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Age",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3298,7 +3299,7 @@ class _StudentTabState extends State<StudentTab> {
                                   //         text: "Class *",
                                   //         style: GoogleFonts.openSans(
                                   //           color: Colors.black,
-                                  //           fontSize:width/91.066,
+                                  //           fontSize: width / 105.076,
                                   //           fontWeight: FontWeight.bold,
                                   //         ),
                                   //       ),
@@ -3343,7 +3344,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Class *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3383,7 +3384,7 @@ class _StudentTabState extends State<StudentTab> {
                                                 text: 'Degree',
                                                 style: GoogleFonts.openSans(
                                                   color: Colors.black,
-                                                  fontSize:width/91.066,
+                                                  fontSize: width / 105.076,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -3411,7 +3412,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: 'School/College Name',
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3445,7 +3446,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Family Name ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3497,7 +3498,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Family ID ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3537,7 +3538,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Aadhaar Number",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3566,7 +3567,7 @@ class _StudentTabState extends State<StudentTab> {
                                   //         text: "Department",
                                   //         style: GoogleFonts.openSans(
                                   //           color: Colors.black,
-                                  //           fontSize:width/91.066,
+                                  //           fontSize: width / 105.076,
                                   //           fontWeight: FontWeight.bold,
                                   //         ),
                                   //       ),
@@ -3591,7 +3592,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Blood Group ",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3638,11 +3639,12 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Baptism Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize:width/113.83),
                                           controller: baptizeDateController,
                                           onTap: () async {
@@ -3668,7 +3670,7 @@ class _StudentTabState extends State<StudentTab> {
                                           text: "Nationality",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
-                                            fontSize:width/91.066,
+                                            fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3729,6 +3731,8 @@ class _StudentTabState extends State<StudentTab> {
                                             position: "",
                                             phone: "",
                                             email: "",
+                                            permanentAddress: student.permanentAddress,
+                                            resistentialAddress: student.resistentialAddress,
                                           ),
                                             profileImage,
                                             student.imgUrl ?? ""

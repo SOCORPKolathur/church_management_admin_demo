@@ -1655,261 +1655,263 @@ class _DepartmentTabState extends State<DepartmentTab> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: width/136.6, vertical: height/43.4),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(height:height/32.55),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Name",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(height:height/32.55),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Name",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                KText(
-                                  text: department.name!,
-                                  style: TextStyle(
-                                     fontSize: width/97.571
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Leader Name",
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  KText(
+                                    text: department.name!,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                                       fontSize: width/97.571
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Leader Name",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                KText(
-                                  text: department.leaderName!,
-                                  style: TextStyle(
-                                     fontSize: width/97.571
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Contact Number",
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  KText(
+                                    text: department.leaderName!,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                                       fontSize: width/97.571
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Contact Number",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                KText(
-                                  text: department.contactNumber!,
-                                  style: TextStyle(
-                                     fontSize: width/97.571
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Description",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
-                                    ),
-                                  ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                SizedBox(
-                                  width: size.width * 0.3,
-                                  child: KText(
-                                    text: department.description!,
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  KText(
+                                    text: department.contactNumber!,
                                     style: TextStyle(
                                        fontSize: width/97.571
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Residential Address",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Description",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                SizedBox(
-                                  width: size.width * 0.3,
-                                  child: KText(
-                                    text: department.address!,
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: size.width * 0.3,
+                                    child: KText(
+                                      text: department.description!,
+                                      style: TextStyle(
+                                         fontSize: width/97.571
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Residential Address",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
+                                    ),
+                                  ),
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: size.width * 0.3,
+                                    child: KText(
+                                      text: department.address!,
+                                      style: TextStyle(
+                                         fontSize: width/97.571
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Permanent Address",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
+                                    ),
+                                  ),
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: size.width * 0.3,
+                                    child: KText(
+                                      text: department.permanentAddress!,
+                                      style: TextStyle(
+                                          fontSize: width/97.571
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Location",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
+                                    ),
+                                  ),
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  SizedBox(
+                                    width: size.width * 0.3,
+                                    child: KText(
+                                      text: department.location!,
+                                      style: TextStyle(
+                                         fontSize: width/97.571
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "City",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
+                                    ),
+                                  ),
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  KText(
+                                    text: department.city!,
                                     style: TextStyle(
                                        fontSize: width/97.571
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Permanent Address",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Post/Zone",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                SizedBox(
-                                  width: size.width * 0.3,
-                                  child: KText(
-                                    text: department.permanentAddress!,
-                                    style: TextStyle(
-                                        fontSize: width/97.571
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Location",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
-                                    ),
-                                  ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                SizedBox(
-                                  width: size.width * 0.3,
-                                  child: KText(
-                                    text: department.location!,
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  KText(
+                                    text: department.zone!,
                                     style: TextStyle(
                                        fontSize: width/97.571
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "City",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.15,
+                                    child: KText(
+                                      text: "Country",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: width/85.375
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                KText(
-                                  text: department.city!,
-                                  style: TextStyle(
-                                     fontSize: width/97.571
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Post/Zone",
+                                  Text(":"),
+                                  SizedBox(width:width/68.3),
+                                  KText(
+                                    text: department.country!,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
+                                       fontSize: width/97.571
                                     ),
                                   ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                KText(
-                                  text: department.zone!,
-                                  style: TextStyle(
-                                     fontSize: width/97.571
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.15,
-                                  child: KText(
-                                    text: "Country",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: width/85.375
-                                    ),
-                                  ),
-                                ),
-                                Text(":"),
-                                SizedBox(width:width/68.3),
-                                KText(
-                                  text: department.country!,
-                                  style: TextStyle(
-                                     fontSize: width/97.571
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height:height/32.55),
-                          ],
+                                ],
+                              ),
+                              SizedBox(height:height/32.55),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -2015,7 +2017,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Name/Title *",
+                                      text: "Department Name/Title",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2043,7 +2045,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Leader Name *",
+                                      text: "Department Leader Name",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2075,7 +2077,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Contact *",
+                                      text: "Department Contact",
                                       style: GoogleFonts.openSans(
                                         color:Colors.black,
                                        fontSize:width/105.07,
@@ -2104,7 +2106,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Area/Zone/Location *",
+                                      text: "Department Area/Zone/Location",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2350,7 +2352,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Country *",
+                                      text: "Country",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2378,7 +2380,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Postal/Zone *",
+                                      text: "Postal/Zone",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2408,14 +2410,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  if (nameController.text != "" &&
-                                      leadernameController.text != "" &&
-                                      locationController.text != "" &&
-                                      numberController.text.length == 10 &&
-                                      numberController.text != "" &&
-                                      addressController.text != "" &&
-                                      countryController.text != "" &&
-                                      zoneController.text != "") {
+                                  // if (nameController.text != "" &&
+                                  //     leadernameController.text != "" &&
+                                  //     locationController.text != "" &&
+                                  //     numberController.text.length == 10 &&
+                                  //     numberController.text != "" &&
+                                  //     addressController.text != "" &&
+                                  //     countryController.text != "" &&
+                                  //     zoneController.text != "") {
                                     Response response = await DepartmentFireCrud
                                         .updateRecord(
                                       DepartmentModel(
@@ -2434,7 +2436,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       )
                                     );
                                     if (response.code == 200) {
-                                      CoolAlert.show(
+                                      await CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.success,
                                           text: "Department updated successfully!",
@@ -2455,9 +2457,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         zoneController.text = "";
                                       });
                                       Navigator.pop(context);
-                                      Navigator.pop(context);
                                     } else {
-                                      CoolAlert.show(
+                                      await CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.error,
                                           text: "Failed to update Department!",
@@ -2467,16 +2468,17 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       );
                                       Navigator.pop(context);
                                     }
-                                  } else {
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.warning,
-                                        text: "Please fill the required fields",
-                                        width: size.width * 0.4,
-                                        backgroundColor: Constants()
-                                            .primaryAppColor
-                                            .withOpacity(0.8));
-                                  }
+                                  //}
+                                  // else {
+                                  //   CoolAlert.show(
+                                  //       context: context,
+                                  //       type: CoolAlertType.warning,
+                                  //       text: "Please fill the required fields",
+                                  //       width: size.width * 0.4,
+                                  //       backgroundColor: Constants()
+                                  //           .primaryAppColor
+                                  //           .withOpacity(0.8));
+                                  // }
                                 },
                                 child: Container(
                                   height:height/18.6,

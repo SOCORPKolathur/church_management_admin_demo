@@ -166,7 +166,7 @@ class CommitteeFireCrud {
     return downloadUrl;
   }
 
-  static Future<Response> updateRecord(CommitteeMemberModel committee,File? image,String imgUrl) async {
+  static Future<Response> updateRecord(String docId, CommitteeMemberModel committee,File? image,String imgUrl) async {
     Response res = Response();
     if(image != null) {
       String downloadUrl = await uploadImageToStorage(image);
@@ -174,8 +174,11 @@ class CommitteeFireCrud {
     }else{
       committee.imgUrl = imgUrl;
     }
-    DocumentReference documentReferencer = CommitteeCollection.doc(committee.id);
-    var result = await documentReferencer.update(committee.toJson()).whenComplete(() {
+    print(docId);
+    print(committee.id);
+    DocumentReference documentReferencer = CommitteeCollection.doc(docId).collection('CommitteeMembers').doc(committee.id);
+    var json = committee.toJson();
+    var result = await documentReferencer.update(json).whenComplete(() {
       res.code = 200;
       res.message = "Sucessfully Updated from database";
     }).catchError((e){
