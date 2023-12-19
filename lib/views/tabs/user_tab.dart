@@ -17,6 +17,7 @@ import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:pdf/pdf.dart';
@@ -62,32 +63,129 @@ class _UserTabState extends State<UserTab> {
   String GenderController = "Select Gender";
   File? profileImage;
   var uploadedImage;
+  var uploadedImage1;
   String? selectedImg;
   String currentTab = 'View';
   final Formkey=GlobalKey<FormState>();
-  bool isCropped = false;
+  bool isCropped = true;
   bool isLoading = false;
 
+  var imageFile;
+
+  ImagePicker picker = ImagePicker();
+
   selectImage() async {
-    InputElement input = FileUploadInputElement() as InputElement
-      ..accept = 'image/*';
-    input.click();
-    input.onChange.listen((event) async {
-      final file = input.files!.first;
+
+    // InputElement input = FileUploadInputElement() as InputElement
+    //   ..accept = 'image/*';
+    // input.click();
+    // input.onChange.listen((event) async {
+    //   final file = input.files!.first;
+    //   FileReader reader = FileReader();
+    //   reader.readAsDataUrl(file);
+    //   reader.onLoadEnd.listen((event) {
+    //     setState(() {
+    //       profileImage = file;
+    //     });
+    //     setState(() {
+    //       uploadedImage = reader.result;
+    //       selectedImg = null;
+    //     });
+    //
+    //   });
+    //   setState(() {});
+    // });
+
+    final pickedImage =
+    await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        imageFile = io.File(pickedImage.path);
+      });
+    }
+
+    cropImage();
+
+    list = await pickedImage!.readAsBytes();
+    print(list);
+    final blob = Blob([list]);
+    FileReader reader = FileReader();
+    reader.readAsDataUrl(blob);
+    reader.onLoadEnd.listen((event) {
+      setState(() {
+        uploadedImage1 = reader.result;
+      });
+    });
+
+  }
+
+
+
+  cropImage() async {
+    print("______________________________________1");
+    print(imageFile.path);
+    print("______________________________________2");
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      cropStyle: CropStyle.rectangle,
+      sourcePath: imageFile!.path,// imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9,
+      ],
+      uiSettings: [
+        WebUiSettings(
+          context: context,
+          presentStyle: CropperPresentStyle.dialog,
+          enableExif: true,
+          customDialogBuilder: (cropper, crop, rotate) {
+            return Dialog(
+              child: Builder(
+                builder: (context) {
+                  return Container(
+                    height: 300,
+                    width: 400,
+                    child: Column(
+                        children: [
+                          Container(
+                            height: 200,
+                            width: 400,
+                              child: cropper,
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              final result = await crop();
+                              Navigator.of(context).pop(result);
+                            },
+                            child: Text('Crop'),
+                          )
+                        ]
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+
+        ),
+      ],
+    );
+
+    list = await croppedFile!.readAsBytes();
+    final blob = Blob([list]);
       FileReader reader = FileReader();
-      reader.readAsDataUrl(file);
+      reader.readAsDataUrl(blob);
       reader.onLoadEnd.listen((event) {
-        setState(() {
-          profileImage = file;
-        });
         setState(() {
           uploadedImage = reader.result;
           selectedImg = null;
         });
       });
-      setState(() {});
-    });
   }
+
 
   downloadTemplateExcel() async {
     final wb.Workbook workbook = wb.Workbook();
@@ -108,6 +206,10 @@ class _UserTabState extends State<UserTab> {
     sheet.getRangeByName("N1").setText("About");
     sheet.getRangeByName("O1").setText("Annivarsary Date");
     sheet.getRangeByName("P1").setText("Aadhaar Number");
+    sheet.getRangeByName("Q1").setText("Qualification");
+    sheet.getRangeByName("R1").setText("Locality");
+    sheet.getRangeByName("S1").setText("Nationality");
+    sheet.getRangeByName("T1").setText("House Type");
 
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -198,6 +300,89 @@ class _UserTabState extends State<UserTab> {
     totalUsersCount = userDoc.docs.length;
     userRemainder = (userDoc.docs.length) % 10;
     //});
+  }
+
+  showPopUpMenu(users) async {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    await showMenu(
+        context: context,
+        color: Colors.white,
+        position:  const RelativeRect.fromLTRB(300, 195, 500, 500),
+        items: [
+          PopupMenuItem<String>(
+            value: 'Print',
+            child: Row(
+              children: [
+                Icon(Icons.print),
+                SizedBox(width: width/136.6),
+                const Text('Print'),
+              ],
+            ),
+            onTap: () {
+              if(filterText != ""){
+                generateUserPdf(PdfPageFormat.standard, users, false);
+              }else{
+                generateUserPdf(PdfPageFormat.standard, usersListForPrint, false);
+              }
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'Copy',
+            child: Row(
+              children: [
+                Icon(Icons.copy),
+                SizedBox(width: width/136.6),
+                const Text('Copy'),
+              ],
+            ),
+            onTap: () {
+                if(filterText != ""){
+                   copyToClipBoard(users);
+                }else{
+                   copyToClipBoard(usersListForPrint);
+                }
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'PDF',
+            child: Row(
+              children: [
+                Icon(Icons.picture_as_pdf),
+                SizedBox(width: width/136.6),
+                const Text('PDF'),
+              ],
+            ),
+            onTap: ()  async {
+                if(filterText != ""){
+                  var data = await generateUserPdf(PdfPageFormat.letter, users, true);
+                  savePdfToFile(data);
+                }else{
+                  var data = await generateUserPdf(PdfPageFormat.letter, usersListForPrint, true);
+                  savePdfToFile(data);
+                }
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'CSV',
+            child: Row(
+              children: [
+                Icon(Icons.file_copy_rounded),
+                SizedBox(width: width/136.6),
+                const Text('CSV'),
+              ],
+            ),
+            onTap: () {
+                if(filterText != ""){
+                  convertToCsv(users);
+                }else{
+                  convertToCsv(usersListForPrint);
+                }
+            },
+          ),
+        ],
+        elevation: 8.0,
+        useRootNavigator: true);
   }
 
   @override
@@ -307,6 +492,7 @@ class _UserTabState extends State<UserTab> {
                                 style: GoogleFonts.openSans(
                                   fontSize: width / 68.3,
                                   fontWeight: FontWeight.bold,
+                                  color: Constants().subHeadingColor,
                                 ),
                               ),
                               Row(
@@ -323,7 +509,7 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                     child: Icon(
                                       Icons.remove_red_eye,
-                                      color: Colors.white,
+                                      color: Constants().btnTextColor
                                     ),
                                   ),
                                   SizedBox(width: width / 136.6),
@@ -417,17 +603,27 @@ class _UserTabState extends State<UserTab> {
                                           color: Constants().primaryAppColor,
                                           width: width/683),
                                       image: uploadedImage != null
-                                          ? DecorationImage(
-                                              fit: isCropped ? BoxFit.contain : BoxFit.cover,
+                                          ? isCropped ? DecorationImage(
+                                              fit: BoxFit.contain,
                                               image: MemoryImage(
                                                 Uint8List.fromList(
                                                   base64Decode(uploadedImage!
                                                       .split(',')
                                                       .last),
                                                 ),
-                                              ),
-                                            )
-                                          : null),
+                                              )
+                                            ) : DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: MemoryImage(
+                                            Uint8List.fromList(
+                                              base64Decode(uploadedImage1!
+                                                  .split(',')
+                                                  .last),
+                                            ),
+                                          )
+                                      )
+                                          : null,
+                                  ),
                                   child: uploadedImage == null
                                       ? Center(
                                           child: Icon(
@@ -452,11 +648,11 @@ class _UserTabState extends State<UserTab> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.add_a_photo, color: Colors.white),
+                                          Icon(Icons.add_a_photo, color: Constants().btnTextColor),
                                           SizedBox(width: width / 136.6),
-                                          const KText(
+                                          KText(
                                             text: 'Select Profile Photo *',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor),
                                           ),
                                         ],
                                       ),
@@ -482,11 +678,11 @@ class _UserTabState extends State<UserTab> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.crop, color: Colors.white),
+                                          Icon(Icons.crop, color: Constants().btnTextColor),
                                           SizedBox(width: width / 136.6),
-                                          const KText(
+                                          KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor),
                                           ),
                                         ],
                                       ),
@@ -1505,7 +1701,7 @@ class _UserTabState extends State<UserTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -1542,7 +1738,7 @@ class _UserTabState extends State<UserTab> {
                                           child: KText(
                                             text: "Cancel",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -1611,8 +1807,8 @@ class _UserTabState extends State<UserTab> {
                         return Container();
                       } else if (snapshot.hasData) {
                         List<UserModelWithDocId> users = [];
+                        usersListForPrint.clear();
                         //documentList.clear();
-                        documentList.addAll(snapshot.data!.docs);
                         if(filterText != ""){
                           for (var element in userDocument!.docs) {
                             if(element.get("profession")!.toLowerCase().startsWith(filterText.toLowerCase())||
@@ -1622,11 +1818,14 @@ class _UserTabState extends State<UserTab> {
                                   element.get("lastName")!.toLowerCase().startsWith(filterText.toLowerCase())||
                                   element.get("phone")!.toLowerCase().startsWith(filterText.toLowerCase())){
                               users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data() as Map<String, dynamic>)));
+                              usersListForPrint.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data() as Map<String, dynamic>)));
                             }
                           }
                         }else{
-                          for (var element in userDocument!.docs) {
-                             usersListForPrint.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data() as Map<String, dynamic>)));
+                          if(userDocument != null){
+                            for (var element in userDocument!.docs) {
+                              usersListForPrint.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data() as Map<String, dynamic>)));
+                            }
                           }
                           for (var element in snapshot.data!.docs) {
                             users.add(UserModelWithDocId(element.id, UserModel.fromJson(element.data())));
@@ -1678,6 +1877,7 @@ class _UserTabState extends State<UserTab> {
                                         style: GoogleFonts.openSans(
                                           fontSize: width / 68.3,
                                           fontWeight: FontWeight.bold,
+                                          color: Constants().subHeadingColor,
                                         ),
                                       ),
                                       Row(
@@ -1735,195 +1935,228 @@ class _UserTabState extends State<UserTab> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            if(filterText != ""){
-                                              generateUserPdf(PdfPageFormat.standard, users, false);
-                                            }else{
-                                              generateUserPdf(PdfPageFormat.standard, usersListForPrint, false);
-                                            }
-                                          },
-                                          child: Container(
-                                            height: height / 18.6,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xfffe5722),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(1, 2),
-                                                  blurRadius: 3,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: width / 227.66),
-                                              child: Center(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.print,
-                                                        color: Colors.white),
-                                                    KText(
-                                                      text: "PRINT",
-                                                      style:
-                                                          GoogleFonts.openSans(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            width / 105.076,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
+                                    // Row(
+                                    //   children: [
+                                    //     InkWell(
+                                    //       onTap: () {
+                                    //         if(filterText != ""){
+                                    //           generateUserPdf(PdfPageFormat.standard, users, false);
+                                    //         }else{
+                                    //           generateUserPdf(PdfPageFormat.standard, usersListForPrint, false);
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         height: height / 18.6,
+                                    //         decoration: BoxDecoration(
+                                    //           color: Color(0xfffe5722),
+                                    //           boxShadow: [
+                                    //             BoxShadow(
+                                    //               color: Colors.black26,
+                                    //               offset: Offset(1, 2),
+                                    //               blurRadius: 3,
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //         child: Padding(
+                                    //           padding: EdgeInsets.symmetric(
+                                    //               horizontal: width / 227.66),
+                                    //           child: Center(
+                                    //             child: Row(
+                                    //               children: [
+                                    //                 Icon(Icons.print,
+                                    //                     color: Colors.white),
+                                    //                 KText(
+                                    //                   text: "PRINT",
+                                    //                   style:
+                                    //                       GoogleFonts.openSans(
+                                    //                     color: Colors.white,
+                                    //                     fontSize:
+                                    //                         width / 105.076,
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold,
+                                    //                   ),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     SizedBox(width: width / 136.6),
+                                    //     InkWell(
+                                    //       onTap: () {
+                                    //         if(filterText != ""){
+                                    //           copyToClipBoard(users);
+                                    //         }else{
+                                    //           copyToClipBoard(usersListForPrint);
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         height: height / 18.6,
+                                    //         decoration: BoxDecoration(
+                                    //           color: Color(0xffff9700),
+                                    //           boxShadow: [
+                                    //             BoxShadow(
+                                    //               color: Colors.black26,
+                                    //               offset: Offset(1, 2),
+                                    //               blurRadius: 3,
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //         child: Padding(
+                                    //           padding: EdgeInsets.symmetric(
+                                    //               horizontal: width / 227.66),
+                                    //           child: Center(
+                                    //             child: Row(
+                                    //               children: [
+                                    //                 Icon(Icons.copy,
+                                    //                     color: Colors.white),
+                                    //                 KText(
+                                    //                   text: "COPY",
+                                    //                   style:
+                                    //                       GoogleFonts.openSans(
+                                    //                     color: Colors.white,
+                                    //                     fontSize:
+                                    //                         width / 105.076,
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold,
+                                    //                   ),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     SizedBox(width: width / 136.6),
+                                    //     InkWell(
+                                    //       onTap: () async {
+                                    //         if(filterText != ""){
+                                    //           var data = await generateUserPdf(PdfPageFormat.letter, users, true);
+                                    //           savePdfToFile(data);
+                                    //         }else{
+                                    //           var data = await generateUserPdf(PdfPageFormat.letter, usersListForPrint, true);
+                                    //           savePdfToFile(data);
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         height: height / 18.6,
+                                    //         decoration: BoxDecoration(
+                                    //           color: Color(0xff9b28b0),
+                                    //           boxShadow: [
+                                    //             BoxShadow(
+                                    //               color: Colors.black26,
+                                    //               offset: Offset(1, 2),
+                                    //               blurRadius: 3,
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //         child: Padding(
+                                    //           padding: EdgeInsets.symmetric(
+                                    //               horizontal: width / 227.66),
+                                    //           child: Center(
+                                    //             child: Row(
+                                    //               children: [
+                                    //                 Icon(Icons.picture_as_pdf,
+                                    //                     color: Colors.white),
+                                    //                 KText(
+                                    //                   text: "PDF",
+                                    //                   style:
+                                    //                       GoogleFonts.openSans(
+                                    //                     color: Colors.white,
+                                    //                     fontSize:
+                                    //                         width / 105.076,
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold,
+                                    //                   ),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     SizedBox(width: width / 136.6),
+                                    //     InkWell(
+                                    //       onTap: () {
+                                    //         if(filterText != ""){
+                                    //           convertToCsv(users);
+                                    //         }else{
+                                    //           convertToCsv(usersListForPrint);
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         height: height / 18.6,
+                                    //         decoration: BoxDecoration(
+                                    //           color: Color(0xff019688),
+                                    //           boxShadow: [
+                                    //             BoxShadow(
+                                    //               color: Colors.black26,
+                                    //               offset: Offset(1, 2),
+                                    //               blurRadius: 3,
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //         child: Padding(
+                                    //           padding: EdgeInsets.symmetric(
+                                    //               horizontal: width / 227.66),
+                                    //           child: Center(
+                                    //             child: Row(
+                                    //               children: [
+                                    //                 Icon(
+                                    //                     Icons.file_copy_rounded,
+                                    //                     color: Colors.white),
+                                    //                 KText(
+                                    //                   text: "CSV",
+                                    //                   style:
+                                    //                       GoogleFonts.openSans(
+                                    //                     color: Colors.white,
+                                    //                     fontSize:
+                                    //                         width / 105.076,
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold,
+                                    //                   ),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    InkWell(
+                                        onTap:(){
+                                          showPopUpMenu(users);
+                                        },
+                                        child: Container(
+                                          height:height/18.6,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(8),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: Offset(1, 2),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.symmetric(horizontal:width/227.66),
+                                            child: Center(
+                                              child: KText(
+                                                text: "Export Data",
+                                                style: GoogleFonts.openSans(
+                                                  fontSize:width/105.07,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(width: width / 136.6),
-                                        InkWell(
-                                          onTap: () {
-                                            if(filterText != ""){
-                                              copyToClipBoard(users);
-                                            }else{
-                                              copyToClipBoard(usersListForPrint);
-                                            }
-                                          },
-                                          child: Container(
-                                            height: height / 18.6,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffff9700),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(1, 2),
-                                                  blurRadius: 3,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: width / 227.66),
-                                              child: Center(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.copy,
-                                                        color: Colors.white),
-                                                    KText(
-                                                      text: "COPY",
-                                                      style:
-                                                          GoogleFonts.openSans(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            width / 105.076,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: width / 136.6),
-                                        InkWell(
-                                          onTap: () async {
-                                            if(filterText != ""){
-                                              var data = await generateUserPdf(PdfPageFormat.letter, users, true);
-                                              savePdfToFile(data);
-                                            }else{
-                                              var data = await generateUserPdf(PdfPageFormat.letter, usersListForPrint, true);
-                                              savePdfToFile(data);
-                                            }
-                                          },
-                                          child: Container(
-                                            height: height / 18.6,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xff9b28b0),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(1, 2),
-                                                  blurRadius: 3,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: width / 227.66),
-                                              child: Center(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.picture_as_pdf,
-                                                        color: Colors.white),
-                                                    KText(
-                                                      text: "PDF",
-                                                      style:
-                                                          GoogleFonts.openSans(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            width / 105.076,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: width / 136.6),
-                                        InkWell(
-                                          onTap: () {
-                                            if(filterText != ""){
-                                              convertToCsv(users);
-                                            }else{
-                                              convertToCsv(usersListForPrint);
-                                            }
-                                          },
-                                          child: Container(
-                                            height: height / 18.6,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xff019688),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(1, 2),
-                                                  blurRadius: 3,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: width / 227.66),
-                                              child: Center(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                        Icons.file_copy_rounded,
-                                                        color: Colors.white),
-                                                    KText(
-                                                      text: "CSV",
-                                                      style:
-                                                          GoogleFonts.openSans(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            width / 105.076,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                        )
                                     ),
                                     SizedBox(height: height / 21.7),
                                     SizedBox(
@@ -2967,6 +3200,7 @@ class _UserTabState extends State<UserTab> {
                                       ),
                                       numberPages: filterText != "" ? (users.length + 10) ~/ 10 : pagecount,
                                       onPageChange: (int index) {
+                                        documentList.addAll(snapshot.data!.docs);
                                         setState(() {
                                           temp = index+1;
                                         });
@@ -3033,6 +3267,7 @@ class _UserTabState extends State<UserTab> {
                           style: GoogleFonts.openSans(
                             fontSize: width / 68.3,
                             fontWeight: FontWeight.bold,
+                            color: Constants().subHeadingColor,
                           ),
                         ),
                         InkWell(
@@ -3400,7 +3635,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width*0.3,
                                         child: Text(
-                                          user.about!,
+                                          user.address!,
                                           style: TextStyle(fontSize: width/97.571),
                                         ),
                                       ),
@@ -3533,6 +3768,7 @@ class _UserTabState extends State<UserTab> {
                             style: GoogleFonts.openSans(
                               fontSize: width / 68.3,
                               fontWeight: FontWeight.bold,
+                              color: Constants().subHeadingColor,
                             ),
                           ),
                           InkWell(
@@ -3655,11 +3891,11 @@ class _UserTabState extends State<UserTab> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.add_a_photo, color: Colors.white),
+                                         Icon(Icons.add_a_photo, color: Constants().btnTextColor,),
                                         SizedBox(width: width / 136.6),
-                                        const KText(
+                                         KText(
                                           text: 'Select Profile Photo',
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: Constants().btnTextColor,),
                                         ),
                                       ],
                                     ),
@@ -3685,11 +3921,11 @@ class _UserTabState extends State<UserTab> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.crop, color: Colors.white),
+                                         Icon(Icons.crop, color: Constants().btnTextColor,),
                                         SizedBox(width: width / 136.6),
-                                        const KText(
+                                         KText(
                                           text: 'Disable Crop',
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: Constants().btnTextColor,),
                                         ),
                                       ],
                                     ),
@@ -4431,8 +4667,10 @@ class _UserTabState extends State<UserTab> {
                                     if (marriedController != "Select Status" &&
                                         firstNameController.text != "" &&
                                         lastNameController.text != "" &&
-                                        localityController.text != "" &&
-                                        phoneController.text != "") {
+                                        phoneController.text != "" &&
+                                        phoneController.text.length == 10 &&
+                                        _key.currentState!.validate()
+                                    ) {
                                       Response response = await UserFireCrud.updateRecord(userDocID, UserModel(
                                         id: user.id,
                                         isPrivacyEnabled: user.isPrivacyEnabled,
@@ -4539,7 +4777,7 @@ class _UserTabState extends State<UserTab> {
                                         child: KText(
                                           text: "Update",
                                           style: GoogleFonts.openSans(
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                             fontSize:width/136.6,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -4577,7 +4815,7 @@ class _UserTabState extends State<UserTab> {
                                         child: KText(
                                           text: "Cancel",
                                           style: GoogleFonts.openSans(
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                             fontSize:width/136.6,
                                             fontWeight: FontWeight.bold,
                                           ),

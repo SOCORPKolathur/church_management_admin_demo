@@ -155,7 +155,7 @@ class _OrdersTabState extends State<OrdersTab>
                                     "New Orders",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 0
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
@@ -171,7 +171,7 @@ class _OrdersTabState extends State<OrdersTab>
                                     "Delivered",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 1
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
@@ -187,7 +187,7 @@ class _OrdersTabState extends State<OrdersTab>
                                     "Canceled",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 2
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,

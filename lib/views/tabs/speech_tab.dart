@@ -858,7 +858,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -2320,7 +2320,7 @@ class _SpeechTabState extends State<SpeechTab> {
                                           child: KText(
                                             text: "Update",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

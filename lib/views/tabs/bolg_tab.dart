@@ -229,12 +229,12 @@ class _BlogTabState extends State<BlogTab> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                          Icon(Icons.add_a_photo,
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
-                                          const KText(
+                                          KText(
                                             text: 'Select Blog Post Cover Photo',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -451,7 +451,7 @@ class _BlogTabState extends State<BlogTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -1517,11 +1517,11 @@ class _BlogTabState extends State<BlogTab> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.add_a_photo,
-                                          color: Colors.white),
+                                          color: Constants().btnTextColor,),
                                       SizedBox(width: width/136.6),
                                       KText(
                                         text: 'Select Blog Post Cover Photo',
-                                        style: TextStyle(color: Colors.white),
+                                        style: TextStyle(color: Constants().btnTextColor,),
                                       ),
                                     ],
                                   ),
@@ -1694,7 +1694,7 @@ class _BlogTabState extends State<BlogTab> {
                                       child: KText(
                                         text: "Update",
                                         style: GoogleFonts.openSans(
-                                          color: Colors.white,
+                                          color: Constants().btnTextColor,
                                           fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),

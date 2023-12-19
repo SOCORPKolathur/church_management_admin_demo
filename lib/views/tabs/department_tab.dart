@@ -263,7 +263,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Name/Title",
+                                          text: "Department Name/Title *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -311,7 +311,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Leader Name",
+                                          text: "Department Leader Name *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -363,7 +363,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Department Contact",
+                                          text: "Department Contact *",
                                           style: GoogleFonts.openSans(
                                             color:Colors.black,
                                            fontSize:width/105.07,
@@ -741,7 +741,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Postal/Zone",
+                                          text: "Pincode *",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                            fontSize:width/105.07,
@@ -788,17 +788,17 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                         setState((){
                                           isLoading = true;
                                         });
-                                        // _keyDeptName.currentState!.validate();
-                                        // _keyDeptLeadName.currentState!.validate();
-                                        // _keyPhone.currentState!.validate();
-                                        // _keyDeptArea.currentState!.validate();
-                                        // _keyzone.currentState!.validate();
+                                        _keyDeptName.currentState!.validate();
+                                        _keyDeptLeadName.currentState!.validate();
+                                        _keyPhone.currentState!.validate();
+                                        _keyzone.currentState!.validate();
 
-                                        // if (nameController.text != "" &&
-                                        //     leadernameController.text != "" &&
-                                        //     zoneController.text != "" &&
-                                        //     locationController.text != "" &&
-                                        //     numberController.text != "") {
+                                        if (nameController.text != "" &&
+                                            leadernameController.text != "" &&
+                                            zoneController.text != "" &&
+                                            zoneController.text.length == 6 &&
+                                            numberController.text.length == 10 &&
+                                            numberController.text != "") {
                                           Response response = await DepartmentFireCrud.addDepartment(
                                               name: nameController.text,
                                               leaderName: leadernameController.text,
@@ -847,14 +847,14 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                               isLoading = false;
                                             });
                                           }
-                                      //   }
-                                      // else {
-                                      //     setState((){
-                                      //       isLoading = false;
-                                      //     });
-                                      //     ScaffoldMessenger.of(context)
-                                      //         .showSnackBar(snackBar);
-                                      //   }
+                                        }
+                                      else {
+                                          setState((){
+                                            isLoading = false;
+                                          });
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
                                       }
                                     },
                                     child: Container(
@@ -878,7 +878,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -1308,8 +1308,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           SizedBox(
                                             width: width/7.588,
-                                            child: KText(
-                                              text: departments[i].name!,
+                                            child: Text(
+                                              departments[i].name!,
                                               style: GoogleFonts.poppins(
                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
@@ -1318,8 +1318,8 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                           ),
                                           SizedBox(
                                             width: width/7.588,
-                                            child: KText(
-                                              text: departments[i].leaderName!,
+                                            child: Text(
+                                              departments[i].leaderName!,
                                               style: GoogleFonts.poppins(
                                                fontSize:width/105.07,
                                                 fontWeight: FontWeight.w600,
@@ -2017,7 +2017,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Name/Title",
+                                      text: "Department Name/Title *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2045,7 +2045,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Leader Name",
+                                      text: "Department Leader Name *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2077,7 +2077,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Department Contact",
+                                      text: "Department Contact *",
                                       style: GoogleFonts.openSans(
                                         color:Colors.black,
                                        fontSize:width/105.07,
@@ -2380,7 +2380,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Postal/Zone",
+                                      text: "Pincode *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                        fontSize:width/105.07,
@@ -2410,14 +2410,13 @@ class _DepartmentTabState extends State<DepartmentTab> {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  // if (nameController.text != "" &&
-                                  //     leadernameController.text != "" &&
-                                  //     locationController.text != "" &&
-                                  //     numberController.text.length == 10 &&
-                                  //     numberController.text != "" &&
-                                  //     addressController.text != "" &&
-                                  //     countryController.text != "" &&
-                                  //     zoneController.text != "") {
+
+                                  if (nameController.text != "" &&
+                                      leadernameController.text != "" &&
+                                      numberController.text.length == 10 &&
+                                      zoneController.text.length == 6 &&
+                                      numberController.text != "" &&
+                                      zoneController.text != "") {
                                     Response response = await DepartmentFireCrud
                                         .updateRecord(
                                       DepartmentModel(
@@ -2468,17 +2467,17 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       );
                                       Navigator.pop(context);
                                     }
-                                  //}
-                                  // else {
-                                  //   CoolAlert.show(
-                                  //       context: context,
-                                  //       type: CoolAlertType.warning,
-                                  //       text: "Please fill the required fields",
-                                  //       width: size.width * 0.4,
-                                  //       backgroundColor: Constants()
-                                  //           .primaryAppColor
-                                  //           .withOpacity(0.8));
-                                  // }
+                                  }
+                                  else {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.warning,
+                                        text: "Please fill the required fields",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
+                                  }
                                 },
                                 child: Container(
                                   height:height/18.6,
@@ -2500,7 +2499,7 @@ class _DepartmentTabState extends State<DepartmentTab> {
                                       child: KText(
                                         text: "Update",
                                         style: GoogleFonts.openSans(
-                                          color: Colors.white,
+                                          color: Constants().btnTextColor,
                                           fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),

@@ -517,7 +517,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
-                                          color: Colors.white,
+                                          color: Constants().btnTextColor,
                                           fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),

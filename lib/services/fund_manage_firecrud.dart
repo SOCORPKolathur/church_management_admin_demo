@@ -106,6 +106,73 @@ class FundManageFireCrud {
     return response;
   }
 
+
+  static Future<Response> editFund(
+       {
+         required String id,
+         required double amount,
+         required double prevAmount,
+        required double currentBalance,
+        required double totalCollect,
+        required double totalSpend,
+        required String verifier,
+        required String source,
+        required String remarks,
+        required File? image,
+        required File? document,
+        required String date,
+        required String recordType}) async {
+    Response response = Response();
+    String imgUrl = '';
+    String docUrl = '';
+    if(image != null){
+      imgUrl = await uploadImageToStorage(image);
+    }
+    if(document != null){
+      docUrl = await uploadDocumentToStorage(document);
+    }
+    DocumentReference documentReferencer = FundManageCollection.doc(id);
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
+    FundManagementModel fund = FundManagementModel(
+      id: id,
+      timestamp: tempDate.millisecondsSinceEpoch,
+      recordType: recordType,
+      date: date,
+      remarks: remarks,
+      source: source,
+      verifier: verifier,
+      amount: amount,
+      imgUrl: image != null ? imgUrl : "",
+      document: document != null ? docUrl : "",
+    );
+    var json = fund.toJson();
+    var result = await documentReferencer.update(json).whenComplete(() {
+      response.code = 200;
+      response.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      response.code = 500;
+      response.message = e;
+    });
+    // if (response.code == 200) {
+    //   if (recordType == "Receivable") {
+    //     double amt = currentBalance - prevAmount;
+    //     double amt1 = totalCollect - prevAmount;
+    //     var fund = FundCollection.doc("x18zE9lNxDto7AXHlXDA").update({
+    //       "currentBalance": amt + amount,
+    //       "totalCollect": amt1 + amount,
+    //     });
+    //   } else {
+    //     double amt = currentBalance + prevAmount;
+    //     double amt1 = totalSpend + prevAmount;
+    //     var fund = FundCollection.doc("x18zE9lNxDto7AXHlXDA").update({
+    //       "currentBalance": amt - amount,
+    //       "totalSpend": amt1 + amount,
+    //     });
+    //   }
+    // }
+    return response;
+  }
+
   static Future<String> uploadImageToStorage(file) async {
     var snapshot = await fs
         .ref()

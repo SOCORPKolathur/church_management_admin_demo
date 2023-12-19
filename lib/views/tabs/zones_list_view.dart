@@ -755,7 +755,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                                   child: Text(
                                                     "Add",
                                                     style: GoogleFonts.poppins(
-                                                      color:Colors.white,
+                                                      color: Constants().btnTextColor,
                                                     ),
                                                   ),
                                                 ),
@@ -893,7 +893,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                       child: KText(
                                         text: "Submit",
                                         style: GoogleFonts.openSans(
-                                          color: Colors.white,
+                                          color: Constants().btnTextColor,
                                           fontSize:width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -1545,7 +1545,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                     "Member in Area",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 0
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
@@ -1561,7 +1561,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                     "Zone Leader Supporters",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 1
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
@@ -2587,7 +2587,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                                     child: Text(
                                                       "Add",
                                                       style: GoogleFonts.poppins(
-                                                        color:Colors.white,
+                                                        color:Constants().btnTextColor,
                                                       ),
                                                     ),
                                                   ),
@@ -2730,7 +2730,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                         child: KText(
                                           text: "Update",
                                           style: GoogleFonts.openSans(
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                             fontSize:width/136.6,
                                             fontWeight: FontWeight.bold,
                                           ),

@@ -103,8 +103,8 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
                             attendanceMarked ? "Attendance Marked already" : "Mark Today's Attendance",
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style:  TextStyle(
+                              color: Constants().btnTextColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -135,8 +135,8 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                                "Edit Today's Attendance",
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: TextStyle(
+                                color: Constants().btnTextColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -414,7 +414,7 @@ class _AttendanceFamilyTabState extends State<AttendanceFamilyTab> {
                                             child: KText(
                                               text: "Submit",
                                               style: GoogleFonts.poppins(
-                                                color: Colors.white,
+                                                color: Constants().btnTextColor,
                                                 fontSize: width/105.0769230769231,
                                                 fontWeight:
                                                 FontWeight.w600,

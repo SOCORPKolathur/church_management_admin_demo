@@ -142,6 +142,11 @@ class _StudentTabState extends State<StudentTab> {
     sheet.getRangeByName("O1").setText("Nationality");
     sheet.getRangeByName("P1").setText("Aadhaar Number");
     sheet.getRangeByName("Q1").setText("Position");
+    sheet.getRangeByName("R1").setText("Degree");
+    sheet.getRangeByName("S1").setText("Institute Name");
+    sheet.getRangeByName("T1").setText("Email");
+    sheet.getRangeByName("U1").setText("Country");
+    sheet.getRangeByName("V1").setText("Address");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -219,9 +224,27 @@ class _StudentTabState extends State<StudentTab> {
   bool isLoading = false;
 
   setAge(DateTime dob){
+    Size size = MediaQuery.of(context).size;
     DateDuration duration;
     duration = AgeCalculator.age(dob);
-    ageController.text = duration.years.toString();
+    if(duration.years != 0){
+      ageController.text = duration.years.toString();
+    }else{
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.info,
+          text: "Age will be greater than 0",
+          title: "Please select date of birth correctly!",
+          width: size.width * 0.4,
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+          showCancelBtn: true,
+          cancelBtnTextStyle: TextStyle(color: Colors.black),
+          confirmBtnText: 'OK',
+          onConfirmBtnTap: () async {
+            dobController.clear();
+          }
+      );
+    }
   }
 
   final firstNameFocusNode = FocusNode();
@@ -355,7 +378,7 @@ class _StudentTabState extends State<StudentTab> {
                                     ],
                                     child: Icon(
                                       Icons.remove_red_eye,
-                                      color: Colors.white,
+                                      color: Constants().btnTextColor,
                                     ),
                                   ),
                                    SizedBox(width:width/136.6),
@@ -485,11 +508,11 @@ class _StudentTabState extends State<StudentTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Select Profile Photo *',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -517,12 +540,12 @@ class _StudentTabState extends State<StudentTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -1515,7 +1538,7 @@ class _StudentTabState extends State<StudentTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -2991,11 +3014,11 @@ class _StudentTabState extends State<StudentTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Select Profile Photo',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -3023,12 +3046,12 @@ class _StudentTabState extends State<StudentTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -3814,7 +3837,7 @@ class _StudentTabState extends State<StudentTab> {
                                           child: KText(
                                             text: "Update",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

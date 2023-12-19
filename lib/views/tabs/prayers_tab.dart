@@ -722,7 +722,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                           "Pending Requests",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 0
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -737,7 +737,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                           "Approved Requests",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 1
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -752,7 +752,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                           "Denied Requests",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 2
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -1695,7 +1695,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                           "Pending Requests",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 0
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -1710,7 +1710,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                           "Approved Requests",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 1
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -1725,7 +1725,7 @@ class _PrayersTabState extends State<PrayersTab> with SingleTickerProviderStateM
                                           "Denied Requests",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 2
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,

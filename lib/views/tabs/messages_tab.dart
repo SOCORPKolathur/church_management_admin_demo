@@ -145,7 +145,7 @@ class _MessagesTabState extends State<MessagesTab>  with SingleTickerProviderSta
                                     "Messages",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 0
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,

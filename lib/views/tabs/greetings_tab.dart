@@ -761,7 +761,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                       child: KText(
                                         text: "ADD NOW",
                                         style: GoogleFonts.openSans(
-                                          color: Colors.white,
+                                          color: Constants().btnTextColor,
                                           fontSize: width/136.6,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -1102,7 +1102,7 @@ class _GreetingsTabState extends State<GreetingsTab> {
                                           child: KText(
                                             text: "SEND NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

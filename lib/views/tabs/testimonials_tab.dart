@@ -723,7 +723,7 @@ class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProv
                                           "Pending Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 0
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -738,7 +738,7 @@ class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProv
                                           "Verified Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 1
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -753,7 +753,7 @@ class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProv
                                           "Denied Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 2
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -1696,7 +1696,7 @@ class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProv
                                           "Pending Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 0
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -1711,7 +1711,7 @@ class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProv
                                           "Verified Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 1
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,
@@ -1726,7 +1726,7 @@ class _TestimonialsTabState extends State<TestimonialsTab> with SingleTickerProv
                                           "Unverified Testimonials",
                                           style: GoogleFonts.openSans(
                                             color: currentTabIndex == 2
-                                                ? Colors.white
+                                                ? Constants().btnTextColor
                                                 : Colors.black,
                                             fontSize: width/97.57142857142857,
                                             fontWeight: FontWeight.w700,

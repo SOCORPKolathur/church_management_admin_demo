@@ -117,7 +117,7 @@ class _LoginViewState extends State<LoginView> {
                         width: 110,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(200),
-                              color:Colors.white
+                              color: Colors.white
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(200),
@@ -268,7 +268,8 @@ class _LoginViewState extends State<LoginView> {
                                         text: "Log In",
                                         style: GoogleFonts.poppins(
                                             fontSize: 18,
-                                            color: Colors.white
+                                            //color: Colors.white
+                                            color: Constants().btnTextColor,
                                         ),
                                       ),
                                     ),

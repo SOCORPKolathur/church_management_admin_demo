@@ -115,7 +115,7 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                                         "Overall Reports",
                                         style: GoogleFonts.openSans(
                                           color: currentTabIndex == 0
-                                              ? Colors.white
+                                              ? Constants().btnTextColor
                                               : Colors.black,
                                           fontSize: width/97.57142857142857,
                                           fontWeight: FontWeight.w700,
@@ -131,7 +131,7 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                                         "Today Reports",
                                         style: GoogleFonts.openSans(
                                           color: currentTabIndex == 1
-                                              ? Colors.white
+                                              ? Constants().btnTextColor
                                               : Colors.black,
                                           fontSize: width/97.57142857142857,
                                           fontWeight: FontWeight.w700,

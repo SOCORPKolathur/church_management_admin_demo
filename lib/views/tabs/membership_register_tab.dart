@@ -349,7 +349,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                             getMemberByName();
                           },
                           child: Container(
-                            child: Center(child: Text("Search",style: GoogleFonts.poppins(color:Colors.white),)),
+                            child: Center(child: Text("Search",style: GoogleFonts.poppins(color:Constants().btnTextColor,),)),
                             width: width/10.507,
                             height: height/16.425,
                             // color:Color(0xff00A0E3),
@@ -495,7 +495,7 @@ class _MembershipRegisterTabState extends State<MembershipRegisterTab> {
                                                             ChoiceChip(
                                                               label: Text(
                                                                 "${value["family"]} / ${value["familyid"]}",
-                                                                style: TextStyle(color: Colors.white),
+                                                                style: TextStyle(color:Constants().btnTextColor,),
                                                               ),
                                                               onSelected: (bool selected) {},
                                                               selectedColor: Constants().primaryAppColor,

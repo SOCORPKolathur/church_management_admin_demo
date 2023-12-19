@@ -161,6 +161,8 @@ class _MembersTabState extends State<MembersTab> {
     sheet.getRangeByName("Y1").setText("Relationship to Family");
     sheet.getRangeByName("Z1").setText("Previous Church");
     sheet.getRangeByName("AA1").setText("Landmark");
+    sheet.getRangeByName("AB1").setText("House Type");
+    sheet.getRangeByName("AC1").setText("Service Language");
 
     final List<int>bytes = workbook.saveAsStream();
     workbook.dispose();
@@ -439,6 +441,7 @@ class _MembersTabState extends State<MembersTab> {
                                 style: GoogleFonts.openSans(
                                   fontSize: width/68.3,
                                   fontWeight: FontWeight.bold,
+                                  color: Constants().subHeadingColor,
                                 ),
                               ),
                               Row(
@@ -454,7 +457,7 @@ class _MembersTabState extends State<MembersTab> {
                                     ],
                                     child:  Icon(
                                       Icons.remove_red_eye,
-                                      color: Colors.white,
+                                      color: Constants().btnTextColor,
                                     ),
                                   ),
                                    SizedBox(width: width/136.6),
@@ -579,11 +582,11 @@ class _MembersTabState extends State<MembersTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Select Profile Photo *',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -610,12 +613,12 @@ class _MembersTabState extends State<MembersTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -631,11 +634,11 @@ class _MembersTabState extends State<MembersTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                            Icon(Icons.file_copy,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                            SizedBox(width: width/136.6),
                                           KText(
                                             text: docname == "" ? 'Select Baptism Certificate' : docname,
-                                            style:  TextStyle(color: Colors.white),
+                                            style:  TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -2102,7 +2105,7 @@ class _MembersTabState extends State<MembersTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -2173,8 +2176,8 @@ class _MembersTabState extends State<MembersTab> {
                 } else if (snapshot.hasData) {
                   List<cf.DocumentSnapshot> members1 = snapshot.data!.docs;
                   List<MembersModel> members = [];
-
-                  documentList.addAll(snapshot.data!.docs);
+                  membersListForPrint.clear();
+                  //documentList.addAll(snapshot.data!.docs);
 
                   if(searchString != ""){
                     for (var element in memberDocument!.docs) {
@@ -2185,14 +2188,17 @@ class _MembersTabState extends State<MembersTab> {
                           element.get("lastName")!.toLowerCase().startsWith(searchString.toLowerCase())||
                           element.get("phone")!.toLowerCase().startsWith(searchString.toLowerCase())){
                         members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                        membersListForPrint.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                       }
                     }
                   }else{
                     for (var element in members1) {
                       members.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
                     }
-                    for (var element in memberDocument!.docs) {
-                      membersListForPrint.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                    if(memberDocument != null){
+                      for (var element in memberDocument!.docs) {
+                        membersListForPrint.add(MembersModel.fromJson(element.data() as Map<String, dynamic>));
+                      }
                     }
                   }
 
@@ -2244,6 +2250,7 @@ class _MembersTabState extends State<MembersTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
+                                    color: Constants().subHeadingColor,
                                   ),
                                 ),
                                 Material(
@@ -3485,6 +3492,7 @@ class _MembersTabState extends State<MembersTab> {
                                 ),
                                 numberPages: searchString != "" ? (members.length + 10) ~/ 10 : pagecount,// pagecount,
                                 onPageChange: (int index) {
+                                  documentList.addAll(snapshot.data!.docs);
                                   setState(() {
                                     temp = index+1;
                                   });
@@ -3557,6 +3565,7 @@ class _MembersTabState extends State<MembersTab> {
                           style: GoogleFonts.openSans(
                             fontSize: width/68.3,
                             fontWeight: FontWeight.bold,
+                            color: Constants().subHeadingColor,
                           ),
                         ),
                         InkWell(
@@ -4421,6 +4430,7 @@ class _MembersTabState extends State<MembersTab> {
                               style: GoogleFonts.openSans(
                                 fontSize: width/68.3,
                                 fontWeight: FontWeight.bold,
+                                color: Constants().subHeadingColor,
                               ),
                             ),
                             InkWell(
@@ -4520,11 +4530,11 @@ class _MembersTabState extends State<MembersTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Select Profile Photo',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -4552,12 +4562,12 @@ class _MembersTabState extends State<MembersTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -5886,7 +5896,7 @@ class _MembersTabState extends State<MembersTab> {
                                           child: KText(
                                             text: "Update",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

@@ -1,5 +1,4 @@
 import 'dart:html';
-
 import 'package:church_management_admin/models/church_details_model.dart';
 import 'package:church_management_admin/models/verses_model.dart';
 import 'package:church_management_admin/services/attendance_record_firecrud.dart';
@@ -98,7 +97,7 @@ class _SettingsTabState extends State<SettingsTab> {
       final file = input.files!.first;
       FileReader reader = FileReader();
       reader.readAsDataUrl(file);
-      reader.onLoadEnd.listen((event) {
+      reader.onLoadEnd.listen((event) async {
         setState(() {
           profileImage = file;
         });
@@ -106,18 +105,21 @@ class _SettingsTabState extends State<SettingsTab> {
           uploadedImage = reader.result;
           selectedImg = null;
         });
+        String downloadUrl =  await uploadImageToStorage(profileImage);
+
+        var doc = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+
+        FirebaseFirestore.instance.collection('ChurchDetails').doc(doc.docs.first.id).update({
+          "logo" : downloadUrl,
+        });
+        setState(() {
+          churchLogo = downloadUrl;
+        });
+        setState(() {});
       });
       setState(() {});
     });
 
-
-    String downloadUrl =  await uploadImageToStorage(profileImage);
-
-    var doc = await FirebaseFirestore.instance.collection('ChurchDetails').get();
-
-    FirebaseFirestore.instance.collection('ChurchDetails').doc(doc.docs.first.id).update({
-      "logo" : downloadUrl,
-    });
 
   }
   
@@ -189,7 +191,7 @@ class _SettingsTabState extends State<SettingsTab> {
                                 child: Text(
                                   "View Bible Verses",
                                   style: TextStyle(
-                                    color: Constants().primaryAppColor,
+                                    color: Constants().btnTextColor,
                                   ),
                                 ),
                               ),
@@ -213,7 +215,7 @@ class _SettingsTabState extends State<SettingsTab> {
                                 child: Text(
                                   "Add Bible Verses",
                                   style: TextStyle(
-                                    color: Constants().primaryAppColor,
+                                    color: Constants().btnTextColor,
                                   ),
                                 ),
                               ),
@@ -287,11 +289,11 @@ class _SettingsTabState extends State<SettingsTab> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.add_a_photo, color: Colors.white),
+                                           Icon(Icons.add_a_photo, color: Constants().btnTextColor,),
                                           SizedBox(width: width / 136.6),
-                                          const KText(
+                                           KText(
                                             text: 'Change Logo',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -1922,7 +1924,7 @@ class _SettingsTabState extends State<SettingsTab> {
                                       isAddNew ? "Add Verse" : "Update Verse",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: Constants().btnTextColor,
                                       ),
                                     ),
                                   ),

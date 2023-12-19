@@ -473,12 +473,12 @@ class _EmailCommunictionTabState extends State<EmailCommunictionTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.send,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width /273.2),
                                           KText(
                                             text: "SEND",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width /136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

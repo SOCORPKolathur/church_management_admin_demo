@@ -731,7 +731,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> with SingleTickerProv
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -870,7 +870,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> with SingleTickerProv
                                     "All Memorial Days",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 0
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
@@ -886,7 +886,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> with SingleTickerProv
                                     "Today Memorial Days",
                                     style: GoogleFonts.openSans(
                                       color: currentTabIndex == 1
-                                          ? Colors.white
+                                          ? Constants().btnTextColor
                                           : Colors.black,
                                       fontSize: width/97.57142857142857,
                                       fontWeight: FontWeight.w700,
@@ -1968,7 +1968,7 @@ class _RememberDaysTabState extends State<RememberDaysTab> with SingleTickerProv
                                         child: KText(
                                           text: "UPDATE NOW",
                                           style: GoogleFonts.openSans(
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                             fontSize:width/136.6,
                                             fontWeight: FontWeight.bold,
                                           ),

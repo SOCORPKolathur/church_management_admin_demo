@@ -563,7 +563,7 @@ class _ReportsTabState extends State<ReportsTab> {
                             ),),
                             ChoiceChip(
 
-                              label: Text("0 Members",style: TextStyle(color: Colors.white),),
+                              label: Text("0 Members",style: TextStyle(color: Constants().btnTextColor,),),
 
 
                               onSelected: (bool selected) {

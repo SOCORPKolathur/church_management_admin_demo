@@ -112,12 +112,27 @@ class _FundManagementTabState extends State<FundManagementTab>
       ),
       child: SingleChildScrollView(
         child: StreamBuilder(
-          stream: FundManageFireCrud.fetchTotalFunds(),
+          stream: FundManageFireCrud.fetchFunds(),
+          //stream: FundManageFireCrud.fetchTotalFunds(),
           builder: (ctx, snapshot) {
             if (snapshot.hasError) {
               return Container();
             } else if (snapshot.hasData) {
-              FundModel totalFunds = snapshot.data!.first;
+              FundModel totalFunds = FundModel();
+              double total = 0.0;
+              double totalR = 0.0;
+              double totalS = 0.0;
+              for(int o = 0; o < snapshot.data!.length; o++){
+                total += snapshot.data![o].amount!;
+                if(snapshot.data![o].recordType.toString().toLowerCase() == "receivable"){
+                  totalR += snapshot.data![o].amount!;
+                }else{
+                  totalS += snapshot.data![o].amount!;
+                }
+              }
+              totalFunds.currentBalance = total;
+              totalFunds.totalCollect = totalR;
+              totalFunds.totalSpend = totalS;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -959,11 +974,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Select Picture',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -983,11 +998,11 @@ class _FundManagementTabState extends State<FundManagementTab>
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.file_copy,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: docname == "" ? 'Select Document' : docname,
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -1196,6 +1211,18 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     ),
                                                   ),
                                                 ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Actions",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -1308,49 +1335,121 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                           ),
                                                         ),
                                                       ),
-                                                      Visibility(
-                                                        visible: funds[i].document!.isNotEmpty,
-                                                        child: SizedBox(
-                                                            width: width/9.106,
-                                                            child: InkWell(
-                                                              onTap: () async {
-                                                                final Uri toLaunch =
-                                                                Uri.parse(funds[i].document!);
-                                                                if (!await launchUrl(toLaunch,
-                                                                  mode: LaunchMode.externalApplication,
-                                                                )) {
-                                                                  throw Exception('Could not launch $toLaunch');
-                                                                }
-                                                              },
-                                                              child: Container(
-                                                               height:height/18.6,
-                                                                margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.white,
-                                                                  borderRadius: BorderRadius.circular(8),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      color: Colors.black26,
-                                                                      offset: Offset(1, 2),
-                                                                      blurRadius: 3,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                child: Padding(
-                                                                  padding:
-                                                                  EdgeInsets.symmetric(horizontal:width/227.66),
-                                                                  child: Center(
-                                                                    child: KText(
-                                                                      text: "Download",
-                                                                      style: GoogleFonts.openSans(
-                                                                        fontSize: width/113.83,
-                                                                        fontWeight: FontWeight.bold,
+                                                      SizedBox(
+                                                        width: width/9.106,
+                                                        child: Visibility(
+                                                          visible: funds[i].document!.isNotEmpty,
+                                                          child: SizedBox(
+                                                              width: width/9.106,
+                                                              child: InkWell(
+                                                                onTap: () async {
+                                                                  final Uri toLaunch =
+                                                                  Uri.parse(funds[i].document!);
+                                                                  if (!await launchUrl(toLaunch,
+                                                                    mode: LaunchMode.externalApplication,
+                                                                  )) {
+                                                                    throw Exception('Could not launch $toLaunch');
+                                                                  }
+                                                                },
+                                                                child: Container(
+                                                                 height:height/18.6,
+                                                                  margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
+                                                                  decoration: BoxDecoration(
+                                                                    color: Colors.white,
+                                                                    borderRadius: BorderRadius.circular(8),
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                        color: Colors.black26,
+                                                                        offset: Offset(1, 2),
+                                                                        blurRadius: 3,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                    EdgeInsets.symmetric(horizontal:width/227.66),
+                                                                    child: Center(
+                                                                      child: KText(
+                                                                        text: "Download",
+                                                                        style: GoogleFonts.openSans(
+                                                                          fontSize: width/113.83,
+                                                                          fontWeight: FontWeight.bold,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ),
+                                                              )
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            verifierController.text = funds[i].verifier!;
+                                                            amountController.text = funds[i].amount!.toString();
+                                                            recordTypeController.text = funds[i].recordType!;
+                                                            sourceController.text = funds[i].source!;
+                                                            remarksController.text = funds[i].remarks!;
+                                                          });
+                                                          editPopUp(totalFunds, funds[i],size);
+                                                        },
+                                                        child: Container(
+                                                          height: height /
+                                                              26.04,
+                                                          decoration:
+                                                          BoxDecoration(
+                                                            color: Color(
+                                                                0xffff9700),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .black26,
+                                                                offset:
+                                                                Offset(
+                                                                    1,
+                                                                    2),
+                                                                blurRadius:
+                                                                3,
                                                               ),
-                                                            )
+                                                            ],
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                width /
+                                                                    227.66),
+                                                            child: Center(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                                children: [
+                                                                  Icon(
+                                                                      Icons
+                                                                          .add,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size: width /
+                                                                          91.066),
+                                                                  KText(
+                                                                    text:
+                                                                    "Edit",
+                                                                    style: GoogleFonts
+                                                                        .openSans(
+                                                                      color:
+                                                                      Colors.white,
+                                                                      fontSize:
+                                                                      width / 136.6,
+                                                                      fontWeight:
+                                                                      FontWeight.bold,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -1557,6 +1656,18 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                     ),
                                                   ),
                                                 ),
+                                                SizedBox(
+                                                  width: width/9.106,
+                                                  child: KText(
+                                                    text: "Actions",
+                                                    style:
+                                                    GoogleFonts.poppins(
+                                                      fontSize:width/105.07,
+                                                      fontWeight:
+                                                      FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -1669,49 +1780,122 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                           ),
                                                         ),
                                                       ),
-                                                      Visibility(
-                                                        visible: funds[i].document!.isNotEmpty,
-                                                        child: SizedBox(
-                                                          width: width/9.106,
-                                                          child: InkWell(
-                                                            onTap: () async {
-                                                              final Uri toLaunch =
-                                                              Uri.parse(funds[i].document!);
-                                                              if (!await launchUrl(toLaunch,
-                                                                mode: LaunchMode.externalApplication,
-                                                              )) {
-                                                                throw Exception('Could not launch $toLaunch');
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                             height:height/18.6,
-                                                              margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(8),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors.black26,
-                                                                    offset: Offset(1, 2),
-                                                                    blurRadius: 3,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                EdgeInsets.symmetric(horizontal:width/227.66),
-                                                                child: Center(
-                                                                  child: KText(
-                                                                    text: "Download",
-                                                                    style: GoogleFonts.openSans(
-                                                                      fontSize: width/113.83,
-                                                                      fontWeight: FontWeight.bold,
+                                                      SizedBox(
+                                                        width: width/9.102,
+                                                        child: Visibility(
+                                                          visible: funds[i].document!.isNotEmpty,
+                                                          child: SizedBox(
+                                                            width: width/10,
+                                                            child: InkWell(
+                                                              onTap: () async {
+                                                                final Uri toLaunch =
+                                                                Uri.parse(funds[i].document!);
+                                                                if (!await launchUrl(toLaunch,
+                                                                  mode: LaunchMode.externalApplication,
+                                                                )) {
+                                                                  throw Exception('Could not launch $toLaunch');
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                               height:height/18.6,
+                                                                margin: EdgeInsets.symmetric(horizontal: 10,vertical: height/65.1),
+                                                                decoration: BoxDecoration(
+                                                                  color: Colors.white,
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.black26,
+                                                                      offset: Offset(1, 2),
+                                                                      blurRadius: 3,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Padding(
+                                                                  //padding: EdgeInsets.symmetric(horizontal:width/227.66),
+                                                                  padding: EdgeInsets.symmetric(horizontal:0),
+                                                                  child: Center(
+                                                                    child: KText(
+                                                                      text: "Download",
+                                                                      style: GoogleFonts.openSans(
+                                                                        fontSize: width/113.83,
+                                                                        fontWeight: FontWeight.bold,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
+                                                            )
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                      InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            verifierController.text = funds[i].verifier!;
+                                                            amountController.text = funds[i].amount!.toString();
+                                                            recordTypeController.text = funds[i].recordType!;
+                                                            sourceController.text = funds[i].source!;
+                                                            remarksController.text = funds[i].remarks!;
+                                                          });
+                                                          editPopUp(totalFunds, funds[i],size);
+                                                        },
+                                                        child: Container(
+                                                          height: height /
+                                                              26.04,
+                                                          decoration:
+                                                          BoxDecoration(
+                                                            color: Color(
+                                                                0xffff9700),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .black26,
+                                                                offset:
+                                                                Offset(
+                                                                    1,
+                                                                    2),
+                                                                blurRadius:
+                                                                3,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                width /
+                                                                    227.66),
+                                                            child: Center(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                                children: [
+                                                                  Icon(
+                                                                      Icons
+                                                                          .add,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size: width /
+                                                                          91.066),
+                                                                  KText(
+                                                                    text:
+                                                                    "Edit",
+                                                                    style: GoogleFonts
+                                                                        .openSans(
+                                                                      color:
+                                                                      Colors.white,
+                                                                      fontSize:
+                                                                      width / 136.6,
+                                                                      fontWeight:
+                                                                      FontWeight.bold,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          )
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -1746,6 +1930,531 @@ class _FundManagementTabState extends State<FundManagementTab>
           },
         ),
       ),
+    );
+  }
+
+
+  editPopUp(FundModel totalFunds,FundManagementModel fund, Size size) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(builder: (context, setStat) {
+          return AlertDialog(
+            backgroundColor: Colors.transparent,
+            content: Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(1, 2),
+                      blurRadius: 3),
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width/68.3, vertical: height/81.375),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            KText(
+                              text: "EDIT RECORD",
+                              style: GoogleFonts.openSans(
+                                fontSize:  width/68.3,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                if (verifierController.text != "" &&
+                                    amountController.text != "" &&
+                                    recordTypeController.text != "Select Type" &&
+                                    sourceController.text != "") {
+                                  Response response = await FundManageFireCrud.editFund(
+                                    id: fund.id!,
+                                    prevAmount: fund.amount!,
+                                    image: profileImage, remarks:remarksController.text,
+                                    document: documentForUpload,
+                                    totalCollect: totalFunds.totalCollect!,
+                                    totalSpend: totalFunds.totalSpend!,
+                                    currentBalance: totalFunds.currentBalance!,
+                                    amount: double.parse(amountController.text),
+                                    verifier: verifierController.text,
+                                    source: sourceController.text,
+                                    date: dateController.text,
+                                    recordType: recordTypeController.text,
+                                  );
+                                  if (response.code == 200) {
+                                    await CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        text:
+                                        "Fund updated successfully!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
+                                    setState(() {
+                                      currentTab = 'View';
+                                      verifierController.text = "";
+                                      amountController.text = "";
+                                      remarksController.text = "";
+                                      recordTypeController.text =
+                                      "Select Type";
+                                      sourceController.text = "";
+                                      uploadedImage = null;
+                                      profileImage = null;
+                                      docname = "";
+                                      documentForUpload = null;
+                                    });
+                                    Navigator.pop(context);
+                                  } else {
+                                    await CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text: "Failed to Update Fund!",
+                                        width: size.width * 0.4,
+                                        backgroundColor: Constants()
+                                            .primaryAppColor
+                                            .withOpacity(0.8));
+                                    Navigator.pop(context);
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              },
+                              child: Container(
+                                height: height/16.275,
+                                decoration: BoxDecoration(
+                                  color: Constants().primaryAppColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:width/227.66),
+                                  child: Center(
+                                    child: KText(
+                                      text: "UPDATE NOW",
+                                      style: GoogleFonts.openSans(
+                                        fontSize: width/85.375,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: size.height * 1.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Color(0xffF7FAFC),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                          )),
+                      padding: EdgeInsets.symmetric(horizontal: width/68.3, vertical: height/32.55),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          KText(
+                            text: "USER INFORMATION",
+                            style: GoogleFonts.openSans(
+                              fontSize:width/105.07,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: height/65.1),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Date *",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/13.02,
+                                      width: width/9.106,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                                          readOnly: true,
+                                          controller: dateController,
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none
+                                          ),
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await Constants().datePicker(context);
+                                            if (pickedDate != null) {
+                                              setStat(() {
+                                                dateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: width/68.3),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Amount *",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/16.275,
+                                      width: width/9.106,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                                          controller: amountController,
+                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
+                                          ],
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintStyle: GoogleFonts.openSans(
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: width/68.3),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Record Type *",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 3,
+                                          offset: Offset(2, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: DropdownButton(
+                                      underline: Container(),
+                                      value: recordTypeController.text,
+                                      items: [
+                                        "Select Type",
+                                        "Receivable",
+                                        "Expense"
+                                      ].map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        setStat(() {
+                                          recordTypeController.text =
+                                          newValue!;
+                                        });
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: height/65.1),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Verifier *",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/16.275,
+                                      width: width/9.106,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          ],
+                                          controller: verifierController,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintStyle: GoogleFonts.openSans(
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: width/68.3),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Source *",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/16.275,
+                                      width: width/9.106,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                
+                                          controller: sourceController,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintStyle: GoogleFonts.openSans(
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: width/68.3),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  KText(
+                                    text: "Remarks",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: width/97.571,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: height/108.5),
+                                  Material(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    child: SizedBox(
+                                      height: height/3.255,
+                                      width: width/2.732,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height/81.375, horizontal: width/170.75),
+                                        child: TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          ],
+                                          maxLines: null,
+                                          controller: remarksController,
+                                          decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.symmetric(vertical: height/65.1),
+                                            border: InputBorder.none,
+                                            hintStyle: GoogleFonts.openSans(
+                                              fontSize: width/97.571,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: height/21.7),
+                          Center(
+                            child: Container(
+                              height: height/3.829,
+                              width: width/3.902,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Constants().primaryAppColor,
+                                      width: 2),
+                                  image: uploadedImage != null
+                                      ? DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: MemoryImage(
+                                      Uint8List.fromList(
+                                        base64Decode(uploadedImage!.split(',').last),
+                                      ),
+                                    ),
+                                  )
+                                      : null),
+                              child: uploadedImage == null
+                                  ? Center(
+                                child: Icon(
+                                  Icons.cloud_upload,
+                                  size: width/8.5375,
+                                  color: Colors.grey,
+                                ),
+                              ) : null,
+                            ),
+                          ),
+                          SizedBox(height: height/65.1),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  InputElement input = FileUploadInputElement()
+                                  as InputElement
+                                    ..accept = 'image/*';
+                                  input.click();
+                                  input.onChange.listen((event) {
+                                    final file = input.files!.first;
+                                    FileReader reader = FileReader();
+                                    reader.readAsDataUrl(file);
+                                    reader.onLoadEnd.listen((event) {
+                                      setStat(() {
+                                        profileImage = file;
+                                      });
+                                      setStat(() {
+                                        uploadedImage = reader.result;
+                                        selectedImg = null;
+                                      });
+                                    });
+                                    setStat(() {});
+                                  });
+                                },
+                                child: Container(
+                                  height:height/18.6,
+                                  width: size.width * 0.23,
+                                  color: Constants().primaryAppColor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_a_photo,
+                                        color: Constants().btnTextColor,),
+                                      SizedBox(width: width/136.6),
+                                      KText(
+                                        text: 'Select Picture',
+                                        style: TextStyle(color: Constants().btnTextColor,),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height:height/18.6,
+                                width: size.width * 0.23,
+                              ),
+                              InkWell(
+                                onTap: selectDocument,
+                                child: Container(
+                                  height:height/18.6,
+                                  width: size.width * 0.23,
+                                  color: Constants().primaryAppColor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.file_copy,
+                                        color: Constants().btnTextColor,),
+                                      SizedBox(width: width/136.6),
+                                      KText(
+                                        text: docname == "" ? 'Select Document' : docname,
+                                        style: TextStyle(color: Constants().btnTextColor,),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+      },
     );
   }
 

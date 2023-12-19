@@ -490,7 +490,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                             style: GoogleFonts.openSans(
                               fontSize: width/42.687,
                               fontWeight: FontWeight.w900,
-                              color: Constants().primaryAppColor,
+                              color: Constants().secondaryAppColor,
                             ),
                           ),
                           KText(
@@ -502,7 +502,7 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                 color: Colors.white,
                                 shadows: [
                                   Shadow(
-                                      color: Constants().primaryAppColor,
+                                      color: Constants().secondaryAppColor,
                                       offset:  const Offset(2, 2),
                                       blurRadius: 3)
                                 ]),

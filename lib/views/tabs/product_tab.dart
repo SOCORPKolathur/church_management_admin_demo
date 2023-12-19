@@ -252,11 +252,11 @@ class _ProductTabState extends State<ProductTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Select Product Photo *',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -284,12 +284,12 @@ class _ProductTabState extends State<ProductTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -922,7 +922,7 @@ class _ProductTabState extends State<ProductTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -2052,11 +2052,11 @@ class _ProductTabState extends State<ProductTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Select Product Photo',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -2084,12 +2084,12 @@ class _ProductTabState extends State<ProductTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color:Constants().btnTextColor,
                                           ),
                                           SizedBox(width: width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -2350,7 +2350,7 @@ class _ProductTabState extends State<ProductTab> {
                                           child: KText(
                                             text: "Update",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize: width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

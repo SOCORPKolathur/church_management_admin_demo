@@ -400,11 +400,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Select Profile Photo *',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -431,12 +431,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -452,11 +452,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.file_copy,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: docname == "" ? 'Select Certificate' : docname,
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -1632,7 +1632,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           child: KText(
                                             text: "ADD NOW",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -3195,11 +3195,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.add_a_photo,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Select Profile Photo',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -3226,12 +3226,12 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         children: [
                                           Icon(
                                             Icons.crop,
-                                            color: Colors.white,
+                                            color: Constants().btnTextColor,
                                           ),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: 'Disable Crop',
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -3264,11 +3264,11 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(Icons.file_copy,
-                                              color: Colors.white),
+                                              color: Constants().btnTextColor,),
                                           SizedBox(width:width/136.6),
                                           KText(
                                             text: docname == "" ? 'Select Certificate' : docname,
-                                            style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color:Constants().btnTextColor,),
                                           ),
                                         ],
                                       ),
@@ -4282,7 +4282,7 @@ class _ChurchStaffTabState extends State<ChurchStaffTab> {
                                           child: KText(
                                             text: "Update",
                                             style: GoogleFonts.openSans(
-                                              color: Colors.white,
+                                              color: Constants().btnTextColor,
                                               fontSize:width/136.6,
                                               fontWeight: FontWeight.bold,
                                             ),

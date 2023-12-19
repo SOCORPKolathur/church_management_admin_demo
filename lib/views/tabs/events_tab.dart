@@ -90,6 +90,8 @@ class _EventsTabState extends State<EventsTab>
     });
   }
 
+  bool isLoading = false;
+
   @override
   void initState() {
     setDateTime();
@@ -206,46 +208,60 @@ class _EventsTabState extends State<EventsTab>
                         ),
                         InkWell(
                           onTap: () async {
-                            if (dateController.text != "" &&
-                                timeController.text != "" &&
-                                locationController.text != "") {
-                              Response response = await EventsFireCrud.addEvent(
-                                title: titleController.text,
-                                time: timeController.text,
-                                location: locationController.text,
-                                image: profileImage,
-                                description: descriptionController.text,
-                                date: dateController.text,
-                              );
-                              if (response.code == 200) {
-                                CoolAlert.show(
-                                    context: context,
-                                    type: CoolAlertType.success,
-                                    text: "Event created successfully!",
-                                    width: size.width * 0.4,
-                                    backgroundColor: Constants()
-                                        .primaryAppColor
-                                        .withOpacity(0.8));
-                                setState(() {
-                                  locationController.text = "";
-                                  descriptionController.text = "";
-                                  uploadedImage = null;
-                                  profileImage = null;
-                                  currentTab = 'View';
-                                });
+                            if(!isLoading){
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (dateController.text != "" &&
+                                  timeController.text != "" &&
+                                  locationController.text != "") {
+                                Response response = await EventsFireCrud.addEvent(
+                                  title: titleController.text,
+                                  time: timeController.text,
+                                  location: locationController.text,
+                                  image: profileImage,
+                                  description: descriptionController.text,
+                                  date: dateController.text,
+                                );
+                                if (response.code == 200) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  await CoolAlert.show(
+                                      context: context,
+                                      type: CoolAlertType.success,
+                                      text: "Event created successfully!",
+                                      width: size.width * 0.4,
+                                      backgroundColor: Constants()
+                                          .primaryAppColor
+                                          .withOpacity(0.8));
+                                  setState(() {
+                                    locationController.text = "";
+                                    descriptionController.text = "";
+                                    uploadedImage = null;
+                                    profileImage = null;
+                                    currentTab = 'View';
+                                  });
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  await CoolAlert.show(
+                                      context: context,
+                                      type: CoolAlertType.error,
+                                      text: "Failed to Create Event!",
+                                      width: size.width * 0.4,
+                                      backgroundColor: Constants()
+                                          .primaryAppColor
+                                          .withOpacity(0.8));
+                                }
                               } else {
-                                CoolAlert.show(
-                                    context: context,
-                                    type: CoolAlertType.error,
-                                    text: "Failed to Create Event!",
-                                    width: size.width * 0.4,
-                                    backgroundColor: Constants()
-                                        .primaryAppColor
-                                        .withOpacity(0.8));
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               }
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
                             }
                           },
                           child: Container(

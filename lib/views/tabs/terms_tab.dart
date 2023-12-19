@@ -17,7 +17,7 @@ class _TermsPageState extends State<TermsPage> {
       appBar: AppBar(
         backgroundColor: Constants().primaryAppColor,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back,color: Colors.white),
+          icon: Icon(Icons.arrow_back,color: Constants().btnTextColor,),
           onPressed: (){
             Navigator.pop(context);
           },
@@ -25,7 +25,7 @@ class _TermsPageState extends State<TermsPage> {
         title: Text(
           'Terms And Conditions',
           style: GoogleFonts.poppins(
-            color: Colors.white,
+            color: Constants().btnTextColor,
           ),
         ),
       ),
