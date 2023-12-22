@@ -72,6 +72,9 @@ class _UserTabState extends State<UserTab> {
 
   var imageFile;
 
+  Blob? croppedImageFile;
+  Blob? unCroppedImageFile;
+
   ImagePicker picker = ImagePicker();
 
   selectImage() async {
@@ -110,6 +113,7 @@ class _UserTabState extends State<UserTab> {
     list = await pickedImage!.readAsBytes();
     print(list);
     final blob = Blob([list]);
+    unCroppedImageFile = blob;
     FileReader reader = FileReader();
     reader.readAsDataUrl(blob);
     reader.onLoadEnd.listen((event) {
@@ -120,12 +124,19 @@ class _UserTabState extends State<UserTab> {
 
   }
 
+  uploadImg() async {
+    var snapshot = await fs
+        .ref()
+        .child('dailyupdates')
+        .child("${uploadedImage1.name}")
+        .putBlob(unCroppedImageFile);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print(downloadUrl);
+  }
 
 
   cropImage() async {
-    print("______________________________________1");
-    print(imageFile.path);
-    print("______________________________________2");
+
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       cropStyle: CropStyle.rectangle,
       sourcePath: imageFile!.path,// imageFile.path,
@@ -176,6 +187,7 @@ class _UserTabState extends State<UserTab> {
 
     list = await croppedFile!.readAsBytes();
     final blob = Blob([list]);
+    croppedImageFile = blob;
       FileReader reader = FileReader();
       reader.readAsDataUrl(blob);
       reader.onLoadEnd.listen((event) {
