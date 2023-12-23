@@ -62,6 +62,8 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
   List<MembersModel> picodeUserList = [];
 
   String currentTab = 'View';
+  
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -975,7 +977,20 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                 if (snapshot.hasError) {
                   return Container();
                 } else if (snapshot.hasData) {
-                  List notifications = snapshot.data!.docs;
+                  List notifications = [];
+                  snapshot.data!.docs.forEach((element) { 
+                    if(searchController.text != ""){
+                      if(
+                      element.get("date").toString().toLowerCase().startsWith(searchController.text.toLowerCase()) ||
+                      element.get("subject").toString().toLowerCase().startsWith(searchController.text.toLowerCase()) ||
+                      element.get("content").toString().toLowerCase().startsWith(searchController.text.toLowerCase())
+                      ){
+                        notifications.add(element);
+                      }
+                    }else{
+                      notifications.add(element);
+                    }
+                  });
                   return Container(
                     width: width/1.2418,
                     margin: EdgeInsets.symmetric(vertical: height/32.55,horizontal: width/68.3),
@@ -1008,6 +1023,38 @@ class _ComNotificationsTabState extends State<ComNotificationsTab> {
                                   style: GoogleFonts.openSans(
                                     fontSize: width/68.3,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Material(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  elevation: 10,
+                                  child: SizedBox(
+                                    height: height / 18.6,
+                                    width: width / 4.106,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height / 81.375,
+                                          horizontal: width / 170.75),
+                                      child: TextField(
+                                        controller: searchController,
+                                        onChanged: (val){
+                                          setState(() {
+
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText:
+                                          "Search by Date,Subject,Content",
+                                          hintStyle:
+                                          GoogleFonts.openSans(
+                                            fontSize: width/97.571,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],

@@ -29,6 +29,9 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
   int currentTabIndex = 0;
   
   List<DocumentSnapshot> todayReports = [];
+  List<DocumentSnapshot> allReports = [];
+
+  TextEditingController searchDateController = TextEditingController();
 
   @override
   void initState() {
@@ -66,9 +69,18 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                 builder: (ctx, snap){
                   if(snap.hasData){
                     todayReports.clear();
-                    snap.data!.docs.forEach((element) { 
-                      if(element.get("date") == DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()){
-                        todayReports.add(element);
+                    allReports.clear();
+                    snap.data!.docs.forEach((element) {
+                      if(searchDateController.text != ""){
+                        if(element.get("date").toString().startsWith(searchDateController.text)){
+                          todayReports.add(element);
+                          allReports.add(element);
+                        }
+                      }else{
+                        allReports.add(element);
+                        if(element.get("date") == DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()){
+                          todayReports.add(element);
+                        }
                       }
                     });
                     return Padding(
@@ -143,7 +155,6 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                               ),
                             ),
                             Container(
-                              height: height/13.02,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Constants().primaryAppColor,
@@ -154,84 +165,125 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
-                                child: Row(
+                                child: Column(
                                   children: [
-                                    SizedBox(
-                                      width: width/17.075,
-                                      child: Text(
-                                        "SI.NO",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Material(
+                                          elevation: 2,
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: Container(
+                                            height: 40,
+                                            width: 180,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: TextField(
+                                              readOnly: true,
+                                              controller: searchDateController,
+                                              decoration: InputDecoration(
+                                                hintStyle: TextStyle(color: Color(0xff00A99D)),
+                                                hintText: "Select Date",
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                              ),
+                                              onTap: () async {
+                                                DateTime? pickedDate =
+                                                await Constants().datePicker(context);
+                                                if (pickedDate != null) {
+                                                  setState(() {
+                                                    searchDateController.text = DateFormat('dd-MM-yyyy').format(pickedDate);
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: width/9.106666667,
-                                      child: Text(
-                                        "Device OS",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
+                                    SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: width/17.075,
+                                          child: Text(
+                                            "SI.NO",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width/6.83,
-                                      child: Text(
-                                        "Device ID",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
+                                        SizedBox(
+                                          width: width/9.106666667,
+                                          child: Text(
+                                            "Device OS",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width/6.83,
-                                      child: Text(
-                                        "IP Address",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
+                                        SizedBox(
+                                          width: width/6.83,
+                                          child: Text(
+                                            "Device ID",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width/7.588888889,
-                                      child: Text(
-                                        "Location",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
+                                        SizedBox(
+                                          width: width/6.83,
+                                          child: Text(
+                                            "IP Address",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width/9.106666667,
-                                      child: Text(
-                                        "Date",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
+                                        SizedBox(
+                                          width: width/7.588888889,
+                                          child: Text(
+                                            "Location",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width/17.075,
-                                      child: Text(
-                                        "Time",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: width/80.35294117647059,
-                                          color: Colors.black,
+                                        SizedBox(
+                                          width: width/9.106666667,
+                                          child: Text(
+                                            "Date",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        SizedBox(
+                                          width: width/17.075,
+                                          child: Text(
+                                            "Time",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: width/80.35294117647059,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -252,9 +304,9 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                                       ),
                                     ),
                                     child: ListView.builder(
-                                      itemCount: snap.data!.docs.length,
+                                      itemCount: allReports.length,
                                       itemBuilder: (ctx , i){
-                                        var data = snap.data!.docs[i];
+                                        var data = allReports[i];
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                           child: Container(

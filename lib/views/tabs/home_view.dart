@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:church_management_admin/views/tabs/function_hall_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -1114,6 +1115,13 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
+      DrawerModel(
+          name: "Function Hall",
+          icon: Icons.celebration,
+          page: const FunctionHallTab(),
+          isExpanded: false,
+          children: []
+      ),
     ];
     if(drawerExpaned){
       containerWidth = size.width * 0.82;
@@ -1481,7 +1489,7 @@ class _HomeViewState extends State<HomeView> {
                                           .children![selectedIndex]
                                           .page
                                       : drawerItems[currentIndex].page,
-                            )
+                            ),
                           ],
                         ),
                       );
