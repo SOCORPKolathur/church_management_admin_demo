@@ -74,7 +74,7 @@ class PastorsFireCrud {
         gender: gender,
         pincode: pincode,
         address: address,
-        //permanentAddress: permanentAddress,
+        permanentAddress: permanentAddress,
         firstName: firstName,
         family: family,
         email: email,

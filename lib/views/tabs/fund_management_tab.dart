@@ -1391,6 +1391,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                             recordTypeController.text = funds[i].recordType!;
                                                             sourceController.text = funds[i].source!;
                                                             remarksController.text = funds[i].remarks!;
+                                                            dateController.text = funds[i].date!;
                                                           });
                                                           editPopUp(totalFunds, funds[i],size);
                                                         },
@@ -1837,6 +1838,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                                             recordTypeController.text = funds[i].recordType!;
                                                             sourceController.text = funds[i].source!;
                                                             remarksController.text = funds[i].remarks!;
+                                                            dateController.text = funds[i].date!;
                                                           });
                                                           editPopUp(totalFunds, funds[i],size);
                                                         },

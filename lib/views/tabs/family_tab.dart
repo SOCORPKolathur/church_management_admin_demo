@@ -645,7 +645,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             return null;
                                           },
                                           onChanged: (val){
-                                            _key.currentState!.validate();
+                                            //_key.currentState!.validate();
                                           },
                                           style:  TextStyle(fontSize:width/113.83),
                                           controller: emailController,
@@ -1419,7 +1419,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                         countryController.text = families[i].country!;
                                                         zoneController.text = families[i].zone!;
                                                         familyIdController.text = families[i].familyId!;
-                                                        permanentAddressController.text = families[i].address!;
+                                                        permanentAddressController.text = families[i].permanentAddress!;
                                                       });
                                                       editPopUp(families[i],size);
                                                     },
@@ -1840,7 +1840,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                   SizedBox(
                                     width: size.width * 0.3,
                                     child: KText(
-                                      text: family.address!,
+                                      text: family.permanentAddress!,
                                       style:  TextStyle(
                                           fontSize:width/97.57
                                       ),
@@ -2486,7 +2486,7 @@ class _FamilyTabState extends State<FamilyTab> {
                               ),
                               SizedBox(height:height/21.7),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   InkWell(
                                     onTap: () async {
@@ -2504,7 +2504,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                                 status: family.status,
                                                 zone: zoneController.text,
                                                 address: addressController.text,
-                                                //permanentAddress: permanentAddressController.text,
+                                                permanentAddress: permanentAddressController.text,
                                                 country: countryController.text,
                                                 quantity: family.quantity,
                                             ),
@@ -2529,6 +2529,7 @@ class _FamilyTabState extends State<FamilyTab> {
                                             cityController.text = "";
                                             emailController.text = "";
                                             addressController.text = "";
+                                            permanentAddressController.text = "";
                                             countryController.text = "";
                                             zoneController.text = "";
                                           });

@@ -51,7 +51,9 @@ class UserFireCrud {
         required String bloodGroup,
         required String dob,
         required String email,
+        required String prefix,
         required String firstName,
+        required String middleName,
         required String lastName,
         required String locality,
         required String phone,
@@ -81,6 +83,8 @@ class UserFireCrud {
         qualification: qualification,
         fcmToken: "",
         firstName: firstName,
+        middleName: middleName,
+        prefix: prefix,
         maritialStatus: maritialStatus,
         gender: gender,
         email: email,
@@ -159,7 +163,9 @@ class UserFireCrud {
     for (int i = 1; i < row.length; i++) {
       String documentID = generateRandomString(20);
       UserModel user = UserModel(
+        prefix: "",
         firstName: row[i][1].toString(),
+        middleName: "",
         lastName: row[i][2].toString(),
         phone: row[i][3].toString(),
         email: row[i][4].toString(),

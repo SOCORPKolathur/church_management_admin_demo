@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:church_management_admin/views/tabs/audio_podcast_tab.dart';
 import 'package:church_management_admin/views/tabs/function_hall_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -1119,6 +1120,13 @@ class _HomeViewState extends State<HomeView> {
           name: "Function Hall",
           icon: Icons.celebration,
           page: const FunctionHallTab(),
+          isExpanded: false,
+          children: []
+      ),
+      DrawerModel(
+          name: "Audio Podcast",
+          icon: Icons.spatial_audio_off,
+          page: const AudioPodcastTab(),
           isExpanded: false,
           children: []
       ),

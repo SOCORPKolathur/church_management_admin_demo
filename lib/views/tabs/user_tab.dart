@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:io' as io;
 import 'dart:typed_data';
-import 'package:card_swiper/card_swiper.dart';
+import 'package:age_calculator/age_calculator.dart';
 import 'package:church_management_admin/models/user_model.dart';
 import 'package:church_management_admin/services/user_firecrud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cf;
@@ -12,8 +12,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_holo_date_picker/date_picker.dart';
-import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -22,7 +20,6 @@ import 'package:lottie/lottie.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:pdf/pdf.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
-import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../models/response.dart';
 import '../../widgets/developer_card_widget.dart';
@@ -39,8 +36,11 @@ class UserTab extends StatefulWidget {
 }
 
 class _UserTabState extends State<UserTab> {
+
+
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
   TextEditingController firstNameController = TextEditingController();
+  TextEditingController middleNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -61,6 +61,7 @@ class _UserTabState extends State<UserTab> {
   String filterText = "";
   String marriedController = "Select Status";
   String GenderController = "Select Gender";
+  String prefixController = "Select Prefix";
   File? profileImage;
   var uploadedImage;
   var uploadedImage1;
@@ -77,51 +78,82 @@ class _UserTabState extends State<UserTab> {
 
   ImagePicker picker = ImagePicker();
 
+  bool profileImageValidator = false;
+
   selectImage() async {
 
-    // InputElement input = FileUploadInputElement() as InputElement
-    //   ..accept = 'image/*';
-    // input.click();
-    // input.onChange.listen((event) async {
-    //   final file = input.files!.first;
-    //   FileReader reader = FileReader();
-    //   reader.readAsDataUrl(file);
-    //   reader.onLoadEnd.listen((event) {
-    //     setState(() {
-    //       profileImage = file;
-    //     });
-    //     setState(() {
-    //       uploadedImage = reader.result;
-    //       selectedImg = null;
-    //     });
-    //
-    //   });
-    //   setState(() {});
-    // });
+    InputElement input = FileUploadInputElement() as InputElement
+      ..accept = 'image/*';
+    input.click();
+    input.onChange.listen((event) async {
+      final file = input.files!.first;
+      FileReader reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        setState(() {
+          profileImage = file;
+        });
+        setState(() {
+          uploadedImage = reader.result;
+          selectedImg = null;
+        });
 
-    final pickedImage =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      setState(() {
-        imageFile = io.File(pickedImage.path);
       });
-    }
-
-    cropImage();
-
-    list = await pickedImage!.readAsBytes();
-    print(list);
-    final blob = Blob([list]);
-    unCroppedImageFile = blob;
-    FileReader reader = FileReader();
-    reader.readAsDataUrl(blob);
-    reader.onLoadEnd.listen((event) {
-      setState(() {
-        uploadedImage1 = reader.result;
-      });
+      setState(() {});
     });
 
+    // final pickedImage =
+    // await ImagePicker().pickImage(source: ImageSource.gallery);
+    //
+    // if (pickedImage != null) {
+    //   setState(() {
+    //     imageFile = io.File(pickedImage.path);
+    //   });
+    // }
+    //
+    // cropImage();
+    //
+    // list = await pickedImage!.readAsBytes();
+    // print(list);
+    // final blob = Blob([list]);
+    // unCroppedImageFile = blob;
+    // FileReader reader = FileReader();
+    // reader.readAsDataUrl(blob);
+    // reader.onLoadEnd.listen((event) {
+    //   setState(() {
+    //     uploadedImage1 = reader.result;
+    //   });
+    // });
+
+  }
+
+  setAge(DateTime dob){
+    Size size = MediaQuery.of(context).size;
+    DateDuration duration;
+    duration = AgeCalculator.age(dob);
+    if(duration.years != 0){
+      setState(() {
+        dobController.text = formatter.format(dob);
+      });
+    }else{
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.info,
+          text: "Age will be greater than 0",
+          title: "Please select date of birth correctly!",
+          width: size.width * 0.4,
+          backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
+          showCancelBtn: true,
+          cancelBtnTextStyle: TextStyle(color: Colors.black),
+          confirmBtnText: 'OK',
+          onConfirmBtnTap: () async {
+            dobController.clear();
+          },
+          onCancelBtnTap: () async {
+            dobController.clear();
+          }
+      );
+    }
   }
 
   uploadImg() async {
@@ -235,6 +267,7 @@ class _UserTabState extends State<UserTab> {
   clearTextControllers(){
     setState(() {
       firstNameController.clear();
+      middleNameController.clear();
       lastNameController.clear();
       phoneController.clear();
       emailController.clear();
@@ -244,6 +277,7 @@ class _UserTabState extends State<UserTab> {
       aboutController.clear();
       addressController.clear();
       pincodeController.clear();
+      qualificationController.clear();
       bloodGroupController.text = 'Select Blood Group';
       dobController.clear();
       localityController.clear();
@@ -253,11 +287,11 @@ class _UserTabState extends State<UserTab> {
       marriedController = "Select Status";
       GenderController = "Select Gender";
       houseTypeCon.text = "Select Type";
+      prefixController = "Select Prefix";
       nationalityCon.text = "Indian";
       profileImage = null;
       uploadedImage = null;
       selectedImg = null;
-      currentTab = 'View';
       isLoading = false;
     });
   }
@@ -427,6 +461,7 @@ class _UserTabState extends State<UserTab> {
                           setState(() {
                             currentTab = "Add";
                           });
+                          clearTextControllers();
                         }else{
                           setState(() {
                             currentTab = 'View';
@@ -471,9 +506,7 @@ class _UserTabState extends State<UserTab> {
                 alignment: Alignment.center,
                   children: [
                     Container(
-              height: marriedController.toUpperCase() == "MARRIED"
-                      ? size.height * 2.4
-                      : size.height * 2.2,
+              height: size.height * 2.7,
               width: width,
               margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
               decoration: BoxDecoration(
@@ -703,6 +736,56 @@ class _UserTabState extends State<UserTab> {
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
+
+
+
+                              Row(
+                                children: [
+                                  Container(
+                                    width: width / 4.553,
+                                    decoration:  BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                        )
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Prefix",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        DropdownButton(
+                                          value: prefixController,
+                                          isExpanded: true,
+                                          underline: Container(),
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Prefix",
+                                            "MR.",
+                                            "MISS."
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              prefixController = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height / 21.7),
                               Row(
                                 children: [
                                   SizedBox(
@@ -732,9 +815,46 @@ class _UserTabState extends State<UserTab> {
                                             if(val!.isEmpty){
                                               return 'Field is required';
                                             }else{
-                                              return '';
+                                              return null;
                                             }
                                           },
+                                          onChanged: (val){
+                                            //_keyFirstname.currentState!.validate();
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          controller: firstNameController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Middle Name",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          onEditingComplete: (){
+
+                                          },
+                                          onFieldSubmitted: (val){
+
+                                          },
+
                                           onChanged: (val){
                                             //_keyFirstname.currentState!.validate();
                                           },
@@ -746,7 +866,7 @@ class _UserTabState extends State<UserTab> {
                                             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                           ],
                                           style: TextStyle(fontSize: width / 113.83),
-                                          controller: firstNameController,
+                                          controller: middleNameController,
                                         )
                                       ],
                                     ),
@@ -779,7 +899,7 @@ class _UserTabState extends State<UserTab> {
                                             if(val!.isEmpty){
                                               return 'Field is required';
                                             }else{
-                                              return '';
+                                              return null;
                                             }
                                           },
                                           onChanged: (val){
@@ -798,7 +918,164 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: width / 68.3),
+
+                                ],
+                              ),
+                              SizedBox(height: height / 21.7),
+                              Row(
+                                  children: [
+                                    Container(
+                                      width: width / 4.553,
+                                      decoration:  BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                          )
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Gender *",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width / 105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          DropdownButton(
+                                            value: GenderController,
+                                            isExpanded: true,
+                                            underline: Container(),
+                                            icon: Icon(Icons.keyboard_arrow_down),
+                                            items: [
+                                              "Select Gender",
+                                              "Male",
+                                              "Female",
+                                              "Transgender"
+                                            ].map((items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(items),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                GenderController = newValue!;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: width / 68.3),
+                                    SizedBox(
+                                      width: width / 4.553,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Blood Group *",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width / 105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: height / 50.076),
+                                          DropdownButton(
+                                            isExpanded: true,
+                                            value: bloodGroupController.text,
+                                            icon: const Icon(Icons.keyboard_arrow_down),
+                                            items: [
+                                              "Select Blood Group",
+                                              "AB+",
+                                              "AB-",
+                                              "O+",
+                                              "O-",
+                                              "A+",
+                                              "A-",
+                                              "B+",
+                                              "B-"
+                                            ].map((items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(items),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              if (newValue != "Select Role") {
+                                                setState(() {
+                                                  bloodGroupController.text = newValue!;
+                                                });
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: width / 68.3),
+                                    SizedBox(
+                                      width: width / 4.553,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Date of Birth *",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width / 105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextFormField(
+                                            readOnly: true,
+                                            key: _keyDob,
+                                            style: TextStyle(fontSize: width / 113.83),
+                                            controller: dobController,
+                                            validator: (val){
+                                              if(val!.isEmpty){
+                                                return 'Field is required';
+                                              }else{
+                                                return null;
+                                              }
+                                            },
+                                            onTap: () async {
+                                              DateTime? pickedDate =
+                                              await Constants().datePicker(context);
+                                              // await DatePicker.showSimpleDatePicker(
+                                              //   context,
+                                              //   initialDate: DateTime.now(),
+                                              //   firstDate: DateTime(1900),
+                                              //   lastDate: DateTime.now(),
+                                              //   dateFormat: "dd-MM-yyyy",
+                                              //   locale: DateTimePickerLocale.en_us,
+                                              //   looping: true,
+                                              // );
+                                              // await showDatePicker(
+                                              //   context: context,
+                                              //   initialDate: DateTime.now(),
+                                              //   firstDate: DateTime(1900),
+                                              //   lastDate: DateTime.now(),
+                                              //   initialEntryMode: DatePickerEntryMode.calendar,
+                                              //   initialDatePickerMode: DatePickerMode.year,
+                                              // );
+                                              if (pickedDate != null) {
+                                                setState(() {
+                                                  //dobController.text = formatter.format(pickedDate);
+                                                  setAge(pickedDate);
+                                                  // dobController.text = formatter.format(pickedDate);
+                                                });
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                              ),
+                              SizedBox(height: height / 21.7),
+                              Row(
+                                children: [
                                   SizedBox(
                                     width: width / 4.553,
                                     child: Column(
@@ -828,7 +1105,7 @@ class _UserTabState extends State<UserTab> {
                                             } else if(val.length != 10){
                                               return 'number must be 10 digits';
                                             }else{
-                                              return '';
+                                              return null;
                                             }
                                           },
                                           onChanged: (val){
@@ -848,11 +1125,7 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: height / 21.7),
-                              Row(
-                                children: [
+                                  SizedBox(width: width / 68.3),
                                   SizedBox(
                                     width: width / 4.553,
                                     child: Column(
@@ -899,42 +1172,6 @@ class _UserTabState extends State<UserTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "Profession",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          focusNode: professionFocusNode,
-                                          autofocus: true,
-                                          onEditingComplete: (){
-                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
-                                          },
-                                          onFieldSubmitted: (val){
-                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
-                                          },
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
-                                          maxLength: 100,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                          ],
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          controller: professionController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: width / 68.3),
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
                                           text: "Aadhaar Number",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
@@ -956,10 +1193,12 @@ class _UserTabState extends State<UserTab> {
                                             counterText: "",
                                           ),
                                           validator: (val){
-                                            if(val!.length != 12){
+                                            if(val!.isEmpty){
+                                              return 'Filed must be not emty';
+                                            }else if(val!.length != 12){
                                               return 'Must be 12 digits';
                                             }else{
-                                              return '';
+                                              return null;
                                             }
                                           },
                                           onChanged: (val){
@@ -982,42 +1221,6 @@ class _UserTabState extends State<UserTab> {
                               SizedBox(height: height / 21.7),
                               Row(
                                 children: [
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Baptism Date",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          readOnly: true,
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                            await Constants().datePicker(context);
-                                                // await showDatePicker(
-                                                // context: context,
-                                                // initialDate: DateTime.now(),
-                                                // firstDate: DateTime(1900),
-                                                // lastDate: DateTime.now());
-                                            if (pickedDate != null) {
-                                              setState(() {
-                                                baptizeDateController.text = formatter.format(pickedDate);
-                                              });
-                                            }
-                                          },
-                                          controller: baptizeDateController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: width / 68.3),
                                   Container(
                                     width: width / 4.553,
                                     decoration:  BoxDecoration(
@@ -1065,105 +1268,9 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                   ),
                                   SizedBox(width: width / 68.3),
-                                  Container(
-                                    width: width / 10.507,
-                                    decoration:  BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(width:width/910.66,color: Colors.grey)
-                                        )
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Gender *",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        DropdownButton(
-                                          value: GenderController,
-                                          isExpanded: true,
-                                          underline: Container(),
-                                          icon: Icon(Icons.keyboard_arrow_down),
-                                          items: [
-                                            "Select Gender",
-                                            "Male",
-                                            "Female",
-                                            "Transgender"
-                                          ].map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              GenderController = newValue!;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: width / 68.3),
-                                  SizedBox(
-                                    width: width / 9.106,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Pin Code",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          focusNode: pincodeFocusNode,
-                                          autofocus: true,
-                                          onEditingComplete: (){
-                                            FocusScope.of(context).requestFocus(localityFocusNode);
-                                          },
-                                          onFieldSubmitted: (val){
-                                            FocusScope.of(context).requestFocus(localityFocusNode);
-                                          },
-                                            key:_keyPincode,
-                                          validator: (val){
-                                            if(val!.length != 6){
-                                              return 'Must be 6 digits';
-                                            }else{
-                                              return '';
-                                            }
-                                          },
-                                          onChanged: (val){
-                                            //_keyPincode.currentState!.validate();
-                                          },
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'[0-9]')),
-                                          ],
-                                          maxLength: 6,
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          controller: pincodeController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: height / 21.7),
-                              Visibility(
-                                visible: marriedController.toUpperCase() == "MARRIED",
-                                child: Row(
-                                  children: [
-                                    SizedBox(
+                                  Visibility(
+                                    visible: marriedController.toUpperCase() == "MARRIED",
+                                    child: SizedBox(
                                       width: width / 4.553,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1198,165 +1305,48 @@ class _UserTabState extends State<UserTab> {
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: height / 21.7),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Blood Group *",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(height: height / 50.076),
-                                        DropdownButton(
-                                          isExpanded: true,
-                                          value: bloodGroupController.text,
-                                          icon: const Icon(Icons.keyboard_arrow_down),
-                                          items: [
-                                            "Select Blood Group",
-                                            "AB+",
-                                            "AB-",
-                                            "O+",
-                                            "O-",
-                                            "A+",
-                                            "A-",
-                                            "B+",
-                                            "B-"
-                                          ].map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            if (newValue != "Select Role") {
-                                              setState(() {
-                                                bloodGroupController.text = newValue!;
-                                              });
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: width / 68.3),
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Date of Birth *",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          readOnly: true,
-                                          key: _keyDob,
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          controller: dobController,
-                                          validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
-                                            }else{
-                                              return '';
-                                            }
-                                          },
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                                await Constants().datePicker(context);
-                                            // await DatePicker.showSimpleDatePicker(
-                                            //   context,
-                                            //   initialDate: DateTime.now(),
-                                            //   firstDate: DateTime(1900),
-                                            //   lastDate: DateTime.now(),
-                                            //   dateFormat: "dd-MM-yyyy",
-                                            //   locale: DateTimePickerLocale.en_us,
-                                            //   looping: true,
-                                            // );
-                                            // await showDatePicker(
-                                            //   context: context,
-                                            //   initialDate: DateTime.now(),
-                                            //   firstDate: DateTime(1900),
-                                            //   lastDate: DateTime.now(),
-                                            //   initialEntryMode: DatePickerEntryMode.calendar,
-                                            //   initialDatePickerMode: DatePickerMode.year,
-                                            // );
-                                            if (pickedDate != null) {
-                                              setState(() {
-                                                dobController.text = formatter.format(pickedDate);
-                                              });
-                                            }
-                                          },
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: width / 68.3),
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Landmark *",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          focusNode: localityFocusNode,
-                                          autofocus: true,
-                                          onEditingComplete: (){
-                                            FocusScope.of(context).requestFocus(addressFocusNode);
-                                          },
-                                          onFieldSubmitted: (val){
-                                            FocusScope.of(context).requestFocus(addressFocusNode);
-                                          },
-                                          key: _keyLocality,
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
-                                          onChanged: (val){
-                                            //_keyLocality.currentState!.validate();
-                                          },
-                                          maxLength: 40,
-                                          validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
-                                            }else{
-                                              return '';
-                                            }
-                                          },
-                                          // inputFormatters: [
-                                          //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-                                          // ],
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          controller: localityController,
-                                        )
-                                      ],
-                                    ),
                                   ),
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
                               Row(
                                 children: [
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Profession",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          focusNode: professionFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 100,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          controller: professionController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
                                   SizedBox(
                                     width: width / 4.553,
                                     child: Column(
@@ -1396,41 +1386,6 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: width / 68.3),
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Nationality",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          decoration: InputDecoration(
-                                            counterText: "",
-                                          ),
-                                          maxLength: 40,
-                                          validator: (val){
-                                            if(val!.isEmpty){
-                                              return 'Field is required';
-                                            }else{
-                                              return '';
-                                            }
-                                          },
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                          ],
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          controller: nationalityCon,
-                                        )
-                                      ],
-                                    ),
-                                  ),
                                   SizedBox(width: width/68.3),
                                   SizedBox(
                                     width: width/4.553,
@@ -1460,6 +1415,180 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                   ),
                                   SizedBox(width: width/68.3),
+                                ],
+                              ),
+                              SizedBox(height: height / 21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Landmark *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          focusNode: localityFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(addressFocusNode);
+                                          },
+                                          key: _keyLocality,
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          onChanged: (val){
+                                            //_keyLocality.currentState!.validate();
+                                          },
+                                          maxLength: 40,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return null;
+                                            }
+                                          },
+                                          // inputFormatters: [
+                                          //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                          // ],
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          controller: localityController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Nationality",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          maxLength: 40,
+                                          validator: (val){
+                                            if(val!.isEmpty){
+                                              return 'Field is required';
+                                            }else{
+                                              return null;
+                                            }
+                                          },
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                          ],
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          controller: nationalityCon,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: width / 68.3),
+                                  SizedBox(
+                                    width: width / 9.106,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Pin Code *",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          focusNode: pincodeFocusNode,
+                                          autofocus: true,
+                                          onEditingComplete: (){
+                                            FocusScope.of(context).requestFocus(localityFocusNode);
+                                          },
+                                          onFieldSubmitted: (val){
+                                            FocusScope.of(context).requestFocus(localityFocusNode);
+                                          },
+                                          key:_keyPincode,
+                                          validator: (val){
+                                            if(val!.length != 6){
+                                              return 'Must be 6 digits';
+                                            }else{
+                                              return null;
+                                            }
+                                          },
+                                          onChanged: (val){
+                                            //_keyPincode.currentState!.validate();
+                                          },
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]')),
+                                          ],
+                                          maxLength: 6,
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          controller: pincodeController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: height / 21.7),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "Baptism Date",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          readOnly: true,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await Constants().datePicker(context);
+                                                // await showDatePicker(
+                                                // context: context,
+                                                // initialDate: DateTime.now(),
+                                                // firstDate: DateTime(1900),
+                                                // lastDate: DateTime.now());
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                baptizeDateController.text = formatter.format(pickedDate);
+                                              });
+                                            }
+                                          },
+                                          controller: baptizeDateController,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
@@ -1599,15 +1728,15 @@ class _UserTabState extends State<UserTab> {
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
-                              // Visibility(
-                              //   visible: profileImageValidator,
-                              //   child: const Text(
-                              //     "Please Select Image *",
-                              //     style: TextStyle(
-                              //         color: Colors.red,
-                              //     ),
-                              //   ),
-                              // ),
+                              Visibility(
+                                visible: profileImageValidator,
+                                child: const Text(
+                                  "Please Select Image *",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: height / 21.7),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1623,19 +1752,26 @@ class _UserTabState extends State<UserTab> {
                                         _keyLocality.currentState!.validate();
                                         _keyDob.currentState!.validate();
                                         _keyPhone.currentState!.validate();
-                                        // if(profileImage == null){
-                                        //   setState(() {
-                                        //     profileImageValidator = true;
-                                        //   });
-                                        // }
-                                        if (profileImage != null &&
+                                        if(profileImage == null){
+                                          setState(() {
+                                            profileImageValidator = true;
+                                          });
+                                        }else{
+                                          setState(() {
+                                            profileImageValidator = false;
+                                          });
+                                        }
+                                        if (
+                                            profileImage != null &&
                                             bloodGroupController.text != "Select Blood Group" &&
                                             firstNameController.text != "" &&
                                             lastNameController.text != "" &&
                                             localityController.text != "" &&
                                             dobController.text != "" &&
-                                            phoneController.text.length == 10 &&
-                                            phoneController.text != "" &&
+                                                validateEmail(emailController.text.isNotEmpty) &&
+                                                _keyPhone.currentState!.validate() &&
+                                                validateAadhaar(aadharController.text.isNotEmpty) &&
+                                                _keyPincode.currentState!.validate() &&
                                             GenderController != "Select Gender" &&
                                             marriedController != "Select Status"
                                         )
@@ -1648,6 +1784,8 @@ class _UserTabState extends State<UserTab> {
                                             baptizeDate: baptizeDateController.text,
                                             nationality: nationalityCon.text,
                                             houseType: houseTypeCon.text,
+                                            prefix: prefixController,
+                                            middleName: middleNameController.text,
                                             anniversaryDate: anniversaryDateController.text,
                                             aadharNo: aadharController.text,
                                             bloodGroup: bloodGroupController.text,
@@ -1672,6 +1810,9 @@ class _UserTabState extends State<UserTab> {
                                                     .primaryAppColor
                                                     .withOpacity(0.8));
                                             clearTextControllers();
+                                            setState(() {
+                                              currentTab = 'VIEW';
+                                            });
                                           } else {
                                             await CoolAlert.show(
                                                 context: context,
@@ -2516,12 +2657,14 @@ class _UserTabState extends State<UserTab> {
                                                                 phoneController.text = users[i].user.phone;
                                                                 professionController.text = users[i].user.profession;
                                                                 selectedImg = users[i].user.imgUrl;
-                                                                uploadedImage = users[i].user.imgUrl;
+                                                                //uploadedImage = users[i].user.imgUrl;
                                                                 marriedController = users[i].user.maritialStatus;
                                                                 aadharController.text = users[i].user.aadharNo;
                                                                 anniversaryDateController.text = users[i].user.anniversaryDate;
                                                                 houseTypeCon.text = users[i].user.houseType;
                                                                 nationalityCon.text = users[i].user.nationality;
+                                                                prefixController = users[i].user.prefix;
+                                                                middleNameController.text = users[i].user.middleName;
                                                               });
                                                               editPopUp(users[i].user,users[i].userDocId, size);
                                                             },
@@ -2946,13 +3089,15 @@ class _UserTabState extends State<UserTab> {
                                                                 phoneController.text = users[i].user.phone;
                                                                 professionController.text = users[i].user.profession;
                                                                 selectedImg = users[i].user.imgUrl;
-                                                                uploadedImage = users[i].user.imgUrl;
+                                                                // uploadedImage = users[i].user.imgUrl;
                                                                 marriedController = users[i].user.maritialStatus;
                                                                 aadharController.text = users[i].user.aadharNo;
                                                                 anniversaryDateController.text = users[i].user.anniversaryDate;
                                                                 houseTypeCon.text = users[i].user.houseType;
                                                                 nationalityCon.text = users[i].user.nationality;
                                                                 qualificationController.text = users[i].user.qualification;
+                                                                prefixController = users[i].user.prefix;
+                                                                middleNameController.text = users[i].user.middleName;
                                                               });
                                                               editPopUp(users[i].user,users[i].userDocId, size);
                                                             },
@@ -3209,6 +3354,7 @@ class _UserTabState extends State<UserTab> {
                                     NumberPaginator(
                                       config: NumberPaginatorUIConfig(
                                         buttonSelectedBackgroundColor: Constants().primaryAppColor,
+                                        buttonSelectedForegroundColor: Constants().secondaryAppColor,
                                       ),
                                       numberPages: filterText != "" ? (users.length + 10) ~/ 10 : pagecount,
                                       onPageChange: (int index) {
@@ -3236,6 +3382,28 @@ class _UserTabState extends State<UserTab> {
         ),
       ),
     );
+  }
+
+  bool validateAadhaar(bool isAadhaarNotEmpty){
+    bool isValid = false;
+    if(isAadhaarNotEmpty){
+      _keyAadhar.currentState!.validate();
+      isValid = _keyAadhar.currentState!.validate();
+    }else{
+      isValid = true;
+    }
+    return isValid;
+  }
+
+  bool validateEmail(bool isEmailNotEmpty){
+    bool isValid = false;
+    if(isEmailNotEmpty){
+      _key.currentState!.validate();
+      isValid = _key.currentState!.validate();
+    }else{
+      isValid = true;
+    }
+    return isValid;
   }
 
   viewPopup(UserModel user) {
@@ -3367,9 +3535,75 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text:
-                                            "${user.firstName!} ${user.lastName!}",
+                                            "${user.firstName!} ${user.middleName!} ${user.lastName!}",
                                         style: TextStyle(fontSize: width/97.571),
                                       )
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Blood Group",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.bloodGroup!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Date of Birth",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.dob!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Gender",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.gender!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(height: height / 32.55),
@@ -3438,7 +3672,56 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
-                                          text: "Position",
+                                          text: "Marital Status",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      Text(
+                                        user.maritialStatus!.toString(),
+                                        style: TextStyle(fontSize: width/97.571),
+                                      )
+                                    ],
+                                  ),
+                                  Visibility(
+                                    visible: user.maritialStatus!.toString().toLowerCase() == 'married',
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: height / 32.55),
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: size.width * 0.15,
+                                              child: KText(
+                                                text: "Anniversary Date",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w800,
+                                                    fontSize:width/85.375),
+                                              ),
+                                            ),
+                                            Text(":"),
+                                            SizedBox(width: width / 68.3),
+                                            Text(
+                                              user.anniversaryDate!.toString(),
+                                              style: TextStyle(fontSize: width/97.571),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Profession",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize:width/85.375),
@@ -3448,116 +3731,6 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.profession!,
-                                        style: TextStyle(fontSize: width/97.571),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 32.55),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Baptism Date",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width / 68.3),
-                                      KText(
-                                        text: user.baptizeDate!,
-                                        style: TextStyle(fontSize: width/97.571),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 32.55),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Blood Group",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width / 68.3),
-                                      KText(
-                                        text: user.bloodGroup!,
-                                        style: TextStyle(fontSize: width/97.571),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 32.55),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Date of Birth",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width / 68.3),
-                                      KText(
-                                        text: user.dob!,
-                                        style: TextStyle(fontSize: width/97.571),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 32.55),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Gender",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width / 68.3),
-                                      KText(
-                                        text: user.gender!,
-                                        style: TextStyle(fontSize: width/97.571),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 32.55),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Landmark",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width / 68.3),
-                                      KText(
-                                        text: user.locality!,
                                         style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
@@ -3592,6 +3765,50 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width * 0.15,
                                         child: KText(
+                                          text: "Qualification",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.qualification!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Landmark",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.locality!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
                                           text: "Nationality",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -3602,6 +3819,50 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(width: width / 68.3),
                                       KText(
                                         text: user.nationality!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Pin Code",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.pincode!,
+                                        style: TextStyle(fontSize: width/97.571),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: height / 32.55),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.15,
+                                        child: KText(
+                                          text: "Baptism Date",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize:width/85.375),
+                                        ),
+                                      ),
+                                      Text(":"),
+                                      SizedBox(width: width / 68.3),
+                                      KText(
+                                        text: user.baptizeDate!,
                                         style: TextStyle(fontSize: width/97.571),
                                       ),
                                     ],
@@ -3679,28 +3940,6 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                   SizedBox(height: height / 32.55),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child: KText(
-                                          text: "Pin Code",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize:width/85.375),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width / 68.3),
-                                      KText(
-                                        text: user.pincode!,
-                                        style: TextStyle(fontSize: width/97.571),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height / 32.55),
                                 ],
                               ),
                             ),
@@ -3747,9 +3986,7 @@ class _UserTabState extends State<UserTab> {
           return AlertDialog(
             backgroundColor: Colors.transparent,
             content: Container(
-              height: marriedController.toUpperCase() == "MARRIED"
-                  ? size.height * 2
-                  : size.height * 1.9,
+              height: size.height * 2,
               width: width / 1.2418,
               margin: EdgeInsets.symmetric(horizontal: width / 68.3, vertical: height / 32.55),
               decoration: BoxDecoration(
@@ -3783,39 +4020,6 @@ class _UserTabState extends State<UserTab> {
                               color: Constants().subHeadingColor,
                             ),
                           ),
-                          InkWell(
-                              onTap:(){
-                                clearTextControllers();
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                height:height/18.6,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding:
-                                   EdgeInsets.symmetric(horizontal:width/227.66),
-                                  child: Center(
-                                    child: KText(
-                                      text: "Cancel",
-                                      style: GoogleFonts.openSans(
-                                        fontSize:width/105.07,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                          ),
                         ],
                       ),
                     ),
@@ -3842,12 +4046,8 @@ class _UserTabState extends State<UserTab> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Constants().primaryAppColor,
-                                        width: width/683),
-                                    image: selectedImg != null
-                                        ? DecorationImage(
-                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
-                                        image: NetworkImage(selectedImg!))
-                                        : uploadedImage != null
+                                        width:width/683),
+                                    image: uploadedImage != null
                                         ? DecorationImage(
                                       fit: BoxFit.fill,
                                       image: MemoryImage(
@@ -3857,9 +4057,11 @@ class _UserTabState extends State<UserTab> {
                                               .last),
                                         ),
                                       ),
-                                    )
+                                    ): selectedImg != null ? DecorationImage(
+                                        fit: isCropped ? BoxFit.contain : BoxFit.cover,
+                                        image: NetworkImage(selectedImg!))
                                         : null),
-                                child: (selectedImg == null && uploadedImage == null)
+                                child: (uploadedImage == null && selectedImg == null)
                                     ?  Center(
                                   child: Icon(
                                     Icons.cloud_upload,
@@ -3876,11 +4078,10 @@ class _UserTabState extends State<UserTab> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    InputElement input = FileUploadInputElement()
-                                    as InputElement
+                                    InputElement input = FileUploadInputElement() as InputElement
                                       ..accept = 'image/*';
                                     input.click();
-                                    input.onChange.listen((event) {
+                                    input.onChange.listen((event) async {
                                       final file = input.files!.first;
                                       FileReader reader = FileReader();
                                       reader.readAsDataUrl(file);
@@ -3892,6 +4093,7 @@ class _UserTabState extends State<UserTab> {
                                           uploadedImage = reader.result;
                                           selectedImg = null;
                                         });
+
                                       });
                                       setStat(() {});
                                     });
@@ -3903,11 +4105,11 @@ class _UserTabState extends State<UserTab> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                         Icon(Icons.add_a_photo, color: Constants().btnTextColor,),
+                                        Icon(Icons.add_a_photo, color: Constants().btnTextColor),
                                         SizedBox(width: width / 136.6),
-                                         KText(
+                                        KText(
                                           text: 'Select Profile Photo',
-                                          style: TextStyle(color: Constants().btnTextColor,),
+                                          style: TextStyle(color: Constants().btnTextColor),
                                         ),
                                       ],
                                     ),
@@ -3917,11 +4119,11 @@ class _UserTabState extends State<UserTab> {
                                 InkWell(
                                   onTap: (){
                                     if(isCropped){
-                                      setStat(() {
+                                      setState(() {
                                         isCropped = false;
                                       });
                                     }else{
-                                      setStat(() {
+                                      setState(() {
                                         isCropped = true;
                                       });
                                     }
@@ -3933,14 +4135,61 @@ class _UserTabState extends State<UserTab> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                         Icon(Icons.crop, color: Constants().btnTextColor,),
+                                        Icon(Icons.crop, color: Constants().btnTextColor),
                                         SizedBox(width: width / 136.6),
-                                         KText(
+                                        KText(
                                           text: 'Disable Crop',
-                                          style: TextStyle(color: Constants().btnTextColor,),
+                                          style: TextStyle(color: Constants().btnTextColor),
                                         ),
                                       ],
                                     ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height / 21.7),
+                            Row(
+                              children: [
+                                Container(
+                                  width: width / 4.553,
+                                  decoration:  BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                      )
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Prefix",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      DropdownButton(
+                                        value: prefixController,
+                                        isExpanded: true,
+                                        underline: Container(),
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        items: [
+                                          "Select Prefix",
+                                          "MR.",
+                                          "MISS."
+                                        ].map((items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setStat(() {
+                                            prefixController = newValue!;
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -3962,6 +4211,62 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        key: _keyFirstname,
+                                        focusNode: firstNameFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(lastNameFocusNode);
+                                        },
+                                        validator: (val){
+                                          if(val!.isEmpty){
+                                            return 'Field is required';
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        onChanged: (val){
+                                          //_keyFirstname.currentState!.validate();
+                                        },
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                        ],
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: firstNameController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width / 68.3),
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Middle Name",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        onEditingComplete: (){
+                        
+                                        },
+                                        onFieldSubmitted: (val){
+                        
+                                        },
+                        
+                                        onChanged: (val){
+                                          //_keyFirstname.currentState!.validate();
+                                        },
                                         decoration: InputDecoration(
                                           counterText: "",
                                         ),
@@ -3970,7 +4275,7 @@ class _UserTabState extends State<UserTab> {
                                           FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                                         ],
                                         style: TextStyle(fontSize: width / 113.83),
-                                        controller: firstNameController,
+                                        controller: middleNameController,
                                       )
                                     ],
                                   ),
@@ -3990,6 +4295,25 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        key: _keyLastname,
+                                        focusNode: lastNameFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          FocusScope.of(context).requestFocus(phoneFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(phoneFocusNode);
+                                        },
+                                        validator: (val){
+                                          if(val!.isEmpty){
+                                            return 'Field is required';
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        onChanged: (val){
+                                          // _keyLastname.currentState!.validate();
+                                        },
                                         decoration: InputDecoration(
                                           counterText: "",
                                         ),
@@ -4003,6 +4327,55 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                 ),
+                        
+                              ],
+                            ),
+                            SizedBox(height: height / 21.7),
+                            Row(
+                              children: [
+                                Container(
+                                  width: width / 4.553,
+                                  decoration:  BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                      )
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Gender *",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      DropdownButton(
+                                        value: GenderController,
+                                        isExpanded: true,
+                                        underline: Container(),
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        items: [
+                                          "Select Gender",
+                                          "Male",
+                                          "Female",
+                                          "Transgender"
+                                        ].map((items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setStat(() {
+                                            GenderController = newValue!;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 SizedBox(width: width / 68.3),
                                 SizedBox(
                                   width: width / 4.553,
@@ -4010,7 +4383,53 @@ class _UserTabState extends State<UserTab> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Phone *",
+                                        text: "Blood Group *",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: height / 50.076),
+                                      DropdownButton(
+                                        isExpanded: true,
+                                        value: bloodGroupController.text,
+                                        icon: const Icon(Icons.keyboard_arrow_down),
+                                        items: [
+                                          "Select Blood Group",
+                                          "AB+",
+                                          "AB-",
+                                          "O+",
+                                          "O-",
+                                          "A+",
+                                          "A-",
+                                          "B+",
+                                          "B-"
+                                        ].map((items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          if (newValue != "Select Role") {
+                                            setStat(() {
+                                              bloodGroupController.text = newValue!;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width / 68.3),
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Date of Birth *",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
                                           fontSize: width / 105.076,
@@ -4018,16 +4437,45 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        decoration: InputDecoration(
-                                          counterText: "",
-                                        ),
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[0-9]')),
-                                        ],
-                                        maxLength: 10,
+                                        readOnly: true,
+                                        key: _keyDob,
                                         style: TextStyle(fontSize: width / 113.83),
-                                        controller: phoneController,
+                                        controller: dobController,
+                                        validator: (val){
+                                          if(val!.isEmpty){
+                                            return 'Field is required';
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await Constants().datePicker(context);
+                                          // await DatePicker.showSimpleDatePicker(
+                                          //   context,
+                                          //   initialDate: DateTime.now(),
+                                          //   firstDate: DateTime(1900),
+                                          //   lastDate: DateTime.now(),
+                                          //   dateFormat: "dd-MM-yyyy",
+                                          //   locale: DateTimePickerLocale.en_us,
+                                          //   looping: true,
+                                          // );
+                                          // await showDatePicker(
+                                          //   context: context,
+                                          //   initialDate: DateTime.now(),
+                                          //   firstDate: DateTime(1900),
+                                          //   lastDate: DateTime.now(),
+                                          //   initialEntryMode: DatePickerEntryMode.calendar,
+                                          //   initialDatePickerMode: DatePickerMode.year,
+                                          // );
+                                          if (pickedDate != null) {
+                                            setStat(() {
+                                              //dobController.text = formatter.format(pickedDate);
+                                              setAge(pickedDate);
+                                              // dobController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
                                       )
                                     ],
                                   ),
@@ -4043,7 +4491,7 @@ class _UserTabState extends State<UserTab> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Email",
+                                        text: "Phone *",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
                                           fontSize: width / 105.076,
@@ -4051,21 +4499,37 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        key: _key,
-                                        validator: (value) {
-                                          if (!isEmail(value!)) {
-                                            return 'Please enter a valid email.';
-                                          }
-                                          return null;
-                                        },
+                                        key: _keyPhone,
+                                        focusNode: phoneFocusNode,
+                                        autofocus: true,
                                         onEditingComplete: (){
-                                          _key.currentState!.validate();
+                                          FocusScope.of(context).requestFocus(emailFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(emailFocusNode);
+                                        },
+                                        validator: (val){
+                                          if(val!.isEmpty) {
+                                            return 'Field is required';
+                                          } else if(val.length != 10){
+                                            return 'number must be 10 digits';
+                                          }else{
+                                            return null;
+                                          }
                                         },
                                         onChanged: (val){
-                                          _key.currentState!.validate();
+                                          //_keyPhone.currentState!.validate();
                                         },
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]')),
+                                        ],
+                                        maxLength: 10,
                                         style: TextStyle(fontSize: width / 113.83),
-                                        controller: emailController,
+                                        controller: phoneController,
                                       )
                                     ],
                                   ),
@@ -4077,7 +4541,7 @@ class _UserTabState extends State<UserTab> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Profession",
+                                        text: "Email",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
                                           fontSize: width / 105.076,
@@ -4085,12 +4549,27 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
-                                        decoration: InputDecoration(
-                                          counterText: "",
-                                        ),
-                                        maxLength: 100,
+                                        key: _key,
+                                        focusNode: emailFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          _key.currentState!.validate();
+                                          FocusScope.of(context).requestFocus(professionFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(professionFocusNode);
+                                        },
+                                        validator: (value) {
+                                          if (!isEmail(value!)) {
+                                            return 'Please enter a valid email.';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: (val){
+                                          //_key.currentState!.validate();
+                                        },
                                         style: TextStyle(fontSize: width / 113.83),
-                                        controller: professionController,
+                                        controller: emailController,
                                       )
                                     ],
                                   ),
@@ -4110,9 +4589,30 @@ class _UserTabState extends State<UserTab> {
                                         ),
                                       ),
                                       TextFormField(
+                                        focusNode: aadhaarFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(pincodeFocusNode);
+                                        },
+                                        key: _keyAadhar,
                                         decoration: InputDecoration(
                                           counterText: "",
                                         ),
+                                        validator: (val){
+                                          if(val!.isEmpty){
+                                            return 'Filed must be not emty';
+                                          }else if(val!.length != 12){
+                                            return 'Must be 12 digits';
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        onChanged: (val){
+                                          //_keyAadhar.currentState!.validate();
+                                        },
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp(r'[0-9]')),
@@ -4130,41 +4630,6 @@ class _UserTabState extends State<UserTab> {
                             SizedBox(height: height / 21.7),
                             Row(
                               children: [
-                                SizedBox(
-                                  width: width / 4.553,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Baptism Date",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        style: TextStyle(fontSize: width / 113.83),
-                                        controller: baptizeDateController,
-                                        onTap: () async {
-                                          DateTime? pickedDate =
-                                          await Constants().datePicker(context);
-                                          // await showDatePicker(
-                                          //     context: context,
-                                          //     initialDate: DateTime.now(),
-                                          //     firstDate: DateTime(1900),
-                                          //     lastDate: DateTime.now());
-                                          if (pickedDate != null) {
-                                            setStat(() {
-                                              baptizeDateController.text = formatter.format(pickedDate);
-                                            });
-                                          }
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: width / 68.3),
                                 Container(
                                   width: width / 4.553,
                                   decoration:  BoxDecoration(
@@ -4212,86 +4677,9 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ),
                                 SizedBox(width: width / 68.3),
-                                Container(
-                                  width: width / 10.507,
-                                  decoration:  BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(width:width/910.66,color: Colors.grey)
-                                      )
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Gender *",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      DropdownButton(
-                                        value: GenderController,
-                                        isExpanded: true,
-                                        underline: Container(),
-                                        icon: Icon(Icons.keyboard_arrow_down),
-                                        items: [
-                                          "Select Gender",
-                                          "Male",
-                                          "Female",
-                                          "Transgender"
-                                        ].map((items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            GenderController = newValue!;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: width / 68.3),
-                                SizedBox(
-                                  width: width / 9.106,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Pin Code",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        decoration: InputDecoration(
-                                          counterText: "",
-                                        ),
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[0-9]')),
-                                        ],
-                                        maxLength: 6,
-                                        style: TextStyle(fontSize: width / 113.83),
-                                        controller: pincodeController,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: height / 21.7),
-                            Visibility(
-                              visible: marriedController.toUpperCase() == "MARRIED",
-                              child: Row(
-                                children: [
-                                  SizedBox(
+                                Visibility(
+                                  visible: marriedController.toUpperCase() == "MARRIED",
+                                  child: SizedBox(
                                     width: width / 4.553,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -4305,6 +4693,7 @@ class _UserTabState extends State<UserTab> {
                                           ),
                                         ),
                                         TextFormField(
+                                          readOnly: true,
                                           style: TextStyle(fontSize: width / 113.83),
                                           controller: anniversaryDateController,
                                           onTap: () async {
@@ -4316,7 +4705,7 @@ class _UserTabState extends State<UserTab> {
                                             //     firstDate: DateTime(1900),
                                             //     lastDate: DateTime.now());
                                             if (pickedDate != null) {
-                                              setState(() {
+                                              setStat(() {
                                                 anniversaryDateController.text = formatter.format(pickedDate);
                                               });
                                             }
@@ -4325,123 +4714,48 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: height / 21.7),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: width / 4.553,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Blood Group *",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: height / 50.076),
-                                      DropdownButton(
-                                        isExpanded: true,
-                                        value: bloodGroupController.text,
-                                        icon: const Icon(Icons.keyboard_arrow_down),
-                                        items: [
-                                          "Select Blood Group",
-                                          "AB+",
-                                          "AB-",
-                                          "O+",
-                                          "O-",
-                                          "A+",
-                                          "A-",
-                                          "B+",
-                                          "B-"
-                                        ].map((items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (newValue) {
-                                          if (newValue != "Select Role") {
-                                            setStat(() {
-                                              bloodGroupController.text =
-                                              newValue!;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: width / 68.3),
-                                SizedBox(
-                                  width: width / 4.553,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Date of Birth",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        style: TextStyle(fontSize: width / 113.83),
-                                        controller: dobController,
-                                        onTap: () async {
-                                          DateTime? pickedDate =
-                                          await Constants().datePicker(context);
-                                          // await showDatePicker(
-                                          //     context: context,
-                                          //     initialDate: DateTime.now(),
-                                          //     firstDate: DateTime(1900),
-                                          //     lastDate: DateTime.now());
-                                          if (pickedDate != null) {
-                                            setState(() {
-                                              dobController.text = formatter.format(pickedDate);
-                                            });
-                                          }
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: width / 68.3),
-                                SizedBox(
-                                  width: width / 4.553,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      KText(
-                                        text: "Landmark *",
-                                        style: GoogleFonts.openSans(
-                                          color: Colors.black,
-                                          fontSize: width / 105.076,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextFormField(
-                                        decoration: InputDecoration(
-                                          counterText: "",
-                                        ),
-                                        maxLength: 40,
-                                        style: TextStyle(fontSize: width / 113.83),
-                                        controller: localityController,
-                                      )
-                                    ],
-                                  ),
                                 ),
                               ],
                             ),
                             SizedBox(height: height / 21.7),
                             Row(
                               children: [
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Profession",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        focusNode: professionFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                        },
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        maxLength: 100,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                        ],
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: professionController,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width / 68.3),
                                 SizedBox(
                                   width: width / 4.553,
                                   child: Column(
@@ -4481,6 +4795,86 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                 ),
+                                SizedBox(width: width/68.3),
+                                SizedBox(
+                                  width: width/4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Qualification",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width/105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                        ],
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        maxLength: 100,
+                                        style:  TextStyle(fontSize: width/113.83),
+                                        controller: qualificationController,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: width/68.3),
+                              ],
+                            ),
+                            SizedBox(height: height / 21.7),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Landmark *",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        focusNode: localityFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          FocusScope.of(context).requestFocus(addressFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(addressFocusNode);
+                                        },
+                                        key: _keyLocality,
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                        ),
+                                        onChanged: (val){
+                                          //_keyLocality.currentState!.validate();
+                                        },
+                                        maxLength: 40,
+                                        validator: (val){
+                                          if(val!.isEmpty){
+                                            return 'Field is required';
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        // inputFormatters: [
+                                        //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                        // ],
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: localityController,
+                                      )
+                                    ],
+                                  ),
+                                ),
                                 SizedBox(width: width / 68.3),
                                 SizedBox(
                                   width: width / 4.553,
@@ -4504,7 +4898,7 @@ class _UserTabState extends State<UserTab> {
                                           if(val!.isEmpty){
                                             return 'Field is required';
                                           }else{
-                                            return '';
+                                            return null;
                                           }
                                         },
                                         inputFormatters: [
@@ -4516,32 +4910,94 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: width/68.3),
+                                SizedBox(width: width / 68.3),
                                 SizedBox(
-                                  width: width/4.553,
+                                  width: width / 9.106,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       KText(
-                                        text: "Qualification",
+                                        text: "Pin Code *",
                                         style: GoogleFonts.openSans(
                                           color: Colors.black,
-                                          fontSize: width/105.076,
+                                          fontSize: width / 105.076,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextFormField(
+                                        focusNode: pincodeFocusNode,
+                                        autofocus: true,
+                                        onEditingComplete: (){
+                                          FocusScope.of(context).requestFocus(localityFocusNode);
+                                        },
+                                        onFieldSubmitted: (val){
+                                          FocusScope.of(context).requestFocus(localityFocusNode);
+                                        },
+                                        key:_keyPincode,
+                                        validator: (val){
+                                          if(val!.length != 6){
+                                            return 'Must be 6 digits';
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        onChanged: (val){
+                                          //_keyPincode.currentState!.validate();
+                                        },
                                         decoration: InputDecoration(
                                           counterText: "",
                                         ),
-                                        maxLength: 100,
-                                        style:  TextStyle(fontSize: width/113.83),
-                                        controller: qualificationController,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]')),
+                                        ],
+                                        maxLength: 6,
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        controller: pincodeController,
                                       )
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: width/68.3),
+                              ],
+                            ),
+                            SizedBox(height: height / 21.7),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: width / 4.553,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      KText(
+                                        text: "Baptism Date",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.black,
+                                          fontSize: width / 105.076,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(fontSize: width / 113.83),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                          await Constants().datePicker(context);
+                                          // await showDatePicker(
+                                          // context: context,
+                                          // initialDate: DateTime.now(),
+                                          // firstDate: DateTime(1900),
+                                          // lastDate: DateTime.now());
+                                          if (pickedDate != null) {
+                                            setStat(() {
+                                              baptizeDateController.text = formatter.format(pickedDate);
+                                            });
+                                          }
+                                        },
+                                        controller: baptizeDateController,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(height: height / 21.7),
@@ -4588,12 +5044,20 @@ class _UserTabState extends State<UserTab> {
                                               color: Colors.white,
                                             ),
                                             child: TextFormField(
+                                              focusNode: addressFocusNode,
+                                              autofocus: true,
+                                              onEditingComplete: (){
+                                                FocusScope.of(context).requestFocus(aboutFocusNode);
+                                              },
+                                              onFieldSubmitted: (val){
+                                                FocusScope.of(context).requestFocus(aboutFocusNode);
+                                              },
                                               maxLength: 255,
                                               style: TextStyle(
                                                   fontSize: width / 113.83),
                                               controller: addressController,
                                               decoration: InputDecoration(
-                                                counterText: '',
+                                                  counterText: '',
                                                   border: InputBorder.none,
                                                   contentPadding: EdgeInsets.only(
                                                       left: width / 91.06,
@@ -4651,12 +5115,14 @@ class _UserTabState extends State<UserTab> {
                                               color: Colors.white,
                                             ),
                                             child: TextFormField(
+                                              focusNode: aboutFocusNode,
+                                              autofocus: true,
                                               maxLength: 255,
                                               style: TextStyle(
                                                   fontSize: width / 113.83),
                                               controller: aboutController,
                                               decoration: InputDecoration(
-                                                counterText: '',
+                                                  counterText: '',
                                                   border: InputBorder.none,
                                                   contentPadding: EdgeInsets.only(
                                                       left: 15,
@@ -4672,105 +5138,113 @@ class _UserTabState extends State<UserTab> {
                             ),
                             SizedBox(height: height / 21.7),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    if (marriedController != "Select Status" &&
-                                        firstNameController.text != "" &&
-                                        lastNameController.text != "" &&
-                                        phoneController.text != "" &&
-                                        phoneController.text.length == 10 &&
-                                        _key.currentState!.validate()
-                                    ) {
-                                      Response response = await UserFireCrud.updateRecord(userDocID, UserModel(
-                                        id: user.id,
-                                        isPrivacyEnabled: user.isPrivacyEnabled,
-                                        status: user.status,
-                                        qualification: qualificationController.text != "" ? qualificationController.text : user.qualification,
-                                        pincode: pincodeController.text != "" ? pincodeController.text : user.pincode,
-                                        timestamp: user.timestamp,
-                                        baptizeDate: baptizeDateController.text != "" ? baptizeDateController.text : user.baptizeDate,
-                                        bloodGroup: bloodGroupController.text != "" ? bloodGroupController.text : user.bloodGroup,
-                                        dob: dobController.text.isNotEmpty ? dobController.text : user.dob,
-                                        address: addressController.text.isNotEmpty ? addressController.text : user.address,
-                                        email: emailController.text.isNotEmpty ? emailController.text : user.email,
-                                        aadharNo: aadharController.text.isNotEmpty ? aadharController.text : user.aadharNo,
-                                        firstName: firstNameController.text.isNotEmpty ? firstNameController.text : user.firstName,
-                                        maritialStatus: marriedController.isNotEmpty ? marriedController : user.maritialStatus,
-                                        fcmToken: user.fcmToken,
-                                        gender: GenderController.isNotEmpty ? GenderController : user.gender,
-                                        imgUrl: user.imgUrl,
-                                        houseType: houseTypeCon.text.isNotEmpty ? houseTypeCon.text : user.houseType,
-                                        nationality: nationalityCon.text.isNotEmpty ? nationalityCon.text : user.nationality,
-                                        anniversaryDate: marriedController
-                                            .toUpperCase() ==
-                                            "MARRIED"
-                                            ? anniversaryDateController.text
-                                            : user.anniversaryDate,
-                                        lastName: lastNameController.text.isNotEmpty ? lastNameController.text : user.lastName,
-                                        locality: localityController.text.isNotEmpty ? localityController.text : user.locality,
-                                        phone: phoneController.text.isNotEmpty ? phoneController.text : user.phone,
-                                        profession: professionController.text.isNotEmpty ? professionController.text : user.profession,
-                                        about: aboutController.text.isNotEmpty ? aboutController.text : user.about,
-                                      ),
-                                          profileImage, user.imgUrl ?? "");
-                                      if (response.code == 200) {
-                                        await CoolAlert.show(
-                                            context: context,
-                                            type: CoolAlertType.success,
-                                            text: "User updated successfully!",
-                                            width: size.width * 0.4,
-                                            backgroundColor: Constants()
-                                                .primaryAppColor
-                                                .withOpacity(0.8));
-                                        setState(() {
-                                          uploadedImage = null;
-                                          profileImage = null;
-                                          baptizeDateController.text = "";
-                                          bloodGroupController.text = "";
-                                          dobController.text = "";
-                                          emailController.text = "";
-                                          firstNameController.text = "";
-                                          aadharController.text = "";
-                                          aboutController.text = "";
-                                          lastNameController.text = "";
-                                          anniversaryDateController.text = "";
-                                          marriedController = "Select Status";
-                                          //passwordController.text = "";
-                                          localityController.text = "";
-                                          phoneController.text = "";
-                                          professionController.text = "";
-                                          //confPaswordController.text = "";
-                                        });
-                                        clearTextControllers();
-                                        Navigator.pop(context);
+                                    if(!isLoading){
+                                      setStat(() {
+                                        isLoading = true;
+                                      });
+                                      _keyFirstname.currentState!.validate();
+                                      _keyLastname.currentState!.validate();
+                                      _keyLocality.currentState!.validate();
+                                      _keyAadhar.currentState!.validate();
+                                      _key.currentState!.validate();
+                                      _keyDob.currentState!.validate();
+                                      _keyPhone.currentState!.validate();
+                                      // if(profileImage == null){
+                                      //   setStat(() {
+                                      //     profileImageValidator = true;
+                                      //   });
+                                      // }else{
+                                      //   setStat(() {
+                                      //     profileImageValidator = false;
+                                      //   });
+                                      // }
+                                      if (
+                                          bloodGroupController.text != "Select Blood Group" &&
+                                          firstNameController.text != "" &&
+                                          lastNameController.text != "" &&
+                                          localityController.text != "" &&
+                                          dobController.text != "" &&
+                                          _keyPhone.currentState!.validate() &&
+                                              _keyPincode.currentState!.validate() &&
+                                              validateAadhaar(aadharController.text.isNotEmpty) &&
+                                              validateEmail(emailController.text.isNotEmpty) &&
+                                          GenderController != "Select Gender" &&
+                                          marriedController != "Select Status"
+                                      )
+                                      {
+                                        Response response = await UserFireCrud.updateRecord(
+                                          userDocID,
+                                          UserModel(
+                                            maritialStatus: marriedController,
+                                            pincode: pincodeController.text,
+                                            gender: GenderController,
+                                            baptizeDate: baptizeDateController.text,
+                                            nationality: nationalityCon.text,
+                                            houseType: houseTypeCon.text,
+                                            prefix: prefixController,
+                                            middleName: middleNameController.text,
+                                            anniversaryDate: anniversaryDateController.text,
+                                            aadharNo: aadharController.text,
+                                            bloodGroup: bloodGroupController.text,
+                                            dob: dobController.text,
+                                            qualification: qualificationController.text,
+                                            email: emailController.text,
+                                            firstName: firstNameController.text,
+                                            lastName: lastNameController.text,
+                                            locality: localityController.text,
+                                            phone: phoneController.text,
+                                            profession: professionController.text,
+                                            about: aboutController.text,
+                                            address: addressController.text, id: userDocID,
+                                            timestamp: user.timestamp,
+                                            imgUrl: user.imgUrl,
+                                            isPrivacyEnabled: user.isPrivacyEnabled,
+                                            status: user.status,
+                                            fcmToken: user.fcmToken,
+                                          ),
+                                          profileImage,
+                                            user.imgUrl,
+                                        );
+                                        if (response.code == 200) {
+                                          await CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.success,
+                                              text: "User updated successfully!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          clearTextControllers();
+                                          Navigator.pop(context);
+                                        } else {
+                                          await CoolAlert.show(
+                                              context: context,
+                                              type: CoolAlertType.error,
+                                              text: "Failed to Create User!",
+                                              width: size.width * 0.4,
+                                              backgroundColor: Constants()
+                                                  .primaryAppColor
+                                                  .withOpacity(0.8));
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          Navigator.pop(context);
+                                        }
                                       } else {
-                                        await CoolAlert.show(
-                                            context: context,
-                                            type: CoolAlertType.error,
-                                            text: "Failed to update User!",
-                                            width: size.width * 0.4,
-                                            backgroundColor: Constants()
-                                                .primaryAppColor
-                                                .withOpacity(0.8));
-                                        clearTextControllers();
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                       }
-                                    } else {
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.warning,
-                                          text: "Please fill the required fields",
-                                          width: size.width * 0.4,
-                                          backgroundColor: Constants()
-                                              .primaryAppColor
-                                              .withOpacity(0.8));
                                     }
                                   },
                                   child: Container(
-                                    height: height / 18.6,
+                                    height: height / 16.6,
+                                    width: width*0.1,
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
                                       borderRadius: BorderRadius.circular(8),
@@ -4783,11 +5257,10 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 227.66),
+                                      padding: EdgeInsets.symmetric(horizontal: width / 190.66),
                                       child: Center(
                                         child: KText(
-                                          text: "Update",
+                                          text: "UPDATE NOW",
                                           style: GoogleFonts.openSans(
                                             color: Constants().btnTextColor,
                                             fontSize:width/136.6,
@@ -4798,17 +5271,15 @@ class _UserTabState extends State<UserTab> {
                                     ),
                                   ),
                                 ),
-                                 SizedBox(width: width/136.6),
+                                SizedBox(width: width/136.6),
                                 InkWell(
                                   onTap: (){
-                                    setState(() {
-                                      currentTab = 'View';
-                                    });
                                     clearTextControllers();
                                     Navigator.pop(context);
                                   },
                                   child: Container(
-                                    height: height / 18.6,
+                                    height: height / 16.6,
+                                    width: width*0.1,
                                     decoration: BoxDecoration(
                                       color: Constants().primaryAppColor,
                                       borderRadius: BorderRadius.circular(8),
@@ -4821,8 +5292,7 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 227.66),
+                                      padding: EdgeInsets.symmetric(horizontal: width / 190.66),
                                       child: Center(
                                         child: KText(
                                           text: "Cancel",

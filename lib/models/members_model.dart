@@ -2,7 +2,9 @@ class MembersModel {
   String? id;
   String? memberId;
   num? timestamp;
+  String? prefix;
   String? firstName;
+  String? middleName;
   String? lastName;
   String? aadharNo;
   String? phone;
@@ -39,7 +41,9 @@ class MembersModel {
 
   MembersModel(
       {this.id,
+        this.prefix,
         this.firstName,
+        this.middleName,
         this.landMark,
         this.previousChurch,
         this.maritalStatus,
@@ -84,7 +88,9 @@ class MembersModel {
     resistentialAddress = json['resistentialAddress'];
     houseType = json['houseType'];
     baptizemCertificate = json['baptizemCertificate'];
+    prefix = json['prefix'];
     firstName = json['firstName'];
+    middleName = json['middleName'];
     lastName = json['lastName'];
     status = json['status'];
     country = json['country'];
@@ -129,6 +135,8 @@ class MembersModel {
     data['houseType'] = this.houseType;
     data['permanentAddress'] = this.permanentAddress;
     data['resistentialAddress'] = this.resistentialAddress;
+    data['prefix'] = this.prefix;
+    data['middleName'] = this.middleName;
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;

@@ -30,15 +30,37 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
   
   List<DocumentSnapshot> todayReports = [];
   List<DocumentSnapshot> allReports = [];
-
   TextEditingController searchDateController = TextEditingController();
+
+  int iosUsersCount = 0;
+  int androidUsersCount = 0;
+  int webUsersCount = 0;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    setUsers();
     super.initState();
   }
 
+  setUsers() async {
+    var userDoc = await FirebaseFirestore.instance.collection('LoginReports').orderBy('timestamp',descending: true).get();
+    userDoc.docs.forEach((element) {
+        if(element.get("deviceOs").toString().toLowerCase() == "android"){
+          setState(() {
+            androidUsersCount++;
+          });
+        }else if(element.get("deviceOs").toString().toLowerCase() == "ios"){
+          setState(() {
+            iosUsersCount++;
+          });
+        }else{
+          setState(() {
+            webUsersCount++;
+          });
+        }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +83,344 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                     color: Colors.black),
               ),
             ),
+            SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: height/4.06875,
+                    width: width/4.06875,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(1, 2),
+                            blurRadius: 3),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Constants().primaryAppColor,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.06,
+                          width: size.width * 0.2,
+                          child: Center(
+                            child: KText(
+                              text: "Total Android Users",
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontSize: width/56.916,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: width/4.06875,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width/105.076),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: androidUsersCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: width/41.393,
+                                            ),
+                                          ),
+                                          KText(
+                                            text: androidUsersCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: width/85.375,
+                                              color:
+                                              Color(0xff8A92A6),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: width/68.3),
+                                      Container(
+                                        height: height/16.275,
+                                        width: width/34.15,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8),
+                                          color: Color(0xfff2d6d3),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.android,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: height/54.25,
+                                      horizontal: width/113.833
+                                  ),
+                                  child: LinearProgressIndicator(
+                                    backgroundColor:
+                                    Color(0xfff2d6d3),
+                                    color: Color(0xffC03221),
+                                    value: 10,
+                                    semanticsLabel:
+                                    'Linear progress indicator',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: height/4.06875,
+                    width: width/4.06875,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(1, 2),
+                            blurRadius: 3),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Constants().primaryAppColor,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.06,
+                          width: size.width * 0.2,
+                          child: Center(
+                            child: KText(
+                              text: "Total Ios Users",
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontSize: width/56.916,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: width/4.06875,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width/105.076),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: iosUsersCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: width/41.393,
+                                            ),
+                                          ),
+                                          KText(
+                                            text: iosUsersCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: width/85.375,
+                                              color:
+                                              Color(0xff8A92A6),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: width/68.3),
+                                      Container(
+                                        height: height/16.275,
+                                        width: width/34.15,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8),
+                                          color: Color(0xffcdebec),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                              Icons.apple,
+                                              color: Color(0xff068B92)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: height/54.25,
+                                      horizontal: width/113.833
+                                  ),
+                                  child: LinearProgressIndicator(
+                                    backgroundColor:
+                                    Color(0xffcdebec),
+                                    color: Color(0xff068B92),
+                                    value: 4,
+                                    semanticsLabel:
+                                    'Linear progress indicator',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: height/4.06875,
+                    width: width/4.06875,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(1, 2),
+                            blurRadius: 3),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Constants().primaryAppColor,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.06,
+                          width: size.width * 0.2,
+                          child: Center(
+                            child: KText(
+                              text: "Total Web Users",
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontSize: width/56.916,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: width/4.06875,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width/105.076),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: webUsersCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: width/41.393,
+                                            ),
+                                          ),
+                                          KText(
+                                            text: webUsersCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: width/85.375,
+                                              color:
+                                              Color(0xff8A92A6),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: width/68.3),
+                                      Container(
+                                        height: height/16.275,
+                                        width: width/34.15,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8),
+                                          color: Color(0xffd1ecdd),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                              Icons.web,
+                                              color: Color(0xff17904B)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: height/54.25,
+                                      horizontal: width/113.833
+                                  ),
+                                  child: LinearProgressIndicator(
+                                    backgroundColor:
+                                    Color(0xffd1ecdd),
+                                    color: Color(0xff17904B),
+                                    value: 20,
+                                    semanticsLabel:
+                                    'Linear progress indicator',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
             Container(
               height: size.height * 0.85,
               width: double.infinity,
@@ -80,6 +440,13 @@ class _LoginReportsTabState extends State<LoginReportsTab> with SingleTickerProv
                         allReports.add(element);
                         if(element.get("date") == DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()){
                           todayReports.add(element);
+                        }
+                        if(element.get("deviceOs").toString().toLowerCase() == "android"){
+                          androidUsersCount++;
+                        }else if(element.get("deviceOs").toString().toLowerCase() == "ios"){
+                          iosUsersCount++;
+                        }else{
+                          webUsersCount++;
                         }
                       }
                     });

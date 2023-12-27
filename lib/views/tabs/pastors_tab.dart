@@ -1427,7 +1427,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                           await PastorsFireCrud.addPastor(
                                             image: profileImage,
                                             address: addressController.text,
-                                            permanentAddress: addressController.text,
+                                            permanentAddress: permanentAddressController.text,
                                             familyId: familyIDController.text,
                                             maritalStatus: marriedController,
                                             gender: genderController.text,
@@ -1949,7 +1949,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                                                   socialStatusController.text = pastors[i].socialStatus!;
                                                                   countryController.text = pastors[i].country!;
                                                                   addressController.text = pastors[i].address!;
-                                                                //  permanentAddressController.text = pastors[i].permanentAddress!;
+                                                                  permanentAddressController.text = pastors[i].permanentAddress!;
                                                                   genderController.text = pastors[i].gender!;
                                                                   selectedImg = pastors[i].imgUrl;
                                                                   pincodeController.text = pastors[i].pincode!;
@@ -2622,7 +2622,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                       SizedBox(
                                         width: size.width * 0.3,
                                         child: KText(
-                                          text: pastor.address!,
+                                          text: pastor.permanentAddress!,
                                           style: TextStyle(
                                               fontSize:width/97.571
                                           ),
@@ -3705,7 +3705,7 @@ class _PastorsTabState extends State<PastorsTab> {
                                             familyId: familyIDController.text,
                                             imgUrl: pastor.imgUrl,
                                             address: addressController.text,
-                                            //permanentAddress: permanentAddressController.text,
+                                            permanentAddress: permanentAddressController.text,
                                             aadharNo: aadharNoController.text,
                                             email: emailController.text,
                                             family: familyController.text,

@@ -1163,6 +1163,9 @@ class _GreetingsTabState extends State<GreetingsTab> {
       });
       response.code = 200;
       response.message = "Wishes send Successfully";
+    }else if (users.isEmpty){
+      response.code = 500;
+      response.message = "No Users Selected";
     }else{
       response.code = 500;
       response.message = "Please Select one Template";

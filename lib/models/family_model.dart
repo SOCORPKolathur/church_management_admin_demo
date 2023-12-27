@@ -26,7 +26,7 @@ class FamilyModel {
         this.quantity,
         this.contactNumber,
         this.address,
-       // this.permanentAddress,
+        this.permanentAddress,
         this.city,
         this.country,
         this.status,

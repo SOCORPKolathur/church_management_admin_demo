@@ -1,7 +1,9 @@
 class UserModel {
   late String id;
   late int timestamp;
+  late String prefix;
   late String firstName;
+  late String middleName;
   late String lastName;
   late String phone;
   late String email;
@@ -31,6 +33,8 @@ class UserModel {
         required this.houseType,
         required this.nationality,
         required this.firstName,
+        required this.prefix,
+        required this.middleName,
         required this.lastName,
         required this.aadharNo,
         required this.phone,
@@ -61,6 +65,8 @@ class UserModel {
     nationality = json['nationality'];
     firstName = json['firstName'];
     lastName = json['lastName'];
+    middleName = json['middleName'];
+    prefix = json['prefix'];
     fcmToken = json['fcmToken'];
     status = json['status'];
     phone = json['phone'];
@@ -90,6 +96,8 @@ class UserModel {
     data['houseType'] = this.houseType;
     data['fcmToken'] = this.fcmToken;
     data['lastName'] = this.lastName;
+    data['middleName'] = this.middleName;
+    data['prefix'] = this.prefix;
     data['aadharNo'] = this.aadharNo;
     data['status'] = this.status;
     data['maritialStatus'] = this.maritialStatus;
