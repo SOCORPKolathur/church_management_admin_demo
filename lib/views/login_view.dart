@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:church_management_admin/views/tabs/HomeDrawer.dart';
 import 'package:country_ip/country_ip.dart';
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/services.dart';
@@ -387,7 +388,7 @@ class _LoginViewState extends State<LoginView> {
       test.add("S11");
     });
             Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (ctx) =>  HomeView(currentRole: element.roleName!,sessionStateStream: widget.sessionStateStream)));
+                builder: (ctx) =>  HomeDrawer(/*currentRole: element.roleName!,sessionStateStream: widget.sessionStateStream*/)));
           }
         });
       }

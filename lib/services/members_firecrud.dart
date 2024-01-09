@@ -93,6 +93,9 @@ class MembersFireCrud {
       required String landMark,
       required String previousChurch,
       required String serviceLanguage,
+      required String alterNativeemail,
+      required String contry,
+      required String state,
       required String socialStatus}) async {
     String downloadUrl = '';
     if(image != null){
@@ -145,6 +148,9 @@ class MembersFireCrud {
         maritalStatus: maritalStatus,
         qualification: qualification,
         relationToFamily: relationToFamily,
+      contry: contry,
+      state: state,
+      alterNativeemail: alterNativeemail,
     );
     member.id = documentReferencer.id;
     var memberJson = member.toJson();
@@ -176,7 +182,11 @@ class MembersFireCrud {
         baptizeDate: baptizeDate,
         pincode: pincode,
         anniversaryDate: marriageDate,
-        imgUrl: downloadUrl);
+        imgUrl: downloadUrl,
+        alterNativeemail: alterNativeemail,
+        contry: contry,
+        state: state,
+    );
     var userJson = user.toJson();
     var result = await documentReferencer.set(memberJson).whenComplete(() {
       response.code = 200;
@@ -458,6 +468,9 @@ class MembersFireCrud {
         locality: row[i][26].toString(),
         nationality: row[i][17].toString(),
         houseType: row[i][27].toString(),
+        alterNativeemail: "",
+        state: "",
+        contry: "",
         // id: documentID1,
         // about: "${row[i][4]},${row[i][5]},${row[i][6]},${row[i][7]},${row[i][8]},${row[i][9]},${row[i][10]},${row[i][11]}",
         // address: "${row[i][4]},${row[i][5]},${row[i][6]},${row[i][7]},${row[i][8]},${row[i][9]},${row[i][10]},${row[i][11]}",

@@ -51,11 +51,12 @@ class UserFireCrud {
         required String bloodGroup,
         required String dob,
         required String email,
+        required String alterNativeemail,
         required String prefix,
         required String firstName,
         required String middleName,
         required String lastName,
-        required String locality,
+        required String locality, /// City
         required String phone,
         required String aadharNo,
         required String pincode,
@@ -65,6 +66,8 @@ class UserFireCrud {
         required String address,
         required String nationality,
         required String houseType,
+        required String contry,
+        required String state,
       }) async {
     String downloadUrl = '';
     if(image != null){
@@ -79,6 +82,8 @@ class UserFireCrud {
         profession: profession.toUpperCase(),
         phone: phone,
         locality: locality,
+        contry: contry,
+        state: state,
         lastName: lastName,
         qualification: qualification,
         fcmToken: "",
@@ -88,6 +93,7 @@ class UserFireCrud {
         maritialStatus: maritialStatus,
         gender: gender,
         email: email,
+        alterNativeemail: alterNativeemail,
         aadharNo: aadharNo,
         isPrivacyEnabled: false,
         status: true,
@@ -184,6 +190,9 @@ class UserFireCrud {
         locality: row[i][17].toString(),
         nationality: row[i][18].toString(),
         houseType: row[i][19].toString(),
+        alterNativeemail: "empty",
+        contry: "",
+        state: "",
 
         id: documentID,
         timestamp: DateTime.now().millisecondsSinceEpoch,

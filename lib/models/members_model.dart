@@ -36,6 +36,9 @@ class MembersModel {
   String? maritalStatus;
   String? relationToFamily;
   String? attendingTime;
+  String? contry;
+  String? state;
+  String? alterNativeemail;
 
 
 
@@ -76,6 +79,9 @@ class MembersModel {
         this.dob,
         this.nationality,
         this.pincode,
+        this.alterNativeemail,
+        this.contry,
+        this.state,
         this.imgUrl});
 
   MembersModel.fromJson(Map<String, dynamic> json) {
@@ -97,6 +103,9 @@ class MembersModel {
     pincode = json['pincode'];
     phone = json['phone'];
     email = json['email'];
+    alterNativeemail = json['alterNativeemail'];
+    contry = json['contry'];
+    state = json['state'];
     position = json['position'];
     baptizeDate = json['baptizeDate'];
     marriageDate = json['marriageDate'];
@@ -141,8 +150,11 @@ class MembersModel {
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
     data['email'] = this.email;
-    data['position'] = this.position;
+    data['alterNativeemail'] = this.alterNativeemail;
     data['country'] = this.country;
+    data['state'] = this.state;
+    data['position'] = this.position;
+    data['contry'] = this.contry;
     data['pincode'] = this.pincode;
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/gallery_tab.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
+import 'views/tabs/HomeDrawer.dart';
 import 'firebase_options.dart';
 import 'models/church_details_model.dart';
 import 'models/verses_model.dart';
@@ -180,11 +182,11 @@ class _MyAppState extends State<MyApp> {
           title: 'Church Management Admin',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+            colorScheme: ColorScheme.fromSeed(seedColor: Constants().primaryAppColor),
             useMaterial3: true,
           ),
-          home: user != null ? HomeView(currentRole: user!.email!, sessionStateStream: sessionStateStream) : LoginView(sessionStateStream: sessionStateStream),
-          //home: GalleryTab(),
+          home: user != null ? HomeDrawer(/*currentRole: user!.email!, sessionStateStream: sessionStateStream*/) : LoginView(sessionStateStream: sessionStateStream),
+          //home: HomeDrawer(),
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

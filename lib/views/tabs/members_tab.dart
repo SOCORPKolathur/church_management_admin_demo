@@ -2173,6 +2173,9 @@ class _MembersTabState extends State<MembersTab> {
                                             attendingTime: attendingTimeController.text,
                                             previousChurch: previousChurchController.text,
                                             landMark: landMarkController.text,
+                                            alterNativeemail: "",
+                                            state: "",
+                                            contry: ""
                                           );
                                           if (response.code == 200) {
                                             CoolAlert.show(

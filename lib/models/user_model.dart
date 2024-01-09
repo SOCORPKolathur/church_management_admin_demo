@@ -7,6 +7,7 @@ class UserModel {
   late String lastName;
   late String phone;
   late String email;
+  late String alterNativeemail;
   late String fcmToken;
   late String profession;
   late String aadharNo;
@@ -16,7 +17,9 @@ class UserModel {
   late String gender;
   late String bloodGroup;
   late String dob;
-  late String locality;
+  late String locality;/// City
+  late String state;
+  late String contry;
   late String qualification;
   late String about;
   late String address;
@@ -39,6 +42,7 @@ class UserModel {
         required this.aadharNo,
         required this.phone,
         required this.email,
+        required this.alterNativeemail,
         required this.fcmToken,
         //this.password,
         required this.profession,
@@ -52,6 +56,8 @@ class UserModel {
         required this.isPrivacyEnabled,
         required this.dob,
         required this.locality,
+        required this.contry,
+        required this.state,
         required this.about,
         required this.address,
         required this.pincode,
@@ -72,6 +78,7 @@ class UserModel {
     phone = json['phone'];
     aadharNo = json['aadharNo'];
     email = json['email'];
+    alterNativeemail = json['alterNativeemail'];
     qualification = json['qualification'];
     maritialStatus = json['maritialStatus'];
     profession = json['profession'];
@@ -81,6 +88,8 @@ class UserModel {
     gender = json['gender'];
     dob = json['dob'];
     locality = json['locality'];
+    state = json['state'];
+    contry = json['contry'];
     about = json['about'];
     address = json['address'];
     imgUrl = json['imgUrl'];
@@ -104,6 +113,7 @@ class UserModel {
     data['phone'] = this.phone;
     data['gender'] = this.gender;
     data['email'] = this.email;
+    data['alterNativeemail'] = this.alterNativeemail;
     //data['password'] = this.password;
     data['profession'] = this.profession;
     data['baptizeDate'] = this.baptizeDate;
@@ -111,6 +121,8 @@ class UserModel {
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;
     data['locality'] = this.locality;
+    data['contry'] = this.contry;
+    data['state'] = this.state;
     data['qualification'] = this.qualification;
     data['pincode'] = this.pincode;
     data['about'] = this.about;
