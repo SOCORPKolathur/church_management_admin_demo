@@ -3,6 +3,7 @@ import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:church_management_admin/widgets/event_calender.dart';
+import 'package:church_management_admin/widgets/kText.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -350,13 +351,13 @@ class _Dashboard2State extends State<Dashboard2> {
                 width: double.infinity,
                 height: 70,
                 color: Colors.white,
-        
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Dashboard",
+                      child: KText(text:"Dashboard",
                         style: GoogleFonts.kanit(
                             fontSize: width/60,
                             fontWeight: FontWeight.w500,
@@ -377,10 +378,10 @@ class _Dashboard2State extends State<Dashboard2> {
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                  color: Color(0xffFFFAF1),
+                                  color: Color(0xff377DFF).withOpacity(0.20),
                                   borderRadius: BorderRadius.circular(8)
                                 ),
-                                child: Center(child: Icon(Icons.g_translate,color: Color(0xffFFA412),)),
+                                child: Center(child: Icon(Icons.g_translate,color: Color(0xff377DFF),)),
                               ),
                             ),
                           ),
@@ -392,7 +393,10 @@ class _Dashboard2State extends State<Dashboard2> {
                                       itemBuilder: (context) => [
                                         PopupMenuItem<String>(
                                           value: 'Settings',
-                                          child: const Text('Settings'),
+                                          child:  KText(text:'Settings', style: GoogleFonts.openSans(
+                                              fontSize: width/105,
+                                              fontWeight: FontWeight.w500,
+                                             ),),
                                           onTap: () async {
                                             final navigator = Navigator.of(context);
                                             await Future.delayed(Duration.zero);
@@ -403,7 +407,10 @@ class _Dashboard2State extends State<Dashboard2> {
                                         ),
                                         PopupMenuItem<String>(
                                           value: 'About Us',
-                                          child: const Text('About Us'),
+                                          child:  KText(text:'About Us',style: GoogleFonts.openSans(
+                                            fontSize: width/105,
+                                            fontWeight: FontWeight.w500,
+                                          ),),
                                           onTap: () async {
                                             final navigator = Navigator.of(context);
                                             await Future.delayed(Duration.zero);
@@ -414,7 +421,10 @@ class _Dashboard2State extends State<Dashboard2> {
                                         ),
                                         PopupMenuItem<String>(
                                           value: 'Log Out',
-                                          child: const Text('Log Out'),
+                                          child:  KText(text:'Log Out',style: GoogleFonts.openSans(
+                                            fontSize: width/105,
+                                            fontWeight: FontWeight.w500,
+                                          ),),
                                           onTap: () async {
                                             final navigator = Navigator.of(context);
                                             await Future.delayed(Duration.zero);
@@ -453,11 +463,11 @@ class _Dashboard2State extends State<Dashboard2> {
                                         width: 40,
                                         height: 40,
                                         decoration: BoxDecoration(
-                                            color: Color(0xffFFFAF1),
+                                            color: Color(0xff377DFF).withOpacity(0.20),
                                             borderRadius: BorderRadius.circular(8)
                                         ),
                                         child: const Icon(Icons.settings,
-                                          size: 28, color: Color(0xffFFA412),
+                                          size: 28, color: Color(0xff377DFF),
                                         ),
                                       )
                                   );
@@ -501,7 +511,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0,left: 10),
-                                    child: Text("Welcome Admin 👋",
+                                    child: KText(text:"Welcome Admin 👋",
                                       style: GoogleFonts.openSans(
                                           fontSize: width/50,
                                           fontWeight: FontWeight.w700,
@@ -512,7 +522,9 @@ class _Dashboard2State extends State<Dashboard2> {
                                     padding: const EdgeInsets.only(top: 8.0,left: 10),
                                     child: Container(
                                       width: 350,
-                                      child: Text("Cast your cares on the LORD and he will sustain you; he will never let the righteous be shaken.",
+                                      child: KText(text:"Cast your cares on the LORD and he will sustain you;\nhe will never let the righteous be shaken.",
+
+                                        maxLines: 3,
                                         style: GoogleFonts.openSans(
                                             fontSize: width/105,
                                             fontWeight: FontWeight.w500,
@@ -520,8 +532,8 @@ class _Dashboard2State extends State<Dashboard2> {
                                       ),
                                     ),
                                   ),
-        
-        
+
+
                                 ],
                               ),
                               SizedBox(
@@ -535,7 +547,7 @@ class _Dashboard2State extends State<Dashboard2> {
                       SizedBox(
                         height: 20,
                       ),
-                      
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -543,8 +555,8 @@ class _Dashboard2State extends State<Dashboard2> {
                             elevation: 1,
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
-                              width: 226,
-                              height: 240,
+                              width: 256,
+                              height: 300,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20)
@@ -553,14 +565,14 @@ class _Dashboard2State extends State<Dashboard2> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top:12.0),
-                                    child: Text("Church Database",
+                                    child: KText(text:"Church Database",
                                       style: GoogleFonts.kanit(
                                           fontSize: width/80,
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xff333333)),),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 40.0),
+                                    padding: const EdgeInsets.only(top: 70.0),
                                     child: Container(
                                       width: 100,
                                         height: 100,
@@ -568,7 +580,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                   ),
                                 ],
                               ),
-        
+
                             ),
                           ),
                           SizedBox(width: 8,),
@@ -577,7 +589,7 @@ class _Dashboard2State extends State<Dashboard2> {
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
                               width: 466,
-                              height: 240,
+                              height: 300,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20)
@@ -586,16 +598,19 @@ class _Dashboard2State extends State<Dashboard2> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top:12.0),
-                                    child: Text("Membership Reports",
+                                    child: KText(text:"Membership Reports",
                                       style: GoogleFonts.kanit(
                                           fontSize: width/80,
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xff333333)),),
                                   ),
-                                  LineChartSample2()
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 50.0),
+                                    child: LineChartSample2(),
+                                  )
                                 ],
                               ),
-        
+
                             ),
                           ),
                         ],
@@ -622,12 +637,12 @@ class _Dashboard2State extends State<Dashboard2> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("Messages",
+                                        KText(text:"Messages",
                                           style: GoogleFonts.kanit(
                                               fontSize: width/80,
                                               fontWeight: FontWeight.w500,
                                               color: Color(0xff333333)),),
-                                        Text("View All",
+                                        KText(text:"View All",
                                           style: GoogleFonts.kanit(
                                               fontSize: width/95,
                                               fontWeight: FontWeight.w500,
@@ -658,16 +673,16 @@ class _Dashboard2State extends State<Dashboard2> {
                                                     borderRadius: BorderRadius.circular(70),
                                                     color: Constants.colorsList[index]
                                                   ),
-                                                  child: Center(child: Text(name[index],style: GoogleFonts.openSans(
+                                                  child: Center(child: KText(text:name[index],style: GoogleFonts.openSans(
                                                       fontSize: width/80,
                                                       fontWeight: FontWeight.w600,
                                                       color:   Colors.white)))
                                                 ),
-                                                title: Text(namelist[index],style: GoogleFonts.kanit(
+                                                title: KText(text:namelist[index],style: GoogleFonts.kanit(
                                                     fontSize: width/95,
                                                     fontWeight: FontWeight.w500,
                                                     color: Color(0xff333333)),),
-                                                subtitle: Text("Request to edit profile image",style: GoogleFonts.kanit(
+                                                subtitle: KText(text:"Request to edit profile image",style: GoogleFonts.kanit(
                                           fontSize: width/110,
                                           fontWeight: FontWeight.w400,
                                           color: Color(0xff333333)),),
@@ -684,10 +699,10 @@ class _Dashboard2State extends State<Dashboard2> {
 
                                     }),
                                   )
-        
+
                                 ],
                               ),
-        
+
                             ),
                           ),
                           SizedBox(width: 8,),
@@ -695,7 +710,7 @@ class _Dashboard2State extends State<Dashboard2> {
                             elevation: 1,
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
-                              width: 256,
+                              width: 286,
                               height: 240,
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -705,7 +720,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top:15.0,),
-                                    child: Text("New Joined users",
+                                    child: KText(text:"New Joined users",
                                       style: GoogleFonts.kanit(
                                           fontSize: width/80,
                                           fontWeight: FontWeight.w500,
@@ -732,16 +747,16 @@ class _Dashboard2State extends State<Dashboard2> {
                                                         borderRadius: BorderRadius.circular(70),
                                                         color: Constants.colorsList[index]
                                                     ),
-                                                    child: Center(child: Text(name[name.length - (index+1)],style: GoogleFonts.openSans(
+                                                    child: Center(child: KText(text:name[name.length - (index+1)],style: GoogleFonts.openSans(
                                                         fontSize: width/80,
                                                         fontWeight: FontWeight.w600,
                                                         color:   Colors.white)))
                                                 ),
-                                                title: Text(namelist[name.length - (index+1)],style: GoogleFonts.kanit(
+                                                title: KText(text:namelist[name.length - (index+1)],style: GoogleFonts.kanit(
                                                     fontSize: width/95,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.white),),
-                                                subtitle: Text("Today 5:30 AM",style: GoogleFonts.kanit(
+                                                subtitle: KText(text:"Today 5:30 AM",style: GoogleFonts.kanit(
                                                     fontSize: width/110,
                                                     fontWeight: FontWeight.w400,
                                                     color: Colors.white),),
@@ -780,7 +795,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                 padding: const EdgeInsets.only(top:12.0,left:10),
                                 child: Row(
                                   children: [
-                                    Text("Events Calendar",
+                                    KText(text:"Events Calendar",
                                       style: GoogleFonts.kanit(
                                           fontSize: width/80,
                                           fontWeight: FontWeight.w500,
@@ -823,12 +838,12 @@ class _Dashboard2State extends State<Dashboard2> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Upcoming Events",
+                                    KText(text:"Upcoming Events",
                                       style: GoogleFonts.kanit(
                                           fontSize: width/80,
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xff333333)),),
-                                    Text("View All",
+                                    KText(text:"View All",
                                       style: GoogleFonts.kanit(
                                           fontSize: width/95,
                                           fontWeight: FontWeight.w500,
@@ -858,16 +873,16 @@ class _Dashboard2State extends State<Dashboard2> {
                                                     borderRadius: BorderRadius.circular(70),
                                                     color: Constants.colorsList[index]
                                                 ),
-                                                child: Center(child: Text(name[index],style: GoogleFonts.openSans(
+                                                child: Center(child: KText(text:name[index],style: GoogleFonts.openSans(
                                                     fontSize: width/80,
                                                     fontWeight: FontWeight.w600,
                                                     color:   Colors.white)))
                                             ),
-                                            title: Text(namelist[index],style: GoogleFonts.kanit(
+                                            title: KText(text:namelist[index],style: GoogleFonts.kanit(
                                                 fontSize: width/95,
                                                 fontWeight: FontWeight.w500,
                                                 color: Color(0xff333333)),),
-                                            subtitle: Text("Request to edit profile image",style: GoogleFonts.kanit(
+                                            subtitle: KText(text:"Request to edit profile image",style: GoogleFonts.kanit(
                                                 fontSize: width/110,
                                                 fontWeight: FontWeight.w400,
                                                 color: Color(0xff333333)),),

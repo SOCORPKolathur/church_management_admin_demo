@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:church_management_admin/Dashboard2.dart';
 import 'package:church_management_admin/views/tabs/reports_view.dart';
 import 'package:church_management_admin/views/tabs/user_tab.dart';
+import 'package:church_management_admin/widgets/kText.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,6 +64,12 @@ class DemoLanding extends StatefulWidget {
 class _DemoLandingState extends State<DemoLanding> {
   int touchedIndex = -1;
   @override
+  void initState() {
+    getMemberCount();
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return  Column(
         children: <Widget>[
@@ -103,10 +112,42 @@ class _DemoLandingState extends State<DemoLanding> {
       );
 
   }
+  getMemberCount() async {
+    var members = await FirebaseFirestore.instance.collection('Members').get();
+    var users = await FirebaseFirestore.instance.collection('Users').get();
+    var students = await FirebaseFirestore.instance.collection('Students').get();
+    var pastors = await FirebaseFirestore.instance.collection('Pastors').get();
+    var churchStaffs = await FirebaseFirestore.instance.collection('ChurchStaff').get();
+    var choirMembers = await FirebaseFirestore.instance.collection('Families').get();
 
+    setState(() {
+      membersCount = members.docs.length;
+      usersCount = users.docs.length;
+      studentsCount = students.docs.length;
+      pastorsCount = pastors.docs.length;
+      churchStaffsCount = churchStaffs.docs.length;
+      choirsCount = choirMembers.docs.length;
+      totalUsersCount = usersCount+membersCount+studentsCount+pastorsCount+churchStaffsCount+choirsCount;
+    });
+
+    print( "======================");
+    print( usersCount / totalUsersCount *100);
+    print( membersCount / totalUsersCount *100);
+    print( studentsCount / totalUsersCount *100);
+    print( pastorsCount / totalUsersCount *100);
+    print( churchStaffsCount / totalUsersCount *100);
+    print( choirsCount / totalUsersCount *100);
+  }
+  int totalUsersCount = 0;
+  int usersCount = 0;
+  int membersCount = 0;
+  int studentsCount = 0;
+  int pastorsCount = 0;
+  int churchStaffsCount = 0;
+  int choirsCount = 0;
   List<PieChartSectionData> showingSections() {
     return List.generate(
-      4,
+      6,
           (i) {
         final isTouched = i == touchedIndex;
         const color0 =Color(0xff343C6A);
@@ -117,75 +158,75 @@ class _DemoLandingState extends State<DemoLanding> {
         switch (i) {
           case 0:
             return PieChartSectionData(
-              color: color0,
-              value: 30,
-              title: '30 \nMembers',
-              titleStyle: GoogleFonts.inter(
-                fontWeight: FontWeight.w700,
+              color: Colors.blue,
+              value: (usersCount / totalUsersCount *100),
+              title: '${usersCount}\nUsers',
+              radius: 110,
+              titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
-                color: Colors.white
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
-              radius: 87,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                  color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                  color: AppColors.contentColorWhite.withOpacity(0)),
             );
           case 1:
             return PieChartSectionData(
-              color: color1,
-              value: 15,
-              title: '15 \nPastors',
-              radius: 80,
-              titleStyle: GoogleFonts.inter(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12,
-                  color: Colors.white
+              color: Color(0xffFA00FF),
+              value: ( membersCount / totalUsersCount *100),
+              title: '${membersCount}\nMembers',
+              radius: 105,
+              titleStyle:  GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                  color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                  color: AppColors.contentColorWhite.withOpacity(0)),
             );
           case 2:
             return PieChartSectionData(
-              color: color2,
-              value: 35,
-              title: '35 \nStaffs',
-              radius: 60,
-              titleStyle: GoogleFonts.inter(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12,
-                  color: Colors.white
+              color: Colors.green,
+              value: (studentsCount / totalUsersCount *100),
+              title: '${studentsCount}\nStudents',
+              radius: 110,
+              titleStyle:  GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
-              titlePositionPercentageOffset: 0.6,
-              borderSide: isTouched
-                  ? const BorderSide(
-                  color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                  color: AppColors.contentColorWhite.withOpacity(0)),
             );
           case 3:
             return PieChartSectionData(
-              color: color3,
-              value: 20,
-              title: '20 \nFlocks',
-              radius: 80,
-              titleStyle: GoogleFonts.inter(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12,
-                  color: Colors.white
+              color: Colors.orange,
+              value: (pastorsCount / totalUsersCount *100),
+              title: '${pastorsCount}\nPastors',
+              radius: 98,
+              titleStyle:  GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                  color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                  color: AppColors.contentColorWhite.withOpacity(0)),
+            );
+          case 4:
+            return PieChartSectionData(
+              color: Colors.pink,
+              value: (churchStaffsCount / totalUsersCount *100),
+              title: '${churchStaffsCount}\nStaff',
+              radius: 118,
+              titleStyle:  GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            );
+          case 5:
+            return PieChartSectionData(
+              color: Colors.deepPurple,
+              value: (choirsCount / totalUsersCount *100),
+              title: '${choirsCount}\nFamilies',
+              radius: 115,
+              titleStyle:  GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
             );
           default:
             throw Error();
@@ -251,91 +292,91 @@ class _LineChartSample2State extends State<LineChartSample2> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text =  Text('May', style: GoogleFonts.inter(
+        text =  KText(text:'May', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 2:
-        text =  Text('Jun', style: GoogleFonts.inter(
+        text =  KText(text:'Jun', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 4:
-        text =  Text('Jul', style: GoogleFonts.inter(
+        text =  KText(text:'Jul', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 6:
-        text =  Text('Aug', style: GoogleFonts.inter(
+        text =  KText(text:'Aug', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 8:
-        text =  Text('Sep', style: GoogleFonts.inter(
+        text =  KText(text:'Sep', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 10:
-        text =  Text('Oct', style: GoogleFonts.inter(
+        text =  KText(text:'Oct', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 12:
-        text =  Text('Nov', style: GoogleFonts.inter(
+        text =  KText(text:'Nov', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 14:
-        text =  Text('Dec', style: GoogleFonts.inter(
+        text =  KText(text:'Dec', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 16:
-        text =  Text('Jan', style: GoogleFonts.inter(
+        text =  KText(text:'Jan', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 18:
-        text =  Text('Feb', style: GoogleFonts.inter(
+        text =  KText(text:'Feb', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 20:
-        text =  Text('Mar', style: GoogleFonts.inter(
+        text =  KText(text:'Mar', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       case 22:
-        text =  Text('April', style: GoogleFonts.inter(
+        text =  KText(text:'April', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
         ), );
         break;
       default:
-        text =  Text('', style: GoogleFonts.inter(
+        text =  KText(text:'', style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: 12,
             color: Color(0xff718EBF)
@@ -364,16 +405,18 @@ class _LineChartSample2State extends State<LineChartSample2> {
         break;
       case 7:
         text = '800';
+      case 9:
+        text = '1000';
         break;
       default:
         return Container();
     }
 
-    return Text(text, style: GoogleFonts.inter(
+    return KText(text:text, style: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 12,
       color: Color(0xff718EBF)
-    ), textAlign: TextAlign.left);
+    ), );
   }
 
   LineChartData mainData() {
@@ -526,7 +569,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 6,
+      maxY: 9,
       lineBarsData: [
         LineChartBarData(
           spots: const [
@@ -587,6 +630,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
   @override
   void initState() {
     //addinglist();
+    getChurchDetails();
     setState(() {
       pages=Dashboard2();
     });
@@ -631,7 +675,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
   bool onEndIconPress(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("onEndIconPress called"),
+        content: KText(text:"onEndIconPress called",style: TextStyle(),),
         duration: Duration(seconds: 1),
       ),
     );
@@ -641,11 +685,21 @@ class _HomeDrawerState extends State<HomeDrawer> {
   bool onStartIconPress(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("onStartIconPress called"),
+        content: KText(text:"onStartIconPress called",style: TextStyle()),
         duration: Duration(seconds: 1),
       ),
     );
     return true;
+  }
+
+
+  String churchLogo = '';
+  getChurchDetails() async {
+    var church = await FirebaseFirestore.instance.collection('ChurchDetails').get();
+    setState(() {
+      churchLogo = church.docs.first.get("logo");
+    });
+
   }
 
   @override
@@ -682,22 +736,25 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                   Row(
 
                                     children: [
+                                      SizedBox(width:8),
                                       GestureDetector(
                                         onTap: (){
                                         },
                                         child: Container(
+                                            width: 55,
 
-                                            child: Image.asset("assets/demochurchlogo.png")
+                                            child: CachedNetworkImage(imageUrl: churchLogo)
 
                                         ),
                                       ),
+                                      SizedBox(width:10),
 
-                                      Text(
+                                      KText(text:
                                         "IKIA Church",
                                         style: GoogleFonts.kanit(
                                             fontSize: 25,
                                             fontWeight: FontWeight.w600,
-                                            color:Color(0xff333333)),
+                                            color:Color(0xffb80d38)),
                                       ),
 
                                     ],
@@ -761,7 +818,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text(
+                                            child: KText(text:
                                               "Dashboard",
                                               style: GoogleFonts.kanit(
                                                   fontSize: width/95,
@@ -805,7 +862,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                     InkWell(
                                       onTap: () {
                                         setState(() {
-                                          //pages = ReportsTab();
+                                          pages = ReportsTab();
                                           dawer=1;
                                           col1=false;
                                           col2=false;
@@ -823,7 +880,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text(
+                                            child: KText(text:
                                               "Reports",
                                               style: GoogleFonts.kanit(
                                                   fontSize: width/95,
@@ -899,7 +956,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Church Database",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -939,7 +996,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "User List",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -974,7 +1031,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Members List",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1009,7 +1066,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Families",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1044,7 +1101,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Little Flocks",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1079,7 +1136,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Student",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1114,7 +1171,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Committee",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1149,7 +1206,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Pastors",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1184,7 +1241,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Church Staff",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1219,7 +1276,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Department",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1301,7 +1358,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Membership",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1341,7 +1398,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Membership Reports",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1376,7 +1433,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Membership Register",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1457,7 +1514,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Finance",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1497,7 +1554,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Fund Management",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1532,7 +1589,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Donations",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1567,7 +1624,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Asset Management",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1650,7 +1707,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Engagement",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1690,7 +1747,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Wishes",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1725,7 +1782,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "SMS Communication",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1760,7 +1817,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Email Communication",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1795,7 +1852,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Notifications",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1830,7 +1887,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Blood Requirement",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1865,7 +1922,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Blog",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1900,7 +1957,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Social Media",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -1983,7 +2040,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Church Tools",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2023,7 +2080,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Speech",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2058,7 +2115,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Testimonials",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2093,7 +2150,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Prayers",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2128,7 +2185,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Meetings",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2163,7 +2220,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Event Management",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2198,7 +2255,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Memorial  Days",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2233,7 +2290,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Announcements",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2314,7 +2371,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Attendance",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2354,7 +2411,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Member Attendance",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2389,7 +2446,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Student Attendance",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2458,7 +2515,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text(
+                                            child: KText(text:
                                               "Gallery",
                                               style: GoogleFonts.kanit(
                                                   fontSize: width/95,
@@ -2534,7 +2591,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Security",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2574,7 +2631,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Manage Role",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2609,7 +2666,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Login Reports",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2692,7 +2749,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Zone Activities",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2732,7 +2789,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Zone Areas",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2767,7 +2824,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Zone List",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2802,7 +2859,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Zone Reports",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2884,7 +2941,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   padding: const EdgeInsets.only(left: 8.0),
                                                   child: Container(
                                                     width: 180,
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Ecommerce",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2924,7 +2981,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Product",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -2959,7 +3016,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Text(
+                                                    child: KText(text:
                                                       "Orders",
                                                       style: GoogleFonts.kanit(
                                                           fontSize: width/95,
@@ -3031,7 +3088,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text(
+                                            child: KText(text:
                                               "Function Hall",
                                               style: GoogleFonts.kanit(
                                                   fontSize: width/95,
@@ -3093,7 +3150,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text(
+                                            child: KText(text:
                                               "Audio Podcast",
                                               style: GoogleFonts.kanit(
                                                   fontSize: width/95,

@@ -1512,6 +1512,228 @@ class _UserTabState extends State<UserTab> {
                               ),
                               SizedBox(height: height / 21.7),
 
+                              ///Material Status
+                              Padding(
+                                padding:  EdgeInsets.only(top:height/31.375,bottom:height/81.375),
+                                child: KText(
+                                  text: "Marital Information",
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.black,
+                                    fontSize: width / 80.076,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
+                              Padding(
+                                padding:  EdgeInsets.only(top:height/51.375),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: width / 4.553,
+                                      decoration:  BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(width:width/910.66,color: Colors.grey)
+                                          )
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Marital status *",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width / 105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          DropdownButton(
+                                            isExpanded: true,
+                                            value: marriedController,
+                                            icon: Icon(Icons.keyboard_arrow_down),
+                                            underline: Container(),
+                                            items: [
+                                              "Select Status",
+                                              "Single",
+                                              "Engaged",
+                                              "Married",
+                                              "Seperated",
+                                              "Divorced",
+                                              "Widow"
+                                            ].map((items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(items),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                marriedController = newValue!;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: width / 68.3),
+                                    Visibility(
+                                      visible: marriedController.toUpperCase() == "MARRIED",
+                                      child: SizedBox(
+                                        width: width / 4.553,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            KText(
+                                              text: "Anniversary Date",
+                                              style: GoogleFonts.openSans(
+                                                color: Colors.black,
+                                                fontSize: width / 105.076,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextFormField(
+                                              readOnly: true,
+                                              style: TextStyle(fontSize: width / 113.83),
+                                              controller: anniversaryDateController,
+                                              onTap: () async {
+                                                DateTime? pickedDate =
+                                                await Constants().datePicker(context);
+                                                // await showDatePicker(
+                                                //     context: context,
+                                                //     initialDate: DateTime.now(),
+                                                //     firstDate: DateTime(1900),
+                                                //     lastDate: DateTime.now());
+                                                if (pickedDate != null) {
+                                                  setState(() {
+                                                    anniversaryDateController.text = formatter.format(pickedDate);
+                                                  });
+                                                }
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: height / 21.7),
+
+
+
+                              ///professional Details
+
+                              KText(
+                                text: "Professional Details",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontSize: width / 80.076,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Divider(),
+                              Padding(
+                                padding:  EdgeInsets.only(top:height/31.375,),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: width / 4.553,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Profession",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width / 105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextFormField(
+                                            focusNode: professionFocusNode,
+                                            autofocus: true,
+                                            onEditingComplete: (){
+                                              FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                            },
+                                            onFieldSubmitted: (val){
+                                              FocusScope.of(context).requestFocus(aadhaarFocusNode);
+                                            },
+                                            decoration: InputDecoration(
+                                              counterText: "",
+                                            ),
+                                            maxLength: 100,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                                            ],
+                                            style: TextStyle(fontSize: width / 113.83),
+                                            controller: professionController,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: width / 68.3),
+
+                                    SizedBox(
+                                      width: width/4.553,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Qualification",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextFormField(
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                            ],
+                                            decoration: InputDecoration(
+                                              counterText: "",
+                                            ),
+                                            maxLength: 100,
+                                            style:  TextStyle(fontSize: width/113.83),
+                                            controller: qualificationController,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: width/68.3),
+
+                                    SizedBox(
+                                      width: width/4.553,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: "Company Name",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.black,
+                                              fontSize: width/105.076,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextFormField(
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                            ],
+                                            decoration: InputDecoration(
+                                              counterText: "",
+                                            ),
+                                            maxLength: 100,
+                                            style:  TextStyle(fontSize: width/113.83),
+                                            controller: qualificationController,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(height: height / 21.7),
                               ///Contact Details
                               KText(
                                 text: "Contact Details",
@@ -2222,197 +2444,7 @@ class _UserTabState extends State<UserTab> {
                               SizedBox(height: height / 21.7),
 
 
-                              ///professional Details
-                             
-                              KText(
-                                text: "Professional Details",
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black,
-                                  fontSize: width / 80.076,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Divider(),
-                              Padding(
-                                padding:  EdgeInsets.only(top:height/31.375,),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: width / 4.553,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: "Profession",
-                                            style: GoogleFonts.openSans(
-                                              color: Colors.black,
-                                              fontSize: width / 105.076,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          TextFormField(
-                                            focusNode: professionFocusNode,
-                                            autofocus: true,
-                                            onEditingComplete: (){
-                                              FocusScope.of(context).requestFocus(aadhaarFocusNode);
-                                            },
-                                            onFieldSubmitted: (val){
-                                              FocusScope.of(context).requestFocus(aadhaarFocusNode);
-                                            },
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                            ),
-                                            maxLength: 100,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                                            ],
-                                            style: TextStyle(fontSize: width / 113.83),
-                                            controller: professionController,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: width / 68.3),
 
-                                    SizedBox(
-                                      width: width/4.553,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: "Qualification",
-                                            style: GoogleFonts.openSans(
-                                              color: Colors.black,
-                                              fontSize: width/105.076,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          TextFormField(
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-                                            ],
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                            ),
-                                            maxLength: 100,
-                                            style:  TextStyle(fontSize: width/113.83),
-                                            controller: qualificationController,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: width/68.3),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(height: height / 21.7),
-                              ///Marital Details
-                              Padding(
-                                padding:  EdgeInsets.only(top:height/31.375,bottom:height/81.375),
-                                child: KText(
-                                  text: "Marital Information",
-                                  style: GoogleFonts.openSans(
-                                    color: Colors.black,
-                                    fontSize: width / 80.076,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const Divider(),
-                              Padding(
-                                padding:  EdgeInsets.only(top:height/51.375),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: width / 4.553,
-                                      decoration:  BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(width:width/910.66,color: Colors.grey)
-                                          )
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: "Marital status *",
-                                            style: GoogleFonts.openSans(
-                                              color: Colors.black,
-                                              fontSize: width / 105.076,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          DropdownButton(
-                                            isExpanded: true,
-                                            value: marriedController,
-                                            icon: Icon(Icons.keyboard_arrow_down),
-                                            underline: Container(),
-                                            items: [
-                                              "Select Status",
-                                              "Single",
-                                              "Engaged",
-                                              "Married",
-                                              "Seperated",
-                                              "Divorced",
-                                              "Widow"
-                                            ].map((items) {
-                                              return DropdownMenuItem(
-                                                value: items,
-                                                child: Text(items),
-                                              );
-                                            }).toList(),
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                marriedController = newValue!;
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: width / 68.3),
-                                    Visibility(
-                                      visible: marriedController.toUpperCase() == "MARRIED",
-                                      child: SizedBox(
-                                        width: width / 4.553,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            KText(
-                                              text: "Anniversary Date",
-                                              style: GoogleFonts.openSans(
-                                                color: Colors.black,
-                                                fontSize: width / 105.076,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            TextFormField(
-                                              readOnly: true,
-                                              style: TextStyle(fontSize: width / 113.83),
-                                              controller: anniversaryDateController,
-                                              onTap: () async {
-                                                DateTime? pickedDate =
-                                                await Constants().datePicker(context);
-                                                // await showDatePicker(
-                                                //     context: context,
-                                                //     initialDate: DateTime.now(),
-                                                //     firstDate: DateTime(1900),
-                                                //     lastDate: DateTime.now());
-                                                if (pickedDate != null) {
-                                                  setState(() {
-                                                    anniversaryDateController.text = formatter.format(pickedDate);
-                                                  });
-                                                }
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: height / 21.7),
                               Visibility(
                                 visible: profileImageValidator,
                                 child: const Text(
