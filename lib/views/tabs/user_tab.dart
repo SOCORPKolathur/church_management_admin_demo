@@ -315,6 +315,7 @@ class _UserTabState extends State<UserTab> {
   List <String> _cities = [
     'Select City',
   ];
+
   Blob? croppedImageFile;
   Blob? unCroppedImageFile;
 
@@ -580,6 +581,7 @@ class _UserTabState extends State<UserTab> {
   void initState() {
     getCity("Tamil Nadu");
     getTotalUsers();
+    doclength();
     super.initState();
   }
 
@@ -675,7 +677,18 @@ class _UserTabState extends State<UserTab> {
         elevation: 8.0,
         useRootNavigator: true);
   }
+   doclength() async {
 
+     final cf.QuerySnapshot result = await cf.FirebaseFirestore.instance.collection('Users').get();
+     final List < cf.DocumentSnapshot > documents = result.docs;
+     setState(() {
+       documentlength = documents.length;
+       pagecount= ((documentlength~/10) +1) as int;
+
+     });
+     print("pagecount");
+     print(pagecount);
+   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -4108,6 +4121,97 @@ class _UserTabState extends State<UserTab> {
                       return Container();
                     },
                   ) :
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height:height/13.02,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: pagecount,
+                      itemBuilder: (context,index){
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+                              temp=list[index];
+                            });
+                            print(temp);
+                          },
+                          child: Container(
+                              height:30,width:30,
+                              margin: EdgeInsets.only(left:8,right:8,top:10,bottom:10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color:temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.transparent
+                              ),
+                              child: Center(
+                                child: Text(list[index].toString(),style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w700,
+                                    color: temp.toString() == list[index].toString() ?  Colors.white : Colors.black
+
+                                ),),
+                              )
+                          ),
+                        );
+
+                      }),
+                ),
+                temp > 1 ?
+                Padding(
+                  padding: const EdgeInsets.only(right: 150.0),
+                  child:
+                  InkWell(
+                    onTap:(){
+                      setState(() {
+                        temp= temp-1;
+                      });
+                    },
+                    child: Container(
+                        height:height/16.275,
+                        width:width/11.3833,
+                        decoration:BoxDecoration(
+                            color:Constants().primaryAppColor,
+                            borderRadius: BorderRadius.circular(80)
+                        ),
+                        child: Center(
+                          child: Text("Previous Page",style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),),
+                        )),
+                  ),
+                )  : Container(),
+                Container(
+                  child: temp < pagecount ?
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: InkWell(
+                      onTap:(){
+                        setState(() {
+                          temp= temp+1;
+                        });
+                      },
+                      child:
+                      Container(
+                          height:height/16.275,
+                          width:width/11.3833,
+                          decoration:BoxDecoration(
+                              color:Constants().primaryAppColor,
+                              borderRadius: BorderRadius.circular(80)
+                          ),
+                          child: Center(
+                            child: Text("Next Page",style: GoogleFonts.inter(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),),
+                          )),
+                    ),
+                  )  : Container(),
+                )
+              ],
+            ),
             Container(),
             SizedBox(height: size.height * 0.04),
             const DeveloperCardWidget(),

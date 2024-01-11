@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
+import 'package:church_management_admin/widgets/developer_card_widget.dart';
 import 'package:church_management_admin/widgets/event_calender.dart';
 import 'package:church_management_admin/widgets/kText.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'calde.dart';
 import 'views/tabs/HomeDrawer.dart';
 
 class Dashboard2 extends StatefulWidget {
@@ -296,7 +302,75 @@ class _Dashboard2State extends State<Dashboard2> {
         elevation: 8.0,
         useRootNavigator: true);
   }
+  late final ValueNotifier<List<Event>> _selectedEvents;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
+      .toggledOff; // Can be toggled on/off by longpressing a date
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  DateTime? _rangeStart;
+  DateTime? _rangeEnd;
 
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+  }
+
+  @override
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return kEvents[day] ?? [];
+  }
+
+  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+    // Implementation example
+    final days = daysInRange(start, end);
+
+    return [
+      for (final d in days) ..._getEventsForDay(d),
+    ];
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+        _rangeStart = null; // Important to clean those
+        _rangeEnd = null;
+        _rangeSelectionMode = RangeSelectionMode.toggledOff;
+      });
+
+      _selectedEvents.value = _getEventsForDay(selectedDay);
+    }
+  }
+
+  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
+    setState(() {
+      _selectedDay = null;
+      _focusedDay = focusedDay;
+      _rangeStart = start;
+      _rangeEnd = end;
+      _rangeSelectionMode = RangeSelectionMode.toggledOn;
+    });
+
+    // `start` or `end` could be null
+    if (start != null && end != null) {
+      _selectedEvents.value = _getEventsForRange(start, end);
+    } else if (start != null) {
+      _selectedEvents.value = _getEventsForDay(start);
+    } else if (end != null) {
+      _selectedEvents.value = _getEventsForDay(end);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final double width=MediaQuery.of(context).size.width;
@@ -481,14 +555,31 @@ class _Dashboard2State extends State<Dashboard2> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0,left: 10),
                                     child: Container(
-                                      width: 350,
-                                      child: KText(text:"Cast your cares on the LORD and he will sustain you;\nhe will never let the righteous be shaken.",
-
-                                        maxLines: 3,
-                                        style: GoogleFonts.openSans(
-                                            fontSize: width/105,
-                                            fontWeight: FontWeight.w500,
-                                            color:   Colors.white),
+                                      width:350,
+                                      child: StreamBuilder(
+                                        stream: FirebaseFirestore.instance.collection('ChurchDetails').snapshots(),
+                                        builder: (ctx, snap){
+                                          if(snap.hasData){
+                                            var churchDeatils = snap.data!.docs.first;
+                                            return StreamBuilder(
+                                              stream: FirebaseFirestore.instance.collection('BibleVerses').snapshots(),
+                                              builder: (ctx, snapshot){
+                                                if(snapshot.hasData){
+                                                  var bibleVerses = snapshot.data!;
+                                                  var randnum = Random().nextInt(bibleVerses.docs.length);
+                                                  return KText(
+                                                    text: churchDeatils['verseForToday']['date'] == DateFormat('dd-MM-yyyy').format(DateTime.now()) ? churchDeatils['verseForToday']['text'] : bibleVerses.docs[randnum]['text'],
+                                                    style: GoogleFonts.openSans(
+                                                        fontSize: width/105,
+                                                        fontWeight: FontWeight.w500,
+                                                        color:   Colors.white),
+                                                    maxLines: 3,
+                                                  );
+                                                }return Container();
+                                              },
+                                            );
+                                          }return Container();
+                                        },
                                       ),
                                     ),
                                   ),
@@ -621,7 +712,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                     height: 180,
                                     child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
-                                        itemCount: 3,
+                                        itemCount: 2,
                                         itemBuilder: (context,index){
                                           return Column(
                                             children: [
@@ -690,7 +781,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                     height: 180,
                                     child: ListView.builder(
                                         physics: NeverScrollableScrollPhysics(),
-                                        itemCount: 3,
+                                        itemCount: 2,
                                         itemBuilder: (context,index){
                                           return Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -736,15 +827,15 @@ class _Dashboard2State extends State<Dashboard2> {
                       )
                     ],
                   ),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 10,),
                   Column(
                     children: [
                       Material(
                         elevation: 1,
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          width: 398,
-                          height: 640,
+                          width: 378,
+                          height: 715,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20)
@@ -766,30 +857,101 @@ class _Dashboard2State extends State<Dashboard2> {
                               Container(
                                 width: 500,
                                 height: 340,
-                                child: SfCalendar(
-                                  onTap: (val){
-                                    setState(() {
-                                      //selectedDateController.text = DateFormat('dd-MM-yyyy').format(val.date!);
-                                    });
+                                child:  TableCalendar<Event>(
+                                  firstDay: kFirstDay,
+                                  lastDay: kLastDay,
+                                  focusedDay: _focusedDay,
+                                  selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                                  rangeStartDay: _rangeStart,
+                                  rangeEndDay: _rangeEnd,
+                                  calendarFormat: _calendarFormat,
+                                  rangeSelectionMode: _rangeSelectionMode,
+                                  eventLoader: _getEventsForDay,
+                                  startingDayOfWeek: StartingDayOfWeek.monday,
+                                  headerStyle: HeaderStyle(
+                                    formatButtonTextStyle: GoogleFonts.inter(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                    titleTextStyle: GoogleFonts.inter(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+
+                                  calendarStyle: CalendarStyle(
+                                    // Use `CalendarStyle` to customize the UI
+                                      outsideDaysVisible: false,
+                                      todayTextStyle: GoogleFonts.inter(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500
+                                      ),
+                                      defaultTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      outsideTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      rangeEndTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      rangeStartTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      weekendTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      weekNumberTextStyle:GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+
+                                      withinRangeTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      todayDecoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(100),
+                                          color: Color(0xff377DFF).withOpacity(0.50)
+                                      ),
+
+                                      selectedTextStyle: GoogleFonts.inter(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      holidayTextStyle: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500
+                                      ),
+
+                                      markerDecoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Color(0xff377DFF)
+                                      ),
+
+                                      selectedDecoration: BoxDecoration(
+                                          color: Color(0xff377DFF),
+                                          borderRadius: BorderRadius.circular(100)
+
+                                      )
+                                  ),
+                                  onDaySelected: _onDaySelected,
+                                  onRangeSelected: _onRangeSelected,
+                                  onFormatChanged: (format) {
+                                    if (_calendarFormat != format) {
+                                      setState(() {
+                                        _calendarFormat = format;
+                                      });
+                                    }
                                   },
-                                  // onLongPress: (val){
-                                  //   setState(() {
-                                  //     selectedDateController.text = DateFormat('dd-MM-yyyy').format(val.date!);
-                                  //   });
-                                  //   showDialog(
-                                  //       context: context,
-                                  //       builder: (BuildContext context) {
-                                  //         return BouncingDraggableDialog(
-                                  //           width: 600,
-                                  //           height: 350,
-                                  //           content: eventspop(val.date),
-                                  //         );
-                                  //       });
-                                  // },
-                                  view: CalendarView.month,
-                                  allowDragAndDrop: true,
-                                  dataSource: MeetingDataSource(events),
-                                  monthViewSettings: MonthViewSettings(showAgenda: true),
+                                  onPageChanged: (focusedDay) {
+                                    _focusedDay = focusedDay;
+                                  },
                                 ),
                               ),
 
@@ -812,7 +974,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                 ),
                               ),
                               Container(
-                                height: 225,
+                                height: 250,
                                 child: ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: 3,
@@ -864,6 +1026,11 @@ class _Dashboard2State extends State<Dashboard2> {
                 ],
               ),
             ),
+            Padding(
+              padding:  EdgeInsets.only(left: width/45.53,right: width/45.53),
+              child: DeveloperCardWidget(),
+            ),
+            SizedBox(height: height * 0.01),
           ],
         ),
       ),

@@ -87,6 +87,7 @@ class _DemoLandingState extends State<DemoLanding> {
 
                   pieTouchData: PieTouchData(
                     touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      print("hello");
                       setState(() {
                         if (!event.isInterestedForInteractions ||
                             pieTouchResponse == null ||
@@ -97,6 +98,8 @@ class _DemoLandingState extends State<DemoLanding> {
                         touchedIndex = pieTouchResponse
                             .touchedSection!.touchedSectionIndex;
                       });
+
+                      print(touchedIndex);
                     },
                   ),
                   startDegreeOffset: 180,
@@ -162,6 +165,11 @@ class _DemoLandingState extends State<DemoLanding> {
               value: (usersCount / totalUsersCount *100),
               title: '${usersCount}\nUsers',
               radius: 110,
+              borderSide: isTouched
+                  ? const BorderSide(
+                  color: AppColors.contentColorWhite, width: 5)
+                  : BorderSide(
+                  color: AppColors.contentColorWhite.withOpacity(0)),
               titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -172,8 +180,13 @@ class _DemoLandingState extends State<DemoLanding> {
             return PieChartSectionData(
               color: Color(0xffFA00FF),
               value: ( membersCount / totalUsersCount *100),
-              title: '${membersCount}\nMembers',
+              title:'${membersCount}\nMembers',
               radius: 105,
+              borderSide: isTouched
+                  ? const BorderSide(
+                  color: AppColors.contentColorWhite, width: 5)
+                  : BorderSide(
+                  color: AppColors.contentColorWhite.withOpacity(0)),
               titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -184,10 +197,18 @@ class _DemoLandingState extends State<DemoLanding> {
             return PieChartSectionData(
               color: Colors.green,
               value: (studentsCount / totalUsersCount *100),
-              title: '${studentsCount}\nStudents',
+              title: isTouched ? '${studentsCount}\nStudents' : '${studentsCount}',
+
+
               radius: 110,
+              borderSide: isTouched
+                  ? const BorderSide(
+                  color: AppColors.contentColorWhite, width: 2)
+                  : BorderSide(
+                  color: AppColors.contentColorWhite.withOpacity(0)),
               titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),
@@ -196,8 +217,13 @@ class _DemoLandingState extends State<DemoLanding> {
             return PieChartSectionData(
               color: Colors.orange,
               value: (pastorsCount / totalUsersCount *100),
-              title: '${pastorsCount}\nPastors',
+              title:  isTouched ? '${pastorsCount}\nPastors' : "${pastorsCount}",
               radius: 98,
+              borderSide: isTouched
+                  ? const BorderSide(
+                  color: AppColors.contentColorWhite, width: 2)
+                  : BorderSide(
+                  color: AppColors.contentColorWhite.withOpacity(0)),
               titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -208,8 +234,13 @@ class _DemoLandingState extends State<DemoLanding> {
             return PieChartSectionData(
               color: Colors.pink,
               value: (churchStaffsCount / totalUsersCount *100),
-              title: '${churchStaffsCount}\nStaff',
+              title: isTouched ? '${churchStaffsCount}\nStaff' : "${churchStaffsCount}",
               radius: 118,
+              borderSide: isTouched
+                  ? const BorderSide(
+                  color: AppColors.contentColorWhite, width: 2)
+                  : BorderSide(
+                  color: AppColors.contentColorWhite.withOpacity(0)),
               titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -220,8 +251,13 @@ class _DemoLandingState extends State<DemoLanding> {
             return PieChartSectionData(
               color: Colors.deepPurple,
               value: (choirsCount / totalUsersCount *100),
-              title: '${choirsCount}\nFamilies',
+              title: isTouched ? '${choirsCount}\nFamilies' : "${choirsCount}",
               radius: 115,
+              borderSide: isTouched
+                  ? const BorderSide(
+                  color: AppColors.contentColorWhite, width: 2)
+                  : BorderSide(
+                  color: AppColors.contentColorWhite.withOpacity(0)),
               titleStyle:  GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -3156,6 +3192,69 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                   fontSize: width/95,
                                                   fontWeight: FontWeight.w500,
                                                   color: dawer == 13 ?  Colors.white : Color(0xff9197B3)),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 5,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                              child: Container(
+
+                                height: 35,
+
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+
+                                ),
+                                child: Stack(
+                                  alignment: Alignment.centerLeft,
+                                  children: [
+                                    AnimatedContainer(
+                                      curve: Curves.fastOutSlowIn,
+                                      duration: Duration(milliseconds: 700),
+                                      width:  dawer == 14
+                                          ? 300 : 0,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: dawer == 14
+                                            ? Color(0xff377DFF) : Colors.transparent,
+                                      ),
+
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          //pages = AudioPodcastTab();
+                                          dawer=14;
+                                          col1=false;
+                                          col2=false;
+                                          col3=false;
+                                          col4=false;
+                                          col5=false;
+                                          col6=false;
+                                          col7=false;
+                                          col8=false;
+                                          col9=false;
+                                          pagename="";
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: KText(text:
+                                            "Certificate Generation",
+                                              style: GoogleFonts.kanit(
+                                                  fontSize: width/95,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: dawer == 14 ?  Colors.white : Color(0xff9197B3)),
                                             ),
                                           ),
                                         ],

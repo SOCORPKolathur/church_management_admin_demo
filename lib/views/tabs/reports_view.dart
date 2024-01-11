@@ -267,7 +267,7 @@ class _ReportsTabState extends State<ReportsTab> {
                               child: sfc.SfCartesianChart(
                                   primaryXAxis: sfc.CategoryAxis(),
                                   title: sfc.ChartTitle(
-                                      text: 'Memebership Reports',
+                                      text: 'Membership Reports',
                                       textStyle: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black,

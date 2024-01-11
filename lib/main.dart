@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
+import 'calde.dart';
 import 'views/tabs/HomeDrawer.dart';
 import 'firebase_options.dart';
 import 'models/church_details_model.dart';
@@ -186,7 +187,7 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
           ),
           home: user != null ? HomeDrawer(/*currentRole: user!.email!, sessionStateStream: sessionStateStream*/) : LoginView(sessionStateStream: sessionStateStream),
-          //home: HomeDrawer(),
+         // home: TableEventsExample(),
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

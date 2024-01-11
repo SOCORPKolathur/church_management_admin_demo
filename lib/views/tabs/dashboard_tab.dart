@@ -547,7 +547,8 @@ class _DashBoardTabState extends State<DashBoardTab> {
                                         child: Icon(CupertinoIcons.mail, size: width/50.59)
                                     ) : Icon(CupertinoIcons.mail, size: width/50.59),
                                   );
-                                }return InkWell(
+                                }
+                                return InkWell(
                                   onTap: () {
                                     Navigator.push(
                                         context,
