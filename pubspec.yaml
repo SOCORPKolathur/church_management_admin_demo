@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '3.1.0'
+  sdk: '3.2.3'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,7 +41,7 @@ dependencies:
   firebase_auth: ^4.7.2
   cloud_firestore: ^4.8.4
   firebase_storage: ^11.2.6
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.1
   localize_and_translate: ^4.1.1
   awesome_dialog: ^3.1.0
   flutter_translate: ^4.0.4

@@ -36,143 +36,103 @@ class _Dashboard2State extends State<Dashboard2> {
         color: Colors.white,
         position:  const RelativeRect.fromLTRB(200, 100, 100, 500),
         items: [
-          PopupMenuItem(
-            child: PopupMenuButton(
-              onSelected: (val) {
-                Navigator.pop(context);
-              },
-              position: PopupMenuPosition.over,
-              itemBuilder: (ctx) {
-                return [
-                  PopupMenuItem<String>(
-                    value: 'ta',
-                    child:  const Text('Tamil'),
-                    onTap: () {
-                      changeLocale(context, 'ta');
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'hi',
-                    child:  const Text('Hindi'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'hi');
-                      });
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'te',
-                    child:  const Text('Telugu'),
-                    onTap: () {
-                      changeLocale(context, 'te');
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'ml',
-                    child:  const Text('Malayalam'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'ml');
-                      });
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'kn',
-                    child:  const Text('Kannada'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'kn');
-                      });
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'mr',
-                    child:  const Text('Marathi'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'mr');
-                      });
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'gu',
-                    child:  const Text('Gujarati'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'gu');
-                      });
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'or',
-                    child:  const Text('Odia'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'or');
-                      });
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'bn',
-                    child:  const Text('Bengali'),
-                    onTap: () {
-                      setState(() {
-                        changeLocale(context, 'bn');
-                      });
-                    },
-                  ),
-                ];
-              },
-              child: Row(
-                children: [
-                  CountryFlag.fromLanguageCode(
-                    "hi",
-                    height: height/16.275,
-                    width: width/45.53,
-                  ),
-                  SizedBox(width: width/136.6),
-                  const Text("India"),
-                ],
-              ),
-            ),
-          ),
           PopupMenuItem<String>(
             value: 'en_US',
-            child: Row(
-              children: [
-                CountryFlag.fromLanguageCode(
-                  "en",
-                  height: height/16.275,
-                  width: width/45.53,
-                ),
-                SizedBox(width: width/136.6),
-                const Text('English'),
-              ],
-            ),
+            child: const Text('English'),
             onTap: () {
               changeLocale(context, 'en_US');
               //changeHomeViewLanguage();
             },
           ),
-          // PopupMenuItem<String>(
-          //   value: 'bn',
-          //   child: Row(
-          //     children: [
-          //       CountryFlag.fromCountryCode(
-          //         "BD",
-          //         height: height/16.275,
-          //         width: width/45.53,
-          //       ),
-          //        SizedBox(width: width/136.6),
-          //        const Text('Bengali'),
-          //     ],
-          //   ),
-          //   onTap: () {
-          //     changeLocale(context, 'bn');
-          //     changeHomeViewLanguage();
-          //   },
-          // ),
           PopupMenuItem<String>(
+            value: 'ta',
+            child:  const Text('Tamil'),
+            onTap: () {
+              changeLocale(context, 'ta');
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'hi',
+            child:  const Text('Hindi'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'hi');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'te',
+            child:  const Text('Telugu'),
+            onTap: () {
+              changeLocale(context, 'te');
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'ml',
+            child:  const Text('Malayalam'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'ml');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'kn',
+            child:  const Text('Kannada'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'kn');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'mr',
+            child:  const Text('Marathi'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'mr');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'gu',
+            child:  const Text('Gujarati'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'gu');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'or',
+            child:  const Text('Odia'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'or');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'bn',
+            child:  const Text('Bengali'),
+            onTap: () {
+              setState(() {
+                changeLocale(context, 'bn');
+              });
+            },
+          ),
+          PopupMenuItem<String>(
+            value: 'req',
+            child:  const Text('Request Language'),
+            onTap: () {
+              setState(() {
+                //changeLocale(context, 'bn');
+              });
+            },
+          ),
+
+
+        /*  PopupMenuItem<String>(
             value: 'es',
             child: Row(
               children: [
@@ -331,7 +291,7 @@ class _Dashboard2State extends State<Dashboard2> {
                 //changeHomeViewLanguage();
               });
             },
-          ),
+          ),*/
         ],
         elevation: 8.0,
         useRootNavigator: true);

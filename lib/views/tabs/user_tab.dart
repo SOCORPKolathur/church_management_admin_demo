@@ -275,10 +275,12 @@ class _UserTabState extends State<UserTab> {
   TextEditingController middleNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController alphoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController alterNativeemailController = TextEditingController();
   TextEditingController professionController = TextEditingController();
   TextEditingController baptizeDateController = TextEditingController();
+  TextEditingController confirmDateController = TextEditingController();
   TextEditingController anniversaryDateController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -286,13 +288,15 @@ class _UserTabState extends State<UserTab> {
   TextEditingController bloodGroupController = TextEditingController(text: 'Select Blood Group');
   TextEditingController dobController = TextEditingController();
   TextEditingController localityController = TextEditingController(text:'Select City'); /// select city controller
-  TextEditingController countryController = TextEditingController(text:'Select Country'); /// select Country controller
+  TextEditingController cityController = TextEditingController(text:'Select City'); /// select city controller
+  TextEditingController countryController = TextEditingController(text:'India'); /// select Country controller
   TextEditingController stateController = TextEditingController(text:'Select State'); /// select State controller
   TextEditingController aadharController = TextEditingController();
   TextEditingController nationalityCon = TextEditingController(text: 'Indian');
   TextEditingController houseTypeCon = TextEditingController(text: 'Select Type');
   TextEditingController filterTextController = TextEditingController();
   TextEditingController qualificationController = TextEditingController();
+  TextEditingController companynameController = TextEditingController();
   String filterText = "";
   String marriedController = "Select Status";
   String GenderController = "Select Gender";
@@ -309,7 +313,7 @@ class _UserTabState extends State<UserTab> {
   var imageFile;
   ///select the city functions----------------------
   List <String> _cities = [
-    'Select City'
+    'Select City',
   ];
   Blob? croppedImageFile;
   Blob? unCroppedImageFile;
@@ -1380,36 +1384,32 @@ class _UserTabState extends State<UserTab> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         KText(
-                                          text: "House Type",
+                                          text: "Confirmation Date",
                                           style: GoogleFonts.openSans(
                                             color: Colors.black,
                                             fontSize: width / 105.076,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        SizedBox(height: height / 50.076),
-                                        DropdownButton(
-                                          isExpanded: true,
-                                          value: houseTypeCon.text,
-                                          icon: const Icon(Icons.keyboard_arrow_down),
-                                          items: [
-                                            "Select Type",
-                                            "Own House",
-                                            "Rented House",
-                                          ].map((items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          }).toList(),
-                                          onChanged: (newValue) {
-                                            if (newValue != "Select Type") {
+                                        TextFormField(
+                                          style: TextStyle(fontSize: width / 113.83),
+                                          readOnly: true,
+                                          onTap: () async {
+                                            DateTime? pickedDate =
+                                            await Constants().datePicker(context);
+                                            // await showDatePicker(
+                                            // context: context,
+                                            // initialDate: DateTime.now(),
+                                            // firstDate: DateTime(1900),
+                                            // lastDate: DateTime.now());
+                                            if (pickedDate != null) {
                                               setState(() {
-                                                houseTypeCon.text = newValue!;
+                                                confirmDateController.text = formatter.format(pickedDate);
                                               });
                                             }
                                           },
-                                        ),
+                                          controller: confirmDateController,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -1467,49 +1467,7 @@ class _UserTabState extends State<UserTab> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: height / 21.7),
-                              Row(
-                                children: [
 
-
-                                  SizedBox(
-                                    width: width / 4.553,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        KText(
-                                          text: "Confirmation Date",
-                                          style: GoogleFonts.openSans(
-                                            color: Colors.black,
-                                            fontSize: width / 105.076,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          style: TextStyle(fontSize: width / 113.83),
-                                          readOnly: true,
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                            await Constants().datePicker(context);
-                                            // await showDatePicker(
-                                            // context: context,
-                                            // initialDate: DateTime.now(),
-                                            // firstDate: DateTime(1900),
-                                            // lastDate: DateTime.now());
-                                            if (pickedDate != null) {
-                                              setState(() {
-                                                baptizeDateController.text = formatter.format(pickedDate);
-                                              });
-                                            }
-                                          },
-                                          controller: baptizeDateController,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-
-                                ],
-                              ),
                               SizedBox(height: height / 21.7),
 
                               ///Material Status
@@ -1688,7 +1646,7 @@ class _UserTabState extends State<UserTab> {
                                           ),
                                           TextFormField(
                                             inputFormatters: [
-                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+                                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z .]")),
                                             ],
                                             decoration: InputDecoration(
                                               counterText: "",
@@ -1724,7 +1682,7 @@ class _UserTabState extends State<UserTab> {
                                             ),
                                             maxLength: 100,
                                             style:  TextStyle(fontSize: width/113.83),
-                                            controller: qualificationController,
+                                            controller: companynameController,
                                           ),
                                         ],
                                       ),
@@ -1815,7 +1773,7 @@ class _UserTabState extends State<UserTab> {
                                           ),
                                           TextFormField(
                                             //key: _keyAlterEmail,
-                                            focusNode: alterNativeemailFocusNode,
+                                            //focusNode: alterNativeemailFocusNode,
                                             autofocus: true,
                                             onEditingComplete: (){
                                               // _keyAlterEmail.currentState!.validate();
@@ -1824,17 +1782,28 @@ class _UserTabState extends State<UserTab> {
                                             onFieldSubmitted: (val){
                                               FocusScope.of(context).requestFocus(professionFocusNode);
                                             },
-                                            validator: (value) {
-                                              if (!isEmail(value!)) {
-                                                return 'Please enter a valid email.';
+                                            decoration: InputDecoration(
+                                              counterText: "",
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r'[0-9]')),
+                                            ],
+                                            maxLength: 10,
+                                            validator: (val){
+                                              if(val!.isNotEmpty) {
+                                                if(val.length != 10){
+                                                return 'number must be 10 digits';
                                               }
-                                              return null;
+                                              }else{
+                                                return null;
+                                              }
                                             },
                                             onChanged: (val){
                                               //_key.currentState!.validate();
                                             },
                                             style: TextStyle(fontSize: width / 113.83),
-                                            controller: alterNativeemailController,
+                                            controller: alphoneController,
                                           )
                                         ],
                                       ),
@@ -2013,11 +1982,11 @@ class _UserTabState extends State<UserTab> {
                                                     )).toList(),
 
                                                     onChanged: (String? value) {
-                                                      getCity(value.toString());
+
                                                       setState(() {
                                                         stateController.text = value!;
                                                       });
-
+                                                      getCity(value.toString());
                                                     },
                                                     buttonStyleData:
                                                     ButtonStyleData(height:20,
@@ -2066,7 +2035,7 @@ class _UserTabState extends State<UserTab> {
                                                       String>(
                                                     isExpanded:true,
                                                     hint: Text(
-                                                      'Select Country',
+                                                      'Select City',
                                                       style:
                                                       GoogleFonts.openSans(
                                                         color: Colors.black,
@@ -2074,7 +2043,7 @@ class _UserTabState extends State<UserTab> {
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
-                                                    items: coutryList
+                                                    items: _cities
                                                         .map((String
                                                     item) =>
                                                         DropdownMenuItem<
@@ -2094,11 +2063,11 @@ class _UserTabState extends State<UserTab> {
                                                         ))
                                                         .toList(),
                                                     value:
-                                                    countryController.text,
+                                                    cityController.text,
                                                     onChanged: (String?
                                                     value) {
                                                       setState(() {
-                                                        countryController.text = value!;
+                                                        cityController.text = value!;
                                                       });
 
                                                     },
@@ -2117,7 +2086,6 @@ class _UserTabState extends State<UserTab> {
                                                             .none),
                                                   ),
                                                 ),
-
                                               ],
                                             ),
                                           ),
@@ -2303,6 +2271,46 @@ class _UserTabState extends State<UserTab> {
                                       ],
                                     ),
                                   ),
+                                     SizedBox(width: width / 68.3),
+                                  SizedBox(
+                                    width: width / 4.553,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        KText(
+                                          text: "House Type",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.black,
+                                            fontSize: width / 105.076,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: height / 50.076),
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: houseTypeCon.text,
+                                          icon: const Icon(Icons.keyboard_arrow_down),
+                                          items: [
+                                            "Select Type",
+                                            "Own House",
+                                            "Rented House",
+                                          ].map((items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != "Select Type") {
+                                              setState(() {
+                                                houseTypeCon.text = newValue!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               SizedBox(height: height / 21.7),
@@ -2473,7 +2481,8 @@ class _UserTabState extends State<UserTab> {
                                           setState(() {
                                             profileImageValidator = true;
                                           });
-                                        }else{
+                                        }
+                                        else{
                                           setState(() {
                                             profileImageValidator = false;
                                           });
@@ -2510,7 +2519,7 @@ class _UserTabState extends State<UserTab> {
                                             email: emailController.text,
                                             firstName: firstNameController.text,
                                             lastName: lastNameController.text,
-                                            locality: localityController.text,/// city Controller
+                                            locality: cityController.text,/// city Controller
                                             phone: phoneController.text,
                                             profession: professionController.text,
                                             about: aboutController.text,
@@ -6507,261 +6516,7 @@ class _UserTabState extends State<UserTab> {
                             SizedBox(height: height / 21.7),
 
 
-                            /// State And City  and Country Dropdown container
-                            Row(
-                                children:[
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Row(
-                                      children: [
 
-                                        ///State Dropdown
-                                        SizedBox(
-                                          height: height/7.5,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              KText(
-                                                text: 'State',
-                                                style: GoogleFonts.openSans(
-                                                  color: Colors.black,
-                                                  fontSize: width / 105.076,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              SizedBox(height: height/123.1666),
-                                              Container(
-                                                height: height/15.114,
-                                                width: width/4.6,
-                                                decoration: const BoxDecoration(
-                                                    border: Border(
-                                                        bottom: BorderSide()
-                                                    )
-                                                ),
-                                                padding: EdgeInsets.only(left:width/273.2),
-                                                child:
-                                                DropdownButtonFormField2<String>(
-                                                  value:stateController.text,
-                                                  isExpanded:true,
-                                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                                  hint: Padding(
-                                                    padding: const EdgeInsets.only(left:8.0),
-                                                    child: Text(
-                                                      'Select State',
-                                                      style:
-                                                      GoogleFonts.openSans(
-                                                        color: Colors.black,
-                                                        fontSize: width / 105.076,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  items: StateList.map((String item) => DropdownMenuItem<
-                                                      String>(
-                                                    value:item, child:
-                                                  Text(
-                                                    item,
-                                                    style:
-                                                    GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width / 105.076,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  )).toList(),
-
-                                                  onChanged: (String? value) {
-                                                    getCity(value.toString());
-                                                    setState(() {
-                                                      stateController.text = value!;
-                                                    });
-
-                                                  },
-                                                  buttonStyleData:
-                                                  ButtonStyleData(height:20,
-                                                    width:
-                                                    width / 2.571,
-                                                  ),
-                                                  menuItemStyleData: const MenuItemStyleData(),
-                                                  decoration:
-                                                  const InputDecoration(
-                                                      border:
-                                                      InputBorder
-                                                          .none),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(width: width/46.5454),
-                                        /* ///city
-                                          SizedBox(
-                                            height: height/7.5,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
-                                              children: [
-                                                KText(
-                                                  text: 'City',
-                                                  style: GoogleFonts.openSans(
-                                                    color: Colors.black,
-                                                    fontSize: width / 105.076,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SizedBox(height: height/123.1666),
-                                                Container(
-                                                  height: height/15.114,
-                                                  width: width/4.6,
-                                                      decoration: const BoxDecoration(
-                                                    border: Border(
-                                                      bottom: BorderSide()
-                                                    )
-                                                  ),
-                                                  child:
-                                                  DropdownButtonFormField2<
-                                                      String>(
-                                                    isExpanded:true,
-                                                    hint: Text(
-                                                      'Select City',
-                                                      style:
-                                                      GoogleFonts.openSans(
-                                                        color: Colors.black,
-                                                        fontSize: width / 105.076,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    items: _cities
-                                                        .map((String
-                                                    item) =>
-                                                        DropdownMenuItem<String>(
-                                                          value: item,
-                                                          child:  Text(
-                                                            item,
-                                                            style:
-                                                            GoogleFonts.openSans(
-                                                              color: Colors.black,
-                                                              fontSize: width / 105.076,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                        )
-                                                    )
-                                                        .toList(),
-                                                    value: localityController.text.toString(),
-                                                    onChanged: (String? value) {
-                                                      setState(() {
-                                                        localityController.text = value!;
-                                                      });
-                                                    },
-                                                    buttonStyleData:
-                                                    const ButtonStyleData(),
-                                                    menuItemStyleData:
-                                                    const MenuItemStyleData(),
-                                                    decoration:
-                                                    const InputDecoration( border: InputBorder .none),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),*/
-                                        SizedBox(width: width/43.8857),
-
-                                        ///Country Dropdown
-                                        SizedBox(
-                                          height: height/7.5,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              KText(
-                                                text: 'Country',
-                                                style: GoogleFonts.openSans(
-                                                  color: Colors.black,
-                                                  fontSize: width / 105.076,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              SizedBox(height: height/123.1666),
-                                              Container(
-                                                height: height/15.114,
-                                                width: width/4.6,
-                                                decoration: const BoxDecoration(
-                                                    border: Border(
-                                                        bottom: BorderSide()
-                                                    )
-                                                ),
-                                                child:
-                                                DropdownButtonFormField2<
-                                                    String>(
-                                                  isExpanded:true,
-                                                  hint: Text(
-                                                    'Select Country',
-                                                    style:
-                                                    GoogleFonts.openSans(
-                                                      color: Colors.black,
-                                                      fontSize: width / 105.076,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  items: coutryList
-                                                      .map((String
-                                                  item) =>
-                                                      DropdownMenuItem<
-                                                          String>(
-                                                        value:
-                                                        item,
-                                                        child:
-                                                        Text(
-                                                          item,
-                                                          style:
-                                                          GoogleFonts.openSans(
-                                                            color: Colors.black,
-                                                            fontSize: width / 105.076,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ))
-                                                      .toList(),
-                                                  value:
-                                                  countryController.text,
-                                                  onChanged: (String?
-                                                  value) {
-                                                    setState(() {
-                                                      countryController.text = value!;
-                                                    });
-
-                                                  },
-                                                  buttonStyleData:
-                                                  const ButtonStyleData(
-
-                                                  ),
-                                                  menuItemStyleData:
-                                                  const MenuItemStyleData(
-
-                                                  ),
-                                                  decoration:
-                                                  const InputDecoration(
-                                                      border:
-                                                      InputBorder
-                                                          .none),
-                                                ),
-                                              ),
-
-                                            ],
-                                          ),
-                                        ),
-
-                                      ],
-                                    ),
-                                  ),
-                                ]
-                            ),
-                            SizedBox(height: height / 21.7),
 
                             /// Pin code container
                             Row(
@@ -6850,6 +6605,7 @@ class _UserTabState extends State<UserTab> {
                                     ],
                                   ),
                                 ),
+                              
                               ],
                             ),
                             SizedBox(height: height / 21.7),
@@ -7502,6 +7258,12 @@ class _UserTabState extends State<UserTab> {
   }
 
   Future getCity(state) async {
+    setState(() {
+      _cities.clear();
+    });
+    setState(() {
+      _cities.add('Select City');
+    });
     var response = await getResponse();
     var takestate = response
         .map((map) => StatusModel.StatusModel.fromJson(map))
