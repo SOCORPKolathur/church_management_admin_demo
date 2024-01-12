@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
   User? user = FirebaseAuth.instance.currentUser;
 
   ///Call this function while changing database
+
   initialFunction() {
     String roleDocId = generateRandomString(16);
     FirebaseFirestore.instance.collection("RolePermissions").doc(roleDocId).set({
