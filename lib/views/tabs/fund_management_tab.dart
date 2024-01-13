@@ -588,7 +588,7 @@ class _FundManagementTabState extends State<FundManagementTab>
                                             context: context,
                                             type: CoolAlertType.success,
                                             text:
-                                                "Fund created successfully!",
+                                                "Fund added successfully!",
                                             width: size.width * 0.4,
                                             backgroundColor: Constants()
                                                 .primaryAppColor

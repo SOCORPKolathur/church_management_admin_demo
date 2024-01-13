@@ -2023,7 +2023,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 curve: Curves.fastOutSlowIn,
                                 duration: Duration(milliseconds: 700),
                                 height: col5==true
-                                    ? 280 : 35,
+                                    ? 370 : 35,
 
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -2038,7 +2038,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                       width:  dawer == 6
                                           ? 300 : 0,
                                       height: col5==true
-                                          ?  280 : 35,
+                                          ?  370 : 35,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color: dawer == 6
@@ -2332,6 +2332,111 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                           fontSize: width/95,
                                                           fontWeight: FontWeight.w500,
                                                           color: col5 == true ? pagename=="Announcements" ? Color(0xff9197B3)  : Colors.white : Colors.white  ),
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ) : SizedBox(),
+                                        col5==true ?   InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              pages = FunctionHallTab();
+                                              pagename="Function Hall";
+                                            });
+
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 15.0,left:8,right:8),
+                                            child: AnimatedContainer(
+                                              height: col5 == true ? pagename=="Function Hall" ? 30 : 17 :0,
+                                              decoration: BoxDecoration(
+                                                  color:  col5 == true ? pagename=="Function Hall" ? Colors.white : Colors.transparent : Colors.transparent,
+                                                  borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              duration: Duration(milliseconds: 250),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    child: KText(text:
+                                                    "Function Hall",
+                                                      style: GoogleFonts.kanit(
+                                                          fontSize: width/95,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: col5 == true ? pagename=="Function Hall" ? Color(0xff9197B3)  : Colors.white : Colors.white  ),
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ) : SizedBox(),
+                                        col5==true ?   InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              pages = AudioPodcastTab();
+                                              pagename="Audio Podcast";
+                                            });
+
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 15.0,left:8,right:8),
+                                            child: AnimatedContainer(
+                                              height: col5 == true ? pagename=="Audio Podcast" ? 30 : 17 :0,
+                                              decoration: BoxDecoration(
+                                                  color:  col5 == true ? pagename=="Audio Podcast" ? Colors.white : Colors.transparent : Colors.transparent,
+                                                  borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              duration: Duration(milliseconds: 250),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    child: KText(text:
+                                                    "Audio Podcast",
+                                                      style: GoogleFonts.kanit(
+                                                          fontSize: width/95,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: col5 == true ? pagename=="Audio Podcast" ? Color(0xff9197B3)  : Colors.white : Colors.white  ),
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ) : SizedBox(),
+                                        col5==true ?   InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                             // pages = NoticesTab();
+                                              pagename="Certificate Generation";
+                                            });
+
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 15.0,left:8,right:8),
+                                            child: AnimatedContainer(
+                                              height: col5 == true ? pagename=="Certificate Generation" ? 30 : 17 :0,
+                                              decoration: BoxDecoration(
+                                                  color:  col5 == true ? pagename=="Certificate Generation" ? Colors.white : Colors.transparent : Colors.transparent,
+                                                  borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              duration: Duration(milliseconds: 250),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    child: KText(text:
+                                                    "Certificate Generation",
+                                                      style: GoogleFonts.kanit(
+                                                          fontSize: width/95,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: col5 == true ? pagename=="Certificate Generation" ? Color(0xff9197B3)  : Colors.white : Colors.white  ),
                                                     ),
                                                   ),
 
@@ -3076,194 +3181,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5,),
+                          
                             
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Container(
-
-                                height: 35,
-
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.centerLeft,
-                                  children: [
-                                    AnimatedContainer(
-                                      curve: Curves.fastOutSlowIn,
-                                      duration: Duration(milliseconds: 700),
-                                      width:  dawer == 12
-                                          ? 300 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: dawer == 12
-                                            ? Color(0xff377DFF) : Colors.transparent,
-                                      ),
-
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          pages = FunctionHallTab();
-                                          dawer=12;
-                                          col1=false;
-                                          col2=false;
-                                          col3=false;
-                                          col4=false;
-                                          col5=false;
-                                          col6=false;
-                                          col7=false;
-                                          col8=false;
-                                          col9=false;
-                                          pagename="";
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
-                                            child: KText(text:
-                                              "Function Hall",
-                                              style: GoogleFonts.kanit(
-                                                  fontSize: width/95,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: dawer == 12 ?  Colors.white : Color(0xff9197B3)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                              Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Container(
-
-                                height: 35,
-
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.centerLeft,
-                                  children: [
-                                    AnimatedContainer(
-                                      curve: Curves.fastOutSlowIn,
-                                      duration: Duration(milliseconds: 700),
-                                      width:  dawer == 13
-                                          ? 300 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: dawer == 13
-                                            ? Color(0xff377DFF) : Colors.transparent,
-                                      ),
-
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          pages = AudioPodcastTab();
-                                          dawer=13;
-                                          col1=false;
-                                          col2=false;
-                                          col3=false;
-                                          col4=false;
-                                          col5=false;
-                                          col6=false;
-                                          col7=false;
-                                          col8=false;
-                                          col9=false;
-                                          pagename="";
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
-                                            child: KText(text:
-                                              "Audio Podcast",
-                                              style: GoogleFonts.kanit(
-                                                  fontSize: width/95,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: dawer == 13 ?  Colors.white : Color(0xff9197B3)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(height: 5,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Container(
-
-                                height: 35,
-
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.centerLeft,
-                                  children: [
-                                    AnimatedContainer(
-                                      curve: Curves.fastOutSlowIn,
-                                      duration: Duration(milliseconds: 700),
-                                      width:  dawer == 14
-                                          ? 300 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: dawer == 14
-                                            ? Color(0xff377DFF) : Colors.transparent,
-                                      ),
-
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          //pages = AudioPodcastTab();
-                                          dawer=14;
-                                          col1=false;
-                                          col2=false;
-                                          col3=false;
-                                          col4=false;
-                                          col5=false;
-                                          col6=false;
-                                          col7=false;
-                                          col8=false;
-                                          col9=false;
-                                          pagename="";
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
-                                            child: KText(text:
-                                            "Certificate Generation",
-                                              style: GoogleFonts.kanit(
-                                                  fontSize: width/95,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: dawer == 14 ?  Colors.white : Color(0xff9197B3)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
                             SizedBox(height: 20,),
 
                           ],

@@ -545,11 +545,20 @@ class _Dashboard2State extends State<Dashboard2> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0,left: 10),
-                                    child: KText(text:"Welcome Admin 👋",
-                                      style: GoogleFonts.openSans(
-                                          fontSize: width/50,
-                                          fontWeight: FontWeight.w700,
-                                          color:   Colors.white),
+                                    child: Row(
+                                      children: [
+                                        KText(text:"Welcome Admin",
+                                          style: GoogleFonts.openSans(
+                                              fontSize: width/50,
+                                              fontWeight: FontWeight.w700,
+                                              color:   Colors.white),
+                                        ),
+                                        Container(
+                                            width: 30,
+                                            height: 30,
+
+                                            child: Image.asset("assets/handwave.png"))
+                                      ],
                                     ),
                                   ),
                                   Padding(

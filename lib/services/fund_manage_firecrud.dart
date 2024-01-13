@@ -85,7 +85,7 @@ class FundManageFireCrud {
     var json = fund.toJson();
     var result = await documentReferencer.set(json).whenComplete(() {
       response.code = 200;
-      response.message = "Sucessfully added to the database";
+      response.message = "Successfully added to the database";
     }).catchError((e) {
       response.code = 500;
       response.message = e;

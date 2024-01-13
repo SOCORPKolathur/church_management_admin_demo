@@ -1,3 +1,6 @@
+
+import 'dart:html';
+
 import 'package:church_management_admin/models/donation_model.dart';
 import 'package:church_management_admin/services/donation_firecrud.dart';
 import 'package:church_management_admin/services/fund_manage_firecrud.dart';
@@ -9,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
+import '../../models/fund_model.dart';
 import '../../models/response.dart';
 import '../../widgets/developer_card_widget.dart';
 import '../../widgets/kText.dart';
@@ -67,7 +71,8 @@ class _DonationsTabState extends State<DonationsTab> {
       churchPhone = document.docs[0]["phone"];
     });
   }
-
+  File? profileImage;
+  File? documentForUpload;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -426,6 +431,7 @@ class _DonationsTabState extends State<DonationsTab> {
                             children: [
                               InkWell(
                                 onTap: () async {
+                                  FundModel totalFunds = FundModel();
                                   if (amountController.text != "" &&
                                       verifierController.text != "" &&
                                       viaController.text != "" &&
@@ -450,7 +456,7 @@ class _DonationsTabState extends State<DonationsTab> {
                                       CoolAlert.show(
                                           context: context,
                                           type: CoolAlertType.success,
-                                          text: "Donation created successfully!",
+                                          text: "Donation added successfully!",
                                           onConfirmBtnTap: () async {
                                             MembershipPaymentPdfModel paymentDetails = MembershipPaymentPdfModel(
                                               date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
@@ -465,6 +471,38 @@ class _DonationsTabState extends State<DonationsTab> {
                                               memberName: "",
                                               paymentMode: viaController.text,
                                             );
+                                        /*    await FundManageFireCrud.addFund(
+                                              image: profileImage, remarks:"Donation",
+                                              document: documentForUpload,
+                                              totalCollect: double.parse(amountController.text),
+                                              totalSpend: totalFunds.totalSpend!,
+                                              currentBalance: totalFunds.currentBalance!,
+                                              amount: double.parse(amountController.text),
+                                              verifier: verifierController.text,
+                                              source: sourceController.text,
+                                              date: dateController.text,
+                                              recordType: "Receivable",
+                                            );*/
+
+                                            FirebaseFirestore.instance.collection('FundManagement').doc().set({
+                                              'id': "",
+                                              'timestamp': DateTime.now().millisecondsSinceEpoch,
+                                              'recordType': "Receivable",
+                                              'date': dateController.text,
+                                              'remarks': descriptionController.text,
+                                              'source': sourceController.text,
+                                              'verifier': verifierController.text,
+                                              'amount': double.parse(amountController.text),
+                                              'imgUrl':  "",
+                                              'document':  "",
+                                            });
+                                            print(totalFunds.currentBalance!);
+                                            print(totalFunds.totalCollect!);
+
+                                            FundCollection.doc("x18zE9lNxDto7AXHlXDA").update({
+                                              "currentBalance": totalFunds.currentBalance! + double.parse(amountController.text),
+                                              "totalCollect": totalFunds.totalCollect! + double.parse(amountController.text),
+                                            });
                                             await generateDonationPdf(
                                               PdfPageFormat.a4, paymentDetails
                                             );

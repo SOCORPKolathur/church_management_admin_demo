@@ -365,6 +365,18 @@ class _MembersTabState extends State<MembersTab> {
 
   bool isCropped = false;
 
+
+  cf.QuerySnapshot? userDocument;
+  getTotalUsers() async {
+    var userDoc = await cf.FirebaseFirestore.instance.collection('Users').get();
+    //setState(() {
+    userDocument = userDoc;
+    pagecount = (userDoc.docs.length + 10) ~/ 10;
+    totalUsersCount = userDoc.docs.length;
+    userRemainder = (userDoc.docs.length) % 10;
+    //});
+  }
+
   selectImage(){
     InputElement input = FileUploadInputElement()
     as InputElement
@@ -503,6 +515,7 @@ class _MembersTabState extends State<MembersTab> {
   @override
   void initState() {
     getCity("Tamil Nadu");
+    getTotalMembers();
     familydatafetchfunc();
     setMemberId();
     getTotalMembers();
@@ -594,6 +607,8 @@ class _MembersTabState extends State<MembersTab> {
   int pagecount =0 ;
   int totalMembersCount =0 ;
   int memberRemainder =0 ;
+  int totalUsersCount =0 ;
+  int userRemainder =0 ;
   int temp = 1;
   int shift =0;
   List list = new List<int>.generate(10000, (i) => i + 1);
@@ -4264,7 +4279,7 @@ class _MembersTabState extends State<MembersTab> {
                               //     )
                               //   ],
                               // ),
-                              NumberPaginator(
+                             /* NumberPaginator(
                                 config: NumberPaginatorUIConfig(
                                   buttonSelectedBackgroundColor: Constants().primaryAppColor,
                                   buttonSelectedForegroundColor: Constants().secondaryAppColor,
@@ -4276,7 +4291,98 @@ class _MembersTabState extends State<MembersTab> {
                                     temp = index+1;
                                   });
                                 },
-                              )
+                              )*/
+                              Stack(
+                                alignment: Alignment.centerRight,
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height:height/13.02,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: pagecount,
+                                        itemBuilder: (context,index){
+                                          return InkWell(
+                                            onTap: (){
+                                              setState(() {
+                                                temp=list[index];
+                                              });
+                                              print(temp);
+                                            },
+                                            child: Container(
+                                                height:30,width:30,
+                                                margin: EdgeInsets.only(left:8,right:8,top:10,bottom:10),
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(100),
+                                                    color:temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.transparent
+                                                ),
+                                                child: Center(
+                                                  child: Text(list[index].toString(),style: GoogleFonts.inter(
+                                                      fontWeight: FontWeight.w700,
+                                                      color: temp.toString() == list[index].toString() ?  Colors.white : Colors.black
+
+                                                  ),),
+                                                )
+                                            ),
+                                          );
+
+                                        }),
+                                  ),
+                                  temp > 1 ?
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 150.0),
+                                    child:
+                                    InkWell(
+                                      onTap:(){
+                                        setState(() {
+                                          temp= temp-1;
+                                        });
+                                      },
+                                      child: Container(
+                                          height:height/16.275,
+                                          width:width/11.3833,
+                                          decoration:BoxDecoration(
+                                              color:Constants().primaryAppColor,
+                                              borderRadius: BorderRadius.circular(80)
+                                          ),
+                                          child: Center(
+                                            child: Text("Previous Page",style: GoogleFonts.inter(
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),),
+                                          )),
+                                    ),
+                                  )  : Container(),
+                                  Container(
+                                    child: temp < pagecount ?
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 20.0),
+                                      child: InkWell(
+                                        onTap:(){
+                                          setState(() {
+                                            temp= temp+1;
+                                          });
+                                        },
+                                        child:
+                                        Container(
+                                            height:height/16.275,
+                                            width:width/11.3833,
+                                            decoration:BoxDecoration(
+                                                color:Constants().primaryAppColor,
+                                                borderRadius: BorderRadius.circular(80)
+                                            ),
+                                            child: Center(
+                                              child: Text("Next Page",style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white,
+                                              ),),
+                                            )),
+                                      ),
+                                    )  : Container(),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),

@@ -4098,7 +4098,7 @@ class _UserTabState extends State<UserTab> {
                                     //     )
                                     //   ],
                                     // ),
-                                    NumberPaginator(
+                                   /* NumberPaginator(
                                       config: NumberPaginatorUIConfig(
                                         buttonSelectedBackgroundColor: Constants().primaryAppColor,
                                         buttonSelectedForegroundColor: Constants().secondaryAppColor,
@@ -4110,10 +4110,102 @@ class _UserTabState extends State<UserTab> {
                                           temp = index+1;
                                         });
                                       },
-                                    )
+                                    )*/
+                                    Stack(
+                                      alignment: Alignment.centerRight,
+                                      children: [
+                                        SizedBox(
+                                          width: double.infinity,
+                                          height:height/13.02,
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: pagecount,
+                                              itemBuilder: (context,index){
+                                                return InkWell(
+                                                  onTap: (){
+                                                    setState(() {
+                                                      temp=list[index];
+                                                    });
+                                                    print(temp);
+                                                  },
+                                                  child: Container(
+                                                      height:30,width:30,
+                                                      margin: EdgeInsets.only(left:8,right:8,top:10,bottom:10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(100),
+                                                          color:temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.transparent
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(list[index].toString(),style: GoogleFonts.inter(
+                                                            fontWeight: FontWeight.w700,
+                                                            color: temp.toString() == list[index].toString() ?  Colors.white : Colors.black
+
+                                                        ),),
+                                                      )
+                                                  ),
+                                                );
+
+                                              }),
+                                        ),
+                                        temp > 1 ?
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 150.0),
+                                          child:
+                                          InkWell(
+                                            onTap:(){
+                                              setState(() {
+                                                temp= temp-1;
+                                              });
+                                            },
+                                            child: Container(
+                                                height:height/16.275,
+                                                width:width/11.3833,
+                                                decoration:BoxDecoration(
+                                                    color:Constants().primaryAppColor,
+                                                    borderRadius: BorderRadius.circular(80)
+                                                ),
+                                                child: Center(
+                                                  child: Text("Previous Page",style: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
+                                                  ),),
+                                                )),
+                                          ),
+                                        )  : Container(),
+                                        Container(
+                                          child: temp < pagecount ?
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 20.0),
+                                            child: InkWell(
+                                              onTap:(){
+                                                setState(() {
+                                                  temp= temp+1;
+                                                });
+                                              },
+                                              child:
+                                              Container(
+                                                  height:height/16.275,
+                                                  width:width/11.3833,
+                                                  decoration:BoxDecoration(
+                                                      color:Constants().primaryAppColor,
+                                                      borderRadius: BorderRadius.circular(80)
+                                                  ),
+                                                  child: Center(
+                                                    child: Text("Next Page",style: GoogleFonts.inter(
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Colors.white,
+                                                    ),),
+                                                  )),
+                                            ),
+                                          )  : Container(),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
+
                             ],
                           ),
                         );
@@ -4121,97 +4213,7 @@ class _UserTabState extends State<UserTab> {
                       return Container();
                     },
                   ) :
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height:height/13.02,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: pagecount,
-                      itemBuilder: (context,index){
-                        return InkWell(
-                          onTap: (){
-                            setState(() {
-                              temp=list[index];
-                            });
-                            print(temp);
-                          },
-                          child: Container(
-                              height:30,width:30,
-                              margin: EdgeInsets.only(left:8,right:8,top:10,bottom:10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color:temp.toString() == list[index].toString() ?  Constants().primaryAppColor : Colors.transparent
-                              ),
-                              child: Center(
-                                child: Text(list[index].toString(),style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.w700,
-                                    color: temp.toString() == list[index].toString() ?  Colors.white : Colors.black
 
-                                ),),
-                              )
-                          ),
-                        );
-
-                      }),
-                ),
-                temp > 1 ?
-                Padding(
-                  padding: const EdgeInsets.only(right: 150.0),
-                  child:
-                  InkWell(
-                    onTap:(){
-                      setState(() {
-                        temp= temp-1;
-                      });
-                    },
-                    child: Container(
-                        height:height/16.275,
-                        width:width/11.3833,
-                        decoration:BoxDecoration(
-                            color:Constants().primaryAppColor,
-                            borderRadius: BorderRadius.circular(80)
-                        ),
-                        child: Center(
-                          child: Text("Previous Page",style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),),
-                        )),
-                  ),
-                )  : Container(),
-                Container(
-                  child: temp < pagecount ?
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: InkWell(
-                      onTap:(){
-                        setState(() {
-                          temp= temp+1;
-                        });
-                      },
-                      child:
-                      Container(
-                          height:height/16.275,
-                          width:width/11.3833,
-                          decoration:BoxDecoration(
-                              color:Constants().primaryAppColor,
-                              borderRadius: BorderRadius.circular(80)
-                          ),
-                          child: Center(
-                            child: Text("Next Page",style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),),
-                          )),
-                    ),
-                  )  : Container(),
-                )
-              ],
-            ),
             Container(),
             SizedBox(height: size.height * 0.04),
             const DeveloperCardWidget(),
