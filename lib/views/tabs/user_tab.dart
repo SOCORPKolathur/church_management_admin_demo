@@ -2696,8 +2696,8 @@ class _UserTabState extends State<UserTab> {
                 : currentTab.toUpperCase() == "VIEW" ?
              StreamBuilder(
                     stream: documentList.isNotEmpty
-                        ? cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
-                        : cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).limit(10).snapshots(),
+                        ? cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).snapshots()
+                        : cf.FirebaseFirestore.instance.collection('Users').orderBy("timestamp", descending: true).snapshots(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError) {
                         return Container();
@@ -3139,7 +3139,8 @@ class _UserTabState extends State<UserTab> {
                                     Expanded(
                                       child: filterText != ""
                                           ? ListView.builder(
-                                        itemCount: users.length,
+                                        itemCount: pagecount == temp ? users.length.remainder(10) == 0 ? 10 : users.length.remainder(10) : 10,
+
                                         itemBuilder: (ctx, i) {
                                           return Container(
                                             height: height / 10.55,
@@ -3186,11 +3187,11 @@ class _UserTabState extends State<UserTab> {
                                                           .start,
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundImage: NetworkImage(users[i].user.imgUrl!),
+                                                          backgroundImage: NetworkImage(users[(temp*10)-10+i].user.imgUrl!),
                                                           child: Visibility(
-                                                            visible: users[i].user.imgUrl == "",
+                                                            visible: users[(temp*10)-10+i].user.imgUrl == "",
                                                             // child: Image.asset(
-                                                            //   users[i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                            //   users[(temp*10)-10+i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
                                                             //   height: 40,
                                                             //   width: 40,
                                                             // )
@@ -3206,7 +3207,7 @@ class _UserTabState extends State<UserTab> {
                                                     width: width / 8.035,
                                                     child: KText(
                                                       text:
-                                                      "${users[i].user.firstName.toLowerCase() != 'null' ? users[i].user.firstName : ''} ${users[i].user.lastName.toLowerCase() != 'null' ? users[i].user.lastName : ''}",
+                                                      "${users[(temp*10)-10+i].user.firstName.toLowerCase() != 'null' ? users[(temp*10)-10+i].user.firstName : ''} ${users[(temp*10)-10+i].user.lastName.toLowerCase() != 'null' ? users[(temp*10)-10+i].user.lastName : ''}",
                                                       style:
                                                       GoogleFonts.poppins(
                                                         fontSize:
@@ -3225,8 +3226,8 @@ class _UserTabState extends State<UserTab> {
                                                           height: 32,
                                                           valueFontSize: 11,
                                                           toggleSize: 0,
-                                                          //value: users[i].user.status!,
-                                                          value: users[i].user.status,
+                                                          //value: users[(temp*10)-10+i].user.status!,
+                                                          value: users[(temp*10)-10+i].user.status,
                                                           borderRadius: 30,
                                                           padding: 8.0,
                                                           showOnOff: true,
@@ -3241,7 +3242,7 @@ class _UserTabState extends State<UserTab> {
                                                             CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.info,
-                                                                text: "${users[i].user.firstName} ${users[i].user.lastName}'s status will be $statsu",
+                                                                text: "${users[(temp*10)-10+i].user.firstName} ${users[(temp*10)-10+i].user.lastName}'s status will be $statsu",
                                                                 title: "Update this Record?",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3249,7 +3250,7 @@ class _UserTabState extends State<UserTab> {
                                                                 cancelBtnText: 'Cancel',
                                                                 cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                                 onConfirmBtnTap: () async {
-                                                                  await updateMemberStatus(users[i].user.id, val);
+                                                                  await updateMemberStatus(users[(temp*10)-10+i].user.id, val);
                                                                 }
                                                             );
                                                           },
@@ -3290,7 +3291,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 8.035,
                                                     child: KText(
-                                                      text:  users[i].user.phone.toLowerCase() != 'null' ? users[i].user.phone! : "",
+                                                      text:  users[(temp*10)-10+i].user.phone.toLowerCase() != 'null' ? users[(temp*10)-10+i].user.phone! : "",
                                                       style:
                                                       GoogleFonts.poppins(
                                                         fontSize:
@@ -3303,7 +3304,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 9.106,
                                                     child: KText(
-                                                      text: users[i].user.pincode!,
+                                                      text: users[(temp*10)-10+i].user.pincode!,
                                                       style:
                                                       GoogleFonts.poppins(
                                                         fontSize:
@@ -3319,7 +3320,7 @@ class _UserTabState extends State<UserTab> {
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              viewPopup(users[i].user);
+                                                              viewPopup(users[(temp*10)-10+i].user);
                                                             },
                                                             child: Container(
                                                               height: height /
@@ -3385,35 +3386,35 @@ class _UserTabState extends State<UserTab> {
                                                           InkWell(
                                                             onTap: () {
                                                               setState(() {
-                                                                GenderController = users[i].user.gender;
-                                                                pincodeController.text = users[i].user.pincode;
-                                                                baptizeDateController.text = users[i].user.baptizeDate;
-                                                                bloodGroupController.text = users[i].user.bloodGroup;
-                                                                dobController.text = users[i].user.dob;
-                                                                qualificationController.text = users[i].user.qualification;
-                                                                emailController.text = users[i].user.email;
-                                                                firstNameController.text = users[i].user.firstName;
-                                                                aboutController.text = users[i].user.about;
-                                                                addressController.text = users[i].user.address;
-                                                                lastNameController.text = users[i].user.lastName;
-                                                                localityController.text = users[i].user.locality;
-                                                                stateController.text=users[i].user.state;
-                                                                countryController.text=users[i].user.contry;
-                                                                alterNativeemailController.text=users[i].user.alterNativeemail;
-                                                                phoneController.text = users[i].user.phone;
-                                                                professionController.text = users[i].user.profession;
-                                                                selectedImg = users[i].user.imgUrl;
-                                                                //uploadedImage = users[i].user.imgUrl;
-                                                                marriedController = users[i].user.maritialStatus;
-                                                                aadharController.text = users[i].user.aadharNo;
-                                                                anniversaryDateController.text = users[i].user.anniversaryDate;
-                                                                houseTypeCon.text = users[i].user.houseType;
-                                                                nationalityCon.text = users[i].user.nationality;
-                                                                prefixController = users[i].user.prefix;
-                                                                middleNameController.text = users[i].user.middleName;
+                                                                GenderController = users[(temp*10)-10+i].user.gender;
+                                                                pincodeController.text = users[(temp*10)-10+i].user.pincode;
+                                                                baptizeDateController.text = users[(temp*10)-10+i].user.baptizeDate;
+                                                                bloodGroupController.text = users[(temp*10)-10+i].user.bloodGroup;
+                                                                dobController.text = users[(temp*10)-10+i].user.dob;
+                                                                qualificationController.text = users[(temp*10)-10+i].user.qualification;
+                                                                emailController.text = users[(temp*10)-10+i].user.email;
+                                                                firstNameController.text = users[(temp*10)-10+i].user.firstName;
+                                                                aboutController.text = users[(temp*10)-10+i].user.about;
+                                                                addressController.text = users[(temp*10)-10+i].user.address;
+                                                                lastNameController.text = users[(temp*10)-10+i].user.lastName;
+                                                                localityController.text = users[(temp*10)-10+i].user.locality;
+                                                                stateController.text=users[(temp*10)-10+i].user.state;
+                                                                countryController.text=users[(temp*10)-10+i].user.contry;
+                                                                alterNativeemailController.text=users[(temp*10)-10+i].user.alterNativeemail;
+                                                                phoneController.text = users[(temp*10)-10+i].user.phone;
+                                                                professionController.text = users[(temp*10)-10+i].user.profession;
+                                                                selectedImg = users[(temp*10)-10+i].user.imgUrl;
+                                                                //uploadedImage = users[(temp*10)-10+i].user.imgUrl;
+                                                                marriedController = users[(temp*10)-10+i].user.maritialStatus;
+                                                                aadharController.text = users[(temp*10)-10+i].user.aadharNo;
+                                                                anniversaryDateController.text = users[(temp*10)-10+i].user.anniversaryDate;
+                                                                houseTypeCon.text = users[(temp*10)-10+i].user.houseType;
+                                                                nationalityCon.text = users[(temp*10)-10+i].user.nationality;
+                                                                prefixController = users[(temp*10)-10+i].user.prefix;
+                                                                middleNameController.text = users[(temp*10)-10+i].user.middleName;
 
                                                               });
-                                                              editPopUp(users[i].user,users[i].userDocId, size);
+                                                              editPopUp(users[(temp*10)-10+i].user,users[(temp*10)-10+i].userDocId, size);
                                                             },
                                                             child: Container(
                                                               height: height /
@@ -3485,7 +3486,7 @@ class _UserTabState extends State<UserTab> {
                                                                   CoolAlertType
                                                                       .info,
                                                                   text:
-                                                                  "${users[i].user.firstName} ${users[i].user.lastName} will be deleted",
+                                                                  "${users[(temp*10)-10+i].user.firstName} ${users[(temp*10)-10+i].user.lastName} will be deleted",
                                                                   title:
                                                                   "Delete this Record?",
                                                                   width: size
@@ -3506,7 +3507,7 @@ class _UserTabState extends State<UserTab> {
                                                                   onConfirmBtnTap:
                                                                       () async {
                                                                     Response
-                                                                    res = await UserFireCrud.deleteRecord(id: users[i].userDocId);
+                                                                    res = await UserFireCrud.deleteRecord(id: users[(temp*10)-10+i].userDocId);
                                                                   });
                                                             },
                                                             child: Container(
@@ -3576,7 +3577,7 @@ class _UserTabState extends State<UserTab> {
                                         },
                                       )
                                           : ListView.builder(
-                                        itemCount: temp == pagecount ? userRemainder : users.length,
+                                        itemCount: pagecount == temp ? users.length.remainder(10) == 0 ? 10 : users.length.remainder(10) : 10,
                                         itemBuilder: (ctx, i) {
                                           return Container(
                                             height: height / 10.55,
@@ -3623,11 +3624,11 @@ class _UserTabState extends State<UserTab> {
                                                               .start,
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundImage: NetworkImage(users[i].user.imgUrl!),
+                                                          backgroundImage: NetworkImage(users[(temp*10)-10+i].user.imgUrl!),
                                                           child: Visibility(
-                                                            visible: users[i].user.imgUrl == "",
+                                                            visible: users[(temp*10)-10+i].user.imgUrl == "",
                                                               // child: Image.asset(
-                                                              //   users[i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                              //   users[(temp*10)-10+i].user.gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
                                                               //   height: 40,
                                                               //   width: 40,
                                                               // )
@@ -3643,7 +3644,7 @@ class _UserTabState extends State<UserTab> {
                                                     width: width / 8.035,
                                                     child: KText(
                                                       text:
-                                                          "${users[i].user.firstName.toLowerCase() != 'null' ? users[i].user.firstName : ''} ${users[i].user.lastName.toLowerCase() != 'null' ? users[i].user.lastName : ''}",
+                                                          "${users[(temp*10)-10+i].user.firstName.toLowerCase() != 'null' ? users[(temp*10)-10+i].user.firstName : ''} ${users[(temp*10)-10+i].user.lastName.toLowerCase() != 'null' ? users[(temp*10)-10+i].user.lastName : ''}",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -3662,8 +3663,8 @@ class _UserTabState extends State<UserTab> {
                                                           height: 32,
                                                           valueFontSize: 11,
                                                           toggleSize: 0,
-                                                          //value: users[i].user.status!,
-                                                          value: users[i].user.status,
+                                                          //value: users[(temp*10)-10+i].user.status!,
+                                                          value: users[(temp*10)-10+i].user.status,
                                                           borderRadius: 30,
                                                           padding: 8.0,
                                                           showOnOff: true,
@@ -3678,7 +3679,7 @@ class _UserTabState extends State<UserTab> {
                                                             CoolAlert.show(
                                                                 context: context,
                                                                 type: CoolAlertType.info,
-                                                                text: "${users[i].user.firstName} ${users[i].user.lastName}'s status will be $statsu",
+                                                                text: "${users[(temp*10)-10+i].user.firstName} ${users[(temp*10)-10+i].user.lastName}'s status will be $statsu",
                                                                 title: "Update this Record?",
                                                                 width: size.width * 0.4,
                                                                 backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3686,7 +3687,7 @@ class _UserTabState extends State<UserTab> {
                                                                 cancelBtnText: 'Cancel',
                                                                 cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                                 onConfirmBtnTap: () async {
-                                                                  await updateMemberStatus(users[i].user.id, val);
+                                                                  await updateMemberStatus(users[(temp*10)-10+i].user.id, val);
                                                                 }
                                                             );
                                                           },
@@ -3727,7 +3728,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 8.035,
                                                     child: KText(
-                                                      text:  users[i].user.phone.toLowerCase() != 'null' ? users[i].user.phone! : "",
+                                                      text:  users[(temp*10)-10+i].user.phone.toLowerCase() != 'null' ? users[(temp*10)-10+i].user.phone! : "",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -3740,7 +3741,7 @@ class _UserTabState extends State<UserTab> {
                                                   SizedBox(
                                                     width: width / 9.106,
                                                     child: KText(
-                                                      text: users[i].user.pincode!,
+                                                      text: users[(temp*10)-10+i].user.pincode!,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize:
@@ -3756,7 +3757,7 @@ class _UserTabState extends State<UserTab> {
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              viewPopup(users[i].user);
+                                                              viewPopup(users[(temp*10)-10+i].user);
                                                             },
                                                             child: Container(
                                                               height: height /
@@ -3822,31 +3823,31 @@ class _UserTabState extends State<UserTab> {
                                                           InkWell(
                                                             onTap: () {
                                                               setState(() {
-                                                                GenderController = users[i].user.gender;
-                                                                pincodeController.text = users[i].user.pincode;
-                                                                baptizeDateController.text = users[i].user.baptizeDate;
-                                                                bloodGroupController.text = users[i].user.bloodGroup;
-                                                                dobController.text = users[i].user.dob;
-                                                                emailController.text = users[i].user.email;
-                                                                firstNameController.text = users[i].user.firstName;
-                                                                aboutController.text = users[i].user.about;
-                                                                addressController.text = users[i].user.address;
-                                                                lastNameController.text = users[i].user.lastName;
-                                                                localityController.text = users[i].user.locality;
-                                                                phoneController.text = users[i].user.phone;
-                                                                professionController.text = users[i].user.profession;
-                                                                selectedImg = users[i].user.imgUrl;
-                                                                // uploadedImage = users[i].user.imgUrl;
-                                                                marriedController = users[i].user.maritialStatus;
-                                                                aadharController.text = users[i].user.aadharNo;
-                                                                anniversaryDateController.text = users[i].user.anniversaryDate;
-                                                                houseTypeCon.text = users[i].user.houseType;
-                                                                nationalityCon.text = users[i].user.nationality;
-                                                                qualificationController.text = users[i].user.qualification;
-                                                                prefixController = users[i].user.prefix;
-                                                                middleNameController.text = users[i].user.middleName;
+                                                                GenderController = users[(temp*10)-10+i].user.gender;
+                                                                pincodeController.text = users[(temp*10)-10+i].user.pincode;
+                                                                baptizeDateController.text = users[(temp*10)-10+i].user.baptizeDate;
+                                                                bloodGroupController.text = users[(temp*10)-10+i].user.bloodGroup;
+                                                                dobController.text = users[(temp*10)-10+i].user.dob;
+                                                                emailController.text = users[(temp*10)-10+i].user.email;
+                                                                firstNameController.text = users[(temp*10)-10+i].user.firstName;
+                                                                aboutController.text = users[(temp*10)-10+i].user.about;
+                                                                addressController.text = users[(temp*10)-10+i].user.address;
+                                                                lastNameController.text = users[(temp*10)-10+i].user.lastName;
+                                                                localityController.text = users[(temp*10)-10+i].user.locality;
+                                                                phoneController.text = users[(temp*10)-10+i].user.phone;
+                                                                professionController.text = users[(temp*10)-10+i].user.profession;
+                                                                selectedImg = users[(temp*10)-10+i].user.imgUrl;
+                                                                // uploadedImage = users[(temp*10)-10+i].user.imgUrl;
+                                                                marriedController = users[(temp*10)-10+i].user.maritialStatus;
+                                                                aadharController.text = users[(temp*10)-10+i].user.aadharNo;
+                                                                anniversaryDateController.text = users[(temp*10)-10+i].user.anniversaryDate;
+                                                                houseTypeCon.text = users[(temp*10)-10+i].user.houseType;
+                                                                nationalityCon.text = users[(temp*10)-10+i].user.nationality;
+                                                                qualificationController.text = users[(temp*10)-10+i].user.qualification;
+                                                                prefixController = users[(temp*10)-10+i].user.prefix;
+                                                                middleNameController.text = users[(temp*10)-10+i].user.middleName;
                                                               });
-                                                              editPopUp(users[i].user,users[i].userDocId, size);
+                                                              editPopUp(users[(temp*10)-10+i].user,users[(temp*10)-10+i].userDocId, size);
                                                             },
                                                             child: Container(
                                                               height: height /
@@ -3918,7 +3919,7 @@ class _UserTabState extends State<UserTab> {
                                                                       CoolAlertType
                                                                           .info,
                                                                   text:
-                                                                      "${users[i].user.firstName} ${users[i].user.lastName} will be deleted",
+                                                                      "${users[(temp*10)-10+i].user.firstName} ${users[(temp*10)-10+i].user.lastName} will be deleted",
                                                                   title:
                                                                       "Delete this Record?",
                                                                   width: size
@@ -3939,7 +3940,7 @@ class _UserTabState extends State<UserTab> {
                                                                   onConfirmBtnTap:
                                                                       () async {
                                                                     Response
-                                                                        res = await UserFireCrud.deleteRecord(id: users[i].userDocId);
+                                                                        res = await UserFireCrud.deleteRecord(id: users[(temp*10)-10+i].userDocId);
                                                                   });
                                                             },
                                                             child: Container(
@@ -7252,18 +7253,18 @@ class _UserTabState extends State<UserTab> {
     for (int i = 0; i < users.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
-      row.add("${users[i].user.firstName!} ${users[i].user.lastName!}");
-      row.add(users[i].user.phone);
-      row.add(users[i].user.email);
-      row.add(users[i].user.profession);
-      row.add(users[i].user.baptizeDate);
-      row.add(users[i].user.maritialStatus);
-      row.add(users[i].user.bloodGroup);
-      row.add(users[i].user.dob);
-      row.add(users[i].user.locality);
-      row.add(users[i].user.pincode);
-      row.add(users[i].user.address);
-      row.add(users[i].user.about);
+      row.add("${users[(temp*10)-10+i].user.firstName!} ${users[(temp*10)-10+i].user.lastName!}");
+      row.add(users[(temp*10)-10+i].user.phone);
+      row.add(users[(temp*10)-10+i].user.email);
+      row.add(users[(temp*10)-10+i].user.profession);
+      row.add(users[(temp*10)-10+i].user.baptizeDate);
+      row.add(users[(temp*10)-10+i].user.maritialStatus);
+      row.add(users[(temp*10)-10+i].user.bloodGroup);
+      row.add(users[(temp*10)-10+i].user.dob);
+      row.add(users[(temp*10)-10+i].user.locality);
+      row.add(users[(temp*10)-10+i].user.pincode);
+      row.add(users[(temp*10)-10+i].user.address);
+      row.add(users[(temp*10)-10+i].user.about);
       rows.add(row);
     }
     String csv = ListToCsvConverter().convert(rows);
@@ -7305,13 +7306,13 @@ class _UserTabState extends State<UserTab> {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("       ");
-      row.add("${users[i].user.firstName} ${users[i].user.lastName}");
+      row.add("${users[(temp*10)-10+i].user.firstName} ${users[(temp*10)-10+i].user.lastName}");
       row.add("       ");
-      row.add(users[i].user.profession);
+      row.add(users[(temp*10)-10+i].user.profession);
       row.add("       ");
-      row.add(users[i].user.phone);
+      row.add(users[(temp*10)-10+i].user.phone);
       row.add("       ");
-      row.add(users[i].user.locality);
+      row.add(users[(temp*10)-10+i].user.locality);
       rows.add(row);
     }
     String csv = ListToCsvConverter().convert(rows,

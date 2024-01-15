@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:church_management_admin/constants.dart';
 import 'package:church_management_admin/views/login_view.dart';
 import 'package:church_management_admin/views/tabs/about_us_tab.dart';
+import 'package:church_management_admin/views/tabs/messages_tab.dart';
 import 'package:church_management_admin/views/tabs/settings_tab.dart';
 import 'package:church_management_admin/widgets/developer_card_widget.dart';
 import 'package:church_management_admin/widgets/event_calender.dart';
@@ -702,11 +703,20 @@ class _Dashboard2State extends State<Dashboard2> {
                                               fontSize: width/80,
                                               fontWeight: FontWeight.w500,
                                               color: Color(0xff333333)),),
-                                        KText(text:"View All",
-                                          style: GoogleFonts.kanit(
-                                              fontSize: width/95,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xff0077FF)),),
+                                        InkWell(
+                                          onTap: (){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (ctx) =>
+                                                        MessagesTab()));
+                                          },
+                                          child: KText(text:"View All",
+                                            style: GoogleFonts.kanit(
+                                                fontSize: width/95,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xff0077FF)),),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -719,45 +729,60 @@ class _Dashboard2State extends State<Dashboard2> {
                                   ),
                                   Container(
                                     height: 180,
-                                    child: ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
-                                        itemCount: 2,
-                                        itemBuilder: (context,index){
-                                          return Column(
-                                            children: [
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 35,
-                                                  height: 35,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(70),
-                                                    color: Constants.colorsList[index]
-                                                  ),
-                                                  child: Center(child: KText(text:name[index],style: GoogleFonts.openSans(
-                                                      fontSize: width/80,
-                                                      fontWeight: FontWeight.w600,
-                                                      color:   Colors.white)))
-                                                ),
-                                                title: KText(text:namelist[index],style: GoogleFonts.kanit(
-                                                    fontSize: width/95,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color(0xff333333)),),
-                                                subtitle: KText(text:"Request to edit profile image",style: GoogleFonts.kanit(
-                                          fontSize: width/110,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff333333)),),
-                                              ),
-                                              Container(
-                                                width: 400,
-                                                child: Divider(
-                                                  thickness: 1.5,
-                                                  color: Color(0xffECECEC),
-                                                ),
-                                              ),
-                                            ],
-                                          );
+                                    child: StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection("Messages").orderBy('timestamp',descending: true).snapshots(),
+                                      builder: (context,snap) {
+                                        return ListView.builder(
+                                          physics: NeverScrollableScrollPhysics(),
+                                            itemCount: 2,
+                                            itemBuilder: (context,index){
+                                              return InkWell(
+                                                onTap: (){
 
-                                    }),
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (ctx) =>
+                                                              MessagesTab()));
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    ListTile(
+                                                      leading: Container(
+                                                        width: 35,
+                                                        height: 35,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(70),
+                                                          color: Constants.colorsList[index]
+                                                        ),
+                                                        child: Center(child: KText(text:snap.data!.docs[index]['title'].toString().substring(0,1),style: GoogleFonts.openSans(
+                                                            fontSize: width/80,
+                                                            fontWeight: FontWeight.w600,
+                                                            color:   Colors.white)))
+                                                      ),
+                                                      title: KText(text:snap.data!.docs[index]['title'],style: GoogleFonts.kanit(
+                                                          fontSize: width/95,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Color(0xff333333)),),
+                                                      subtitle: KText(text:"Date: ${snap.data!.docs[index]['date']} - Time: ${snap.data!.docs[index]['time']}",style: GoogleFonts.kanit(
+                                                fontSize: width/110,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xff333333)),),
+                                                    ),
+                                                    Container(
+                                                      width: 400,
+                                                      child: Divider(
+                                                        thickness: 1.5,
+                                                        color: Color(0xffECECEC),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+
+                                        });
+                                      }
+                                    ),
                                   )
 
                                 ],
@@ -788,43 +813,61 @@ class _Dashboard2State extends State<Dashboard2> {
                                   ),
                                   Container(
                                     height: 180,
-                                    child: ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: 2,
-                                        itemBuilder: (context,index){
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(20),
-                                                color: Constants.colorsList[Constants.colorsList.length - (index+1)]
-                                              ),
-                                              child: ListTile(
-                                                leading: Container(
-                                                    width: 35,
-                                                    height: 35,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(70),
-                                                        color: Constants.colorsList[index]
-                                                    ),
-                                                    child: Center(child: KText(text:name[name.length - (index+1)],style: GoogleFonts.openSans(
-                                                        fontSize: width/80,
-                                                        fontWeight: FontWeight.w600,
-                                                        color:   Colors.white)))
-                                                ),
-                                                title: KText(text:namelist[name.length - (index+1)],style: GoogleFonts.kanit(
-                                                    fontSize: width/95,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white),),
-                                                subtitle: KText(text:"Today 5:30 AM",style: GoogleFonts.kanit(
-                                                    fontSize: width/110,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white),),
-                                              ),
-                                            ),
-                                          );
+                                    child: StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection("Users").orderBy('timestamp',descending: true).snapshots(),
+                                      builder: (context,snap) {
 
-                                        }),
+                                        if(snap.hasError){
+                                          return Center(child: CircularProgressIndicator());
+                                        }
+                                        if(snap.data==null){
+                                          return Center(child: CircularProgressIndicator());
+                                        }
+
+                                        return ListView.builder(
+                                            physics: NeverScrollableScrollPhysics(),
+                                            itemCount: 2,
+                                            itemBuilder: (context,index){
+                                              return Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    color: Constants.colorsList[Constants.colorsList.length - (index+1)]
+                                                  ),
+                                                  child: ListTile(
+                                                    leading: Container(
+                                                        width: 35,
+                                                        height: 35,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(70),
+                                                        ),
+                                                        child: snap.data!.docs[index]['imgUrl'] != ""? ClipRRect(
+                                                            borderRadius: BorderRadius.circular(70),
+                                                            child: Image.network(snap.data!.docs[index]['imgUrl'],fit: BoxFit.cover,)) :
+                                                         Center(child: KText(text:snap.data!.docs[index]['firstName'].toString().substring(0,1).toUpperCase(),style: GoogleFonts.openSans(
+                                                            fontSize: width/80,
+                                                            fontWeight: FontWeight.w600,
+                                                            color:   Colors.white)))
+                                                    ),
+                                                    title: KText(text:snap.data!.docs[index]['firstName'],style: GoogleFonts.kanit(
+                                                        fontSize: width/95,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white),),
+                                                    subtitle: KText(text:snap.data!.docs[index]['address'],
+                                                    maxLines: 1,
+                                                      style: GoogleFonts.kanit(
+                                                        fontSize: width/110,
+                                                        fontWeight: FontWeight.w400,
+
+                                                        color: Colors.white),),
+                                                  ),
+                                                ),
+                                              );
+
+                                            });
+                                      }
+                                    ),
                                   )
 
                                 ],
@@ -964,6 +1007,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                 ),
                               ),
 
+
                               Padding(
                                 padding: const EdgeInsets.only(top:15.0,left: 10,right: 10),
                                 child: Row(
@@ -984,44 +1028,57 @@ class _Dashboard2State extends State<Dashboard2> {
                               ),
                               Container(
                                 height: 250,
-                                child: ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: 3,
-                                    itemBuilder: (context,index){
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: Constants.colorsList[Constants.colorsList.length - (index+2)].withOpacity(0.40),
-                                          ),
+                                child: StreamBuilder(
+                                  stream: FirebaseFirestore.instance.collection("Events").orderBy('timestamp').snapshots(),
+                                  builder: (context,snap) {
 
-                                          child: ListTile(
-                                            leading: Container(
-                                                width: 35,
-                                                height: 35,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(70),
-                                                    color: Constants.colorsList[index]
+                                    if(snap.hasError){
+                                      return Center(child: CircularProgressIndicator());
+                                    }
+                                    if(snap.data==null){
+                                      return Center(child: CircularProgressIndicator());
+                                    }
+
+                                    return ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: 3,
+                                        itemBuilder: (context,index){
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(20),
+                                                color: Constants.colorsList[Constants.colorsList.length - (index+2)].withOpacity(0.40),
+                                              ),
+
+                                              child: ListTile(
+                                                leading: Container(
+                                                    width: 35,
+                                                    height: 35,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(70),
+                                                        color: Constants.colorsList[index]
+                                                    ),
+                                                    child: Center(child: KText(text:snap.data!.docs[index]['title'].toString().substring(0,1).toUpperCase(),style: GoogleFonts.openSans(
+                                                        fontSize: width/80,
+                                                        fontWeight: FontWeight.w600,
+                                                        color:   Colors.white)))
                                                 ),
-                                                child: Center(child: KText(text:name[index],style: GoogleFonts.openSans(
-                                                    fontSize: width/80,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:   Colors.white)))
+                                                title: KText(text:snap.data!.docs[index]['title'],style: GoogleFonts.kanit(
+                                                    fontSize: width/95,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xff333333)),),
+                                                subtitle: KText(text:snap.data!.docs[index]["date"],style: GoogleFonts.kanit(
+                                                    fontSize: width/110,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff333333)),),
+                                              ),
                                             ),
-                                            title: KText(text:namelist[index],style: GoogleFonts.kanit(
-                                                fontSize: width/95,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff333333)),),
-                                            subtitle: KText(text:"Request to edit profile image",style: GoogleFonts.kanit(
-                                                fontSize: width/110,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xff333333)),),
-                                          ),
-                                        ),
-                                      );
+                                          );
 
-                                    }),
+                                        });
+                                  }
+                                ),
                               )
 
 

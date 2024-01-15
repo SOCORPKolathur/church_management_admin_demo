@@ -516,11 +516,13 @@ class _MembersTabState extends State<MembersTab> {
   void initState() {
     getCity("Tamil Nadu");
     getTotalMembers();
+    doclength();
     familydatafetchfunc();
     setMemberId();
     getTotalMembers();
     super.initState();
   }
+
 
 
   List<FamilyNameWithId>FamilyIdList=[];
@@ -617,6 +619,18 @@ class _MembersTabState extends State<MembersTab> {
   List<MembersModel> membersListForPrint = [];
   cf.QuerySnapshot? memberDocument;
 
+  doclength() async {
+
+    final cf.QuerySnapshot result = await cf.FirebaseFirestore.instance.collection('Members').get();
+    final List < cf.DocumentSnapshot > documents = result.docs;
+    setState(() {
+      documentlength = documents.length;
+      pagecount= ((documentlength~/10) +1) as int;
+
+    });
+    print("pagecount");
+    print(pagecount);
+  }
 
   getTotalMembers() async {
     var memberDoc = await cf.FirebaseFirestore.instance.collection('Members').get();
@@ -2957,8 +2971,8 @@ class _MembersTabState extends State<MembersTab> {
             StreamBuilder(
               //stream: MembersFireCrud.fetchMembers(),
               stream: documentList.isNotEmpty
-                  ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).startAfterDocument(documentList[documentList.length - 1]).limit(10).snapshots()
-                  : cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).limit(10).snapshots(),
+                  ? cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).snapshots()
+                  : cf.FirebaseFirestore.instance.collection('Members').orderBy("timestamp", descending: true).snapshots(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return Container();
@@ -3370,7 +3384,7 @@ class _MembersTabState extends State<MembersTab> {
                               Expanded(
                                 child: searchString != ""
                                     ?  ListView.builder(
-                                  itemCount: members.length,
+                                  itemCount: pagecount == temp ? members.length.remainder(10) == 0 ? 10 : members.length.remainder(10) : 10,
                                   itemBuilder: (ctx, i) {
                                     return Container(
                                       height: height/10.85,
@@ -3411,7 +3425,7 @@ class _MembersTabState extends State<MembersTab> {
                                               width: width/9.66,
                                               child: Center(
                                                 child: KText(
-                                                  text: members[i].memberId!,
+                                                  text: members[(temp*10)-10+i].memberId!,
                                                   style: GoogleFonts.poppins(
                                                     fontSize: width/105.076,
                                                     fontWeight: FontWeight.w600,
@@ -3426,11 +3440,11 @@ class _MembersTabState extends State<MembersTab> {
                                                 MainAxisAlignment.start,
                                                 children: [
                                                   CircleAvatar(
-                                                    backgroundImage: NetworkImage(members[i].imgUrl!),
+                                                    backgroundImage: NetworkImage(members[(temp*10)-10+i].imgUrl!),
                                                     child: Visibility(
-                                                      visible: members[i].imgUrl == "",
+                                                      visible: members[(temp*10)-10+i].imgUrl == "",
                                                       // child: Image.asset(
-                                                      //   members[i].gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                      //   members[(temp*10)-10+i].gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
                                                       //   height: 40,
                                                       //   width: 40,
                                                       // )
@@ -3446,7 +3460,7 @@ class _MembersTabState extends State<MembersTab> {
                                               width: width/8.035,
                                               child: KText(
                                                 text:
-                                                "${members[i].firstName!.toLowerCase() != 'null' ? members[i].firstName : ''} ${members[i].lastName!.toLowerCase() != 'null' ? members[i].lastName : ''}",
+                                                "${members[(temp*10)-10+i].firstName!.toLowerCase() != 'null' ? members[(temp*10)-10+i].firstName : ''} ${members[(temp*10)-10+i].lastName!.toLowerCase() != 'null' ? members[(temp*10)-10+i].lastName : ''}",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -3462,7 +3476,7 @@ class _MembersTabState extends State<MembersTab> {
                                                     height: 32,
                                                     valueFontSize: 11,
                                                     toggleSize: 0,
-                                                    value: members[i].status!,
+                                                    value: members[(temp*10)-10+i].status!,
                                                     borderRadius: 30,
                                                     padding: 8.0,
                                                     showOnOff: true,
@@ -3477,7 +3491,7 @@ class _MembersTabState extends State<MembersTab> {
                                                       CoolAlert.show(
                                                           context: context,
                                                           type: CoolAlertType.info,
-                                                          text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                          text: "${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName}'s status will be $statsu",
                                                           title: "Update this Record?",
                                                           width: size.width * 0.4,
                                                           backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3485,7 +3499,7 @@ class _MembersTabState extends State<MembersTab> {
                                                           cancelBtnText: 'Cancel',
                                                           cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                           onConfirmBtnTap: () async {
-                                                            await updateMemberStatus(members[i].id!, val);
+                                                            await updateMemberStatus(members[(temp*10)-10+i].id!, val);
                                                           }
                                                       );
                                                     },
@@ -3493,19 +3507,19 @@ class _MembersTabState extends State<MembersTab> {
                                                   // Row(
                                                   //   children: [
                                                   //     Text(
-                                                  //        !members[i].status! == true ? "Inactive" : "Active",
+                                                  //        !members[(temp*10)-10+i].status! == true ? "Inactive" : "Active",
                                                   //     ),
                                                   //
                                                   //   ],
                                                   // ),
                                                   // Switch(
-                                                  //   value: members[i].status!,
+                                                  //   value: members[(temp*10)-10+i].status!,
                                                   //   onChanged: (val) {
                                                   //     String statsu = !val ? "Inactive" : "Active";
                                                   //     CoolAlert.show(
                                                   //         context: context,
                                                   //         type: CoolAlertType.info,
-                                                  //         text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                  //         text: "${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName}'s status will be $statsu",
                                                   //         title: "Delete this Record?",
                                                   //         width: size.width * 0.4,
                                                   //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3513,7 +3527,7 @@ class _MembersTabState extends State<MembersTab> {
                                                   //         cancelBtnText: 'Cancel',
                                                   //         cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                   //         onConfirmBtnTap: () async {
-                                                  //           await updateMemberStatus(members[i].id!, val);
+                                                  //           await updateMemberStatus(members[(temp*10)-10+i].id!, val);
                                                   //         }
                                                   //     );
                                                   //   },
@@ -3526,7 +3540,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: width/11.38,
                                               child: KText(
-                                                text:  members[i].phone.toString().toLowerCase() != 'null' ? members[i].phone! : "",
+                                                text:  members[(temp*10)-10+i].phone.toString().toLowerCase() != 'null' ? members[(temp*10)-10+i].phone! : "",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -3536,7 +3550,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: width/10.507,
                                               child: KText(
-                                                text: members[i].pincode!,
+                                                text: members[(temp*10)-10+i].pincode!,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -3549,7 +3563,7 @@ class _MembersTabState extends State<MembersTab> {
                                                   children: [
                                                     InkWell(
                                                       onTap: () {
-                                                        viewPopup(members[i]);
+                                                        viewPopup(members[(temp*10)-10+i]);
                                                       },
                                                       child: Container(
                                                         height: height/26.04,
@@ -3608,41 +3622,41 @@ class _MembersTabState extends State<MembersTab> {
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
-                                                          residentialAddressController.text = members[i].resistentialAddress!;
-                                                          permanentAddressController.text = members[i].permanentAddress!;
-                                                          houseTypeCon.text = members[i].houseType!;
-                                                          genderController.text = members[i].gender!;
-                                                          baptizeDateController.text = members[i].baptizeDate!;
-                                                          bloodGroupController.text = members[i].bloodGroup!;
-                                                          departmentController.text = members[i].department!;
-                                                          dobController.text = members[i].dob!;
-                                                          emailController.text = members[i].email!;
-                                                          familyController.text = members[i].family!;
-                                                          familyIDController.text = members[i].familyid!;
-                                                          firstNameController.text = members[i].firstName!;
-                                                          jobController.text = members[i].job!;
-                                                          lastNameController.text = members[i].lastName!;
-                                                          marriageDateController.text = members[i].marriageDate!;
-                                                          nationalityController.text = members[i].nationality!;
-                                                          phoneController.text = members[i].phone!;
-                                                          positionController.text = members[i].position!;
-                                                          socialStatusController.text = members[i].socialStatus!;
-                                                          countryController.text = members[i].country!;
-                                                          selectedImg = members[i].imgUrl;
-                                                          pincodeController.text = members[i].pincode!;
-                                                          memberIdController.text = members[i].memberId!;
-                                                          aadharNoController.text = members[i].aadharNo!;
-                                                          marriedController.text = members[i].maritalStatus!;
-                                                          attendingTimeController.text = members[i].attendingTime!;
-                                                          qualificationController.text = members[i].qualification!;
-                                                          relationToFamilyController.text = members[i].relationToFamily!;
-                                                          landMarkController.text = members[i].landMark!;
-                                                          previousChurchController.text = members[i].previousChurch!;
-                                                          prefixController.text = members[i].prefix!;
-                                                          middleNameController.text = members[i].middleName!;
-                                                          // serviceLanguageController.text = members[i].serviceLanguage!;
+                                                          residentialAddressController.text = members[(temp*10)-10+i].resistentialAddress!;
+                                                          permanentAddressController.text = members[(temp*10)-10+i].permanentAddress!;
+                                                          houseTypeCon.text = members[(temp*10)-10+i].houseType!;
+                                                          genderController.text = members[(temp*10)-10+i].gender!;
+                                                          baptizeDateController.text = members[(temp*10)-10+i].baptizeDate!;
+                                                          bloodGroupController.text = members[(temp*10)-10+i].bloodGroup!;
+                                                          departmentController.text = members[(temp*10)-10+i].department!;
+                                                          dobController.text = members[(temp*10)-10+i].dob!;
+                                                          emailController.text = members[(temp*10)-10+i].email!;
+                                                          familyController.text = members[(temp*10)-10+i].family!;
+                                                          familyIDController.text = members[(temp*10)-10+i].familyid!;
+                                                          firstNameController.text = members[(temp*10)-10+i].firstName!;
+                                                          jobController.text = members[(temp*10)-10+i].job!;
+                                                          lastNameController.text = members[(temp*10)-10+i].lastName!;
+                                                          marriageDateController.text = members[(temp*10)-10+i].marriageDate!;
+                                                          nationalityController.text = members[(temp*10)-10+i].nationality!;
+                                                          phoneController.text = members[(temp*10)-10+i].phone!;
+                                                          positionController.text = members[(temp*10)-10+i].position!;
+                                                          socialStatusController.text = members[(temp*10)-10+i].socialStatus!;
+                                                          countryController.text = members[(temp*10)-10+i].country!;
+                                                          selectedImg = members[(temp*10)-10+i].imgUrl;
+                                                          pincodeController.text = members[(temp*10)-10+i].pincode!;
+                                                          memberIdController.text = members[(temp*10)-10+i].memberId!;
+                                                          aadharNoController.text = members[(temp*10)-10+i].aadharNo!;
+                                                          marriedController.text = members[(temp*10)-10+i].maritalStatus!;
+                                                          attendingTimeController.text = members[(temp*10)-10+i].attendingTime!;
+                                                          qualificationController.text = members[(temp*10)-10+i].qualification!;
+                                                          relationToFamilyController.text = members[(temp*10)-10+i].relationToFamily!;
+                                                          landMarkController.text = members[(temp*10)-10+i].landMark!;
+                                                          previousChurchController.text = members[(temp*10)-10+i].previousChurch!;
+                                                          prefixController.text = members[(temp*10)-10+i].prefix!;
+                                                          middleNameController.text = members[(temp*10)-10+i].middleName!;
+                                                          // serviceLanguageController.text = members[(temp*10)-10+i].serviceLanguage!;
                                                         });
-                                                        editPopUp(members[i], size);
+                                                        editPopUp(members[(temp*10)-10+i], size);
                                                       },
                                                       child: Container(
                                                         height: height/26.04,
@@ -3703,7 +3717,7 @@ class _MembersTabState extends State<MembersTab> {
                                                         CoolAlert.show(
                                                             context: context,
                                                             type: CoolAlertType.info,
-                                                            text: "${members[i].firstName} ${members[i].lastName} will be deleted",
+                                                            text: "${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName} will be deleted",
                                                             title: "Delete this Record?",
                                                             width: size.width * 0.4,
                                                             backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3711,7 +3725,7 @@ class _MembersTabState extends State<MembersTab> {
                                                             cancelBtnText: 'Cancel',
                                                             cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                             onConfirmBtnTap: () async {
-                                                              Response res = await MembersFireCrud.deleteRecord(id: members[i].id!);
+                                                              Response res = await MembersFireCrud.deleteRecord(id: members[(temp*10)-10+i].id!);
                                                               setMemberId();
                                                             }
                                                         );
@@ -3780,9 +3794,10 @@ class _MembersTabState extends State<MembersTab> {
                                   },
                                 )
                                     : ListView.builder(
-                                  itemCount: temp == pagecount ? memberRemainder : members.length,
+                                  itemCount: pagecount == temp ? members.length.remainder(10) == 0 ? 10 : members.length.remainder(10) : 10,
                                   itemBuilder: (ctx, i) {
-                                    return Container(
+                                    return   (temp*10)-10+i > documentlength ? SizedBox() :
+                                     Container(
                                       height: height/10.85,
                                       width: double.infinity,
                                       decoration:  BoxDecoration(
@@ -3821,7 +3836,7 @@ class _MembersTabState extends State<MembersTab> {
                                               width: width/9.66,
                                               child: Center(
                                                 child: KText(
-                                                  text: members[i].memberId!,
+                                                  text: members[(temp*10)-10+i].memberId!,
                                                   style: GoogleFonts.poppins(
                                                     fontSize: width/105.076,
                                                     fontWeight: FontWeight.w600,
@@ -3836,11 +3851,11 @@ class _MembersTabState extends State<MembersTab> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   CircleAvatar(
-                                                    backgroundImage: NetworkImage(members[i].imgUrl!),
+                                                    backgroundImage: NetworkImage(members[(temp*10)-10+i].imgUrl!),
                                                     child: Visibility(
-                                                      visible: members[i].imgUrl == "",
+                                                      visible: members[(temp*10)-10+i].imgUrl == "",
                                                       // child: Image.asset(
-                                                      //   members[i].gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
+                                                      //   members[(temp*10)-10+i].gender!.toLowerCase() == "male" ? "assets/mavatar.png" : "assets/favatar.png",
                                                       //   height: 40,
                                                       //   width: 40,
                                                       // )
@@ -3856,7 +3871,7 @@ class _MembersTabState extends State<MembersTab> {
                                               width: width/8.035,
                                               child: KText(
                                                 text:
-                                                "${members[i].firstName!.toLowerCase() != 'null' ? members[i].firstName : ''} ${members[i].lastName!.toLowerCase() != 'null' ? members[i].lastName : ''}",
+                                                "${members[(temp*10)-10+i].firstName!.toLowerCase() != 'null' ? members[(temp*10)-10+i].firstName : ''} ${members[(temp*10)-10+i].lastName!.toLowerCase() != 'null' ? members[(temp*10)-10+i].lastName : ''}",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -3872,7 +3887,7 @@ class _MembersTabState extends State<MembersTab> {
                                                     height: 32,
                                                     valueFontSize: 11,
                                                     toggleSize: 0,
-                                                    value: members[i].status!,
+                                                    value: members[(temp*10)-10+i].status!,
                                                     borderRadius: 30,
                                                     padding: 8.0,
                                                     showOnOff: true,
@@ -3887,7 +3902,7 @@ class _MembersTabState extends State<MembersTab> {
                                                           CoolAlert.show(
                                                               context: context,
                                                               type: CoolAlertType.info,
-                                                              text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                              text: "${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName}'s status will be $statsu",
                                                               title: "Update this Record?",
                                                               width: size.width * 0.4,
                                                               backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3895,7 +3910,7 @@ class _MembersTabState extends State<MembersTab> {
                                                               cancelBtnText: 'Cancel',
                                                               cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                               onConfirmBtnTap: () async {
-                                                                await updateMemberStatus(members[i].id!, val);
+                                                                await updateMemberStatus(members[(temp*10)-10+i].id!, val);
                                                               }
                                                           );
                                                     },
@@ -3903,19 +3918,19 @@ class _MembersTabState extends State<MembersTab> {
                                                   // Row(
                                                   //   children: [
                                                   //     Text(
-                                                  //        !members[i].status! == true ? "Inactive" : "Active",
+                                                  //        !members[(temp*10)-10+i].status! == true ? "Inactive" : "Active",
                                                   //     ),
                                                   //
                                                   //   ],
                                                   // ),
                                                   // Switch(
-                                                  //   value: members[i].status!,
+                                                  //   value: members[(temp*10)-10+i].status!,
                                                   //   onChanged: (val) {
                                                   //     String statsu = !val ? "Inactive" : "Active";
                                                   //     CoolAlert.show(
                                                   //         context: context,
                                                   //         type: CoolAlertType.info,
-                                                  //         text: "${members[i].firstName} ${members[i].lastName}'s status will be $statsu",
+                                                  //         text: "${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName}'s status will be $statsu",
                                                   //         title: "Delete this Record?",
                                                   //         width: size.width * 0.4,
                                                   //         backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -3923,7 +3938,7 @@ class _MembersTabState extends State<MembersTab> {
                                                   //         cancelBtnText: 'Cancel',
                                                   //         cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                   //         onConfirmBtnTap: () async {
-                                                  //           await updateMemberStatus(members[i].id!, val);
+                                                  //           await updateMemberStatus(members[(temp*10)-10+i].id!, val);
                                                   //         }
                                                   //     );
                                                   //   },
@@ -3936,7 +3951,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: width/11.38,
                                               child: KText(
-                                                text:  members[i].phone.toString().toLowerCase() != 'null' ? members[i].phone! : "",
+                                                text:  members[(temp*10)-10+i].phone.toString().toLowerCase() != 'null' ? members[(temp*10)-10+i].phone! : "",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -3946,7 +3961,7 @@ class _MembersTabState extends State<MembersTab> {
                                             SizedBox(
                                               width: width/10.507,
                                               child: KText(
-                                                text: members[i].pincode!,
+                                                text: members[(temp*10)-10+i].pincode!,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: width/105.076,
                                                   fontWeight: FontWeight.w600,
@@ -3959,7 +3974,7 @@ class _MembersTabState extends State<MembersTab> {
                                                   children: [
                                                     InkWell(
                                                       onTap: () {
-                                                        viewPopup(members[i]);
+                                                        viewPopup(members[(temp*10)-10+i]);
                                                       },
                                                       child: Container(
                                                         height: height/26.04,
@@ -4018,41 +4033,41 @@ class _MembersTabState extends State<MembersTab> {
                                                     InkWell(
                                                       onTap: () {
                                                         setState(() {
-                                                          residentialAddressController.text = members[i].resistentialAddress!;
-                                                          permanentAddressController.text = members[i].permanentAddress!;
-                                                          houseTypeCon.text = members[i].houseType!;
-                                                          genderController.text = members[i].gender!;
-                                                          baptizeDateController.text = members[i].baptizeDate!;
-                                                          bloodGroupController.text = members[i].bloodGroup!;
-                                                          departmentController.text = members[i].department!;
-                                                          dobController.text = members[i].dob!;
-                                                          emailController.text = members[i].email!;
-                                                          familyController.text = members[i].family!;
-                                                          familyIDController.text = members[i].familyid!;
-                                                          firstNameController.text = members[i].firstName!;
-                                                          jobController.text = members[i].job!;
-                                                          lastNameController.text = members[i].lastName!;
-                                                          marriageDateController.text = members[i].marriageDate!;
-                                                          nationalityController.text = members[i].nationality!;
-                                                          phoneController.text = members[i].phone!;
-                                                          positionController.text = members[i].position!;
-                                                          socialStatusController.text = members[i].socialStatus!;
-                                                          countryController.text = members[i].country!;
-                                                          selectedImg = members[i].imgUrl;
-                                                          pincodeController.text = members[i].pincode!;
-                                                          memberIdController.text = members[i].memberId!;
-                                                          aadharNoController.text = members[i].aadharNo!;
-                                                          marriedController.text = members[i].maritalStatus!;
-                                                          attendingTimeController.text = members[i].attendingTime!;
-                                                          qualificationController.text = members[i].qualification!;
-                                                          relationToFamilyController.text = members[i].relationToFamily!;
-                                                          landMarkController.text = members[i].landMark!;
-                                                          previousChurchController.text = members[i].previousChurch!;
-                                                          serviceLanguageController.text = members[i].serviceLanguage!;
-                                                          prefixController.text = members[i].prefix!;
-                                                          middleNameController.text = members[i].middleName!;
+                                                          residentialAddressController.text = members[(temp*10)-10+i].resistentialAddress!;
+                                                          permanentAddressController.text = members[(temp*10)-10+i].permanentAddress!;
+                                                          houseTypeCon.text = members[(temp*10)-10+i].houseType!;
+                                                          genderController.text = members[(temp*10)-10+i].gender!;
+                                                          baptizeDateController.text = members[(temp*10)-10+i].baptizeDate!;
+                                                          bloodGroupController.text = members[(temp*10)-10+i].bloodGroup!;
+                                                          departmentController.text = members[(temp*10)-10+i].department!;
+                                                          dobController.text = members[(temp*10)-10+i].dob!;
+                                                          emailController.text = members[(temp*10)-10+i].email!;
+                                                          familyController.text = members[(temp*10)-10+i].family!;
+                                                          familyIDController.text = members[(temp*10)-10+i].familyid!;
+                                                          firstNameController.text = members[(temp*10)-10+i].firstName!;
+                                                          jobController.text = members[(temp*10)-10+i].job!;
+                                                          lastNameController.text = members[(temp*10)-10+i].lastName!;
+                                                          marriageDateController.text = members[(temp*10)-10+i].marriageDate!;
+                                                          nationalityController.text = members[(temp*10)-10+i].nationality!;
+                                                          phoneController.text = members[(temp*10)-10+i].phone!;
+                                                          positionController.text = members[(temp*10)-10+i].position!;
+                                                          socialStatusController.text = members[(temp*10)-10+i].socialStatus!;
+                                                          countryController.text = members[(temp*10)-10+i].country!;
+                                                          selectedImg = members[(temp*10)-10+i].imgUrl;
+                                                          pincodeController.text = members[(temp*10)-10+i].pincode!;
+                                                          memberIdController.text = members[(temp*10)-10+i].memberId!;
+                                                          aadharNoController.text = members[(temp*10)-10+i].aadharNo!;
+                                                          marriedController.text = members[(temp*10)-10+i].maritalStatus!;
+                                                          attendingTimeController.text = members[(temp*10)-10+i].attendingTime!;
+                                                          qualificationController.text = members[(temp*10)-10+i].qualification!;
+                                                          relationToFamilyController.text = members[(temp*10)-10+i].relationToFamily!;
+                                                          landMarkController.text = members[(temp*10)-10+i].landMark!;
+                                                          previousChurchController.text = members[(temp*10)-10+i].previousChurch!;
+                                                          serviceLanguageController.text = members[(temp*10)-10+i].serviceLanguage!;
+                                                          prefixController.text = members[(temp*10)-10+i].prefix!;
+                                                          middleNameController.text = members[(temp*10)-10+i].middleName!;
                                                         });
-                                                        editPopUp(members[i], size);
+                                                        editPopUp(members[(temp*10)-10+i], size);
                                                       },
                                                       child: Container(
                                                         height: height/26.04,
@@ -4113,7 +4128,7 @@ class _MembersTabState extends State<MembersTab> {
                                                         CoolAlert.show(
                                                             context: context,
                                                             type: CoolAlertType.info,
-                                                            text: "${members[i].firstName} ${members[i].lastName} will be deleted",
+                                                            text: "${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName} will be deleted",
                                                             title: "Delete this Record?",
                                                             width: size.width * 0.4,
                                                             backgroundColor: Constants().primaryAppColor.withOpacity(0.8),
@@ -4121,7 +4136,7 @@ class _MembersTabState extends State<MembersTab> {
                                                             cancelBtnText: 'Cancel',
                                                             cancelBtnTextStyle:  TextStyle(color: Colors.black),
                                                             onConfirmBtnTap: () async {
-                                                              Response res = await MembersFireCrud.deleteRecord(id: members[i].id!);
+                                                              Response res = await MembersFireCrud.deleteRecord(id: members[(temp*10)-10+i].id!);
                                                               setMemberId();
                                                             }
                                                         );
@@ -7029,27 +7044,27 @@ class _MembersTabState extends State<MembersTab> {
     for (int i = 0; i < members.length; i++) {
       List<dynamic> row = [];
       row.add(i + 1);
-      row.add(members[i].memberId);
-      row.add("${members[i].firstName!} ${members[i].lastName!}");
-      row.add(members[i].phone);
-      row.add(members[i].email);
-      row.add(members[i].gender);
-      row.add(members[i].position);
-      row.add(members[i].baptizeDate);
-      row.add(members[i].maritalStatus);
-      row.add(members[i].marriageDate);
-      row.add(members[i].socialStatus);
-      row.add(members[i].job);
-      row.add(members[i].family);
-      row.add(members[i].relationToFamily);
-      row.add(members[i].qualification);
-      row.add(members[i].attendingTime);
-      row.add(members[i].department);
-      row.add(members[i].bloodGroup);
-      row.add(members[i].dob);
-      row.add(members[i].nationality);
-      row.add(members[i].resistentialAddress);
-      row.add(members[i].pincode);
+      row.add(members[(temp*10)-10+i].memberId);
+      row.add("${members[(temp*10)-10+i].firstName!} ${members[(temp*10)-10+i].lastName!}");
+      row.add(members[(temp*10)-10+i].phone);
+      row.add(members[(temp*10)-10+i].email);
+      row.add(members[(temp*10)-10+i].gender);
+      row.add(members[(temp*10)-10+i].position);
+      row.add(members[(temp*10)-10+i].baptizeDate);
+      row.add(members[(temp*10)-10+i].maritalStatus);
+      row.add(members[(temp*10)-10+i].marriageDate);
+      row.add(members[(temp*10)-10+i].socialStatus);
+      row.add(members[(temp*10)-10+i].job);
+      row.add(members[(temp*10)-10+i].family);
+      row.add(members[(temp*10)-10+i].relationToFamily);
+      row.add(members[(temp*10)-10+i].qualification);
+      row.add(members[(temp*10)-10+i].attendingTime);
+      row.add(members[(temp*10)-10+i].department);
+      row.add(members[(temp*10)-10+i].bloodGroup);
+      row.add(members[(temp*10)-10+i].dob);
+      row.add(members[(temp*10)-10+i].nationality);
+      row.add(members[(temp*10)-10+i].resistentialAddress);
+      row.add(members[(temp*10)-10+i].pincode);
       rows.add(row);
     }
     String csv =  ListToCsvConverter().convert(rows);
@@ -7091,13 +7106,13 @@ class _MembersTabState extends State<MembersTab> {
       List<dynamic> row = [];
       row.add(i + 1);
       row.add("       ");
-      row.add("${members[i].firstName} ${members[i].lastName}");
+      row.add("${members[(temp*10)-10+i].firstName} ${members[(temp*10)-10+i].lastName}");
       row.add("       ");
-      row.add(members[i].position);
+      row.add(members[(temp*10)-10+i].position);
       row.add("       ");
-      row.add(members[i].phone);
+      row.add(members[(temp*10)-10+i].phone);
       row.add("       ");
-      row.add(members[i].country);
+      row.add(members[(temp*10)-10+i].country);
       rows.add(row);
     }
     String csv =  ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
