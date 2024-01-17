@@ -63,11 +63,15 @@ class UserFireCrud {
         required String profession,
         required String qualification,
         required String about,
-        required String address,
+        required String resaddress,
+        required String preaddress,
         required String nationality,
         required String houseType,
         required String contry,
         required String state,
+        required String condate,
+        required String companyname,
+        required String alphone,
       }) async {
     String downloadUrl = '';
     if(image != null){
@@ -101,12 +105,20 @@ class UserFireCrud {
         houseType: houseType,
         dob: dob,
         about: about,
-        address: address,
+        resaddress: resaddress,
+        preaddress: preaddress,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
         pincode: pincode,
         anniversaryDate: anniversaryDate,
-        imgUrl: downloadUrl);
+        imgUrl: downloadUrl,
+      condate: condate,
+      companyname: companyname,
+      alphone: alphone
+
+
+
+    );
     user.id = documentReferencer.id;
     var json = user.toJson();
     print(json);
@@ -182,7 +194,8 @@ class UserFireCrud {
         bloodGroup: row[i][9].toString(),
         dob: row[i][10].toString(),
         pincode: row[i][11].toString(),
-        address: row[i][12].toString(),
+        resaddress: row[i][12].toString(),
+        preaddress: row[i][12].toString(),
         about: row[i][13].toString(),
         anniversaryDate: row[i][14].toString(),
         aadharNo: row[i][15].toString(),
@@ -193,6 +206,9 @@ class UserFireCrud {
         alterNativeemail: "empty",
         contry: "",
         state: "",
+        condate: '',
+        companyname: '',
+        alphone: '',
 
         id: documentID,
         timestamp: DateTime.now().millisecondsSinceEpoch,

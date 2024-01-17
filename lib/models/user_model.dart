@@ -22,11 +22,15 @@ class UserModel {
   late String contry;
   late String qualification;
   late String about;
-  late String address;
+  late String resaddress;
+  late String preaddress;
   late String imgUrl;
   late String nationality;
   late String houseType;
   late String pincode;
+  late String companyname;
+  late String condate;
+  late String alphone;
   late bool status;
   late bool isPrivacyEnabled;
 
@@ -59,9 +63,16 @@ class UserModel {
         required this.contry,
         required this.state,
         required this.about,
-        required this.address,
+        required this.resaddress,
+        required this.preaddress,
         required this.pincode,
-        required this.imgUrl});
+        required this.imgUrl,
+        required this.condate,
+        required this.companyname,
+        required this.alphone,
+
+
+      });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -91,7 +102,8 @@ class UserModel {
     state = json['state'];
     contry = json['contry'];
     about = json['about'];
-    address = json['address'];
+    resaddress = json['resaddress'];
+    preaddress = json['preaddress'];
     imgUrl = json['imgUrl'];
     isPrivacyEnabled = json['isPrivacyEnabled'];
   }
@@ -126,7 +138,8 @@ class UserModel {
     data['qualification'] = this.qualification;
     data['pincode'] = this.pincode;
     data['about'] = this.about;
-    data['address'] = this.address;
+    data['resaddress'] = this.resaddress;
+    data['preaddress'] = this.preaddress;
     data['imgUrl'] = this.imgUrl;
     data['isPrivacyEnabled'] = this.isPrivacyEnabled;
     return data;
@@ -161,7 +174,7 @@ class UserModel {
       case 3:
         return bloodGroup!.toString();
       case 4:
-        return address!;
+        return resaddress!;
     }
     return '';
   }

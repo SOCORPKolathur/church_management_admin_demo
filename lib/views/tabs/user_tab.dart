@@ -683,7 +683,7 @@ class _UserTabState extends State<UserTab> {
      final List < cf.DocumentSnapshot > documents = result.docs;
      setState(() {
        documentlength = documents.length;
-       pagecount= ((documentlength~/10) +1) as int;
+       pagecount= documentlength.remainder(10) == 0 ? (documentlength~/10) : ((documentlength~/10) + 1) as int;
 
      });
      print("pagecount");
@@ -2515,31 +2515,60 @@ class _UserTabState extends State<UserTab> {
                                         )
                                         {
                                           Response response = await UserFireCrud.addUser(
-                                            maritialStatus: marriedController,
-                                            pincode: pincodeController.text,
-                                            gender: GenderController,
                                             image: profileImage,
-                                            baptizeDate: baptizeDateController.text,
-                                            nationality: nationalityCon.text,
-                                            houseType: houseTypeCon.text,
                                             prefix: prefixController,
+                                            firstName: firstNameController.text,
                                             middleName: middleNameController.text,
-                                            anniversaryDate: anniversaryDateController.text,
-                                            aadharNo: aadharController.text,
+                                            lastName: lastNameController.text,
+                                            gender: GenderController,
                                             bloodGroup: bloodGroupController.text,
                                             dob: dobController.text,
-                                            qualification: qualificationController.text,
-                                            email: emailController.text,
-                                            firstName: firstNameController.text,
-                                            lastName: lastNameController.text,
-                                            locality: cityController.text,/// city Controller
-                                            phone: phoneController.text,
+                                            baptizeDate: baptizeDateController.text,
+                                            condate: confirmDateController.text,//conformationdate
+                                            aadharNo: aadharController.text,
+                                            maritialStatus: marriedController,
+                                            anniversaryDate: anniversaryDateController.text,
                                             profession: professionController.text,
-                                            about: aboutController.text,
-                                            address: addressController.text,
+                                            qualification: qualificationController.text,
+
+                                            companyname: companynameController.text, //companyname
+
+
+                                            phone: phoneController.text,
+                                            alphone: alphoneController.text,//alphone
+                                            email: emailController.text,
                                             alterNativeemail: alterNativeemailController.text,
-                                            contry: countryController.text,
                                             state: stateController.text,
+                                            locality: cityController.text,//city
+
+                                            nationality: nationalityCon.text,//contry
+                                             contry: countryController.text,//contry
+
+                                            pincode: pincodeController.text,
+                                            houseType: houseTypeCon.text,
+                                            resaddress: addressController.text,//res adress
+                                            preaddress: aboutController.text,//preemenet adress
+
+
+
+                                            about: aboutController.text,//no needed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                           );
                                           if (response.code == 200) {
@@ -3394,8 +3423,8 @@ class _UserTabState extends State<UserTab> {
                                                                 qualificationController.text = users[(temp*10)-10+i].user.qualification;
                                                                 emailController.text = users[(temp*10)-10+i].user.email;
                                                                 firstNameController.text = users[(temp*10)-10+i].user.firstName;
-                                                                aboutController.text = users[(temp*10)-10+i].user.about;
-                                                                addressController.text = users[(temp*10)-10+i].user.address;
+                                                                aboutController.text = users[(temp*10)-10+i].user.preaddress;
+                                                                addressController.text = users[(temp*10)-10+i].user.resaddress;
                                                                 lastNameController.text = users[(temp*10)-10+i].user.lastName;
                                                                 localityController.text = users[(temp*10)-10+i].user.locality;
                                                                 stateController.text=users[(temp*10)-10+i].user.state;
@@ -3830,8 +3859,8 @@ class _UserTabState extends State<UserTab> {
                                                                 dobController.text = users[(temp*10)-10+i].user.dob;
                                                                 emailController.text = users[(temp*10)-10+i].user.email;
                                                                 firstNameController.text = users[(temp*10)-10+i].user.firstName;
-                                                                aboutController.text = users[(temp*10)-10+i].user.about;
-                                                                addressController.text = users[(temp*10)-10+i].user.address;
+                                                                aboutController.text = users[(temp*10)-10+i].user.preaddress;
+                                                                addressController.text = users[(temp*10)-10+i].user.resaddress;
                                                                 lastNameController.text = users[(temp*10)-10+i].user.lastName;
                                                                 localityController.text = users[(temp*10)-10+i].user.locality;
                                                                 phoneController.text = users[(temp*10)-10+i].user.phone;
@@ -4749,7 +4778,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width*0.3,
                                         child: Text(
-                                          user.address!,
+                                          user.preaddress!,
                                           style: TextStyle(fontSize: width/97.571),
                                         ),
                                       ),
@@ -4774,7 +4803,7 @@ class _UserTabState extends State<UserTab> {
                                       SizedBox(
                                         width: size.width * 0.3,
                                         child: Text(
-                                          user.address,
+                                          user.resaddress,
                                           style: TextStyle(fontSize: width/97.571),
                                         ),
                                       ),
@@ -7106,7 +7135,9 @@ class _UserTabState extends State<UserTab> {
                                             phone: phoneController.text,
                                             profession: professionController.text,
                                             about: aboutController.text,
-                                            address: addressController.text, id: userDocID,
+                                            preaddress: aboutController.text,
+                                            resaddress: addressController.text,
+                                              id: userDocID,
                                             timestamp: user.timestamp,
                                             imgUrl: user.imgUrl,
                                             isPrivacyEnabled: user.isPrivacyEnabled,
@@ -7114,7 +7145,10 @@ class _UserTabState extends State<UserTab> {
                                             fcmToken: user.fcmToken,
                                             alterNativeemail: user.alterNativeemail,
                                             state: user.state,
-                                            contry: user.contry
+                                            contry: user.contry,
+                                            condate: confirmDateController.text,//conformationdate
+                                            companyname: companynameController.text,
+                                            alphone: alphoneController.text,//alphone
                                           ),
                                           profileImage,
                                             user.imgUrl,
@@ -7263,7 +7297,7 @@ class _UserTabState extends State<UserTab> {
       row.add(users[(temp*10)-10+i].user.dob);
       row.add(users[(temp*10)-10+i].user.locality);
       row.add(users[(temp*10)-10+i].user.pincode);
-      row.add(users[(temp*10)-10+i].user.address);
+      row.add(users[(temp*10)-10+i].user.resaddress);
       row.add(users[(temp*10)-10+i].user.about);
       rows.add(row);
     }

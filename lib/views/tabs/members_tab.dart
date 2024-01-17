@@ -625,7 +625,7 @@ class _MembersTabState extends State<MembersTab> {
     final List < cf.DocumentSnapshot > documents = result.docs;
     setState(() {
       documentlength = documents.length;
-      pagecount= ((documentlength~/10) +1) as int;
+      pagecount= documentlength.remainder(10) == 0 ? (documentlength~/10) : ((documentlength~/10) + 1) as int;
 
     });
     print("pagecount");
@@ -2848,7 +2848,10 @@ class _MembersTabState extends State<MembersTab> {
                                             landMark: landMarkController.text,
                                             alterNativeemail: "",
                                             state: "",
-                                            contry: ""
+                                            contry: "",
+                                              condate: '',
+                                              companyname: '',
+                                              alphone: ''
                                           );
                                           if (response.code == 200) {
                                             CoolAlert.show(

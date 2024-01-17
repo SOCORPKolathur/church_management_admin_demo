@@ -425,7 +425,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                           SizedBox(
                                             width:width/5.464,
                                             child: KText(
-                                              text: users[i].address!,
+                                              text: users[i].resaddress!,
                                               style: GoogleFonts.poppins(
                                                 fontSize:width/105.07,
                                                 fontWeight:
@@ -825,7 +825,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
                                           SizedBox(
                                             width:width/5.464,
                                             child: KText(
-                                              text: users[i].address!,
+                                              text: users[i].resaddress!,
                                               style: GoogleFonts.poppins(
                                                 fontSize:width/105.07,
                                                 fontWeight:
@@ -874,7 +874,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
       row.add("${users[i].firstName!} ${users[i].lastName!}");
       row.add(users[i].phone!);
       row.add(users[i].bloodGroup!);
-      row.add(users[i].address!);
+      row.add(users[i].resaddress!);
       rows.add(row);
     }
     String csv = ListToCsvConverter().convert(rows);
@@ -922,7 +922,7 @@ class _BloodRequirementTabState extends State<BloodRequirementTab> {
       row.add("       ");
       row.add(users[i].bloodGroup);
       row.add("       ");
-      row.add(users[i].address);
+      row.add(users[i].resaddress);
       rows.add(row);
     }
     String csv = ListToCsvConverter().convert(rows,fieldDelimiter: null,eol: null,textEndDelimiter: null,delimitAllFields: false,textDelimiter: null);
