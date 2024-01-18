@@ -27,7 +27,7 @@ class UserModelforPdf{
       'Si.NO  ',
       'Name',
       'Date of Birth',
-      'Position',
+      'Profession',
       'Phone',
       'Pin code'
     ];
@@ -56,7 +56,7 @@ class UserModelforPdf{
       'Si.NO  ',
       'Name',
       'Date of Birth',
-      'Position',
+      'Profession',
       'Phone',
       'Pin code'
     ];

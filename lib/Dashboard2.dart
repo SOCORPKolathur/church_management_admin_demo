@@ -854,7 +854,7 @@ class _Dashboard2State extends State<Dashboard2> {
                                                         fontSize: width/95,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.white),),
-                                                    subtitle: KText(text:snap.data!.docs[index]['address'],
+                                                    subtitle: KText(text:snap.data!.docs[index]['resaddress'],
                                                     maxLines: 1,
                                                       style: GoogleFonts.kanit(
                                                         fontSize: width/110,
