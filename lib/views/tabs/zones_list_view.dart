@@ -3114,54 +3114,8 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                     ],
                                   ),
                                   SizedBox(height: height/32.55),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child:  KText(
-                                          text: "Department",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: width/85.375
-                                          ),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width/68.3),
-                                      KText(
-                                        text: member.department!,
-                                        style:  TextStyle(
-                                            fontSize: width/97.57
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height/32.55),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child:  KText(
-                                          text: "Landmark",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: width/85.375
-                                          ),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width/68.3),
-                                      KText(
-                                        text: member.landMark!,
-                                        style:  TextStyle(
-                                            fontSize: width/97.57
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height/32.55),
+
+
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -3332,30 +3286,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                     ],
                                   ),
                                   SizedBox(height: height/32.55),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child:  KText(
-                                          text: "Social Status",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: width/85.375
-                                          ),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width/68.3),
-                                      KText(
-                                        text: member.socialStatus!,
-                                        style:  TextStyle(
-                                            fontSize: width/97.57
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height/32.55),
+
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -3428,30 +3359,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                     ],
                                   ),
                                   SizedBox(height: height/32.55),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child:  KText(
-                                          text: "Employment/Job",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: width/85.375
-                                          ),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width/68.3),
-                                      KText(
-                                        text: member.job!,
-                                        style:  TextStyle(
-                                            fontSize: width/97.57
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height/32.55),
+
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -3500,30 +3408,7 @@ class _ZonesListViewState extends State<ZonesListView> with SingleTickerProvider
                                     ],
                                   ),
                                   SizedBox(height: height/32.55),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.15,
-                                        child:  KText(
-                                          text: "Nationality",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: width/85.375
-                                          ),
-                                        ),
-                                      ),
-                                      Text(":"),
-                                      SizedBox(width: width/68.3),
-                                      KText(
-                                        text: member.nationality!,
-                                        style:  TextStyle(
-                                            fontSize: width/97.57
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: height/32.55),
+
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [

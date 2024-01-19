@@ -1049,7 +1049,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                              //pages = MembersTab();
+                                              pages = MembersTab();
                                               pagename="Members List";
                                             });
 
@@ -1084,7 +1084,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                             // pages = FamilyTab();
+                                             //pages = FamilyTab();
                                               pagename="Families";
                                             });
 
@@ -1119,7 +1119,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                             // pages = ClansTab();
+                                             //pages = ClansTab();
                                               pagename="Little Flocks";
                                             });
 
@@ -1154,7 +1154,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                             // pages = StudentTab();
+                                             //pages = StudentTab();
                                               pagename="Student";
                                             });
 
@@ -1189,7 +1189,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                             // pages = CommitteeTab();
+                                             //pages = CommitteeTab();
                                               pagename="Committee";
                                             });
 
@@ -1224,7 +1224,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                             // pages = PastorsTab();
+                                             //pages = PastorsTab();
                                               pagename="Pastors";
                                             });
 
@@ -1259,7 +1259,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                            //  pages = ChurchStaffTab();
+                                            //pages = ChurchStaffTab();
                                               pagename="Church Staff";
                                             });
 
@@ -1294,7 +1294,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col1==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                            //  pages = DepartmentTab();
+                                            //pages = DepartmentTab();
                                               pagename="Department";
                                             });
 
@@ -1416,7 +1416,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col2==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                            //  pages = MembershipReportsTab();
+                                            pages = MembershipReportsTab();
                                               pagename="Membership Reports";
                                             });
 
@@ -1451,7 +1451,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col2==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                           //   pages = MembershipRegisterTab();
+                                           pages = MembershipRegisterTab();
                                               pagename="Membership Register";
                                             });
 
@@ -1572,7 +1572,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col3==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                           //   pages = FundManagementTab();
+                                           pages = FundManagementTab();
                                               pagename="Fund Management";
                                             });
 
@@ -1607,7 +1607,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         col3==true ?   InkWell(
                                           onTap: () {
                                             setState(() {
-                                           //   pages = DonationsTab();
+                                           pages = DonationsTab();
                                               pagename="Donations";
                                             });
 

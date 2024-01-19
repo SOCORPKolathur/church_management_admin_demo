@@ -69,7 +69,6 @@ class MembersFireCrud {
       required String membersId,
       required String baptizeDate,
       required String bloodGroup,
-      required String department,
       required String dob,
       required String country,
       required String aadharNo,
@@ -80,17 +79,16 @@ class MembersFireCrud {
       required String middleName,
       required String prefix,
       required String pincode,
-      required String job,
+
       required String lastName,
       required String marriageDate,
-      required String nationality,
       required String phone,
       required String qualification,
       required String relationToFamily,
       required String attendingTime,
       required String maritalStatus,
       required String position,
-      required String landMark,
+      required String city,
       required String previousChurch,
       required String serviceLanguage,
       required String alterNativeemail,
@@ -99,7 +97,7 @@ class MembersFireCrud {
       required String condate,
       required String companyname,
       required String alphone,
-      required String socialStatus}) async {
+     }) async {
     String downloadUrl = '';
     if(image != null){
       downloadUrl = await uploadImageToStorage(image);
@@ -116,7 +114,6 @@ class MembersFireCrud {
     MembersModel member = MembersModel(
         id: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
-        socialStatus: socialStatus,
         position: position,
         memberId: membersId,
         phone: phone,
@@ -127,7 +124,6 @@ class MembersFireCrud {
         resistentialAddress: residentialAddress,
         houseType: houseType,
         baptizemCertificate: document != null ? downloadUrl1 : "",
-        nationality: nationality,
         serviceLanguage:serviceLanguage,
         marriageDate: marriageDate,
         aadharNo: aadharNo,
@@ -135,15 +131,12 @@ class MembersFireCrud {
         pincode: pincode,
         status: true,
         country: country,
-        job: job,
         firstName: firstName,
         family: family,
         familyid: familyid,
         email: email,
-        landMark: landMark,
         previousChurch: previousChurch,
         dob: dob,
-        department: department,
         bloodGroup: bloodGroup,
         baptizeDate: baptizeDate,
         imgUrl: downloadUrl,
@@ -151,9 +144,14 @@ class MembersFireCrud {
         maritalStatus: maritalStatus,
         qualification: qualification,
         relationToFamily: relationToFamily,
-      contry: contry,
       state: state,
       alterNativeemail: alterNativeemail,
+      
+      alphone: alphone,
+      companyname: companyname,
+      conDate: condate,
+      city: city,
+      
     );
     member.id = documentReferencer.id;
     var memberJson = member.toJson();
@@ -177,7 +175,6 @@ class MembersFireCrud {
         aadharNo: aadharNo,
         isPrivacyEnabled: false,
         dob: dob,
-        nationality: nationality,
         houseType: houseType,
       preaddress: permanentAddress,
         resaddress: residentialAddress,
@@ -191,12 +188,12 @@ class MembersFireCrud {
         state: state, about: permanentAddress,
       condate: condate,
       alphone: alphone,
-      companyname: companyname
+      companyname: companyname, nationality: contry
     );
     var userJson = user.toJson();
     var result = await documentReferencer.set(memberJson).whenComplete(() {
       response.code = 200;
-      response.message = "Sucessfully added to the database";
+      response.message = "Successfully added to the database";
       FirebaseFirestore.instance.collection('Members').doc(documentReferencer.id).collection('Membership').doc(DateFormat('MMM yyyy').format(DateTime.now()).toString()).set({
         "payment" : false,
         "timestamp" : DateTime.now().millisecondsSinceEpoch,
@@ -210,7 +207,7 @@ class MembersFireCrud {
     });
     var result1 = await documentReferencer1.set(userJson).whenComplete(() {
       response1.code = 200;
-      response1.message = "Sucessfully added to the database";
+      response1.message = "Successfully added to the database";
     }).catchError((e) {
       response1.code = 500;
       response1.message = e;
@@ -247,7 +244,7 @@ class MembersFireCrud {
     DocumentReference documentReferencer = MemberCollection.doc(member.id);
     var result = await documentReferencer.update(member.toJson()).whenComplete(() {
       res.code = 200;
-      res.message = "Sucessfully Updated from database";
+      res.message = "Successfully Updated from database";
     }).catchError((e){
       res.code = 500;
       res.message = e;
@@ -260,7 +257,7 @@ class MembersFireCrud {
     DocumentReference documentReferencer = MemberCollection.doc(id);
     var result = await documentReferencer.delete().whenComplete((){
       res.code = 200;
-      res.message = "Sucessfully Deleted from database";
+      res.message = "Successfully Deleted from database";
     }).catchError((e){
       res.code = 500;
       res.message = e;
@@ -290,14 +287,10 @@ class MembersFireCrud {
         position: row[i][7].toString(),
         baptizeDate: row[i][8].toString(),
         marriageDate: row[i][9].toString(),
-        socialStatus: row[i][10].toString(),
-        job: row[i][11].toString(),
         familyid: row[i][12].toString(),
         family: row[i][13].toString(),
-        department: row[i][14].toString(),
         bloodGroup: row[i][15].toString(),
         dob: row[i][16].toString(),
-        nationality: row[i][17].toString(),
         country: row[i][17].toString(),
         permanentAddress: row[i][18].toString(),
         resistentialAddress: row[i][18].toString(),
@@ -308,7 +301,6 @@ class MembersFireCrud {
         qualification: row[i][23].toString(),
         relationToFamily: row[i][24].toString(),
         previousChurch: row[i][25].toString(),
-        landMark: row[i][26].toString(),
         houseType: row[i][27].toString(),
         serviceLanguage: row[i][28].toString(),
         // id: documentID,
@@ -350,7 +342,7 @@ class MembersFireCrud {
       await MemberCollection.doc(documentID).set(
           json).whenComplete(() {
         res.code = 200;
-        res.message = "Sucessfully Updated from database";
+        res.message = "Successfully Updated from database";
       }).catchError((e) {
         res.code = 500;
         res.message = e;
@@ -423,14 +415,10 @@ class MembersFireCrud {
         position: row[i][7].toString(),
         baptizeDate: row[i][8].toString(),
         marriageDate: row[i][9].toString(),
-        socialStatus: row[i][10].toString(),
-        job: row[i][11].toString(),
         familyid: row[i][12].toString(),
         family: row[i][13].toString(),
-        department: row[i][14].toString(),
         bloodGroup: row[i][15].toString(),
         dob: row[i][16].toString(),
-        nationality: row[i][17].toString(),
         country: row[i][17].toString(),
         permanentAddress: row[i][18].toString(),
         resistentialAddress: row[i][18].toString(),
@@ -441,7 +429,6 @@ class MembersFireCrud {
         qualification: row[i][23].toString(),
         relationToFamily: row[i][24].toString(),
         previousChurch: row[i][25].toString(),
-        landMark: row[i][26].toString(),
         houseType: row[i][27].toString(),
         serviceLanguage: row[i][28].toString(),
       );
@@ -512,7 +499,7 @@ class MembersFireCrud {
       var userJson = user.toJson();
       await MemberCollection.doc(documentID).set(json).whenComplete(() {
         res.code = 200;
-        res.message = "Sucessfully Updated from database";
+        res.message = "Successfully Updated from database";
         FirebaseFirestore.instance.collection("Users").doc(documentID1).set(userJson);
       }).catchError((e) {
         res.code = 500;

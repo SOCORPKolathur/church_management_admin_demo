@@ -2399,7 +2399,7 @@ class _UserTabState extends State<UserTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     KText(
-                                      text: "Residential Address",
+                                      text: "Residential Address *",
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
                                         fontSize: width / 105.076,
@@ -6510,7 +6510,7 @@ class _UserTabState extends State<UserTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   KText(
-                                    text: "Residential Address",
+                                    text: "Residential Address *",
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontSize: width / 105.076,

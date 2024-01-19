@@ -6,48 +6,45 @@ class MembersModel {
   String? firstName;
   String? middleName;
   String? lastName;
-  String? aadharNo;
-  String? phone;
-  String? email;
-  String? position;
-  String? baptizeDate;
-  String? marriageDate;
   String? gender;
-  String? permanentAddress;
-  String? resistentialAddress;
-  String? houseType;
-  String? baptizemCertificate;
-  String? socialStatus;
-  bool? status;
-  String? serviceLanguage;
-  String? job;
-  String? country;
-  String? family;
-  String? familyid;
-  String? department;
   String? bloodGroup;
   String? dob;
-  String? nationality;
-  String? imgUrl;
-  String? pincode;
-  String? landMark;
-  String? previousChurch;
-  String? qualification;
+  String? baptizeDate;
+  String? conDate;
+  String? aadharNo;
   String? maritalStatus;
+  String? marriageDate;
+  String? family;
+  String? familyid;
   String? relationToFamily;
+  String? previousChurch;
+  String? serviceLanguage;
   String? attendingTime;
-  String? contry;
-  String? state;
+  String? position;
+  String? qualification;
+  String? companyname;
+  String? phone;
+  String? alphone;
+  String? email;
   String? alterNativeemail;
+  String? state;
+  String? city;
+  String? country;
+  String? pincode;
+  String? houseType;
+  String? resistentialAddress;
+  String? permanentAddress;
 
 
+  String? baptizemCertificate;
+  bool? status;
+  String? imgUrl;
 
   MembersModel(
       {this.id,
         this.prefix,
         this.firstName,
         this.middleName,
-        this.landMark,
         this.previousChurch,
         this.maritalStatus,
         this.relationToFamily,
@@ -69,20 +66,29 @@ class MembersModel {
         this.status,
         this.baptizeDate,
         this.marriageDate,
-        this.socialStatus,
+
         this.serviceLanguage,
-        this.job,
+
         this.family,
         this.familyid,
-        this.department,
+
         this.bloodGroup,
         this.dob,
-        this.nationality,
+
         this.pincode,
         this.alterNativeemail,
-        this.contry,
+
         this.state,
-        this.imgUrl});
+        this.imgUrl,
+
+        this.alphone,
+        this.city,
+        this.companyname,
+        this.conDate,
+
+
+
+      });
 
   MembersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -104,27 +110,32 @@ class MembersModel {
     phone = json['phone'];
     email = json['email'];
     alterNativeemail = json['alterNativeemail'];
-    contry = json['contry'];
+
     state = json['state'];
     position = json['position'];
     baptizeDate = json['baptizeDate'];
     marriageDate = json['marriageDate'];
-    socialStatus = json['socialStatus'];
+
     serviceLanguage = json['serviceLanguage'];
-    job = json['job'];
+
     family = json['family'];
     familyid = json['familyid'];
-    department = json['department'];
+
     bloodGroup = json['bloodGroup'];
     dob = json['dob'];
-    nationality = json['nationality'];
+
     imgUrl = json['imgUrl'];
     qualification = json['qualification'];
     maritalStatus = json['maritalStatus'];
     relationToFamily = json['relationToFamily'];
     attendingTime = json['attendingTime'];
     previousChurch = json['previousChurch'];
-    landMark = json['landMark'];
+
+    conDate = json['conDate'];
+    companyname = json['companyname'];
+    city = json['city'];
+    alphone = json['alphone'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -154,22 +165,22 @@ class MembersModel {
     data['country'] = this.country;
     data['state'] = this.state;
     data['position'] = this.position;
-    data['contry'] = this.contry;
     data['pincode'] = this.pincode;
     data['baptizeDate'] = this.baptizeDate;
     data['marriageDate'] = this.marriageDate;
-    data['socialStatus'] = this.socialStatus;
     data['serviceLanguage'] = this.serviceLanguage;
-    data['job'] = this.job;
     data['family'] = this.family;
     data['familyid'] = this.familyid;
-    data['department'] = this.department;
     data['bloodGroup'] = this.bloodGroup;
     data['dob'] = this.dob;
-    data['nationality'] = this.nationality;
     data['imgUrl'] = this.imgUrl;
-    data['landMark'] = this.landMark;
     data['previousChurch'] = this.previousChurch;
+
+    data['alphone'] = this.alphone;
+    data['city'] = this.city;
+    data['companyname'] = this.companyname;
+    data['conDate'] = this.conDate;
+
     return data;
   }
 
